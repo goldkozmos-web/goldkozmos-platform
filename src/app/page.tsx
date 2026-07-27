@@ -1,71 +1,65 @@
+import Navbar from "../components/Navbar";
+import "../styles/home.css";
+
 export default function Home() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
+    <main className="homePage">
+      <Navbar />
 
-        background: "linear-gradient(135deg, #ffffff 0%, #fffefd 100%)",        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "40px",
-      }}
-    >
-      <section
-        style={{
-          textAlign: "center",
-          maxWidth: "700px",
-        }}
-      >
-        <p
-          style={{
-            color: "#5a3f08",
-            fontSize: "60px",
-            letterSpacing: "4px",
-            textTransform: "uppercase",
-            marginBottom: "12px",
-            fontWeight: 650,
-          }}
-        >
-          Goldkozmos
-        </p>
+      <section className="heroSection">
+        <div className="heroContainer">
+          <div className="heroContent">
+            <p className="brandName">
+              GOLDKOZMOS ENERJİ EKOLÜ™
+            </p>
 
-        <h1
-          style={{
-            fontSize: "50px",
-            lineHeight: 1,
-            marginBottom: "24px",
-          }}
-        >
-          İnsan Değişmeden
-          <br />
-          Hayat Değişmez.
-        </h1>
+            <h1 className="heroTitle">
+              İnsan Değişmeden
+              <span>Hayat Değişmez.</span>
+            </h1>
 
-        <p
-          style={{
-            fontSize: "20px",
-            color: "#302f2f",
-            lineHeight: 1.8,
-            marginBottom: "40px",
-          }}
-        >
-          Kozmik enerji, numeroloji, tarot ve dönüşüm odaklı çalışmalarla
-          kendi içsel yolculuğunu keşfet.
-        </p>
+            <p className="heroDescription">
+              Spiritüel Stoa ve sosyoloji bakış açısıyla geliştirilen
+              Goldkozmos Enerji Ekolü, farkındalık odaklı içsel dönüşümünü
+              destekleyen özgün bir yaklaşımdır.
+            </p>
 
-        <button
-          style={{
-            background: "#ffffff",
-            color: "#fff",
-            border: "none",
-            padding: "16px 36px",
-            borderRadius: "999px",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          Çalışmaları Keşfet
-        </button>
+            <div className="heroButtons">
+              <a href="/sana-uygun-calismayi-bul" className="primaryButton">
+                Sana Uygun Çalışmayı Bul
+              </a>
+
+              <a href="/calismalar" className="secondaryButton">
+                Çalışmaları Keşfet
+              </a>
+            </div>
+
+            <a
+              href="https://wa.me/"
+              className="whatsappLink"
+              target="_blank"
+              rel="noreferrer"
+            >
+              WhatsApp’tan Bilgi Al
+            </a>
+
+            <p className="heroNote">KENDİ KOZMOSUNU BUL</p>
+          </div>
+
+          <div className="heroVisual">
+            <div className="heroImagePlaceholder">
+              <span>GOLDKOZMOS</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="trustBar">
+          <span>Online Çalışmalar</span>
+          <span>Google Meet</span>
+          <span>Bireysel ve Grup Programları</span>
+          <span>Tarot ve Numeroloji</span>
+          <span>Dijital İçerik Ekosistemi</span>
+        </div>
       </section>
     </main>
   );
