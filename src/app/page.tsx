@@ -1,66 +1,42 @@
 import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
+import IntentSection from "../components/IntentSection";
+import EnergySchoolSection from "../components/EnergySchoolSection";
+import WhyGoldkozmos from "../components/WhyGoldkozmos";
+import ServicesSection from "../components/ServicesSection";
+import WorkFinderSection from "../components/WorkFinderSection";
+import EventCalendarSection from "../components/EventCalendarSection";
+import TestimonialsSection from "../components/TestimonialsSection";
+import GoldBookSection from "../components/GoldBookSection";
+import GoldCastSection from "../components/GoldCastSection";
+import GoldBlogSection from "../components/GoldBlogSection";
+import GoldFrekansSection from "../components/GoldFrekansSection";
+import InstagramSection from "../components/InstagramSection";
+import WhatsAppSection from "../components/WhatsAppSection";
+import AboutSection from "../components/AboutSection";
+import FAQSection from "../components/FAQSection";
 import "../styles/home.css";
 
 export default function Home() {
   return (
     <main className="homePage">
       <Navbar />
-
-      <section className="heroSection">
-        <div className="heroContainer">
-          <div className="heroContent">
-            <p className="brandName">
-              GOLDKOZMOS ENERJİ EKOLÜ™
-            </p>
-
-            <h1 className="heroTitle">
-              İnsan Değişmeden
-              <span>Hayat Değişmez.</span>
-            </h1>
-
-            <p className="heroDescription">
-              Spiritüel Stoa ve sosyoloji bakış açısıyla geliştirilen
-              Goldkozmos Enerji Ekolü, farkındalık odaklı içsel dönüşümünü
-              destekleyen özgün bir yaklaşımdır.
-            </p>
-
-            <div className="heroButtons">
-              <a href="/sana-uygun-calismayi-bul" className="primaryButton">
-                Sana Uygun Çalışmayı Bul
-              </a>
-
-              <a href="/calismalar" className="secondaryButton">
-                Çalışmaları Keşfet
-              </a>
-            </div>
-
-            <a
-              href="https://wa.me/"
-              className="whatsappLink"
-              target="_blank"
-              rel="noreferrer"
-            >
-              WhatsApp’tan Bilgi Al
-            </a>
-
-            <p className="heroNote">KENDİ KOZMOSUNU BUL</p>
-          </div>
-
-          <div className="heroVisual">
-            <div className="heroImagePlaceholder">
-              <span>GOLDKOZMOS</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="trustBar">
-          <span>Online Çalışmalar</span>
-          <span>Google Meet</span>
-          <span>Bireysel ve Grup Programları</span>
-          <span>Tarot ve Numeroloji</span>
-          <span>Dijital İçerik Ekosistemi</span>
-        </div>
-      </section>
+      <Hero />
+      <IntentSection />
+      <EnergySchoolSection />
+      <WhyGoldkozmos />
+      <ServicesSection />
+      <WorkFinderSection />
+      <EventCalendarSection />
+      <TestimonialsSection />
+      <GoldBookSection />
+      <GoldCastSection />
+      <GoldBlogSection />
+      <GoldFrekansSection />
+      <InstagramSection />
+      <WhatsAppSection />
+      <AboutSection />
+      <FAQSection />
     </main>
   );
 }
