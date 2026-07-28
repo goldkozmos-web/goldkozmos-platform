@@ -14,12 +14,14 @@ import GoldFrekansSection from "../components/GoldFrekansSection";
 import InstagramSection from "../components/InstagramSection";
 import WhatsAppSection from "../components/WhatsAppSection";
 import AboutSection from "../components/AboutSection";
-import FAQSection from "../components/src/components/FAQSection";
+import FAQSection from "../components/FAQSection";
+import LegalSection from "../components/LegalSection";
+import FooterSection from "../components/FooterSection";
 import "../styles/home.css";
 
 export default function Home() {
   return (
-    <main className="homePage">
+    <main className="homePage" id="top">
       <Navbar />
       <Hero />
       <IntentSection />
@@ -37,6 +39,8 @@ export default function Home() {
       <WhatsAppSection />
       <AboutSection />
       <FAQSection />
+      <LegalSection />
+      <FooterSection />
     </main>
   );
 }
