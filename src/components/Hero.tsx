@@ -3,7 +3,12 @@ export default function Hero() {
     <section className="heroSection">
       <div className="heroContainer">
         <div className="heroContent">
-          <p className="brandName">GOLDKOZMOS ENERJİ EKOLÜ™</p>
+          <p className="brandName">
+            GOLDKOZMOS
+            <sup className="registeredSymbol">®</sup>
+            <br />
+            ENERJİ EKOLÜ
+          </p>
 
           <h1 className="heroTitle">
             İnsan Değişmeden
@@ -11,8 +16,8 @@ export default function Hero() {
           </h1>
 
           <p className="heroDescription">
-            Goldkozmos Enerji Ekolü, Spiritüel Stoa ve sosyoloji bakış
-            açısıyla geliştirilen, Goldkozmos&apos;a özgü enerji sistemiyle
+            Goldkozmos® Enerji Ekolü, Spiritüel Stoa ve sosyoloji bakış
+            açısıyla geliştirilen, Goldkozmos®’a özgü enerji sistemiyle
             farkındalık odaklı içsel dönüşümünü desteklemeyi amaçlayan özgün
             bir yaklaşımdır.
           </p>
@@ -42,12 +47,17 @@ export default function Hero() {
         <div className="heroVisual">
           <div className="heroImagePlaceholder">
             <div className="heroBrandPanel">
-              <span className="heroPanelEyebrow">GOLDKOZMOS</span>
+              <span className="heroPanelEyebrow">
+                ÖZGÜN DÖNÜŞÜM YAKLAŞIMI
+              </span>
 
               <h2>
-                Enerji
-                <br />
-                Ekolü™
+                Goldkozmos
+                <sup className="registeredSymbol">®</sup>
+
+                <span className="heroBrandSubline">
+                  Enerji Ekolü
+                </span>
               </h2>
 
               <p>

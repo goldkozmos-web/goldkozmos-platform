@@ -14,7 +14,7 @@ import GoldFrekansSection from "../components/GoldFrekansSection";
 import InstagramSection from "../components/InstagramSection";
 import WhatsAppSection from "../components/WhatsAppSection";
 import AboutSection from "../components/AboutSection";
-import FAQSection from "../components/FAQSection";
+import FAQSection from "../components/src/components/FAQSection";
 import "../styles/home.css";
 
 export default function Home() {

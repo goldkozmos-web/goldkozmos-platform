@@ -137,7 +137,9 @@ export default function FAQSection() {
 
               return (
                 <article
-                  className={`faqItem ${isOpen ? "faqItemOpen" : ""}`}
+                  className={`faqItem ${
+                    isOpen ? "faqItemOpen" : ""
+                  }`}
                   key={item.question}
                 >
                   <h3>
@@ -157,7 +159,10 @@ export default function FAQSection() {
                         {item.question}
                       </span>
 
-                      <span className="faqQuestionIcon" aria-hidden="true">
+                      <span
+                        className="faqQuestionIcon"
+                        aria-hidden="true"
+                      >
                         <span />
                         <span />
                       </span>
