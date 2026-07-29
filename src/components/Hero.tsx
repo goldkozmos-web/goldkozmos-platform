@@ -1,8 +1,48 @@
+"use client";
+
+const WHATSAPP_CONTACT_URL = "https://wa.me/905054722153";
+const WHATSAPP_CHANNEL_URL =
+  "https://www.whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s";
+
+const activeGroups = [
+  {
+    number: "01",
+    badge: "KAYITLAR AÇIK",
+    title: "Aşkı Hayatına Çağır",
+    audience: "Şu anda ilişkisi olmayanlar için",
+    date: "03–07 Ağustos 2026",
+    href: "/calismalar/ask",
+  },
+  {
+    number: "02",
+    badge: "KAYITLAR AÇIK",
+    title: "İlişkini Şifalandır",
+    audience: "Mevcut ilişkisini dönüştürmek isteyenler için",
+    date: "10–14 Ağustos 2026",
+    href: "/calismalar/iliski",
+  },
+  {
+    number: "03",
+    badge: "KAYITLAR AÇIK",
+    title: "Para Enerjisi Aktivasyonu",
+    audience: "Para ve bolluk alanını güçlendirmek isteyenler için",
+    date: "17–21 Ağustos 2026",
+    href: "/calismalar/para",
+  },
+];
+
 export default function Hero() {
+  const openWhatsApp = (url: string) => {
+    window.location.assign(url);
+  };
+
   return (
     <section className="heroSection">
       <div className="heroContainer">
-        <div className="heroContent">
+        <div
+          className="heroContent"
+          style={{ position: "relative", zIndex: 20, pointerEvents: "auto" }}
+        >
           <p className="brandName">
             GOLDKOZMOS
             <sup className="registeredSymbol">®</sup>
@@ -32,14 +72,55 @@ export default function Hero() {
             </a>
           </div>
 
-          <a
-            href="https://wa.me/"
-            className="whatsappLink"
-            target="_blank"
-            rel="noreferrer"
+          <div
+            style={{
+              position: "relative",
+              zIndex: 30,
+              marginTop: "27px",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "22px",
+              pointerEvents: "auto",
+            }}
           >
-            WhatsApp&apos;tan Bilgi Al
-          </a>
+            <button
+              type="button"
+              className="whatsappLink"
+              onClick={() => openWhatsApp(WHATSAPP_CONTACT_URL)}
+              style={{
+                marginTop: 0,
+                padding: "0 0 5px",
+                borderTop: 0,
+                borderRight: 0,
+                borderLeft: 0,
+                background: "transparent",
+                fontFamily: "inherit",
+                cursor: "pointer",
+                pointerEvents: "auto",
+              }}
+            >
+              WhatsApp&apos;tan Bilgi Al
+            </button>
+
+            <button
+              type="button"
+              className="whatsappLink"
+              onClick={() => openWhatsApp(WHATSAPP_CHANNEL_URL)}
+              style={{
+                marginTop: 0,
+                padding: "0 0 5px",
+                borderTop: 0,
+                borderRight: 0,
+                borderLeft: 0,
+                background: "transparent",
+                fontFamily: "inherit",
+                cursor: "pointer",
+                pointerEvents: "auto",
+              }}
+            >
+              WhatsApp Kanalına Katıl
+            </button>
+          </div>
 
           <p className="heroNote">KENDİ KOZMOSUNU BUL</p>
         </div>
@@ -55,9 +136,7 @@ export default function Hero() {
                 Goldkozmos
                 <sup className="registeredSymbol">®</sup>
 
-                <span className="heroBrandSubline">
-                  Enerji Ekolü
-                </span>
+                <span className="heroBrandSubline">Enerji Ekolü</span>
               </h2>
 
               <p>
@@ -69,10 +148,51 @@ export default function Hero() {
               </p>
 
               <div className="heroPanelLine" />
-
               <small>Kendi Kozmosunu Bul.</small>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="activeGroupsSection">
+        <div className="activeGroupsHeader">
+          <div>
+            <p className="activeGroupsEyebrow">
+              GÜNCEL GRUP ÇALIŞMALARI
+            </p>
+
+            <h2>
+              Ağustos programlarında
+              <span> yerini ayır.</span>
+            </h2>
+          </div>
+
+          <p>
+            Beş günlük canlı online grup çalışmalarından sana uygun olanı
+            seç, program detaylarını incele ve kayıt sürecine geç.
+          </p>
+        </div>
+
+        <div className="activeGroupsGrid">
+          {activeGroups.map((group) => (
+            <article className="activeGroupCard" key={group.number}>
+              <div className="activeGroupCardTop">
+                <span className="activeGroupNumber">{group.number}</span>
+                <span className="activeGroupBadge">{group.badge}</span>
+              </div>
+
+              <div className="activeGroupCardContent">
+                <p className="activeGroupDate">{group.date}</p>
+                <h3>{group.title}</h3>
+                <p className="activeGroupAudience">{group.audience}</p>
+
+                <a href={group.href}>
+                  Programı İncele
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
 

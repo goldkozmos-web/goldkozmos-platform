@@ -10233,3 +10233,529 @@ font-size:32px;
     width: 100%;
   }
 }
+
+/* HERO IMAGE · GOLDKOZMOS FINAL */
+.heroSection {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  padding: 150px 32px 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(255, 253, 248, 0.94) 28%,
+      rgba(255, 253, 248, 0.72) 43%,
+      rgba(255, 253, 248, 0.2) 65%,
+      rgba(255, 255, 255, 0.03) 100%
+    ),
+    url("/images/goldkozmos-hero.webp") center center / cover no-repeat;
+}
+
+.heroSection::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  height: 150px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.92)
+  );
+  content: "";
+  pointer-events: none;
+}
+
+.heroContainer {
+  position: relative;
+  z-index: 1;
+  width: min(1440px, 100%);
+  min-height: 700px;
+  grid-template-columns: minmax(0, 690px) 1fr;
+  gap: 48px;
+}
+
+.heroContent {
+  width: 100%;
+  max-width: 660px;
+  padding: 50px 52px;
+  border: 1px solid rgba(181, 140, 55, 0.16);
+  border-radius: 32px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.82),
+    rgba(255, 252, 245, 0.66)
+  );
+  box-shadow: 0 30px 90px rgba(111, 78, 21, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.heroVisual {
+  display: none;
+}
+
+.heroTitle {
+  text-wrap: balance;
+  text-shadow: 0 2px 22px rgba(255, 255, 255, 0.58);
+}
+
+.heroDescription {
+  max-width: 585px;
+}
+
+.trustBar {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(181, 140, 55, 0.16);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+@media (max-width: 1100px) {
+  .heroSection {
+    background-position: 62% center;
+  }
+
+  .heroContainer {
+    grid-template-columns: minmax(0, 610px) 1fr;
+    gap: 28px;
+  }
+
+  .heroContent {
+    padding: 44px 42px;
+  }
+}
+
+@media (max-width: 900px) {
+  .heroSection {
+    min-height: auto;
+    padding: 112px 22px 60px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 253, 248, 0.9) 48%,
+        rgba(255, 253, 248, 0.42) 72%,
+        rgba(255, 255, 255, 0.08) 100%
+      ),
+      url("/images/goldkozmos-hero.webp") 68% center / cover no-repeat;
+  }
+
+  .heroContainer {
+    min-height: 760px;
+    grid-template-columns: 1fr;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .heroContent {
+    max-width: 620px;
+    margin-top: 24px;
+    padding: 38px 34px;
+    border-radius: 28px;
+  }
+
+  .heroButtons {
+    align-items: stretch;
+  }
+
+  .trustBar {
+    margin-top: 28px;
+    flex-wrap: wrap;
+    padding: 16px 0;
+  }
+
+  .trustBar span {
+    width: 50%;
+    padding: 12px 16px;
+  }
+
+  .trustBar span:nth-child(2) {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .heroSection {
+    padding: 105px 16px 42px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.98) 0%,
+        rgba(255, 253, 248, 0.94) 50%,
+        rgba(255, 253, 248, 0.48) 76%,
+        rgba(255, 255, 255, 0.12) 100%
+      ),
+      url("/images/goldkozmos-hero.webp") 72% center / cover no-repeat;
+  }
+
+  .heroContainer {
+    min-height: 720px;
+  }
+
+  .heroContent {
+    margin-top: 12px;
+    padding: 31px 23px;
+    border-radius: 24px;
+  }
+
+  .heroTitle {
+    font-size: clamp(43px, 13vw, 58px);
+    letter-spacing: -2px;
+  }
+
+  .heroDescription {
+    margin-top: 27px;
+    font-size: 15px;
+    line-height: 1.72;
+  }
+
+  .heroButtons {
+    margin-top: 32px;
+  }
+
+  .heroNote {
+    margin-top: 42px;
+    letter-spacing: 2.8px;
+  }
+
+  .trustBar span {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid rgba(181, 140, 55, 0.13);
+  }
+
+  .trustBar span:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* ACTIVE GROUPS · HERO */
+
+.activeGroupsSection {
+  position: relative;
+  z-index: 2;
+  width: min(1440px, 100%);
+  margin: 38px auto 54px;
+  padding: 44px;
+  overflow: hidden;
+  border: 1px solid rgba(181, 140, 55, 0.22);
+  border-radius: 34px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(216, 178, 102, 0.2),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.91),
+      rgba(255, 250, 239, 0.78)
+    );
+  box-shadow:
+    0 32px 90px rgba(90, 63, 15, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.activeGroupsSection::before {
+  position: absolute;
+  top: 0;
+  right: 90px;
+  left: 90px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(181, 140, 55, 0.72),
+    transparent
+  );
+  content: "";
+}
+
+.activeGroupsHeader {
+  margin-bottom: 34px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+  align-items: end;
+  gap: 70px;
+}
+
+.activeGroupsEyebrow {
+  margin: 0 0 15px;
+  color: #9f7425;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3.2px;
+}
+
+.activeGroupsHeader h2 {
+  max-width: 680px;
+  margin: 0;
+  color: #181818;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(35px, 3.6vw, 54px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -1.7px;
+}
+
+.activeGroupsHeader h2 span {
+  color: #a47b2c;
+}
+
+.activeGroupsHeader > p {
+  max-width: 520px;
+  margin: 0 0 5px;
+  color: #6c665c;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.activeGroupsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.activeGroupCard {
+  position: relative;
+  min-height: 295px;
+  padding: 25px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(164, 123, 44, 0.18);
+  border-radius: 25px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(214, 175, 99, 0.17),
+      transparent 34%
+    ),
+    rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 44px rgba(94, 66, 18, 0.07);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+}
+
+.activeGroupCard::after {
+  position: absolute;
+  right: 26px;
+  bottom: 0;
+  left: 26px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(181, 140, 55, 0.72),
+    transparent
+  );
+  content: "";
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
+}
+
+.activeGroupCard:hover {
+  transform: translateY(-7px);
+  border-color: rgba(164, 123, 44, 0.45);
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(214, 175, 99, 0.23),
+      transparent 36%
+    ),
+    rgba(255, 255, 255, 0.9);
+  box-shadow: 0 27px 68px rgba(94, 66, 18, 0.14);
+}
+
+.activeGroupCard:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.activeGroupCardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.activeGroupNumber {
+  color: #ad8334;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.activeGroupBadge {
+  padding: 8px 11px;
+  border: 1px solid rgba(164, 123, 44, 0.23);
+  border-radius: 999px;
+  color: #8b641e;
+  background: rgba(255, 249, 235, 0.84);
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 1.25px;
+}
+
+.activeGroupCardContent {
+  margin-top: auto;
+  padding-top: 42px;
+}
+
+.activeGroupDate {
+  margin: 0 0 13px;
+  color: #a47b2c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+.activeGroupCard h3 {
+  margin: 0;
+  color: #1b1b1b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(25px, 2vw, 33px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.9px;
+}
+
+.activeGroupAudience {
+  min-height: 48px;
+  margin: 15px 0 0;
+  color: #716b62;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.activeGroupCard a {
+  width: fit-content;
+  margin-top: 23px;
+  padding: 12px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  border: 1px solid rgba(164, 123, 44, 0.28);
+  border-radius: 999px;
+  color: #7f5c1d;
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    color 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.activeGroupCard a:hover {
+  color: #ffffff;
+  border-color: #a47b2c;
+  background: linear-gradient(135deg, #9f7425, #c9a052);
+  transform: translateY(-2px);
+}
+
+.activeGroupCard a span {
+  font-size: 15px;
+  transition: transform 0.3s ease;
+}
+
+.activeGroupCard a:hover span {
+  transform: translateX(3px);
+}
+
+@media (max-width: 1050px) {
+  .activeGroupsSection {
+    padding: 38px;
+  }
+
+  .activeGroupsHeader {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .activeGroupsHeader > p {
+    max-width: 720px;
+  }
+
+  .activeGroupsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .activeGroupCard:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 900px) {
+  .activeGroupsSection {
+    margin: 10px auto 38px;
+  }
+}
+
+@media (max-width: 680px) {
+  .activeGroupsSection {
+    margin-top: 0;
+    padding: 28px 20px;
+    border-radius: 27px;
+  }
+
+  .activeGroupsSection::before {
+    right: 34px;
+    left: 34px;
+  }
+
+  .activeGroupsHeader {
+    margin-bottom: 25px;
+  }
+
+  .activeGroupsHeader h2 {
+    font-size: 38px;
+    letter-spacing: -1.3px;
+  }
+
+  .activeGroupsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .activeGroupCard,
+  .activeGroupCard:last-child {
+    min-height: 270px;
+    grid-column: auto;
+  }
+
+  .activeGroupAudience {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .activeGroupsSection {
+    padding: 24px 16px;
+  }
+
+  .activeGroupCard {
+    padding: 22px;
+    border-radius: 22px;
+  }
+
+  .activeGroupCard h3 {
+    font-size: 28px;
+  }
+}

@@ -1,160 +1,94 @@
-const instagramPosts = [
-  {
-    number: "01",
-    category: "SPİRİTÜEL STOA",
-    title: "Kontrol edemediğin şeyler seni neden bu kadar yoruyor?",
-    href: "/instagram/spirituel-stoa",
-  },
-  {
-    number: "02",
-    category: "AŞK VE İLİŞKİ",
-    title: "Aşkı istiyorsun ama kalbin gerçekten buna hazır mı?",
-    href: "/instagram/ask-ve-iliski",
-  },
-  {
-    number: "03",
-    category: "GOLDFREKANS",
-    title: "Kendi alanına geri dön.",
-    href: "/instagram/goldfrekans",
-  },
-  {
-    number: "04",
-    category: "GOLDBOOK",
-    title: "Okudukça kendine biraz daha yaklaş.",
-    href: "/instagram/goldbook",
-  },
-  {
-    number: "05",
-    category: "SOSYOLOJİ",
-    title: "Kendin hakkındaki fikirlerin gerçekten sana mı ait?",
-    href: "/instagram/sosyoloji",
-  },
-  {
-    number: "06",
-    category: "GRUP ÇALIŞMALARI",
-    title: "Dönüşüm için birlikte bir alan açalım.",
-    href: "/instagram/grup-calismalari",
-  },
-];
+import Script from "next/script";
+import { createElement } from "react";
+
+const instagramUrl = "https://www.instagram.com/goldkozmos/";
+const beholdFeedId = "3MpT5dx7OCNoVskguei6";
 
 export default function InstagramSection() {
   return (
     <section className="instagramSection" id="instagram">
+      <Script
+        id="behold-instagram-widget"
+        src="https://w.behold.so/widget.js"
+        type="module"
+        strategy="afterInteractive"
+      />
+
       <div className="instagramContainer">
         <header className="instagramHeading">
           <div>
             <p className="sectionEyebrow">
-              INSTAGRAM’DA GOLDKOZMOS
-              <sup className="registeredSymbol">®</sup>
+              <span>
+                GOLDKOZMOS
+                <sup className="registeredSymbol">®</sup>
+              </span>
+
               <br />
-              ENERJİ EKOLÜ
+
+              <span>INSTAGRAM</span>
             </p>
 
             <h2>
-              Günlük içeriklerle
-              <span> kendi kozmosunu besle.</span>
+              Kozmosun günlük notlarına
+              <span> Instagram’dan eşlik et.</span>
             </h2>
           </div>
 
-          <div className="instagramHeadingContent">
+          <div className="instagramIntro">
             <p>
-              Spiritüel Stoa, sosyoloji, aşk, ilişkiler ve içsel dönüşüm
-              üzerine hazırlanan Goldkozmos® Enerji Ekolü içeriklerini takip
-              et.
+              Aşk, ilişkiler, para, enerji, Spiritüel Stoa ve sosyoloji
+              üzerine hazırlanan güncel Goldkozmos® içeriklerini keşfet.
             </p>
 
             <a
-              href="https://www.instagram.com/"
+              href={instagramUrl}
               target="_blank"
               rel="noreferrer"
             >
-              Instagram’da Takip Et
+              @goldkozmos
               <span aria-hidden="true">↗</span>
             </a>
           </div>
         </header>
 
-        <div className="instagramProfile">
-          <div className="instagramProfileLogo" aria-hidden="true">
-            G
+        <div
+          className="instagramLiveFeed"
+          style={{
+            width: "100%",
+            minHeight: "280px",
+            marginTop: "42px",
+            marginBottom: "42px",
+          }}
+        >
+          {createElement("behold-widget", {
+            "feed-id": beholdFeedId,
+          })}
+        </div>
+
+        <div className="instagramProfileCard">
+          <div className="instagramProfileMark" aria-hidden="true">
+            
           </div>
 
           <div className="instagramProfileContent">
-            <p>@goldkozmos</p>
+            <p>GOLDKOZMOS® ENERJİ EKOLÜ</p>
+
+            <h3>@goldkozmos</h3>
 
             <span>
-              Goldkozmos® Enerji Ekolü • Spiritüel Stoa • Sosyoloji
+              İnsan değişmeden hayat değişmez.
+              <br />
+              Kendi kozmosunu bul.
             </span>
           </div>
 
-          <div className="instagramProfileStats">
-            <div>
-              <strong>Gold</strong>
-              <span>İçerikler</span>
-            </div>
-
-            <div>
-              <strong>Gold</strong>
-              <span>Topluluk</span>
-            </div>
-
-            <div>
-              <strong>Gold</strong>
-              <span>Dönüşüm</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="instagramGrid">
-          {instagramPosts.map((post) => (
-            <a
-              className="instagramCard"
-              href={post.href}
-              key={post.number}
-            >
-              <div className="instagramCardVisual" aria-hidden="true">
-                <span>Görsel daha sonra eklenecek</span>
-              </div>
-
-              <div className="instagramCardShade" />
-
-              <div className="instagramCardTop">
-                <span className="instagramCardNumber">
-                  {post.number}
-                </span>
-
-                <span className="instagramCardIcon" aria-hidden="true">
-                  ↗
-                </span>
-              </div>
-
-              <div className="instagramCardContent">
-                <p>{post.category}</p>
-                <h3>{post.title}</h3>
-              </div>
-            </a>
-          ))}
-        </div>
-
-        <div className="instagramCta">
-          <div>
-            <p>
-              GOLDKOZMOS
-              <sup className="registeredSymbol">®</sup> TOPLULUĞUNA KATIL
-            </p>
-
-            <h3>
-              Yeni içerikler, çalışmalar ve duyurular için bizi takip et.
-            </h3>
-          </div>
-
           <a
-            href="https://www.instagram.com/"
+            href={instagramUrl}
             target="_blank"
             rel="noreferrer"
           >
-            Instagram’a Git
-            <span aria-hidden="true">→</span>
+            Instagram’da Takip Et
+            <span aria-hidden="true">↗</span>
           </a>
         </div>
       </div>

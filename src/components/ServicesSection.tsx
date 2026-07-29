@@ -7,6 +7,8 @@ const services = [
       "Geçmiş ilişkilerden kalan duygusal yükleri fark etmeye, ilişki dinamiklerini anlamaya ve yeni bir başlangıç için içsel alan oluşturmaya yönelik çalışmalar.",
     href: "/calismalar/ask-ve-iliski",
     featured: true,
+    image: "/images/services/ask-iliski.jpeg",
+    imagePosition: "center",
   },
   {
     number: "02",
@@ -16,6 +18,8 @@ const services = [
       "Para ile kurduğun ilişkiyi, bolluk algını ve görünmez sınırlayıcı döngülerini fark etmeyi destekleyen grup ve bireysel çalışmalar.",
     href: "/calismalar/para-ve-bolluk",
     featured: false,
+    image: "/images/services/para-enerjisi.jpeg",
+    imagePosition: "center",
   },
   {
     number: "03",
@@ -25,6 +29,8 @@ const services = [
       "Kişisel ihtiyacına göre planlanan, süreç boyunca sana özel ilerleyen farkındalık ve enerji seansları.",
     href: "/calismalar/birebir-seanslar",
     featured: false,
+    image: "/images/services/birebir-seanslar.jpeg",
+    imagePosition: "center 42%",
   },
   {
     number: "04",
@@ -34,6 +40,8 @@ const services = [
       "İçinde bulunduğun durumu, seçeneklerini ve tekrar eden temaları daha net görebilmeni amaçlayan kişisel tarot analizi.",
     href: "/calismalar/tarot",
     featured: false,
+    image: "/images/services/tarot-analizi.jpeg",
+    imagePosition: "center",
   },
   {
     number: "05",
@@ -43,6 +51,8 @@ const services = [
       "Doğum tarihindeki sayıların sembolik anlamları üzerinden karakterini, potansiyellerini ve yaşam temalarını keşfet.",
     href: "/calismalar/numeroloji",
     featured: false,
+    image: "/images/services/numeroloji-analizi.jpeg",
+    imagePosition: "center",
   },
   {
     number: "06",
@@ -52,6 +62,8 @@ const services = [
       "Kendi alanında uygulayabileceğin meditasyon, dengeleme ve farkındalık odaklı dijital ses çalışmaları.",
     href: "/calismalar/ses-kayitlari",
     featured: false,
+    image: "/images/services/ses-kayitlari.jpeg",
+    imagePosition: "center",
   },
 ];
 
@@ -93,9 +105,16 @@ export default function ServicesSection() {
               }`}
               key={service.number}
             >
-              <div className="serviceCardBackground" aria-hidden="true">
-                <span>Görsel daha sonra eklenecek</span>
-              </div>
+              <div
+                className="serviceCardBackground"
+                aria-hidden="true"
+                style={{
+                  backgroundImage: `url("${service.image}")`,
+                  backgroundSize: "cover",
+                  backgroundPosition: service.imagePosition,
+                  backgroundRepeat: "no-repeat",
+                }}
+              />
 
               <div className="serviceCardOverlay" />
 

@@ -1,95 +1,222 @@
-const goldBookFeatures = [
+import Link from "next/link";
+
+const publishedBooks = [
   {
     number: "01",
-    title: "Kısa ve Uygulanabilir",
+    category: "KİŞİSEL DÖNÜŞÜM",
+    title: "İçindeki Kozmosu Kucakla",
     description:
-      "Yoğun teoriler yerine günlük hayatına taşıyabileceğin anlaşılır farkındalıklar.",
+      "Özdeğer, sınırlar, sezgi, geçmişten taşınan kalıplar ve içsel özgürlük üzerine hazırlanan dijital GoldBook.",
+    themes: [
+      "Başkalarının yargılarından özgürleşmek",
+      "Kendi değerini yeniden hatırlamak",
+      "Sağlıklı sınırlar oluşturmak",
+      "Sezgi ve teslimiyet alanını keşfetmek",
+    ],
+    details: [
+      "20 bölümlük içsel yolculuk",
+      "5 ana kısım ve son söz",
+      "Dijital kitap formatı",
+      "Özge Batıgün imzalı",
+    ],
+    href: "/goldbook/icindeki-kozmosu-kucakla",
+    button: "Kitabı İncele",
   },
   {
     number: "02",
-    title: "Kendi Zamanında Oku",
+    category: "AŞK VE İLİŞKİLER",
+    title: "Aşk Manifestosu",
     description:
-      "Dijital format sayesinde istediğin yerde, kendi hızında ilerleyebilirsin.",
+      "Geçmiş ilişkiler, tekrar eden senaryolar, sınırlar, flört dinamikleri ve doğru kişiye hazırlanma üzerine hazırlanan dijital GoldBook.",
+    themes: [
+      "Aşkı ihtiyaçtan seçime taşımak",
+      "Tekrarlayan ilişki döngülerini görmek",
+      "Flörtte kendi merkezini korumak",
+      "Gerçek ilgiyi ayırt etmek",
+    ],
+    details: [
+      "20 bölümlük ilişki rehberi",
+      "6 ana kısım",
+      "Dijital kitap formatı",
+      "Özge Batıgün imzalı",
+    ],
+    href: "/goldbook/ask-manifestosu",
+    button: "Kitabı İncele",
+  },
+];
+
+const readingBenefits = [
+  {
+    title: "Kendi Hızında Oku",
+    description:
+      "Kitapları kendi zamanında okuyabilir, dikkatini çeken bölümlere yeniden dönebilirsin.",
   },
   {
-    number: "03",
-    title: "Dönüşümü Destekle",
+    title: "Farkındalıklarını Not Al",
     description:
-      "Seanslar ve grup çalışmaları arasında içsel sürecini destekleyen rehber içerikler.",
+      "Okurken ortaya çıkan düşünceleri, duyguları ve yaşamındaki karşılıkları gözlemleyebilirsin.",
+  },
+  {
+    title: "Dijital Olarak Eriş",
+    description:
+      "GoldBook içerikleri dijital formatta hazırlanır ve çevrim içi olarak teslim edilir.",
+  },
+  {
+    title: "Yolculuğunu Derinleştir",
+    description:
+      "Kitapları birebir seans veya grup çalışmalarının yanında destekleyici içerik olarak kullanabilirsin.",
   },
 ];
 
 export default function GoldBookSection() {
   return (
-    <section className="goldBookSection" id="goldbook">
-      <div className="goldBookContainer">
-        <div className="goldBookVisual">
-          <div className="goldBookCoverPlaceholder">
-            <div className="goldBookCoverGlow" />
+    <section className="analysisHubSection" id="goldbook">
+      <div className="analysisHubContainer">
+        <div className="analysisHubIntro">
+          <div>
+            <p className="sectionEyebrow">
+              GOLDBOOK KÜTÜPHANESİ
+            </p>
 
-            <div className="goldBookCoverContent">
-              <p>
-                GOLDKOZMOS
-                <sup className="registeredSymbol">®</sup>
-                <br />
-                ENERJİ EKOLÜ
-              </p>
+            <h2>
+              Okudukça kendine
+              <span> biraz daha yaklaş.</span>
+            </h2>
+          </div>
 
-              <h3>GoldBook</h3>
+          <div className="analysisHubIntroText">
+            <p>
+              GoldBook, Goldkozmos® Enerji Ekolü içerisinde kişisel
+              farkındalık ve içsel dönüşüm konularında hazırlanan dijital
+              kitap koleksiyonudur.
+            </p>
 
-              <span>Dijital Dönüşüm Kitapları</span>
-            </div>
-
-            <small>Kapak görseli daha sonra eklenecek</small>
+            <p>
+              Kütüphanede şu anda yayımlanmış iki kitap bulunuyor.
+              Yeni kitaplar yayımlandıkça bu alana eklenecek.
+            </p>
           </div>
         </div>
 
-        <div className="goldBookContent">
-          <p className="sectionEyebrow">
-            GOLDKOZMOS
-            <sup className="registeredSymbol">®</sup> GOLDBOOK
-          </p>
+        <div className="analysisHubGrid">
+          {publishedBooks.map((book) => (
+            <article
+              className="analysisHubCard"
+              key={book.title}
+            >
+              <div className="analysisHubCardTop">
+                <span>{book.number}</span>
+                <span aria-hidden="true">✦</span>
+              </div>
 
-          <h2>
-            Okudukça kendine
-            <span> biraz daha yaklaş.</span>
-          </h2>
+              <p className="analysisHubCardEyebrow">
+                {book.category}
+              </p>
 
-          <p className="goldBookDescription">
-            GoldBook; farkındalık ve içsel dönüşüm konularını sade,
-            uygulanabilir ve kitap tadında içeriklerle buluşturan Goldkozmos®
-            dijital kütüphanesidir.
-          </p>
+              <h3>{book.title}</h3>
 
-          <div className="goldBookFeatures">
-            {goldBookFeatures.map((feature) => (
-              <div className="goldBookFeature" key={feature.number}>
-                <span>{feature.number}</span>
+              <p className="analysisHubCardDescription">
+                {book.description}
+              </p>
+
+              <div className="analysisHubCardColumns">
+                <div>
+                  <h4>Kitabın odağı</h4>
+
+                  <ul>
+                    {book.themes.map((theme) => (
+                      <li key={theme}>
+                        <span aria-hidden="true">✦</span>
+                        {theme}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 <div>
-                  <h3>{feature.title}</h3>
-                  <p>{feature.description}</p>
+                  <h4>Kitap bilgileri</h4>
+
+                  <ul>
+                    {book.details.map((detail) => (
+                      <li key={detail}>
+                        <span aria-hidden="true">✦</span>
+                        {detail}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
+
+              <Link href={book.href}>
+                {book.button}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </article>
+          ))}
+        </div>
+
+        <div className="analysisHubComparison">
+          <div className="analysisHubComparisonIntro">
+            <p className="sectionEyebrow">
+              GOLDBOOK DENEYİMİ
+            </p>
+
+            <h2>
+              Kitabı yalnızca okuma,
+              <span> kendi yaşamında da gözlemle.</span>
+            </h2>
+          </div>
+
+          <div className="analysisHubComparisonGrid">
+            {readingBenefits.map((benefit, index) => (
+              <article key={benefit.title}>
+                <span>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <h3>{benefit.title}</h3>
+
+                <p>{benefit.description}</p>
+              </article>
             ))}
           </div>
+        </div>
 
-          <div className="goldBookActions">
-            <a className="goldBookPrimaryButton" href="/goldbook">
-              GoldBook Kütüphanesini Keşfet
-              <span aria-hidden="true">↗</span>
-            </a>
+        <div className="analysisHubNotice">
+          <div>
+            <p className="sectionEyebrow">
+              ÖNEMLİ BİLGİLENDİRME
+            </p>
 
-            <a className="goldBookSecondaryButton" href="/goldbook/hakkinda">
-              GoldBook Nedir?
-              <span aria-hidden="true">→</span>
-            </a>
+            <h2>
+              GoldBook içerikleri
+              <span> kişisel farkındalık amacıyla hazırlanır.</span>
+            </h2>
           </div>
 
-          <p className="goldBookNote">
-            Dijital kitaplar ve rehberler, kişisel farkındalık sürecini
-            desteklemek amacıyla hazırlanır.
-          </p>
+          <div>
+            <p>
+              Kitaplar psikoterapi, psikolojik danışmanlık, tıbbi teşhis
+              veya tedavi yerine geçmez.
+            </p>
+
+            <p>
+              Sağlık veya psikolojiyle ilgili konularda gerektiğinde yetkili
+              bir uzmandan profesyonel destek alınmalıdır.
+            </p>
+          </div>
+        </div>
+
+        <div className="analysisHubActions">
+          <Link href="/iletisim">
+            GoldBook Hakkında Bilgi Al
+            <span aria-hidden="true">→</span>
+          </Link>
+
+          <Link href="/calismalar">
+            Tüm Çalışmaları İncele
+            <span aria-hidden="true">↗</span>
+          </Link>
         </div>
       </div>
     </section>
