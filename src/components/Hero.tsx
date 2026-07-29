@@ -1,6 +1,6 @@
-"use client";
+const WHATSAPP_CONTACT_URL =
+  "https://api.whatsapp.com/send?phone=905054722153";
 
-const WHATSAPP_CONTACT_URL = "https://wa.me/905054722153";
 const WHATSAPP_CHANNEL_URL =
   "https://www.whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s";
 
@@ -32,16 +32,16 @@ const activeGroups = [
 ];
 
 export default function Hero() {
-  const openWhatsApp = (url: string) => {
-    window.location.assign(url);
-  };
-
   return (
     <section className="heroSection">
       <div className="heroContainer">
         <div
           className="heroContent"
-          style={{ position: "relative", zIndex: 20, pointerEvents: "auto" }}
+          style={{
+            position: "relative",
+            zIndex: 50,
+            pointerEvents: "auto",
+          }}
         >
           <p className="brandName">
             GOLDKOZMOS
@@ -63,7 +63,10 @@ export default function Hero() {
           </p>
 
           <div className="heroButtons">
-            <a href="/sana-uygun-calismayi-bul" className="primaryButton">
+            <a
+              href="/sana-uygun-calismayi-bul"
+              className="primaryButton"
+            >
               Sana Uygun Çalışmayı Bul
             </a>
 
@@ -75,51 +78,69 @@ export default function Hero() {
           <div
             style={{
               position: "relative",
-              zIndex: 30,
+              zIndex: 9999,
               marginTop: "27px",
               display: "flex",
               flexWrap: "wrap",
-              gap: "22px",
+              gap: "14px",
               pointerEvents: "auto",
             }}
           >
-            <button
-              type="button"
-              className="whatsappLink"
-              onClick={() => openWhatsApp(WHATSAPP_CONTACT_URL)}
+            <a
+              href={WHATSAPP_CONTACT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                marginTop: 0,
-                padding: "0 0 5px",
-                borderTop: 0,
-                borderRight: 0,
-                borderLeft: 0,
-                background: "transparent",
+                position: "relative",
+                zIndex: 9999,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "46px",
+                padding: "0 22px",
+                border: "1px solid rgba(167, 125, 48, 0.45)",
+                borderRadius: "999px",
+                backgroundColor: "#ffffff",
+                color: "#8b6828",
                 fontFamily: "inherit",
+                fontSize: "14px",
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+                textDecoration: "none",
                 cursor: "pointer",
                 pointerEvents: "auto",
               }}
             >
               WhatsApp&apos;tan Bilgi Al
-            </button>
+            </a>
 
-            <button
-              type="button"
-              className="whatsappLink"
-              onClick={() => openWhatsApp(WHATSAPP_CHANNEL_URL)}
+            <a
+              href={WHATSAPP_CHANNEL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
-                marginTop: 0,
-                padding: "0 0 5px",
-                borderTop: 0,
-                borderRight: 0,
-                borderLeft: 0,
-                background: "transparent",
+                position: "relative",
+                zIndex: 9999,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: "46px",
+                padding: "0 22px",
+                border: "1px solid rgba(167, 125, 48, 0.45)",
+                borderRadius: "999px",
+                backgroundColor: "#ffffff",
+                color: "#8b6828",
                 fontFamily: "inherit",
+                fontSize: "14px",
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+                textDecoration: "none",
                 cursor: "pointer",
                 pointerEvents: "auto",
               }}
             >
               WhatsApp Kanalına Katıl
-            </button>
+            </a>
           </div>
 
           <p className="heroNote">KENDİ KOZMOSUNU BUL</p>
@@ -136,7 +157,9 @@ export default function Hero() {
                 Goldkozmos
                 <sup className="registeredSymbol">®</sup>
 
-                <span className="heroBrandSubline">Enerji Ekolü</span>
+                <span className="heroBrandSubline">
+                  Enerji Ekolü
+                </span>
               </h2>
 
               <p>
@@ -148,6 +171,7 @@ export default function Hero() {
               </p>
 
               <div className="heroPanelLine" />
+
               <small>Kendi Kozmosunu Bul.</small>
             </div>
           </div>
@@ -175,16 +199,30 @@ export default function Hero() {
 
         <div className="activeGroupsGrid">
           {activeGroups.map((group) => (
-            <article className="activeGroupCard" key={group.number}>
+            <article
+              className="activeGroupCard"
+              key={group.number}
+            >
               <div className="activeGroupCardTop">
-                <span className="activeGroupNumber">{group.number}</span>
-                <span className="activeGroupBadge">{group.badge}</span>
+                <span className="activeGroupNumber">
+                  {group.number}
+                </span>
+
+                <span className="activeGroupBadge">
+                  {group.badge}
+                </span>
               </div>
 
               <div className="activeGroupCardContent">
-                <p className="activeGroupDate">{group.date}</p>
+                <p className="activeGroupDate">
+                  {group.date}
+                </p>
+
                 <h3>{group.title}</h3>
-                <p className="activeGroupAudience">{group.audience}</p>
+
+                <p className="activeGroupAudience">
+                  {group.audience}
+                </p>
 
                 <a href={group.href}>
                   Programı İncele
