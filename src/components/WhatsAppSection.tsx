@@ -1,3 +1,8 @@
+const WHATSAPP_CHANNEL_URL =
+  "https://www.whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s";
+
+const WHATSAPP_CONTACT_URL = "https://wa.me/905054722153";
+
 const communityBenefits = [
   {
     number: "01",
@@ -108,17 +113,22 @@ export default function WhatsAppSection() {
           <div className="whatsAppActions">
             <a
               className="whatsAppPrimaryButton"
-              href="/whatsapp-kanali"
+              href={WHATSAPP_CHANNEL_URL}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               WhatsApp Kanalına Katıl
               <span aria-hidden="true">↗</span>
             </a>
 
-            <a className="whatsAppSecondaryButton" href="/iletisim">
+            <a
+              className="whatsAppSecondaryButton"
+              href={WHATSAPP_CONTACT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Goldkozmos® ile İletişime Geç
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">↗</span>
             </a>
           </div>
 
