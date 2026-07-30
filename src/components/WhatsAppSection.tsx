@@ -1,3 +1,4 @@
+import Image from "next/image";
 const WHATSAPP_CHANNEL_URL =
   "https://www.whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s";
 
@@ -29,48 +30,32 @@ export default function WhatsAppSection() {
     <section className="whatsAppSection" id="whatsapp">
       <div className="whatsAppContainer">
         <div className="whatsAppVisual">
-          <div className="whatsAppPhonePlaceholder">
-            <div className="whatsAppPhoneTop">
-              <span className="whatsAppPhoneAvatar">G</span>
-
-              <div>
-                <strong>
-                  Goldkozmos
-                  <sup className="registeredSymbol">®</sup>
-                </strong>
-
-                <small>Enerji Ekolü • WhatsApp Kanalı</small>
-              </div>
-            </div>
-
-            <div className="whatsAppMessages">
-              <div className="whatsAppMessage">
-                <span>
-                  GOLDKOZMOS
-                  <sup className="registeredSymbol">®</sup>
-                  <br />
-                  ENERJİ EKOLÜ
-                </span>
-
-                <p>
-                  Yeni çalışmalar, ücretsiz içerikler ve topluluğa özel
-                  duyurular burada paylaşılır.
-                </p>
-              </div>
-
-              <div className="whatsAppMessage whatsAppMessageSecondary">
-                <span>BUGÜNÜN NOTU</span>
-
-                <p>
-                  İnsan değişmeden hayat değişmez. Değişim, kendini fark
-                  ettiğin yerde başlar.
-                </p>
-              </div>
-            </div>
-
-            <small className="whatsAppVisualNote">
-              Kanal görseli daha sonra eklenecek
-            </small>
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: "420px",
+              aspectRatio: "941 / 1672",
+              margin: "0 auto",
+              overflow: "hidden",
+              borderRadius: "34px",
+              border: "1px solid rgba(190, 145, 58, 0.35)",
+              boxShadow:
+                "0 35px 80px rgba(61, 43, 15, 0.22), 0 10px 30px rgba(0, 0, 0, 0.12)",
+              backgroundColor: "#080704",
+            }}
+          >
+            <Image
+              src="/images/services/whatsapp-kanali-v2.jpeg"
+              alt="Goldkozmos WhatsApp Kanalı"
+              fill
+              priority
+              sizes="(max-width: 768px) 88vw, 420px"
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+              }}
+            />
           </div>
         </div>
 

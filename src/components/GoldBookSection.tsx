@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const publishedBooks = [
@@ -7,6 +8,8 @@ const publishedBooks = [
     title: "İçindeki Kozmosu Kucakla",
     description:
       "Özdeğer, sınırlar, sezgi, geçmişten taşınan kalıplar ve içsel özgürlük üzerine hazırlanan dijital GoldBook.",
+    image: "/goldbook/icindeki-kozmosu-kucakla.jpeg",
+    imageAlt: "İçindeki Kozmosu Kucakla GoldBook kapağı",
     themes: [
       "Başkalarının yargılarından özgürleşmek",
       "Kendi değerini yeniden hatırlamak",
@@ -28,6 +31,8 @@ const publishedBooks = [
     title: "Aşk Manifestosu",
     description:
       "Geçmiş ilişkiler, tekrar eden senaryolar, sınırlar, flört dinamikleri ve doğru kişiye hazırlanma üzerine hazırlanan dijital GoldBook.",
+    image: "/goldbook/ask-manifestosu.jpeg",
+    imageAlt: "Aşk Manifestosu GoldBook kapağı",
     themes: [
       "Aşkı ihtiyaçtan seçime taşımak",
       "Tekrarlayan ilişki döngülerini görmek",
@@ -74,9 +79,7 @@ export default function GoldBookSection() {
       <div className="analysisHubContainer">
         <div className="analysisHubIntro">
           <div>
-            <p className="sectionEyebrow">
-              GOLDBOOK KÜTÜPHANESİ
-            </p>
+            <p className="sectionEyebrow">GOLDBOOK KÜTÜPHANESİ</p>
 
             <h2>
               Okudukça kendine
@@ -92,18 +95,31 @@ export default function GoldBookSection() {
             </p>
 
             <p>
-              Kütüphanede şu anda yayımlanmış iki kitap bulunuyor.
-              Yeni kitaplar yayımlandıkça bu alana eklenecek.
+              Kütüphanede şu anda yayımlanmış iki kitap bulunuyor. Yeni
+              kitaplar yayımlandıkça bu alana eklenecek.
             </p>
           </div>
         </div>
 
         <div className="analysisHubGrid">
           {publishedBooks.map((book) => (
-            <article
-              className="analysisHubCard"
-              key={book.title}
-            >
+            <article className="analysisHubCard" key={book.title}>
+              <div className="goldBookCoverStage">
+                <div className="goldBookCoverRing" aria-hidden="true" />
+
+                <div className="goldBookCoverFrame">
+                  <Image
+                    className="goldBookCoverImage"
+                    src={book.image}
+                    alt={book.imageAlt}
+                    width={1054}
+                    height={1492}
+                    sizes="(max-width: 700px) 68vw, 310px"
+                    priority={book.number === "01"}
+                  />
+                </div>
+              </div>
+
               <div className="analysisHubCardTop">
                 <span>{book.number}</span>
                 <span aria-hidden="true">✦</span>

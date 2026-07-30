@@ -1,5 +1,4 @@
-const WHATSAPP_CONTACT_URL =
-  "https://api.whatsapp.com/send?phone=905054722153";
+const WHATSAPP_CONTACT_URL = "https://wa.me/905054722153";
 
 const WHATSAPP_CHANNEL_URL =
   "https://www.whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s";
@@ -35,14 +34,7 @@ export default function Hero() {
   return (
     <section className="heroSection">
       <div className="heroContainer">
-        <div
-          className="heroContent"
-          style={{
-            position: "relative",
-            zIndex: 50,
-            pointerEvents: "auto",
-          }}
-        >
+        <div className="heroContent">
           <p className="brandName">
             GOLDKOZMOS
             <sup className="registeredSymbol">®</sup>
@@ -77,67 +69,28 @@ export default function Hero() {
 
           <div
             style={{
-              position: "relative",
-              zIndex: 9999,
               marginTop: "27px",
               display: "flex",
               flexWrap: "wrap",
-              gap: "14px",
-              pointerEvents: "auto",
+              gap: "22px",
             }}
           >
             <a
               href={WHATSAPP_CONTACT_URL}
+              className="whatsappLink"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                position: "relative",
-                zIndex: 9999,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: "46px",
-                padding: "0 22px",
-                border: "1px solid rgba(167, 125, 48, 0.45)",
-                borderRadius: "999px",
-                backgroundColor: "#ffffff",
-                color: "#8b6828",
-                fontFamily: "inherit",
-                fontSize: "14px",
-                fontWeight: 600,
-                letterSpacing: "0.02em",
-                textDecoration: "none",
-                cursor: "pointer",
-                pointerEvents: "auto",
-              }}
+              style={{ marginTop: 0 }}
             >
               WhatsApp&apos;tan Bilgi Al
             </a>
 
             <a
               href={WHATSAPP_CHANNEL_URL}
+              className="whatsappLink"
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                position: "relative",
-                zIndex: 9999,
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minHeight: "46px",
-                padding: "0 22px",
-                border: "1px solid rgba(167, 125, 48, 0.45)",
-                borderRadius: "999px",
-                backgroundColor: "#ffffff",
-                color: "#8b6828",
-                fontFamily: "inherit",
-                fontSize: "14px",
-                fontWeight: 600,
-                letterSpacing: "0.02em",
-                textDecoration: "none",
-                cursor: "pointer",
-                pointerEvents: "auto",
-              }}
+              style={{ marginTop: 0 }}
             >
               WhatsApp Kanalına Katıl
             </a>
@@ -146,33 +99,109 @@ export default function Hero() {
           <p className="heroNote">KENDİ KOZMOSUNU BUL</p>
         </div>
 
-        <div className="heroVisual">
-          <div className="heroImagePlaceholder">
-            <div className="heroBrandPanel">
-              <span className="heroPanelEyebrow">
-                ÖZGÜN DÖNÜŞÜM YAKLAŞIMI
+        <div
+          className="heroVisual"
+          style={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 2,
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+              width: "108%",
+              maxWidth: "680px",
+              aspectRatio: "4 / 5",
+              overflow: "hidden",
+              borderRadius: "32px",
+              border: "1px solid rgba(201, 154, 63, 0.32)",
+              backgroundColor: "#090806",
+              boxShadow:
+                "0 38px 100px rgba(0, 0, 0, 0.34), 0 0 70px rgba(190, 139, 48, 0.1)",
+            }}
+          >
+            <img
+              src="/images/services/7.png?v=3"
+              alt="Özge Batıgün, Goldkozmos® Enerji Ekolü kurucusu"
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 1,
+                display: "block",
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "center top",
+              }}
+            />
+
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 2,
+                background:
+                  "linear-gradient(180deg, transparent 58%, rgba(5, 4, 3, 0.08) 72%, rgba(5, 4, 3, 0.72) 100%)",
+                pointerEvents: "none",
+              }}
+            />
+
+            <div
+              style={{
+                position: "absolute",
+                left: "26px",
+                right: "26px",
+                bottom: "24px",
+                zIndex: 3,
+                padding: "16px 19px",
+                border: "1px solid rgba(218, 174, 85, 0.36)",
+                borderRadius: "16px",
+                background: "rgba(10, 8, 5, 0.78)",
+                backdropFilter: "blur(14px)",
+                boxShadow: "0 18px 40px rgba(0, 0, 0, 0.3)",
+              }}
+            >
+              <span
+                style={{
+                  display: "block",
+                  marginBottom: "6px",
+                  color: "#d6a94e",
+                  fontSize: "9px",
+                  fontWeight: 700,
+                  letterSpacing: "0.24em",
+                }}
+              >
+                KURUCU
               </span>
 
-              <h2>
-                Goldkozmos
-                <sup className="registeredSymbol">®</sup>
+              <strong
+                style={{
+                  display: "block",
+                  color: "#ffffff",
+                  fontFamily: 'Georgia, "Times New Roman", serif',
+                  fontSize: "25px",
+                  fontWeight: 500,
+                  lineHeight: 1.15,
+                }}
+              >
+                Özge Batıgün
+              </strong>
 
-                <span className="heroBrandSubline">
-                  Enerji Ekolü
-                </span>
-              </h2>
-
-              <p>
-                Spiritüel Stoa
-                <span>•</span>
-                Sosyoloji
-                <span>•</span>
-                Enerji
-              </p>
-
-              <div className="heroPanelLine" />
-
-              <small>Kendi Kozmosunu Bul.</small>
+              <small
+                style={{
+                  display: "block",
+                  marginTop: "7px",
+                  color: "rgba(255, 255, 255, 0.72)",
+                  fontSize: "11px",
+                  letterSpacing: "0.07em",
+                }}
+              >
+                Goldkozmos® Enerji Ekolü
+              </small>
             </div>
           </div>
         </div>
@@ -192,17 +221,14 @@ export default function Hero() {
           </div>
 
           <p>
-            Beş günlük canlı online grup çalışmalarından sana uygun olanı
-            seç, program detaylarını incele ve kayıt sürecine geç.
+            Beş günlük canlı online grup çalışmalarından sana uygun olanı seç,
+            program detaylarını incele ve kayıt sürecine geç.
           </p>
         </div>
 
         <div className="activeGroupsGrid">
           {activeGroups.map((group) => (
-            <article
-              className="activeGroupCard"
-              key={group.number}
-            >
+            <article className="activeGroupCard" key={group.number}>
               <div className="activeGroupCardTop">
                 <span className="activeGroupNumber">
                   {group.number}

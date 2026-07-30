@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const approachItems = [
   {
     number: "01",
@@ -24,11 +26,33 @@ export default function AboutSection() {
     <section className="aboutSection" id="hakkimda">
       <div className="aboutContainer">
         <div className="aboutVisual">
-          <div className="aboutPortraitPlaceholder">
+          <div
+            className="aboutPortraitPlaceholder"
+            style={{
+              position: "relative",
+            }}
+          >
             <div className="aboutPortraitGlow" />
 
-            <div className="aboutPortraitFrame">
-              <span>Profesyonel portre daha sonra eklenecek</span>
+            <div
+              className="aboutPortraitFrame"
+              style={{
+                position: "relative",
+                overflow: "hidden",
+                backgroundColor: "#090806",
+              }}
+            >
+              <Image
+                src="/images/services/ozge-batigun-hakkimda.webp"
+                alt="Özge Batıgün, Goldkozmos® Enerji Ekolü kurucusu"
+                fill
+                priority
+                sizes="(max-width: 900px) 90vw, 560px"
+                style={{
+                  objectFit: "cover",
+                  objectPosition: "center",
+                }}
+              />
             </div>
 
             <div className="aboutFounderCard">

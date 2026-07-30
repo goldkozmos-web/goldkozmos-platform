@@ -10250,7 +10250,8 @@ font-size:32px;
       rgba(255, 253, 248, 0.2) 65%,
       rgba(255, 255, 255, 0.03) 100%
     ),
-    url("/images/goldkozmos-hero.webp") center center / cover no-repeat;
+    url("/images/services/goldkozmos-hero.webp")
+      center center / cover no-repeat;
 }
 
 .heroSection::after {
@@ -10258,12 +10259,12 @@ font-size:32px;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: -1;
+  z-index: 0;
   height: 150px;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0),
-    rgba(255, 255, 255, 0.92)
+    rgba(255, 255, 255, 0.9)
   );
   content: "";
   pointer-events: none;
@@ -10274,8 +10275,14 @@ font-size:32px;
   z-index: 1;
   width: min(1440px, 100%);
   min-height: 700px;
-  grid-template-columns: minmax(0, 690px) 1fr;
-  gap: 48px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns:
+    minmax(0, 650px)
+    minmax(420px, 680px);
+  align-items: center;
+  justify-content: space-between;
+  gap: 56px;
 }
 
 .heroContent {
@@ -10286,8 +10293,8 @@ font-size:32px;
   border-radius: 32px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.82),
-    rgba(255, 252, 245, 0.66)
+    rgba(255, 255, 255, 0.86),
+    rgba(255, 252, 245, 0.7)
   );
   box-shadow: 0 30px 90px rgba(111, 78, 21, 0.1);
   backdrop-filter: blur(10px);
@@ -10295,7 +10302,12 @@ font-size:32px;
 }
 
 .heroVisual {
-  display: none;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .heroTitle {
@@ -10309,21 +10321,23 @@ font-size:32px;
 
 .trustBar {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   border-top: 1px solid rgba(181, 140, 55, 0.16);
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1180px) {
   .heroSection {
-    background-position: 62% center;
+    background-position: 58% center;
   }
 
   .heroContainer {
-    grid-template-columns: minmax(0, 610px) 1fr;
-    gap: 28px;
+    grid-template-columns:
+      minmax(0, 590px)
+      minmax(360px, 1fr);
+    gap: 34px;
   }
 
   .heroContent {
@@ -10338,26 +10352,33 @@ font-size:32px;
     background:
       linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 253, 248, 0.9) 48%,
-        rgba(255, 253, 248, 0.42) 72%,
-        rgba(255, 255, 255, 0.08) 100%
+        rgba(255, 255, 255, 0.97) 0%,
+        rgba(255, 253, 248, 0.92) 46%,
+        rgba(255, 253, 248, 0.58) 72%,
+        rgba(255, 255, 255, 0.18) 100%
       ),
-      url("/images/goldkozmos-hero.webp") 68% center / cover no-repeat;
+      url("/images/services/goldkozmos-hero.webp")
+        62% center / cover no-repeat;
   }
 
   .heroContainer {
-    min-height: 760px;
+    min-height: auto;
     grid-template-columns: 1fr;
-    align-items: flex-start;
-    gap: 0;
+    align-items: start;
+    gap: 42px;
   }
 
   .heroContent {
-    max-width: 620px;
-    margin-top: 24px;
+    max-width: 650px;
+    margin: 20px auto 0;
     padding: 38px 34px;
     border-radius: 28px;
+  }
+
+  .heroVisual {
+    width: min(100%, 680px);
+    margin: 0 auto;
+    padding-bottom: 24px;
   }
 
   .heroButtons {
@@ -10375,7 +10396,7 @@ font-size:32px;
     padding: 12px 16px;
   }
 
-  .trustBar span:nth-child(2) {
+  .trustBar span:nth-child(2n) {
     border-right: 0;
   }
 }
@@ -10387,15 +10408,17 @@ font-size:32px;
       linear-gradient(
         180deg,
         rgba(255, 255, 255, 0.98) 0%,
-        rgba(255, 253, 248, 0.94) 50%,
-        rgba(255, 253, 248, 0.48) 76%,
-        rgba(255, 255, 255, 0.12) 100%
+        rgba(255, 253, 248, 0.95) 48%,
+        rgba(255, 253, 248, 0.68) 75%,
+        rgba(255, 255, 255, 0.22) 100%
       ),
-      url("/images/goldkozmos-hero.webp") 72% center / cover no-repeat;
+      url("/images/services/goldkozmos-hero.webp")
+        66% center / cover no-repeat;
   }
 
   .heroContainer {
-    min-height: 720px;
+    min-height: auto;
+    gap: 32px;
   }
 
   .heroContent {
@@ -10422,6 +10445,11 @@ font-size:32px;
   .heroNote {
     margin-top: 42px;
     letter-spacing: 2.8px;
+  }
+
+  .heroVisual {
+    width: 100%;
+    padding-bottom: 10px;
   }
 
   .trustBar span {
@@ -10757,5 +10785,2613 @@ font-size:32px;
 
   .activeGroupCard h3 {
     font-size: 28px;
+  }
+}
+
+
+/* ABOUT PAGE · FULL STORY */
+
+.aboutPage {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #171717;
+}
+
+.aboutPageHero {
+  position: relative;
+  padding: 155px 32px 110px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 88% 18%,
+      rgba(205, 166, 83, 0.2),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 12% 88%,
+      rgba(205, 166, 83, 0.11),
+      transparent 26%
+    ),
+    linear-gradient(180deg, #fffdf8 0%, #ffffff 100%);
+}
+
+.aboutPageHero::before,
+.aboutPageHero::after {
+  position: absolute;
+  border: 1px solid rgba(168, 124, 45, 0.1);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.aboutPageHero::before {
+  top: 90px;
+  right: -150px;
+  width: 520px;
+  height: 520px;
+}
+
+.aboutPageHero::after {
+  bottom: -170px;
+  left: -120px;
+  width: 430px;
+  height: 430px;
+}
+
+.aboutPageHeroInner {
+  position: relative;
+  z-index: 1;
+  width: min(1380px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+  align-items: center;
+  gap: 88px;
+}
+
+.aboutPageEyebrow {
+  margin: 0 0 23px;
+  color: #a47b2c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3.6px;
+}
+
+.aboutPageHeroContent h1 {
+  max-width: 800px;
+  margin: 0;
+  color: #171717;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(58px, 6vw, 88px);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -3.5px;
+}
+
+.aboutPageHeroContent h1 span {
+  display: block;
+  margin-top: 12px;
+  color: #a47b2c;
+}
+
+.aboutPageHeroLead {
+  max-width: 690px;
+  margin: 36px 0 0;
+  color: #2b2b2b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  line-height: 1.55;
+}
+
+.aboutPageHeroDescription {
+  max-width: 680px;
+  margin: 25px 0 0;
+  color: #69645b;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.aboutPageHeroActions,
+.aboutPageClosingActions {
+  margin-top: 38px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.aboutPagePrimaryButton,
+.aboutPageSecondaryButton,
+.aboutPageClosingActions a {
+  min-height: 54px;
+  padding: 0 27px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.aboutPagePrimaryButton,
+.aboutPageClosingActions a:first-child {
+  color: #17120a;
+  background: linear-gradient(135deg, #c89a44, #e6c681);
+  box-shadow: 0 15px 32px rgba(145, 101, 25, 0.18);
+}
+
+.aboutPageSecondaryButton,
+.aboutPageClosingActions a:last-child {
+  border: 1px solid rgba(164, 123, 44, 0.32);
+  color: #805e20;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.aboutPagePrimaryButton:hover,
+.aboutPageSecondaryButton:hover,
+.aboutPageClosingActions a:hover {
+  transform: translateY(-3px);
+}
+
+.aboutPagePortrait {
+  display: flex;
+  justify-content: center;
+}
+
+.aboutPagePortraitFrame {
+  position: relative;
+  width: min(100%, 560px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid rgba(198, 151, 61, 0.32);
+  border-radius: 280px 280px 32px 32px;
+  background: #0a0805;
+  box-shadow:
+    0 40px 100px rgba(75, 49, 7, 0.22),
+    0 0 70px rgba(190, 139, 48, 0.08);
+}
+
+.aboutPagePortraitShade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 54%,
+      rgba(5, 4, 3, 0.1) 73%,
+      rgba(5, 4, 3, 0.76) 100%
+    );
+  pointer-events: none;
+}
+
+.aboutPageFounderCard {
+  position: absolute;
+  right: 24px;
+  bottom: 23px;
+  left: 24px;
+  z-index: 2;
+  padding: 17px 20px;
+  border: 1px solid rgba(218, 174, 85, 0.35);
+  border-radius: 17px;
+  background: rgba(10, 8, 5, 0.8);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.33);
+  backdrop-filter: blur(14px);
+}
+
+.aboutPageFounderCard span {
+  display: block;
+  margin-bottom: 6px;
+  color: #d5aa53;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+}
+
+.aboutPageFounderCard strong {
+  display: block;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  font-weight: 400;
+}
+
+.aboutPageFounderCard small {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.aboutStorySection {
+  padding: 145px 32px;
+  background: #11100e;
+  color: #ffffff;
+}
+
+.aboutStoryContainer {
+  width: min(1280px, 100%);
+  margin: 0 auto;
+}
+
+.aboutStoryHeading {
+  max-width: 990px;
+}
+
+.aboutStoryHeading h2,
+.aboutJourneyHeading h2,
+.aboutApproachPageHeading h2,
+.aboutPageClosingInner h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 5.2vw, 74px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -2.5px;
+}
+
+.aboutStoryHeading h2 span,
+.aboutJourneyHeading h2 span,
+.aboutApproachPageHeading h2 span,
+.aboutPageClosingInner h2 span {
+  color: #d4ad61;
+}
+
+.aboutStoryGrid {
+  margin-top: 75px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  align-items: start;
+  gap: 80px;
+}
+
+.aboutStoryText {
+  display: grid;
+  gap: 26px;
+}
+
+.aboutStoryText p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 17px;
+  line-height: 1.95;
+}
+
+.aboutStoryQuote {
+  padding: 42px;
+  border: 1px solid rgba(215, 174, 94, 0.22);
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(214, 174, 94, 0.16),
+      transparent 35%
+    ),
+    rgba(255, 255, 255, 0.035);
+}
+
+.aboutStoryQuote > p {
+  margin: 0 0 24px;
+  color: #d1a955;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.8px;
+}
+
+.aboutStoryQuote blockquote {
+  margin: 0;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(36px, 4vw, 54px);
+  line-height: 1.08;
+}
+
+.aboutStoryQuote > span {
+  display: block;
+  margin-top: 28px;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.aboutJourneySection {
+  padding: 145px 32px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(204, 164, 83, 0.16),
+      transparent 34%
+    ),
+    #fffdf9;
+}
+
+.aboutJourneyContainer,
+.aboutApproachPageContainer {
+  width: min(1380px, 100%);
+  margin: 0 auto;
+}
+
+.aboutJourneyHeading {
+  max-width: 930px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+.aboutJourneyHeading h2,
+.aboutApproachPageHeading h2 {
+  color: #171717;
+}
+
+.aboutJourneyHeading > p:last-child {
+  max-width: 720px;
+  margin: 27px auto 0;
+  color: #6d675e;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.aboutJourneyGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.aboutJourneyCard {
+  min-height: 340px;
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(164, 123, 44, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 24px 60px rgba(91, 64, 16, 0.06);
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.aboutJourneyCard:hover {
+  transform: translateY(-7px);
+  border-color: rgba(164, 123, 44, 0.4);
+  box-shadow: 0 30px 72px rgba(91, 64, 16, 0.12);
+}
+
+.aboutJourneyCard > span,
+.aboutApproachPageCard > span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.aboutJourneyCard h3,
+.aboutApproachPageCard h3 {
+  margin: auto 0 18px;
+  color: #1d1d1d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 29px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.aboutJourneyCard p,
+.aboutApproachPageCard p {
+  margin: 0;
+  color: #706a61;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.aboutApproachPageSection {
+  padding: 145px 32px;
+  background: #11100e;
+  color: #ffffff;
+}
+
+.aboutApproachPageHeading {
+  max-width: 930px;
+  margin-bottom: 72px;
+}
+
+.aboutApproachPageHeading h2 {
+  color: #ffffff;
+}
+
+.aboutApproachPageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.aboutApproachPageCard {
+  min-height: 360px;
+  padding: 38px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(214, 174, 94, 0.18);
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(214, 174, 94, 0.12),
+      transparent 33%
+    ),
+    rgba(255, 255, 255, 0.025);
+}
+
+.aboutApproachPageCard h3 {
+  color: #ffffff;
+}
+
+.aboutApproachPageCard p {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.aboutPageClosing {
+  padding: 145px 32px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(205, 166, 83, 0.22),
+      transparent 40%
+    ),
+    linear-gradient(180deg, #fffdf8 0%, #ffffff 100%);
+}
+
+.aboutPageClosingInner {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: 82px 76px;
+  border: 1px solid rgba(164, 123, 44, 0.18);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.78);
+  text-align: center;
+  box-shadow: 0 35px 90px rgba(91, 65, 20, 0.09);
+  backdrop-filter: blur(18px);
+}
+
+.aboutPageClosingInner h2 {
+  color: #171717;
+}
+
+.aboutPageClosingInner > p:last-of-type {
+  max-width: 720px;
+  margin: 27px auto 0;
+  color: #6c665d;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.aboutPageClosingActions {
+  justify-content: center;
+}
+
+@media (max-width: 1100px) {
+  .aboutPageHeroInner {
+    gap: 48px;
+  }
+
+  .aboutJourneyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .aboutPageHero,
+  .aboutStorySection,
+  .aboutJourneySection,
+  .aboutApproachPageSection,
+  .aboutPageClosing {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .aboutPageHeroInner,
+  .aboutStoryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutPageHeroContent {
+    order: 1;
+  }
+
+  .aboutPagePortrait {
+    order: 2;
+  }
+
+  .aboutStoryGrid {
+    gap: 42px;
+  }
+
+  .aboutApproachPageGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutPageClosingInner {
+    padding: 60px 38px;
+  }
+}
+
+@media (max-width: 620px) {
+  .aboutPageHero {
+    padding-top: 120px;
+    padding-bottom: 82px;
+  }
+
+  .aboutPageHeroContent h1 {
+    font-size: 48px;
+    letter-spacing: -2px;
+  }
+
+  .aboutPageHeroLead {
+    font-size: 20px;
+  }
+
+  .aboutPageHeroActions,
+  .aboutPageClosingActions {
+    flex-direction: column;
+  }
+
+  .aboutPagePrimaryButton,
+  .aboutPageSecondaryButton,
+  .aboutPageClosingActions a {
+    width: 100%;
+  }
+
+  .aboutPagePortraitFrame {
+    border-radius: 200px 200px 26px 26px;
+  }
+
+  .aboutStorySection,
+  .aboutJourneySection,
+  .aboutApproachPageSection,
+  .aboutPageClosing {
+    padding-top: 95px;
+    padding-bottom: 95px;
+  }
+
+  .aboutStoryHeading h2,
+  .aboutJourneyHeading h2,
+  .aboutApproachPageHeading h2,
+  .aboutPageClosingInner h2 {
+    font-size: 42px;
+    letter-spacing: -1.4px;
+  }
+
+  .aboutStoryQuote,
+  .aboutJourneyCard,
+  .aboutApproachPageCard {
+    padding: 29px;
+  }
+
+  .aboutJourneyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutJourneyCard,
+  .aboutApproachPageCard {
+    min-height: 300px;
+  }
+
+  .aboutPageClosingInner {
+    padding: 48px 25px;
+    border-radius: 27px;
+  }
+}
+
+
+/* ABOUT PAGE · PERSONAL STORY EXPANSION */
+
+.personalIdentitySection {
+  padding: 140px 32px;
+  background: #ffffff;
+}
+
+.personalIdentityContainer,
+.personalStoryContainer,
+.aboutTimelineContainer,
+.aboutGoldkozmosBirthContainer,
+.aboutValuesContainer {
+  width: min(1320px, 100%);
+  margin: 0 auto;
+}
+
+.personalIdentityHeading {
+  max-width: 980px;
+  margin-bottom: 70px;
+}
+
+.personalIdentityHeading h2,
+.personalStoryChapter h2,
+.aboutTimelineHeading h2,
+.aboutGoldkozmosBirthText h2,
+.aboutValuesHeading h2 {
+  margin: 0;
+  color: #171717;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 5.2vw, 74px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -2.5px;
+}
+
+.personalIdentityHeading h2 span,
+.personalStoryChapter h2 span,
+.aboutTimelineHeading h2 span,
+.aboutGoldkozmosBirthText h2 span,
+.aboutValuesHeading h2 span {
+  color: #a47b2c;
+}
+
+.personalIdentityGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  align-items: start;
+  gap: 85px;
+}
+
+.personalIdentityText {
+  display: grid;
+  gap: 26px;
+}
+
+.personalIdentityText p {
+  margin: 0;
+  color: #666057;
+  font-size: 17px;
+  line-height: 1.95;
+}
+
+.personalIdentityFacts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.personalIdentityFact {
+  min-height: 155px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(164, 123, 44, 0.17);
+  border-radius: 22px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 249, 237, 0.86)
+    );
+  box-shadow: 0 20px 50px rgba(91, 64, 16, 0.06);
+}
+
+.personalIdentityFact span {
+  color: #a47b2c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+
+.personalIdentityFact strong {
+  color: #242424;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.personalStorySection {
+  padding: 145px 32px;
+  background:
+    radial-gradient(
+      circle at 86% 10%,
+      rgba(214, 174, 94, 0.13),
+      transparent 27%
+    ),
+    #11100e;
+  color: #ffffff;
+}
+
+.personalStoryContainer {
+  display: grid;
+  gap: 26px;
+}
+
+.personalStoryChapter {
+  padding: 56px;
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 42px;
+  border: 1px solid rgba(214, 174, 94, 0.16);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.personalStoryChapterFeatured {
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(214, 174, 94, 0.16),
+      transparent 35%
+    ),
+    rgba(255, 255, 255, 0.035);
+}
+
+.personalStoryNumber {
+  color: #d4ad61;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.personalStoryChapter h2 {
+  max-width: 940px;
+  color: #ffffff;
+}
+
+.personalStoryChapter > div > p:not(.aboutPageEyebrow) {
+  max-width: 930px;
+  margin: 28px 0 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 16px;
+  line-height: 1.92;
+}
+
+.aboutTimelineSection {
+  padding: 145px 32px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(204, 164, 83, 0.15),
+      transparent 34%
+    ),
+    #fffdf9;
+}
+
+.aboutTimelineHeading {
+  max-width: 980px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+.aboutTimelineGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.aboutTimelineCard {
+  min-height: 360px;
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(164, 123, 44, 0.17);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 24px 60px rgba(91, 64, 16, 0.07);
+}
+
+.aboutTimelineCard > span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.aboutTimelineCard h3 {
+  margin: auto 0 18px;
+  color: #1d1d1d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.aboutTimelineCard p {
+  margin: 0;
+  color: #706a61;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.aboutGoldkozmosBirthSection {
+  padding: 145px 32px;
+  background: #ffffff;
+}
+
+.aboutGoldkozmosBirthContainer {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  align-items: center;
+  gap: 90px;
+}
+
+.aboutGoldkozmosBirthText > p:not(.aboutPageEyebrow) {
+  max-width: 850px;
+  margin: 28px 0 0;
+  color: #69635a;
+  font-size: 16px;
+  line-height: 1.92;
+}
+
+.aboutExperienceCard {
+  min-height: 430px;
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(205, 164, 83, 0.22);
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(218, 180, 104, 0.24),
+      transparent 52%
+    ),
+    linear-gradient(145deg, #17140f, #0d0c0a);
+  text-align: center;
+  box-shadow: 0 32px 85px rgba(47, 31, 6, 0.2);
+}
+
+.aboutExperienceCard > span {
+  color: #d4ad61;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.aboutExperienceCard strong {
+  margin-top: 25px;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(82px, 9vw, 126px);
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+.aboutExperienceCard p {
+  max-width: 280px;
+  margin: 28px 0 0;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.aboutApproachIntro {
+  max-width: 800px;
+  margin: 28px 0 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 16px;
+  line-height: 1.88;
+}
+
+.aboutApproachPageGridFour {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.aboutValuesSection {
+  padding: 145px 32px;
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(204, 164, 83, 0.14),
+      transparent 35%
+    ),
+    #fffdf9;
+}
+
+.aboutValuesHeading {
+  max-width: 980px;
+  margin-bottom: 70px;
+}
+
+.aboutValuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.aboutValueCard {
+  min-height: 320px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(164, 123, 44, 0.17);
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.aboutValueCard > span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.aboutValueCard h3 {
+  margin: auto 0 19px;
+  color: #1d1d1d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 29px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.aboutValueCard p {
+  margin: 0;
+  color: #706a61;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.aboutManifestoPageSection {
+  padding: 145px 32px;
+  background: #11100e;
+  color: #ffffff;
+}
+
+.aboutManifestoPageInner {
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: 85px 80px;
+  border: 1px solid rgba(214, 174, 94, 0.22);
+  border-radius: 34px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(214, 174, 94, 0.18),
+      transparent 50%
+    ),
+    rgba(255, 255, 255, 0.03);
+  text-align: center;
+}
+
+.aboutManifestoPageInner blockquote {
+  margin: 0;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(52px, 6vw, 82px);
+  line-height: 1.04;
+  letter-spacing: -2px;
+}
+
+.aboutManifestoPageInner > p:not(.aboutPageEyebrow) {
+  max-width: 760px;
+  margin: 30px auto 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.aboutManifestoPageInner > span {
+  display: block;
+  margin-top: 30px;
+  color: #d4ad61;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-style: italic;
+}
+
+@media (max-width: 1100px) {
+  .aboutTimelineGrid,
+  .aboutApproachPageGridFour {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .aboutGoldkozmosBirthContainer {
+    gap: 50px;
+  }
+}
+
+@media (max-width: 900px) {
+  .personalIdentitySection,
+  .personalStorySection,
+  .aboutTimelineSection,
+  .aboutGoldkozmosBirthSection,
+  .aboutValuesSection,
+  .aboutManifestoPageSection {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .personalIdentityGrid,
+  .aboutGoldkozmosBirthContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .personalStoryChapter {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .aboutValuesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutExperienceCard {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 620px) {
+  .personalIdentitySection,
+  .personalStorySection,
+  .aboutTimelineSection,
+  .aboutGoldkozmosBirthSection,
+  .aboutValuesSection,
+  .aboutManifestoPageSection {
+    padding-top: 95px;
+    padding-bottom: 95px;
+  }
+
+  .personalIdentityHeading h2,
+  .personalStoryChapter h2,
+  .aboutTimelineHeading h2,
+  .aboutGoldkozmosBirthText h2,
+  .aboutValuesHeading h2 {
+    font-size: 42px;
+    letter-spacing: -1.4px;
+  }
+
+  .personalIdentityFacts,
+  .aboutTimelineGrid,
+  .aboutApproachPageGridFour {
+    grid-template-columns: 1fr;
+  }
+
+  .personalStoryChapter,
+  .aboutManifestoPageInner {
+    padding: 30px 25px;
+    border-radius: 25px;
+  }
+
+  .aboutTimelineCard,
+  .aboutValueCard {
+    min-height: 290px;
+    padding: 29px;
+  }
+
+  .aboutExperienceCard {
+    min-height: 320px;
+    padding: 35px 26px;
+  }
+
+  .aboutManifestoPageInner blockquote {
+    font-size: 48px;
+  }
+}
+
+
+/* ABOUT PAGE · AKICI KİŞİSEL HİKÂYE */
+
+.personalStoryFlow {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+  align-items: start;
+  gap: 88px;
+}
+
+.personalStoryFlowHeading {
+  position: sticky;
+  top: 125px;
+}
+
+.personalStoryFlowHeading h2 {
+  margin: 0;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(46px, 4.7vw, 68px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -2.2px;
+}
+
+.personalStoryFlowHeading h2 span {
+  display: block;
+  margin-top: 10px;
+  color: #d4ad61;
+}
+
+.personalStoryFlowHeading > p:last-child {
+  max-width: 420px;
+  margin: 27px 0 0;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 14px;
+  line-height: 1.82;
+}
+
+.personalStoryArticle {
+  padding-left: 58px;
+  border-left: 1px solid rgba(214, 174, 94, 0.22);
+}
+
+.personalStoryArticle > p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 18px;
+  line-height: 2;
+}
+
+.personalStoryArticle > p + p {
+  margin-top: 31px;
+}
+
+.personalStoryArticle > p:first-child::first-letter {
+  margin: 9px 12px 0 0;
+  float: left;
+  color: #d4ad61;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 78px;
+  line-height: 0.72;
+}
+
+.personalStoryArticle blockquote {
+  position: relative;
+  margin: 55px 0;
+  padding: 42px 44px;
+  border: 1px solid rgba(214, 174, 94, 0.22);
+  border-radius: 26px;
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(214, 174, 94, 0.16),
+      transparent 36%
+    ),
+    rgba(255, 255, 255, 0.035);
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 400;
+  line-height: 1.28;
+}
+
+.personalStoryArticle blockquote::before {
+  position: absolute;
+  top: 18px;
+  left: 24px;
+  color: rgba(212, 173, 97, 0.25);
+  content: "“";
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 88px;
+  line-height: 1;
+}
+
+@media (max-width: 900px) {
+  .personalStoryFlow {
+    grid-template-columns: 1fr;
+    gap: 52px;
+  }
+
+  .personalStoryFlowHeading {
+    position: static;
+  }
+
+  .personalStoryFlowHeading > p:last-child {
+    max-width: 720px;
+  }
+
+  .personalStoryArticle {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .personalStoryFlowHeading h2 {
+    font-size: 42px;
+    letter-spacing: -1.4px;
+  }
+
+  .personalStoryArticle > p {
+    font-size: 16px;
+    line-height: 1.9;
+  }
+
+  .personalStoryArticle > p + p {
+    margin-top: 25px;
+  }
+
+  .personalStoryArticle > p:first-child::first-letter {
+    font-size: 62px;
+  }
+
+  .personalStoryArticle blockquote {
+    margin: 42px 0;
+    padding: 34px 25px;
+    border-radius: 23px;
+    font-size: 28px;
+  }
+}
+
+
+/* DEEP WORK FINDER · 15-STEP ASSESSMENT */
+
+.deepFinderSection {
+  position: relative;
+  padding: 150px 32px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 4%,
+      rgba(205, 169, 94, 0.18),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 8% 88%,
+      rgba(205, 169, 94, 0.1),
+      transparent 28%
+    ),
+    linear-gradient(180deg, #ffffff 0%, #fbf6eb 100%);
+}
+
+.deepFinderSection::before,
+.deepFinderSection::after {
+  position: absolute;
+  left: 50%;
+  border: 1px solid rgba(175, 132, 48, 0.07);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.deepFinderSection::before {
+  top: 155px;
+  width: 760px;
+  height: 760px;
+}
+
+.deepFinderSection::after {
+  top: 260px;
+  width: 520px;
+  height: 520px;
+}
+
+.deepFinderContainer {
+  position: relative;
+  z-index: 1;
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+
+.deepFinderHeading {
+  max-width: 940px;
+  margin: 0 auto 70px;
+  text-align: center;
+}
+
+.deepFinderHeading h2 {
+  margin: 0;
+  color: #171717;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 5.4vw, 74px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -2.7px;
+}
+
+.deepFinderHeading h2 span {
+  color: #a87c2d;
+}
+
+.deepFinderHeading > p:not(.sectionEyebrow) {
+  max-width: 760px;
+  margin: 27px auto 0;
+  color: #706a60;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.deepFinderMeta {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.deepFinderMeta span {
+  padding: 9px 13px;
+  border: 1px solid rgba(164, 123, 44, 0.16);
+  border-radius: 999px;
+  color: #8d671f;
+  background: rgba(255, 255, 255, 0.68);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.5px;
+}
+
+.deepFinderPanel {
+  position: relative;
+  min-height: 720px;
+  padding: 64px 68px;
+  overflow: hidden;
+  border: 1px solid rgba(175, 132, 48, 0.2);
+  border-radius: 34px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(222, 190, 126, 0.24),
+      transparent 31%
+    ),
+    rgba(255, 255, 255, 0.94);
+  box-shadow:
+    0 40px 110px rgba(88, 61, 13, 0.11),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(20px);
+}
+
+.deepFinderPanel::before {
+  position: absolute;
+  top: 0;
+  right: 80px;
+  left: 80px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(183, 139, 53, 0.68),
+    transparent
+  );
+  content: "";
+}
+
+.deepFinderProgress {
+  margin-bottom: 54px;
+}
+
+.deepFinderProgressText {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  color: #9c752d;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+}
+
+.deepFinderProgressBar {
+  position: relative;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(169, 125, 45, 0.12);
+}
+
+.deepFinderProgressBar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9e7224, #ddbd7c);
+  box-shadow: 0 0 18px rgba(184, 139, 53, 0.3);
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.deepFinderQuestion {
+  max-width: 900px;
+  margin-bottom: 38px;
+}
+
+.deepFinderQuestion > p {
+  margin: 0 0 16px;
+  color: #a47b2c;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.deepFinderQuestion h3 {
+  margin: 0;
+  color: #1b1b1b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 4vw, 52px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+}
+
+.deepFinderQuestion > span {
+  display: block;
+  max-width: 760px;
+  margin-top: 18px;
+  color: #756f66;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.deepFinderQuestion > small {
+  display: inline-flex;
+  margin-top: 17px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  color: #8e6924;
+  background: rgba(207, 171, 99, 0.12);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.deepFinderOptions {
+  display: grid;
+  gap: 14px;
+}
+
+.deepFinderOption {
+  width: 100%;
+  padding: 22px 24px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid rgba(159, 117, 38, 0.14);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.74);
+  color: #222222;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.deepFinderOption:hover {
+  transform: translateY(-2px);
+  border-color: rgba(164, 123, 44, 0.38);
+  background: #ffffff;
+  box-shadow: 0 15px 38px rgba(89, 62, 14, 0.07);
+}
+
+.deepFinderOptionSelected {
+  border-color: rgba(164, 123, 44, 0.68);
+  background:
+    linear-gradient(
+      90deg,
+      rgba(225, 196, 136, 0.2),
+      rgba(255, 255, 255, 0.98)
+    );
+  box-shadow: 0 16px 42px rgba(91, 64, 16, 0.1);
+}
+
+.deepFinderOptionMarker {
+  position: relative;
+  width: 23px;
+  height: 23px;
+  flex: none;
+  border: 1px solid rgba(155, 111, 31, 0.45);
+  border-radius: 50%;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.deepFinderOptionMarkerMultiple {
+  border-radius: 7px;
+}
+
+.deepFinderOptionSelected .deepFinderOptionMarker {
+  border-color: #a77a29;
+  background: #a77a29;
+}
+
+.deepFinderOptionSelected .deepFinderOptionMarker::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 4px;
+  border-bottom: 1.5px solid #ffffff;
+  border-left: 1.5px solid #ffffff;
+  content: "";
+  transform: translate(-50%, -62%) rotate(-45deg);
+}
+
+.deepFinderOptionText {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.deepFinderOptionText strong {
+  color: #252525;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.deepFinderOptionText small {
+  color: #777168;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.deepFinderOptionArrow {
+  color: #aa7e2d;
+  font-size: 19px;
+  opacity: 0.42;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.deepFinderOption:hover .deepFinderOptionArrow,
+.deepFinderOptionSelected .deepFinderOptionArrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.deepFinderActions {
+  min-height: 56px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.deepFinderBackButton,
+.deepFinderContinueButton,
+.deepFinderResultActions button {
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.deepFinderBackButton {
+  padding: 14px 0;
+  color: #746c60;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+
+.deepFinderContinueButton {
+  min-width: 190px;
+  padding: 17px 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+  border-radius: 999px;
+  color: #17120a;
+  background: linear-gradient(135deg, #c99b46, #e5c582);
+  font-size: 12px;
+  font-weight: 750;
+  box-shadow: 0 14px 30px rgba(151, 107, 29, 0.18);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.deepFinderContinueButton:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 19px 38px rgba(151, 107, 29, 0.25);
+}
+
+.deepFinderContinueButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.38;
+  box-shadow: none;
+}
+
+.deepFinderResult {
+  display: grid;
+  gap: 28px;
+}
+
+.deepFinderResultTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  align-items: start;
+  gap: 50px;
+}
+
+.deepFinderResultEyebrow {
+  margin: 0 0 16px;
+  color: #a77a29;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 3px;
+}
+
+.deepFinderResult h3 {
+  max-width: 790px;
+  margin: 0;
+  color: #1a1a1a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(45px, 5vw, 68px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -2px;
+}
+
+.deepFinderResultDescription {
+  max-width: 760px;
+  margin: 24px 0 0;
+  color: #706a60;
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.deepFinderResultScore {
+  min-height: 145px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid rgba(164, 123, 44, 0.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(214, 174, 94, 0.22),
+      transparent 56%
+    ),
+    #fffdf8;
+  text-align: center;
+}
+
+.deepFinderResultScore span {
+  color: #9f7626;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 2px;
+}
+
+.deepFinderResultScore strong {
+  margin-top: 12px;
+  color: #1a1a1a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 54px;
+  font-weight: 400;
+  line-height: 0.9;
+}
+
+.deepFinderResultScore small {
+  margin-top: 9px;
+  color: #8b857c;
+  font-size: 9px;
+}
+
+.deepFinderResultGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.deepFinderResultCard {
+  min-height: 250px;
+  padding: 30px;
+  border: 1px solid rgba(164, 123, 44, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.76);
+}
+
+.deepFinderResultCard > span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.deepFinderResultCard h4,
+.deepFinderSecondaryResult h4,
+.deepFinderFormatResult h4 {
+  margin: 30px 0 15px;
+  color: #1d1d1d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.deepFinderResultCard p,
+.deepFinderSecondaryResult > p {
+  margin: 0;
+  color: #706a61;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.deepFinderAreaMap,
+.deepFinderInfluences,
+.deepFinderSecondaryResult,
+.deepFinderFormatResult,
+.deepFinderMedicalNote {
+  padding: 30px;
+  border: 1px solid rgba(164, 123, 44, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.deepFinderAreaMap > p,
+.deepFinderInfluences > p,
+.deepFinderSecondaryResult > div > p,
+.deepFinderFormatResult > div > p {
+  margin: 0 0 20px;
+  color: #a47b2c;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 2.3px;
+}
+
+.deepFinderAreaMap > div {
+  display: grid;
+  gap: 15px;
+}
+
+.deepFinderAreaRow {
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr) 46px;
+  align-items: center;
+  gap: 15px;
+}
+
+.deepFinderAreaRow > span {
+  color: #4d4942;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.deepFinderAreaRow > div {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(164, 123, 44, 0.1);
+}
+
+.deepFinderAreaRow i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a77a29, #dfbd78);
+}
+
+.deepFinderAreaRow strong {
+  color: #8d671f;
+  font-size: 11px;
+  text-align: right;
+}
+
+.deepFinderInfluences > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.deepFinderInfluences span {
+  padding: 10px 13px;
+  border: 1px solid rgba(164, 123, 44, 0.16);
+  border-radius: 999px;
+  color: #675f53;
+  background: #fffdf8;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.deepFinderSecondaryResult,
+.deepFinderFormatResult {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 30px;
+}
+
+.deepFinderSecondaryResult h4,
+.deepFinderFormatResult h4 {
+  margin: 0;
+}
+
+.deepFinderSecondaryResult a,
+.deepFinderFormatResult a {
+  min-height: 46px;
+  padding: 0 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 1px solid rgba(164, 123, 44, 0.25);
+  border-radius: 999px;
+  color: #805e20;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.deepFinderFormatResult > div > span {
+  display: block;
+  max-width: 650px;
+  margin-top: 14px;
+  color: #706a61;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.deepFinderMedicalNote {
+  display: grid;
+  gap: 9px;
+  border-color: rgba(164, 123, 44, 0.22);
+  background: rgba(255, 250, 239, 0.92);
+}
+
+.deepFinderMedicalNote strong {
+  color: #79591e;
+  font-size: 12px;
+}
+
+.deepFinderMedicalNote span {
+  color: #746e64;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.deepFinderResultActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.deepFinderResultActions a,
+.deepFinderResultActions button {
+  min-height: 52px;
+  padding: 15px 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.deepFinderResultActions a:first-child {
+  color: #17120a;
+  background: linear-gradient(135deg, #c99b46, #e5c582);
+  box-shadow: 0 14px 30px rgba(151, 107, 29, 0.18);
+}
+
+.deepFinderResultActions a:nth-child(2) {
+  border: 1px solid rgba(157, 114, 34, 0.28);
+  color: #78591f;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.deepFinderResultActions button {
+  border: 1px solid rgba(157, 114, 34, 0.2);
+  color: #746c60;
+  background: transparent;
+}
+
+.deepFinderResultNote {
+  max-width: 780px;
+  margin: 2px 0 0;
+  color: #918b82;
+  font-size: 10px;
+  line-height: 1.75;
+}
+
+@media (max-width: 900px) {
+  .deepFinderSection {
+    padding: 110px 22px;
+  }
+
+  .deepFinderHeading {
+    margin-bottom: 52px;
+  }
+
+  .deepFinderHeading h2 {
+    font-size: 44px;
+    letter-spacing: -1.6px;
+  }
+
+  .deepFinderPanel {
+    min-height: 680px;
+    padding: 46px 32px;
+    border-radius: 27px;
+  }
+
+  .deepFinderResultTop,
+  .deepFinderSecondaryResult,
+  .deepFinderFormatResult {
+    grid-template-columns: 1fr;
+  }
+
+  .deepFinderResultScore {
+    width: 150px;
+  }
+
+  .deepFinderSecondaryResult a,
+  .deepFinderFormatResult a {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 620px) {
+  .deepFinderSection {
+    padding: 92px 16px;
+  }
+
+  .deepFinderPanel {
+    padding: 38px 20px;
+  }
+
+  .deepFinderPanel::before {
+    right: 30px;
+    left: 30px;
+  }
+
+  .deepFinderQuestion h3 {
+    font-size: 36px;
+  }
+
+  .deepFinderOption {
+    padding: 19px 17px;
+    grid-template-columns: auto 1fr;
+    gap: 15px;
+  }
+
+  .deepFinderOptionArrow {
+    display: none;
+  }
+
+  .deepFinderOptionText strong {
+    font-size: 17px;
+  }
+
+  .deepFinderActions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .deepFinderActions > span {
+    display: none;
+  }
+
+  .deepFinderBackButton,
+  .deepFinderContinueButton {
+    width: 100%;
+  }
+
+  .deepFinderResultTop,
+  .deepFinderResultGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .deepFinderResult h3 {
+    font-size: 42px;
+  }
+
+  .deepFinderResultScore {
+    width: 100%;
+    min-height: 125px;
+  }
+
+  .deepFinderAreaRow {
+    grid-template-columns: 1fr 42px;
+  }
+
+  .deepFinderAreaRow > div {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .deepFinderResultActions {
+    flex-direction: column;
+  }
+
+  .deepFinderResultActions a,
+  .deepFinderResultActions button,
+  .deepFinderSecondaryResult a,
+  .deepFinderFormatResult a {
+    width: 100%;
+  }
+}
+
+
+/* DEEP FINDER · ADAPTIVE BRANCH NOTE */
+
+.deepFinderBranchNote {
+  max-width: 760px;
+  margin: 20px auto 0;
+  color: #766f64;
+  font-size: 12px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.deepFinderBranchNote strong {
+  color: #8d671f;
+  font-weight: 750;
+}
+
+@media (max-width: 620px) {
+  .deepFinderBranchNote {
+    font-size: 11px;
+  }
+}
+
+
+/* DEEP FINDER · RICHER QUESTIONS & PERSONALIZED RESULT */
+
+.deepFinderQuestionChapter {
+  width: fit-content;
+  margin-bottom: 20px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(164, 123, 44, 0.15);
+  border-radius: 999px;
+  background: rgba(255, 252, 245, 0.9);
+}
+
+.deepFinderQuestionChapter span {
+  color: #8d671f;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 1.8px;
+}
+
+.deepFinderQuestionChapter small {
+  color: #9b958b;
+  font-size: 8px;
+  letter-spacing: 0.7px;
+}
+
+.deepFinderQuestionWhy {
+  width: fit-content;
+  margin-top: 17px;
+}
+
+.deepFinderQuestionWhy summary {
+  color: #8d671f;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.deepFinderQuestionWhy summary::-webkit-details-marker {
+  display: none;
+}
+
+.deepFinderQuestionWhy summary::before {
+  margin-right: 8px;
+  color: #b18432;
+  content: "+";
+}
+
+.deepFinderQuestionWhy[open] summary::before {
+  content: "−";
+}
+
+.deepFinderQuestionWhy p {
+  max-width: 760px;
+  margin: 12px 0 0;
+  padding: 15px 18px;
+  border-left: 1px solid rgba(164, 123, 44, 0.34);
+  color: #756f66;
+  background: rgba(206, 171, 99, 0.07);
+  font-size: 11px;
+  line-height: 1.72;
+}
+
+.deepFinderOptions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.deepFinderOption {
+  min-height: 105px;
+}
+
+.deepFinderOptionText strong {
+  line-height: 1.35;
+}
+
+.deepFinderResultTopRich h3 {
+  max-width: 860px;
+}
+
+.deepFinderResultProgram {
+  display: inline-flex;
+  margin-bottom: 16px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  color: #805e20;
+  background: rgba(207, 171, 99, 0.12);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.deepFinderResultSubtitle {
+  display: block;
+  max-width: 800px;
+  margin-top: 14px;
+  color: #a47b2c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.42;
+}
+
+.deepFinderResultReading,
+.deepFinderInsightSection,
+.deepFinderEvidenceSection,
+.deepFinderPlanSection,
+.deepFinderRecommendationRich {
+  padding: 30px;
+  border: 1px solid rgba(164, 123, 44, 0.16);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.deepFinderResultReading > p,
+.deepFinderRecommendationRich > div > p {
+  margin: 0 0 18px;
+  color: #a47b2c;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 2.3px;
+}
+
+.deepFinderResultReading > div {
+  display: grid;
+  gap: 16px;
+}
+
+.deepFinderResultReading > div p {
+  margin: 0;
+  color: #6e685f;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.deepFinderResultReading strong {
+  color: #30291f;
+  font-weight: 700;
+}
+
+.deepFinderRichTitle {
+  margin-bottom: 27px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.deepFinderRichTitle > span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.deepFinderRichTitle p {
+  margin: 0 0 8px;
+  color: #a47b2c;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 2.2px;
+}
+
+.deepFinderRichTitle h4 {
+  margin: 0;
+  color: #1d1d1d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.deepFinderInsightGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.deepFinderInsightGrid article {
+  min-height: 275px;
+  padding: 27px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(164, 123, 44, 0.14);
+  border-radius: 22px;
+  background: #fffdf9;
+}
+
+.deepFinderInsightGrid article > span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+}
+
+.deepFinderInsightGrid h5 {
+  margin: 30px 0 13px;
+  color: #202020;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.deepFinderInsightGrid article > p {
+  margin: 0;
+  color: #716b62;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.deepFinderInsightGrid blockquote {
+  margin: auto 0 0;
+  padding-top: 20px;
+  color: #8a692a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.deepFinderEvidenceList {
+  display: grid;
+  gap: 11px;
+}
+
+.deepFinderEvidenceList > div {
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  align-items: center;
+  gap: 13px;
+  border: 1px solid rgba(164, 123, 44, 0.12);
+  border-radius: 17px;
+  background: #fffdf9;
+}
+
+.deepFinderEvidenceList span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+}
+
+.deepFinderEvidenceList p {
+  margin: 0;
+  color: #5f5a52;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.deepFinderPlanGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.deepFinderPlanGrid article {
+  min-height: 190px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(164, 123, 44, 0.14);
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(255, 249, 237, 0.88)
+    );
+}
+
+.deepFinderPlanGrid span {
+  color: #b18432;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 12px;
+}
+
+.deepFinderPlanGrid p {
+  margin: auto 0 0;
+  color: #514b42;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.deepFinderRecommendationRich {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 36px;
+}
+
+.deepFinderRecommendationRich h4 {
+  margin: 0;
+  color: #1d1d1d;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 29px;
+  font-weight: 400;
+}
+
+.deepFinderRecommendationRich > div > span {
+  display: block;
+  max-width: 790px;
+  margin-top: 14px;
+  color: #706a61;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.deepFinderRecommendationRich a {
+  min-height: 48px;
+  padding: 0 19px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  border: 1px solid rgba(164, 123, 44, 0.25);
+  border-radius: 999px;
+  color: #805e20;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .deepFinderOptions,
+  .deepFinderInsightGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .deepFinderPlanGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .deepFinderRecommendationRich {
+    grid-template-columns: 1fr;
+  }
+
+  .deepFinderRecommendationRich a {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 620px) {
+  .deepFinderQuestionChapter {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .deepFinderResultSubtitle {
+    font-size: 19px;
+  }
+
+  .deepFinderResultReading,
+  .deepFinderInsightSection,
+  .deepFinderEvidenceSection,
+  .deepFinderPlanSection,
+  .deepFinderRecommendationRich {
+    padding: 24px 20px;
+    border-radius: 21px;
+  }
+
+  .deepFinderInsightGrid article {
+    min-height: 250px;
+    padding: 23px;
+  }
+
+  .deepFinderPlanGrid article {
+    min-height: 165px;
+  }
+
+  .deepFinderRecommendationRich a {
+    width: 100%;
+  }
+}/* TESTIMONIALS · 7 CATEGORY UPDATE */
+
+.testimonialCardFeatured {
+  grid-column: 1 / -1;
+  min-height: 330px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.65fr) minmax(0, 1.35fr);
+  grid-template-rows: auto 1fr auto;
+  column-gap: 55px;
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(205, 166, 83, 0.15),
+      transparent 34%
+    ),
+    rgba(255, 255, 255, 0.92);
+}
+
+.testimonialCardFeatured .testimonialCardTop {
+  grid-column: 1 / -1;
+}
+
+.testimonialCardFeatured .testimonialQuoteMark {
+  align-self: center;
+  font-size: 110px;
+}
+
+.testimonialCardFeatured .testimonialCardContent {
+  align-self: center;
+}
+
+.testimonialCardFeatured .testimonialCardContent h3 {
+  font-size: clamp(32px, 3vw, 46px);
+}
+
+.testimonialCardFeatured .testimonialCardFooter {
+  grid-column: 1 / -1;
+}
+
+.testimonialCardFooter a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #a47b2c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.testimonialCardFooter a:hover {
+  color: #6f5019;
+  transform: translateX(3px);
+}
+
+@media (max-width: 900px) {
+  .testimonialCardFeatured {
+    grid-column: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonialCardFeatured .testimonialQuoteMark {
+    align-self: flex-start;
+    font-size: 80px;
+  }
+}/* GOLDBOOK · PREMIUM BOOK COVERS */
+
+.goldBookCoverStage {
+  position: relative;
+  min-height: 470px;
+  margin: -4px 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(176, 132, 45, 0.15);
+  border-radius: 27px;
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(222, 181, 99, 0.24),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 253, 247, 0.98),
+      rgba(247, 237, 217, 0.75)
+    );
+}
+
+.goldBookCoverStage::before,
+.goldBookCoverStage::after {
+  position: absolute;
+  border: 1px solid rgba(178, 133, 45, 0.12);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.goldBookCoverStage::before {
+  width: 390px;
+  height: 390px;
+}
+
+.goldBookCoverStage::after {
+  width: 290px;
+  height: 290px;
+}
+
+.goldBookCoverRing {
+  position: absolute;
+  inset: 24px;
+  border: 1px solid rgba(183, 139, 53, 0.08);
+  border-radius: 23px;
+  pointer-events: none;
+}
+
+.goldBookCoverFrame {
+  position: relative;
+  z-index: 2;
+  width: min(58%, 305px);
+  transform:
+    perspective(1200px)
+    rotateY(-2deg)
+    translateY(0);
+  transition:
+    transform 0.45s ease,
+    filter 0.45s ease;
+}
+
+.analysisHubCard:nth-child(2) .goldBookCoverFrame {
+  transform:
+    perspective(1200px)
+    rotateY(2deg)
+    translateY(0);
+}
+
+.analysisHubCard:hover .goldBookCoverFrame,
+.analysisHubCard:nth-child(2):hover .goldBookCoverFrame {
+  transform:
+    perspective(1200px)
+    rotateY(0)
+    translateY(-8px);
+}
+
+.goldBookCoverImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(178, 133, 45, 0.26);
+  border-radius: 5px;
+  box-shadow:
+    0 34px 65px rgba(73, 49, 8, 0.24),
+    0 12px 25px rgba(73, 49, 8, 0.14);
+}
+
+@media (max-width: 900px) {
+  .goldBookCoverStage {
+    min-height: 430px;
+  }
+
+  .goldBookCoverFrame {
+    width: min(62%, 285px);
+  }
+}
+
+@media (max-width: 620px) {
+  .goldBookCoverStage {
+    min-height: 390px;
+    margin-bottom: 29px;
+    border-radius: 22px;
+  }
+
+  .goldBookCoverFrame {
+    width: min(68%, 260px);
+  }
+
+  .goldBookCoverStage::before {
+    width: 310px;
+    height: 310px;
+  }
+
+  .goldBookCoverStage::after {
+    width: 225px;
+    height: 225px;
   }
 }

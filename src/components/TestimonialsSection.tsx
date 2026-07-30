@@ -5,6 +5,8 @@ const testimonials = [
     title: "Danışan Deneyimi",
     placeholder:
       "Gerçek danışan yorumu veya WhatsApp ekran görüntüsü daha sonra eklenecek.",
+    footer: "Aşk ve ilişki çalışmaları",
+    href: "/calismalar/ask-ve-iliski",
   },
   {
     number: "02",
@@ -12,6 +14,8 @@ const testimonials = [
     title: "Danışan Deneyimi",
     placeholder:
       "Gerçek danışan yorumu veya WhatsApp ekran görüntüsü daha sonra eklenecek.",
+    footer: "Birebir dönüşüm süreci",
+    href: "/calismalar/birebir-seanslar",
   },
   {
     number: "03",
@@ -19,6 +23,45 @@ const testimonials = [
     title: "Danışan Deneyimi",
     placeholder:
       "Gerçek danışan yorumu veya WhatsApp ekran görüntüsü daha sonra eklenecek.",
+    footer: "Para enerjisi çalışmaları",
+    href: "/calismalar/para",
+  },
+  {
+    number: "04",
+    category: "TAROT ANALİZİ",
+    title: "Tarot Danışan Deneyimi",
+    placeholder:
+      "Gerçek tarot danışanı yorumu veya WhatsApp ekran görüntüsü daha sonra eklenecek.",
+    footer: "Tarot analizleri",
+    href: "/calismalar/tarot",
+  },
+  {
+    number: "05",
+    category: "NUMEROLOJİ ANALİZİ",
+    title: "Numeroloji Danışan Deneyimi",
+    placeholder:
+      "Gerçek numeroloji danışanı yorumu veya WhatsApp ekran görüntüsü daha sonra eklenecek.",
+    footer: "Numeroloji analizleri",
+    href: "/calismalar/numeroloji",
+  },
+  {
+    number: "06",
+    category: "GOLDBOOK",
+    title: "Okur Deneyimi",
+    placeholder:
+      "Gerçek GoldBook okur yorumu veya mesaj ekran görüntüsü daha sonra eklenecek.",
+    footer: "GoldBook dijital kitapları",
+    href: "/goldbook",
+  },
+  {
+    number: "07",
+    category: "SES KAYITLARI",
+    title: "Dinleyici Deneyimi",
+    placeholder:
+      "Gerçek ses kaydı deneyimi veya danışan mesajı daha sonra eklenecek.",
+    footer: "Meditasyon ve enerji ses kayıtları",
+    href: "/calismalar/ses-kayitlari",
+    featured: true,
   },
 ];
 
@@ -43,7 +86,7 @@ export default function TestimonialsSection() {
 
               <br />
 
-              <span>DANIŞAN DENEYİMLERİ</span>
+              <span>DANIŞAN VE OKUR DENEYİMLERİ</span>
             </p>
 
             <h2>
@@ -54,8 +97,9 @@ export default function TestimonialsSection() {
 
           <div className="testimonialsHeadingContent">
             <p>
-              Goldkozmos® Enerji Ekolü çalışmalarına katılan danışanların
-              süreç boyunca yaşadığı farkındalıkları ve deneyimleri incele.
+              Goldkozmos® Enerji Ekolü çalışmalarına katılan danışanların,
+              analiz hizmeti alanların, GoldBook okurlarının ve ses
+              kayıtlarını deneyimleyenlerin paylaşımlarını incele.
             </p>
 
             <a href="/danisan-deneyimleri">
@@ -68,7 +112,11 @@ export default function TestimonialsSection() {
         <div className="testimonialsGrid">
           {testimonials.map((testimonial) => (
             <article
-              className="testimonialCard"
+              className={`testimonialCard ${
+                testimonial.featured
+                  ? "testimonialCardFeatured"
+                  : ""
+              }`}
               key={testimonial.number}
             >
               <div className="testimonialCardTop">
@@ -95,8 +143,15 @@ export default function TestimonialsSection() {
               </div>
 
               <div className="testimonialCardFooter">
-                <span>İçerik daha sonra eklenecek</span>
-                <span aria-hidden="true">✦</span>
+                <span>{testimonial.footer}</span>
+
+                <a
+                  href={testimonial.href}
+                  aria-label={`${testimonial.category} çalışmalarını incele`}
+                >
+                  İncele
+                  <span aria-hidden="true">↗</span>
+                </a>
               </div>
             </article>
           ))}
@@ -104,9 +159,9 @@ export default function TestimonialsSection() {
 
         <div className="testimonialsNote">
           <p>
-            Paylaşılan deneyimler kişilere özeldir. Her çalışma ve dönüşüm
-            süreci kişinin ihtiyacına ve deneyimine göre farklılık
-            gösterebilir.
+            Paylaşılan deneyimler kişilere özeldir. Her çalışma, analiz,
+            okuma ve dönüşüm süreci kişinin ihtiyacına ve deneyimine göre
+            farklılık gösterebilir.
           </p>
         </div>
       </div>
