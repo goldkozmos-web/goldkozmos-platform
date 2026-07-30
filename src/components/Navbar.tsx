@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,23 +9,6 @@ export default function Navbar() {
   const closeMenu = () => {
     setMenuOpen(false);
   };
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
-
-    const closeWithEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", closeWithEscape);
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", closeWithEscape);
-    };
-  }, [menuOpen]);
 
   return (
     <header className="navbar">
@@ -87,7 +70,6 @@ export default function Navbar() {
             onClick={closeMenu}
           >
             Randevu Al
-            <span aria-hidden="true">→</span>
           </Link>
         </nav>
 
@@ -101,7 +83,7 @@ export default function Navbar() {
 
         <button
           type="button"
-          className={`menuButton ${menuOpen ? "menuButtonOpen" : ""}`}
+          className="menuButton"
           onClick={() => setMenuOpen((current) => !current)}
           aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
           aria-expanded={menuOpen}
@@ -112,14 +94,6 @@ export default function Navbar() {
           <span />
         </button>
       </div>
-
-      <button
-        type="button"
-        className={`navOverlay ${menuOpen ? "navOverlayOpen" : ""}`}
-        onClick={closeMenu}
-        aria-label="Menüyü kapat"
-        tabIndex={menuOpen ? 0 : -1}
-      />
     </header>
   );
 }
