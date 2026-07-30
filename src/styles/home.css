@@ -13394,4 +13394,206 @@ font-size:32px;
     width: 225px;
     height: 225px;
   }
+}/* =========================================================
+   SERVICES SECTION · MOBILE HORIZONTAL CAROUSEL
+   Masaüstü görünümünü değiştirmez.
+   ========================================================= */
+
+.servicesMobileGuide {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .servicesSection {
+    overflow: hidden;
+  }
+
+  .servicesContainer {
+    width: 100%;
+    max-width: none;
+  }
+
+  .servicesHeading {
+    display: block;
+    padding-right: 22px;
+    padding-left: 22px;
+    margin-bottom: 24px;
+  }
+
+  .servicesHeading h2 {
+    max-width: 100%;
+    font-size: clamp(36px, 10vw, 49px);
+    line-height: 0.98;
+  }
+
+  .servicesHeading h2 span {
+    display: block;
+  }
+
+  .servicesIntro {
+    max-width: 100%;
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .servicesMobileGuide {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 0 22px;
+    margin-bottom: 15px;
+    color: rgba(115, 84, 25, 0.78);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+
+  .servicesMobileGuideArrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+
+  .servicesGrid {
+    display: flex;
+    grid-template-columns: none;
+    align-items: stretch;
+    gap: 14px;
+    width: 100%;
+    padding: 0 22px 22px;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-padding-left: 22px;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .servicesGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .serviceCard,
+  .serviceCardFeatured {
+    flex: 0 0 calc(100vw - 72px);
+    width: calc(100vw - 72px);
+    min-width: 0;
+    min-height: 455px;
+    max-height: 455px;
+    grid-column: auto;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border-radius: 25px;
+    overflow: hidden;
+  }
+
+  .serviceCardBackground {
+    transform: scale(1.01);
+  }
+
+  .serviceCardOverlay {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(18, 14, 8, 0.05) 0%,
+        rgba(18, 14, 8, 0.16) 40%,
+        rgba(18, 14, 8, 0.84) 100%
+      );
+  }
+
+  .serviceCardTop {
+    padding: 22px 22px 0;
+  }
+
+  .serviceNumber {
+    font-size: 11px;
+  }
+
+  .serviceCategory {
+    max-width: 68%;
+    font-size: 9px;
+    line-height: 1.35;
+    text-align: right;
+  }
+
+  .serviceCardContent {
+    width: 100%;
+    padding: 0 22px 23px;
+  }
+
+  .serviceCardContent h3 {
+    max-width: 92%;
+    margin-bottom: 12px;
+    font-size: clamp(29px, 8vw, 38px);
+    line-height: 1;
+  }
+
+  .serviceCardContent p {
+    display: -webkit-box;
+    max-width: 100%;
+    margin-bottom: 20px;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .serviceCardContent a {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 11px;
+  }
+
+  .servicesFooter {
+    display: block;
+    margin: 15px 22px 0;
+    padding: 23px;
+    border-radius: 22px;
+    text-align: center;
+  }
+
+  .servicesFooter p {
+    margin-bottom: 17px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .servicesFooter a {
+    width: 100%;
+    min-height: 52px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 390px) {
+  .servicesGrid {
+    padding-right: 18px;
+    padding-left: 18px;
+    scroll-padding-left: 18px;
+  }
+
+  .serviceCard,
+  .serviceCardFeatured {
+    flex-basis: calc(100vw - 58px);
+    width: calc(100vw - 58px);
+    min-height: 430px;
+    max-height: 430px;
+  }
+
+  .serviceCardContent h3 {
+    font-size: 28px;
+  }
 }
