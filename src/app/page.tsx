@@ -10,9 +10,7 @@ import WhatsAppSection from "../components/WhatsAppSection";
 import AboutSection from "../components/AboutSection";
 import FAQSection from "../components/FAQSection";
 import FooterSection from "../components/FooterSection";
-
 import "../styles/home.css";
-import "../styles/mobile-home.css";
 
 export default function Home() {
   return (
