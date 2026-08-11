@@ -1,160 +1,134 @@
 import Link from "next/link";
 
-const sessionSteps = [
+const suitableFor = [
+  "Belirli bir konuda netlik kazanmak isteyenler",
+  "Aşk, ilişki, para, özdeğer veya kişisel sınırlar alanında derinleşmek isteyenler",
+  "Tek seansla mevcut durumunu analiz etmek isteyenler",
+  "Ay içinde düzenli birebir destek almak isteyenler",
+  "Bir konuyu ara vermeden yoğun biçimde çalışmak isteyenler",
+  "Kişiye özel yönlendirme ve çalışma planı arayanlar",
+];
+
+const singleSessionDetails = [
+  "50–60 dakikalık birebir görüşme",
+  "Tek bir ana konuya odaklanma",
+  "Kişiye özel analiz ve yönlendirme",
+  "Ayda 3 veya 4 kez planlanabilir",
+];
+
+const intensivePackageDetails = [
+  "Ardışık 5 gün birebir çalışma",
+  "Her gün aynı ana konu üzerinde ilerleme",
+  "Kişiye özel uygulama ve yönlendirmeler",
+  "Paket indirimiyle toplam 5.000 TL",
+];
+
+const processSteps = [
   {
     number: "01",
-    title: "İhtiyacını netleştir",
+    title: "Konuyu Belirleme",
     description:
-      "Seans öncesinde üzerinde çalışmak istediğin alanı, yaşadığın tekrarları ve süreçten beklentini birlikte belirleriz.",
+      "İlk görüşmede çalışmak istediğin ana konu, mevcut durumun ve süreçten beklentin netleştirilir.",
   },
   {
     number: "02",
-    title: "Sürecin temelini incele",
+    title: "Kişiye Özel Analiz",
     description:
-      "Yaşadığın konuyu yalnızca görünen olay üzerinden değil; duygu, düşünce, davranış ve ilişki örüntüleriyle birlikte ele alırız.",
+      "Yaşadığın döngüler, düşünce kalıpları ve konuya eşlik eden duygusal alanlar birlikte incelenir.",
   },
   {
     number: "03",
-    title: "Sana uygun çalışmayı uygula",
+    title: "Uygulama ve Yönlendirme",
     description:
-      "Seansın içeriği ihtiyacına göre enerji alanı, özdeğer, ilişki, para, sınırlar veya geçmiş bağlar üzerine şekillenebilir.",
+      "Seansın odağına göre farkındalık çalışmaları, enerji uygulamaları ve kişisel yönlendirmeler sunulur.",
   },
   {
     number: "04",
-    title: "Farkındalığını günlük hayata taşı",
+    title: "Süreci Takip Etme",
     description:
-      "Seans sırasında fark edilen noktaları günlük yaşamında nasıl gözlemleyebileceğin ve süreci nasıl destekleyebileceğin üzerine konuşuruz.",
+      "Tek seans sonrasında yeni randevu planlanabilir veya konu daha yoğun çalışılacaksa 5 günlük paket seçilebilir.",
   },
-];
-
-const suitableFor = [
-  "Grup ortamı yerine kişisel bir alan tercih edenler",
-  "Belirli bir konuya daha derinlemesine odaklanmak isteyenler",
-  "Aşk, ilişki veya para alanında tekrar eden döngüler yaşayanlar",
-  "Özdeğer ve sınır sorunlarını daha yakından incelemek isteyenler",
-  "Duygusal olarak kendini dağınık veya sıkışmış hissedenler",
-  "Kendi ihtiyaçlarına göre şekillenen bir süreç isteyenler",
-  "Düzenli aralıklarla ilerlemek isteyenler",
-];
-
-const sessionAreas = [
-  {
-    title: "Aşk ve Yeni İlişki",
-    description:
-      "Geçmiş ilişkilerden kalan etkileri, güven sorunlarını ve yeni bir bağa hazırlanma sürecini gözlemlemeye odaklanır.",
-  },
-  {
-    title: "Mevcut İlişki",
-    description:
-      "İletişim, kırgınlık, sınırlar, güven ve ilişki içinde tekrar eden davranışları daha yakından incelemeye alan açar.",
-  },
-  {
-    title: "Para ve Özdeğer",
-    description:
-      "Ücret isteme, alma, üretme, hak etme ve para tutma alanındaki içsel kalıpları fark etmeyi destekler.",
-  },
-  {
-    title: "Enerji ve İçsel Denge",
-    description:
-      "Duygusal sınırlar, enerji alanı, çakralar, dişil-eril denge ve yaşam alanına ilişkin farkındalık çalışmalarını kapsayabilir.",
-  },
-];
-
-const preparationItems = [
-  "Sessiz ve yalnız kalabileceğin bir ortam hazırla",
-  "İnternet bağlantını, kamera ve mikrofonunu kontrol et",
-  "Seans sırasında rahatsız edilmeyeceğin bir zaman seç",
-  "Rahat kıyafetler tercih et",
-  "Yanında su ve not almak için defter bulundur",
-  "Seans sonrasında kendine dinlenebileceğin bir alan bırak",
 ];
 
 export default function OneToOneDetailSection() {
   return (
-    <section
-      className="serviceDetailSection"
-      id="birebir-seanslar"
-    >
+    <section className="serviceDetailSection" id="birebir-seanslar">
       <div className="serviceDetailContainer">
         <div className="serviceDetailIntro">
           <div className="serviceDetailIntroText">
-            <p className="sectionEyebrow">
-              BİREBİR SEANSLAR
-            </p>
+            <p className="sectionEyebrow">BİREBİR SEANSLAR</p>
 
             <h2>
-              Sürecin sana özel,
-              <span> çalışma alanın da sana ait.</span>
+              İhtiyacına göre tek seans seç,
+              <span> ya da dönüşümü beş güne yay.</span>
             </h2>
           </div>
 
           <div className="serviceDetailLead">
             <p>
-              Birebir seanslar, yaşadığın belirli bir konuya daha kişisel ve
-              derinlemesine odaklanmak için oluşturulan çevrim içi
-              çalışmalardır.
+              Birebir seanslar, hayatında öne çıkan belirli bir konuya
+              odaklanmak, yaşadığın durumu daha net görmek ve sana özel bir
+              yol haritası oluşturmak için hazırlanır.
             </p>
 
             <p>
-              Her seans aynı içerikte ilerlemez. Çalışmanın odağı, o dönem
-              yaşadığın ihtiyaçlara ve fark etmek istediğin alana göre
-              şekillenir.
+              Tek seansla başlayabilir, ay içinde 3 veya 4 görüşmeyle düzenli
+              ilerleyebilir ya da aynı konu üzerinde ardışık 5 gün çalışmak
+              için yoğun birebir paketi seçebilirsin.
             </p>
           </div>
         </div>
 
         <div className="serviceDetailInfoBar">
           <div>
-            <span>SEANS SÜRESİ</span>
-            <strong>60 Dakika</strong>
+            <span>FORMAT</span>
+            <strong>Online Birebir</strong>
           </div>
 
           <div>
-            <span>UYGULAMA</span>
-            <strong>Çevrim İçi ve Görüntülü</strong>
+            <span>TEK SEANS</span>
+            <strong>2.500 TL</strong>
           </div>
 
           <div>
-            <span>SEANS PLANI</span>
-            <strong>Ayda 2 veya 3 Seans</strong>
+            <span>YOĞUN PAKET</span>
+            <strong>5 Gün · 5.000 TL</strong>
           </div>
 
           <div>
-            <span>SEANS ARALIĞI</span>
-            <strong>Yaklaşık 10–15 Gün</strong>
+            <span>SÜRE</span>
+            <strong>50–60 Dakika</strong>
           </div>
         </div>
 
         <div className="serviceDetailSplit">
           <div className="serviceDetailContent">
-            <p className="serviceDetailLabel">
-              BİREBİR SEANS KİMLER İÇİN?
-            </p>
+            <p className="serviceDetailLabel">BİREBİR ÇALIŞMA</p>
 
             <h2>
-              Her şeyi tek başına çözmeye çalışmak
-              <span> zorunda değilsin.</span>
+              Herkes için aynı reçete değil,
+              <span> sana özel bir çalışma alanı.</span>
             </h2>
 
             <p>
-              Bazen yaşanan konu bellidir fakat nereden başlanacağı net
-              değildir. Aynı ilişkinin, korkunun veya davranış biçiminin
-              neden tekrar ettiğini anlamak için daha geniş bir bakış
-              gerekebilir.
+              Seansın içeriği, çalışmak istediğin konuya ve o sırada
+              ihtiyaç duyduğun desteğe göre şekillenir. Amaç yalnızca
+              konuşmak değil; yaşadığın döngüyü anlamak, görünmeyen
+              nedenleri fark etmek ve uygulanabilir bir yön oluşturmaktır.
             </p>
 
             <p>
-              Birebir seans, seni hazır bir kalıba yerleştirmek yerine kendi
-              hikâyeni, ihtiyaçlarını ve sınırlarını merkeze alan kişisel bir
-              çalışma alanı sunar.
+              Tek seans belirli bir konuya netlik kazandırmak için
+              kullanılabilir. Daha düzenli ilerlemek isteyenler ay içinde
+              3 veya 4 ayrı randevu planlayabilir.
             </p>
 
             <div className="serviceDetailQuote">
               <span aria-hidden="true">“</span>
 
               <p>
-                Dönüşüm, kendini zorla değiştirmek değil; neden aynı yerde
-                kaldığını dürüstçe görebilmektir.
+                Bazen tek bir görüşme yönünü gösterir; bazen dönüşüm,
+                aynı konunun birkaç gün boyunca kesintisiz çalışılmasını ister.
               </p>
             </div>
           </div>
@@ -162,7 +136,7 @@ export default function OneToOneDetailSection() {
           <aside className="serviceDetailListCard">
             <p>SANA UYGUN OLABİLİR</p>
 
-            <h3>Kendini bu alanlardan birinde görüyor musun?</h3>
+            <h3>Bu çalışma alanlarından birine ihtiyaç duyuyor musun?</h3>
 
             <ul>
               {suitableFor.map((item) => (
@@ -174,145 +148,149 @@ export default function OneToOneDetailSection() {
             </ul>
 
             <Link href="/randevu">
-              Randevu ve Bilgi Al
+              Randevu Oluştur
               <span aria-hidden="true">→</span>
             </Link>
           </aside>
         </div>
 
         <div className="serviceDetailProgramHeader">
-          <p className="serviceDetailLabel">
-            SEANS SÜRECİ
-          </p>
+          <p className="serviceDetailLabel">SEANS SEÇENEKLERİ</p>
 
           <h2>
-            Süreç rastgele değil,
-            <span> ihtiyacına göre ilerler.</span>
+            İhtiyacına uygun
+            <span> iki farklı birebir çalışma modeli.</span>
           </h2>
 
           <p>
-            Her seans kişiye özel olsa da çalışma süreci genel olarak dört
-            temel aşama üzerinden şekillenir.
+            Tek seans ve yoğun paket aynı amaca hizmet eder; aralarındaki
+            fark, çalışmanın süresi ve ilerleme yoğunluğudur.
           </p>
         </div>
 
         <div className="serviceDetailGiftGrid">
-          {sessionSteps.map((step) => (
-            <article
-              className="serviceDetailGiftCard"
-              key={step.number}
-            >
-              <span>{step.number}</span>
+          <article className="serviceDetailGiftCard">
+            <span>01</span>
 
-              <h3>{step.title}</h3>
+            <p className="serviceDetailLabel">TEK BİREBİR SEANS</p>
 
-              <p>{step.description}</p>
-            </article>
-          ))}
+            <h3>2.500 TL</h3>
+
+            <p>
+              Belirli bir konuya odaklanmak, mevcut durumunu analiz etmek ve
+              sana özel bir yön belirlemek için hazırlanmıştır.
+            </p>
+
+            <ul>
+              {singleSessionDetails.map((detail) => (
+                <li key={detail}>
+                  <span aria-hidden="true">✦</span>
+                  {detail}
+                </li>
+              ))}
+            </ul>
+
+            <Link href="/randevu">
+              Tek Seans Randevusu
+              <span aria-hidden="true">→</span>
+            </Link>
+          </article>
+
+          <article className="serviceDetailGiftCard">
+            <span>02</span>
+
+            <p className="serviceDetailLabel">5 GÜNLÜK YOĞUN PAKET</p>
+
+            <h3>5.000 TL</h3>
+
+            <p>
+              Tek görüşmeyle sınırlı kalmadan, aynı konu üzerinde ardışık
+              5 gün boyunca derinleşmek ve süreci bölmeden ilerlemek isteyenler
+              için hazırlanmıştır.
+            </p>
+
+            <ul>
+              {intensivePackageDetails.map((detail) => (
+                <li key={detail}>
+                  <span aria-hidden="true">✦</span>
+                  {detail}
+                </li>
+              ))}
+            </ul>
+
+            <p>
+              Beş seansın tek tek toplam değeri 12.500 TL’dir. Yoğun paket,
+              süreci ardışık tamamlayan danışanlara özel 5.000 TL olarak sunulur.
+            </p>
+
+            <Link href="/iletisim">
+              Yoğun Paket İçin Bilgi Al
+              <span aria-hidden="true">→</span>
+            </Link>
+          </article>
         </div>
 
         <div className="serviceDetailGifts">
           <div className="serviceDetailGiftsIntro">
-            <p className="serviceDetailLabel">
-              ÇALIŞILABİLECEK ALANLAR
-            </p>
+            <p className="serviceDetailLabel">SÜREÇ NASIL İLERLER?</p>
 
             <h2>
-              Tek bir konuya değil,
-              <span> hayatındaki bağlantılara bak.</span>
+              Konuyu belirle,
+              <span> kendi hızına uygun modeli seç.</span>
             </h2>
 
             <p>
-              Seansın odağı yaşadığın ihtiyaca göre belirlenir. Birbiriyle
-              bağlantılı birden fazla alan aynı süreç içinde ele alınabilir.
+              Birebir çalışma, önce ihtiyacın netleştirilerek ardından sana
+              uygun seans modeli belirlenerek ilerler.
             </p>
           </div>
 
           <div className="serviceDetailGiftGrid">
-            {sessionAreas.map((area, index) => (
+            {processSteps.map((step) => (
               <article
                 className="serviceDetailGiftCard"
-                key={area.title}
+                key={`${step.number}-${step.title}`}
               >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-
-                <h3>{area.title}</h3>
-
-                <p>{area.description}</p>
+                <span>{step.number}</span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
               </article>
             ))}
           </div>
         </div>
 
-        <div className="serviceDetailSplit">
-          <div className="serviceDetailContent">
-            <p className="serviceDetailLabel">
-              SEANS ÖNCESİ HAZIRLIK
-            </p>
-
-            <h2>
-              Kendine ayırdığın zamanı
-              <span> gerçekten kendine bırak.</span>
-            </h2>
-
-            <p>
-              Seansın daha rahat ilerleyebilmesi için görüşme öncesinde
-              fiziksel ortamını hazırlaman ve sonrasında kendine kısa bir
-              dinlenme alanı bırakman önerilir.
-            </p>
-          </div>
-
-          <aside className="serviceDetailListCard">
-            <p>HAZIRLIK LİSTESİ</p>
-
-            <h3>Seans öncesinde bunları tamamla.</h3>
-
-            <ul>
-              {preparationItems.map((item) => (
-                <li key={item}>
-                  <span aria-hidden="true">✦</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </aside>
-        </div>
-
         <div className="serviceDetailNotice">
           <div>
-            <p className="serviceDetailLabel">
-              ÖNEMLİ BİLGİLENDİRME
-            </p>
+            <p className="serviceDetailLabel">ÖNEMLİ BİLGİLENDİRME</p>
 
             <h2>
-              Bu çalışma,
-              <span> terapi veya tıbbi tedavi değildir.</span>
+              Birebir çalışmalar
+              <span> profesyonel sağlık hizmetinin yerine geçmez.</span>
             </h2>
           </div>
 
           <div>
             <p>
-              Birebir seanslar kişisel farkındalık ve içsel denge süreçlerini
-              desteklemek amacıyla sunulur. Psikoterapi, psikolojik
-              danışmanlık, tıbbi teşhis veya tedavi yerine geçmez.
+              Sunulan çalışmalar kişisel farkındalık, enerji çalışması ve
+              bireysel gelişim amacıyla hazırlanır. Psikoterapi, psikolojik
+              danışmanlık, tıbbi teşhis veya tedavi değildir.
             </p>
 
             <p>
-              Fiziksel ya da ruhsal sağlık sorunlarında doktor, psikolog,
-              psikiyatrist veya ilgili yetkili uzmandan profesyonel destek
-              alınmalıdır. Her kişinin seans deneyimi kendine özgüdür.
+              Ödeme sonrasında randevu planlaması yapılır. Ardışık 5 günlük
+              paket seçildiğinde günlerin önceden birlikte belirlenmesi gerekir.
             </p>
           </div>
         </div>
 
         <div className="serviceDetailActions">
           <Link href="/randevu">
-            Birebir Seans Randevusu
+            Tek Seans Randevusu
             <span aria-hidden="true">→</span>
           </Link>
 
-          <Link href="/sana-uygun-calismayi-bul">
-            Önce Çalışmamı Bul
+          <Link href="/iletisim">
+            5 Günlük Paket İçin Bilgi Al
             <span aria-hidden="true">↗</span>
           </Link>
         </div>
