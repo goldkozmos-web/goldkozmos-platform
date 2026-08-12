@@ -1,31 +1,31 @@
 const shopierUrl =
-  "https://www.shopier.com/goldkozmos/49716360";
+  "https://www.shopier.com/goldkozmos/49716325";
 
 const program = [
   {
     number: "01",
-    title: "Partner Seçimi",
-    text: "Seni belirli kişilere çeken seçim ve çekim dinamiklerini fark et.",
+    title: "Kendilik Algısı",
+    text: "Kendine nasıl baktığını ve bunun seçimlerine nasıl yansıdığını fark et.",
   },
   {
     number: "02",
-    title: "İlişki Örüntüleri",
-    text: "Kişiler değişse de tekrar eden ilişki senaryolarına bak.",
+    title: "Özdeğer ve Onay",
+    text: "Değerini başkalarının ilgisi veya onayı üzerinden ölçtüğün alanlara bak.",
   },
   {
     number: "03",
-    title: "İhtiyaçlar ve İletişim",
-    text: "İlişkide ne istediğini ve bunu nasıl ifade ettiğini fark et.",
+    title: "Sınırlar",
+    text: "Hayır diyemediğin ve kendi ihtiyaçlarını geri plana attığın alanları gör.",
   },
   {
     number: "04",
-    title: "Güven ve Sınırlar",
-    text: "Yakınlık kurarken kendi alanını ve sınırlarını nasıl koruduğunu gör.",
+    title: "Tekrar Eden Roller",
+    text: "Günlük yaşamda ve ilişkilerde tekrar ettiğin davranış rollerini fark et.",
   },
   {
     number: "05",
-    title: "İlişki Sözlüğün",
-    text: "Nasıl bir ilişki istediğini ve istemediğini daha net tanımla.",
+    title: "Kendilik Envanteri",
+    text: "Değerlerini, sınırlarını ve ihtiyaçlarını daha net bir çerçevede birleştir.",
   },
 ];
 
@@ -47,14 +47,9 @@ const included = [
   },
 ];
 
-export default function IliskiRezonansiPage() {
+export default function KendilikRezonansiPage() {
   return (
-    <main
-      className="kendilikSnapshotPage iliskiSnapshotPage"
-      id="top"
-    >
-      {/* ÜST NAV */}
-
+    <main className="kendilikSnapshotPage" id="top">
       <header className="kendilikSnapshotNav">
         <div className="kendilikSnapshotNavInner">
           <a href="/" className="kendilikSnapshotBrand">
@@ -71,36 +66,31 @@ export default function IliskiRezonansiPage() {
         </div>
       </header>
 
-      {/* TEK ANA KART */}
-
       <section className="kendilikSnapshotSection">
         <div className="kendilikSnapshotContainer">
           <article className="kendilikSnapshotCard">
-            {/* ÜST HERO */}
-
             <div className="kendilikSnapshotHero">
               <div className="kendilikSnapshotHeroCopy">
                 <p className="kendilikSnapshotEyebrow">
-                  İLİŞKİ REZONANSI · 5 GÜNLÜK ATÖLYE
+                  KENDİLİK REZONANSI · 5 GÜNLÜK ATÖLYE
                 </p>
 
                 <h1>
-                  İlişkilerinde aynı
-                  <span> hikâye mi tekrar ediyor?</span>
+                  Kendine verdiğin değer
+                  <span> hayatına nasıl yansıyor?</span>
                 </h1>
 
                 <p className="kendilikSnapshotLead">
-                  Partner seçimlerini, tekrar eden ilişki
-                  örüntülerini, ihtiyaçlarını ve sınırlarını
-                  daha yakından görmeye odaklanan 5 günlük
-                  canlı çalışma.
+                  Özdeğerini, onay ihtiyacını, sınırlarını ve
+                  kendinle kurduğun ilişkiyi daha yakından görmeye
+                  odaklanan 5 günlük canlı çalışma.
                 </p>
 
                 <div className="kendilikSnapshotTags">
-                  <span>Partner Seçimi</span>
-                  <span>İlişki Örüntüleri</span>
-                  <span>İletişim</span>
-                  <span>Güven &amp; Sınırlar</span>
+                  <span>Özdeğer</span>
+                  <span>Onay İhtiyacı</span>
+                  <span>Sınırlar</span>
+                  <span>Kendilik Algısı</span>
                 </div>
 
                 <div className="kendilikSnapshotMeta">
@@ -138,60 +128,52 @@ export default function IliskiRezonansiPage() {
                 </div>
               </div>
 
-              {/* GÖRSEL */}
-
-              <div className="kendilikSnapshotVisual iliskiSnapshotVisual">
+              <div className="kendilikSnapshotVisual">
                 <img
-                  src="/images/services/iliski-rezonansi.webp"
-                  alt="İlişki Rezonansı"
+                  src="/images/services/kendilik-rezonansi.webp"
+                  alt="Kendilik Rezonansı"
                 />
               </div>
             </div>
 
-            {/* ORTA 3 SÜTUN */}
-
             <div className="kendilikSnapshotMiddle">
-              {/* SEBEP SONUÇ */}
-
               <div className="kendilikSnapshotReason">
                 <p className="kendilikSnapshotEyebrow">
                   SEBEP → SONUÇ
                 </p>
 
                 <h2>
-                  Kişi değişiyor,
-                  <span> hikâye neden değişmiyor?</span>
+                  Kendini geri plana atmak
+                  <span> nerede başlıyor?</span>
                 </h2>
 
                 <div className="kendilikSnapshotReasonFlow">
                   <div>
                     <span>01</span>
-                    <strong>Benzer seçimler</strong>
+                    <strong>Onay ihtiyacı</strong>
                   </div>
 
                   <b>→</b>
 
                   <div>
                     <span>02</span>
-                    <strong>Benzer ilişki dinamikleri</strong>
+                    <strong>Sınırların bulanıklaşması</strong>
                   </div>
 
                   <b>→</b>
 
                   <div>
                     <span>03</span>
-                    <strong>Benzer sonuçlar</strong>
+                    <strong>Kendini geri plana atmak</strong>
                   </div>
                 </div>
 
                 <p className="kendilikSnapshotReasonText">
-                  Amaç karşındaki kişiyi çözmek değil;
-                  kendi seçimlerini, sınırlarını ve ilişkide
-                  aldığın yeri daha görünür hale getirmektir.
+                  Amaç sana nasıl biri olman gerektiğini söylemek değil;
+                  kendi değerini ve sınırlarını hangi noktalarda geri
+                  plana bıraktığını fark etmektir.
                 </p>
               </div>
-
-              {/* PROGRAM */}
 
               <div className="kendilikSnapshotProgram">
                 <p className="kendilikSnapshotEyebrow">
@@ -216,8 +198,6 @@ export default function IliskiRezonansiPage() {
                 </div>
               </div>
 
-              {/* PROGRAMA DAHİL */}
-
               <div className="kendilikSnapshotIncluded">
                 <p className="kendilikSnapshotEyebrow">
                   PROGRAMA DAHİL
@@ -235,7 +215,6 @@ export default function IliskiRezonansiPage() {
 
                       <div>
                         <strong>{item.title}</strong>
-
                         <p>{item.text}</p>
                       </div>
                     </div>
@@ -244,17 +223,15 @@ export default function IliskiRezonansiPage() {
               </div>
             </div>
 
-            {/* ALT KAPANIŞ */}
-
-            <div className="kendilikSnapshotBottom iliskiSnapshotBottomSimple">
+            <div className="kendilikSnapshotBottom kendilikSnapshotBottomSimple">
               <div className="kendilikSnapshotBottomCopy">
                 <p className="kendilikSnapshotEyebrow">
-                  İLİŞKİ REZONANSI
+                  KENDİLİK REZONANSI
                 </p>
 
                 <h2>
-                  İlişkide önce
-                  <span> kendi yerini gör.</span>
+                  Hayatını değiştirmeden önce
+                  <span> kendine nasıl baktığını gör.</span>
                 </h2>
               </div>
 
@@ -272,16 +249,14 @@ export default function IliskiRezonansiPage() {
 
           <p className="kendilikSnapshotLegal">
             Bu çalışma kişisel farkındalık ve bireysel gelişim
-            amacıyla hazırlanmıştır. Psikoterapi, çift terapisi,
-            psikolojik danışmanlık, teşhis veya tedavi yerine
-            geçmez. Numeroloji içeriği sembolik öz farkındalık
-            amacıyla sunulur. Katılım belgesi mesleki yeterlilik
-            veya eğitim sertifikası değildir.
+            amacıyla hazırlanmıştır. Psikoterapi, psikolojik
+            danışmanlık, teşhis veya tedavi yerine geçmez.
+            Numeroloji içeriği sembolik öz farkındalık amacıyla
+            sunulur. Katılım belgesi mesleki yeterlilik veya
+            eğitim sertifikası değildir.
           </p>
         </div>
       </section>
-
-      {/* FOOTER */}
 
       <footer className="kendilikSnapshotFooter">
         <div className="kendilikSnapshotFooterInner">
@@ -293,13 +268,8 @@ export default function IliskiRezonansiPage() {
             <span>ENERJİ EKOLÜ</span>
           </div>
 
-          <a href="/">
-            Ana Sayfa
-          </a>
-
-          <a href="#top">
-            Yukarı ↑
-          </a>
+          <a href="/">Ana Sayfa</a>
+          <a href="#top">Yukarı ↑</a>
         </div>
       </footer>
     </main>

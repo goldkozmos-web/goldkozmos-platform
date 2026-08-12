@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../styles/home.css";
 
 export const metadata: Metadata = {
-  title: "Goldkozmos",
+  title: "Goldkozmos® Enerji Ekolü",
   description:
-    "İnsan değişmeden hayat değişmez. Kendi kozmosunu bul.",
+    "Kendilik, ilişkiler, bolluk, kişisel gelişim, Stoa ve öz farkındalık üzerine çalışmalar.",
 };
 
 export default function RootLayout({

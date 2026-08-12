@@ -1,98 +1,50 @@
-"use client";
-
-import Link from "next/link";
-import { useState } from "react";
-
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
-
   return (
-    <header className="navbar">
-      <div className="navbarInner">
-        <Link
-          href="/"
-          className="logo"
-          onClick={closeMenu}
-          aria-label="Goldkozmos Enerji Ekolü ana sayfa"
-        >
-          <div className="logoWordmark">
-            Goldkozmos
-            <sup className="registeredSymbol">®</sup>
-          </div>
+    <header className="siteGlobalNav">
+      <div className="siteGlobalNavInner">
+        <a href="/" className="siteGlobalBrand">
+          <strong>
+            GOLDKOZMOS<sup>®</sup>
+          </strong>
 
-          <span>Enerji Ekolü</span>
-        </Link>
+          <span>ENERJİ EKOLÜ</span>
+        </a>
 
-        <nav
-          id="main-navigation"
-          className={`navLinks ${menuOpen ? "navLinksOpen" : ""}`}
-          aria-label="Ana menü"
-        >
-          <Link href="/" onClick={closeMenu}>
-            Ana Sayfa
-          </Link>
+        <nav className="siteGlobalMenu">
+          <a href="/">Ana Sayfa</a>
 
-          <Link href="/enerji-ekolu" onClick={closeMenu}>
-            Enerji Ekolü
-          </Link>
+          <a href="/calismalar">
+            Atölyeler
+          </a>
 
-          <Link href="/calismalar" onClick={closeMenu}>
+          <a href="/calismalar#diger">
             Çalışmalar
-          </Link>
+          </a>
 
-          <Link href="/goldbook" onClick={closeMenu}>
+          <a href="/goldbook">
             GoldBook
-          </Link>
+          </a>
 
-          <Link href="/goldcast" onClick={closeMenu}>
+          <a href="/goldcast">
             GoldCast
-          </Link>
+          </a>
 
-          <Link href="/goldblog" onClick={closeMenu}>
+          <a href="/goldblog">
             GoldBlog
-          </Link>
+          </a>
 
-          <Link href="/etkinlikler" onClick={closeMenu}>
-            Etkinlikler
-          </Link>
-
-          <Link href="/hakkimda" onClick={closeMenu}>
+          <a href="/hakkimda">
             Hakkımda
-          </Link>
-
-          <Link
-            href="/randevu"
-            className="mobileAppointmentButton"
-            onClick={closeMenu}
-          >
-            Randevu Al
-          </Link>
+          </a>
         </nav>
 
-        <Link
-          href="/randevu"
-          className="appointmentButton"
-          onClick={closeMenu}
+        <a
+          href="/sana-uygun-calismayi-bul"
+          className="siteGlobalTest"
         >
-          Randevu Al
-        </Link>
-
-        <button
-          type="button"
-          className="menuButton"
-          onClick={() => setMenuOpen((current) => !current)}
-          aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
-          aria-expanded={menuOpen}
-          aria-controls="main-navigation"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+          Ücretsiz Test
+          <span>→</span>
+        </a>
       </div>
     </header>
   );
