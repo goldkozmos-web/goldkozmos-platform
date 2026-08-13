@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "../styles/home.css";
+import "../styles/mobile.css";
 
 export const metadata: Metadata = {
   title: "Goldkozmos® Enerji Ekolü",
