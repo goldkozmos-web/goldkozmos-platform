@@ -577,4 +577,21 @@
     position: relative !important;
     top: 14px !important;
   }
+}@media (max-width: 650px) {
+
+  .homeV3Page
+  .homeV3HeroProfileWrap
+  .homeV3HeroProfileName > strong {
+    position: absolute !important;
+
+    top: auto !important;
+    bottom: 64px !important;
+
+    left: 28px !important;
+
+    margin: 0 !important;
+    transform: none !important;
+
+    z-index: 20 !important;
+  }
 }
