@@ -351,4 +351,191 @@
   .homeV3Page div {
     min-width: 0 !important;
   }
+}/* =========================================================
+   MOBİL HERO - SON HİZALAMA VE OKUNABİLİRLİK
+========================================================= */
+
+@media (max-width: 650px) {
+
+  /* KREM KARTI TAM ORTALA */
+
+  .homeV3Page .homeV3Hero {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .homeV3Page .homeV3Hero .homeV3Container {
+    width: auto !important;
+    max-width: none !important;
+
+    margin-left: 14px !important;
+    margin-right: 14px !important;
+
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  .homeV3Page .homeV3HeroCard {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+
+  /* ÜSTTEKİ GOLDKOZMOS ENERJİ EKOLÜ */
+
+  .homeV3Page .homeV3HeroCopy .homeV3Eyebrow {
+    font-size: 8px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 1.4px !important;
+    margin-bottom: 9px !important;
+  }
+
+
+  /* ANA BAŞLIK AYNI KALIYOR */
+
+  .homeV3Page .homeV3HeroCopy h1,
+  .homeV3Page .homeV3HeroCopy h1 span {
+    font-size: 33px !important;
+    line-height: .94 !important;
+  }
+
+
+  /* AÇIKLAMA */
+
+  .homeV3Page .homeV3HeroLead {
+    font-size: 12.5px !important;
+    line-height: 1.55 !important;
+    margin-top: 15px !important;
+  }
+
+
+  /* BUTON YAZILARI */
+
+  .homeV3Page .homeV3HeroButtons a,
+  .homeV3Page .homeV3PrimaryButton,
+  .homeV3Page .homeV3SecondaryButton {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+
+
+  /* MOTTO */
+
+  .homeV3Page .homeV3HeroLine p {
+    font-size: 10.5px !important;
+    line-height: 1.4 !important;
+  }
+
+
+  /* FOTOĞRAF */
+
+  .homeV3Page .homeV3HeroProfileWrap {
+    width: 88% !important;
+    max-width: 330px !important;
+    margin: 0 auto !important;
+  }
+
+  .homeV3Page .homeV3HeroVisual,
+  .homeV3Page .homeV3HeroPortrait {
+    position: relative !important;
+
+    width: 100% !important;
+    max-width: 330px !important;
+
+    aspect-ratio: 5 / 4 !important;
+
+    margin: 0 auto !important;
+
+    overflow: hidden !important;
+    border-radius: 18px !important;
+  }
+
+
+  /* ÖZGE BATIGÜN KARTINI FOTOĞRAFIN İÇİNE AL */
+
+  .homeV3Page .homeV3HeroVisualTag {
+    position: absolute !important;
+
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+
+    width: auto !important;
+
+    margin: 0 !important;
+    padding: 10px 12px !important;
+
+    border-radius: 14px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+
+    z-index: 5 !important;
+  }
+
+  .homeV3Page .homeV3HeroVisualTag span {
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+  }
+
+  .homeV3Page .homeV3HeroVisualTag strong {
+    font-size: 7px !important;
+    line-height: 1.2 !important;
+    text-align: right !important;
+  }
+
+
+  /* SOSYAL İKONLAR */
+
+  .homeV3Page .homeV3HeroSocials {
+    margin-top: 9px !important;
+    gap: 7px !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+
+  /* ARKETİP KARTI YAZILARI */
+
+  .homeV3Page .homeHeroMiniTest {
+    padding: 13px !important;
+  }
+
+  .homeV3Page .homeHeroMiniTestIcon {
+    width: 34px !important;
+    height: 34px !important;
+  }
+
+  .homeV3Page .homeHeroMiniTestCopy p {
+    font-size: 7px !important;
+    letter-spacing: 1.2px !important;
+  }
+
+  .homeV3Page .homeHeroMiniTestCopy h2 {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+  }
+
+  .homeV3Page .homeHeroMiniTest > a {
+    min-height: 32px !important;
+    padding: 0 11px !important;
+    font-size: 8px !important;
+  }
 }
