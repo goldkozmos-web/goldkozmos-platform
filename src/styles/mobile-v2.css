@@ -538,4 +538,43 @@
     padding: 0 11px !important;
     font-size: 8px !important;
   }
-}mobil hero okunabilirlik
+}@media (max-width: 650px) {
+
+  /* ÖZGE BATIGÜN YAZISINI BİRAZ AŞAĞI AL */
+  .homeV3Page .homeV3HeroProfileName {
+    padding-top: 14px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .homeV3Page .homeV3HeroProfileName strong,
+  .homeV3Page .homeV3HeroProfileName > span:first-child {
+    position: relative !important;
+    top: 4px !important;
+  }
+
+  /* SOSYAL MEDYA İKONLARINI BİRAZ BÜYÜT */
+  .homeV3Page .homeV3HeroSocials {
+    gap: 9px !important;
+    margin-top: 12px !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+}@media (max-width: 650px) {
+  .homeV3Page .homeV3HeroProfileName strong {
+    position: relative !important;
+    top: 9px !important;
+  }
+}@media (max-width: 650px) {
+  .homeV3Page .homeV3HeroProfileName strong {
+    position: relative !important;
+    top: 14px !important;
+  }
+}
