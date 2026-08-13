@@ -428,4 +428,146 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+}/* MOBİL SOL KENAR BOŞLUĞU - KESİN RESET */
+@media (max-width: 650px) {
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body {
+    overflow-x: hidden !important;
+  }
+
+  .homeV3Page {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+  }
+
+  .homeV3Page .homeV3Nav,
+  .homeV3Page .homeV3Hero {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}/* =========================================================
+   MOBİL HERO - ORTALAMA + LOGO DÜZELTME
+========================================================= */
+
+@media (max-width: 650px) {
+
+  /* TÜM ESKİ KAYDIRMALARI İPTAL ET */
+
+  .homeV3Page {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    left: auto !important;
+    right: auto !important;
+
+    transform: none !important;
+  }
+
+
+  /* NAVBAR */
+
+  .homeV3Page .homeV3Nav {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .homeV3Page .homeV3NavInner {
+    width: calc(100% - 24px) !important;
+    max-width: none !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    padding: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+
+  /* GOLDKOZMOS LOGOSUNU GERİ GETİR */
+
+  .homeV3Page .homeV3Brand {
+    display: flex !important;
+    flex-direction: column !important;
+
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+
+    margin: 0 !important;
+
+    transform: none !important;
+
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .homeV3Page .homeV3Brand strong,
+  .homeV3Page .homeV3Brand > span {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+
+  /* KAHVERENGİ HERO ALANI */
+
+  .homeV3Page .homeV3Hero {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 10px 0 16px !important;
+
+    left: auto !important;
+    right: auto !important;
+
+    transform: none !important;
+  }
+
+
+  /* KREM KARTI TAM ORTALA */
+
+  .homeV3Page .homeV3Hero .homeV3Container {
+    width: calc(100% - 24px) !important;
+    max-width: none !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    transform: none !important;
+  }
+
+  .homeV3Page .homeV3HeroCard {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-left: auto !important;
+    margin-right: auto !important;
+
+    left: auto !important;
+    right: auto !important;
+
+    transform: none !important;
+  }
 }
