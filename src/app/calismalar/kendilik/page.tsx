@@ -1,74 +1,77 @@
-const shopierUrl =
-  "https://www.shopier.com/goldkozmos/49716325";
+import Navbar from "../../../components/Navbar";
+import FooterSection from "../../../components/FooterSection";
+import "../../../styles/home.css";
 
-const program = [
+const shopierUrl = "https://www.shopier.com/goldkozmos";
+
+const programItems = [
   {
     number: "01",
     title: "Kendilik Algısı",
-    text: "Kendine nasıl baktığını ve bunun seçimlerine nasıl yansıdığını fark et.",
+    description:
+      "Kendine nasıl baktığını ve bunun seçimlerine nasıl yansıdığını fark etme.",
   },
   {
     number: "02",
     title: "Özdeğer ve Onay",
-    text: "Değerini başkalarının ilgisi veya onayı üzerinden ölçtüğün alanlara bak.",
+    description:
+      "Değerini başkalarının ilgisi, takdiri veya onayı üzerinden ölçtüğün alanlara bakma.",
   },
   {
     number: "03",
     title: "Sınırlar",
-    text: "Hayır diyemediğin ve kendi ihtiyaçlarını geri plana attığın alanları gör.",
+    description:
+      "Hayır diyemediğin ve kendi ihtiyaçlarını geri plana attığın alanları görme.",
   },
   {
     number: "04",
     title: "Tekrar Eden Roller",
-    text: "Günlük yaşamda ve ilişkilerde tekrar ettiğin davranış rollerini fark et.",
+    description:
+      "Günlük yaşamda ve ilişkilerde tekrar ettiğin davranış ve sorumluluk rollerini fark etme.",
   },
   {
     number: "05",
-    title: "Kendilik Envanteri",
-    text: "Değerlerini, sınırlarını ve ihtiyaçlarını daha net bir çerçevede birleştir.",
+    title: "Kendilik Envanterin",
+    description:
+      "Kendi değerlerini, sınırlarını ve ihtiyaçlarını daha net bir çerçevede bir araya getirme.",
   },
 ];
 
-const included = [
+const includedItems = [
   {
     number: "01",
     title: "Dijital Rehber Kitap",
-    text: "Program sonrasında kendi zamanında kullanabileceğin çalışma rehberi.",
+    description:
+      "Program sonrasında kendi zamanında kullanabileceğin dijital çalışma rehberi.",
   },
   {
     number: "02",
     title: "Numeroloji Analizi",
-    text: "Kişisel eğilimlerini sembolik bir çerçevede inceleyen ek analiz.",
+    description:
+      "Kişisel eğilimlerini sembolik bir çerçevede inceleyen ek analiz.",
   },
   {
     number: "03",
     title: "Katılım Belgesi",
-    text: "Programa katılımını gösteren dijital belge.",
+    description:
+      "Kendilik Rezonansı programına katılımını gösteren dijital belge.",
   },
 ];
 
-export default function KendilikRezonansiPage() {
+export default function KendilikPage() {
   return (
     <main className="kendilikSnapshotPage" id="top">
-      <header className="kendilikSnapshotNav">
-        <div className="kendilikSnapshotNavInner">
-          <a href="/" className="kendilikSnapshotBrand">
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
+      {/* ORTAK GOLDKOZMOS NAVBAR */}
 
-            <span>ENERJİ EKOLÜ</span>
-          </a>
+      <Navbar />
 
-          <a href="/" className="kendilikSnapshotHome">
-            Ana Sayfa
-          </a>
-        </div>
-      </header>
+      {/* KENDİLİK REZONANSI */}
 
       <section className="kendilikSnapshotSection">
         <div className="kendilikSnapshotContainer">
-          <article className="kendilikSnapshotCard">
+          <div className="kendilikSnapshotCard">
+            {/* ÜST HERO */}
+
             <div className="kendilikSnapshotHero">
               <div className="kendilikSnapshotHeroCopy">
                 <p className="kendilikSnapshotEyebrow">
@@ -76,15 +79,19 @@ export default function KendilikRezonansiPage() {
                 </p>
 
                 <h1>
-                  Kendine verdiğin değer
+                  Kendine verdiğin
+                  <br />
+                  değer
                   <span> hayatına nasıl yansıyor?</span>
                 </h1>
 
                 <p className="kendilikSnapshotLead">
-                  Özdeğerini, onay ihtiyacını, sınırlarını ve
-                  kendinle kurduğun ilişkiyi daha yakından görmeye
-                  odaklanan 5 günlük canlı çalışma.
+                  Özdeğerini, onay ihtiyacını, sınırlarını ve kendinle
+                  kurduğun ilişkiyi daha yakından görmeye odaklanan
+                  5 günlük canlı çalışma.
                 </p>
+
+                {/* ETİKETLER */}
 
                 <div className="kendilikSnapshotTags">
                   <span>Özdeğer</span>
@@ -92,6 +99,8 @@ export default function KendilikRezonansiPage() {
                   <span>Sınırlar</span>
                   <span>Kendilik Algısı</span>
                 </div>
+
+                {/* PROGRAM BİLGİLERİ */}
 
                 <div className="kendilikSnapshotMeta">
                   <div>
@@ -110,6 +119,8 @@ export default function KendilikRezonansiPage() {
                   </div>
                 </div>
 
+                {/* FİYAT + SHOPIER */}
+
                 <div className="kendilikSnapshotBuy">
                   <div>
                     <small>ATÖLYE ÜCRETİ</small>
@@ -117,16 +128,18 @@ export default function KendilikRezonansiPage() {
                   </div>
 
                   <a
+                    className="kendilikSnapshotShopier"
                     href={shopierUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="kendilikSnapshotShopier"
                   >
                     Shopier’den Katıl
-                    <span>→</span>
+                    <span aria-hidden="true">→</span>
                   </a>
                 </div>
               </div>
+
+              {/* 1:1 GÖRSEL */}
 
               <div className="kendilikSnapshotVisual">
                 <img
@@ -136,8 +149,12 @@ export default function KendilikRezonansiPage() {
               </div>
             </div>
 
+            {/* ORTA 3 SÜTUN */}
+
             <div className="kendilikSnapshotMiddle">
-              <div className="kendilikSnapshotReason">
+              {/* SEBEP SONUÇ */}
+
+              <div>
                 <p className="kendilikSnapshotEyebrow">
                   SEBEP → SONUÇ
                 </p>
@@ -157,25 +174,35 @@ export default function KendilikRezonansiPage() {
 
                   <div>
                     <span>02</span>
-                    <strong>Sınırların bulanıklaşması</strong>
+                    <strong>
+                      Sınırların
+                      <br />
+                      bulanıklaşması
+                    </strong>
                   </div>
 
                   <b>→</b>
 
                   <div>
                     <span>03</span>
-                    <strong>Kendini geri plana atmak</strong>
+                    <strong>
+                      Kendini geri
+                      <br />
+                      plana atmak
+                    </strong>
                   </div>
                 </div>
 
                 <p className="kendilikSnapshotReasonText">
                   Amaç sana nasıl biri olman gerektiğini söylemek değil;
-                  kendi değerini ve sınırlarını hangi noktalarda geri
-                  plana bıraktığını fark etmektir.
+                  kendi değerini ve sınırlarını hangi noktalarda geri plana
+                  bıraktığını fark etmektir.
                 </p>
               </div>
 
-              <div className="kendilikSnapshotProgram">
+              {/* 5 GÜNLÜK PROGRAM */}
+
+              <div>
                 <p className="kendilikSnapshotEyebrow">
                   5 GÜNLÜK PROGRAM
                 </p>
@@ -186,19 +213,21 @@ export default function KendilikRezonansiPage() {
                 </h2>
 
                 <div className="kendilikSnapshotProgramList">
-                  {program.map((item) => (
+                  {programItems.map((item) => (
                     <div key={item.number}>
                       <span>{item.number}</span>
 
                       <strong>{item.title}</strong>
 
-                      <p>{item.text}</p>
+                      <p>{item.description}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="kendilikSnapshotIncluded">
+              {/* PROGRAMA DAHİL */}
+
+              <div>
                 <p className="kendilikSnapshotEyebrow">
                   PROGRAMA DAHİL
                 </p>
@@ -209,19 +238,21 @@ export default function KendilikRezonansiPage() {
                 </h2>
 
                 <div className="kendilikSnapshotIncludedList">
-                  {included.map((item) => (
+                  {includedItems.map((item) => (
                     <div key={item.number}>
                       <span>{item.number}</span>
 
                       <div>
                         <strong>{item.title}</strong>
-                        <p>{item.text}</p>
+                        <p>{item.description}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
+
+            {/* ALT KAPANIŞ */}
 
             <div className="kendilikSnapshotBottom kendilikSnapshotBottomSimple">
               <div className="kendilikSnapshotBottomCopy">
@@ -237,41 +268,34 @@ export default function KendilikRezonansiPage() {
 
               <div className="kendilikSnapshotBottomInfo">
                 <span>5 günlük canlı çalışma</span>
-                <span>•</span>
+                <span>✦</span>
+
                 <span>Dijital rehber</span>
-                <span>•</span>
+                <span>✦</span>
+
                 <span>Numeroloji analizi</span>
-                <span>•</span>
+                <span>✦</span>
+
                 <span>Katılım belgesi</span>
               </div>
             </div>
-          </article>
+          </div>
+
+          {/* YASAL NOT */}
 
           <p className="kendilikSnapshotLegal">
-            Bu çalışma kişisel farkındalık ve bireysel gelişim
-            amacıyla hazırlanmıştır. Psikoterapi, psikolojik
-            danışmanlık, teşhis veya tedavi yerine geçmez.
-            Numeroloji içeriği sembolik öz farkındalık amacıyla
-            sunulur. Katılım belgesi mesleki yeterlilik veya
-            eğitim sertifikası değildir.
+            Bu çalışma kişisel farkındalık ve bireysel gelişim amacıyla
+            hazırlanmıştır. Psikoterapi, psikolojik danışmanlık, teşhis veya
+            tedavi yerine geçmez. Numeroloji içeriği sembolik öz farkındalık
+            amacıyla sunulur. Katılım belgesi mesleki yeterlilik veya eğitim
+            sertifikası değildir.
           </p>
         </div>
       </section>
 
-      <footer className="kendilikSnapshotFooter">
-        <div className="kendilikSnapshotFooterInner">
-          <div>
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
+      {/* DETAYLI FOOTER */}
 
-            <span>ENERJİ EKOLÜ</span>
-          </div>
-
-          <a href="/">Ana Sayfa</a>
-          <a href="#top">Yukarı ↑</a>
-        </div>
-      </footer>
+      <FooterSection />
     </main>
   );
 }

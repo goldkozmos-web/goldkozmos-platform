@@ -1,3 +1,7 @@
+import Navbar from "../../../components/Navbar";
+import FooterSection from "../../../components/FooterSection";
+import "../../../styles/home.css";
+
 const shopierUrl =
   "https://www.shopier.com/goldkozmos/49716246";
 
@@ -53,23 +57,9 @@ export default function BollukRezonansiPage() {
       className="kendilikSnapshotPage bollukSnapshotPage"
       id="top"
     >
-      {/* ÜST NAV */}
+      {/* ORTAK GOLDKOZMOS NAVBAR */}
 
-      <header className="kendilikSnapshotNav">
-        <div className="kendilikSnapshotNavInner">
-          <a href="/" className="kendilikSnapshotBrand">
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
-
-            <span>ENERJİ EKOLÜ</span>
-          </a>
-
-          <a href="/" className="kendilikSnapshotHome">
-            Ana Sayfa
-          </a>
-        </div>
-      </header>
+      <Navbar />
 
       {/* TEK ANA KART */}
 
@@ -261,10 +251,13 @@ export default function BollukRezonansiPage() {
               <div className="kendilikSnapshotBottomInfo">
                 <span>5 günlük canlı çalışma</span>
                 <span>•</span>
+
                 <span>Dijital rehber</span>
                 <span>•</span>
+
                 <span>Numeroloji analizi</span>
                 <span>•</span>
+
                 <span>Katılım belgesi</span>
               </div>
             </div>
@@ -281,27 +274,9 @@ export default function BollukRezonansiPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* DETAYLI GOLDKOZMOS FOOTER */}
 
-      <footer className="kendilikSnapshotFooter">
-        <div className="kendilikSnapshotFooterInner">
-          <div>
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
-
-            <span>ENERJİ EKOLÜ</span>
-          </div>
-
-          <a href="/">
-            Ana Sayfa
-          </a>
-
-          <a href="#top">
-            Yukarı ↑
-          </a>
-        </div>
-      </footer>
+      <FooterSection />
     </main>
   );
 }

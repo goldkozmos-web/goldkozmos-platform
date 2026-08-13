@@ -1,3 +1,6 @@
+import FooterSection from "../../components/FooterSection";
+import "../../styles/home.css";
+
 const books = [
   {
     number: "01",
@@ -49,15 +52,10 @@ const books = [
 
 export default function GoldBookPage() {
   return (
-    <main className="goldbookCompactPage" id="top">
-      {/* NAVBAR */}
-
+    <main className="goldbookCompactPage homePage" id="top">
       <header className="goldbookCompactNav">
         <div className="goldbookCompactNavInner">
-          <a
-            href="/"
-            className="goldbookCompactBrand"
-          >
+          <a href="/" className="goldbookCompactBrand">
             <strong>
               Goldkozmos<sup>®</sup>
             </strong>
@@ -66,37 +64,14 @@ export default function GoldBookPage() {
           </a>
 
           <nav className="goldbookCompactMenu">
-            <a href="/">
-              Ana Sayfa
-            </a>
-
-            <a href="/enerji-ekolu">
-              Enerji Ekolü
-            </a>
-
-            <a href="/calismalar">
-              Çalışmalar
-            </a>
-
-            <a href="/goldbook">
-              GoldBook
-            </a>
-
-            <a href="/goldcast">
-              GoldCast
-            </a>
-
-            <a href="/goldblog">
-              GoldBlog
-            </a>
-
-            <a href="/etkinlikler">
-              Etkinlikler
-            </a>
-
-            <a href="/hakkimda">
-              Hakkımda
-            </a>
+            <a href="/">Ana Sayfa</a>
+            <a href="/enerji-ekolu">Enerji Ekolü</a>
+            <a href="/calismalar">Çalışmalar</a>
+            <a href="/goldbook">GoldBook</a>
+            <a href="/goldcast">GoldCast</a>
+            <a href="/goldblog">GoldBlog</a>
+            <a href="/etkinlikler">Etkinlikler</a>
+            <a href="/hakkimda">Hakkımda</a>
           </nav>
 
           <a
@@ -107,8 +82,6 @@ export default function GoldBookPage() {
           </a>
         </div>
       </header>
-
-      {/* HERO */}
 
       <section className="goldbookCompactHero">
         <div className="goldbookCompactContainer">
@@ -140,16 +113,12 @@ export default function GoldBookPage() {
             </div>
           </div>
 
-          {/* KİTAPLAR */}
-
           <div className="goldbookCompactGrid">
             {books.map((book) => (
               <article
                 className="goldbookCompactCard"
                 key={book.title}
               >
-                {/* ÜST */}
-
                 <div className="goldbookCompactCardTop">
                   <div className="goldbookCompactCover">
                     <img
@@ -168,9 +137,7 @@ export default function GoldBookPage() {
                       {book.category}
                     </p>
 
-                    <h2>
-                      {book.title}
-                    </h2>
+                    <h2>{book.title}</h2>
 
                     <p className="goldbookCompactDescription">
                       {book.description}
@@ -182,13 +149,9 @@ export default function GoldBookPage() {
                   </div>
                 </div>
 
-                {/* ALT BİLGİ */}
-
                 <div className="goldbookCompactDetails">
                   <div>
-                    <h3>
-                      Kitabın odağı
-                    </h3>
+                    <h3>Kitabın odağı</h3>
 
                     <ul>
                       {book.focus.map((item) => (
@@ -201,9 +164,7 @@ export default function GoldBookPage() {
                   </div>
 
                   <div>
-                    <h3>
-                      Kitap bilgileri
-                    </h3>
+                    <h3>Kitap bilgileri</h3>
 
                     <ul>
                       {book.info.map((item) => (
@@ -215,8 +176,6 @@ export default function GoldBookPage() {
                     </ul>
                   </div>
                 </div>
-
-                {/* CTA */}
 
                 <a
                   className="goldbookCompactButton"
@@ -233,35 +192,7 @@ export default function GoldBookPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
-
-      <footer className="goldbookCompactFooter">
-        <div className="goldbookCompactFooterInner">
-          <div>
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
-
-            <span>
-              ENERJİ EKOLÜ
-            </span>
-          </div>
-
-          <p>
-            Kişisel gelişim · Stoa · Rezonans
-          </p>
-
-          <div>
-            <a href="/">
-              Ana Sayfa
-            </a>
-
-            <a href="#top">
-              Yukarı ↑
-            </a>
-          </div>
-        </div>
-      </footer>
+      <FooterSection />
     </main>
   );
 }

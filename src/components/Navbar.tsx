@@ -13,11 +13,11 @@ export default function Navbar() {
         <nav className="siteGlobalMenu">
           <a href="/">Ana Sayfa</a>
 
-          <a href="/calismalar">
+          <a href="/#rezonans">
             Atölyeler
           </a>
 
-          <a href="/calismalar#diger">
+          <a href="/#diger">
             Çalışmalar
           </a>
 

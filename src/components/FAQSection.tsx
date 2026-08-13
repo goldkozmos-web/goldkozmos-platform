@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type FAQItem = {
   question: string;
@@ -62,6 +62,7 @@ const faqItems: FAQItem[] = [
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const faqSliderRef = useRef<HTMLDivElement>(null);
 
   function handleToggle(index: number) {
     setOpenIndex((currentIndex) =>
@@ -69,8 +70,25 @@ export default function FAQSection() {
     );
   }
 
+  function scrollFaq(direction: "left" | "right") {
+    const slider = faqSliderRef.current;
+
+    if (!slider) return;
+
+    slider.scrollBy({
+      left:
+        direction === "right"
+          ? slider.clientWidth * 0.75
+          : -slider.clientWidth * 0.75,
+      behavior: "smooth",
+    });
+  }
+
   return (
-    <section className="faqSection" id="sikca-sorulan-sorular">
+    <section
+      className="faqSection"
+      id="sikca-sorulan-sorular"
+    >
       <div className="faqContainer">
         <header className="faqHeading">
           <div>
@@ -101,10 +119,23 @@ export default function FAQSection() {
               en sık sorulan soruların yanıtlarını burada bulabilirsin.
             </p>
 
-            <a href="/iletisim">
-              Farklı Bir Sorun mu Var?
-              <span aria-hidden="true">→</span>
-            </a>
+            <div className="faqSliderControls">
+              <button
+                type="button"
+                onClick={() => scrollFaq("left")}
+                aria-label="Önceki sorular"
+              >
+                ←
+              </button>
+
+              <button
+                type="button"
+                onClick={() => scrollFaq("right")}
+                aria-label="Sonraki sorular"
+              >
+                →
+              </button>
+            </div>
           </div>
         </header>
 
@@ -114,7 +145,9 @@ export default function FAQSection() {
 
             <p>EN ÇOK MERAK EDİLEN KONU</p>
 
-            <h3>Başlamadan önce ihtiyaç duyduğun temel bilgiler.</h3>
+            <h3>
+              Başlamadan önce ihtiyaç duyduğun temel bilgiler.
+            </h3>
 
             <span className="faqIntroLine" />
 
@@ -129,7 +162,10 @@ export default function FAQSection() {
             </a>
           </div>
 
-          <div className="faqList">
+          <div
+            className="faqList"
+            ref={faqSliderRef}
+          >
             {faqItems.map((item, index) => {
               const isOpen = openIndex === index;
               const questionId = `faq-question-${index}`;
@@ -137,9 +173,7 @@ export default function FAQSection() {
 
               return (
                 <article
-                  className={`faqItem ${
-                    isOpen ? "faqItemOpen" : ""
-                  }`}
+                  className={`faqItem ${isOpen ? "faqItemOpen" : ""}`}
                   key={item.question}
                 >
                   <h3>

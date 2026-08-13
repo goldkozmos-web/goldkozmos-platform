@@ -1,152 +1,108 @@
+import Link from "next/link";
+
 const services = [
   {
     number: "01",
-    category: "AŞK & İLİŞKİ",
-    title: "Aşk ve İlişki Çalışmaları",
+    category: "5 GÜNLÜK ONLINE ATÖLYELER",
+    title: "Rezonans Atölyeleri",
     description:
-      "Geçmiş ilişkilerden kalan duygusal yükleri fark etmeye, ilişki dinamiklerini anlamaya ve yeni bir başlangıç için içsel alan oluşturmaya yönelik çalışmalar.",
-    href: "/calismalar/ask-ve-iliski",
-    featured: true,
-    image: "/images/services/ask-iliski.jpeg",
-    imagePosition: "center",
+      "Kendilik, ilişki ve bolluk alanındaki tekrar eden örüntüleri daha yakından incelemek için hazırlanan üç farklı atölye.",
+    image: "/images/services/kendilik-rezonansi.webp",
+    href: "/#rezonans",
   },
   {
     number: "02",
-    category: "PARA & BOLLUK",
-    title: "Para Enerjisi Çalışmaları",
+    category: "KİŞİYE ÖZEL",
+    title: "Birebir Seanslar",
     description:
-      "Para ile kurduğun ilişkiyi, bolluk algını ve görünmez sınırlayıcı döngülerini fark etmeyi destekleyen grup ve bireysel çalışmalar.",
-    href: "/calismalar/para-ve-bolluk",
-    featured: false,
-    image: "/images/services/para-enerjisi.jpeg",
-    imagePosition: "center",
+      "Belirli bir konuya odaklanan, kişisel ihtiyacına göre şekillenen birebir görüşmeler.",
+    image: "/images/services/birebir-seanslar.jpeg",
+    href: "/calismalar/birebir-seanslar",
   },
   {
     number: "03",
-    category: "BİREBİR",
-    title: "Birebir Seanslar",
+    category: "SEMBOLİK FARKINDALIK",
+    title: "Tarot Analizi",
     description:
-      "Kişisel ihtiyacına göre planlanan, süreç boyunca sana özel ilerleyen farkındalık ve enerji seansları.",
-    href: "/calismalar/birebir-seanslar",
-    featured: false,
-    image: "/images/services/birebir-seanslar.jpeg",
-    imagePosition: "center 42%",
+      "İçinde bulunduğun duruma, seçeneklerine ve tekrar eden temalarına farklı bir açıdan bak.",
+    image: "/images/services/tarot-analizi.jpeg",
+    href: "/calismalar/tarot",
   },
   {
     number: "04",
-    category: "TAROT",
-    title: "Tarot Analizi",
+    category: "KİŞİSEL ANALİZ",
+    title: "Numeroloji Analizi",
     description:
-      "İçinde bulunduğun durumu, seçeneklerini ve tekrar eden temaları daha net görebilmeni amaçlayan kişisel tarot analizi.",
-    href: "/calismalar/tarot",
-    featured: false,
-    image: "/images/services/tarot-analizi.jpeg",
-    imagePosition: "center",
+      "Doğum tarihi ve isim verileri üzerinden kişisel eğilimlerini ve tekrar eden temalarını incele.",
+    image: "/images/services/numeroloji-analizi.jpeg",
+    href: "/calismalar/numeroloji",
   },
   {
     number: "05",
-    category: "NUMEROLOJİ",
-    title: "Numeroloji Analizi",
+    category: "DİJİTAL İÇERİKLER",
+    title: "Dijital Çalışmalar",
     description:
-      "Doğum tarihindeki sayıların sembolik anlamları üzerinden karakterini, potansiyellerini ve yaşam temalarını keşfet.",
-    href: "/calismalar/numeroloji",
-    featured: false,
-    image: "/images/services/numeroloji-analizi.jpeg",
-    imagePosition: "center",
-  },
-  {
-    number: "06",
-    category: "DİJİTAL ÇALIŞMALAR",
-    title: "Ses Kayıtları ve Frekanslar",
-    description:
-      "Kendi alanında uygulayabileceğin meditasyon, dengeleme ve farkındalık odaklı dijital ses çalışmaları.",
-    href: "/calismalar/ses-kayitlari",
-    featured: false,
+      "Kendi zamanında erişebileceğin kayıtlar, rehberler ve dijital Goldkozmos içerikleri.",
     image: "/images/services/ses-kayitlari.jpeg",
-    imagePosition: "center",
+    href: "/calismalar",
   },
 ];
 
 export default function ServicesSection() {
   return (
-    <section className="servicesSection" id="calismalar">
-      <div className="servicesContainer">
-        <header className="servicesHeading">
+    <section className="servicesSliderSection" id="calismalar">
+      <div className="servicesSliderContainer">
+        <div className="servicesSliderHeader">
           <div>
-            <p className="sectionEyebrow">
-              <span>
-                GOLDKOZMOS
-                <sup className="registeredSymbol">®</sup>
-              </span>
-
-              <br />
-
-              <span>ENERJİ EKOLÜ ÇALIŞMALARI</span>
-            </p>
+            <p className="servicesSliderEyebrow">GOLDKOZMOS® ÇALIŞMALARI</p>
 
             <h2>
-              İhtiyacına uygun
-              <span> dönüşüm yolunu keşfet.</span>
+              Sana uygun
+              <span> alanı keşfet.</span>
             </h2>
           </div>
 
-          <p className="servicesIntro">
-            Bireysel seanslardan grup programlarına, analizlerden dijital
-            çalışmalara kadar farklı ihtiyaçlara göre hazırlanan Goldkozmos®
-            Enerji Ekolü deneyimlerini keşfet.
-          </p>
-        </header>
+          <div className="servicesSliderHeaderRight">
+            <p>
+              Kartları yana kaydırarak tüm çalışma alanlarını inceleyebilirsin.
+            </p>
 
-        <div className="servicesGrid">
-          {services.map((service) => (
-            <article
-              className={`serviceCard ${
-                service.featured ? "serviceCardFeatured" : ""
-              }`}
-              key={service.number}
-            >
-              <div
-                className="serviceCardBackground"
-                aria-hidden="true"
-                style={{
-                  backgroundImage: `url("${service.image}")`,
-                  backgroundSize: "cover",
-                  backgroundPosition: service.imagePosition,
-                  backgroundRepeat: "no-repeat",
-                }}
-              />
-
-              <div className="serviceCardOverlay" />
-
-              <div className="serviceCardTop">
-                <span className="serviceNumber">{service.number}</span>
-
-                <span className="serviceCategory">
-                  {service.category}
-                </span>
-              </div>
-
-              <div className="serviceCardContent">
-                <h3>{service.title}</h3>
-
-                <p>{service.description}</p>
-
-                <a href={service.href}>
-                  <span>Çalışmayı Keşfet</span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </div>
-            </article>
-          ))}
+            <span className="servicesSliderHint">
+              Kaydır
+              <span aria-hidden="true">→</span>
+            </span>
+          </div>
         </div>
 
-        <div className="servicesFooter">
-          <p>Hangi çalışmanın sana uygun olduğundan emin değil misin?</p>
+        <div className="servicesSliderTrack">
+          {services.map((service) => (
+            <article className="servicesSliderCard" key={service.title}>
+              <Link href={service.href} className="servicesSliderImage">
+                <img src={service.image} alt={service.title} />
 
-          <a href="/sana-uygun-calismayi-bul">
-            Sana Uygun Çalışmayı Bul
-            <span aria-hidden="true">→</span>
-          </a>
+                <div className="servicesSliderShade" />
+
+                <div className="servicesSliderNumber">
+                  {service.number}
+                </div>
+
+                <div className="servicesSliderContent">
+                  <p>{service.category}</p>
+
+                  <h3>{service.title}</h3>
+
+                  <span className="servicesSliderDescription">
+                    {service.description}
+                  </span>
+
+                  <div className="servicesSliderButton">
+                    Çalışmayı Keşfet
+                    <span aria-hidden="true">↗</span>
+                  </div>
+                </div>
+              </Link>
+            </article>
+          ))}
         </div>
       </div>
     </section>

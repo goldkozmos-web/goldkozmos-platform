@@ -1,299 +1,259 @@
-import Link from "next/link";
+const WHATSAPP_NUMBER = "905054722153";
 
-const suitableFor = [
-  "Belirli bir konuda netlik kazanmak isteyenler",
-  "Aşk, ilişki, para, özdeğer veya kişisel sınırlar alanında derinleşmek isteyenler",
-  "Tek seansla mevcut durumunu analiz etmek isteyenler",
-  "Ay içinde düzenli birebir destek almak isteyenler",
-  "Bir konuyu ara vermeden yoğun biçimde çalışmak isteyenler",
-  "Kişiye özel yönlendirme ve çalışma planı arayanlar",
-];
+const singleSessionWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Merhaba, Goldkozmos Tek Birebir Seans hakkında bilgi almak ve randevu oluşturmak istiyorum."
+)}`;
 
-const singleSessionDetails = [
-  "50–60 dakikalık birebir görüşme",
-  "Tek bir ana konuya odaklanma",
-  "Kişiye özel analiz ve yönlendirme",
-  "Ayda 3 veya 4 kez planlanabilir",
-];
-
-const intensivePackageDetails = [
-  "Ardışık 5 gün birebir çalışma",
-  "Her gün aynı ana konu üzerinde ilerleme",
-  "Kişiye özel uygulama ve yönlendirmeler",
-  "Paket indirimiyle toplam 5.000 TL",
-];
-
-const processSteps = [
-  {
-    number: "01",
-    title: "Konuyu Belirleme",
-    description:
-      "İlk görüşmede çalışmak istediğin ana konu, mevcut durumun ve süreçten beklentin netleştirilir.",
-  },
-  {
-    number: "02",
-    title: "Kişiye Özel Analiz",
-    description:
-      "Yaşadığın döngüler, düşünce kalıpları ve konuya eşlik eden duygusal alanlar birlikte incelenir.",
-  },
-  {
-    number: "03",
-    title: "Uygulama ve Yönlendirme",
-    description:
-      "Seansın odağına göre farkındalık çalışmaları, enerji uygulamaları ve kişisel yönlendirmeler sunulur.",
-  },
-  {
-    number: "04",
-    title: "Süreci Takip Etme",
-    description:
-      "Tek seans sonrasında yeni randevu planlanabilir veya konu daha yoğun çalışılacaksa 5 günlük paket seçilebilir.",
-  },
-];
+const intensivePackageWhatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  "Merhaba, Goldkozmos 5 Günlük Yoğun Birebir Paket hakkında bilgi almak istiyorum."
+)}`;
 
 export default function OneToOneDetailSection() {
   return (
-    <section className="serviceDetailSection" id="birebir-seanslar">
-      <div className="serviceDetailContainer">
-        <div className="serviceDetailIntro">
-          <div className="serviceDetailIntroText">
-            <p className="sectionEyebrow">BİREBİR SEANSLAR</p>
+    <section
+      className="oneToOneCompactSection"
+      id="birebir-seanslar"
+    >
+      <div className="oneToOneCompactContainer">
 
-            <h2>
-              İhtiyacına göre tek seans seç,
-              <span> ya da dönüşümü beş güne yay.</span>
-            </h2>
-          </div>
+        {/* BAŞLIK */}
 
-          <div className="serviceDetailLead">
-            <p>
-              Birebir seanslar, hayatında öne çıkan belirli bir konuya
-              odaklanmak, yaşadığın durumu daha net görmek ve sana özel bir
-              yol haritası oluşturmak için hazırlanır.
+        <header className="oneToOneCompactHeader">
+          <div>
+            <p className="oneToOneCompactEyebrow">
+              BİREBİR SEANSLAR
             </p>
 
-            <p>
-              Tek seansla başlayabilir, ay içinde 3 veya 4 görüşmeyle düzenli
-              ilerleyebilir ya da aynı konu üzerinde ardışık 5 gün çalışmak
-              için yoğun birebir paketi seçebilirsin.
-            </p>
-          </div>
-        </div>
-
-        <div className="serviceDetailInfoBar">
-          <div>
-            <span>FORMAT</span>
-            <strong>Online Birebir</strong>
+            <h1>
+              İhtiyacına göre
+              <span> kendi çalışma biçimini seç.</span>
+            </h1>
           </div>
 
-          <div>
-            <span>TEK SEANS</span>
-            <strong>2.500 TL</strong>
-          </div>
-
-          <div>
-            <span>YOĞUN PAKET</span>
-            <strong>5 Gün · 5.000 TL</strong>
-          </div>
-
-          <div>
-            <span>SÜRE</span>
-            <strong>50–60 Dakika</strong>
-          </div>
-        </div>
-
-        <div className="serviceDetailSplit">
-          <div className="serviceDetailContent">
-            <p className="serviceDetailLabel">BİREBİR ÇALIŞMA</p>
-
-            <h2>
-              Herkes için aynı reçete değil,
-              <span> sana özel bir çalışma alanı.</span>
-            </h2>
-
-            <p>
-              Seansın içeriği, çalışmak istediğin konuya ve o sırada
-              ihtiyaç duyduğun desteğe göre şekillenir. Amaç yalnızca
-              konuşmak değil; yaşadığın döngüyü anlamak, görünmeyen
-              nedenleri fark etmek ve uygulanabilir bir yön oluşturmaktır.
-            </p>
-
-            <p>
-              Tek seans belirli bir konuya netlik kazandırmak için
-              kullanılabilir. Daha düzenli ilerlemek isteyenler ay içinde
-              3 veya 4 ayrı randevu planlayabilir.
-            </p>
-
-            <div className="serviceDetailQuote">
-              <span aria-hidden="true">“</span>
-
-              <p>
-                Bazen tek bir görüşme yönünü gösterir; bazen dönüşüm,
-                aynı konunun birkaç gün boyunca kesintisiz çalışılmasını ister.
-              </p>
-            </div>
-          </div>
-
-          <aside className="serviceDetailListCard">
-            <p>SANA UYGUN OLABİLİR</p>
-
-            <h3>Bu çalışma alanlarından birine ihtiyaç duyuyor musun?</h3>
-
-            <ul>
-              {suitableFor.map((item) => (
-                <li key={item}>
-                  <span aria-hidden="true">✦</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-
-            <Link href="/randevu">
-              Randevu Oluştur
-              <span aria-hidden="true">→</span>
-            </Link>
-          </aside>
-        </div>
-
-        <div className="serviceDetailProgramHeader">
-          <p className="serviceDetailLabel">SEANS SEÇENEKLERİ</p>
-
-          <h2>
-            İhtiyacına uygun
-            <span> iki farklı birebir çalışma modeli.</span>
-          </h2>
-
-          <p>
-            Tek seans ve yoğun paket aynı amaca hizmet eder; aralarındaki
-            fark, çalışmanın süresi ve ilerleme yoğunluğudur.
+          <p className="oneToOneCompactLead">
+            Belirli bir konuya odaklanmak için tek seansla
+            başlayabilir ya da aynı konu üzerinde beş günlük
+            yoğun bir süreç planlayabilirsin.
           </p>
+        </header>
+
+        {/* SEÇENEKLER */}
+
+        <div className="oneToOneCompactOptions">
+
+          {/* TEK SEANS */}
+
+          <article className="oneToOneCompactCard">
+
+            <div className="oneToOneCompactCardTop">
+              <span>01</span>
+
+              <p>TEK BİREBİR SEANS</p>
+            </div>
+
+            <details className="oneToOneCompactDetails">
+              <summary>
+                Detaylar
+                <span aria-hidden="true">+</span>
+              </summary>
+
+              <div className="oneToOneCompactDetailsBody">
+                <p className="oneToOneCompactDetailsEyebrow">
+                  PROGRAM DETAYI
+                </p>
+
+                <h3>
+                  Tek bir konuya birlikte yakından bakıyoruz.
+                </h3>
+
+                <ul>
+                  <li>
+                    <span>✦</span>
+                    Görüşme öncesinde çalışmak istediğin ana konu belirlenir.
+                  </li>
+
+                  <li>
+                    <span>✦</span>
+                    Mevcut durumun ve tekrar eden örüntülerin birlikte incelenir.
+                  </li>
+
+                  <li>
+                    <span>✦</span>
+                    Konuya eşlik eden düşünce, duygu ve davranış biçimleri ele alınır.
+                  </li>
+
+                  <li>
+                    <span>✦</span>
+                    Seans sonunda sana uygun farkındalık ve sonraki adımlar netleştirilir.
+                  </li>
+                </ul>
+
+                <a
+                  href={singleSessionWhatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="oneToOneCompactWhatsapp"
+                >
+                  WhatsApp&apos;tan Mesajlaş
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </details>
+
+            <h2>Tek Seans</h2>
+
+            <p className="oneToOneCompactCardText">
+              Tek bir konuya odaklanmak, mevcut durumunu
+              daha net görmek ve kişisel bir yön belirlemek
+              için.
+            </p>
+
+            <div className="oneToOneCompactMeta">
+              <span>Online</span>
+              <span>50–60 Dakika</span>
+            </div>
+
+            <div className="oneToOneCompactBottom">
+              <strong>2.500 TL</strong>
+            </div>
+          </article>
+
+          {/* 5 GÜNLÜK PAKET */}
+
+          <article className="oneToOneCompactCard">
+
+            <div className="oneToOneCompactCardTop">
+              <span>02</span>
+
+              <p>YOĞUN BİREBİR SÜREÇ</p>
+            </div>
+
+            <details className="oneToOneCompactDetails">
+              <summary>
+                Detaylar
+                <span aria-hidden="true">+</span>
+              </summary>
+
+              <div className="oneToOneCompactDetailsBody">
+                <p className="oneToOneCompactDetailsEyebrow">
+                  PROGRAM DETAYI
+                </p>
+
+                <h3>
+                  Aynı konu üzerinde beş gün boyunca ilerliyoruz.
+                </h3>
+
+                <div className="oneToOneCompactDays">
+                  <div>
+                    <span>01</span>
+                    <p>
+                      <strong>Başlangıç</strong>
+                      Konunun ve mevcut durumun netleştirilmesi.
+                    </p>
+                  </div>
+
+                  <div>
+                    <span>02</span>
+                    <p>
+                      <strong>Örüntüler</strong>
+                      Tekrar eden düşünce ve davranış kalıplarının incelenmesi.
+                    </p>
+                  </div>
+
+                  <div>
+                    <span>03</span>
+                    <p>
+                      <strong>Derinleşme</strong>
+                      Konunun altında çalışan ihtiyaç ve duygulara bakılması.
+                    </p>
+                  </div>
+
+                  <div>
+                    <span>04</span>
+                    <p>
+                      <strong>Uygulama</strong>
+                      Yeni bakış açılarının günlük yaşamdaki karşılığının gözlemlenmesi.
+                    </p>
+                  </div>
+
+                  <div>
+                    <span>05</span>
+                    <p>
+                      <strong>Bütünleme</strong>
+                      Beş günlük sürecin değerlendirilmesi ve sonraki yönün belirlenmesi.
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href={intensivePackageWhatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="oneToOneCompactWhatsapp"
+                >
+                  WhatsApp&apos;tan Mesajlaş
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </details>
+
+            <h2>5 Günlük Paket</h2>
+
+            <p className="oneToOneCompactCardText">
+              Aynı konu üzerinde ara vermeden ilerlemek ve
+              süreci birkaç güne yayarak daha yakından
+              incelemek için.
+            </p>
+
+            <div className="oneToOneCompactMeta">
+              <span>Online</span>
+              <span>5 Ardışık Gün</span>
+            </div>
+
+            <div className="oneToOneCompactBottom">
+              <strong>5.000 TL</strong>
+            </div>
+          </article>
         </div>
 
-        <div className="serviceDetailGiftGrid">
-          <article className="serviceDetailGiftCard">
+        {/* KISA SÜREÇ */}
+
+        <div className="oneToOneCompactProcess">
+          <div>
             <span>01</span>
 
-            <p className="serviceDetailLabel">TEK BİREBİR SEANS</p>
-
-            <h3>2.500 TL</h3>
-
             <p>
-              Belirli bir konuya odaklanmak, mevcut durumunu analiz etmek ve
-              sana özel bir yön belirlemek için hazırlanmıştır.
+              <strong>Konunu belirle</strong>
+              <small>Neye odaklanmak istediğini netleştir.</small>
             </p>
+          </div>
 
-            <ul>
-              {singleSessionDetails.map((detail) => (
-                <li key={detail}>
-                  <span aria-hidden="true">✦</span>
-                  {detail}
-                </li>
-              ))}
-            </ul>
-
-            <Link href="/randevu">
-              Tek Seans Randevusu
-              <span aria-hidden="true">→</span>
-            </Link>
-          </article>
-
-          <article className="serviceDetailGiftCard">
+          <div>
             <span>02</span>
 
-            <p className="serviceDetailLabel">5 GÜNLÜK YOĞUN PAKET</p>
-
-            <h3>5.000 TL</h3>
-
             <p>
-              Tek görüşmeyle sınırlı kalmadan, aynı konu üzerinde ardışık
-              5 gün boyunca derinleşmek ve süreci bölmeden ilerlemek isteyenler
-              için hazırlanmıştır.
+              <strong>Modelini seç</strong>
+              <small>Tek seans veya 5 günlük süreç.</small>
             </p>
-
-            <ul>
-              {intensivePackageDetails.map((detail) => (
-                <li key={detail}>
-                  <span aria-hidden="true">✦</span>
-                  {detail}
-                </li>
-              ))}
-            </ul>
-
-            <p>
-              Beş seansın tek tek toplam değeri 12.500 TL’dir. Yoğun paket,
-              süreci ardışık tamamlayan danışanlara özel 5.000 TL olarak sunulur.
-            </p>
-
-            <Link href="/iletisim">
-              Yoğun Paket İçin Bilgi Al
-              <span aria-hidden="true">→</span>
-            </Link>
-          </article>
-        </div>
-
-        <div className="serviceDetailGifts">
-          <div className="serviceDetailGiftsIntro">
-            <p className="serviceDetailLabel">SÜREÇ NASIL İLERLER?</p>
-
-            <h2>
-              Konuyu belirle,
-              <span> kendi hızına uygun modeli seç.</span>
-            </h2>
-
-            <p>
-              Birebir çalışma, önce ihtiyacın netleştirilerek ardından sana
-              uygun seans modeli belirlenerek ilerler.
-            </p>
-          </div>
-
-          <div className="serviceDetailGiftGrid">
-            {processSteps.map((step) => (
-              <article
-                className="serviceDetailGiftCard"
-                key={`${step.number}-${step.title}`}
-              >
-                <span>{step.number}</span>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        <div className="serviceDetailNotice">
-          <div>
-            <p className="serviceDetailLabel">ÖNEMLİ BİLGİLENDİRME</p>
-
-            <h2>
-              Birebir çalışmalar
-              <span> profesyonel sağlık hizmetinin yerine geçmez.</span>
-            </h2>
           </div>
 
           <div>
-            <p>
-              Sunulan çalışmalar kişisel farkındalık, enerji çalışması ve
-              bireysel gelişim amacıyla hazırlanır. Psikoterapi, psikolojik
-              danışmanlık, tıbbi teşhis veya tedavi değildir.
-            </p>
+            <span>03</span>
 
             <p>
-              Ödeme sonrasında randevu planlaması yapılır. Ardışık 5 günlük
-              paket seçildiğinde günlerin önceden birlikte belirlenmesi gerekir.
+              <strong>Mesajını gönder</strong>
+              <small>WhatsApp üzerinden süreci planla.</small>
             </p>
           </div>
         </div>
 
-        <div className="serviceDetailActions">
-          <Link href="/randevu">
-            Tek Seans Randevusu
-            <span aria-hidden="true">→</span>
-          </Link>
+        {/* NOT */}
 
-          <Link href="/iletisim">
-            5 Günlük Paket İçin Bilgi Al
-            <span aria-hidden="true">↗</span>
-          </Link>
-        </div>
+        <p className="oneToOneCompactNotice">
+          Birebir çalışmalar kişisel farkındalık ve bireysel
+          gelişim amacıyla hazırlanır. Psikoterapi, psikolojik
+          danışmanlık, tıbbi teşhis veya tedavi yerine geçmez.
+        </p>
       </div>
     </section>
   );

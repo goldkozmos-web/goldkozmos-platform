@@ -1,3 +1,5 @@
+import FooterSection from "../../components/FooterSection";
+
 const journey = [
   {
     year: "2022",
@@ -50,6 +52,7 @@ export default function HakkimdaPage() {
           </a>
 
           <nav className="homeV3Menu">
+            <a href="/">Ana Sayfa</a>
             <a href="/#rezonans">Atölyeler</a>
             <a href="/#diger">Çalışmalar</a>
             <a href="/goldbook">GoldBook</a>
@@ -82,10 +85,10 @@ export default function HakkimdaPage() {
 
                 <h1>
                   Ben Özge Batıgün.
-                  
-                  <span> 
-                      
-                Kendi yolumu ararken Goldkozmos® doğdu.</span>
+                  <span>
+                    {" "}
+                    Kendi yolumu ararken Goldkozmos® doğdu.
+                  </span>
                 </h1>
 
                 <p className="aboutCompactLead">
@@ -257,28 +260,9 @@ export default function HakkimdaPage() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* DETAYLI FOOTER */}
 
-      <footer className="homeV3Footer">
-        <div className="homeV3FooterInner">
-          <div className="homeV3FooterBrand">
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
-
-            <span>ENERJİ EKOLÜ</span>
-          </div>
-
-          <p>
-            Kişisel gelişim · Stoa · Rezonans
-          </p>
-
-          <div className="homeV3FooterLinks">
-            <a href="/">Ana Sayfa</a>
-            <a href="#top">Yukarı ↑</a>
-          </div>
-        </div>
-      </footer>
+      <FooterSection />
     </main>
   );
 }

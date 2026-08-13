@@ -1,3 +1,8 @@
+"use client";
+
+import { useRef } from "react";
+import FooterSection from "../components/FooterSection";
+
 type SocialPlatform =
   | "instagram"
   | "whatsapp"
@@ -38,6 +43,7 @@ const otherWorks = [
     number: "01",
     title: "Tek Birebir Seans",
     text: "Belirli bir konuya odaklanan 50 dakikalık birebir görüşme.",
+    image: "/images/services/birebir-seans.webp",
     price: "2.500 TL",
     href: "/calismalar/birebir-seanslar",
   },
@@ -45,6 +51,7 @@ const otherWorks = [
     number: "02",
     title: "5 Günlük Yoğun Paket",
     text: "Beş gün boyunca aynı konu üzerinde birebir ilerleyen yoğun çalışma.",
+    image: "/images/services/5-gunluk-yogun-paket.webp",
     price: "5.000 TL",
     href: "/calismalar/birebir-seanslar",
   },
@@ -52,6 +59,7 @@ const otherWorks = [
     number: "03",
     title: "Tarot Farkındalık Okuması",
     text: "Kartların sembolik dili üzerinden mevcut durumuna farklı bir açıdan bak.",
+    image: "/images/services/tarot-farkindalik.webp",
     price: "600 TL",
     href: "/calismalar/tarot",
   },
@@ -59,8 +67,20 @@ const otherWorks = [
     number: "04",
     title: "Numeroloji Analizi",
     text: "Doğum tarihi ve isim üzerinden kişisel eğilimlerini sembolik olarak incele.",
+    image: "/images/services/numeroloji-analizi.webp",
     price: "350 TL",
     href: "/calismalar/numeroloji",
+  },
+];
+
+const recordings = [
+  {
+    category: "CANLI YAYIN KAYDI",
+    title: "7 Çakra Dengeleme Çalışması",
+    text: "Daha önce canlı olarak gerçekleştirilen çalışmanın kayıtlı versiyonuna kendi zamanında eriş.",
+    image: "/images/services/7-cakra-dengeleme-kaydi.webp",
+    price: "750 TL",
+    href: "/calismalar/ses-kayitlari",
   },
 ];
 
@@ -78,6 +98,40 @@ const books = [
     image: "/goldbook/ask-manifestosu.webp",
     price: "300 TL",
     href: "https://www.shopier.com/goldkozmos/47631093",
+  },
+];
+
+
+const faqs = [
+  {
+    question: "Rezonans Atölyeleri online mı gerçekleşiyor?",
+    answer:
+      "Evet. Rezonans Atölyeleri Google Meet üzerinden çevrim içi olarak gerçekleştirilir.",
+  },
+  {
+    question: "Hangi çalışmadan başlamalıyım?",
+    answer:
+      "Kendilik Rezonansı temel başlangıç alanıdır. Kendinle kurduğun ilişkiyi, özdeğerini, sınırlarını ve tekrar eden kişisel örüntülerini gördükten sonra İlişki veya Bolluk Rezonansı ile devam edebilirsin.",
+  },
+  {
+    question: "Birebir çalışma seçenekleri neler?",
+    answer:
+      "Belirli bir konuya odaklanan tek birebir seans veya aynı konu üzerinde beş gün boyunca ilerleyen yoğun birebir paket seçebilirsin.",
+  },
+  {
+    question: "Canlı yayın kayıtlarına sonradan erişebilir miyim?",
+    answer:
+      "Satışa açılan geçmiş canlı çalışmalar, kayıtlı içerik olarak kendi zamanında izleyebileceğin şekilde sunulur.",
+  },
+  {
+    question: "GoldBook içerikleri nasıl satın alınır?",
+    answer:
+      "GoldBook çalışmalarını ilgili ürün kartındaki Shopier bağlantısı üzerinden satın alabilirsin.",
+  },
+  {
+    question: "Goldkozmos çalışmaları terapi yerine geçer mi?",
+    answer:
+      "Hayır. Goldkozmos içerikleri ve çalışmaları kişisel farkındalık ve bireysel gelişim amacıyla hazırlanır; psikoterapi, psikolojik danışmanlık, tıbbi teşhis veya tedavi yerine geçmez.",
   },
 ];
 
@@ -187,6 +241,35 @@ function SocialIcon({
 }
 
 export default function HomePage() {
+  const otherWorksSliderRef =
+    useRef<HTMLDivElement>(null);
+
+  function scrollOtherWorks(
+    direction: "left" | "right",
+  ) {
+    const slider =
+      otherWorksSliderRef.current;
+
+    if (!slider) return;
+
+    const firstCard =
+      slider.querySelector<HTMLElement>(
+        ".homeV3OtherCard",
+      );
+
+    const amount = firstCard
+      ? firstCard.offsetWidth + 38
+      : slider.clientWidth * 0.8;
+
+    slider.scrollBy({
+      left:
+        direction === "right"
+          ? amount
+          : -amount,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <main className="homeV3Page" id="top">
       {/* NAVBAR */}
@@ -197,17 +280,18 @@ export default function HomePage() {
             <strong>
               GOLDKOZMOS<sup>®</sup>
             </strong>
-
             <span>ENERJİ EKOLÜ</span>
           </a>
 
           <nav className="homeV3Menu">
+            <a href="/">Ana Sayfa</a>
             <a href="#rezonans">Atölyeler</a>
             <a href="#diger">Çalışmalar</a>
             <a href="/goldbook">GoldBook</a>
             <a href="/goldcast">GoldCast</a>
             <a href="/goldblog">GoldBlog</a>
             <a href="/hakkimda">Hakkımda</a>
+            <a href="#sss">SSS</a>
           </nav>
 
           <a
@@ -271,8 +355,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* PROFİL */}
-
             <div className="homeV3HeroProfileWrap">
               <div className="homeV3HeroVisual homeV3HeroPortrait">
                 <img
@@ -282,7 +364,6 @@ export default function HomePage() {
 
                 <div className="homeV3HeroVisualTag">
                   <span>GOLDKOZMOS®</span>
-
                   <strong>
                     Kişisel gelişim · Stoa · Rezonans
                   </strong>
@@ -291,7 +372,6 @@ export default function HomePage() {
 
               <div className="homeV3HeroProfileName">
                 <strong>Özge Batıgün</strong>
-
                 <span>Goldkozmos® Enerji Ekolü</span>
 
                 <div className="homeV3HeroSocials">
@@ -304,11 +384,33 @@ export default function HomePage() {
                       aria-label={social.name}
                       title={social.name}
                     >
-                      <SocialIcon platform={social.platform} />
+                      <SocialIcon
+                        platform={social.platform}
+                      />
                     </a>
                   ))}
                 </div>
               </div>
+            </div>
+
+            <div className="homeHeroMiniTest">
+              <div className="homeHeroMiniTestIcon">
+                <span>✦</span>
+              </div>
+
+              <div className="homeHeroMiniTestCopy">
+                <p>ÜCRETSİZ ARKETİP TESTİ</p>
+
+                <h2>
+                  Kendine hangi
+                  <span> arketipten bakıyorsun?</span>
+                </h2>
+              </div>
+
+              <a href="/sana-uygun-calismayi-bul">
+                Teste Başla
+                <span>→</span>
+              </a>
             </div>
           </div>
         </div>
@@ -387,249 +489,457 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ARKETİP TESTİ */}
-
-      <section className="homeV3TestSection">
-        <div className="homeV3Container">
-          <div className="homeV3TestCard">
-            <div className="homeV3TestSymbol">
-              <span>✦</span>
-              <span>◯</span>
-            </div>
-
-            <div className="homeV3TestCopy">
-              <p className="homeV3Eyebrow">
-                ÜCRETSİZ ARKETİP TESTİ
-              </p>
-
-              <h2>
-                Kendine hangi
-                <span> arketipten bakıyorsun?</span>
-              </h2>
-
-              <p>
-                Kısa testi tamamla ve kendilik yapında öne
-                çıkan arketipsel eğilimi keşfet.
-              </p>
-            </div>
-
-            <a
-              className="homeV3LightButton"
-              href="/sana-uygun-calismayi-bul"
-            >
-              Teste Başla
-              <span>→</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* DİĞER ÇALIŞMALAR */}
+      {/* DİĞER ÇALIŞMALAR + CANLI KAYIT */}
 
       <section
         className="homeV3Other"
         id="diger"
       >
         <div className="homeV3Container">
-          <div className="homeV3SectionHeading">
+          <div className="homeV3PersonalHub">
+            <div className="homeV3PersonalLeft">
+              <div className="homeV3PersonalHeading">
+                <div>
+                  <p className="homeV3Eyebrow">
+                    DİĞER ÇALIŞMALAR
+                  </p>
+
+                  <h2>
+                    Daha
+                    <span> kişisel bir alan.</span>
+                  </h2>
+
+                  <p className="homeV3PersonalDescription">
+                    Tek bir konuya odaklanmak veya farklı bir
+                    farkındalık yöntemiyle ilerlemek isteyenler için.
+                  </p>
+                </div>
+
+                <div className="homeV3OtherSliderControls">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollOtherWorks("left")
+                    }
+                    aria-label="Önceki çalışmalar"
+                  >
+                    ←
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      scrollOtherWorks("right")
+                    }
+                    aria-label="Sonraki çalışmalar"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
+
+              <div
+                className="homeV3OtherSlider"
+                ref={otherWorksSliderRef}
+              >
+                {otherWorks.map((work) => (
+                  <a
+                    className="homeV3OtherCard"
+                    href={work.href}
+                    key={work.title}
+                  >
+                    <div className="homeV3OtherVisual">
+                      <img
+                        src={work.image}
+                        alt={work.title}
+                      />
+
+                      <div
+                        className="homeV3OtherVisualShade"
+                        aria-hidden="true"
+                      />
+
+                      <span className="homeV3OtherVisualNumber">
+                        {work.number}
+                      </span>
+
+                      <span className="homeV3OtherVisualArrow">
+                        ↗
+                      </span>
+                    </div>
+
+                    <div className="homeV3OtherContent">
+                      <div>
+                        <h3>{work.title}</h3>
+                        <p>{work.text}</p>
+                      </div>
+
+                      <strong>{work.price}</strong>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              <div
+                className="homeV3OtherScrollHint"
+                aria-hidden="true"
+              >
+                <span>←</span>
+                <p>Yana kaydır</p>
+                <span>→</span>
+              </div>
+            </div>
+
+            <aside className="homeV3RecordingSide">
+              <div className="homeV3RecordingSideHeading">
+                <p className="homeV3Eyebrow">
+                  CANLI YAYIN KAYITLARI
+                </p>
+
+                <h2>
+                  Kaçırdığın çalışmaları
+                  <span> kendi zamanında izle.</span>
+                </h2>
+              </div>
+
+              {recordings.map((recording) => (
+                <article
+                  className="homeV3RecordingSideCard"
+                  key={recording.title}
+                >
+                  <a
+                    href={recording.href}
+                    className="homeV3RecordingSideImage"
+                  >
+                    <img
+                      src={recording.image}
+                      alt={recording.title}
+                    />
+
+                    <span aria-hidden="true">▶</span>
+                  </a>
+
+                  <div className="homeV3RecordingSideContent">
+                    <p>{recording.category}</p>
+
+                    <h3>{recording.title}</h3>
+
+                    <div className="homeV3RecordingSideText">
+                      {recording.text}
+                    </div>
+
+                    <div className="homeV3RecordingSideBottom">
+                      <strong>
+                        {recording.price}
+                      </strong>
+
+                      <a href={recording.href}>
+                        İncele
+                        <span>→</span>
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+
+              <div className="homeV3RecordingSideFuture">
+                <span>✦</span>
+
+                <p>
+                  Yeni kayıtlar eklendikçe
+                  <strong> burada yerini alacak.</strong>
+                </p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* GOLDBOOK + BAĞLANTI TELEFONLARI */}
+
+      <section
+        className="homeV3LibraryHub"
+        id="goldbook"
+      >
+        <div className="homeV3Container">
+          <div className="homeV3LibraryShowcase">
+            {/* SOL: GOLDBOOK */}
+
+            <div className="homeV3LibraryBooks">
+              <div className="homeV3LibraryHeading">
+                <div>
+                  <p className="homeV3Eyebrow">
+                    GOLDBOOK
+                  </p>
+
+                  <h2>
+                    Okumak için değil,
+                    <span> kendine dönmek için.</span>
+                  </h2>
+                </div>
+
+                <a
+                  href="/goldbook"
+                  className="homeV3LibraryAll"
+                >
+                  Tüm GoldBook’lar
+                  <span>→</span>
+                </a>
+              </div>
+
+              <div className="homeV3LibraryBooksGrid">
+                {books.map((book) => (
+                  <article
+                    className="homeV3BookCard"
+                    key={book.title}
+                  >
+                    <div className="homeV3BookImage">
+                      <img
+                        src={book.image}
+                        alt={book.title}
+                      />
+                    </div>
+
+                    <div className="homeV3BookContent">
+                      <p className="homeV3CardEyebrow">
+                        DİJİTAL GOLDBOOK
+                      </p>
+
+                      <h3>{book.title}</h3>
+
+                      <p>{book.text}</p>
+
+                      <div className="homeV3BookBottom">
+                        <strong>
+                          {book.price}
+                        </strong>
+
+                        <a
+                          href={book.href}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Shopier’den Al
+                          <span>→</span>
+                        </a>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            {/* SAĞ: İKİ TELEFON */}
+
+            <aside className="homeV3PhoneZone">
+              <div className="homeV3PhoneZoneHeading">
+                <p className="homeV3Eyebrow">
+                  BAĞLANTIDA KAL
+                </p>
+
+                <h2>
+                  Goldkozmos’u
+                  <span> cebinde taşı.</span>
+                </h2>
+
+                <p>
+                  Instagram içerikleri ve WhatsApp kanalındaki
+                  duyurular için iki doğrudan bağlantı.
+                </p>
+              </div>
+
+              <div className="homeV3PhonePair">
+                {/* INSTAGRAM TELEFONU */}
+
+                <a
+                  className="homeV3SocialPhone homeV3InstagramPhone"
+                  href="https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Goldkozmos Instagram hesabını aç"
+                >
+                  <div className="homeV3PhoneFrame">
+                    <div
+                      className="homeV3PhoneNotch"
+                      aria-hidden="true"
+                    />
+
+                    <div className="homeV3PhoneScreen">
+                      <div className="homeV3PhoneAppTop">
+                        <span className="homeV3PhoneAppIcon">
+                          <SocialIcon platform="instagram" />
+                        </span>
+
+                        <strong>Instagram</strong>
+                      </div>
+
+                      <div className="homeV3InstagramPhoneProfile">
+                        <div className="homeV3InstagramPhonePhoto">
+                          <img
+                            src="/images/services/instagram-profile.webp"
+                            alt="Goldkozmos Instagram"
+                          />
+                        </div>
+
+                        <p>GOLDKOZMOS®</p>
+                        <h3>@goldkozmos</h3>
+
+                        <span>
+                          Kendilik · İlişkiler · Bolluk · Stoa
+                        </span>
+                      </div>
+
+                      <div
+                        className="homeV3InstagramPhoneGrid"
+                        aria-hidden="true"
+                      >
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                      </div>
+
+                      <div className="homeV3PhoneCta">
+                        Instagram’a Git
+                        <span>↗</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="homeV3PhoneLabel">
+                    Instagram
+                  </p>
+                </a>
+
+                {/* WHATSAPP TELEFONU */}
+
+                <a
+                  className="homeV3SocialPhone homeV3WhatsappPhone"
+                  href="https://whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Goldkozmos WhatsApp kanalını aç"
+                >
+                  <div className="homeV3PhoneFrame">
+                    <div
+                      className="homeV3PhoneNotch"
+                      aria-hidden="true"
+                    />
+
+                    <div className="homeV3PhoneScreen">
+                      <div className="homeV3PhoneAppTop">
+                        <span className="homeV3PhoneAppIcon">
+                          <SocialIcon platform="whatsapp" />
+                        </span>
+
+                        <strong>WhatsApp</strong>
+                      </div>
+
+                      <div className="homeV3WhatsappPhoneHero">
+                        <span>GOLDKOZMOS® ENERJİ EKOLÜ</span>
+
+                        <h3>
+                          Goldkozmos’tan
+                          <strong> haberdar kal.</strong>
+                        </h3>
+
+                        <p>
+                          Yeni çalışmalar, yayınlar ve duyurular
+                          tek bir yerde.
+                        </p>
+                      </div>
+
+                      <div className="homeV3WhatsappPhoneItems">
+                        <div>
+                          <span>01</span>
+                          <p>Yeni çalışma duyuruları</p>
+                        </div>
+
+                        <div>
+                          <span>02</span>
+                          <p>GoldCast ve GoldBlog paylaşımları</p>
+                        </div>
+
+                        <div>
+                          <span>03</span>
+                          <p>Topluluk güncellemeleri</p>
+                        </div>
+                      </div>
+
+                      <div className="homeV3PhoneCta">
+                        Kanala Katıl
+                        <span>→</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="homeV3PhoneLabel">
+                    WhatsApp Kanalı
+                  </p>
+                </a>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      {/* SSS */}
+
+      <section className="homeV3Faq" id="sss">
+        <div className="homeV3Container">
+          <div className="homeV3FaqHeading">
             <div>
               <p className="homeV3Eyebrow">
-                DİĞER ÇALIŞMALAR
+                SIK SORULAN SORULAR
               </p>
 
               <h2>
-                Daha
-                <span> kişisel bir alan.</span>
+                Merak ettiklerin,
+                <span> tek bir yerde.</span>
               </h2>
             </div>
 
             <p>
-              Tek bir konuya odaklanmak veya farklı bir
-              farkındalık yöntemiyle ilerlemek isteyenler için.
+              Atölyelerden birebir çalışmalara, GoldBook içeriklerinden
+              kayıtlı yayınlara kadar en sık sorulan sorular.
             </p>
           </div>
 
-          <div className="homeV3OtherGrid">
-            {otherWorks.map((work) => (
-              <a
-                className="homeV3OtherCard"
-                href={work.href}
-                key={work.title}
+          <div className="homeV3FaqList">
+            {faqs.map((faq, index) => (
+              <details
+                className="homeV3FaqItem"
+                key={faq.question}
               >
-                <div className="homeV3OtherTop">
-                  <span>{work.number}</span>
-                  <span>↗</span>
-                </div>
+                <summary>
+                  <span className="homeV3FaqNumber">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                <div>
-                  <h3>{work.title}</h3>
-                  <p>{work.text}</p>
-                </div>
+                  <strong>{faq.question}</strong>
 
-                <strong>{work.price}</strong>
-              </a>
+                  <span
+                    className="homeV3FaqPlus"
+                    aria-hidden="true"
+                  >
+                    +
+                  </span>
+                </summary>
+
+                <div className="homeV3FaqAnswer">
+                  <p>{faq.answer}</p>
+                </div>
+              </details>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* GOLDBOOK */}
-
-      <section
-        className="homeV3Books"
-        id="goldbook"
-      >
-        <div className="homeV3Container">
-          <div className="homeV3SectionHeading">
-            <div>
-              <p className="homeV3Eyebrow">
-                GOLDBOOK
-              </p>
-
-              <h2>
-                Okumak için değil,
-                <span> kendine dönmek için.</span>
-              </h2>
-            </div>
-
-            <a
-              className="homeV3TextLink"
-              href="/goldbook"
-            >
-              Tüm GoldBook’lar
-              <span>→</span>
-            </a>
-          </div>
-
-          <div className="homeV3BooksGrid">
-            {books.map((book) => (
-              <article
-                className="homeV3BookCard"
-                key={book.title}
-              >
-                <div className="homeV3BookImage">
-                  <img
-                    src={book.image}
-                    alt={book.title}
-                  />
-                </div>
-
-                <div className="homeV3BookContent">
-                  <p className="homeV3CardEyebrow">
-                    DİJİTAL GOLDBOOK
-                  </p>
-
-                  <h3>{book.title}</h3>
-
-                  <p>{book.text}</p>
-
-                  <div className="homeV3BookBottom">
-                    <strong>{book.price}</strong>
-
-                    <a
-                      href={book.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Shopier’den Al
-                      <span>→</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SOSYAL */}
-
-      <section className="homeV3Social">
-        <div className="homeV3Container">
-          <div className="homeV3SocialGrid">
-            <a
-              className="homeV3InstagramCard"
-              href="https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div className="homeV3InstagramPhoto">
-                <img
-                  src="/images/services/instagram-profile.webp"
-                  alt="Goldkozmos Instagram"
-                />
-              </div>
-
-              <div>
-                <p className="homeV3Eyebrow">
-                  INSTAGRAM
-                </p>
-
-                <h3>@goldkozmos</h3>
-
-                <p>
-                  Kendilik · İlişkiler · Bolluk · Stoa
-                </p>
-              </div>
-
-              <span className="homeV3SocialArrow">
-                ↗
-              </span>
-            </a>
-
-            <a
-              className="homeV3WhatsAppCard"
-              href="https://whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div>
-                <p className="homeV3Eyebrow">
-                  WHATSAPP KANALI
-                </p>
-
-                <h3>
-                  Goldkozmos’tan
-                  <span> haberdar kal.</span>
-                </h3>
-
-                <p>
-                  Yeni çalışmalar, yayınlar ve duyurular
-                  tek bir yerde.
-                </p>
-              </div>
-
-              <span className="homeV3SocialArrow">
-                →
-              </span>
-            </a>
           </div>
         </div>
       </section>
 
       {/* FOOTER */}
 
-      <footer className="homeV3Footer">
-        <div className="homeV3FooterInner">
-          <div className="homeV3FooterBrand">
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
-
-            <span>ENERJİ EKOLÜ</span>
-          </div>
-
-          <p>
-            Kişisel gelişim · Stoa · Rezonans
-          </p>
-
-          <div className="homeV3FooterLinks">
-            <a href="#top">Yukarı ↑</a>
-            <a href="/goldblog">GoldBlog</a>
-            <a href="/goldbook">GoldBook</a>
-          </div>
-        </div>
-      </footer>
+      <FooterSection />
     </main>
   );
 }
