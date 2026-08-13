@@ -423,4 +423,59 @@
   .homeV3Page div {
     min-width: 0 !important;
   }
+}/* =========================================================
+   MOBİL - HERO KENARLARINI EŞİTLE
+========================================================= */
+
+@media (max-width: 650px) {
+
+  /* ÜST MENÜ */
+  .homeV3Page .homeV3NavInner {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+
+    transform: none !important;
+  }
+
+  /* KAHVERENGİ HERO */
+  .homeV3Page .homeV3Hero {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 10px 10px 16px !important;
+
+    transform: none !important;
+  }
+
+  /* KREM KARTIN DIŞ KAPSAYICISI */
+  .homeV3Page .homeV3Hero .homeV3Container {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    transform: none !important;
+  }
+
+  /* KREM KART */
+  .homeV3Page .homeV3HeroCard {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin: 0 !important;
+
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+  }
+}@media (max-width: 650px) {
+  .homeV3Page .homeV3HeroCard {
+    transform: translateX(-6px) !important;
+  }
 }
