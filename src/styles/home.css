@@ -41197,4 +41197,354 @@ h1 span {
     padding: 0 21px !important;
     font-size: 12px !important;
   }
+}/* =========================================================
+   HOME.CSS - MASAÜSTÜ 3 DÜZELTME
+   1) Masaüstünde mobil menüyü gizle
+   2) Fotoğraf üzerindeki kimlik bandını geri getir
+   3) Sabit yukarı okunu geri getir
+========================================================= */
+
+@media (min-width: 901px) {
+
+  /* 1) MASAÜSTÜNDE MOBİL MENÜ GÖRÜNMESİN */
+  .homeV3Page .homeV3MobileMenuButton,
+  .homeV3Page .homeV3MobileMenu,
+  .homeV3Page .homeV3MobileMenuBackdrop {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* 2) FOTOĞRAF ÜZERİNDE ÖZGE BATIGÜN KİMLİK BANDI */
+  .homeV3Page .homeV3HeroVideoPortrait {
+    position: relative !important;
+  }
+
+  .homeV3Page .homeV3HeroIdentityBar {
+    position: absolute !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    min-height: 52px !important;
+    margin: 0 !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    border-radius: 16px !important;
+    background: rgba(48, 38, 31, 0.94) !important;
+    box-sizing: border-box !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 30 !important;
+  }
+
+  .homeV3Page .homeV3HeroIdentityBar > strong {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #fffaf0 !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .homeV3Page .homeV3HeroIdentityBar > span {
+    margin: 0 !important;
+    padding: 0 !important;
+    color: rgba(255, 250, 240, 0.88) !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* 3) SAYFAYLA BİRLİKTE GEZEN YUKARI OK */
+  .siteGlobalBackToTop {
+    position: fixed !important;
+    right: 20px !important;
+    bottom: 22px !important;
+    width: 62px !important;
+    height: 62px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(210, 164, 79, 0.60) !important;
+    border-radius: 50% !important;
+    background: rgba(43, 29, 19, 0.97) !important;
+    color: #d9aa50 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18) !important;
+    text-decoration: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 99997 !important;
+  }
+
+  .siteGlobalBackToTop > span {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #e0ad50 !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 34px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    transform: translateY(-2px) scaleX(1.18) !important;
+  }
+}/* =========================================================
+   GOLDKOZMOS · HOME.CSS · SADECE MOBİL NAVBAR DÜZELTMESİ
+   Eski çalışan mobil navbar kurallarından alınmıştır.
+   Bunu src/styles/home.css dosyasının EN ALTINA ekleyin.
+========================================================= */
+
+@media (max-width: 650px) {
+
+  html,
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  .homeV3Page,
+  .homeV3Page *,
+  .homeV3Page *::before,
+  .homeV3Page *::after {
+    box-sizing: border-box !important;
+  }
+
+  .homeV3Page {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    overflow-x: hidden !important;
+  }
+
+  /* NAVBAR */
+  .homeV3Page .homeV3Nav {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 62px !important;
+    height: 62px !important;
+    background: #211812 !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    position: relative !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+  }
+
+  .homeV3Page .homeV3NavInner {
+    width: auto !important;
+    max-width: none !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    margin-left: 14px !important;
+    margin-right: 14px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    transform: none !important;
+    position: relative !important;
+    z-index: 1003 !important;
+  }
+
+  .homeV3Page .homeV3Brand {
+    position: static !important;
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .homeV3Page .homeV3Brand strong {
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .homeV3Page .homeV3Brand strong sup {
+    font-size: 6px !important;
+  }
+
+  .homeV3Page .homeV3Brand > span {
+    display: block !important;
+    margin-top: 3px !important;
+    font-size: 6px !important;
+    letter-spacing: 1.5px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Masaüstü menüsü ve sağdaki Ücretsiz Test mobilde gizlenir */
+  .homeV3Page .homeV3Menu,
+  .homeV3Page .homeV3NavTest {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* HAMBURGER */
+  .homeV3Page .homeV3MobileMenuButton {
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    border: 1px solid rgba(181, 138, 61, 0.32) !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    cursor: pointer !important;
+    flex: 0 0 42px !important;
+  }
+
+  .homeV3Page .homeV3MobileMenuButton > span {
+    width: 19px !important;
+    height: 1.5px !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 999px !important;
+    background: #c69a45 !important;
+    transition:
+      transform 0.22s ease,
+      opacity 0.22s ease !important;
+  }
+
+  .homeV3Page .homeV3MobileMenuButton.isOpen > span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg) !important;
+  }
+
+  .homeV3Page .homeV3MobileMenuButton.isOpen > span:nth-child(2) {
+    opacity: 0 !important;
+  }
+
+  .homeV3Page .homeV3MobileMenuButton.isOpen > span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg) !important;
+  }
+
+  /* ARKA KARARTMA */
+  .homeV3Page .homeV3MobileMenuBackdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1001 !important;
+    display: block !important;
+    border: 0 !important;
+    background: rgba(18, 12, 8, 0.48) !important;
+    backdrop-filter: blur(2px) !important;
+  }
+
+  /* AÇILIR MENÜ */
+  .homeV3Page .homeV3MobileMenu {
+    position: absolute !important;
+    top: calc(100% + 1px) !important;
+    left: 14px !important;
+    right: 14px !important;
+    z-index: 1002 !important;
+    display: block !important;
+    padding: 12px !important;
+    border: 1px solid rgba(181, 138, 61, 0.22) !important;
+    border-radius: 0 0 20px 20px !important;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(39, 27, 19, 0.99),
+        rgba(29, 20, 14, 0.99)
+      ) !important;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-8px) !important;
+    pointer-events: none !important;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0.2s ease !important;
+  }
+
+  .homeV3Page .homeV3MobileMenu.isOpen {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+  }
+
+  .homeV3Page .homeV3MobileMenu nav {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .homeV3Page .homeV3MobileMenu nav > a {
+    min-height: 46px !important;
+    padding: 0 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+    color: #fffaf0 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 15px !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+  }
+
+  .homeV3Page .homeV3MobileMenu nav > a:last-child {
+    border-bottom: 0 !important;
+  }
+
+  .homeV3Page .homeV3MobileMenu nav > a > span {
+    font-family: Arial, sans-serif !important;
+    font-size: 8px !important;
+    letter-spacing: 0.08em !important;
+    color: rgba(198, 154, 69, 0.72) !important;
+  }
+
+  .homeV3Page .homeV3MobileMenuTest {
+    min-height: 44px !important;
+    margin-top: 10px !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #9f752d, #c2953e) !important;
+    color: #fffaf0 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+  }
 }
