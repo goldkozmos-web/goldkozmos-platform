@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import FooterSection from "../../components/FooterSection";
 import "../../styles/home.css";
 
@@ -50,9 +53,141 @@ const books = [
   },
 ];
 
+const goldBookCardStyles = `
+  .goldbookCompactPage .goldbookCompactCard {
+    overflow: hidden !important;
+    border: 2px solid rgba(205, 158, 70, 0.76) !important;
+    border-radius: 24px !important;
+    background:
+      radial-gradient(
+        circle at 92% 8%,
+        rgba(203, 157, 72, 0.12),
+        transparent 30%
+      ),
+      linear-gradient(
+        145deg,
+        #2b1d13 0%,
+        #21160f 58%,
+        #17100c 100%
+      ) !important;
+    box-shadow:
+      0 22px 48px rgba(48, 31, 13, 0.20),
+      0 7px 18px rgba(48, 31, 13, 0.10) !important;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .goldbookCompactPage .goldbookCompactCard:hover {
+    transform: translateY(-4px);
+    border-color: rgba(221, 177, 92, 0.9) !important;
+    box-shadow:
+      0 28px 58px rgba(48, 31, 13, 0.24),
+      0 9px 22px rgba(48, 31, 13, 0.12) !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactCardTop {
+    background: transparent !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactCover {
+    overflow: hidden;
+    border: 1px solid rgba(214, 173, 97, 0.38) !important;
+    border-radius: 16px !important;
+    background: #f7f0e5 !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactCover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .goldbookCompactPage .goldbookCompactNumber,
+  .goldbookCompactPage .goldbookCompactCategory {
+    color: #d2a653 !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactMainInfo h2 {
+    color: #fffaf1 !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactDescription {
+    color: rgba(255, 250, 241, 0.66) !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactPrice {
+    color: #ddb45f !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactDetails {
+    gap: 10px !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactDetails > div {
+    border: 1px solid rgba(214, 173, 97, 0.24) !important;
+    border-radius: 16px !important;
+    background:
+      linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.055),
+        rgba(255, 255, 255, 0.022)
+      ) !important;
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.012);
+  }
+
+  .goldbookCompactPage .goldbookCompactDetails h3 {
+    color: #fffaf1 !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactDetails li {
+    color: rgba(255, 250, 241, 0.68) !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactDetails li span {
+    color: #d2a653 !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactButton {
+    border: 1px solid rgba(156, 108, 30, 0.35) !important;
+    color: #2a1b12 !important;
+    background:
+      linear-gradient(
+        120deg,
+        #c8953d 0%,
+        #e0bb69 100%
+      ) !important;
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.16) !important;
+    font-weight: 700 !important;
+  }
+
+  .goldbookCompactPage .goldbookCompactButton:hover {
+    filter: brightness(1.04);
+  }
+
+  @media (max-width: 700px) {
+    .goldbookCompactPage .goldbookCompactCard {
+      border-width: 1.5px !important;
+      border-radius: 20px !important;
+    }
+  }
+`;
+
 export default function GoldBookPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] =
+    useState(false);
+
   return (
-    <main className="goldbookCompactPage homePage" id="top">
+    <main
+      className="goldbookCompactPage homePage"
+      id="top"
+    >
+      <style>{goldBookCardStyles}</style>
+
       <header className="goldbookCompactNav">
         <div className="goldbookCompactNavInner">
           <a href="/" className="goldbookCompactBrand">
@@ -60,19 +195,22 @@ export default function GoldBookPage() {
               Goldkozmos<sup>®</sup>
             </strong>
 
-            <span>ENERJİ EKOLÜ</span>
+            <span>REZONANS EKOLÜ</span>
           </a>
+
+          {/* MASAÜSTÜ MENÜ */}
 
           <nav className="goldbookCompactMenu">
             <a href="/">Ana Sayfa</a>
-            <a href="/enerji-ekolu">Enerji Ekolü</a>
-            <a href="/calismalar">Çalışmalar</a>
+            <a href="/#rezonans">Atölyeler</a>
+            <a href="/#diger">Çalışmalar</a>
             <a href="/goldbook">GoldBook</a>
             <a href="/goldcast">GoldCast</a>
             <a href="/goldblog">GoldBlog</a>
-            <a href="/etkinlikler">Etkinlikler</a>
             <a href="/hakkimda">Hakkımda</a>
           </nav>
+
+          {/* MASAÜSTÜ SAĞ BUTON */}
 
           <a
             href="/calismalar"
@@ -80,7 +218,126 @@ export default function GoldBookPage() {
           >
             Çalışmaları Gör
           </a>
+
+          {/* MOBİL HAMBURGER */}
+
+          <button
+            type="button"
+            className={`goldbookMobileMenuButton ${
+              mobileMenuOpen ? "isOpen" : ""
+            }`}
+            aria-label={
+              mobileMenuOpen
+                ? "Menüyü kapat"
+                : "Menüyü aç"
+            }
+            aria-expanded={mobileMenuOpen}
+            aria-controls="goldbookMobileMenu"
+            onClick={() =>
+              setMobileMenuOpen((open) => !open)
+            }
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
+
+        {/* MOBİL AÇILIR MENÜ */}
+
+        <div
+          id="goldbookMobileMenu"
+          className={`goldbookMobileMenu ${
+            mobileMenuOpen ? "isOpen" : ""
+          }`}
+          aria-hidden={!mobileMenuOpen}
+        >
+          <nav>
+            <a
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Ana Sayfa
+              <span>01</span>
+            </a>
+
+            <a
+              href="/#rezonans"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Atölyeler
+              <span>02</span>
+            </a>
+
+            <a
+              href="/#diger"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Çalışmalar
+              <span>03</span>
+            </a>
+
+            <a
+              href="/goldbook"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              GoldBook
+              <span>04</span>
+            </a>
+
+            <a
+              href="/goldcast"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              GoldCast
+              <span>05</span>
+            </a>
+
+            <a
+              href="/goldblog"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              GoldBlog
+              <span>06</span>
+            </a>
+
+            <a
+              href="/hakkimda"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Hakkımda
+              <span>07</span>
+            </a>
+
+            <a
+              href="/#sss"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Sıkça Sorulan Sorular
+              <span>08</span>
+            </a>
+          </nav>
+
+          <a
+            href="/sana-uygun-calismayi-bul"
+            className="goldbookMobileMenuTest"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Ücretsiz Test
+            <span>→</span>
+          </a>
+        </div>
+
+        {/* MENÜ AÇILDIĞINDA ARKA PLAN */}
+
+        {mobileMenuOpen && (
+          <button
+            type="button"
+            className="goldbookMobileMenuBackdrop"
+            aria-label="Menüyü kapat"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+        )}
       </header>
 
       <section className="goldbookCompactHero">
@@ -99,7 +356,7 @@ export default function GoldBookPage() {
 
             <div className="goldbookCompactHeroText">
               <p>
-                GoldBook, Goldkozmos® Enerji Ekolü
+                GoldBook, Goldkozmos® Rezonans Ekolü
                 içerisinde kişisel farkındalık ve içsel
                 dönüşüm konularında hazırlanan dijital
                 kitap koleksiyonudur.

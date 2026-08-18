@@ -1,11 +1,73 @@
-import type { Metadata, Viewport } from "next";
+import type {
+  Metadata,
+  Viewport,
+} from "next";
+
 import "../styles/home.css";
 import "../styles/mobile-v2.css";
 
+const siteUrl = "https://goldkozmos.com";
+
 export const metadata: Metadata = {
-  title: "Goldkozmos® Enerji Ekolü",
+  metadataBase: new URL(siteUrl),
+
+  applicationName: "Goldkozmos",
+
+  title: {
+    default:
+      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
+    template: "%s | Goldkozmos®",
+  },
+
   description:
-    "Kendilik, ilişkiler, bolluk, kişisel gelişim, Stoa ve öz farkındalık üzerine çalışmalar.",
+    "Goldkozmos® Rezonans Ekolü; kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk, öz farkındalık, enerji ve spiritüel farkındalık alanlarını bir araya getiren içerik ve çalışma ekosistemidir.",
+
+  robots: {
+    index: true,
+    follow: true,
+
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "tr_TR",
+    url: siteUrl,
+    siteName: "Goldkozmos",
+
+    title:
+      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
+
+    description:
+      "Kendilik, ilişkiler, bolluk, kişisel gelişim, Stoa, sosyoloji, enerji ve öz farkındalık üzerine Goldkozmos® Rezonans Ekolü içerikleri ve çalışmaları.",
+
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Goldkozmos Rezonans Ekolü",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+
+    title:
+      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
+
+    description:
+      "Kendilik, ilişkiler, bolluk, Stoa, sosyoloji, enerji ve kişisel farkındalık üzerine Goldkozmos® içerikleri.",
+
+    images: ["/opengraph-image"],
+  },
 };
 
 export const viewport: Viewport = {
@@ -13,6 +75,47 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: "#1b1009",
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+
+  url: siteUrl,
+
+  name: "Goldkozmos",
+
+  alternateName:
+    "Goldkozmos® Rezonans Ekolü",
+
+  inLanguage: "tr-TR",
+
+  publisher: {
+    "@id": `${siteUrl}/#organization`,
+  },
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+
+  name: "Goldkozmos",
+
+  alternateName:
+    "Goldkozmos® Rezonans Ekolü",
+
+  url: siteUrl,
+
+  logo: {
+    "@type": "ImageObject",
+    url: `${siteUrl}/icon.png`,
+  },
+
+  description:
+    "Kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk, enerji ve öz farkındalık alanlarını bir araya getiren Goldkozmos® Rezonans Ekolü.",
 };
 
 export default function RootLayout({
@@ -22,115 +125,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      <body>{children}</body>
+      <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              websiteJsonLd
+            ),
+          }}
+        />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(
+              organizationJsonLd
+            ),
+          }}
+        />
+
+        {children}
+      </body>
     </html>
   );
-}/* =========================================================
-   MOBİL - PROFİL KARTI + SOSYAL İKON SON DÜZELTME
-========================================================= */
-
-@media (max-width: 650px) {
-
-  /* ÖZGE BATIGÜN BİLGİ KARTI */
-
-  .homeV3Page .homeV3HeroProfileName {
-    position: relative !important;
-
-    width: calc(100% - 24px) !important;
-    max-width: none !important;
-
-    min-height: 52px !important;
-
-    margin:
-      -64px
-      12px
-      0 !important;
-
-    padding:
-      10px
-      14px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-
-    gap: 10px !important;
-
-    border-radius: 16px !important;
-
-    background: rgba(48, 38, 31, 0.94) !important;
-
-    overflow: hidden !important;
-
-    z-index: 10 !important;
-  }
-
-
-  /* ÖZGE BATIGÜN YAZISINI KUTUNUN İÇİNE KİLİTLE */
-
-  .homeV3Page .homeV3HeroProfileName strong {
-    position: static !important;
-
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-
-    display: block !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    transform: none !important;
-
-    font-size: 13px !important;
-    line-height: 1.15 !important;
-    font-weight: 500 !important;
-
-    color: #ffffff !important;
-
-    white-space: nowrap !important;
-  }
-
-
-  /* SAĞDAKİ KÜÇÜK AÇIKLAMA */
-
-  .homeV3Page .homeV3HeroProfileName span {
-    position: static !important;
-
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    transform: none !important;
-
-    font-size: 7.5px !important;
-    line-height: 1.2 !important;
-
-    color: rgba(255, 255, 255, 0.82) !important;
-
-    text-align: right !important;
-  }
-
-
-  /* SOSYAL İKONLARI BİR TIK BÜYÜT */
-
-  .homeV3Page .homeV3HeroSocials {
-    margin-top: 14px !important;
-    gap: 8px !important;
-  }
-
-  .homeV3Page .homeV3HeroSocials a {
-    width: 36px !important;
-    height: 36px !important;
-  }
-
-  .homeV3Page .homeV3HeroSocials svg {
-    width: 16px !important;
-    height: 16px !important;
-  }
 }

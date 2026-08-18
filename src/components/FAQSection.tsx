@@ -7,62 +7,98 @@ type FAQItem = {
   answer: string;
 };
 
+const whatsappUrl =
+  "https://wa.me/905054722153?text=Merhaba%2C%20Goldkozmos%20%C3%A7al%C4%B1%C5%9Fmalar%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.";
+
 const faqItems: FAQItem[] = [
   {
-    question: "Enerji çalışmaları nasıl gerçekleşir?",
+    question: "Rezonans çalışmaları nasıl gerçekleşir?",
     answer:
-      "Goldkozmos® Enerji Ekolü çalışmaları; kişinin ihtiyacına, seçilen programın içeriğine ve çalışma biçimine göre ilerler. Birebir seanslar kişiye özel planlanırken grup çalışmaları ortak bir tema etrafında gerçekleştirilir. Süreç, farkındalık ve içsel denge alanını desteklemeyi amaçlar.",
+      "Goldkozmos® Rezonans Ekolü çalışmaları; seçilen çalışmanın yapısına ve kişinin ele almak istediği konuya göre ilerler. Birebir ve grup çalışmalarının akışı birbirinden farklı olabilir.",
   },
   {
     question: "Online veya uzaktan çalışma yapılabilir mi?",
     answer:
-      "Evet. Birebir seanslar ve grup çalışmaları çevrim içi olarak gerçekleştirilebilir. Çalışmanın türüne göre Google Meet, WhatsApp veya belirtilen dijital platformlar kullanılır. Katılım için sessiz, rahat ve bölünmeyeceğin bir ortam hazırlaman önerilir.",
+      "Evet. Goldkozmos çalışmalarının büyük bölümü çevrim içi olarak gerçekleştirilebilir. Çalışmanın türüne göre Google Meet, WhatsApp veya ilgili dijital platform kullanılır.",
   },
   {
     question: "Kaç seans veya çalışma gerekir?",
     answer:
-      "Her kişinin ihtiyacı ve süreci farklıdır. Bazı konular tek bir çalışmada ele alınabilirken bazı konularda düzenli ve aralıklı bir süreç daha uygun olabilir. İlk görüşme veya çalışma sonrasında ihtiyaçların birlikte değerlendirilir.",
+      "Tek bir sayı herkes için geçerli değildir. Ele alınan konuya ve çalışma biçimine göre tek seans, kısa süreli bir program veya daha uzun bir süreç tercih edilebilir.",
   },
   {
     question: "İlk çalışmada ne hissederim?",
     answer:
-      "Çalışma sırasında veya sonrasında rahatlama, sakinlik, duygusal farkındalık, düşüncelerde netleşme ya da bedensel gevşeme hissedilebilir. Hiçbir belirgin his yaşamamak da mümkündür. Hissedilenler kişiden kişiye değişir ve çalışmanın değerini tek başına belirlemez.",
+      "Her kişinin deneyimi farklıdır. Bazı kişiler düşüncelerinde netleşme veya duygusal farkındalık yaşarken bazı kişiler daha sakin ve gözlemleyici bir süreç deneyimleyebilir.",
   },
   {
     question: "Herkes aynı deneyimi mi yaşar?",
     answer:
-      "Hayır. Her insanın yaşam deneyimi, duygusal yapısı, ihtiyaçları ve sürece verdiği tepki farklıdır. Bu nedenle çalışmaların etkisi, hissedilme biçimi ve dönüşüm süreci kişiye özel olarak ilerler.",
+      "Hayır. Yaşam deneyimleri, ihtiyaçlar, düşünce kalıpları ve kişinin çalışmaya yaklaşımı farklı olduğu için süreç de kişiden kişiye değişebilir.",
   },
   {
     question: "Hangi çalışmanın bana uygun olduğunu nasıl seçebilirim?",
     answer:
-      "Aşk ve ilişki, para ve bolluk, kişisel dönüşüm, birebir seans, tarot, numeroloji ve dijital ses çalışmaları arasından ihtiyacına uygun olanı seçebilirsin. Kararsız kaldığında Sana Uygun Çalışmayı Bul yönlendirmesini kullanarak başlangıç noktanı belirleyebilirsin.",
+      "Kendilik, ilişki, bolluk, birebir çalışmalar ve diğer içerikler farklı ihtiyaçlara hitap eder. Kararsızsan Sana Uygun Çalışmayı Bul testini kullanarak başlangıç alanını görebilirsin.",
   },
   {
-    question: "Tarot ve numeroloji geleceği kesin olarak söyler mi?",
+    question: "Rezonans Atölyeleri kimler için uygun?",
     answer:
-      "Tarot ve numeroloji, kesin gelecek garantisi sunan uygulamalar olarak ele alınmaz. Mevcut durumunu, yaşam temalarını, eğilimlerini ve tekrar eden örüntülerini farklı bir bakış açısıyla değerlendirmene yardımcı olan farkındalık araçlarıdır.",
+      "Kendini, ilişkilerini, seçimlerini veya tekrar eden yaşam örüntülerini daha yakından incelemek isteyen kişiler için hazırlanmıştır.",
+  },
+  {
+    question: "Kendilik Rezonansı ile mi başlamalıyım?",
+    answer:
+      "Kendilik Rezonansı, özdeğer, sınırlar, seçimler ve kişinin kendisiyle kurduğu ilişkiyi ele aldığı için diğer alanlara geçmeden önce güçlü bir başlangıç noktası olabilir.",
+  },
+  {
+    question: "İlişki Rezonansı yalnızca ilişkisi olanlar için mi?",
+    answer:
+      "Hayır. Mevcut ilişki kadar partner seçimleri, geçmiş ilişkiler, tekrar eden ilişki örüntüleri ve kişinin ilişkiler içinde kendini nasıl konumlandırdığı da ele alınabilir.",
+  },
+  {
+    question: "Bolluk Rezonansı yalnızca para üzerine mi?",
+    answer:
+      "Hayır. Para algısının yanında değer, üretkenlik, alışkanlıklar, kazanma biçimleri ve bollukla kurulan kişisel ilişki de incelenebilir.",
+  },
+  {
+    question: "Birebir seans ile atölye arasındaki fark nedir?",
+    answer:
+      "Birebir çalışma belirli bir konuya daha kişisel biçimde odaklanır. Atölyelerde ise önceden belirlenmiş bir tema ve yapı üzerinden ilerlenir.",
   },
   {
     question: "Birebir seansa nasıl hazırlanmalıyım?",
     answer:
-      "Seans öncesinde sessiz ve sakin bir ortam oluşturman, mümkünse yalnız kalman, rahat kıyafetler tercih etmen ve dikkatini dağıtacak bildirimleri kapatman önerilir. Çalışma sonrasında dinlenebilmek için kendine küçük bir zaman alanı bırakman da faydalı olabilir.",
+      "Görüşme sırasında rahatça konuşabileceğin, dikkatin dağılmayacağı sakin bir ortam oluşturman yeterlidir. Görüşmek istediğin konuyu önceden düşünmen de süreci kolaylaştırabilir.",
   },
   {
-    question: "Ses kayıtlarını ne zaman ve kaç kez dinleyebilirim?",
+    question: "Tarot ve numeroloji geleceği kesin olarak söyler mi?",
     answer:
-      "Ses kayıtlarını açıklamalarında belirtilen kullanım önerilerine göre kendi zamanında dinleyebilirsin. Rahat ve güvenli bir ortam seçmen, araç kullanırken veya dikkat gerektiren bir iş yaparken dinlememen önemlidir.",
+      "Hayır. Tarot ve numeroloji kesin gelecek garantisi sunmaz. Mevcut durumunu, eğilimlerini ve yaşamındaki bazı temaları farklı bir açıdan değerlendirmeye yardımcı olan farkındalık araçları olarak kullanılır.",
+  },
+  {
+    question: "Kayıtlı çalışmaları kendi zamanımda izleyebilir miyim?",
+    answer:
+      "Satışa kayıtlı içerik olarak sunulan çalışmalar kendi zamanında erişip izleyebileceğin veya dinleyebileceğin şekilde hazırlanır.",
+  },
+  {
+    question: "GoldBook ve GoldCast içerikleri çalışmaların yerine geçer mi?",
+    answer:
+      "GoldBook ve GoldCast bağımsız farkındalık içerikleridir. Atölye veya birebir çalışma ile aynı yapıda değildir ancak ele alınan konuları farklı açılardan düşünmek için kullanılabilir.",
   },
   {
     question: "Bu çalışmalar terapi veya tıbbi tedavi yerine geçer mi?",
     answer:
-      "Hayır. Goldkozmos® Enerji Ekolü çalışmaları kişisel farkındalık ve içsel denge sürecini desteklemeyi amaçlar. Tıbbi teşhis, psikoterapi veya sağlık tedavisi yerine geçmez. Fiziksel ya da ruhsal bir sağlık sorununda ilgili sağlık uzmanına başvurulmalıdır.",
+      "Hayır. Goldkozmos® içerikleri ve çalışmaları kişisel farkındalık ve bireysel gelişim amacı taşır. Psikoterapi, psikolojik danışmanlık, tıbbi teşhis veya tedavi yerine geçmez.",
   },
 ];
 
 export default function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const faqSliderRef = useRef<HTMLDivElement>(null);
+  const [openIndex, setOpenIndex] =
+    useState<number | null>(null);
+
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const wrappingRef = useRef(false);
 
   function handleToggle(index: number) {
     setOpenIndex((currentIndex) =>
@@ -70,18 +106,29 @@ export default function FAQSection() {
     );
   }
 
-  function scrollFaq(direction: "left" | "right") {
-    const slider = faqSliderRef.current;
+  function handleScroll() {
+    const slider = sliderRef.current;
 
-    if (!slider) return;
+    if (!slider || wrappingRef.current) return;
 
-    slider.scrollBy({
-      left:
-        direction === "right"
-          ? slider.clientWidth * 0.75
-          : -slider.clientWidth * 0.75,
-      behavior: "smooth",
-    });
+    const reachedEnd =
+      slider.scrollLeft + slider.clientWidth >=
+      slider.scrollWidth - 12;
+
+    if (reachedEnd) {
+      wrappingRef.current = true;
+
+      window.setTimeout(() => {
+        slider.scrollTo({
+          left: 0,
+          behavior: "smooth",
+        });
+
+        window.setTimeout(() => {
+          wrappingRef.current = false;
+        }, 650);
+      }, 180);
+    }
   }
 
   return (
@@ -100,7 +147,7 @@ export default function FAQSection() {
 
               <br />
 
-              <span>ENERJİ EKOLÜ</span>
+              <span>REZONANS EKOLÜ</span>
 
               <br />
 
@@ -115,122 +162,100 @@ export default function FAQSection() {
 
           <div className="faqHeadingContent">
             <p>
-              Çalışmaların ilerleyişi, seans süreci ve uygulamalar hakkında
-              en sık sorulan soruların yanıtlarını burada bulabilirsin.
+              Çalışmalar, atölyeler ve Goldkozmos
+              içerikleri hakkında en çok merak edilen
+              soruların yanıtlarını burada bulabilirsin.
             </p>
-
-            <div className="faqSliderControls">
-              <button
-                type="button"
-                onClick={() => scrollFaq("left")}
-                aria-label="Önceki sorular"
-              >
-                ←
-              </button>
-
-              <button
-                type="button"
-                onClick={() => scrollFaq("right")}
-                aria-label="Sonraki sorular"
-              >
-                →
-              </button>
-            </div>
           </div>
         </header>
 
-        <div className="faqLayout">
-          <div className="faqIntroCard">
-            <span className="faqIntroNumber">10</span>
+        <div className="faqQuickContact">
+          <div>
+            <span>YANITINI BULAMADIN MI?</span>
 
-            <p>EN ÇOK MERAK EDİLEN KONU</p>
-
-            <h3>
-              Başlamadan önce ihtiyaç duyduğun temel bilgiler.
-            </h3>
-
-            <span className="faqIntroLine" />
-
-            <small>
-              Yanıtını bulamadığın konular için iletişim sayfasından bize
-              ulaşabilirsin.
-            </small>
-
-            <a href="/iletisim">
-              İletişime Geç
-              <span aria-hidden="true">↗</span>
-            </a>
+            <p>
+              Merak ettiğin farklı bir konu varsa
+              doğrudan WhatsApp üzerinden yazabilirsin.
+            </p>
           </div>
 
-          <div
-            className="faqList"
-            ref={faqSliderRef}
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            {faqItems.map((item, index) => {
-              const isOpen = openIndex === index;
-              const questionId = `faq-question-${index}`;
-              const answerId = `faq-answer-${index}`;
-
-              return (
-                <article
-                  className={`faqItem ${isOpen ? "faqItemOpen" : ""}`}
-                  key={item.question}
-                >
-                  <h3>
-                    <button
-                      id={questionId}
-                      type="button"
-                      className="faqQuestion"
-                      onClick={() => handleToggle(index)}
-                      aria-expanded={isOpen}
-                      aria-controls={answerId}
-                    >
-                      <span className="faqQuestionNumber">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-
-                      <span className="faqQuestionText">
-                        {item.question}
-                      </span>
-
-                      <span
-                        className="faqQuestionIcon"
-                        aria-hidden="true"
-                      >
-                        <span />
-                        <span />
-                      </span>
-                    </button>
-                  </h3>
-
-                  <div
-                    id={answerId}
-                    className="faqAnswer"
-                    role="region"
-                    aria-labelledby={questionId}
-                    hidden={!isOpen}
-                  >
-                    <p>{item.answer}</p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+            İletişime Geç
+            <span aria-hidden="true">↗</span>
+          </a>
         </div>
 
-        <div className="faqFooter">
-          <div>
-            <p>HÂLÂ KARARSIZ MISIN?</p>
+        <div className="faqSwipeHeader">
+          <span>16 SORU</span>
+          <p>Yana kaydır</p>
+          <span aria-hidden="true">→</span>
+        </div>
 
-            <h3>
-              İhtiyacına uygun başlangıç noktasını birlikte keşfet.
-            </h3>
-          </div>
+        <div
+          className="faqList faqSliderList"
+          ref={sliderRef}
+          onScroll={handleScroll}
+        >
+          {faqItems.map((item, index) => {
+            const isOpen = openIndex === index;
+            const questionId = `faq-question-${index}`;
+            const answerId = `faq-answer-${index}`;
 
-          <a href="/sana-uygun-calismayi-bul">
-            Sana Uygun Çalışmayı Bul
-            <span aria-hidden="true">→</span>
-          </a>
+            return (
+              <article
+                className={`faqItem faqSliderItem ${
+                  isOpen ? "faqItemOpen" : ""
+                }`}
+                key={item.question}
+              >
+                <h3>
+                  <button
+                    id={questionId}
+                    type="button"
+                    className="faqQuestion"
+                    onClick={() =>
+                      handleToggle(index)
+                    }
+                    aria-expanded={isOpen}
+                    aria-controls={answerId}
+                  >
+                    <span className="faqQuestionNumber">
+                      {String(index + 1).padStart(
+                        2,
+                        "0",
+                      )}
+                    </span>
+
+                    <span className="faqQuestionText">
+                      {item.question}
+                    </span>
+
+                    <span
+                      className="faqQuestionIcon"
+                      aria-hidden="true"
+                    >
+                      <span />
+                      <span />
+                    </span>
+                  </button>
+                </h3>
+
+                <div
+                  id={answerId}
+                  className="faqAnswer"
+                  role="region"
+                  aria-labelledby={questionId}
+                  hidden={!isOpen}
+                >
+                  <p>{item.answer}</p>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

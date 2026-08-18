@@ -18,7 +18,7 @@ export default function NotFoundPage() {
 
             <br />
 
-            <span>ENERJİ EKOLÜ</span>
+            <span>REZONANS EKOLÜ</span>
 
             <br />
 
@@ -31,9 +31,9 @@ export default function NotFoundPage() {
           </h1>
 
           <p>
-            Bağlantı değiştirilmiş, kaldırılmış veya adres yanlış yazılmış
-            olabilir. Ana sayfaya dönebilir ya da çalışmalar arasından sana
-            uygun olan yolu seçebilirsin.
+            Bağlantı değiştirilmiş, kaldırılmış veya adres yanlış
+            yazılmış olabilir. Ana sayfaya dönebilir ya da çalışmalar
+            arasından sana uygun olan yolu seçebilirsin.
           </p>
 
           <div className="innerPageHeroActions">

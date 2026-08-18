@@ -2,12 +2,12 @@ import Link from "next/link";
 
 const platformLinks = [
   {
-    label: "Enerji Ekolü",
+    label: "Rezonans Ekolü",
     href: "/enerji-ekolu",
   },
   {
     label: "Çalışmalar",
-    href: "/calismalar",
+    href: "/#diger",
   },
   {
     label: "GoldBook",
@@ -42,11 +42,7 @@ const supportLinks = [
   },
   {
     label: "Sıkça Sorulan Sorular",
-    href: "/#sikca-sorulan-sorular",
-  },
-  {
-    label: "Danışan Deneyimleri",
-    href: "/danisan-deneyimleri",
+    href: "/#sss",
   },
   {
     label: "WhatsApp Kanalı",
@@ -100,14 +96,14 @@ export default function FooterSection() {
             <Link
               href="/"
               className="footerBrandLogo"
-              aria-label="Goldkozmos Enerji Ekolü ana sayfa"
+              aria-label="Goldkozmos Rezonans Ekolü ana sayfa"
             >
               <span>
                 Goldkozmos
                 <sup className="registeredSymbol">®</sup>
               </span>
 
-              <small>Enerji Ekolü</small>
+              <small>Rezonans Ekolü</small>
             </Link>
 
             <h2>
@@ -116,35 +112,14 @@ export default function FooterSection() {
             </h2>
 
             <p>
-              Spiritüel Stoa, sosyoloji ve Goldkozmos® Enerji Ekolü’ne özgü
-              yaklaşımın bir araya geldiği farkındalık ve içsel dönüşüm
-              ekosistemi.
+              Spiritüel Stoa, sosyoloji ve Goldkozmos® Rezonans
+              Ekolü’ne özgü yaklaşımın bir araya geldiği farkındalık
+              ve içsel dönüşüm ekosistemi.
             </p>
 
             <div className="footerBrandMotto">
               <span />
               <small>Kendi Kozmosunu Bul.</small>
-            </div>
-
-            <div className="footerSocialLinks">
-              <a
-                href="https://www.instagram.com/goldkozmos/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Instagram
-                <span aria-hidden="true">↗</span>
-              </a>
-
-              <Link href="/whatsapp-kanali">
-                WhatsApp
-                <span aria-hidden="true">↗</span>
-              </Link>
-
-              <Link href="/goldcast">
-                GoldCast
-                <span aria-hidden="true">↗</span>
-              </Link>
             </div>
           </div>
 
@@ -154,7 +129,7 @@ export default function FooterSection() {
 
               <nav aria-label="Platform bağlantıları">
                 {platformLinks.map((link) => (
-                  <Link href={link.href} key={link.href}>
+                  <Link href={link.href} key={link.label}>
                     {link.label}
                   </Link>
                 ))}
@@ -166,7 +141,7 @@ export default function FooterSection() {
 
               <nav aria-label="Destek bağlantıları">
                 {supportLinks.map((link) => (
-                  <Link href={link.href} key={link.href}>
+                  <Link href={link.href} key={link.label}>
                     {link.label}
                   </Link>
                 ))}
@@ -178,7 +153,7 @@ export default function FooterSection() {
 
               <nav aria-label="Yasal bağlantılar">
                 {legalLinks.map((link) => (
-                  <Link href={link.href} key={link.href}>
+                  <Link href={link.href} key={link.label}>
                     {link.label}
                   </Link>
                 ))}
@@ -187,42 +162,16 @@ export default function FooterSection() {
           </div>
         </div>
 
-        <div className="footerContact">
-          <div>
-            <p>GOLDKOZMOS® ENERJİ EKOLÜ</p>
-
-            <h3>
-              Sana uygun başlangıç noktasını birlikte keşfedelim.
-            </h3>
-          </div>
-
-          <div className="footerContactActions">
-            <Link href="/sana-uygun-calismayi-bul">
-              Çalışmanı Bul
-              <span aria-hidden="true">→</span>
-            </Link>
-
-            <Link href="/randevu">
-              Randevu Al
-              <span aria-hidden="true">↗</span>
-            </Link>
-          </div>
-        </div>
-
         <div className="footerBottom">
           <p>
-            © {currentYear} Goldkozmos® Enerji Ekolü. Tüm hakları saklıdır.
+            © {currentYear} Goldkozmos® Rezonans Ekolü. Tüm hakları
+            saklıdır.
           </p>
 
           <p>
             Sunulan içerikler kişisel farkındalık amacı taşır; tıbbi,
             psikolojik veya hukuki danışmanlık yerine geçmez.
           </p>
-
-          <a href="#top" aria-label="Sayfanın başına dön">
-            Yukarı Dön
-            <span aria-hidden="true">↑</span>
-          </a>
         </div>
       </div>
     </footer>

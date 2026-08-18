@@ -15,7 +15,6 @@ export default function OneToOneDetailSection() {
       id="birebir-seanslar"
     >
       <div className="oneToOneCompactContainer">
-
         {/* BAŞLIK */}
 
         <header className="oneToOneCompactHeader">
@@ -40,11 +39,9 @@ export default function OneToOneDetailSection() {
         {/* SEÇENEKLER */}
 
         <div className="oneToOneCompactOptions">
-
           {/* TEK SEANS */}
 
           <article className="oneToOneCompactCard">
-
             <div className="oneToOneCompactCardTop">
               <span>01</span>
 
@@ -69,22 +66,26 @@ export default function OneToOneDetailSection() {
                 <ul>
                   <li>
                     <span>✦</span>
-                    Görüşme öncesinde çalışmak istediğin ana konu belirlenir.
+                    Görüşme öncesinde çalışmak istediğin ana konu
+                    belirlenir.
                   </li>
 
                   <li>
                     <span>✦</span>
-                    Mevcut durumun ve tekrar eden örüntülerin birlikte incelenir.
+                    Mevcut durumun ve tekrar eden örüntülerin
+                    birlikte incelenir.
                   </li>
 
                   <li>
                     <span>✦</span>
-                    Konuya eşlik eden düşünce, duygu ve davranış biçimleri ele alınır.
+                    Konuya eşlik eden düşünce, duygu ve davranış
+                    biçimleri ele alınır.
                   </li>
 
                   <li>
                     <span>✦</span>
-                    Seans sonunda sana uygun farkındalık ve sonraki adımlar netleştirilir.
+                    Seans sonunda sana uygun farkındalık ve sonraki
+                    adımlar netleştirilir.
                   </li>
                 </ul>
 
@@ -103,9 +104,8 @@ export default function OneToOneDetailSection() {
             <h2>Tek Seans</h2>
 
             <p className="oneToOneCompactCardText">
-              Tek bir konuya odaklanmak, mevcut durumunu
-              daha net görmek ve kişisel bir yön belirlemek
-              için.
+              Tek bir konuya odaklanmak, mevcut durumunu daha net
+              görmek ve kişisel bir yön belirlemek için.
             </p>
 
             <div className="oneToOneCompactMeta">
@@ -121,7 +121,6 @@ export default function OneToOneDetailSection() {
           {/* 5 GÜNLÜK PAKET */}
 
           <article className="oneToOneCompactCard">
-
             <div className="oneToOneCompactCardTop">
               <span>02</span>
 
@@ -146,6 +145,7 @@ export default function OneToOneDetailSection() {
                 <div className="oneToOneCompactDays">
                   <div>
                     <span>01</span>
+
                     <p>
                       <strong>Başlangıç</strong>
                       Konunun ve mevcut durumun netleştirilmesi.
@@ -154,33 +154,41 @@ export default function OneToOneDetailSection() {
 
                   <div>
                     <span>02</span>
+
                     <p>
                       <strong>Örüntüler</strong>
-                      Tekrar eden düşünce ve davranış kalıplarının incelenmesi.
+                      Tekrar eden düşünce ve davranış kalıplarının
+                      incelenmesi.
                     </p>
                   </div>
 
                   <div>
                     <span>03</span>
+
                     <p>
                       <strong>Derinleşme</strong>
-                      Konunun altında çalışan ihtiyaç ve duygulara bakılması.
+                      Konunun altında çalışan ihtiyaç ve duygulara
+                      bakılması.
                     </p>
                   </div>
 
                   <div>
                     <span>04</span>
+
                     <p>
                       <strong>Uygulama</strong>
-                      Yeni bakış açılarının günlük yaşamdaki karşılığının gözlemlenmesi.
+                      Yeni bakış açılarının günlük yaşamdaki
+                      karşılığının gözlemlenmesi.
                     </p>
                   </div>
 
                   <div>
                     <span>05</span>
+
                     <p>
                       <strong>Bütünleme</strong>
-                      Beş günlük sürecin değerlendirilmesi ve sonraki yönün belirlenmesi.
+                      Beş günlük sürecin değerlendirilmesi ve
+                      sonraki yönün belirlenmesi.
                     </p>
                   </div>
                 </div>
@@ -200,9 +208,8 @@ export default function OneToOneDetailSection() {
             <h2>5 Günlük Paket</h2>
 
             <p className="oneToOneCompactCardText">
-              Aynı konu üzerinde ara vermeden ilerlemek ve
-              süreci birkaç güne yayarak daha yakından
-              incelemek için.
+              Aynı konu üzerinde ara vermeden ilerlemek ve süreci
+              birkaç güne yayarak daha yakından incelemek için.
             </p>
 
             <div className="oneToOneCompactMeta">
@@ -224,7 +231,9 @@ export default function OneToOneDetailSection() {
 
             <p>
               <strong>Konunu belirle</strong>
-              <small>Neye odaklanmak istediğini netleştir.</small>
+              <small>
+                Neye odaklanmak istediğini netleştir.
+              </small>
             </p>
           </div>
 

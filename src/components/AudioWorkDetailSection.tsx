@@ -126,15 +126,19 @@ export default function AudioWorkDetailSection() {
 
           <div className="serviceDetailLead">
             <p>
-              Goldkozmos® Enerji Ekolü dijital ses çalışmaları; aşk,
-              ilişki, para, özdeğer ve enerji alanlarında kişinin kendi
-              zamanında uygulayabileceği yönlendirmeli kayıtlardan oluşur.
+              Goldkozmos® Rezonans Ekolü dijital ses
+              çalışmaları; aşk, ilişki, para, özdeğer ve
+              enerji alanlarında kişinin kendi zamanında
+              uygulayabileceği yönlendirmeli kayıtlardan
+              oluşur.
             </p>
 
             <p>
-              Her kayıt farklı bir konuya odaklanır. Çalışmalar günlük yaşamın
-              içinde kendine alan açmanı, duygularını gözlemlemeni ve belirli
-              bir niyet üzerinde düzenli olarak çalışmanı destekler.
+              Her kayıt farklı bir konuya odaklanır.
+              Çalışmalar günlük yaşamın içinde kendine alan
+              açmanı, duygularını gözlemlemeni ve belirli bir
+              niyet üzerinde düzenli olarak çalışmanı
+              destekler.
             </p>
           </div>
         </div>
@@ -173,24 +177,27 @@ export default function AudioWorkDetailSection() {
             </h2>
 
             <p>
-              Günlük hayatın temposu içinde kişinin kendi duygularını ve
-              ihtiyaçlarını fark etmesi zorlaşabilir. Yönlendirmeli ses
-              çalışmaları, dikkati bir süreliğine dış dünyadan içsel alana
+              Günlük hayatın temposu içinde kişinin kendi
+              duygularını ve ihtiyaçlarını fark etmesi
+              zorlaşabilir. Yönlendirmeli ses çalışmaları,
+              dikkati bir süreliğine dış dünyadan içsel alana
               çevirmeye yardımcı olur.
             </p>
 
             <p>
-              Bu kayıtlar canlı bir seansın veya grup çalışmasının aynısı
-              değildir. Kendi başına ve kendi hızında ilerlemek isteyenler
-              için destekleyici bir çalışma alanı sunar.
+              Bu kayıtlar canlı bir seansın veya grup
+              çalışmasının aynısı değildir. Kendi başına ve
+              kendi hızında ilerlemek isteyenler için
+              destekleyici bir çalışma alanı sunar.
             </p>
 
             <div className="serviceDetailQuote">
               <span aria-hidden="true">“</span>
 
               <p>
-                Kendini duymak için hayatın tamamen susması gerekmez;
-                bazen yalnızca dikkatini kendine çevirmen yeterlidir.
+                Kendini duymak için hayatın tamamen susması
+                gerekmez; bazen yalnızca dikkatini kendine
+                çevirmen yeterlidir.
               </p>
             </div>
           </div>
@@ -198,7 +205,9 @@ export default function AudioWorkDetailSection() {
           <aside className="serviceDetailListCard">
             <p>SANA UYGUN OLABİLİR</p>
 
-            <h3>Kendini bu alanlardan birinde görüyor musun?</h3>
+            <h3>
+              Kendini bu alanlardan birinde görüyor musun?
+            </h3>
 
             <ul>
               {suitableFor.map((item) => (
@@ -227,8 +236,9 @@ export default function AudioWorkDetailSection() {
           </h2>
 
           <p>
-            İçerikler farklı dönemlerde yaşanan ihtiyaçlara göre seçilebilir.
-            Aynı kayıt, düzenli aralıklarla yeniden uygulanabilir.
+            İçerikler farklı dönemlerde yaşanan ihtiyaçlara
+            göre seçilebilir. Aynı kayıt, düzenli aralıklarla
+            yeniden uygulanabilir.
           </p>
         </div>
 
@@ -268,9 +278,9 @@ export default function AudioWorkDetailSection() {
             </h2>
 
             <p>
-              Çalışmadan alınan deneyim yalnızca kaydın içeriğine değil,
-              dinleme sırasında oluşturduğun ortama ve verdiğin dikkate de
-              bağlıdır.
+              Çalışmadan alınan deneyim yalnızca kaydın
+              içeriğine değil, dinleme sırasında oluşturduğun
+              ortama ve verdiğin dikkate de bağlıdır.
             </p>
           </div>
 
@@ -280,7 +290,9 @@ export default function AudioWorkDetailSection() {
                 className="serviceDetailGiftCard"
                 key={step.title}
               >
-                <span>{String(index + 1).padStart(2, "0")}</span>
+                <span>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
 
                 <h3>{step.title}</h3>
 
@@ -302,20 +314,23 @@ export default function AudioWorkDetailSection() {
             </h2>
 
             <p>
-              Ses kaydını dinlerken bölünmeyeceğin ve kendini güvende
-              hissedeceğin bir ortam seçmen önerilir.
+              Ses kaydını dinlerken bölünmeyeceğin ve kendini
+              güvende hissedeceğin bir ortam seçmen önerilir.
             </p>
 
             <p>
-              Yoğun duygular oluşması hâlinde çalışmayı durdurabilir,
-              dikkatini nefesine ve bulunduğun ortama yöneltebilirsin.
+              Yoğun duygular oluşması hâlinde çalışmayı
+              durdurabilir, dikkatini nefesine ve bulunduğun
+              ortama yöneltebilirsin.
             </p>
           </div>
 
           <aside className="serviceDetailListCard">
             <p>HAZIRLIK LİSTESİ</p>
 
-            <h3>Kaydı açmadan önce bunları hazırla.</h3>
+            <h3>
+              Kaydı açmadan önce bunları hazırla.
+            </h3>
 
             <ul>
               {preparationItems.map((item) => (
@@ -336,21 +351,26 @@ export default function AudioWorkDetailSection() {
 
             <h2>
               Ses çalışmaları,
-              <span> profesyonel sağlık desteğinin yerine geçmez.</span>
+              <span>
+                {" "}
+                profesyonel sağlık desteğinin yerine geçmez.
+              </span>
             </h2>
           </div>
 
           <div>
             <p>
-              Dijital ses kayıtları kişisel farkındalık ve içsel denge
-              süreçlerini desteklemek amacıyla sunulur. Psikoterapi, tıbbi
-              teşhis, tedavi veya psikolojik danışmanlık değildir.
+              Dijital ses kayıtları kişisel farkındalık ve
+              içsel denge süreçlerini desteklemek amacıyla
+              sunulur. Psikoterapi, tıbbi teşhis, tedavi veya
+              psikolojik danışmanlık değildir.
             </p>
 
             <p>
-              Kayıtlar araç kullanırken, makine kullanırken veya yüksek dikkat
-              gerektiren bir faaliyet sırasında dinlenmemelidir. Her kişinin
-              çalışma deneyimi kendine özgüdür.
+              Kayıtlar araç kullanırken, makine kullanırken
+              veya yüksek dikkat gerektiren bir faaliyet
+              sırasında dinlenmemelidir. Her kişinin çalışma
+              deneyimi kendine özgüdür.
             </p>
           </div>
         </div>

@@ -7,55 +7,67 @@ import "../../styles/home.css";
 
 export default function ContactPage() {
   return (
-    <main className="homePage" id="top">
-      <Navbar />
+    <main className="homePage contactPage" id="top">
+      {/* NAVBAR */}
 
-      <section className="innerPageHero">
-        <div className="innerPageHeroContainer">
-          <p className="sectionEyebrow">
-            <span>
-              GOLDKOZMOS
-              <sup className="registeredSymbol">®</sup>
-            </span>
+      <div className="contactNavShell">
+        <Navbar />
 
-            <br />
+        <details className="contactMobileMenu">
+          <summary aria-label="Menüyü aç">
+            <span />
+            <span />
+            <span />
+          </summary>
 
-            <span>ENERJİ EKOLÜ</span>
+          <div className="contactMobileMenuPanel">
+            <nav>
+              <a href="/">Ana Sayfa</a>
+              <a href="/#rezonans">Atölyeler</a>
+              <a href="/#diger">Çalışmalar</a>
+              <a href="/goldbook">GoldBook</a>
+              <a href="/goldcast">GoldCast</a>
+              <a href="/goldblog">GoldBlog</a>
+              <a href="/hakkimda">Hakkımda</a>
+              <a href="/iletisim">İletişim</a>
+            </nav>
 
-            <br />
-
-            <span>İLETİŞİM</span>
-          </p>
-
-          <h1>
-            Sana uygun kanaldan
-            <span> iletişime geç.</span>
-          </h1>
-
-          <p>
-            Çalışmalar, randevu süreci, program tarihleri ve Goldkozmos®
-            Enerji Ekolü içerikleri hakkında bilgi almak için iletişim
-            seçeneklerini incele.
-          </p>
-
-          <div className="innerPageHeroActions">
-            <a href="#iletisim-secenekleri">
-              İletişim Seçeneklerini Gör
-              <span aria-hidden="true">↓</span>
-            </a>
-
-            <a href="/sana-uygun-calismayi-bul">
-              Önce Çalışmamı Bul
-              <span aria-hidden="true">→</span>
+            <a
+              className="contactMobileMenuTest"
+              href="/sana-uygun-calismayi-bul"
+            >
+              Ücretsiz Test
+              <span>→</span>
             </a>
           </div>
-        </div>
-      </section>
+        </details>
+      </div>
+
+      {/* ANA İLETİŞİM ALANI */}
 
       <ContactSection />
+
+      {/* WHATSAPP KANALI */}
+
       <WhatsAppSection />
+
+      {/* SIKÇA SORULAN SORULAR */}
+
       <FAQSection />
+
+      {/* FOOTER */}
+
       <FooterSection />
+
+      {/* MOBİL SABİT YUKARI OK */}
+
+      <a
+        href="#top"
+        className="contactFloatingTop"
+        aria-label="Sayfanın başına dön"
+      >
+        ↑
+      </a>
     </main>
   );
 }

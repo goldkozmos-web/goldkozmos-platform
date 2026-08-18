@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import FooterSection from "../../components/FooterSection";
 
 const journey = [
@@ -37,18 +40,20 @@ const approach = [
 ];
 
 export default function HakkimdaPage() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <main className="aboutCompactPage" id="top">
       {/* NAVBAR */}
 
-      <header className="homeV3Nav">
+      <header className="homeV3Nav aboutCompactNav">
         <div className="homeV3NavInner">
           <a className="homeV3Brand" href="/">
             <strong>
               GOLDKOZMOS<sup>®</sup>
             </strong>
 
-            <span>ENERJİ EKOLÜ</span>
+            <span>REZONANS EKOLÜ</span>
           </a>
 
           <nav className="homeV3Menu">
@@ -58,6 +63,7 @@ export default function HakkimdaPage() {
             <a href="/goldbook">GoldBook</a>
             <a href="/goldcast">GoldCast</a>
             <a href="/goldblog">GoldBlog</a>
+            <a href="/hakkimda">Hakkımda</a>
           </nav>
 
           <a
@@ -67,7 +73,105 @@ export default function HakkimdaPage() {
             Ücretsiz Test
             <span>→</span>
           </a>
+
+          {/* MOBİL HAMBURGER */}
+
+          <button
+            type="button"
+            className={`aboutCompactMobileMenuButton ${
+              menuOpen ? "isOpen" : ""
+            }`}
+            aria-label="Menüyü aç"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
+
+        {/* MOBİL AÇILIR MENÜ */}
+
+        {menuOpen && (
+          <>
+            <button
+              type="button"
+              className="aboutCompactMobileMenuBackdrop"
+              aria-label="Menüyü kapat"
+              onClick={() => setMenuOpen(false)}
+            />
+
+            <div className="aboutCompactMobileMenu">
+              <nav>
+                <a
+                  href="/"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Ana Sayfa
+                  <span>→</span>
+                </a>
+
+                <a
+                  href="/#rezonans"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Atölyeler
+                  <span>→</span>
+                </a>
+
+                <a
+                  href="/#diger"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Çalışmalar
+                  <span>→</span>
+                </a>
+
+                <a
+                  href="/goldbook"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  GoldBook
+                  <span>→</span>
+                </a>
+
+                <a
+                  href="/goldcast"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  GoldCast
+                  <span>→</span>
+                </a>
+
+                <a
+                  href="/goldblog"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  GoldBlog
+                  <span>→</span>
+                </a>
+
+                <a
+                  href="/hakkimda"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Hakkımda
+                  <span>→</span>
+                </a>
+
+                <a
+                  className="aboutCompactMobileMenuTest"
+                  href="/sana-uygun-calismayi-bul"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Sana Uygun Çalışmayı Bul
+                  <span>→</span>
+                </a>
+              </nav>
+            </div>
+          </>
+        )}
       </header>
 
       {/* ANA ALAN */}
@@ -137,7 +241,9 @@ export default function HakkimdaPage() {
 
                   <div>
                     <strong>Özge Batıgün</strong>
-                    <small>Goldkozmos® Enerji Ekolü</small>
+                    <small>
+                      Goldkozmos® Rezonans Ekolü
+                    </small>
                   </div>
                 </div>
               </div>
@@ -158,8 +264,6 @@ export default function HakkimdaPage() {
             {/* ORTA ALAN */}
 
             <div className="aboutCompactMiddle">
-              {/* GOLDKOZMOS NASIL DOĞDU */}
-
               <section className="aboutCompactStory">
                 <p className="aboutCompactEyebrow">
                   GOLDKOZMOS® NASIL DOĞDU?
@@ -193,8 +297,6 @@ export default function HakkimdaPage() {
                   </p>
                 </div>
               </section>
-
-              {/* YAKLAŞIM */}
 
               <section className="aboutCompactApproach">
                 <p className="aboutCompactEyebrow">
@@ -260,9 +362,17 @@ export default function HakkimdaPage() {
         </div>
       </section>
 
-      {/* DETAYLI FOOTER */}
-
       <FooterSection />
+
+      {/* EKRANLA BİRLİKTE GELEN OK */}
+
+      <a
+        href="#top"
+        className="aboutCompactBackToTop"
+        aria-label="Yukarı dön"
+      >
+        ↑
+      </a>
     </main>
   );
 }

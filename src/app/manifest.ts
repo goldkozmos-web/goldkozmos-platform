@@ -1,0 +1,35 @@
+import type { MetadataRoute } from "next";
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: "Goldkozmos® Rezonans Ekolü",
+
+    short_name: "Goldkozmos",
+
+    description:
+      "Kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk ve spiritüel farkındalık ekosistemi.",
+
+    start_url: "/",
+
+    display: "standalone",
+
+    background_color: "#fbf7ef",
+
+    theme_color: "#1b1009",
+
+    lang: "tr",
+
+    icons: [
+      {
+        src: "/icon",
+        sizes: "96x96",
+        type: "image/png",
+      },
+      {
+        src: "/apple-icon",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  };
+}
