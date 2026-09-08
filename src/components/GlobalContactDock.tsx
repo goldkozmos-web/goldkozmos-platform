@@ -85,14 +85,19 @@ const dockStyles = `
       display: none !important;
     }
 
+    .goldkozmosGlobalContactButton,
+    .goldkozmosGlobalContactButton img {
+      display: none !important;
+    }
+
     .goldkozmosGlobalBackToTop {
       position: absolute;
       right: 0;
-      bottom: 66px;
+      bottom: 0;
       z-index: 3;
 
-      width: 54px;
-      height: 54px;
+      width: 52px;
+      height: 52px;
 
       margin: 0;
       padding: 0;
@@ -101,36 +106,44 @@ const dockStyles = `
       align-items: center;
       justify-content: center;
 
-      border:
-        1px solid rgba(215, 171, 91, 0.68);
-
+      border: 1.5px solid rgba(236, 205, 132, 0.82);
       border-radius: 50%;
 
       background:
-        rgba(43, 29, 19, 0.98);
-
-      color: #e0ad50;
+        radial-gradient(
+          circle at 32% 26%,
+          rgba(255, 236, 196, 0.28),
+          transparent 46%
+        ),
+        linear-gradient(
+          152deg,
+          #3a281c 0%,
+          #21150f 48%,
+          #120c09 100%
+        );
 
       box-shadow:
-        0 10px 28px rgba(0, 0, 0, 0.24);
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1;
+        0 8px 18px rgba(18, 11, 7, 0.28),
+        inset 0 1px 0 rgba(255, 244, 220, 0.26),
+        inset 0 -7px 12px rgba(0, 0, 0, 0.32);
 
       cursor: pointer;
       pointer-events: auto;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .goldkozmosGlobalBackToTop svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+      overflow: visible;
     }
 
     .goldkozmosGlobalContactDock {
       position: fixed;
       right: 17px;
-      bottom: 18px;
+      bottom: calc(92px + env(safe-area-inset-bottom, 0px));
       z-index: 99998;
 
       display: flex;
@@ -140,21 +153,23 @@ const dockStyles = `
     }
 
     .goldkozmosGlobalContactPanel {
-      position: absolute;
-      right: 64px;
-      bottom: 0;
+      position: fixed;
+      left: 50%;
+      right: auto;
+      bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 
-      width: min(326px, calc(100vw - 96px));
-      padding: 14px;
+      box-sizing: border-box;
+      width: min(372px, calc(100vw - 32px));
+      padding: 18px;
 
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
 
       border:
         1px solid rgba(213, 168, 82, 0.38);
 
-      border-radius: 26px;
+      border-radius: 28px;
 
       background:
         radial-gradient(
@@ -180,10 +195,11 @@ const dockStyles = `
       pointer-events: none;
 
       transform:
-        translateX(14px)
-        scale(0.94);
+        translateX(-50%)
+        translateY(8px)
+        scale(0.96);
 
-      transform-origin: right bottom;
+      transform-origin: center bottom;
 
       transition:
         opacity 180ms ease,
@@ -197,7 +213,7 @@ const dockStyles = `
       pointer-events: auto;
 
       transform:
-        translateX(0)
+        translateX(-50%)
         scale(1);
     }
 
@@ -228,7 +244,7 @@ const dockStyles = `
         "Times New Roman",
         serif;
 
-      font-size: 19px;
+      font-size: 22px;
       line-height: 1.05;
       font-weight: 400;
     }
@@ -243,7 +259,7 @@ const dockStyles = `
     }
 
     .goldkozmosGlobalWhatsappAction {
-      min-height: 50px;
+      min-height: 56px;
 
       padding: 10px;
 
@@ -451,13 +467,30 @@ export default function GlobalContactDock() {
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const toggleWhatsApp = () => setOpen((current) => !current);
+    const closeWhatsApp = () => setOpen(false);
+
+    window.addEventListener("goldkozmos:toggle-whatsapp", toggleWhatsApp);
+    window.addEventListener("goldkozmos:close-whatsapp", closeWhatsApp);
+
+    return () => {
+      window.removeEventListener(
+        "goldkozmos:toggle-whatsapp",
+        toggleWhatsApp,
+      );
+      window.removeEventListener(
+        "goldkozmos:close-whatsapp",
+        closeWhatsApp,
+      );
+    };
+  }, []);
+
   /*
     GoldBook'ta aynı sistem sayfanın içinde zaten var.
-    İkinci kez göstermiyoruz.
+    Mobilde bottom bar WhatsApp paneli için dock yine de render edilir;
+    yuvarlak buton CSS ile gizlenir.
   */
-  if (pathname === "/goldbook") {
-    return null;
-  }
 
   return (
     <>
@@ -536,25 +569,35 @@ export default function GlobalContactDock() {
             });
           }}
         >
-          ↑
-        </button>
-
-        <button
-          type="button"
-          className="goldkozmosGlobalContactButton"
-          aria-label={
-            open
-              ? "WhatsApp ve sosyal medya panelini kapat"
-              : "WhatsApp ve sosyal medya panelini aç"
-          }
-          aria-expanded={open}
-          onClick={() => setOpen((current) => !current)}
-        >
-          <img
-            src="/images/services/goldblog/social/whatsapp.webp"
-            alt=""
+          <svg
+            viewBox="0 0 24 24"
             aria-hidden="true"
-          />
+          >
+            <defs>
+              <linearGradient
+                id="goldkozmosBackToTopArrowFill"
+                x1="12"
+                y1="4"
+                x2="12"
+                y2="21"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0%" stopColor="#fff8e4" />
+                <stop offset="36%" stopColor="#f0d08a" />
+                <stop offset="72%" stopColor="#d4a24a" />
+                <stop offset="100%" stopColor="#9a6d24" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="rgba(62, 36, 10, 0.38)"
+              d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"
+              transform="translate(0 0.7)"
+            />
+            <path
+              fill="url(#goldkozmosBackToTopArrowFill)"
+              d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"
+            />
+          </svg>
         </button>
       </div>
     </>

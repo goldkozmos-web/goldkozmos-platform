@@ -4,11 +4,13 @@ import type {
 } from "next";
 
 import GlobalContactDock from "../components/GlobalContactDock";
+import MobileBottomBar from "../components/MobileBottomBar";
 import PlatformFlowRoot from "../components/platform/PlatformFlowRoot";
 
 import "../styles/home.css";
 import "../styles/mobile-v2.css";
 import "../styles/platform-flow.css";
+import "../styles/mobile-bottom-bar.css";
 
 const siteUrl = "https://goldkozmos.com";
 
@@ -151,6 +153,7 @@ export default function RootLayout({
         <PlatformFlowRoot>
           {children}
           <GlobalContactDock />
+          <MobileBottomBar />
         </PlatformFlowRoot>
       </body>
     </html>

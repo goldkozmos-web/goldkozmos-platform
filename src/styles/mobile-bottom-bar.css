@@ -1,0 +1,159 @@
+.goldkozmosMobileBottomBar,
+.goldkozmosMobileGoldsSheet,
+.goldkozmosMobileGoldsBackdrop {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  body {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .homeV3Page .homeV3FloatingWhatsapp,
+  .homeV3FloatingWhatsapp,
+  .goldcastPage .goldcastFloatingWhatsapp,
+  .goldcastFloatingWhatsapp,
+  .goldkozmosGlobalContactButton,
+  .homeV3Page .siteGlobalBackToTop,
+  .siteGlobalBackToTop {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .platformMiniPlayer {
+    bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .goldkozmosMobileBottomBar {
+    position: fixed;
+    left: 15px;
+    right: 15px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 99999;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    height: 74px;
+    padding: 0 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid rgba(184, 140, 62, 0.22);
+    border-radius: 30px;
+    background: rgba(255, 252, 247, 0.82);
+    box-shadow:
+      0 10px 28px rgba(48, 30, 14, 0.10),
+      0 1px 0 rgba(255, 255, 255, 0.65) inset;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .goldkozmosMobileBottomBar a,
+  .goldkozmosMobileBottomBar button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: #3a2c22;
+    background: transparent;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  .goldkozmosMobileBottomBar .goldkozmosMobileBottomIcon {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  .goldkozmosMobileBottomBar a.isActive,
+  .goldkozmosMobileBottomBar button.isActive {
+    color: #b8893a;
+  }
+
+  .goldkozmosMobileBottomBar a.isActive .goldkozmosMobileBottomIcon,
+  .goldkozmosMobileBottomBar button.isActive .goldkozmosMobileBottomIcon {
+    background: rgba(201, 154, 71, 0.12);
+  }
+
+  .goldkozmosMobileBottomBar svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    fill: currentColor;
+  }
+
+  .goldkozmosMobileGoldsBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    display: block;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .goldkozmosMobileGoldsSheet {
+    position: fixed;
+    left: 15px;
+    right: 15px;
+    bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    z-index: 100000;
+    display: block;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 12px;
+    border: 1px solid rgba(184, 140, 62, 0.38);
+    border-radius: 22px;
+    background: rgba(42, 28, 19, 0.92);
+    box-shadow: 0 16px 36px rgba(28, 16, 8, 0.28);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    scrollbar-width: none;
+  }
+
+  .goldkozmosMobileGoldsSheet::-webkit-scrollbar {
+    display: none;
+  }
+
+  .goldkozmosMobileGoldsTrack {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: max-content;
+  }
+
+  .goldkozmosMobileGoldsSheet a {
+    flex: 0 0 auto;
+    min-width: 124px;
+    min-height: 52px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #211811;
+    text-decoration: none;
+    border: 1px solid rgba(212, 168, 82, 0.55);
+    border-radius: 999px;
+    background: linear-gradient(180deg, #f4e3c4 0%, #e3c07a 100%);
+    box-shadow: 0 6px 14px rgba(28, 16, 8, 0.22);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+}

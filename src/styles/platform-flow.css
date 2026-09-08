@@ -19,7 +19,7 @@
   width: 100%;
   min-width: 0;
   overflow-x: auto;
-  padding-bottom: 6px;
+  padding: 8px 0 10px;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -35,15 +35,36 @@
   flex: 0 0 210px;
   display: grid;
   align-content: start;
-  gap: 6px;
+  gap: 8px;
   min-width: 210px;
   min-height: 132px;
   padding: 16px 16px 14px;
   overflow: hidden;
   scroll-snap-align: start;
-  border: 1px solid rgba(160, 119, 42, 0.16);
-  border-radius: 18px;
+  border: 1px solid rgba(232, 196, 118, 0.42);
+  border-radius: 16px;
   text-decoration: none;
+  background:
+    linear-gradient(180deg, rgba(247, 234, 208, 0.08), transparent 28%),
+    linear-gradient(155deg, #3a2a1f 0%, #241810 100%);
+  box-shadow: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: transform 220ms ease;
+}
+
+.platformRailCard:hover {
+  transform: translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platformRailCard {
+    transition: none;
+  }
+
+  .platformRailCard:hover {
+    transform: none;
+  }
 }
 
 .platformRailMark {
@@ -51,19 +72,24 @@
 }
 
 .platformRailCard strong {
-  color: #211811;
+  color: #f8edd4;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  text-rendering: geometricPrecision;
 }
 
 .platformRailTagline,
 .platformRailResume,
 .platformRailEmpty,
 .platformRailPercent {
-  color: #8a7f74;
+  color: rgba(247, 234, 208, 0.78);
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.45;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
 }
 
 .platformRailResume {
@@ -71,34 +97,30 @@
   overflow: hidden;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  color: #3a322c;
+  color: #f3e2c0;
 }
 
-.platformRailCard--cream {
-  background: #fffdf8;
-}
-
-.platformRailCard--taupe {
-  background: #f4eee4;
-}
-
-.platformRailCard--cocoa {
-  background: #2a221c;
+.platformRailCard--cream,
+.platformRailCard--taupe,
+.platformRailCard--cocoa,
+.platformRailCard--gold {
+  background:
+    linear-gradient(180deg, rgba(247, 234, 208, 0.08), transparent 28%),
+    linear-gradient(155deg, #3a2a1f 0%, #241810 100%);
 }
 
 .platformRailCard--cocoa strong,
-.platformRailCard--cocoa .platformRailResume {
-  color: #f7ead0;
+.platformRailCard--cocoa .platformRailResume,
+.platformRailCard--cream strong,
+.platformRailCard--taupe strong,
+.platformRailCard--gold strong {
+  color: #f6e6c8;
 }
 
 .platformRailCard--cocoa .platformRailTagline,
 .platformRailCard--cocoa .platformRailEmpty,
 .platformRailCard--cocoa .platformRailPercent {
-  color: rgba(247, 234, 208, 0.7);
-}
-
-.platformRailCard--gold {
-  background: #ead9b0;
+  color: rgba(247, 234, 208, 0.72);
 }
 
 .platformProgressTrack {
@@ -120,16 +142,16 @@
 }
 
 .platformGlance {
-  padding: 8px 0 28px;
+  padding: 18px 0 0;
   background: #fffdf8;
 }
 
 .platformContinue h2 {
-  margin: 0 0 10px;
+  margin: 0 0 4px;
   color: #211811;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 20px;
-  font-weight: 400;
+  font-size: 17px;
+  font-weight: 600;
 }
 
 .platformContinueCard {
@@ -167,7 +189,7 @@
 .platformContinueEmpty {
   margin: 0;
   color: #8a7f74;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .platformContinueCta,
@@ -283,37 +305,32 @@
 
   .platformRailSlider {
     gap: 10px;
-    padding: 2px 17px 10px;
+    padding: 8px 17px 10px;
     overscroll-behavior-x: contain;
   }
 
   .platformRailCard {
     flex: 0 0 46%;
     min-width: 46%;
-    min-height: 96px;
-    padding: 10px 10px 10px;
+    min-height: 104px;
+    padding: 14px 13px 12px;
     border-radius: 14px;
+    box-shadow: none;
   }
 
   .platformRailMark {
-    display: grid;
-    place-items: center;
-    width: 22px;
-    height: 22px;
-    margin-bottom: 2px;
-    border: 1px solid rgba(168, 121, 42, 0.28);
-    border-radius: 50%;
-    color: #8a641c;
-    font-size: 11px;
+    display: none !important;
   }
 
   .platformRailCard strong {
-    font-size: 15px;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: -0.015em;
   }
 
   .platformRailTagline,
   .platformRailEmpty {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .platformRailEmpty {
@@ -322,36 +339,22 @@
     border-top: 1px solid rgba(160, 119, 42, 0.14);
   }
 
-  .platformRailCard--cream {
-    background:
-      radial-gradient(circle at 88% 12%, rgba(212, 170, 89, 0.22), transparent 42%),
-      #fff8ee;
-    border-color: rgba(168, 121, 42, 0.2);
-  }
-
-  .platformRailCard--taupe {
-    background:
-      radial-gradient(circle at 88% 12%, rgba(201, 155, 70, 0.2), transparent 44%),
-      #efe6d6;
-    border-color: rgba(140, 112, 70, 0.2);
-  }
-
-  .platformRailCard--cocoa {
-    background:
-      radial-gradient(circle at 88% 12%, rgba(229, 197, 130, 0.22), transparent 46%),
-      #241c17;
-  }
-
-  .platformRailCard--cocoa .platformRailMark {
-    border-color: rgba(229, 197, 130, 0.32);
-    color: #e5c582;
-  }
-
+  .platformRailCard--cream,
+  .platformRailCard--taupe,
+  .platformRailCard--cocoa,
   .platformRailCard--gold {
     background:
-      radial-gradient(circle at 88% 12%, rgba(255, 253, 248, 0.35), transparent 42%),
-      #e2c78a;
-    border-color: rgba(111, 81, 24, 0.16);
+      linear-gradient(180deg, rgba(247, 234, 208, 0.08), transparent 28%),
+      linear-gradient(155deg, #3a2a1f 0%, #241810 100%);
+    border-color: rgba(232, 196, 118, 0.42);
+  }
+
+  .platformRailCard--cocoa .platformRailMark,
+  .platformRailCard--cream .platformRailMark,
+  .platformRailCard--taupe .platformRailMark,
+  .platformRailCard--gold .platformRailMark {
+    border-color: rgba(229, 197, 130, 0.32);
+    color: #e5c582;
   }
 
   .platformRailCard--cocoa .platformRailEmpty {

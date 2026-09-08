@@ -10,14 +10,12 @@ import {
 type ContinueCardProps = {
   item: PlatformProgress | null;
   title?: string;
-  emptyLabel?: string;
   variant?: "glance" | "page";
 };
 
 export default function ContinueCard({
   item,
   title = "Kaldığın Yeri Gör",
-  emptyLabel = "Başladığın içerikler burada görünecek.",
   variant = "glance",
 }: ContinueCardProps) {
   return (
@@ -51,9 +49,7 @@ export default function ContinueCard({
             Devam Et
           </Link>
         </div>
-      ) : (
-        <p className="platformContinueEmpty">{emptyLabel}</p>
-      )}
+      ) : null}
     </section>
   );
 }

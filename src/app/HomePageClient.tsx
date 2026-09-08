@@ -1,13 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FooterSection from "../components/FooterSection";
 import HomeNavbar from "../components/HomeNavbar";
-import HomeGoldMindSection from "../components/HomeGoldMindSection";
 import PlatformRail from "../components/platform/PlatformRail";
-import ContinueGlance from "../components/platform/ContinueGlance";
 import {
-  EDUCATION_HUB_PATH,
   getEducationCourses,
   getEducationHubHref,
   getEducationPrimaryCta,
@@ -19,7 +16,8 @@ type SocialPlatform =
   | "x"
   | "tiktok"
   | "youtube"
-  | "spotify";
+  | "spotify"
+  | "threads";
 
 const otherWorks = [
   {
@@ -28,7 +26,7 @@ const otherWorks = [
     text: "Belirli bir konuya odaklanan 50 dakikalık birebir görüşme.",
     image: "/images/services/birebir-seans.webp",
     href: "/calismalar/enerji-calismalari",
-    cta: "Tüm Çalışmaları Gör →",
+    cta: "Detayları Gör",
   },
   {
     number: "02",
@@ -269,34 +267,156 @@ const socials: {
 ];
 
 
-const followChannels = [
+const followChannels: {
+  name: string;
+  handle: string;
+  href: string;
+  platform: SocialPlatform;
+}[] = [
   {
     name: "TikTok",
     handle: "@goldkozmos",
     href: "https://www.tiktok.com/@goldkozmos?_r=1&_t=ZS-98y87m276cX",
+    platform: "tiktok",
   },
   {
     name: "X",
     handle: "@GoldKozmos",
     href: "https://x.com/GoldKozmos",
+    platform: "x",
   },
   {
     name: "Threads",
     handle: "@goldkozmos",
     href: "https://www.threads.com/@goldkozmos",
+    platform: "threads",
   },
   {
     name: "YouTube",
     handle: "@goldkozmos",
     href: "https://youtube.com/@goldkozmos?si=Rna82s44awxWfnXt",
+    platform: "youtube",
   },
 ];
 
 function SocialIcon({
   platform,
+  filled = false,
 }: {
   platform: SocialPlatform;
+  filled?: boolean;
 }) {
+  if (filled) {
+    if (platform === "instagram") {
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <radialGradient id="gkIgGrad" cx="30%" cy="107%" r="150%">
+              <stop offset="0%" stopColor="#fdf497" />
+              <stop offset="45%" stopColor="#fd5949" />
+              <stop offset="60%" stopColor="#d6249f" />
+              <stop offset="90%" stopColor="#285AEB" />
+            </radialGradient>
+          </defs>
+          <rect width="24" height="24" rx="6" fill="url(#gkIgGrad)" />
+          <rect
+            x="6.2"
+            y="6.2"
+            width="11.6"
+            height="11.6"
+            rx="3.4"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="1.7"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="2.85"
+            fill="none"
+            stroke="#fff"
+            strokeWidth="1.7"
+          />
+          <circle cx="15.55" cy="8.45" r="0.95" fill="#fff" />
+        </svg>
+      );
+    }
+
+    if (platform === "whatsapp") {
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#25D366" />
+          <path
+            fill="#fff"
+            d="M12.04 5.2A6.8 6.8 0 0 0 5.25 12a6.76 6.76 0 0 0 1.02 3.58L5.4 18.8l3.12-.82A6.8 6.8 0 1 0 12.04 5.2zm3.94 9.62c-.17.47-.98.86-1.36.92-.35.05-.8.08-1.28-.08-.3-.1-.67-.22-1.16-.43-2.04-.88-3.38-2.95-3.48-3.09-.1-.14-.83-1.1-.83-2.1 0-1 .52-1.48.7-1.69.18-.2.4-.25.53-.25h.39c.13 0 .3-.05.46.35.17.41.57 1.4.62 1.5.05.1.08.22.02.36-.07.14-.1.22-.21.35-.1.12-.22.27-.31.36-.1.1-.21.22-.09.42.12.2.53.87 1.14 1.42.78.7 1.45.92 1.65 1.02.2.1.32.09.44-.06.12-.14.51-.6.65-.8.14-.2.28-.17.46-.1.18.07 1.16.55 1.36.65.2.1.34.15.39.23.05.08.05.49-.12.97z"
+          />
+        </svg>
+      );
+    }
+
+    if (platform === "x") {
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#000" />
+          <path
+            fill="#fff"
+            d="M16.72 6.2h1.86L13.7 11.4 19.2 17.8h-4.04l-3.16-4.13-3.62 4.13H6.52l5.22-5.96L6.2 6.2h4.12l2.86 3.76 3.54-3.76zm-.64 10.5h1.03L8.5 7.25H7.4l8.68 9.45z"
+          />
+        </svg>
+      );
+    }
+
+    if (platform === "tiktok") {
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#000" />
+          <path
+            fill="#25F4EE"
+            d="M14.05 6.15c.14 1.02.6 1.93 1.28 2.63.68.68 1.57 1.12 2.52 1.25v1.8c-.84-.03-1.66-.23-2.4-.58-.49-.23-.94-.53-1.35-.88v5.38c0 2.07-1.68 3.75-3.75 3.75S6.6 17.82 6.6 15.75c0-2.07 1.68-3.75 3.75-3.75.22 0 .43.02.63.06v1.9c-.2-.05-.41-.08-.63-.08-1.02 0-1.85.83-1.85 1.85s.83 1.85 1.85 1.85 1.85-.83 1.85-1.85V6.15h1.85z"
+          />
+          <path
+            fill="#FE2C55"
+            d="M13.45 6.55c.14 1.02.6 1.93 1.28 2.63.68.68 1.57 1.12 2.52 1.25v1.8c-.84-.03-1.66-.23-2.4-.58-.49-.23-.94-.53-1.35-.88v5.38c0 2.07-1.68 3.75-3.75 3.75S6 18.22 6 16.15c0-2.07 1.68-3.75 3.75-3.75.22 0 .43.02.63.06v1.9c-.2-.05-.41-.08-.63-.08-1.02 0-1.85.83-1.85 1.85s.83 1.85 1.85 1.85 1.85-.83 1.85-1.85V6.55h1.85z"
+          />
+          <path
+            fill="#fff"
+            d="M13.75 6.35c.14 1.02.6 1.93 1.28 2.63.68.68 1.57 1.12 2.52 1.25v1.8c-.84-.03-1.66-.23-2.4-.58-.49-.23-.94-.53-1.35-.88v5.38c0 2.07-1.68 3.75-3.75 3.75S6.3 18.02 6.3 15.95c0-2.07 1.68-3.75 3.75-3.75.22 0 .43.02.63.06v1.9c-.2-.05-.41-.08-.63-.08-1.02 0-1.85.83-1.85 1.85s.83 1.85 1.85 1.85 1.85-.83 1.85-1.85V6.35h1.85z"
+          />
+        </svg>
+      );
+    }
+
+    if (platform === "youtube") {
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#FF0000" />
+          <path fill="#fff" d="M9.6 8v8l7.2-4z" />
+        </svg>
+      );
+    }
+
+    if (platform === "threads") {
+      return (
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#000" />
+          <path
+            fill="#fff"
+            d="M15.72 8.28c-.58-1.06-1.72-1.66-3.32-1.66-2.78 0-4.62 2.04-4.62 5.4 0 3.3 1.8 5.3 4.66 5.3 1.72 0 3.02-.62 3.94-1.78l-1.22-1.06c-.66.78-1.54 1.2-2.66 1.2-1.84 0-2.97-1.24-2.97-3.68 0-2.48 1.13-3.7 2.9-3.7 1.26 0 2.14.64 2.42 1.84h-2.08v1.52h3.82c.04-.3.06-.58.06-.88 0-.84-.16-1.58-.5-2.22.42.08.82.2 1.22.32V7.72c-.5-.18-1.06-.32-1.65-.44z"
+          />
+        </svg>
+      );
+    }
+
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-2.04-8.16-2.58-11.94-1.44-.48.12-.96-.18-1.08-.66-.12-.48.18-.96.66-1.08 4.38-1.32 9.78-.72 13.5 1.62.36.24.54.84.12 1.26zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.26-1.32 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.56.36z"
+        />
+      </svg>
+    );
+  }
+
   if (platform === "instagram") {
     return (
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -405,6 +525,41 @@ const homepageArchiveStyles = `
     fill: currentColor;
   }
 
+  .homeV3Page .siteGlobalBackToTop {
+    border: 1.5px solid rgba(211, 168, 84, 0.70) !important;
+    background:
+      linear-gradient(
+        145deg,
+        #21150f 0%,
+        #120c09 100%
+      ) !important;
+    color: #d9ad58 !important;
+    box-shadow:
+      0 16px 34px rgba(18, 11, 7, 0.30),
+      0 0 0 6px rgba(211, 168, 84, 0.07) !important;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease !important;
+  }
+
+  .homeV3Page .siteGlobalBackToTop:hover {
+    transform: translateY(-3px) scale(1.03) !important;
+    border-color: rgba(224, 187, 105, 0.95) !important;
+    box-shadow:
+      0 20px 40px rgba(18, 11, 7, 0.36),
+      0 0 0 8px rgba(211, 168, 84, 0.09) !important;
+  }
+
+  .homeV3Page .siteGlobalBackToTop svg {
+    width: 22px !important;
+    height: 22px !important;
+    display: block !important;
+    fill: currentColor !important;
+    stroke: none !important;
+    transform: none !important;
+  }
+
   .homeV3FloatingWhatsappLabel {
     position: absolute;
     right: 68px;
@@ -431,11 +586,12 @@ const homepageArchiveStyles = `
   }
 
   @media (max-width: 700px) {
+    .homeV3Page .homeV3FloatingWhatsapp,
     .homeV3FloatingWhatsapp {
-      right: 18px;
-      bottom: 82px;
-      width: 52px;
-      height: 52px;
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
     }
 
     .homeV3FloatingWhatsappLabel {
@@ -586,24 +742,106 @@ const homepageArchiveStyles = `
     font-size: 12px !important;
   }
 
-  /* 3 ANA REZONANS KARTLARI · PREMIUM GÖLGE */
+  .homeV3HeroVideoModal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: grid;
+    place-items: center;
+    padding: 22px;
+    background: rgba(12, 8, 6, 0.82);
+    backdrop-filter: blur(10px);
+  }
+
+  .homeV3HeroVideoModalInner {
+    position: relative;
+    width: min(920px, 100%);
+  }
+
+  .homeV3HeroVideoModalInner video {
+    display: block;
+    width: 100%;
+    max-height: 78vh;
+    border-radius: 16px;
+    background: #000;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  }
+
+  .homeV3HeroVideoModalClose {
+    position: absolute;
+    top: -42px;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(232, 196, 118, 0.4);
+    border-radius: 50%;
+    color: #f6e6c8;
+    background: rgba(28, 18, 12, 0.9);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  /* 3 ANA REZONANS · ORTALI BAŞLIK */
+  .homeV3Page .homeV3Resonance .homeV3SectionHeading {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 10px !important;
+    margin-bottom: 28px !important;
+  }
+
+  .homeV3Page .homeV3Resonance .homeV3SectionHeading h2 {
+    font-size: clamp(34px, 3.6vw, 50px) !important;
+  }
+
+  .homeV3Page .homeV3Resonance .homeV3SectionHeading > p {
+    max-width: 420px !important;
+    margin: 0 auto !important;
+  }
+
   .homeV3Page .homeV3ResonanceCard {
     box-shadow:
-      0 22px 48px rgba(63, 42, 20, 0.14),
-      0 8px 20px rgba(63, 42, 20, 0.07) !important;
+      0 6px 16px rgba(63, 42, 20, 0.06) !important;
     transition:
       transform 180ms ease,
       box-shadow 180ms ease !important;
   }
 
   .homeV3Page .homeV3ResonanceCard:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     box-shadow:
-      0 28px 58px rgba(63, 42, 20, 0.18),
-      0 10px 24px rgba(63, 42, 20, 0.09) !important;
+      0 8px 18px rgba(63, 42, 20, 0.08) !important;
   }
 
-  /* DİĞER ÇALIŞMALAR: sağdaki eski canlı kayıt sütununu kaldırıp tam genişlik */
+  .homeV3Page .homeV3Resonance {
+    padding-bottom: 24px !important;
+  }
+
+  .homeV3Page .homeV3Other {
+    padding-top: 36px !important;
+    padding-bottom: 40px !important;
+    border-top: none !important;
+    background:
+      radial-gradient(
+        circle at 10% 25%,
+        rgba(205, 158, 73, 0.13),
+        transparent 28%
+      ),
+      radial-gradient(
+        circle at 90% 75%,
+        rgba(181, 132, 52, 0.09),
+        transparent 26%
+      ),
+      linear-gradient(
+        145deg,
+        #201711 0%,
+        #2b1f17 52%,
+        #211711 100%
+      ) !important;
+  }
+
   .homeV3Page .homeV3PersonalHub {
     grid-template-columns: minmax(0, 1fr) !important;
   }
@@ -611,6 +849,236 @@ const homepageArchiveStyles = `
   .homeV3Page .homeV3PersonalLeft {
     width: 100% !important;
     min-width: 0;
+    transform: none !important;
+  }
+
+  .homeV3Page .homeV3PersonalLeft::before {
+    display: none !important;
+  }
+
+  .homeV3Page .homeV3Other .homeV3PersonalHeading {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    text-align: center !important;
+    gap: 10px !important;
+    margin: 0 auto 28px !important;
+  }
+
+  .homeV3Page .homeV3Other .homeV3PersonalHeading .homeV3Eyebrow,
+  .homeV3Page .homeV3Other .homeV3PersonalHeading h2,
+  .homeV3Page .homeV3Other .homeV3PersonalDescription {
+    text-align: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .homeV3Page .homeV3PersonalHeading h2 {
+    color: #fff8ed !important;
+    font-size: clamp(34px, 3.6vw, 50px) !important;
+  }
+
+  .homeV3Page .homeV3PersonalHeading h2 span {
+    color: #d4a64a !important;
+  }
+
+  .homeV3Page .homeV3PersonalDescription {
+    max-width: 420px !important;
+    color: rgba(247, 234, 208, 0.72) !important;
+  }
+
+  .homeV3Page .homeV3Other .homeV3OtherSlider {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    grid-template-columns: none !important;
+    grid-auto-flow: column !important;
+    grid-auto-columns: unset !important;
+    gap: 12px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 16px 12px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .homeV3Page .homeV3Other .homeV3OtherSlider::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .homeV3Page .homeV3Other .homeV3OtherSlider .homeV3OtherCard {
+    flex: 0 0 min(72vw, 240px) !important;
+    min-width: min(72vw, 240px) !important;
+    width: min(72vw, 240px) !important;
+    max-width: min(72vw, 240px) !important;
+    scroll-snap-align: start !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: #fff !important;
+    border: 1px solid rgba(151, 113, 49, 0.14) !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    box-shadow:
+      0 18px 40px rgba(18, 11, 7, 0.22),
+      0 8px 18px rgba(18, 11, 7, 0.12) !important;
+  }
+
+  .homeV3Page .homeV3Other .homeV3OtherVisual {
+    aspect-ratio: 4 / 3 !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .homeV3Page .homeV3Other .homeV3OtherVisual img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+  }
+
+  .homeV3Page .homeV3OtherContent {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding: 18px 19px 17px !important;
+  }
+
+  .homeV3Page .homeV3OtherCardBottom {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-top: auto !important;
+    padding-top: 10px !important;
+  }
+
+  .homeV3Page .homeV3OtherCardBottom strong {
+    color: #251f19 !important;
+    font-size: 20px !important;
+  }
+
+  .homeV3Page .homeV3OtherCardCta {
+    color: #9a7631 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+  }
+
+  .homeV3Page .homeV3OtherSliderControls,
+  .homeV3Page .homeV3OtherScrollHint {
+    display: none !important;
+  }
+
+  @media (max-width: 700px) {
+    .homeV3Page .homeV3OtherSlider {
+      display: flex !important;
+      grid-template-columns: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0 16px 12px !important;
+      box-sizing: border-box !important;
+    }
+
+    .homeV3Page .homeV3ResonanceCard {
+      flex: 0 0 min(70vw, 260px) !important;
+      width: min(70vw, 260px) !important;
+      max-width: 260px !important;
+      box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
+    }
+
+    .homeV3Page .homeV3Resonance .homeV3SectionHeading,
+    .homeV3Page .homeV3Other .homeV3PersonalHeading,
+    .homeV3Page .homeV3LiveArchiveHeading,
+    .homeV3Page .homeV3AudioEnergyHeading {
+      padding: 0 16px !important;
+      box-sizing: border-box !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    .homeV3Page .homeV3Resonance .homeV3SectionHeading h2,
+    .homeV3Page .homeV3PersonalHeading h2,
+    .homeV3Page .homeV3LiveArchiveHeading h2,
+    .homeV3Page .homeV3AudioEnergyHeading h2 {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      font-size: 28px !important;
+      line-height: 1.12 !important;
+      letter-spacing: -0.6px !important;
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+      word-break: break-word !important;
+    }
+
+    .homeV3Page .homeV3Resonance .homeV3SectionHeading > p,
+    .homeV3Page .homeV3PersonalDescription,
+    .homeV3Page .homeV3LiveArchiveHeading > p,
+    .homeV3Page .homeV3AudioEnergyHeading > p {
+      width: 100% !important;
+      max-width: 100% !important;
+      font-size: 12px !important;
+      line-height: 1.5 !important;
+      padding: 0 !important;
+    }
+
+    .homeV3Page .homeV3LiveArchiveInner {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 0 !important;
+    }
+
+    .homeV3Page .homeV3LiveArchiveHeading > div {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    .homeV3Page .homeV3LiveArchive {
+      padding: 36px 0 40px !important;
+    }
+
+    .homeV3Page .homeV3OtherContent,
+    .homeV3Page .homeV3LiveArchiveBody {
+      min-width: 0 !important;
+      padding: 14px 12px 12px !important;
+    }
+
+    .homeV3Page .homeV3OtherContent h3,
+    .homeV3Page .homeV3LiveArchiveBody h3 {
+      font-size: 16px !important;
+      line-height: 1.2 !important;
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    .homeV3Page .homeV3OtherContent p,
+    .homeV3Page .homeV3LiveArchiveText {
+      min-height: 0 !important;
+      font-size: 11px !important;
+      white-space: normal !important;
+    }
+
+    .homeV3Page .homeV3OtherCardBottom,
+    .homeV3Page .homeV3LiveArchiveBottom {
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .homeV3Page .homeV3OtherCardBottom strong,
+    .homeV3Page .homeV3LiveArchiveBottom strong {
+      font-size: 16px !important;
+    }
+
+    .homeV3Page .homeV3OtherCardCta,
+    .homeV3Page .homeV3LiveArchiveBottom a {
+      font-size: 11px !important;
+    }
   }
 
   /* CANLI KAYITLAR */
@@ -622,63 +1090,103 @@ const homepageArchiveStyles = `
   }
 
   .homeV3LiveArchiveInner {
-    width: min(1180px, calc(100% - 72px));
+    width: min(1180px, calc(100% - 32px));
     margin: 0 auto;
+    min-width: 0;
   }
 
   .homeV3LiveArchiveHeading {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
-    gap: 64px;
-    align-items: end;
-    margin-bottom: 28px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 auto 24px !important;
+    box-sizing: border-box;
+  }
+
+  .homeV3LiveArchiveHeading > div {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .homeV3LiveArchiveHeading .homeV3Eyebrow {
-    margin-bottom: 9px;
+    margin-bottom: 0 !important;
   }
 
   .homeV3LiveArchiveHeading h2 {
-    margin: 0;
+    margin: 0 auto !important;
     color: #211811;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(42px, 3.8vw, 58px);
+    font-size: clamp(32px, 3.4vw, 48px) !important;
     font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -1.6px;
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    min-width: 0;
   }
 
   .homeV3LiveArchiveHeading h2 span {
+    display: inline;
     color: #a8792a;
   }
 
   .homeV3LiveArchiveHeading > p {
-    margin: 0;
+    margin: 0 auto !important;
+    max-width: 420px !important;
     color: #75695e;
     font-size: 13px;
     line-height: 1.7;
+    text-align: center !important;
   }
 
-  .homeV3LiveArchiveGrid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+  .homeV3Page .homeV3LiveArchiveGrid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 10px 20px 16px !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
   }
 
-  .homeV3LiveArchiveCard {
+  .homeV3Page .homeV3LiveArchiveGrid::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .homeV3Page .homeV3LiveArchiveCard {
+    flex: 0 0 240px !important;
+    width: 240px !important;
+    max-width: 240px !important;
     overflow: hidden;
     border: 1.5px solid rgba(198, 151, 67, 0.45);
-    border-radius: 24px;
+    border-radius: 20px;
     background: #fffdf9;
+    scroll-snap-align: start !important;
     box-shadow:
-      0 20px 42px rgba(55, 35, 16, 0.10),
-      0 5px 15px rgba(55, 35, 16, 0.05);
+      0 16px 34px rgba(55, 35, 16, 0.10),
+      0 4px 12px rgba(55, 35, 16, 0.05);
+    transition: transform 0.28s ease !important;
+  }
+
+  .homeV3Page .homeV3LiveArchiveCard:hover {
+    transform: translateY(-6px) !important;
   }
 
   .homeV3LiveArchiveImage {
     position: relative;
     display: block;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3 !important;
     overflow: hidden;
     background: #24180f;
   }
@@ -721,7 +1229,7 @@ const homepageArchiveStyles = `
     margin: 0;
     color: #251a12;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 400;
     line-height: 1.04;
   }
@@ -783,7 +1291,7 @@ const homepageArchiveStyles = `
 
   /* SES KAYDI / ENERJİ ÇALIŞMALARI */
   .homeV3AudioEnergy {
-    padding: 78px 0 88px;
+    padding: 78px 0 16px;
     overflow: hidden;
     background:
       radial-gradient(circle at 88% 12%, rgba(197, 151, 66, 0.15), transparent 28%),
@@ -797,26 +1305,39 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.55fr);
-    gap: 64px;
-    align-items: end;
-    margin-bottom: 30px;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto 24px !important;
+  }
+
+  .homeV3AudioEnergyHeading > div {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
   }
 
   .homeV3AudioEnergyHeading .homeV3Eyebrow {
     color: #c99a47;
-    margin-bottom: 9px;
+    margin-bottom: 0 !important;
+    text-align: center !important;
   }
 
   .homeV3AudioEnergyHeading h2 {
-    margin: 0;
+    margin: 0 auto !important;
     color: #fffaf1;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(42px, 3.8vw, 58px);
+    font-size: clamp(32px, 3.4vw, 48px);
     font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -1.6px;
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    text-align: center !important;
+    max-width: 100%;
+    white-space: normal;
   }
 
   .homeV3AudioEnergyHeading h2 span {
@@ -824,16 +1345,19 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading > p {
-    margin: 0;
+    margin: 0 auto !important;
+    max-width: 440px;
     color: rgba(255, 250, 241, 0.58);
     font-size: 13px;
     line-height: 1.7;
+    text-align: center !important;
   }
 
   .homeV3AudioEnergyGrid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
+    padding-top: 8px;
   }
 
   .homeV3AudioEnergyProduct {
@@ -847,6 +1371,161 @@ const homepageArchiveStyles = `
     box-shadow:
       0 22px 48px rgba(0, 0, 0, 0.22),
       0 7px 18px rgba(0, 0, 0, 0.10);
+    transition: transform 0.28s ease;
+  }
+
+  .homeV3Page .homeV3AudioEnergyProduct {
+    flex: 0 0 min(70vw, 240px) !important;
+    width: min(70vw, 240px) !important;
+    max-width: 240px !important;
+    transition: transform 0.28s ease !important;
+  }
+
+  .homeV3Page .homeV3AudioEnergyProduct:hover {
+    transform: translateY(-6px) !important;
+  }
+
+  .homeV3Page .homeV3LibraryHeading {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 10px !important;
+    min-height: 0 !important;
+    margin: 0 auto 16px !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  .homeV3Page .homeV3LibraryHeading .homeV3Eyebrow,
+  .homeV3Page .homeV3LibraryShowcase .homeV3LibraryHeading .homeV3Eyebrow {
+    color: #6b4a1e !important;
+  }
+
+  .homeV3Page .homeV3LibraryShowcase {
+    display: block !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
+  .homeV3Page .homeV3LibraryShowcase::before {
+    display: none !important;
+  }
+
+  .homeV3Page .homeV3LibraryHub {
+    background: #fffdf8 !important;
+    padding: 8px 0 36px !important;
+  }
+
+  .homeV3Page .homeV3LibraryHeading h2 {
+    max-width: 100% !important;
+    color: #211811 !important;
+    font-size: clamp(30px, 6.4vw, 44px) !important;
+    font-weight: 400 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.03em !important;
+    text-align: center !important;
+    -webkit-font-smoothing: antialiased !important;
+    text-rendering: geometricPrecision !important;
+  }
+
+  .homeV3Page .homeV3LibraryHeading h2 span {
+    color: #a8792a !important;
+  }
+
+  .homeV3Page .homeV3LibraryAll,
+  .homeV3Page .homeV3LibraryShowcase .homeV3LibraryAll {
+    margin: 0 auto !important;
+    font-size: 12px !important;
+    color: #6b4a1e !important;
+  }
+
+  .homeV3Page .homeV3LibraryBooksGrid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    overflow-x: auto !important;
+    padding: 10px 16px 14px !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
+  }
+
+  .homeV3Page .homeV3LibraryBooksGrid::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .homeV3Page .homeV3BookCard,
+  .homeV3Page .homeV3LibraryHub .homeV3BookCard {
+    flex: 0 0 min(70vw, 240px) !important;
+    width: min(70vw, 240px) !important;
+    max-width: 240px !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    scroll-snap-align: start !important;
+    transition: transform 0.28s ease !important;
+  }
+
+  .homeV3Page .homeV3LibraryShowcase .homeV3BookCard {
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  .homeV3Page .homeV3BookCard:hover,
+  .homeV3Page .homeV3LibraryHub .homeV3BookCard:hover,
+  .homeV3Page .homeV3LibraryShowcase .homeV3BookCard:hover {
+    transform: translateY(-6px) !important;
+  }
+
+  .homeV3Page .homeV3BookImage,
+  .homeV3Page .homeV3LibraryHub .homeV3BookImage {
+    width: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: 1 / 1 !important;
+    height: auto !important;
+  }
+
+  .homeV3Page .homeV3BookImage img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .homeV3Page .homeV3BookContent {
+    padding: 12px 13px 13px !important;
+  }
+
+  .homeV3Page .homeV3BookContent h3 {
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    line-height: 1.2 !important;
+    -webkit-font-smoothing: antialiased !important;
+    text-rendering: geometricPrecision !important;
+  }
+
+  .homeV3Page .homeV3BookContent p {
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    color: #5c534a !important;
+  }
+
+  .homeV3Page .homeV3BookBottom strong {
+    font-size: 16px !important;
+  }
+
+  .homeV3Page .homeV3BookBottom a {
+    font-size: 11px !important;
   }
 
   .homeV3AudioEnergyImage {
@@ -942,228 +1621,597 @@ const homepageArchiveStyles = `
 
 
 
-  /* BAĞLANTIDA KAL · TELEFONLARI EŞİTLE */
-  @media (min-width: 901px) {
-    .homeV3PhonePair {
-      display: grid !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 14px !important;
-      align-items: start !important;
-    }
-
-    .homeV3SocialPhone {
-      width: 100% !important;
-      max-width: none !important;
-      min-width: 0 !important;
-    }
-
-    .homeV3InstagramPhone,
-    .homeV3WhatsappPhone {
-      width: 100% !important;
-      max-width: none !important;
-    }
-
-    .homeV3PhoneFrame {
-      width: 100% !important;
-      height: 330px !important;
-      min-height: 330px !important;
-      max-height: 330px !important;
-      box-sizing: border-box !important;
-    }
-
-    .homeV3PhoneScreen {
-      height: 100% !important;
-      min-height: 0 !important;
-      box-sizing: border-box !important;
-      overflow: hidden !important;
-    }
-
-    .homeV3PhoneLabel {
-      width: 100% !important;
-      text-align: center !important;
-    }
-  }
-
-  /* BAĞLANTIDA KAL · DİĞER KANALLAR */
-  .homeV3FollowChannels {
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(213, 170, 88, 0.15);
-  }
-
-  .homeV3FollowChannelsTitle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 11px;
-  }
-
-  .homeV3FollowChannelsTitle span {
-    color: #c99a47;
-    letter-spacing: 0.16em;
-    font-size: 7.5px;
-    font-weight: 700;
-  }
-
-  .homeV3FollowChannelsTitle p {
-    margin: 0;
-    color: rgba(255, 250, 241, 0.50);
-    font-size: 9px;
-  }
-
-  .homeV3FollowChannelsGrid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .homeV3FollowChannel {
-    min-width: 0;
-    min-height: 52px;
-    padding: 0 14px;
-    border: 1px solid rgba(151, 104, 28, 0.34);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    color: #2a1b12;
+  /* BAĞLANTIDA KAL · GOLD BOOK'TAN BAĞIMSIZ */
+  .homeV3Page .homeV3Connect {
     background:
-      linear-gradient(120deg, #c8953d 0%, #e0bb69 100%);
-    box-shadow: 0 10px 24px rgba(66, 42, 17, 0.12);
-    text-decoration: none;
-    transition:
-      transform 160ms ease,
-      filter 160ms ease;
+      radial-gradient(circle at 88% 12%, rgba(197, 151, 66, 0.15), transparent 28%),
+      radial-gradient(circle at 8% 90%, rgba(197, 151, 66, 0.07), transparent 24%),
+      linear-gradient(145deg, #2a1c13 0%, #1b120d 62%, #140d09 100%) !important;
+    padding: 48px 0 64px !important;
+    overflow: hidden !important;
   }
 
-  .homeV3FollowChannel:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.03);
+  .homeV3Page .homeV3Connect .homeV3Container {
+    width: min(1180px, calc(100% - 48px)) !important;
   }
 
-  .homeV3FollowChannelCopy {
+  .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    max-width: 520px !important;
+    margin: 0 auto 32px !important;
+    padding: 0 !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading .homeV3Eyebrow {
+    color: #c99a47 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.18em !important;
+    margin: 0 0 10px !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 {
+    max-width: none !important;
+    margin: 0 !important;
+    color: #fffaf1 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: clamp(32px, 6vw, 46px) !important;
+    font-weight: 400 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.03em !important;
+    text-align: center !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 span {
+    color: #c99a47 !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading > p:last-child {
+    max-width: 420px !important;
+    margin: 12px auto 0 !important;
+    color: rgba(255, 250, 241, 0.58) !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+    text-align: center !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhonePair {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    gap: 16px !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 8px 4px 18px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhonePair::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3SocialPhone {
+    flex: 0 0 min(72vw, 280px) !important;
+    width: min(72vw, 280px) !important;
+    max-width: min(72vw, 280px) !important;
+    min-width: min(72vw, 280px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    scroll-snap-align: start !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneFrame {
+    width: 100% !important;
+    max-width: none !important;
+    height: 430px !important;
+    min-height: 430px !important;
+    max-height: 430px !important;
+    padding: 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    border: 1px solid rgba(222, 180, 93, 0.24) !important;
+    border-radius: 34px !important;
+    background: linear-gradient(160deg, #1a1410 0%, #0d0a08 100%) !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    transition: transform 0.28s ease !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3SocialPhone:hover .homeV3PhoneFrame {
+    transform: translateY(-6px) !important;
+    box-shadow: none !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneScreen,
+  .homeV3Page .homeV3Connect .homeV3InstagramPhone .homeV3PhoneScreen,
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhone .homeV3PhoneScreen {
+    flex: 1 !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    padding: 16px 14px 14px !important;
+    border-radius: 26px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    color: #211811 !important;
+    background: #fffdf8 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneAppIcon {
+    width: 28px !important;
+    height: 28px !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 7px !important;
+    overflow: hidden !important;
+    color: inherit !important;
+    background: transparent !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneAppIcon svg {
+    width: 28px !important;
+    height: 28px !important;
+    display: block !important;
+    fill: unset !important;
+    stroke: unset !important;
+    stroke-width: unset !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneHero {
+    border-color: rgba(107, 74, 30, 0.12) !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneHero > span {
+    color: #a8792a !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneHero h3 {
+    color: #211811 !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneHero h3 strong {
+    color: #a8792a !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneHero p {
+    color: rgba(33, 24, 17, 0.58) !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneItems > div {
+    border-bottom-color: rgba(107, 74, 30, 0.10) !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneItems > div > span {
+    color: #a8792a !important;
+    border-color: rgba(168, 121, 42, 0.28) !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3WhatsappPhoneItems p {
+    color: rgba(33, 24, 17, 0.72) !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneCta {
+    margin-top: auto !important;
+    min-height: 36px !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border: none !important;
+    border-radius: 999px !important;
+    background: linear-gradient(120deg, #c8953d 0%, #e0bb69 100%) !important;
+    color: #211811 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3PhoneLabel {
+    margin-top: 14px !important;
+    color: #d4a753 !important;
+    font-size: 12px !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannels {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 28px auto 0 !important;
+    padding-top: 28px !important;
+    border-top: 1px solid rgba(210, 166, 82, 0.16) !important;
+    overflow: hidden !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelsTitle {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin: 0 0 16px !important;
+    text-align: center !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelsTitle span {
+    color: #c99a47 !important;
+    letter-spacing: 0.18em !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelsTitle p {
+    margin: 0 !important;
+    color: rgba(255, 250, 241, 0.52) !important;
+    font-size: 13px !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelsGrid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 8px 4px 6px !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelsGrid::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannel {
+    flex: 0 0 220px !important;
+    width: 220px !important;
+    min-width: 220px !important;
+    min-height: 64px !important;
+    padding: 0 14px !important;
+    border: 1px solid rgba(151, 104, 28, 0.34) !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    color: #2a1b12 !important;
+    background: linear-gradient(120deg, #c8953d 0%, #e0bb69 100%) !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    scroll-snap-align: start !important;
+    transition: transform 0.28s ease !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannel:hover {
+    transform: translateY(-5px) !important;
+    filter: none !important;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelIcon {
+    flex: 0 0 auto;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+    color: inherit;
+    background: transparent;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelIcon svg {
+    width: 34px;
+    height: 34px;
+    display: block;
+  }
+
+  .homeV3Page .homeV3Connect .homeV3FollowChannelCopy {
     min-width: 0;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
 
-  .homeV3FollowChannelCopy strong {
-    color: #2a1b12;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 14px;
-    font-weight: 600;
+  .homeV3Page .homeV3Connect .homeV3FollowChannelCopy strong {
+    color: #211811 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .homeV3FollowChannelCopy span {
+  .homeV3Page .homeV3Connect .homeV3FollowChannelCopy span {
     overflow: hidden;
-    color: rgba(42, 27, 18, 0.68);
-    font-size: 8.5px;
+    color: rgba(42, 27, 18, 0.68) !important;
+    font-size: 11px !important;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .homeV3FollowChannelArrow {
+  .homeV3Page .homeV3Connect .homeV3FollowChannelArrow {
     flex: 0 0 auto;
-    color: #2a1b12;
-    font-size: 12px;
+    color: #2a1b12 !important;
+    font-size: 13px !important;
+  }
+
+  @media (max-width: 700px) {
+    .homeV3Page .homeV3Connect {
+      padding: 36px 0 48px !important;
+    }
+
+    .homeV3Page .homeV3Connect .homeV3Container {
+      width: 100% !important;
+    }
+
+    .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading {
+      margin: 0 20px 24px !important;
+    }
+
+    .homeV3Page .homeV3Connect .homeV3PhonePair {
+      padding: 8px 20px 18px !important;
+    }
+
+    .homeV3Page .homeV3Connect .homeV3SocialPhone {
+      flex: 0 0 min(72vw, 280px) !important;
+      width: min(72vw, 280px) !important;
+      max-width: min(72vw, 280px) !important;
+      min-width: min(72vw, 280px) !important;
+    }
+
+    .homeV3Page .homeV3Connect .homeV3FollowChannelsTitle {
+      margin-left: 20px !important;
+      margin-right: 20px !important;
+    }
+
+    .homeV3Page .homeV3Connect .homeV3FollowChannelsGrid {
+      padding: 8px 20px 6px !important;
+    }
+
   }
 
 
-  /* SSS · KAYDIRMALI SAYFALAR */
-  .homeV3Faq {
-    overflow: hidden;
+  /* SSS */
+  .homeV3Page .homeV3Faq {
+    padding: 56px 0 68px !important;
+    overflow: visible !important;
+    background: #fffdf8 !important;
+    border-top: none !important;
   }
 
-  .homeV3FaqHeading {
-    position: relative;
+  .homeV3Page .homeV3Faq .homeV3Container {
+    width: min(640px, calc(100% - 40px)) !important;
   }
 
-  .homeV3FaqHeadingActions {
-    display: flex;
+  .homeV3Page .homeV3Faq .homeV3FaqHeading {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    grid-template-columns: none !important;
+  }
+
+  .homeV3Page .homeV3Faq .homeV3FaqHeading .homeV3Eyebrow {
+    color: #6b4a1e !important;
+    margin: 0 !important;
+  }
+
+  .homeV3Page .homeV3Faq .homeV3FaqHeading h2 {
+    max-width: none !important;
+    color: #211811 !important;
+    font-size: clamp(30px, 6vw, 44px) !important;
+    font-weight: 400 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.03em !important;
+    text-align: center !important;
+  }
+
+  .homeV3Page .homeV3Faq .homeV3FaqHeading h2 span {
+    color: #a8792a !important;
+  }
+
+  .homeV3Page .homeV3Faq .homeV3FaqHeading > p:last-of-type {
+    max-width: 400px !important;
+    margin: 0 !important;
+    color: rgba(33, 24, 17, 0.58) !important;
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  .homeV3Page .homeV3FaqOpen {
+    margin-top: 22px;
+    min-height: 46px;
+    padding: 0 22px;
+    border: none;
+    border-radius: 999px;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    color: #211811;
+    background: linear-gradient(120deg, #c8953d 0%, #e0bb69 100%);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: transform 0.22s ease;
   }
 
-  .homeV3FaqHeadingActions button {
-    width: 42px;
-    height: 42px;
-    padding: 0;
-    border: 1px solid rgba(164, 119, 43, 0.24);
-    border-radius: 50%;
+  .homeV3Page .homeV3FaqOpen:hover {
+    transform: translateY(-2px);
+  }
+
+  .homeV3FaqModal {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
     display: grid;
     place-items: center;
-    color: #8f6727;
-    background: rgba(255, 253, 248, 0.86);
-    box-shadow: 0 8px 20px rgba(66, 42, 17, 0.06);
-    cursor: pointer;
-    font-size: 16px;
-    transition: transform 160ms ease, border-color 160ms ease;
+    padding: 18px;
+    background: rgba(12, 8, 6, 0.82);
+    backdrop-filter: blur(10px);
   }
 
-  .homeV3FaqHeadingActions button:hover {
-    transform: translateY(-2px);
-    border-color: rgba(164, 119, 43, 0.46);
-  }
-
-  .homeV3FaqCarousel {
+  .homeV3FaqModalPanel {
+    position: relative;
+    width: min(640px, 100%);
+    max-height: min(86vh, 760px);
     display: flex;
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #fffdf8;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
   }
 
-  .homeV3FaqCarousel::-webkit-scrollbar {
-    display: none;
+  .homeV3FaqModalHead {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 22px 16px;
+    border-bottom: 1px solid rgba(107, 74, 30, 0.10);
   }
 
-  .homeV3FaqPage {
-    flex: 0 0 100%;
-    min-width: 100%;
-    scroll-snap-align: start;
-    box-sizing: border-box;
+  .homeV3FaqModalHead p {
+    margin: 0 0 6px;
+    color: #6b4a1e;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
   }
 
-  .homeV3FaqPageGrid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
+  .homeV3FaqModalHead h3 {
+    margin: 0;
+    color: #211811;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
   }
 
-  .homeV3FaqPage .homeV3FaqItem {
-    width: 100%;
-    box-sizing: border-box;
+  .homeV3FaqModalHead h3 span {
+    color: #a8792a;
   }
 
-  .homeV3FaqPage .homeV3FaqItem summary {
+  .homeV3FaqModalClose {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(107, 74, 30, 0.16);
+    border-radius: 50%;
+    color: #6b4a1e;
+    background: #ffffff;
     cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
   }
 
-  .homeV3FaqPage .homeV3FaqAnswer {
-    padding-top: 0;
+  .homeV3FaqModalList {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: 10px 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    scrollbar-width: thin;
   }
 
-  .homeV3FaqPage .homeV3FaqItem[open] .homeV3FaqAnswer {
-    padding-top: 14px;
+  .homeV3FaqModal .homeV3FaqItem,
+  .homeV3FaqModalList .homeV3FaqItem {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(107, 74, 30, 0.10) !important;
+    border-radius: 12px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+    scroll-snap-align: none !important;
   }
 
-  .homeV3FaqPage .homeV3FaqPlus {
-    transition: transform 180ms ease;
+  .homeV3FaqModal .homeV3FaqItem summary {
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 10px 12px !important;
+    display: grid !important;
+    grid-template-columns: 24px minmax(0, 1fr) 24px !important;
+    gap: 8px !important;
+    align-items: center !important;
+    cursor: pointer !important;
+    list-style: none !important;
   }
 
-  .homeV3FaqPage .homeV3FaqItem[open] .homeV3FaqPlus {
-    transform: rotate(45deg);
+  .homeV3FaqModal .homeV3FaqItem summary::-webkit-details-marker {
+    display: none !important;
+  }
+
+  .homeV3FaqModal .homeV3FaqNumber {
+    color: #a8792a !important;
+    font-size: 10px !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  .homeV3FaqModal .homeV3FaqItem summary strong {
+    color: #211811 !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.3 !important;
+  }
+
+  .homeV3FaqModal .homeV3FaqPlus {
+    width: 22px !important;
+    height: 22px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 1px solid rgba(107, 74, 30, 0.18) !important;
+    border-radius: 50% !important;
+    color: #6b4a1e !important;
+    background: #fffdf8 !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    transition: transform 180ms ease !important;
+  }
+
+  .homeV3FaqModal .homeV3FaqItem[open] .homeV3FaqPlus {
+    transform: rotate(45deg) !important;
+  }
+
+  .homeV3FaqModal .homeV3FaqAnswer {
+    padding: 0 12px 12px 44px !important;
+    font-size: 13px !important;
+  }
+
+  .homeV3FaqModal .homeV3FaqAnswer p {
+    margin: 0 !important;
+    color: rgba(33, 24, 17, 0.68) !important;
+    font-size: 13px !important;
+    line-height: 1.55 !important;
   }
 
   @media (max-width: 900px) {
-    .homeV3LiveArchive,
-    .homeV3AudioEnergy {
+    .homeV3LiveArchive {
       padding: 58px 0 64px;
+    }
+
+    .homeV3AudioEnergy {
+      padding: 58px 0 8px;
     }
 
     .homeV3LiveArchiveInner,
@@ -1173,8 +2221,11 @@ const homepageArchiveStyles = `
 
     .homeV3LiveArchiveHeading,
     .homeV3AudioEnergyHeading {
-      grid-template-columns: 1fr;
-      gap: 24px;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      text-align: center !important;
+      gap: 10px !important;
     }
 
     .homeV3LiveArchiveGrid {
@@ -1193,10 +2244,6 @@ const homepageArchiveStyles = `
 
   @media (max-width: 620px) {
     .homeV3AudioEnergyGrid {
-      grid-template-columns: 1fr;
-    }
-
-    .homeV3FaqPageGrid {
       grid-template-columns: 1fr;
     }
 
@@ -1306,69 +2353,162 @@ const homepageArchiveStyles = `
       transform: none !important;
     }
 
-    /* SAYFAYLA BİRLİKTE GEZEN YUKARI OK */
+    /* Mobilde eski yuvarlak WhatsApp / yukarı-ok balonlarını kapat.
+       Yukarı çık butonu GlobalContactDock içindeki tek oktur. */
     .homeV3Page .siteGlobalBackToTop,
-    .siteGlobalBackToTop {
-      position: fixed !important;
-
-      right: 20px !important;
-      bottom: 22px !important;
-
-      width: 62px !important;
-      height: 62px !important;
-
-      margin: 0 !important;
-      padding: 0 !important;
-
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-
-      border: 1px solid rgba(210, 164, 79, 0.60) !important;
-      border-radius: 50% !important;
-
-      background: rgba(43, 29, 19, 0.97) !important;
-      color: #e0ad50 !important;
-
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18) !important;
-
-      text-decoration: none !important;
-
-      opacity: 1 !important;
-      visibility: visible !important;
-      pointer-events: auto !important;
-
-      transform: none !important;
-
-      z-index: 99997 !important;
+    .siteGlobalBackToTop,
+    .homeV3Page .homeV3FloatingWhatsapp,
+    .homeV3FloatingWhatsapp {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
     }
+  }
 
-    .homeV3Page .siteGlobalBackToTop > span,
-    .siteGlobalBackToTop > span {
-      width: 100% !important;
-      height: 100% !important;
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    margin-top: 8px !important;
+  }
 
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest {
+    grid-column: auto !important;
+    flex: 1 1 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    justify-self: stretch !important;
+    margin-top: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    min-height: 0 !important;
+    height: auto !important;
+    padding: 12px 11px 11px !important;
+    border-radius: 12px !important;
+    box-sizing: border-box !important;
+    grid-template-columns: none !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
 
-      margin: 0 !important;
-      padding: 0 !important;
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestIcon {
+    display: none !important;
+  }
 
-      color: #e0ad50 !important;
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
 
-      font-family: Arial, Helvetica, sans-serif !important;
-      font-size: 34px !important;
-      font-weight: 900 !important;
-      line-height: 1 !important;
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy p {
+    font-size: 8px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1.3 !important;
+    margin: 0 0 5px !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
 
-      text-align: center !important;
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 {
+    white-space: normal !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.02em !important;
+    text-rendering: geometricPrecision !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
 
-      opacity: 1 !important;
-      visibility: visible !important;
+  .homeHeroActionCard {
+    text-decoration: none;
+    color: inherit;
+  }
 
-      transform: translateY(-2px) scaleX(1.18) !important;
-    }
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest > a,
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionCta {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: auto !important;
+    margin-left: 0 !important;
+    width: auto !important;
+    min-height: 0 !important;
+    padding: 6px 10px !important;
+    border-radius: 999px;
+    background: #fffaf0;
+    color: #34291f;
+    text-decoration: none;
+    font-size: 9px !important;
+    font-weight: 700;
+    white-space: nowrap;
+    grid-column: auto !important;
+  }
+
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest > a span,
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionCta span {
+    color: #a5782d;
+  }
+
+  .homeV3Page .homeV3HeroSocials {
+    gap: 12px !important;
+    margin-top: 14px !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocialLink {
+    width: 38px !important;
+    height: 38px !important;
+    border: 0 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    box-shadow: 0 8px 18px rgba(40, 28, 16, 0.14);
+    color: #111 !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocialLink svg {
+    width: 18px !important;
+    height: 18px !important;
+    fill: currentColor !important;
+    stroke: none !important;
+    overflow: visible !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocial-instagram {
+    background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7) !important;
+    color: #fff !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocial-whatsapp {
+    background: #25d366 !important;
+    color: #fff !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocial-x {
+    background: #111 !important;
+    color: #fff !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocial-tiktok {
+    background: #111 !important;
+    color: #fff !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocial-youtube {
+    background: #ff0000 !important;
+    color: #fff !important;
+  }
+
+  .homeV3Page .homeV3HeroSocials a.homeHeroSocial-spotify {
+    background: #1db954 !important;
+    color: #fff !important;
   }
 
 `;
@@ -1376,83 +2516,52 @@ const homepageArchiveStyles = `
 export default function HomePageClient() {
   const otherWorksSliderRef =
     useRef<HTMLDivElement>(null);
+  const otherWorksLoopingRef = useRef(false);
 
-  const faqSliderRef =
-    useRef<HTMLDivElement>(null);
-
-  const [heroVideoStarted, setHeroVideoStarted] =
+  const [heroVideoOpen, setHeroVideoOpen] =
     useState(false);
+  const [faqOpen, setFaqOpen] = useState(false);
 
-  function scrollOtherWorks(
-    direction: "left" | "right",
-  ) {
-    const slider =
-      otherWorksSliderRef.current;
+  useEffect(() => {
+    if (!heroVideoOpen && !faqOpen) return;
 
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setHeroVideoOpen(false);
+        setFaqOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [heroVideoOpen, faqOpen]);
+
+  useEffect(() => {
+    const slider = otherWorksSliderRef.current;
     if (!slider) return;
 
-    const firstCard =
-      slider.querySelector<HTMLElement>(
-        ".homeV3OtherCard",
-      );
+    const loopSlider = () => {
+      if (otherWorksLoopingRef.current) return;
 
-    const amount = firstCard
-      ? firstCard.offsetWidth + 38
-      : slider.clientWidth * 0.8;
+      const half = slider.scrollWidth / 2;
+      if (half <= slider.clientWidth) return;
 
-    const maxScroll =
-      slider.scrollWidth - slider.clientWidth;
+      if (slider.scrollLeft >= half - 2) {
+        otherWorksLoopingRef.current = true;
+        slider.scrollLeft -= half;
+        otherWorksLoopingRef.current = false;
+      }
+    };
 
-    const atStart = slider.scrollLeft <= 6;
-    const atEnd =
-      slider.scrollLeft >= maxScroll - 6;
-
-    if (direction === "right" && atEnd) {
-      slider.scrollTo({
-        left: 0,
-        behavior: "smooth",
-      });
-      return;
-    }
-
-    if (direction === "left" && atStart) {
-      slider.scrollTo({
-        left: maxScroll,
-        behavior: "smooth",
-      });
-      return;
-    }
-
-    slider.scrollBy({
-      left:
-        direction === "right"
-          ? amount
-          : -amount,
-      behavior: "smooth",
-    });
-  }
-
-
-  function scrollFaq(
-    direction: "left" | "right",
-  ) {
-    const slider = faqSliderRef.current;
-
-    if (!slider) return;
-
-    slider.scrollBy({
-      left:
-        direction === "right"
-          ? slider.clientWidth
-          : -slider.clientWidth,
-      behavior: "smooth",
-    });
-  }
-
-  const faqPages = [
-    faqs.slice(0, 10),
-    faqs.slice(10, 20),
-  ];
+    slider.addEventListener("scroll", loopSlider, { passive: true });
+    return () => slider.removeEventListener("scroll", loopSlider);
+  }, []);
 
   return (
     <main className="homeV3Page" id="top">
@@ -1482,23 +2591,6 @@ export default function HomePageClient() {
                 hayatındaki seçimleri de daha bilinçli kur.
               </p>
 
-              <div className="homeV3HeroButtons">
-                <a
-                  className="homeV3PrimaryButton"
-                  href="#rezonans"
-                >
-                  Çalışmaları Keşfet
-                  <span>→</span>
-                </a>
-
-                <a
-                  className="homeV3SecondaryButton"
-                  href="/hakkimda"
-                >
-                  Hakkımda
-                </a>
-              </div>
-
               <div className="homeV3HeroLine">
                 <span>✦</span>
                 <p>İnsan değişmeden hayat değişmez.</p>
@@ -1507,45 +2599,28 @@ export default function HomePageClient() {
 
             <div className="homeV3HeroProfileWrap">
               <div className="homeV3HeroVisual homeV3HeroPortrait homeV3HeroVideoPortrait">
-                {!heroVideoStarted ? (
-                  <button
-                    type="button"
-                    className="homeV3HeroVideoCover"
-                    onClick={() => setHeroVideoStarted(true)}
-                    aria-label="Goldkozmos tanıtım videosunu oynat"
-                  >
-                    <img
-                      src="/images/services/ozge-batigun-hakkimda.webp"
-                      alt="Özge Batıgün"
-                    />
+                <button
+                  type="button"
+                  className="homeV3HeroVideoCover"
+                  onClick={() => setHeroVideoOpen(true)}
+                  aria-label="Goldkozmos tanıtım videosunu oynat"
+                >
+                  <img
+                    src="/images/services/ozge-batigun-hakkimda.webp"
+                    alt="Özge Batıgün"
+                  />
 
-                    <span
-                      className="homeV3HeroPlayButton"
-                      aria-hidden="true"
-                    >
-                      ▶
-                    </span>
-
-                    <span className="homeV3HeroPlayLabel">
-                      Tanıtım Videosunu İzle
-                    </span>
-                  </button>
-                ) : (
-                  <video
-                    className="homeV3HeroVideo"
-                    autoPlay
-                    playsInline
-                    controls
-                    preload="auto"
-                    aria-label="Özge Batıgün Goldkozmos tanıtım videosu"
+                  <span
+                    className="homeV3HeroPlayButton"
+                    aria-hidden="true"
                   >
-                    <source
-                      src="/videos/goldkozmos-tanitim.mp4"
-                      type="video/mp4"
-                    />
-                    Tarayıcınız video etiketini desteklemiyor.
-                  </video>
-                )}
+                    ▶
+                  </span>
+
+                  <span className="homeV3HeroPlayLabel">
+                    Tanıtım Videosunu İzle
+                  </span>
+                </button>
 
                 <div className="homeV3HeroIdentityBar">
                   <strong>Özge Batıgün</strong>
@@ -1558,6 +2633,7 @@ export default function HomePageClient() {
                   {socials.map((social) => (
                     <a
                       key={social.name}
+                      className={`homeHeroSocialLink homeHeroSocial-${social.platform}`}
                       href={social.href}
                       target="_blank"
                       rel="noreferrer"
@@ -1566,6 +2642,7 @@ export default function HomePageClient() {
                     >
                       <SocialIcon
                         platform={social.platform}
+                        filled
                       />
                     </a>
                   ))}
@@ -1573,31 +2650,63 @@ export default function HomePageClient() {
               </div>
             </div>
 
-            <div className="homeHeroMiniTest">
-              <div className="homeHeroMiniTestIcon">
-                <span>✦</span>
-              </div>
+            <div className="homeHeroActionRow">
+              <a
+                className="homeHeroMiniTest homeHeroActionCard"
+                href="#rezonans"
+              >
+                <div className="homeHeroMiniTestCopy">
+                  <p>REZONANS ÇALIŞMALARI</p>
 
-              <div className="homeHeroMiniTestCopy">
-                <p>ÜCRETSİZ ARKETİP TESTİ</p>
+                  <h2>
+                    Çalışmaları
+                    <span> keşfet</span>
+                  </h2>
+                </div>
 
-                <h2>
-                  Kendine hangi
-                  <span> arketipten bakıyorsun?</span>
-                </h2>
-              </div>
-
-              <a href="/sana-uygun-calismayi-bul">
-                Teste Başla
-                <span>→</span>
+                <span className="homeHeroActionCta">
+                  İncele
+                </span>
               </a>
+
+              <a
+                className="homeHeroMiniTest homeHeroActionCard"
+                href="/hakkimda"
+              >
+                <div className="homeHeroMiniTestCopy">
+                  <p>ÖZGE BATIGÜN</p>
+
+                  <h2>
+                    Hakkımda
+                    <span> daha fazlası</span>
+                  </h2>
+                </div>
+
+                <span className="homeHeroActionCta">
+                  Oku
+                </span>
+              </a>
+
+              <div className="homeHeroMiniTest">
+                <div className="homeHeroMiniTestCopy">
+                  <p>ÜCRETSİZ ARKETİP TESTİ</p>
+
+                  <h2>
+                    Kendine hangi
+                    <span> arketipten bakıyorsun?</span>
+                  </h2>
+                </div>
+
+                <a href="/sana-uygun-calismayi-bul">
+                  Teste Başla
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <PlatformRail />
-      <ContinueGlance />
 
       {/* REZONANS */}
 
@@ -1609,7 +2718,7 @@ export default function HomePageClient() {
           <div className="homeV3SectionHeading">
             <div>
               <p className="homeV3Eyebrow">
-                REZONANS ATÖLYELERİ
+                REZONANS EĞİTİMLERİ
               </p>
 
               <h2>
@@ -1655,12 +2764,6 @@ export default function HomePageClient() {
                     {course.homeSummary}
                   </p>
 
-                  <div className="homeV3ResonanceMeta">
-                    {course.sessionMeta.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                  </div>
-
                   <div className="homeV3ResonanceBottom">
                     {course.priceLabel ? (
                       <strong>{course.priceLabel}</strong>
@@ -1684,14 +2787,6 @@ export default function HomePageClient() {
               );
             })}
           </div>
-
-          <a
-            className="homeV3ResonanceCta"
-            href={EDUCATION_HUB_PATH}
-          >
-            Rezonans Eğitimlerini İncele
-            <span aria-hidden="true">→</span>
-          </a>
         </div>
       </section>
 
@@ -1705,100 +2800,55 @@ export default function HomePageClient() {
           <div className="homeV3PersonalHub">
             <div className="homeV3PersonalLeft">
               <div className="homeV3PersonalHeading">
-                <div>
-                  <p className="homeV3Eyebrow">
-                    BİREBİR ÇALIŞMALAR
-                  </p>
+                <p className="homeV3Eyebrow">
+                  BİREBİR ÇALIŞMALAR
+                </p>
 
-                  <h2>
-                    Daha
-                    <span> kişisel bir alan.</span>
-                  </h2>
+                <h2>
+                  Daha
+                  <span> kişisel bir alan.</span>
+                </h2>
 
-                  <p className="homeV3PersonalDescription">
-                    Tek bir konuya odaklanmak veya farklı bir
-                    farkındalık yöntemiyle ilerlemek isteyenler için.
-                  </p>
-                </div>
-
-                <div className="homeV3OtherSliderControls">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      scrollOtherWorks("left")
-                    }
-                    aria-label="Önceki çalışmalar"
-                  >
-                    ←
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      scrollOtherWorks("right")
-                    }
-                    aria-label="Sonraki çalışmalar"
-                  >
-                    →
-                  </button>
-                </div>
+                <p className="homeV3PersonalDescription">
+                  Tek bir konuya odaklanmak veya farklı bir
+                  farkındalık yöntemiyle ilerlemek isteyenler için.
+                </p>
               </div>
 
               <div
                 className="homeV3OtherSlider"
                 ref={otherWorksSliderRef}
               >
-                {otherWorks.map((work) => (
+                {[...otherWorks, ...otherWorks].map((work, index) => (
                   <a
                     className="homeV3OtherCard"
                     href={work.href}
-                    key={work.title}
+                    key={`${work.title}-${index}`}
                   >
                     <div className="homeV3OtherVisual">
                       <img
                         src={work.image}
                         alt={work.title}
                       />
-
-                      <div
-                        className="homeV3OtherVisualShade"
-                        aria-hidden="true"
-                      />
-
-                      <span className="homeV3OtherVisualNumber">
-                        {work.number}
-                      </span>
-
-                      <span className="homeV3OtherVisualArrow">
-                        ↗
-                      </span>
                     </div>
 
                     <div className="homeV3OtherContent">
-                      <div>
-                        <h3>{work.title}</h3>
-                        <p>{work.text}</p>
-                      </div>
+                      <h3>{work.title}</h3>
+                      <p>{work.text}</p>
 
-                      {"cta" in work && work.cta ? (
+                      <div className="homeV3OtherCardBottom">
+                        {"price" in work && work.price ? (
+                          <strong>{work.price}</strong>
+                        ) : (
+                          <span />
+                        )}
                         <span className="homeV3OtherCardCta">
-                          {work.cta}
+                          Detayları Gör
                         </span>
-                      ) : (
-                        <strong>{work.price}</strong>
-                      )}
+                      </div>
                     </div>
                   </a>
                 ))}
-              </div>
-
-              <div
-                className="homeV3OtherScrollHint"
-                aria-hidden="true"
-              >
-                <span>←</span>
-                <p>Yana kaydır</p>
-                <span>→</span>
               </div>
             </div>
           </div>
@@ -1846,13 +2896,6 @@ export default function HomePageClient() {
                     src={recording.image}
                     alt={recording.title}
                   />
-
-                  <span
-                    className="homeV3LiveArchivePlay"
-                    aria-hidden="true"
-                  >
-                    ▶
-                  </span>
                 </a>
 
                 <div className="homeV3LiveArchiveBody">
@@ -1934,13 +2977,6 @@ export default function HomePageClient() {
                     src={product.image}
                     alt={product.title}
                   />
-
-                  <span
-                    className="homeV3AudioEnergyPlay"
-                    aria-hidden="true"
-                  >
-                    ▶
-                  </span>
                 </a>
 
                 <div className="homeV3AudioEnergyBody">
@@ -1973,9 +3009,8 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      <HomeGoldMindSection />
 
-      {/* GOLDBOOK + BAĞLANTI TELEFONLARI */}
+      {/* GOLDBOOK */}
 
       <section
         className="homeV3LibraryHub"
@@ -1987,23 +3022,20 @@ export default function HomePageClient() {
 
             <div className="homeV3LibraryBooks">
               <div className="homeV3LibraryHeading">
-                <div>
-                  <p className="homeV3Eyebrow">
-                    GOLDBOOK
-                  </p>
+                <p className="homeV3Eyebrow">
+                  GOLDBOOK
+                </p>
 
-                  <h2>
-                    Okumak için değil,
-                    <span> kendine dönmek için.</span>
-                  </h2>
-                </div>
+                <h2>
+                  Okumak için değil,
+                  <span> kendine dönmek için.</span>
+                </h2>
 
                 <a
                   href="/goldbook"
                   className="homeV3LibraryAll"
                 >
                   Tüm GoldBook’lar
-                  <span>→</span>
                 </a>
               </div>
 
@@ -2040,7 +3072,6 @@ export default function HomePageClient() {
                           rel="noreferrer"
                         >
                           Shopier’den Al
-                          <span>→</span>
                         </a>
                       </div>
                     </div>
@@ -2048,190 +3079,190 @@ export default function HomePageClient() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* SAĞ: İKİ TELEFON */}
+      <section className="homeV3Connect" id="baglanti">
+        <div className="homeV3Container">
+          <div className="homeV3PhoneZoneHeading">
+            <p className="homeV3Eyebrow">
+              BAĞLANTIDA KAL
+            </p>
 
-            <aside className="homeV3PhoneZone">
-              <div className="homeV3PhoneZoneHeading">
-                <p className="homeV3Eyebrow">
-                  BAĞLANTIDA KAL
-                </p>
+            <h2>
+              Goldkozmos’u
+              <span> cebinde taşı.</span>
+            </h2>
 
-                <h2>
-                  Goldkozmos’u
-                  <span> cebinde taşı.</span>
-                </h2>
+            <p>
+              Instagram içerikleri ve WhatsApp kanalındaki
+              duyurular için iki doğrudan bağlantı.
+            </p>
+          </div>
 
-                <p>
-                  Instagram içerikleri ve WhatsApp kanalındaki
-                  duyurular için iki doğrudan bağlantı.
-                </p>
+          <div className="homeV3PhonePair">
+            <a
+              className="homeV3SocialPhone homeV3InstagramPhone"
+              href="https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Goldkozmos Instagram hesabını aç"
+            >
+              <div className="homeV3PhoneFrame">
+                <div
+                  className="homeV3PhoneNotch"
+                  aria-hidden="true"
+                />
+
+                <div className="homeV3PhoneScreen">
+                  <div className="homeV3PhoneAppTop">
+                    <span className="homeV3PhoneAppIcon">
+                      <SocialIcon platform="instagram" filled />
+                    </span>
+
+                    <strong>Instagram</strong>
+                  </div>
+
+                  <div className="homeV3InstagramPhoneProfile">
+                    <div className="homeV3InstagramPhonePhoto">
+                      <img
+                        src="/images/services/instagram-profile.webp"
+                        alt="Goldkozmos Instagram"
+                      />
+                    </div>
+
+                    <p>GOLDKOZMOS®</p>
+                    <h3>@goldkozmos</h3>
+
+                    <span>
+                      Kendilik · İlişkiler · Bolluk · Stoa
+                    </span>
+                  </div>
+
+                  <div
+                    className="homeV3InstagramPhoneGrid"
+                    aria-hidden="true"
+                  >
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+
+                  <div className="homeV3PhoneCta">
+                    Instagram’a Git
+                    <span>↗</span>
+                  </div>
+                </div>
               </div>
 
-              <div className="homeV3PhonePair">
-                {/* INSTAGRAM TELEFONU */}
+              <p className="homeV3PhoneLabel">
+                Instagram
+              </p>
+            </a>
 
-                <a
-                  className="homeV3SocialPhone homeV3InstagramPhone"
-                  href="https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Goldkozmos Instagram hesabını aç"
-                >
-                  <div className="homeV3PhoneFrame">
-                    <div
-                      className="homeV3PhoneNotch"
-                      aria-hidden="true"
-                    />
+            <a
+              className="homeV3SocialPhone homeV3WhatsappPhone"
+              href="https://whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Goldkozmos WhatsApp kanalını aç"
+            >
+              <div className="homeV3PhoneFrame">
+                <div
+                  className="homeV3PhoneNotch"
+                  aria-hidden="true"
+                />
 
-                    <div className="homeV3PhoneScreen">
-                      <div className="homeV3PhoneAppTop">
-                        <span className="homeV3PhoneAppIcon">
-                          <SocialIcon platform="instagram" />
-                        </span>
+                <div className="homeV3PhoneScreen">
+                  <div className="homeV3PhoneAppTop">
+                    <span className="homeV3PhoneAppIcon">
+                      <SocialIcon platform="whatsapp" filled />
+                    </span>
 
-                        <strong>Instagram</strong>
-                      </div>
+                    <strong>WhatsApp</strong>
+                  </div>
 
-                      <div className="homeV3InstagramPhoneProfile">
-                        <div className="homeV3InstagramPhonePhoto">
-                          <img
-                            src="/images/services/instagram-profile.webp"
-                            alt="Goldkozmos Instagram"
-                          />
-                        </div>
+                  <div className="homeV3WhatsappPhoneHero">
+                    <span>GOLDKOZMOS® REZONANS EKOLÜ</span>
 
-                        <p>GOLDKOZMOS®</p>
-                        <h3>@goldkozmos</h3>
+                    <h3>
+                      Goldkozmos’tan
+                      <strong> haberdar kal.</strong>
+                    </h3>
 
-                        <span>
-                          Kendilik · İlişkiler · Bolluk · Stoa
-                        </span>
-                      </div>
+                    <p>
+                      Yeni çalışmalar, yayınlar ve duyurular
+                      tek bir yerde.
+                    </p>
+                  </div>
 
-                      <div
-                        className="homeV3InstagramPhoneGrid"
-                        aria-hidden="true"
-                      >
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                      </div>
+                  <div className="homeV3WhatsappPhoneItems">
+                    <div>
+                      <span>01</span>
+                      <p>Yeni çalışma duyuruları</p>
+                    </div>
 
-                      <div className="homeV3PhoneCta">
-                        Instagram’a Git
-                        <span>↗</span>
-                      </div>
+                    <div>
+                      <span>02</span>
+                      <p>GoldCast ve GoldBlog paylaşımları</p>
+                    </div>
+
+                    <div>
+                      <span>03</span>
+                      <p>Topluluk güncellemeleri</p>
                     </div>
                   </div>
 
-                  <p className="homeV3PhoneLabel">
-                    Instagram
-                  </p>
-                </a>
+                  <div className="homeV3PhoneCta">
+                    Kanala Katıl
+                    <span>→</span>
+                  </div>
+                </div>
+              </div>
 
-                {/* WHATSAPP TELEFONU */}
+              <p className="homeV3PhoneLabel">
+                WhatsApp Kanalı
+              </p>
+            </a>
+          </div>
 
+          <div className="homeV3FollowChannels">
+            <div className="homeV3FollowChannelsTitle">
+              <span>DİĞER KANALLAR</span>
+              <p>Goldkozmos’u diğer platformlarda da takip et.</p>
+            </div>
+
+            <div className="homeV3FollowChannelsGrid">
+              {followChannels.map((channel) => (
                 <a
-                  className="homeV3SocialPhone homeV3WhatsappPhone"
-                  href="https://whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s"
+                  key={channel.name}
+                  className="homeV3FollowChannel"
+                  href={channel.href}
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Goldkozmos WhatsApp kanalını aç"
                 >
-                  <div className="homeV3PhoneFrame">
-                    <div
-                      className="homeV3PhoneNotch"
-                      aria-hidden="true"
-                    />
+                  <span className="homeV3FollowChannelIcon" aria-hidden="true">
+                    <SocialIcon platform={channel.platform} filled />
+                  </span>
 
-                    <div className="homeV3PhoneScreen">
-                      <div className="homeV3PhoneAppTop">
-                        <span className="homeV3PhoneAppIcon">
-                          <SocialIcon platform="whatsapp" />
-                        </span>
+                  <span className="homeV3FollowChannelCopy">
+                    <strong>{channel.name}</strong>
+                    <span>{channel.handle}</span>
+                  </span>
 
-                        <strong>WhatsApp</strong>
-                      </div>
-
-                      <div className="homeV3WhatsappPhoneHero">
-                        <span>GOLDKOZMOS® REZONANS EKOLÜ</span>
-
-                        <h3>
-                          Goldkozmos’tan
-                          <strong> haberdar kal.</strong>
-                        </h3>
-
-                        <p>
-                          Yeni çalışmalar, yayınlar ve duyurular
-                          tek bir yerde.
-                        </p>
-                      </div>
-
-                      <div className="homeV3WhatsappPhoneItems">
-                        <div>
-                          <span>01</span>
-                          <p>Yeni çalışma duyuruları</p>
-                        </div>
-
-                        <div>
-                          <span>02</span>
-                          <p>GoldCast ve GoldBlog paylaşımları</p>
-                        </div>
-
-                        <div>
-                          <span>03</span>
-                          <p>Topluluk güncellemeleri</p>
-                        </div>
-                      </div>
-
-                      <div className="homeV3PhoneCta">
-                        Kanala Katıl
-                        <span>→</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="homeV3PhoneLabel">
-                    WhatsApp Kanalı
-                  </p>
+                  <span
+                    className="homeV3FollowChannelArrow"
+                    aria-hidden="true"
+                  >
+                    ↗
+                  </span>
                 </a>
-              </div>
-
-              <div className="homeV3FollowChannels">
-                <div className="homeV3FollowChannelsTitle">
-                  <span>DİĞER KANALLAR</span>
-                  <p>Goldkozmos’u diğer platformlarda da takip et.</p>
-                </div>
-
-                <div className="homeV3FollowChannelsGrid">
-                  {followChannels.map((channel) => (
-                    <a
-                      key={channel.name}
-                      className="homeV3FollowChannel"
-                      href={channel.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span className="homeV3FollowChannelCopy">
-                        <strong>{channel.name}</strong>
-                        <span>{channel.handle}</span>
-                      </span>
-
-                      <span
-                        className="homeV3FollowChannelArrow"
-                        aria-hidden="true"
-                      >
-                        ↗
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </aside>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -2241,86 +3272,27 @@ export default function HomePageClient() {
       <section className="homeV3Faq" id="sss">
         <div className="homeV3Container">
           <div className="homeV3FaqHeading">
-            <div>
-              <p className="homeV3Eyebrow">
-                SIK SORULAN SORULAR
-              </p>
+            <p className="homeV3Eyebrow">
+              SIK SORULAN SORULAR
+            </p>
 
-              <h2>
-                Merak ettiklerin,
-                <span> tek bir yerde.</span>
-              </h2>
-            </div>
+            <h2>
+              Merak ettiklerin,
+              <span> tek bir yerde.</span>
+            </h2>
 
-            <div>
-              <p>
-                Atölyelerden birebir çalışmalara, GoldBook içeriklerinden
-                kayıtlı yayınlara kadar en sık sorulan sorular.
-              </p>
+            <p>
+              Atölyeler, birebir çalışmalar ve dijital ürünler
+              hakkında kısa yanıtlar.
+            </p>
 
-              <div className="homeV3FaqHeadingActions">
-                <button
-                  type="button"
-                  onClick={() => scrollFaq("left")}
-                  aria-label="Önceki SSS sayfası"
-                >
-                  ←
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => scrollFaq("right")}
-                  aria-label="Sonraki SSS sayfası"
-                >
-                  →
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="homeV3FaqCarousel"
-            ref={faqSliderRef}
-          >
-            {faqPages.map((page, pageIndex) => (
-              <div
-                className="homeV3FaqPage"
-                key={`faq-page-${pageIndex}`}
-              >
-                <div className="homeV3FaqPageGrid">
-                  {page.map((faq, index) => {
-                    const itemNumber =
-                      pageIndex * 10 + index + 1;
-
-                    return (
-                      <details
-                        className="homeV3FaqItem"
-                        key={faq.question}
-                      >
-                        <summary>
-                          <span className="homeV3FaqNumber">
-                            {String(itemNumber).padStart(2, "0")}
-                          </span>
-
-                          <strong>{faq.question}</strong>
-
-                          <span
-                            className="homeV3FaqPlus"
-                            aria-hidden="true"
-                          >
-                            +
-                          </span>
-                        </summary>
-
-                        <div className="homeV3FaqAnswer">
-                          <p>{faq.answer}</p>
-                        </div>
-                      </details>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
+            <button
+              type="button"
+              className="homeV3FaqOpen"
+              onClick={() => setFaqOpen(true)}
+            >
+              Tüm soruları gör
+            </button>
           </div>
         </div>
       </section>
@@ -2365,8 +3337,114 @@ export default function HomePageClient() {
           });
         }}
       >
-        <span>↑</span>
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z" />
+        </svg>
       </a>
+
+      {faqOpen ? (
+        <div
+          className="homeV3FaqModal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="homeV3FaqModalTitle"
+          onClick={() => setFaqOpen(false)}
+        >
+          <div
+            className="homeV3FaqModalPanel"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="homeV3FaqModalHead">
+              <div>
+                <p>SIK SORULAN SORULAR</p>
+                <h3 id="homeV3FaqModalTitle">
+                  Tüm sorular
+                  <span> burada.</span>
+                </h3>
+              </div>
+
+              <button
+                type="button"
+                className="homeV3FaqModalClose"
+                onClick={() => setFaqOpen(false)}
+                aria-label="SSS penceresini kapat"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="homeV3FaqModalList">
+              {faqs.map((faq, index) => (
+                <details
+                  className="homeV3FaqItem"
+                  key={faq.question}
+                >
+                  <summary>
+                    <span className="homeV3FaqNumber">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <strong>{faq.question}</strong>
+
+                    <span
+                      className="homeV3FaqPlus"
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                  </summary>
+
+                  <div className="homeV3FaqAnswer">
+                    <p>{faq.answer}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {heroVideoOpen ? (
+        <div
+          className="homeV3HeroVideoModal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Goldkozmos tanıtım videosu"
+          onClick={() => setHeroVideoOpen(false)}
+        >
+          <div
+            className="homeV3HeroVideoModalInner"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="homeV3HeroVideoModalClose"
+              onClick={() => setHeroVideoOpen(false)}
+              aria-label="Videoyu kapat"
+            >
+              ×
+            </button>
+
+            <video
+              autoPlay
+              playsInline
+              controls
+              preload="auto"
+              onEnded={() => setHeroVideoOpen(false)}
+              aria-label="Özge Batıgün Goldkozmos tanıtım videosu"
+            >
+              <source
+                src="/videos/goldkozmos-tanitim.mp4"
+                type="video/mp4"
+              />
+              Tarayıcınız video etiketini desteklemiyor.
+            </video>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

@@ -10,7 +10,6 @@ export default function PlatformRail() {
   return (
     <section className="platformRail" aria-label="GoldKozmos platformları">
       <div className="homeV3Container">
-        <p className="platformRailEyebrow">Platform</p>
         <div className="platformRailSlider">
           {PLATFORM_CATALOG.map((platform) => (
             <PlatformProgressCard
