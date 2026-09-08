@@ -2,6 +2,16 @@
 
 import { useRef, useState } from "react";
 import FooterSection from "../components/FooterSection";
+import HomeNavbar from "../components/HomeNavbar";
+import HomeGoldMindSection from "../components/HomeGoldMindSection";
+import PlatformRail from "../components/platform/PlatformRail";
+import ContinueGlance from "../components/platform/ContinueGlance";
+import {
+  EDUCATION_HUB_PATH,
+  getEducationCourses,
+  getEducationHubHref,
+  getEducationPrimaryCta,
+} from "../data/education";
 
 type SocialPlatform =
   | "instagram"
@@ -11,41 +21,14 @@ type SocialPlatform =
   | "youtube"
   | "spotify";
 
-const resonanceWorks = [
-  {
-    eyebrow: "01 · KENDİLİK",
-    title: "Kendilik Rezonansı",
-    text: "Özdeğerini, onay ihtiyacını, sınırlarını ve kendinle kurduğun ilişkiyi daha yakından gör.",
-    image: "/images/services/kendilik-rezonansi.webp",
-    href: "/calismalar/kendilik",
-    price: "1.500 TL",
-  },
-  {
-    eyebrow: "02 · İLİŞKİLER",
-    title: "İlişki Rezonansı",
-    text: "Partner seçimlerini, tekrar eden ilişki örüntülerini, iletişim biçimini ve sınırlarını fark et.",
-    image: "/images/services/iliski-rezonansi.webp",
-    href: "/calismalar/iliski",
-    price: "1.500 TL",
-  },
-  {
-    eyebrow: "03 · BOLLUK",
-    title: "Bolluk Rezonansı",
-    text: "Para algını, değer anlayışını, kıtlık düşüncelerini ve üretkenlik alışkanlıklarını incele.",
-    image: "/images/services/bolluk-rezonansi.webp",
-    href: "/calismalar/para",
-    price: "1.500 TL",
-  },
-];
-
 const otherWorks = [
   {
     number: "01",
     title: "Tek Birebir Seans",
     text: "Belirli bir konuya odaklanan 50 dakikalık birebir görüşme.",
     image: "/images/services/birebir-seans.webp",
-    price: "2.500 TL",
-    href: "/calismalar/birebir-seanslar",
+    href: "/calismalar/enerji-calismalari",
+    cta: "Tüm Çalışmaları Gör →",
   },
   {
     number: "02",
@@ -80,7 +63,7 @@ const recordings = [
     text: "Daha önce canlı olarak gerçekleştirilen çalışmanın kayıtlı versiyonuna kendi zamanında eriş.",
     image: "/images/services/7-cakra-dengeleme-kaydi.webp",
     price: "750 TL",
-    href: "/calismalar/ses-kayitlari",
+    href: "https://www.shopier.com/goldkozmos/49768634",
   },
   {
     category: "KAYITLI GRUP ÇALIŞMASI",
@@ -107,7 +90,7 @@ const audioEnergyProducts = [
     text: "Alma, akış ve sezgiyle; hareket, sınır ve yön belirleme tarafların arasındaki ilişkiyi fark etmeye odaklanan yönlendirmeli ses çalışması.",
     image: "/images/services/disil-eril-enerjini-dengele.webp",
     price: "450 TL",
-    href: "https://www.shopier.com/goldkozmos/49861708",
+    href: "https://www.shopier.com/goldkozmos/49861773",
   },
   {
     category: "SES KAYDI · NİYET & ODAK",
@@ -115,7 +98,7 @@ const audioEnergyProducts = [
     text: "Niyetini netleştirmek, zihinsel dağınıklığı azaltmak ve odağını seçtiğin dilekle daha uyumlu hale getirmek için hazırlanmış rehberli ses kaydı.",
     image: "/images/services/dilegini-rezonansla.webp",
     price: "450 TL",
-    href: "https://www.shopier.com/goldkozmos/49861763",
+    href: "https://www.shopier.com/goldkozmos/49861708",
   },
   {
     category: "SES KAYDI · İÇSEL ÇOCUK",
@@ -1397,9 +1380,6 @@ export default function HomePageClient() {
   const faqSliderRef =
     useRef<HTMLDivElement>(null);
 
-  const [mobileMenuOpen, setMobileMenuOpen] =
-    useState(false);
-
   const [heroVideoStarted, setHeroVideoStarted] =
     useState(false);
 
@@ -1479,107 +1459,7 @@ export default function HomePageClient() {
       <style>{homepageArchiveStyles}</style>
       {/* NAVBAR */}
 
-      <header className="homeV3Nav">
-        <div className="homeV3NavInner">
-          <a className="homeV3Brand" href="/">
-            <strong>
-              GOLDKOZMOS<sup>®</sup>
-            </strong>
-            <span>REZONANS EKOLÜ</span>
-          </a>
-
-          <nav className="homeV3Menu">
-            <a href="/">Ana Sayfa</a>
-            <a href="#rezonans">Atölyeler</a>
-            <a href="#diger">Çalışmalar</a>
-            <a href="/goldbook">GoldBook</a>
-            <a href="/goldcast">GoldCast</a>
-            <a href="/goldfrekans">GoldFrekans</a>
-            <a href="/goldblog">GoldBlog</a>
-            <a href="/hakkimda">Hakkımda</a>
-            <a href="#sss">SSS</a>
-          </nav>
-
-          <a
-            className="homeV3NavTest"
-            href="/sana-uygun-calismayi-bul"
-          >
-            Ücretsiz Test
-            <span>→</span>
-          </a>
-
-          <button
-            type="button"
-            className={`homeV3MobileMenuButton ${
-              mobileMenuOpen ? "isOpen" : ""
-            }`}
-            aria-label={mobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="homeV3MobileMenu"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
-        </div>
-
-        <div
-          id="homeV3MobileMenu"
-          className={`homeV3MobileMenu ${
-            mobileMenuOpen ? "isOpen" : ""
-          }`}
-          aria-hidden={!mobileMenuOpen}
-        >
-          <nav>
-            <a href="/" onClick={() => setMobileMenuOpen(false)}>
-              Ana Sayfa
-            </a>
-            <a href="#rezonans" onClick={() => setMobileMenuOpen(false)}>
-              Atölyeler
-            </a>
-            <a href="#diger" onClick={() => setMobileMenuOpen(false)}>
-              Çalışmalar
-            </a>
-            <a href="/goldbook" onClick={() => setMobileMenuOpen(false)}>
-              GoldBook
-            </a>
-            <a href="/goldcast" onClick={() => setMobileMenuOpen(false)}>
-              GoldCast
-            </a>
-            <a href="/goldfrekans" onClick={() => setMobileMenuOpen(false)}>
-              GoldFrekans
-            </a>
-            <a href="/goldblog" onClick={() => setMobileMenuOpen(false)}>
-              GoldBlog
-            </a>
-            <a href="/hakkimda" onClick={() => setMobileMenuOpen(false)}>
-              Hakkımda
-            </a>
-            <a href="#sss" onClick={() => setMobileMenuOpen(false)}>
-              SSS
-            </a>
-          </nav>
-
-          <a
-            href="/sana-uygun-calismayi-bul"
-            className="homeV3MobileMenuTest"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Ücretsiz Test
-            <span>→</span>
-          </a>
-        </div>
-
-        {mobileMenuOpen && (
-          <button
-            type="button"
-            className="homeV3MobileMenuBackdrop"
-            aria-label="Menüyü kapat"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-        )}
-      </header>
+      <HomeNavbar />
 
       {/* HERO */}
 
@@ -1716,6 +1596,9 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      <PlatformRail />
+      <ContinueGlance />
+
       {/* REZONANS */}
 
       <section
@@ -1742,50 +1625,73 @@ export default function HomePageClient() {
           </div>
 
           <div className="homeV3ResonanceGrid">
-            {resonanceWorks.map((work) => (
+            {getEducationCourses().map((course) => {
+              const cta = getEducationPrimaryCta(course);
+              const hubHref = getEducationHubHref(course);
+
+              return (
               <article
                 className="homeV3ResonanceCard"
-                key={work.title}
+                key={course.id}
               >
                 <a
                   className="homeV3ResonanceImage"
-                  href={work.href}
+                  href={hubHref}
                 >
                   <img
-                    src={work.image}
-                    alt={work.title}
+                    src={course.coverImage}
+                    alt={course.title}
                   />
                 </a>
 
                 <div className="homeV3ResonanceContent">
                   <p className="homeV3CardEyebrow">
-                    {work.eyebrow}
+                    {course.eyebrow}
                   </p>
 
-                  <h3>{work.title}</h3>
+                  <h3>{course.title}</h3>
 
                   <p className="homeV3ResonanceText">
-                    {work.text}
+                    {course.homeSummary}
                   </p>
 
                   <div className="homeV3ResonanceMeta">
-                    <span>5 Gün</span>
-                    <span>75–90 dk</span>
-                    <span>Google Meet</span>
+                    {course.sessionMeta.map((item) => (
+                      <span key={item}>{item}</span>
+                    ))}
                   </div>
 
                   <div className="homeV3ResonanceBottom">
-                    <strong>{work.price}</strong>
+                    {course.priceLabel ? (
+                      <strong>{course.priceLabel}</strong>
+                    ) : null}
 
-                    <a href={work.href}>
-                      Detayları Gör
+                    <a
+                      href={cta.href}
+                      {...(cta.external
+                        ? {
+                            target: "_blank",
+                            rel: "noreferrer",
+                          }
+                        : {})}
+                    >
+                      {cta.label}
                       <span>→</span>
                     </a>
                   </div>
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
+
+          <a
+            className="homeV3ResonanceCta"
+            href={EDUCATION_HUB_PATH}
+          >
+            Rezonans Eğitimlerini İncele
+            <span aria-hidden="true">→</span>
+          </a>
         </div>
       </section>
 
@@ -1874,7 +1780,13 @@ export default function HomePageClient() {
                         <p>{work.text}</p>
                       </div>
 
-                      <strong>{work.price}</strong>
+                      {"cta" in work && work.cta ? (
+                        <span className="homeV3OtherCardCta">
+                          {work.cta}
+                        </span>
+                      ) : (
+                        <strong>{work.price}</strong>
+                      )}
                     </div>
                   </a>
                 ))}
@@ -2060,6 +1972,8 @@ export default function HomePageClient() {
           </div>
         </div>
       </section>
+
+      <HomeGoldMindSection />
 
       {/* GOLDBOOK + BAĞLANTI TELEFONLARI */}
 
@@ -2442,6 +2356,14 @@ export default function HomePageClient() {
         href="#top"
         className="siteGlobalBackToTop"
         aria-label="Sayfanın başına dön"
+        onClick={(event) => {
+          event.preventDefault();
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }}
       >
         <span>↑</span>
       </a>

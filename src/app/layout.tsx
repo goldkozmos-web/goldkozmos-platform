@@ -3,8 +3,12 @@ import type {
   Viewport,
 } from "next";
 
+import GlobalContactDock from "../components/GlobalContactDock";
+import PlatformFlowRoot from "../components/platform/PlatformFlowRoot";
+
 import "../styles/home.css";
 import "../styles/mobile-v2.css";
+import "../styles/platform-flow.css";
 
 const siteUrl = "https://goldkozmos.com";
 
@@ -144,7 +148,10 @@ export default function RootLayout({
           }}
         />
 
-        {children}
+        <PlatformFlowRoot>
+          {children}
+          <GlobalContactDock />
+        </PlatformFlowRoot>
       </body>
     </html>
   );

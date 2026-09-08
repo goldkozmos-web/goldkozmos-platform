@@ -1,0 +1,229 @@
+.liveActivity {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 36px 24px 32px;
+  border: 1px solid rgba(160, 119, 42, 0.16);
+  border-radius: 28px;
+  background: #fffdf8;
+  text-align: center;
+}
+
+.liveActivityField {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.liveActivityRing,
+.liveActivityDot,
+.liveActivityMark {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+}
+
+.liveActivityRing {
+  border: 1px solid rgba(168, 121, 42, 0.22);
+  background: transparent;
+}
+
+.liveActivityRingA {
+  width: min(72%, 340px);
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: liveActivityRing 9s ease-in-out infinite;
+}
+
+.liveActivityRingB {
+  width: min(48%, 220px);
+  aspect-ratio: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-color: rgba(168, 121, 42, 0.16);
+  animation: liveActivityRing 11s ease-in-out infinite reverse;
+}
+
+.liveActivityDot {
+  width: 6px;
+  height: 6px;
+  background: rgba(201, 155, 70, 0.72);
+  box-shadow: 0 0 6px rgba(212, 170, 89, 0.16);
+}
+
+.liveActivityDotA {
+  top: 22%;
+  left: 18%;
+  animation: liveActivityFloat 8s ease-in-out infinite;
+}
+
+.liveActivityDotB {
+  top: 28%;
+  right: 16%;
+  width: 4px;
+  height: 4px;
+  animation: liveActivityFloat 10s ease-in-out infinite reverse;
+}
+
+.liveActivityDotC {
+  bottom: 20%;
+  left: 28%;
+  width: 5px;
+  height: 5px;
+  animation: liveActivityFloat 12s ease-in-out infinite;
+}
+
+.liveActivityMark {
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(168, 121, 42, 0.38);
+  background: rgba(255, 253, 248, 0.5);
+}
+
+.liveActivityMarkA {
+  top: 18%;
+  right: 28%;
+  animation: liveActivityFloat 9s ease-in-out infinite;
+}
+
+.liveActivityMarkB {
+  bottom: 18%;
+  right: 22%;
+  width: 8px;
+  height: 8px;
+  animation: liveActivityFloat 13s ease-in-out infinite reverse;
+}
+
+.liveActivityMarkC {
+  top: 58%;
+  left: 12%;
+  width: 7px;
+  height: 7px;
+  animation: liveActivityFloat 7s ease-in-out infinite;
+}
+
+.liveActivityTitle,
+.liveActivityCount,
+.liveActivityCaption,
+.liveActivityFallback,
+.liveActivityFoot {
+  position: relative;
+  z-index: 1;
+}
+
+.liveActivityTitle {
+  margin: 0 0 14px;
+  color: #a8792a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.liveActivityCount {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.liveActivityCount strong {
+  color: #211811;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(56px, 9vw, 88px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+}
+
+.liveActivityBadge {
+  margin-top: 8px;
+  padding: 4px 8px;
+  border: 1px solid rgba(168, 121, 42, 0.32);
+  border-radius: 999px;
+  color: #8a641c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.liveActivityCaption,
+.liveActivityFallback {
+  margin: 12px 0 0;
+  color: #3a322c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.liveActivityFallback {
+  max-width: 16em;
+  margin-inline: auto;
+  color: #211811;
+}
+
+.liveActivityFoot {
+  margin: 14px 0 0;
+  color: #8a7f74;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+@keyframes liveActivityFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.38;
+  }
+
+  50% {
+    transform: translate3d(4px, -6px, 0);
+    opacity: 0.82;
+  }
+}
+
+@keyframes liveActivityRing {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+
+  50% {
+    opacity: 0.42;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liveActivityRing,
+  .liveActivityDot,
+  .liveActivityMark {
+    animation: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .liveActivity {
+    padding: 28px 18px 24px;
+    border-radius: 22px;
+  }
+
+  .liveActivityCount strong {
+    font-size: 56px;
+    letter-spacing: -2px;
+  }
+
+  .liveActivityCaption,
+  .liveActivityFallback {
+    font-size: 18px;
+  }
+
+  .liveActivityFoot {
+    font-size: 11px;
+  }
+}

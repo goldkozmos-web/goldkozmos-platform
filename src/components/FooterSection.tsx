@@ -10,12 +10,20 @@ const platformLinks = [
     href: "/#diger",
   },
   {
+    label: "Rezonans Eğitimleri",
+    href: "/rezonans-egitimleri",
+  },
+  {
     label: "GoldBook",
     href: "/goldbook",
   },
   {
     label: "GoldCast",
     href: "/goldcast",
+  },
+  {
+    label: "GoldMind",
+    href: "/goldmind",
   },
   {
     label: "GoldBlog",

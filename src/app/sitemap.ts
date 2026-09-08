@@ -47,6 +47,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/calismalar/enerji-calismalari`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+
+    {
+      url: `${baseUrl}/goldmind`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+
+    {
       url: `${baseUrl}/calismalar/tarot`,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -62,6 +74,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/calismalar/ses-kayitlari`,
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+
+    {
+      url: `${baseUrl}/rezonans-egitimleri`,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
 
     {

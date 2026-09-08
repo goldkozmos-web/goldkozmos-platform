@@ -1,108 +1,153 @@
-import Link from "next/link";
-
-const services = [
+const trainings = [
   {
     number: "01",
-    category: "5 GÜNLÜK ONLINE ATÖLYELER",
-    title: "Rezonans Atölyeleri",
+    title: "Kendilik Rezonansı",
     description:
-      "Kendilik, ilişki ve bolluk alanındaki tekrar eden örüntüleri daha yakından incelemek için hazırlanan üç farklı atölye.",
-    image: "/images/services/kendilik-rezonansi.webp",
-    href: "/#rezonans",
+      "Kendinle kurduğun ilişkiyi, özdeğerini, sınırlarını ve tekrar eden kişisel örüntülerini daha yakından incelemeye odaklanan kayıtlı eğitim.",
+    themes: ["Özdeğer", "Sınırlar", "Onay İhtiyacı", "Kendilik Algısı"],
+    price: "1.500 TL",
   },
   {
     number: "02",
-    category: "KİŞİYE ÖZEL",
-    title: "Birebir Seanslar",
+    title: "İlişki Rezonansı",
     description:
-      "Belirli bir konuya odaklanan, kişisel ihtiyacına göre şekillenen birebir görüşmeler.",
-    image: "/images/services/birebir-seanslar.jpeg",
-    href: "/calismalar/birebir-seanslar",
+      "İlişkilerde tekrar eden döngüleri, bağlanma biçimlerini, sınırları ve partner seçimlerini daha yakından görmeye odaklanan kayıtlı eğitim.",
+    themes: ["Partner Seçimi", "İlişki Örüntüleri", "Sınırlar", "İletişim"],
+    price: "1.500 TL",
   },
   {
     number: "03",
-    category: "SEMBOLİK FARKINDALIK",
-    title: "Tarot Analizi",
+    title: "Bolluk Rezonansı",
     description:
-      "İçinde bulunduğun duruma, seçeneklerine ve tekrar eden temalarına farklı bir açıdan bak.",
-    image: "/images/services/tarot-analizi.jpeg",
-    href: "/calismalar/tarot",
-  },
-  {
-    number: "04",
-    category: "KİŞİSEL ANALİZ",
-    title: "Numeroloji Analizi",
-    description:
-      "Doğum tarihi ve isim verileri üzerinden kişisel eğilimlerini ve tekrar eden temalarını incele.",
-    image: "/images/services/numeroloji-analizi.jpeg",
-    href: "/calismalar/numeroloji",
-  },
-  {
-    number: "05",
-    category: "DİJİTAL İÇERİKLER",
-    title: "Dijital Çalışmalar",
-    description:
-      "Kendi zamanında erişebileceğin kayıtlar, rehberler ve dijital Goldkozmos içerikleri.",
-    image: "/images/services/ses-kayitlari.jpeg",
-    href: "/calismalar",
+      "Para, üretkenlik, değer algısı ve bollukla kurulan ilişkiyi daha yakından incelemeye odaklanan kayıtlı eğitim.",
+    themes: ["Para Algısı", "Değer", "Kıtlık Döngüsü", "Üretkenlik"],
+    price: "1.500 TL",
   },
 ];
 
-export default function ServicesSection() {
+export default function ResonanceWorkshopsSection() {
   return (
-    <section className="servicesSliderSection" id="calismalar">
-      <div className="servicesSliderContainer">
-        <div className="servicesSliderHeader">
-          <div>
-            <p className="servicesSliderEyebrow">GOLDKOZMOS® ÇALIŞMALARI</p>
+    <section
+      className="resonanceSection resonanceEducationSection"
+      id="rezonans-atolyeleri"
+    >
+      <div className="resonanceContainer">
+        <div className="resonanceHeader">
+          <p className="sectionEyebrow">REZONANS EĞİTİMLERİ</p>
 
-            <h2>
-              Sana uygun
-              <span> alanı keşfet.</span>
-            </h2>
-          </div>
+          <h2>
+            Kendi alanını seç,
+            <span> kendi hızında ilerle.</span>
+          </h2>
 
-          <div className="servicesSliderHeaderRight">
-            <p>
-              Kartları yana kaydırarak tüm çalışma alanlarını inceleyebilirsin.
-            </p>
-
-            <span className="servicesSliderHint">
-              Kaydır
-              <span aria-hidden="true">→</span>
-            </span>
-          </div>
+          <p>
+            Kendilik, ilişki ve bolluk alanlarına odaklanan kayıtlı eğitimler
+            hazırlanıyor. Eğitimler tamamlandığında bu alan üzerinden erişime
+            açılacak.
+          </p>
         </div>
 
-        <div className="servicesSliderTrack">
-          {services.map((service) => (
-            <article className="servicesSliderCard" key={service.title}>
-              <Link href={service.href} className="servicesSliderImage">
-                <img src={service.image} alt={service.title} />
+        <div
+          className="resonanceEducationNotice"
+          role="status"
+          aria-label="Rezonans Eğitimleri erişim durumu"
+        >
+          <div>
+            <span>YAKINDA</span>
+            <strong>Eğitim alanı hazırlanıyor.</strong>
+          </div>
 
-                <div className="servicesSliderShade" />
+          <p>
+            Rezonans Eğitimleri henüz satışa ve erişime açılmadı. İçerikler
+            tamamlandığında bu bölüm aktif hale gelecek.
+          </p>
+        </div>
 
-                <div className="servicesSliderNumber">
-                  {service.number}
-                </div>
+        <div className="resonanceGrid">
+          {trainings.map((training) => (
+            <article
+              className="resonanceCard resonanceEducationCard"
+              key={training.title}
+            >
+              <div className="resonanceCardTop">
+                <span>{training.number}</span>
+                <span className="resonanceEducationCardStatus">
+                  YAKINDA
+                </span>
+              </div>
 
-                <div className="servicesSliderContent">
-                  <p>{service.category}</p>
+              <h3>{training.title}</h3>
 
-                  <h3>{service.title}</h3>
+              <p className="resonanceCardDescription">
+                {training.description}
+              </p>
 
-                  <span className="servicesSliderDescription">
-                    {service.description}
-                  </span>
+              <div
+                className="resonanceTags"
+                aria-label={`${training.title} eğitim başlıkları`}
+              >
+                {training.themes.map((theme) => (
+                  <span key={theme}>{theme}</span>
+                ))}
+              </div>
 
-                  <div className="servicesSliderButton">
-                    Çalışmayı Keşfet
-                    <span aria-hidden="true">↗</span>
-                  </div>
-                </div>
-              </Link>
+              <div className="resonanceMeta">
+                <p>Kayıtlı eğitim · Kendi hızında erişim</p>
+                <strong>{training.price}</strong>
+              </div>
+
+              <div
+                className="resonanceCardButton resonanceCardButtonDisabled"
+                aria-disabled="true"
+              >
+                Yakında Açılacak
+                <span aria-hidden="true">○</span>
+              </div>
             </article>
           ))}
+        </div>
+
+        <div className="resonanceEducationPackage">
+          <div className="resonanceEducationPackageCopy">
+            <p className="sectionEyebrow">REZONANS EĞİTİM PAKETİ</p>
+
+            <h3>
+              Üç eğitimi
+              <span> tek pakette bir araya getir.</span>
+            </h3>
+
+            <p>
+              Kendilik Rezonansı, İlişki Rezonansı ve Bolluk Rezonansı
+              eğitimlerinin tamamına erişim sağlayacak toplu paket.
+            </p>
+          </div>
+
+          <div className="resonanceEducationPrices">
+            <div>
+              <span>TEK EĞİTİM</span>
+              <strong>1.500 TL</strong>
+            </div>
+
+            <div className="isFeatured">
+              <span>3 EĞİTİM BİRLİKTE</span>
+              <strong>3.000 TL</strong>
+            </div>
+          </div>
+
+          <div className="resonanceEducationPackageBottom">
+            <p>
+              Toplu paket üç Rezonans Eğitimi’ne erişim içerir. Satış henüz
+              başlamamıştır.
+            </p>
+
+            <div
+              className="resonanceEducationPackageButton"
+              aria-disabled="true"
+            >
+              Yakında Açılıyor
+              <span aria-hidden="true">→</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

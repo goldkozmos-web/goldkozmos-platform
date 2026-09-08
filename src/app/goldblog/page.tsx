@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Navbar from "../../components/Navbar";
 import GoldBlogSection from "../../components/GoldBlogSection";
 import FooterSection from "../../components/FooterSection";
+import ContinueGlance from "../../components/platform/ContinueGlance";
 import "../../styles/home.css";
 
 const pageUrl = "https://goldkozmos.com/goldblog";
@@ -109,6 +110,8 @@ export default function GoldBlogPage() {
       />
 
       <Navbar />
+
+      <ContinueGlance platformId="goldblog" variant="page" />
 
       <GoldBlogSection />
 

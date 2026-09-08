@@ -1,0 +1,384 @@
+.meditationPage .meditationSection {
+  padding: 28px 0 96px;
+}
+
+.goldmindApp {
+  gap: 22px;
+}
+
+.goldmindApp > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.goldmindWelcome {
+  max-width: none;
+}
+
+.goldmindWelcome .goldmindBrandMark {
+  margin: 0 0 8px;
+}
+
+.goldmindWelcome h1 {
+  margin: 0;
+  font-size: clamp(22px, 3.2vw, 32px);
+  letter-spacing: -0.6px;
+  line-height: 1.15;
+}
+
+.goldmindWelcome .goldmindHello {
+  margin: 6px 0 0;
+  font-size: 14px;
+}
+
+.goldmindFeaturedHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.goldmindFeaturedHead h2 {
+  margin: 0;
+  color: #211811;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.goldmindApp .goldmindFeaturedControls {
+  position: static;
+  top: auto;
+  right: auto;
+}
+
+.goldmindApp .goldmindFeaturedSlider {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 24px) / 2.65);
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.goldmindApp .goldmindFeaturedSlide {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
+  border: 1px solid rgba(160, 119, 42, 0.16);
+  border-radius: 20px;
+  background: #fffdf8;
+}
+
+.goldmindApp .goldmindFeaturedMedia {
+  position: relative;
+  inset: auto;
+  aspect-ratio: 5 / 3;
+  min-height: 0;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(212, 170, 89, 0.18), transparent 46%),
+    #2a221c;
+}
+
+.goldmindApp .goldmindFeaturedMedia span {
+  font-size: 22px;
+}
+
+.goldmindApp .goldmindFeaturedCopy {
+  min-height: 0;
+  padding: 12px 14px 14px;
+  color: #211811;
+  justify-content: flex-start;
+}
+
+.goldmindApp .goldmindFeaturedCopy p {
+  color: #a8792a;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.goldmindApp .goldmindFeaturedCopy h3 {
+  margin: 6px 0 0;
+  color: #211811;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.goldmindFeaturedMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.goldmindApp .goldmindFeaturedCopy span {
+  margin-top: 0;
+  color: #8a7f74;
+  font-size: 12px;
+}
+
+.goldmindApp .goldmindFeaturedCopy button {
+  min-height: 36px;
+  margin-top: 0;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.goldmindApp .goldmindFeaturedCopy em {
+  margin-top: 0;
+  color: #8a7f74;
+  font-size: 12px;
+}
+
+.goldmindApp .goldmindQuickAccess {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.goldmindApp .goldmindQuickAccess button,
+.goldmindApp .goldmindQuickCard {
+  flex: 0 0 118px;
+  min-height: 92px;
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-radius: 18px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.goldmindQuickIcon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(168, 121, 42, 0.28);
+  font-size: 13px;
+  color: #6f5118;
+}
+
+.goldmindQuickCard--cocoa .goldmindQuickIcon {
+  border-color: rgba(229, 197, 130, 0.28);
+  color: #e5c582;
+}
+
+.goldmindApp .goldmindQuickAccess .goldmindQuickCard--cream {
+  background: #f7f1e6;
+  border-color: rgba(160, 119, 42, 0.14);
+  color: #3a322c;
+}
+
+.goldmindApp .goldmindQuickAccess .goldmindQuickCard--taupe {
+  background: #efe7db;
+  border-color: rgba(120, 102, 84, 0.16);
+  color: #3a322c;
+}
+
+.goldmindApp .goldmindQuickAccess .goldmindQuickCard--cocoa {
+  background: #2a221c;
+  border-color: rgba(212, 170, 89, 0.18);
+  color: #f7ead0;
+}
+
+.goldmindApp .goldmindQuickAccess .goldmindQuickCard--gold {
+  background: #ead9b0;
+  border-color: rgba(168, 121, 42, 0.22);
+  color: #21120a;
+}
+
+.goldmindApp .goldmindQuickAccess .goldmindQuickCard.isActive,
+.goldmindApp .goldmindQuickAccess .goldmindQuickCard:hover,
+.goldmindApp .goldmindQuickAccess .goldmindQuickCard:focus-visible {
+  border-color: rgba(168, 121, 42, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(168, 121, 42, 0.28);
+}
+
+.goldmindContinueList {
+  display: grid;
+  gap: 10px;
+}
+
+.meditationCard.isContinue {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px solid rgba(160, 119, 42, 0.14);
+  border-radius: 18px;
+  background: #fffdf8;
+}
+
+.meditationCard.isContinue .meditationCardMedia {
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.meditationCard.isContinue .meditationCardBody {
+  display: grid;
+  gap: 4px;
+  padding: 0;
+  min-width: 0;
+}
+
+.meditationCard.isContinue .meditationCardBody h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.meditationCard.isContinue .meditationCardPlay {
+  position: static;
+  width: 44px;
+  height: 44px;
+}
+
+.goldmindProgress {
+  display: grid;
+  gap: 4px;
+}
+
+.goldmindProgressTrack {
+  display: block;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(160, 119, 42, 0.16);
+}
+
+.goldmindProgressTrack i {
+  display: block;
+  height: 100%;
+  background: #c99b46;
+}
+
+.goldmindProgressTime {
+  color: #8a7f74;
+  font-size: 12px;
+}
+
+.goldmindContinueGhost {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 44px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px dashed rgba(160, 119, 42, 0.22);
+  border-radius: 18px;
+}
+
+.goldmindContinueGhostCover,
+.goldmindContinueGhostPlay,
+.goldmindContinueGhostCopy i,
+.goldmindContinueGhostCopy b {
+  display: block;
+  border-radius: 8px;
+  background: rgba(160, 119, 42, 0.08);
+}
+
+.goldmindContinueGhostCover {
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+}
+
+.goldmindContinueGhostCopy {
+  display: grid;
+  gap: 8px;
+}
+
+.goldmindContinueGhostCopy i {
+  height: 10px;
+  width: 42%;
+}
+
+.goldmindContinueGhostCopy i + i {
+  width: 68%;
+}
+
+.goldmindContinueGhostCopy b {
+  height: 3px;
+  width: 100%;
+  border-radius: 999px;
+}
+
+.goldmindContinueGhostPlay {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.goldmindApp .goldmindRailSlider {
+  grid-auto-columns: 168px;
+}
+
+.goldmindApp .meditationCard.isRail .meditationCardMedia {
+  aspect-ratio: 4 / 3;
+}
+
+.goldmindApp .goldmindRailHead h2 {
+  font-size: 22px;
+}
+
+.goldmindApp .liveActivity {
+  padding: 28px 20px 24px;
+}
+
+@media (max-width: 700px) {
+  .meditationPage .meditationSection {
+    padding: 20px 0 88px;
+  }
+
+  .goldmindApp {
+    gap: 18px;
+  }
+
+  .goldmindApp .goldmindFeaturedSlider {
+    grid-auto-columns: calc(100% - 42px);
+  }
+
+  .goldmindApp .goldmindQuickAccess {
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .goldmindApp .goldmindFeaturedSlider,
+  .goldmindApp .goldmindRailSlider {
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .goldmindApp .goldmindQuickAccess button,
+  .goldmindApp .goldmindQuickCard {
+    flex-basis: 108px;
+    min-height: 88px;
+  }
+
+  .goldmindFeaturedHead h2,
+  .goldmindApp .goldmindRailHead h2 {
+    font-size: 20px;
+  }
+}

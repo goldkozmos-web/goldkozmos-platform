@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import FooterSection from "../../components/FooterSection";
+import ContinueGlance from "../../components/platform/ContinueGlance";
 import "../../styles/home.css";
 
 const youtubeChannelUrl = "https://youtube.com/@goldkozmos";
@@ -592,8 +593,7 @@ export default function GoldFrekansPage() {
         )}
       </header>
 
-
-      <section
+      <ContinueGlance platformId="goldfrekans" variant="page" />
         className="goldFrekansArchive"
         id="goldfrekans-kutuphanesi"
       >
