@@ -96,8 +96,8 @@ const dockStyles = `
       bottom: 0;
       z-index: 3;
 
-      width: 54px;
-      height: 54px;
+      width: 52px;
+      height: 52px;
 
       margin: 0;
       padding: 0;
@@ -106,30 +106,39 @@ const dockStyles = `
       align-items: center;
       justify-content: center;
 
-      border:
-        1px solid rgba(215, 171, 91, 0.68);
-
+      border: 1.5px solid rgba(236, 205, 132, 0.82);
       border-radius: 50%;
 
       background:
-        rgba(43, 29, 19, 0.98);
-
-      color: #e0ad50;
+        radial-gradient(
+          circle at 32% 26%,
+          rgba(255, 236, 196, 0.28),
+          transparent 46%
+        ),
+        linear-gradient(
+          152deg,
+          #3a281c 0%,
+          #21150f 48%,
+          #120c09 100%
+        );
 
       box-shadow:
-        0 10px 28px rgba(0, 0, 0, 0.24);
-
-      font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1;
+        0 12px 28px rgba(18, 11, 7, 0.34),
+        0 0 0 5px rgba(211, 168, 84, 0.08),
+        inset 0 1px 0 rgba(255, 244, 220, 0.22),
+        inset 0 -8px 14px rgba(0, 0, 0, 0.28);
 
       cursor: pointer;
       pointer-events: auto;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .goldkozmosGlobalBackToTop svg {
+      width: 22px;
+      height: 22px;
+      display: block;
+      overflow: visible;
     }
 
     .goldkozmosGlobalContactDock {
@@ -561,7 +570,35 @@ export default function GlobalContactDock() {
             });
           }}
         >
-          ↑
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient
+                id="goldkozmosBackToTopArrowFill"
+                x1="12"
+                y1="4"
+                x2="12"
+                y2="21"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset="0%" stopColor="#fff8e4" />
+                <stop offset="36%" stopColor="#f0d08a" />
+                <stop offset="72%" stopColor="#d4a24a" />
+                <stop offset="100%" stopColor="#9a6d24" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="rgba(62, 36, 10, 0.38)"
+              d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"
+              transform="translate(0 0.7)"
+            />
+            <path
+              fill="url(#goldkozmosBackToTopArrowFill)"
+              d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"
+            />
+          </svg>
         </button>
       </div>
     </>
