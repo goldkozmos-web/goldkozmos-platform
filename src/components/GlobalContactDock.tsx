@@ -85,10 +85,15 @@ const dockStyles = `
       display: none !important;
     }
 
+    .goldkozmosGlobalContactButton,
+    .goldkozmosGlobalContactButton img {
+      display: none !important;
+    }
+
     .goldkozmosGlobalBackToTop {
       position: absolute;
       right: 0;
-      bottom: 66px;
+      bottom: 0;
       z-index: 3;
 
       width: 54px;
@@ -130,7 +135,7 @@ const dockStyles = `
     .goldkozmosGlobalContactDock {
       position: fixed;
       right: 17px;
-      bottom: 18px;
+      bottom: calc(92px + env(safe-area-inset-bottom, 0px));
       z-index: 99998;
 
       display: flex;
@@ -140,21 +145,22 @@ const dockStyles = `
     }
 
     .goldkozmosGlobalContactPanel {
-      position: absolute;
-      right: 64px;
-      bottom: 0;
+      position: fixed;
+      left: 50%;
+      right: auto;
+      bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 
-      width: min(326px, calc(100vw - 96px));
-      padding: 14px;
+      width: min(372px, calc(100vw - 32px));
+      padding: 18px;
 
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
 
       border:
         1px solid rgba(213, 168, 82, 0.38);
 
-      border-radius: 26px;
+      border-radius: 28px;
 
       background:
         radial-gradient(
@@ -180,10 +186,11 @@ const dockStyles = `
       pointer-events: none;
 
       transform:
-        translateX(14px)
-        scale(0.94);
+        translateX(-50%)
+        translateY(8px)
+        scale(0.96);
 
-      transform-origin: right bottom;
+      transform-origin: center bottom;
 
       transition:
         opacity 180ms ease,
@@ -197,7 +204,7 @@ const dockStyles = `
       pointer-events: auto;
 
       transform:
-        translateX(0)
+        translateX(-50%)
         scale(1);
     }
 
@@ -228,7 +235,7 @@ const dockStyles = `
         "Times New Roman",
         serif;
 
-      font-size: 19px;
+      font-size: 22px;
       line-height: 1.05;
       font-weight: 400;
     }
@@ -243,7 +250,7 @@ const dockStyles = `
     }
 
     .goldkozmosGlobalWhatsappAction {
-      min-height: 50px;
+      min-height: 56px;
 
       padding: 10px;
 
@@ -451,13 +458,30 @@ export default function GlobalContactDock() {
     setOpen(false);
   }, [pathname]);
 
+  useEffect(() => {
+    const toggleWhatsApp = () => setOpen((current) => !current);
+    const closeWhatsApp = () => setOpen(false);
+
+    window.addEventListener("goldkozmos:toggle-whatsapp", toggleWhatsApp);
+    window.addEventListener("goldkozmos:close-whatsapp", closeWhatsApp);
+
+    return () => {
+      window.removeEventListener(
+        "goldkozmos:toggle-whatsapp",
+        toggleWhatsApp,
+      );
+      window.removeEventListener(
+        "goldkozmos:close-whatsapp",
+        closeWhatsApp,
+      );
+    };
+  }, []);
+
   /*
     GoldBook'ta aynı sistem sayfanın içinde zaten var.
-    İkinci kez göstermiyoruz.
+    Mobilde bottom bar WhatsApp paneli için dock yine de render edilir;
+    yuvarlak buton CSS ile gizlenir.
   */
-  if (pathname === "/goldbook") {
-    return null;
-  }
 
   return (
     <>
@@ -537,24 +561,6 @@ export default function GlobalContactDock() {
           }}
         >
           ↑
-        </button>
-
-        <button
-          type="button"
-          className="goldkozmosGlobalContactButton"
-          aria-label={
-            open
-              ? "WhatsApp ve sosyal medya panelini kapat"
-              : "WhatsApp ve sosyal medya panelini aç"
-          }
-          aria-expanded={open}
-          onClick={() => setOpen((current) => !current)}
-        >
-          <img
-            src="/images/services/goldblog/social/whatsapp.webp"
-            alt=""
-            aria-hidden="true"
-          />
         </button>
       </div>
     </>
