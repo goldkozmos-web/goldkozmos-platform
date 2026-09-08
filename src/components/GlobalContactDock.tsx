@@ -123,10 +123,9 @@ const dockStyles = `
         );
 
       box-shadow:
-        0 12px 28px rgba(18, 11, 7, 0.34),
-        0 0 0 5px rgba(211, 168, 84, 0.08),
-        inset 0 1px 0 rgba(255, 244, 220, 0.22),
-        inset 0 -8px 14px rgba(0, 0, 0, 0.28);
+        0 8px 18px rgba(18, 11, 7, 0.28),
+        inset 0 1px 0 rgba(255, 244, 220, 0.26),
+        inset 0 -7px 12px rgba(0, 0, 0, 0.32);
 
       cursor: pointer;
       pointer-events: auto;
@@ -135,8 +134,8 @@ const dockStyles = `
     }
 
     .goldkozmosGlobalBackToTop svg {
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
       display: block;
       overflow: visible;
     }
