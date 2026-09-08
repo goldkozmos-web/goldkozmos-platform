@@ -594,6 +594,8 @@ export default function GoldFrekansPage() {
       </header>
 
       <ContinueGlance platformId="goldfrekans" variant="page" />
+
+      <section
         className="goldFrekansArchive"
         id="goldfrekans-kutuphanesi"
       >
