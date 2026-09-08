@@ -53,9 +53,17 @@
   transition: transform 220ms ease;
 }
 
-@media (hover: hover) {
+.platformRailCard:hover {
+  transform: translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platformRailCard {
+    transition: none;
+  }
+
   .platformRailCard:hover {
-    transform: translateY(-6px);
+    transform: none;
   }
 }
 

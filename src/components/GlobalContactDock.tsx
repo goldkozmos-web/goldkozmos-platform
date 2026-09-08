@@ -150,6 +150,7 @@ const dockStyles = `
       right: auto;
       bottom: calc(96px + env(safe-area-inset-bottom, 0px));
 
+      box-sizing: border-box;
       width: min(372px, calc(100vw - 32px));
       padding: 18px;
 
