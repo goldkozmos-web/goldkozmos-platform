@@ -393,16 +393,28 @@
   grid-template-rows: auto minmax(0, 1fr);
 }
 
-.platformYoutubeShell.isMini {
-  left: 12px;
-  right: 12px;
-  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
-  z-index: 99997;
-  display: grid;
-  grid-template-columns: 128px minmax(0, 1fr);
-  height: 72px;
-  border: 1px solid rgba(214, 172, 88, 0.35);
-  border-radius: 16px;
+.platformYoutubeShell.isSpotify {
+  background: #121212;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChrome {
+  background: #181818;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChrome p {
+  color: #1db954;
+}
+
+.platformYoutubeShell.isSpotify.isMini {
+  height: 168px;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr) 44px;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChrome button,
+.platformYoutubeShell.isSpotify .platformYoutubeMiniBar button {
+  background: #1db954;
+  color: #121212;
 }
 
 .platformYoutubeChrome {

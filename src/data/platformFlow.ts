@@ -30,6 +30,7 @@ export type PlatformProgress = {
   status: PlatformProgressStatus;
   audioUrl?: string;
   youtubeId?: string;
+  spotifyEmbedUrl?: string;
   description?: string;
 };
 

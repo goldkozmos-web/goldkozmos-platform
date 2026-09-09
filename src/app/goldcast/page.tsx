@@ -8,9 +8,6 @@ import { usePlayback } from "../../components/platform/PlaybackProvider";
 import { youtubeIdFromUrl } from "../../lib/youtube";
 import "../../styles/home.css";
 
-const spotifyShowUrl =
-  "https://open.spotify.com/show/0343du5jxaHZOJhqDJZKYQ";
-
 const episodes = [
   {
     number: "01",
@@ -61,7 +58,7 @@ const spotifyEpisodes = [
       "Kendinle kurduğun ilişkiyi ve fark etmeden taşıdığın zihinsel yükleri gözlemlemeye davet eden GoldCast bölümü.",
     embedUrl:
       "https://open.spotify.com/embed/show/0343du5jxaHZOJhqDJZKYQ?utm_source=generator&theme=0",
-    spotifyUrl: spotifyShowUrl,
+    cover: "https://i.ytimg.com/vi/OXWK7tGNXyc/hqdefault.jpg",
   },
 ];
 
@@ -626,6 +623,111 @@ const goldcastPremiumStyles = `
       max-width: 320px !important;
     }
   }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard,
+  .goldcastPage .goldcastSpotifyEpisodeCard::before,
+  .goldcastPage .goldcastSpotifyEpisodeCard::after,
+  .goldcastPage .goldcastSpotifyEpisodeCard > a {
+    box-shadow: none !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard {
+    display: grid !important;
+    grid-template-columns: 92px minmax(0, 1fr) !important;
+    grid-template-areas: none !important;
+    gap: 14px !important;
+    align-items: center !important;
+    min-height: 0 !important;
+    padding: 12px !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: #181818 !important;
+    color: #fff !important;
+    text-align: left !important;
+    cursor: pointer;
+    appearance: none;
+    transform: translateY(0);
+    transition: transform 180ms ease, background 180ms ease;
+  }
+
+  @media (hover: hover) {
+    .goldcastPage .goldcastSpotifyEpisodeCard:hover {
+      transform: translateY(-6px);
+      background: #282828 !important;
+    }
+  }
+
+  .goldcastPage .goldcastSpotifyCover {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    overflow: hidden;
+    border-radius: 6px;
+    background: #000;
+  }
+
+  .goldcastPage .goldcastSpotifyCover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .goldcastPage .goldcastSpotifyPlay {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #1db954;
+    color: #121212;
+    font-size: 13px;
+    box-shadow: none;
+  }
+
+  .goldcastPage .goldcastSpotifyCopy {
+    min-width: 0;
+  }
+
+  .goldcastPage .goldcastSpotifyCopy small {
+    display: block;
+    margin: 0 0 4px;
+    color: #1db954;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .goldcastPage .goldcastSpotifyCopy strong {
+    display: block;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .goldcastPage .goldcastSpotifyCopy p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 6px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  @media (max-width: 700px) {
+    .goldcastPage .goldcastSpotifyEpisodeCard {
+      flex: 0 0 min(86vw, 340px) !important;
+      width: min(86vw, 340px) !important;
+      max-width: 340px !important;
+    }
+  }
 `;
 
 export default function GoldCastPage() {
@@ -635,7 +737,7 @@ export default function GoldCastPage() {
   const spotifySliderRef =
     useRef<HTMLDivElement>(null);
 
-  const { startYoutube, session } = usePlayback();
+  const { startYoutube, startSpotify, session } = usePlayback();
 
   const openEpisode = (episode: (typeof episodes)[number]) => {
     const youtubeId = youtubeIdFromUrl(episode.youtubeUrl);
@@ -802,50 +904,34 @@ export default function GoldCastPage() {
             ref={spotifySliderRef}
           >
             {spotifyEpisodes.map((episode) => (
-              <article
+              <button
+                type="button"
                 className="goldcastSpotifyEpisodeCard"
                 key={episode.number}
+                aria-label={`${episode.title} Spotify ekranında aç`}
+                onClick={() =>
+                  startSpotify({
+                    platform: "goldcast",
+                    contentId: `spotify-${episode.number}`,
+                    title: episode.title,
+                    href: "/goldcast",
+                    embedUrl: episode.embedUrl,
+                    description: episode.description,
+                  })
+                }
               >
-                <div className="goldcastSpotifyEpisodeTop">
-                  <span>{episode.number}</span>
-
-                  <span className="goldcastSpotifyMiniLogo">
-                    ◉
+                <span className="goldcastSpotifyCover">
+                  <img src={episode.cover} alt="" />
+                  <span className="goldcastSpotifyPlay" aria-hidden="true">
+                    ▶
                   </span>
-                </div>
-
-                <p className="goldcastSpotifyEpisodeCategory">
-                  {episode.category}
-                </p>
-
-                <h3>{episode.title}</h3>
-
-                <p className="goldcastSpotifyEpisodeDescription">
-                  {episode.description}
-                </p>
-
-                <div className="goldcastSpotifyEpisodeEmbed">
-                  <iframe
-                    src={episode.embedUrl}
-                    width="100%"
-                    frameBorder="0"
-                    scrolling="no"
-                    allowFullScreen
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    title={`${episode.title} Spotify`}
-                  />
-                </div>
-
-                <a
-                  href={episode.spotifyUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Spotify’da Dinle
-                  <span>↗</span>
-                </a>
-              </article>
+                </span>
+                <span className="goldcastSpotifyCopy">
+                  <small>Spotify · {episode.category}</small>
+                  <strong>{episode.title}</strong>
+                  <p>{episode.description}</p>
+                </span>
+              </button>
             ))}
           </div>
         </div>

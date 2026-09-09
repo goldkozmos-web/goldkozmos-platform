@@ -28,6 +28,7 @@ import { sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
 type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
   youtubeId?: string;
+  spotifyEmbedUrl?: string;
 };
 
 type StartAudioInput = {
@@ -49,6 +50,15 @@ type StartYoutubeInput = {
   description?: string;
 };
 
+type StartSpotifyInput = {
+  platform: PlatformId;
+  contentId: string;
+  title: string;
+  href: string;
+  embedUrl: string;
+  description?: string;
+};
+
 type PlaybackContextValue = {
   items: PlatformProgressMap;
   session: PlaybackSession | null;
@@ -58,6 +68,7 @@ type PlaybackContextValue = {
   duration: number;
   startAudio: (input: StartAudioInput) => void;
   startYoutube: (input: StartYoutubeInput) => void;
+  startSpotify: (input: StartSpotifyInput) => void;
   toggle: () => void;
   seek: (seconds: number) => void;
   minimize: () => void;
@@ -175,6 +186,44 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const startSpotify = useCallback((input: StartSpotifyInput) => {
+    const now = new Date().toISOString();
+    const audio = audioRef.current;
+    audio?.pause();
+    sendYoutubeCommand(youtubeRef.current, "pauseVideo");
+
+    const embed = new URL(input.embedUrl, "https://open.spotify.com");
+    embed.searchParams.set("theme", "0");
+    embed.searchParams.set("autoplay", "1");
+
+    setItems((current) => {
+      const existing = current[`${input.platform}:${input.contentId}`] ?? null;
+      const next: PlaybackSession = {
+        platform: input.platform,
+        contentId: input.contentId,
+        contentType: "audio",
+        title: input.title,
+        href: input.href,
+        progress: existing?.progress ?? 0,
+        currentTime: existing?.currentTime ?? 0,
+        durationSeconds: existing?.durationSeconds,
+        lastOpenedAt: now,
+        lastPlayedAt: now,
+        status: "playing",
+        spotifyEmbedUrl: embed.toString(),
+        description: input.description ?? existing?.description,
+      };
+
+      setSession(next);
+      setMinimized(false);
+      setIsPlaying(true);
+
+      const map = upsertProgressEntry(current, next);
+      writePlatformProgressMap(map);
+      return map;
+    });
+  }, []);
+
   const toggle = useCallback(() => {
     const audio = audioRef.current;
 
@@ -236,7 +285,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!session || !ready || session.youtubeId) {
+    if (!session || !ready || session.youtubeId || session.spotifyEmbedUrl) {
       return;
     }
 
@@ -275,6 +324,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       duration,
       startAudio,
       startYoutube,
+      startSpotify,
       toggle,
       seek,
       minimize,
@@ -292,6 +342,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       duration,
       startAudio,
       startYoutube,
+      startSpotify,
       toggle,
       seek,
       minimize,
@@ -316,20 +367,28 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         onPause={() => setIsPlaying(false)}
         onEnded={() => setIsPlaying(false)}
       />
-      {session?.youtubeId ? (
+      {session?.youtubeId || session?.spotifyEmbedUrl ? (
         <div
-          className={`platformYoutubeShell${minimized ? " isMini" : " isStage"}`}
+          className={`platformYoutubeShell${minimized ? " isMini" : " isStage"}${
+            session.spotifyEmbedUrl ? " isSpotify" : ""
+          }`}
         >
           {minimized ? null : (
             <div className="platformYoutubeChrome">
               <div>
-                <p>YouTube · GoldCast</p>
+                <p>
+                  {session.spotifyEmbedUrl
+                    ? "Spotify · GoldCast"
+                    : "YouTube · GoldCast"}
+                </p>
                 <strong>{session.title}</strong>
               </div>
               <div>
-                <button type="button" onClick={toggle}>
-                  {isPlaying ? "Duraklat" : "Oynat"}
-                </button>
+                {session.youtubeId ? (
+                  <button type="button" onClick={toggle}>
+                    {isPlaying ? "Duraklat" : "Oynat"}
+                  </button>
+                ) : null}
                 <button type="button" onClick={minimize}>
                   Küçült
                 </button>
@@ -341,10 +400,14 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
           )}
 
           <iframe
-            ref={youtubeRef}
-            src={youtubeEmbedSrc(session.youtubeId, true)}
+            ref={session.youtubeId ? youtubeRef : undefined}
+            src={
+              session.youtubeId
+                ? youtubeEmbedSrc(session.youtubeId, true)
+                : session.spotifyEmbedUrl
+            }
             title={session.title}
-            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
             allowFullScreen
           />
 
@@ -353,9 +416,11 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
               <button type="button" onClick={expand}>
                 {session.title}
               </button>
-              <button type="button" onClick={toggle}>
-                {isPlaying ? "❚❚" : "▶"}
-              </button>
+              {session.youtubeId ? (
+                <button type="button" onClick={toggle}>
+                  {isPlaying ? "❚❚" : "▶"}
+                </button>
+              ) : null}
               <button type="button" onClick={stop} aria-label="Kapat">
                 ×
               </button>

@@ -18,7 +18,7 @@ export default function MiniPlayer() {
     stop,
   } = usePlayback();
 
-  if (!session || session.youtubeId) {
+  if (!session || session.youtubeId || session.spotifyEmbedUrl) {
     return null;
   }
 
