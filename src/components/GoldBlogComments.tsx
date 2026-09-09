@@ -511,13 +511,7 @@ export default function GoldBlogComments({
         </p>
       ) : null}
 
-      {unavailable ? (
-        <p className="goldBlogCommentsHint">
-          Yorumlar kalıcı veritabanına bağlanınca burada görünecek.
-        </p>
-      ) : null}
-
-      {!unavailable && viewer ? (
+      {viewer && !unavailable ? (
         <form className="goldBlogCommentComposer" onSubmit={handleRootSubmit}>
           <Avatar url={viewer.avatarUrl} name={viewer.displayName} />
           <textarea
@@ -536,16 +530,44 @@ export default function GoldBlogComments({
             {sending && !replyingTo && !editingId ? "…" : "Paylaş"}
           </button>
         </form>
-      ) : null}
+      ) : (
+        <div className="goldBlogCommentComposer">
+          <span className="goldBlogCommentAvatar" aria-hidden="true">
+            G
+          </span>
+          <Link
+            className="goldBlogCommentComposerField"
+            href={loginHref(postId)}
+          >
+            Yorum ekle…
+          </Link>
+          <Link
+            className="goldBlogCommentComposerAction"
+            href={loginHref(postId)}
+          >
+            Paylaş
+          </Link>
+        </div>
+      )}
 
-      {!unavailable && !viewer ? (
+      {!viewer ? (
         <p className="goldBlogCommentGate">
           Yorum yapmak için giriş yap.{" "}
           <Link href={loginHref(postId)}>Giriş yap</Link>
         </p>
       ) : null}
 
+      {unavailable ? (
+        <p className="goldBlogCommentsHint">
+          Yorumlar kalıcı veritabanına bağlanınca burada görünecek.
+        </p>
+      ) : null}
+
       {error ? <p className="goldBlogCommentsError">{error}</p> : null}
+
+      {comments.length === 0 && !error && !loading ? (
+        <p className="goldBlogCommentsEmpty">Henüz yorum yok.</p>
+      ) : null}
 
       <div className="goldBlogCommentList">
         {comments.map((comment) => renderEntry(comment))}

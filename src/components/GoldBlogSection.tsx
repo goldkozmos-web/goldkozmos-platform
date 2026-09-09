@@ -776,7 +776,7 @@ const goldBlogHubStyles = `
 
   .goldBlogReaderScroll {
     height: 100%;
-    padding: 112px 0 54px;
+    padding: 112px 0 88px;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -841,12 +841,13 @@ const goldBlogHubStyles = `
   }
 
   .goldBlogReaderEnd {
+    clear: both;
     margin-top: 42px;
-    padding: 28px 0 0;
+    padding: 28px 0 36px;
     border-top: 1px solid rgba(164, 119, 39, 0.16);
   }
 
-  .goldBlogReaderEnd p {
+  .goldBlogReaderEnd > p {
     margin: 0;
     color: #9d742d;
     font-size: 9px;
@@ -854,7 +855,7 @@ const goldBlogHubStyles = `
     letter-spacing: 0.14em;
   }
 
-  .goldBlogReaderEnd h3 {
+  .goldBlogReaderEnd > h3 {
     margin: 9px 0 0;
     color: #281d15;
     font-family: Georgia, "Times New Roman", serif;
@@ -1033,7 +1034,7 @@ const goldBlogHubStyles = `
     }
 
     .goldBlogReaderScroll {
-      padding: 98px 0 42px;
+      padding: 98px 0 120px;
     }
 
     .goldBlogReaderArticle {
@@ -1768,7 +1769,7 @@ const goldBlogHubStyles = `
     }
 
     .goldBlogReaderScroll {
-      padding: 126px 0 66px !important;
+      padding: 126px 0 120px !important;
     }
 
     .goldBlogReaderArticle {
@@ -4690,12 +4691,12 @@ export default function GoldBlogSection() {
                   <h3>
                     Okuduğun şey sende ne bıraktı?
                   </h3>
-                </div>
 
-                <GoldBlogComments
-                  postId={readerArticle.slug}
-                  onCountChange={handleCommentCount}
-                />
+                  <GoldBlogComments
+                    postId={readerArticle.slug}
+                    onCountChange={handleCommentCount}
+                  />
+                </div>
               </article>
             </div>
           </div>
