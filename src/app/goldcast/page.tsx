@@ -69,8 +69,7 @@ const youtubeOnlyStyles = `
     .goldcastPage .goldcastYTSection {
       padding: 34px 0 58px;
       background:
-        radial-gradient(circle at 94% 20%, rgba(188, 143, 58, 0.07), transparent 28%),
-        linear-gradient(180deg, #fbf8f2 0%, #f7f1e8 100%);
+        linear-gradient(180deg, #3a271b 0%, #24170f 56%, #1a120c 100%);
     }
 
     .goldcastPage .goldcastYTContainer {
@@ -78,10 +77,10 @@ const youtubeOnlyStyles = `
       margin: 0 auto;
       padding: 26px 24px 20px;
       box-sizing: border-box;
-      border: 1px solid rgba(161, 118, 43, 0.14);
+      border: 0;
       border-radius: 26px;
-      background: rgba(255, 255, 255, 0.72);
-      box-shadow: 0 18px 50px rgba(66, 42, 17, 0.06);
+      background: transparent;
+      box-shadow: none;
     }
 
     .goldcastPage .goldcastYTHeader {
@@ -94,7 +93,7 @@ const youtubeOnlyStyles = `
 
     .goldcastPage .goldcastYTHeader p {
       margin: 0 0 8px;
-      color: #9d742d;
+      color: #e0c07a;
       letter-spacing: 0.19em;
       font-size: 9px;
       font-weight: 700;
@@ -102,7 +101,7 @@ const youtubeOnlyStyles = `
 
     .goldcastPage .goldcastYTHeader h2 {
       margin: 0;
-      color: #241911;
+      color: #f7ead0;
       font-family: Georgia, "Times New Roman", serif;
       font-size: clamp(30px, 2.5vw, 42px);
       font-weight: 400;
@@ -561,7 +560,7 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .platformContinueCard {
-    margin-top: 10px;
+    margin-top: 0;
     padding: 0;
     border: 0;
     border-radius: 0;
@@ -616,6 +615,58 @@ const goldcastPremiumStyles = `
       margin: 16px auto 0;
       padding: 14px 18px 14px;
     }
+  }
+
+  .goldcastPage .goldcastYTSection {
+    background:
+      linear-gradient(180deg, #3a271b 0%, #24170f 56%, #1a120c 100%) !important;
+  }
+
+  .goldcastPage .goldcastYTContainer {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .goldcastPage .goldcastYTHeader p {
+    color: #e0c07a !important;
+  }
+
+  .goldcastPage .goldcastYTHeader h2,
+  .goldcastPage .goldcastYTHeader h2 span {
+    max-width: none !important;
+    color: #f7ead0 !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) {
+    background:
+      linear-gradient(180deg, #fffdf8 0%, #f4eadc 100%) !important;
+    border: 1px solid rgba(214, 172, 88, 0.42) !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
+    box-shadow: 0 16px 28px rgba(24, 14, 8, 0.28) !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTop {
+    color: #a8792a !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
+    color: #241911 !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTSubtitle {
+    color: #a8792a !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTDescription {
+    color: #6f6256 !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTCategory {
+    color: #a8792a !important;
   }
 
   .goldcastPage .goldcastFloatingWhatsapp,
@@ -811,10 +862,7 @@ export default function GoldCastPage() {
           <header className="goldcastYTHeader">
             <div>
               <p>GÜNCEL GOLDCAST BÖLÜMLERİ</p>
-              <h2>
-                Bir başlığa dokun,
-                <span> bölüm bu ekranda açılsın.</span>
-              </h2>
+              <h2>goldcast youtube</h2>
             </div>
           </header>
 
