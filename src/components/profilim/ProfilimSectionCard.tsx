@@ -11,7 +11,12 @@ export default function ProfilimSectionCard({
 }) {
   return (
     <section className="profilimCard">
-      <p className="profilimCardEyebrow">{eyebrow}</p>
+      <div className="profilimCardHead">
+        <p className="profilimCardEyebrow">{eyebrow}</p>
+        <span className="profilimCardHint" aria-hidden="true">
+          ↘
+        </span>
+      </div>
       <h2>{title}</h2>
       <div className="profilimCardBody">{children}</div>
     </section>
