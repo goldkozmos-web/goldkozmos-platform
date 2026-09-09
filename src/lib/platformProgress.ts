@@ -75,20 +75,26 @@ export function upsertProgressEntry(
   return next;
 }
 
+function isResumeCandidate(item: PlatformProgress) {
+  return item.progress > 0 || (Number(item.currentTime) || 0) > 0;
+}
+
+function newestFirst(a: PlatformProgress, b: PlatformProgress) {
+  const aTime = Date.parse(a.lastPlayedAt || a.lastOpenedAt || "") || 0;
+  const bTime = Date.parse(b.lastPlayedAt || b.lastOpenedAt || "") || 0;
+  return bTime - aTime;
+}
+
 export function getLatestProgress(
   map: PlatformProgressMap,
 ): PlatformProgress | null {
-  const items = Object.values(map).filter((item) => item.progress > 0);
+  const items = Object.values(map).filter(isResumeCandidate);
 
   if (items.length === 0) {
     return null;
   }
 
-  return items.sort((a, b) => {
-    const aTime = Date.parse(a.lastPlayedAt || a.lastOpenedAt || "") || 0;
-    const bTime = Date.parse(b.lastPlayedAt || b.lastOpenedAt || "") || 0;
-    return bTime - aTime;
-  })[0];
+  return items.sort(newestFirst)[0];
 }
 
 export const LIVE_PLAYBACK_STORAGE_KEY =
@@ -162,16 +168,12 @@ export function getProgressForPlatform(
   platform: PlatformId,
 ): PlatformProgress | null {
   const items = Object.values(map).filter(
-    (item) => item.platform === platform && item.progress > 0,
+    (item) => item.platform === platform && isResumeCandidate(item),
   );
 
   if (items.length === 0) {
     return null;
   }
 
-  return items.sort((a, b) => {
-    const aTime = Date.parse(a.lastPlayedAt || a.lastOpenedAt || "") || 0;
-    const bTime = Date.parse(b.lastPlayedAt || b.lastOpenedAt || "") || 0;
-    return bTime - aTime;
-  })[0];
+  return items.sort(newestFirst)[0];
 }

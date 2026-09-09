@@ -429,9 +429,11 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     spotifyControllerRef.current = null;
 
     if (session) {
+      const fields = mergePlaybackFields(session, currentTime, duration);
       persist({
         ...session,
-        ...mergePlaybackFields(session, currentTime, duration),
+        ...fields,
+        progress: fields.progress > 0 ? fields.progress : 0.01,
         status: "paused",
         lastPlayedAt: new Date().toISOString(),
       });
