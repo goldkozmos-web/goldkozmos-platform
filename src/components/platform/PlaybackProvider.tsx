@@ -29,7 +29,13 @@ import {
 } from "../../lib/platformProgress";
 import { usePathname, useRouter } from "next/navigation";
 import { listenToYoutube, sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
-import { spotifyEmbedSrc } from "../../lib/spotify";
+import {
+  loadSpotifyIframeApi,
+  spotifyEmbedSrc,
+  spotifyEpisodePageUrl,
+  spotifyEpisodeUri,
+  type SpotifyEmbedController,
+} from "../../lib/spotify";
 
 type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
@@ -92,6 +98,9 @@ const PlaybackContext = createContext<PlaybackContextValue | null>(null);
 export function PlaybackProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const youtubeRef = useRef<HTMLIFrameElement>(null);
+  const spotifyHostRef = useRef<HTMLDivElement>(null);
+  const spotifyControllerRef = useRef<SpotifyEmbedController | null>(null);
+  const spotifyShouldPlayRef = useRef(false);
   const embedStartRef = useRef(0);
   const [items, setItems] = useState<PlatformProgressMap>({});
   const [session, setSession] = useState<PlaybackSession | null>(null);
@@ -116,7 +125,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         ...live.session,
         currentTime: startAt,
         spotifyEmbedUrl: live.session.spotifyEmbedUrl
-          ? spotifyEmbedSrc(live.session.spotifyEmbedUrl, Boolean(live.isPlaying))
+          ? spotifyEmbedSrc(live.session.spotifyEmbedUrl)
           : live.session.spotifyEmbedUrl,
       });
       setCurrentTime(startAt);
@@ -284,13 +293,15 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     );
     embedStartRef.current = startAt;
 
-    const embedUrl = spotifyEmbedSrc(input.embedUrl, true);
+    const embedUrl = spotifyEmbedSrc(input.embedUrl);
+    spotifyShouldPlayRef.current = true;
 
     if (
       session?.contentId === input.contentId &&
       session.spotifyEmbedUrl === embedUrl
     ) {
       setMinimized(false);
+      spotifyControllerRef.current?.resume();
       setIsPlaying(true);
       return;
     }
@@ -335,6 +346,18 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    if (session.spotifyEmbedUrl) {
+      if (isPlaying) {
+        spotifyControllerRef.current?.pause();
+        setIsPlaying(false);
+      } else {
+        spotifyShouldPlayRef.current = true;
+        spotifyControllerRef.current?.resume();
+        setIsPlaying(true);
+      }
+      return;
+    }
+
     if (!audio) {
       return;
     }
@@ -352,6 +375,12 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   }, [session, isPlaying]);
 
   const seek = useCallback((seconds: number) => {
+    if (session?.spotifyEmbedUrl) {
+      spotifyControllerRef.current?.seek(seconds);
+      setCurrentTime(seconds);
+      return;
+    }
+
     const audio = audioRef.current;
 
     if (!audio) {
@@ -360,7 +389,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     audio.currentTime = seconds;
     setCurrentTime(seconds);
-  }, []);
+  }, [session?.spotifyEmbedUrl]);
 
   const minimize = useCallback(() => {
     setMinimized(true);
@@ -374,6 +403,10 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     const audio = audioRef.current;
     audio?.pause();
     sendYoutubeCommand(youtubeRef.current, "pauseVideo");
+    spotifyShouldPlayRef.current = false;
+    spotifyControllerRef.current?.pause();
+    spotifyControllerRef.current?.destroy();
+    spotifyControllerRef.current = null;
 
     if (session) {
       const durationSeconds = duration || session.durationSeconds;
@@ -491,6 +524,78 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   }, [session?.youtubeId]);
 
   useEffect(() => {
+    const host = spotifyHostRef.current;
+    const uri = session?.spotifyEmbedUrl
+      ? spotifyEpisodeUri(session.spotifyEmbedUrl)
+      : null;
+
+    if (!host || !uri) {
+      return;
+    }
+
+    let cancelled = false;
+    const startAt = embedStartRef.current;
+    const child = document.createElement("div");
+    host.replaceChildren(child);
+
+    void loadSpotifyIframeApi().then((api) => {
+      if (cancelled) {
+        return;
+      }
+
+      api.createController(
+        child,
+        {
+          uri,
+          width: "100%",
+          height: 352,
+        },
+        (controller) => {
+          if (cancelled) {
+            controller.destroy();
+            return;
+          }
+
+          spotifyControllerRef.current = controller;
+          controller.loadUri(uri, false, startAt > 1 ? startAt : 0, "dark");
+
+          controller.addListener("ready", () => {
+            if (spotifyShouldPlayRef.current) {
+              controller.resume();
+            }
+          });
+
+          controller.addListener("playback_started", () => {
+            setIsPlaying(true);
+          });
+
+          controller.addListener("playback_update", (event) => {
+            const data = event.data;
+
+            if (typeof data?.position === "number") {
+              setCurrentTime(data.position / 1000);
+            }
+
+            if (typeof data?.duration === "number" && data.duration > 0) {
+              setDuration(data.duration / 1000);
+            }
+
+            if (typeof data?.isPaused === "boolean") {
+              setIsPlaying(!data.isPaused);
+            }
+          });
+        },
+      );
+    });
+
+    return () => {
+      cancelled = true;
+      spotifyControllerRef.current?.destroy();
+      spotifyControllerRef.current = null;
+    };
+  }, [session?.spotifyEmbedUrl]);
+
+  useEffect(() => {
     if (!session?.audioUrl) {
       return;
     }
@@ -583,10 +688,20 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
                 <strong>{session.title}</strong>
               </div>
               <div>
-                {session.youtubeId ? (
+                {session.youtubeId || session.spotifyEmbedUrl ? (
                   <button type="button" onClick={toggle}>
                     {isPlaying ? "Duraklat" : "Oynat"}
                   </button>
+                ) : null}
+                {session.spotifyEmbedUrl ? (
+                  <a
+                    className="platformYoutubeChromeLink"
+                    href={spotifyEpisodePageUrl(session.spotifyEmbedUrl)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Spotify’da aç
+                  </a>
                 ) : null}
                 <button type="button" onClick={minimize}>
                   Küçült
@@ -611,34 +726,32 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             />
           ) : null}
 
+          {session.youtubeId ? (
           <iframe
-            key={session.youtubeId || session.spotifyEmbedUrl}
-            ref={session.youtubeId ? youtubeRef : undefined}
-            src={
-              session.youtubeId
-                ? youtubeEmbedSrc(
-                    session.youtubeId,
-                    true,
-                    embedStartRef.current,
-                  )
-                : spotifyEmbedSrc(session.spotifyEmbedUrl ?? "", true)
-            }
+            key={session.youtubeId}
+            ref={youtubeRef}
+            src={youtubeEmbedSrc(
+              session.youtubeId,
+              true,
+              embedStartRef.current,
+            )}
             title={session.title}
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
             allowFullScreen
             onLoad={() => {
-              if (session.youtubeId) {
-                listenToYoutube(youtubeRef.current);
-                if (embedStartRef.current > 1) {
-                  sendYoutubeCommand(
-                    youtubeRef.current,
-                    "seekTo",
-                    [embedStartRef.current, true],
-                  );
-                }
+              listenToYoutube(youtubeRef.current);
+              if (embedStartRef.current > 1) {
+                sendYoutubeCommand(
+                  youtubeRef.current,
+                  "seekTo",
+                  [embedStartRef.current, true],
+                );
               }
             }}
           />
+          ) : (
+            <div className="platformSpotifyHost" ref={spotifyHostRef} />
+          )}
 
           {minimized ? (
             <div className="platformYoutubeMiniBar">
@@ -654,7 +767,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
                 </small>
                 <strong>{session.title}</strong>
               </button>
-              {session.youtubeId ? (
+              {session.youtubeId || session.spotifyEmbedUrl ? (
                 <button
                   type="button"
                   className="platformYoutubeMiniPlay"
@@ -663,16 +776,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
                 >
                   {isPlaying ? "❚❚" : "▶"}
                 </button>
-              ) : (
-                <button
-                  type="button"
-                  className="platformYoutubeMiniPlay"
-                  onClick={expand}
-                  aria-label="Oynatıcıyı aç"
-                >
-                  ▶
-                </button>
-              )}
+              ) : null}
               <button
                 type="button"
                 className="platformYoutubeMiniClose"
