@@ -8,6 +8,7 @@ import {
   formatRelativeTime,
   nextLikeState,
   sanitizeCommentContent,
+  threadRootId,
   validateCommentContent,
 } from "../src/lib/goldblog/commentValidation.ts";
 
@@ -57,9 +58,11 @@ test("delete own or admin", () => {
   assert.equal(canDeleteComment("admin", "u2", true), true);
 });
 
-test("replies stay one level", () => {
+test("any comment can be replied to, nested replies flatten to the root", () => {
   assert.equal(canReplyToParent(null), true);
-  assert.equal(canReplyToParent("parent-id"), false);
+  assert.equal(canReplyToParent("parent-id"), true);
+  assert.equal(threadRootId("root", null), "root");
+  assert.equal(threadRootId("reply", "root"), "root");
 });
 
 test("like toggle is reversible", () => {

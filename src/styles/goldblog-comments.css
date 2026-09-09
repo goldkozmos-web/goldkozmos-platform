@@ -223,6 +223,23 @@
   letter-spacing: 0.04em;
 }
 
+.goldBlogComments.isCompact {
+  margin-top: 14px;
+  padding: 12px 0 4px;
+  min-height: 0;
+  border-top: 1px solid rgba(168, 124, 44, 0.14);
+}
+
+.goldBlogComments.isCompact .goldBlogCommentsCount {
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.goldBlogComments.isCompact .goldBlogCommentComposer,
+.goldBlogComments.isCompact .goldBlogCommentRow {
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+}
+
 @media (max-width: 700px) {
   .goldBlogCommentComposer {
     grid-template-columns: 28px minmax(0, 1fr) auto;

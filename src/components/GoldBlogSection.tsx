@@ -11,6 +11,7 @@ import type {
   UIEvent,
 } from "react";
 import GoldBlogComments from "./GoldBlogComments";
+import GoldBlogNotifications from "./GoldBlogNotifications";
 
 type GoldBlogCategoryKey =
   | "spirituel-stoa"
@@ -3185,6 +3186,12 @@ const goldBlogHubStyles = `
     margin-bottom: 22px;
   }
 
+  .goldblogPage .goldBlogDiscoverTopActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .goldblogPage .goldBlogDiscoverTop p {
     margin: 0 0 8px;
     color: #e0c07a;
@@ -3230,10 +3237,18 @@ const goldBlogHubStyles = `
       linear-gradient(165deg, #fffdf8 0%, #f6eee0 100%);
     box-shadow: none;
     text-align: left;
+  }
+
+  .goldblogPage .goldBlogDiscoverCopy {
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: left;
     cursor: pointer;
   }
 
-  .goldblogPage .goldBlogDiscoverItem p {
+  .goldblogPage .goldBlogDiscoverCopy p {
     margin: 0 0 6px;
     color: #a8792a;
     font-size: 8px;
@@ -3241,7 +3256,7 @@ const goldBlogHubStyles = `
     letter-spacing: 0.14em;
   }
 
-  .goldblogPage .goldBlogDiscoverItem strong {
+  .goldblogPage .goldBlogDiscoverCopy strong {
     display: block;
     color: #2a1c12;
     font-family: Georgia, "Times New Roman", serif;
@@ -3250,7 +3265,7 @@ const goldBlogHubStyles = `
     line-height: 1.15;
   }
 
-  .goldblogPage .goldBlogDiscoverItem span {
+  .goldblogPage .goldBlogDiscoverCopy span {
     display: block;
     margin-top: 8px;
     color: #6a5c50;
@@ -3299,6 +3314,97 @@ const goldBlogHubStyles = `
     justify-content: space-between;
     gap: 16px;
     margin: 0 0 12px;
+  }
+
+  .goldblogPage .goldBlogNewHeadActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .goldBlogNotify {
+    position: relative;
+  }
+
+  .goldBlogNotifyBell {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(168, 124, 44, 0.28);
+    border-radius: 50%;
+    background: #fffaf1;
+    color: #c45c4a;
+    font-size: 11px;
+    cursor: pointer;
+  }
+
+  .goldBlogNotifyBell span {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: #b42318;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 16px;
+  }
+
+  .goldBlogNotifyPanel {
+    position: absolute;
+    top: 44px;
+    right: 0;
+    z-index: 20;
+    width: min(280px, 72vw);
+    max-height: 320px;
+    overflow: auto;
+    padding: 12px;
+    border: 1px solid rgba(168, 124, 44, 0.22);
+    border-radius: 14px;
+    background: #fffdf8;
+    box-shadow: 0 16px 40px rgba(28, 16, 8, 0.16);
+  }
+
+  .goldBlogNotifyPanel p {
+    margin: 0 0 10px;
+    color: #241911;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .goldBlogNotifyPanel span {
+    color: #7a736b;
+    font-size: 12px;
+  }
+
+  .goldBlogNotifyPanel button {
+    display: block;
+    width: 100%;
+    margin: 0 0 8px;
+    padding: 8px 0;
+    border: 0;
+    border-top: 1px solid rgba(168, 124, 44, 0.12);
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .goldBlogNotifyPanel strong {
+    display: block;
+    color: #241911;
+    font-size: 12px;
+  }
+
+  .goldBlogNotifyPanel em,
+  .goldBlogNotifyPanel small {
+    display: block;
+    margin-top: 3px;
+    color: #7a736b;
+    font-size: 11px;
+    font-style: normal;
   }
 
   .goldblogPage .goldBlogNewHead h3 {
@@ -4048,13 +4154,27 @@ export default function GoldBlogSection() {
             <div className="goldBlogNewHead">
               <h3>Son eklenenler</h3>
 
-              <button
-                type="button"
-                className="goldBlogNewSeeAll"
-                onClick={() => setNewAllOpen(true)}
-              >
-                Tümünü gör
-              </button>
+              <div className="goldBlogNewHeadActions">
+                <GoldBlogNotifications
+                  onOpenPost={(slug) => {
+                    const article = goldBlogArticles.find(
+                      (item) => item.slug === slug,
+                    );
+
+                    if (article) {
+                      openReader(article, true);
+                    }
+                  }}
+                />
+
+                <button
+                  type="button"
+                  className="goldBlogNewSeeAll"
+                  onClick={() => setNewAllOpen(true)}
+                >
+                  Tümünü gör
+                </button>
+              </div>
             </div>
 
             <div
@@ -4234,14 +4354,28 @@ export default function GoldBlogSection() {
                   )?.title}
                 </h2>
               </div>
-              <button
-                type="button"
-                className="goldBlogDiscoverClose"
-                onClick={() => setDiscoverCategory(null)}
-                aria-label="Keşfet ekranını kapat"
-              >
-                ×
-              </button>
+              <div className="goldBlogDiscoverTopActions">
+                <GoldBlogNotifications
+                  onOpenPost={(slug) => {
+                    const article = goldBlogArticles.find(
+                      (item) => item.slug === slug,
+                    );
+
+                    if (article) {
+                      setDiscoverCategory(null);
+                      openReader(article, true);
+                    }
+                  }}
+                />
+                <button
+                  type="button"
+                  className="goldBlogDiscoverClose"
+                  onClick={() => setDiscoverCategory(null)}
+                  aria-label="Keşfet ekranını kapat"
+                >
+                  ×
+                </button>
+              </div>
             </div>
 
             <div className="goldBlogDiscoverList">
@@ -4251,19 +4385,28 @@ export default function GoldBlogSection() {
                     article.categoryKey === discoverCategory,
                 )
                 .map((article) => (
-                  <button
-                    type="button"
+                  <article
                     className="goldBlogDiscoverItem"
                     key={article.slug}
-                    onClick={() => {
-                      setDiscoverCategory(null);
-                      openReader(article);
-                    }}
                   >
-                    <p>{article.category}</p>
-                    <strong>{article.title}</strong>
-                    <span>{article.description}</span>
-                  </button>
+                    <button
+                      type="button"
+                      className="goldBlogDiscoverCopy"
+                      onClick={() => {
+                        openReader(article);
+                      }}
+                    >
+                      <p>{article.category}</p>
+                      <strong>{article.title}</strong>
+                      <span>{article.description}</span>
+                    </button>
+
+                    <GoldBlogComments
+                      postId={article.slug}
+                      compact
+                      onCountChange={handleCommentCount}
+                    />
+                  </article>
                 ))}
             </div>
           </div>

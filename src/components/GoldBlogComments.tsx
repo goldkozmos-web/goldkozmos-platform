@@ -39,6 +39,7 @@ type CommentItem = {
 
 type GoldBlogCommentsProps = {
   postId: string;
+  compact?: boolean;
   onCountChange?: (postId: string, count: number) => void;
 };
 
@@ -78,6 +79,7 @@ function Avatar({
 
 export default function GoldBlogComments({
   postId,
+  compact = false,
   onCountChange,
 }: GoldBlogCommentsProps) {
   const [comments, setComments] = useState<CommentItem[]>([]);
@@ -126,6 +128,9 @@ export default function GoldBlogComments({
         const next = (data.comments ?? []) as CommentItem[];
         setUnavailable(false);
         setComments(next);
+        setOpenReplies(
+          Object.fromEntries(next.map((comment) => [comment.id, true])),
+        );
         setViewer(data.viewer ?? null);
         onCountChange?.(postId, totalCount(next));
       } catch {
@@ -195,13 +200,28 @@ export default function GoldBlogComments({
 
       if (parentCommentId) {
         setComments((current) =>
-          current.map((comment) =>
-            comment.id === parentCommentId
-              ? { ...comment, replies: [...comment.replies, created] }
-              : comment,
-          ),
+          current.map((comment) => {
+            const isThread =
+              comment.id === parentCommentId ||
+              comment.replies.some((reply) => reply.id === parentCommentId);
+
+            if (!isThread) {
+              return comment;
+            }
+
+            return {
+              ...comment,
+              replies: [...comment.replies, created],
+            };
+          }),
         );
-        setOpenReplies((current) => ({ ...current, [parentCommentId]: true }));
+        const threadId =
+          comments.find(
+            (comment) =>
+              comment.id === parentCommentId ||
+              comment.replies.some((reply) => reply.id === parentCommentId),
+          )?.id ?? parentCommentId;
+        setOpenReplies((current) => ({ ...current, [threadId]: true }));
         onCountChange?.(postId, totalCount(comments) + 1);
       } else {
         const next = [created, ...comments];
@@ -394,24 +414,24 @@ export default function GoldBlogComments({
                 Beğen
               </button>
 
-              {!isReply ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (!viewer) {
-                      setError("Yorum yapmak için giriş yap.");
-                      return;
-                    }
+              <button
+                type="button"
+                onClick={() => {
+                  if (!viewer) {
+                    setError("Yorum yapmak için giriş yap.");
+                    return;
+                  }
 
-                    setReplyingTo(
-                      replyingTo === comment.id ? null : comment.id,
-                    );
-                    setReplyDraft("");
-                  }}
-                >
-                  Yanıtla
-                </button>
-              ) : null}
+                  setReplyingTo(
+                    replyingTo === comment.id ? null : comment.id,
+                  );
+                  setReplyDraft(
+                    isReply ? `@${comment.displayName} ` : "",
+                  );
+                }}
+              >
+                Yanıtla
+              </button>
 
               {comment.canEdit ? (
                 <button
@@ -475,7 +495,7 @@ export default function GoldBlogComments({
             </div>
           ) : null}
 
-          {!isReply && replyingTo === comment.id && viewer ? (
+          {replyingTo === comment.id && viewer ? (
             <form
               className="goldBlogCommentComposer isInline"
               onSubmit={(event) => void handleReplySubmit(event, comment.id)}
@@ -504,7 +524,10 @@ export default function GoldBlogComments({
   }
 
   return (
-    <section className="goldBlogComments" aria-label="Yorumlar">
+    <section
+      className={`goldBlogComments${compact ? " isCompact" : ""}`}
+      aria-label="Yorumlar"
+    >
       <p className="goldBlogCommentsCount">
         {loading
           ? "Yorumlar"

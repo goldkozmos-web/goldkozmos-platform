@@ -1,9 +1,10 @@
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 import {
   COMMENT_COOLDOWN_MS,
+  COMMENT_MAX_LENGTH,
   canDeleteComment,
   canEditComment,
-  canReplyToParent,
+  threadRootId,
   validateCommentContent,
 } from "./commentValidation";
 import { isGoldBlogPostId } from "./posts";
@@ -245,11 +246,13 @@ export async function createGoldBlogComment(
   }
 
   let parentId: string | null = null;
+  let notifyUserId: string | null = null;
+  let mentionName = "";
 
   if (typeof parentCommentId === "string" && parentCommentId.trim()) {
     const { data: parent, error: parentError } = await supabase
       .from("comments")
-      .select("id, post_id, parent_comment_id")
+      .select("id, post_id, user_id, parent_comment_id, profiles(display_name)")
       .eq("id", parentCommentId.trim())
       .maybeSingle();
 
@@ -257,11 +260,39 @@ export async function createGoldBlogComment(
       return { error: "Yanıtlanacak yorum bulunamadı.", status: 404 as const };
     }
 
-    if (!canReplyToParent(parent.parent_comment_id)) {
-      return { error: "Yanıtlara tekrar yanıt verilemez.", status: 400 as const };
-    }
+    const parentRow = parent as {
+      id: string;
+      user_id: string;
+      parent_comment_id: string | null;
+      profiles:
+        | { display_name: string | null }
+        | { display_name: string | null }[]
+        | null;
+    };
 
-    parentId = parent.id;
+    parentId = threadRootId(
+      parentRow.id,
+      parentRow.parent_comment_id,
+    );
+    notifyUserId =
+      parentRow.user_id !== actor.id ? parentRow.user_id : null;
+
+    const profile = Array.isArray(parentRow.profiles)
+      ? parentRow.profiles[0]
+      : parentRow.profiles;
+    mentionName = profile?.display_name?.trim() || "";
+
+    if (
+      parentRow.parent_comment_id &&
+      mentionName &&
+      !parsed.content.toLowerCase().startsWith(`@${mentionName.toLowerCase()}`)
+    ) {
+      const tagged = `@${mentionName} ${parsed.content}`;
+
+      if (tagged.length <= COMMENT_MAX_LENGTH) {
+        parsed.content = tagged;
+      }
+    }
   }
 
   const { data: latest } = await supabase
@@ -298,8 +329,29 @@ export async function createGoldBlogComment(
     return { error: "Yorum kaydedilemedi.", status: 500 as const };
   }
 
+  if (notifyUserId) {
+    await supabase.from("comment_notifications").insert({
+      recipient_id: notifyUserId,
+      actor_id: actor.id,
+      comment_id: (data as { id: string }).id,
+      post_id: postId,
+      excerpt: parsed.content.slice(0, 140),
+    });
+  }
+
+  const mapped = mapComment(
+    data as unknown as CommentRow,
+    actor,
+    0,
+    false,
+  );
+
+  if (parentId) {
+    mapped.parentCommentId = parentId;
+  }
+
   return {
-    comment: mapComment(data as unknown as CommentRow, actor, 0, false),
+    comment: mapped,
   };
 }
 

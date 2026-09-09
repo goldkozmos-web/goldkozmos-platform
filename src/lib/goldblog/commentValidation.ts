@@ -122,6 +122,13 @@ export function nextLikeState(likedByMe: boolean, likeCount: number) {
   };
 }
 
-export function canReplyToParent(parentCommentId: string | null) {
-  return parentCommentId === null;
+export function canReplyToParent(_parentCommentId: string | null) {
+  return true;
+}
+
+export function threadRootId(
+  commentId: string,
+  parentCommentId: string | null,
+) {
+  return parentCommentId ?? commentId;
 }
