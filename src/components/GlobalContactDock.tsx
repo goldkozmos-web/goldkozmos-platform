@@ -580,11 +580,6 @@ export default function GlobalContactDock() {
               </linearGradient>
             </defs>
             <path
-              fill="rgba(62, 36, 10, 0.38)"
-              d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"
-              transform="translate(0 0.7)"
-            />
-            <path
               fill="url(#goldkozmosBackToTopArrowFill)"
               d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"
             />
