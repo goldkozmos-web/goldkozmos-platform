@@ -91,6 +91,72 @@ export function getLatestProgress(
   })[0];
 }
 
+export const LIVE_PLAYBACK_STORAGE_KEY =
+  "goldkozmos-live-playback-v1";
+
+export type LivePlaybackState = {
+  session: PlatformProgress & {
+    artworkUrl?: string;
+    audioUrl?: string;
+  };
+  minimized: boolean;
+  isPlaying: boolean;
+};
+
+function isLivePlayback(value: unknown): value is LivePlaybackState {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const live = value as LivePlaybackState;
+
+  return (
+    isProgress(live.session) &&
+    typeof live.minimized === "boolean" &&
+    typeof live.isPlaying === "boolean"
+  );
+}
+
+export function readLivePlayback(): LivePlaybackState | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  try {
+    const raw = window.sessionStorage.getItem(LIVE_PLAYBACK_STORAGE_KEY);
+
+    if (!raw) {
+      return null;
+    }
+
+    const parsed = JSON.parse(raw) as unknown;
+
+    return isLivePlayback(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+export function writeLivePlayback(state: LivePlaybackState | null) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  try {
+    if (!state) {
+      window.sessionStorage.removeItem(LIVE_PLAYBACK_STORAGE_KEY);
+      return;
+    }
+
+    window.sessionStorage.setItem(
+      LIVE_PLAYBACK_STORAGE_KEY,
+      JSON.stringify(state),
+    );
+  } catch {
+    // Ignore storage failures; playback can still continue in-memory.
+  }
+}
+
 export function getProgressForPlatform(
   map: PlatformProgressMap,
   platform: PlatformId,

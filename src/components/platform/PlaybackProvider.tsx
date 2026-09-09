@@ -18,12 +18,14 @@ import {
 import {
   getLatestProgress,
   getProgressForPlatform,
+  readLivePlayback,
   readPlatformProgressMap,
   upsertProgressEntry,
+  writeLivePlayback,
   writePlatformProgressMap,
   type PlatformProgressMap,
 } from "../../lib/platformProgress";
-import { sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
+import { usePathname } from "next/navigation";
 
 type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
@@ -96,8 +98,37 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setItems(readPlatformProgressMap());
+
+    const live = readLivePlayback();
+
+    if (
+      live?.session &&
+      (live.session.youtubeId || live.session.spotifyEmbedUrl)
+    ) {
+      setSession(live.session);
+      setMinimized(true);
+      setIsPlaying(live.isPlaying);
+    }
+
     setReady(true);
   }, []);
+
+  useEffect(() => {
+    if (!ready) {
+      return;
+    }
+
+    if (session?.youtubeId || session?.spotifyEmbedUrl) {
+      writeLivePlayback({
+        session,
+        minimized,
+        isPlaying,
+      });
+      return;
+    }
+
+    writeLivePlayback(null);
+  }, [isPlaying, minimized, ready, session]);
 
   useEffect(() => {
     const mini =
@@ -278,6 +309,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     setIsPlaying(false);
     setSession(null);
     setMinimized(false);
+    writeLivePlayback(null);
   }, []);
 
   useEffect(() => {
@@ -367,7 +399,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         <div
           className={`platformYoutubeShell${minimized ? " isMini" : " isStage"}${
             session.spotifyEmbedUrl ? " isSpotify" : ""
-          }`}
+          }${minimized && isPlaying ? " isPlaying" : ""}`}
         >
           {minimized ? null : (
             <div className="platformYoutubeChrome">
@@ -409,6 +441,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
           ) : null}
 
           <iframe
+            key={session.youtubeId || session.spotifyEmbedUrl}
             ref={session.youtubeId ? youtubeRef : undefined}
             src={
               session.youtubeId
@@ -427,7 +460,12 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
                 className="platformYoutubeMiniTitle"
                 onClick={expand}
               >
-                {session.title}
+                <small>
+                  {session.spotifyEmbedUrl
+                    ? "Spotify · GoldCast"
+                    : "YouTube · GoldCast"}
+                </small>
+                <strong>{session.title}</strong>
               </button>
               {session.youtubeId ? (
                 <button
@@ -438,7 +476,16 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
                 >
                   {isPlaying ? "❚❚" : "▶"}
                 </button>
-              ) : null}
+              ) : (
+                <button
+                  type="button"
+                  className="platformYoutubeMiniPlay"
+                  onClick={expand}
+                  aria-label="Oynatıcıyı aç"
+                >
+                  ▶
+                </button>
+              )}
               <button
                 type="button"
                 className="platformYoutubeMiniClose"
@@ -464,4 +511,23 @@ export function usePlayback() {
   }
 
   return context;
+}
+
+export function KeepPlayingOnNavigate() {
+  const pathname = usePathname();
+  const { session, minimize } = usePlayback();
+  const previousPath = useRef(pathname);
+
+  useEffect(() => {
+    if (
+      previousPath.current !== pathname &&
+      (session?.youtubeId || session?.spotifyEmbedUrl)
+    ) {
+      minimize();
+    }
+
+    previousPath.current = pathname;
+  }, [minimize, pathname, session?.spotifyEmbedUrl, session?.youtubeId]);
+
+  return null;
 }

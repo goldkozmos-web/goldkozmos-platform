@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, type ReactNode } from "react";
-import { PlaybackProvider } from "./PlaybackProvider";
+import { PlaybackProvider, KeepPlayingOnNavigate } from "./PlaybackProvider";
 import MiniPlayer from "./MiniPlayer";
 
 export default function PlatformFlowRoot({
@@ -13,6 +13,7 @@ export default function PlatformFlowRoot({
     <PlaybackProvider>
       {children}
       <Suspense fallback={null}>
+        <KeepPlayingOnNavigate />
         <MiniPlayer />
       </Suspense>
     </PlaybackProvider>
