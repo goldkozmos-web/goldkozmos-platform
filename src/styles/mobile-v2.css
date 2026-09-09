@@ -1749,10 +1749,10 @@
   }
 
   .goldblogPage .goldBlogNewSection {
-    order: 99 !important;
+    order: 0 !important;
 
-    margin-top: 42px !important;
-    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 22px !important;
   }
 }/* =========================================================
    GOLDBLOG MOBİL

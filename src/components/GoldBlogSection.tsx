@@ -3273,6 +3273,286 @@ const goldBlogHubStyles = `
     }
   }
 
+  .goldblogPage .goldBlogNewSection {
+    order: 0;
+    margin: 0 0 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .goldblogPage .goldBlogNewSection::before {
+    display: none !important;
+    content: none !important;
+  }
+
+  .goldblogPage .goldBlogNewHead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 12px;
+  }
+
+  .goldblogPage .goldBlogNewHead h3 {
+    margin: 0;
+    color: #6d645a;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  .goldblogPage .goldBlogNewSeeAll {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #a1772d;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+
+  .goldblogPage .goldBlogNewRail {
+    gap: 10px;
+    padding: 6px 2px 14px;
+  }
+
+  .goldblogPage .goldBlogNewCard,
+  .goldblogPage .goldBlogNewCard:first-child {
+    flex: 0 0 min(72vw, 210px);
+    width: min(72vw, 210px);
+    min-width: min(72vw, 210px);
+    min-height: 0;
+    padding: 14px 14px 16px;
+    border-radius: 16px;
+    transition: transform 180ms ease;
+  }
+
+  .goldblogPage .goldBlogNewCardMeta,
+  .goldblogPage .goldBlogNewCard:first-child .goldBlogNewCardMeta {
+    margin-bottom: 12px;
+  }
+
+  .goldblogPage .goldBlogNewCardTitle,
+  .goldblogPage .goldBlogNewCard h4,
+  .goldblogPage .goldBlogNewCard:first-child h4 {
+    font-size: 16px !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.03em !important;
+    color: #251b14 !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard,
+  .goldblogPage .goldBlogSocialCard {
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .goldblogPage .goldBlogCategoryCard:hover,
+    .goldblogPage .goldBlogNewCard:hover,
+    .goldblogPage .goldBlogSocialCard:hover,
+    .goldblogPage .goldBlogMiniItem:hover {
+      transform: translateY(-6px) !important;
+    }
+  }
+
+  .goldblogPage .goldBlogMiniBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-items: center;
+    padding: 18px 16px 28px;
+    background: rgba(24, 15, 10, 0.48);
+    backdrop-filter: blur(8px);
+  }
+
+  .goldblogPage .goldBlogMiniPaper {
+    width: min(420px, 100%);
+    max-height: min(78dvh, 640px);
+    overflow: auto;
+    padding: 18px 16px 20px;
+    box-sizing: border-box;
+    border: 1px solid rgba(206, 161, 75, 0.28);
+    border-radius: 22px;
+    background:
+      linear-gradient(180deg, #fffdf8 0%, #f6eee0 100%);
+    box-shadow: 0 28px 70px rgba(28, 16, 8, 0.28);
+  }
+
+  .goldblogPage .goldBlogMiniTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .goldblogPage .goldBlogMiniTop p {
+    margin: 0 0 6px;
+    color: #a1772d;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .goldblogPage .goldBlogMiniTop h2 {
+    margin: 0;
+    color: #241911;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+  }
+
+  .goldblogPage .goldBlogMiniClose {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(168, 124, 44, 0.28);
+    border-radius: 50%;
+    color: #7a5a22;
+    background: #fffaf1;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .goldblogPage .goldBlogMiniList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .goldblogPage .goldBlogMiniItem {
+    width: 100%;
+    padding: 14px 14px 12px;
+    border: 1px solid rgba(168, 124, 44, 0.18);
+    border-radius: 14px;
+    background: #fffdf9;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 180ms ease;
+  }
+
+  .goldblogPage .goldBlogMiniItem p {
+    margin: 0 0 5px;
+    color: #a1772d;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+  }
+
+  .goldblogPage .goldBlogMiniItem strong {
+    display: block;
+    color: #241911;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .goldblogPage .goldBlogMiniItem span {
+    display: block;
+    margin-top: 6px;
+    color: #8a8176;
+    font-size: 11px;
+  }
+
+  .goldBlogReaderBackdrop.isMini {
+    padding: 20px 16px 28px !important;
+    place-items: center !important;
+    align-items: center !important;
+  }
+
+  .goldBlogReaderBackdrop.isMini .goldBlogReaderPaper {
+    width: min(440px, 100%) !important;
+    height: min(78dvh, 720px) !important;
+    border: 1px solid rgba(206, 161, 75, 0.36) !important;
+    border-radius: 22px !important;
+  }
+
+  @media (min-width: 901px) {
+    .goldblogPage .goldBlogHub {
+      display: flex !important;
+      flex-direction: column !important;
+      grid-template-columns: none !important;
+    }
+
+    .goldblogPage .goldBlogNewSection,
+    .goldblogPage .goldBlogHubIntro,
+    .goldblogPage .goldBlogHubRailShell,
+    .goldblogPage .goldBlogSocialRailSection {
+      grid-column: auto !important;
+      grid-row: auto !important;
+      width: 100% !important;
+    }
+
+    .goldblogPage .goldBlogNewSection {
+      margin-bottom: 36px !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .goldblogPage .goldBlogNewHead h3 {
+      font-size: 17px !important;
+      color: #6d645a !important;
+      max-width: none !important;
+    }
+
+    .goldblogPage .goldBlogHubRailShell {
+      margin-top: 0 !important;
+    }
+
+    .goldblogPage .goldBlogNewCard,
+    .goldblogPage .goldBlogNewCard:first-child {
+      flex: 0 0 220px !important;
+      width: 220px !important;
+      min-width: 220px !important;
+      background:
+        linear-gradient(180deg, #fffdf9 0%, #fbf6ed 100%) !important;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .goldblogPage .goldBlogHub {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .goldblogPage .goldBlogNewSection {
+      order: 0 !important;
+      margin: 0 0 22px !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      border: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .goldblogPage .goldBlogHubIntro {
+      order: 1 !important;
+    }
+
+    .goldblogPage .goldBlogHubRailShell {
+      order: 2 !important;
+    }
+
+    .goldblogPage .goldBlogSocialRailSection {
+      order: 3 !important;
+    }
+  }
+
 `;
 
 const canonicalGoldBlogUrl =
@@ -3285,6 +3565,12 @@ export default function GoldBlogSection() {
 
   const [discoverCategory, setDiscoverCategory] =
     useState<GoldBlogCategoryKey | null>(null);
+
+  const [newAllOpen, setNewAllOpen] =
+    useState(false);
+
+  const [readerMini, setReaderMini] =
+    useState(false);
 
   const [readerArticle, setReaderArticle] =
     useState<GoldBlogArticle | null>(null);
@@ -3428,7 +3714,9 @@ export default function GoldBlogSection() {
   }, []);
 
   useEffect(() => {
-    if (!readerArticle) return;
+    if (!readerArticle && !newAllOpen && !discoverCategory) {
+      return;
+    }
 
     const previousOverflow =
       document.body.style.overflow;
@@ -3446,7 +3734,17 @@ export default function GoldBlogSection() {
         return;
       }
 
-      closeReader();
+      if (readerArticle) {
+        closeReader();
+        return;
+      }
+
+      if (newAllOpen) {
+        setNewAllOpen(false);
+        return;
+      }
+
+      setDiscoverCategory(null);
     };
 
     window.addEventListener(
@@ -3463,7 +3761,7 @@ export default function GoldBlogSection() {
         handleEscape,
       );
     };
-  }, [readerArticle, shareOpen]);
+  }, [readerArticle, shareOpen, newAllOpen, discoverCategory]);
 
   function selectCategory(
     categoryKey: GoldBlogCategoryKey,
@@ -3497,7 +3795,9 @@ export default function GoldBlogSection() {
 
   function openReader(
     article: GoldBlogArticle,
+    mini = false,
   ) {
+    setReaderMini(mini);
     setReaderArticle(article);
     setActiveCategory(
       article.categoryKey,
@@ -3511,6 +3811,7 @@ export default function GoldBlogSection() {
 
   function closeReader() {
     setReaderArticle(null);
+    setReaderMini(false);
     setShareOpen(false);
     setShareQuote("");
     setReadingProgress(0);
@@ -3734,6 +4035,56 @@ export default function GoldBlogSection() {
         id="goldblog"
       >
         <div className="goldBlogHub">
+          <section className="goldBlogNewSection">
+            <div className="goldBlogNewHead">
+              <h3>Son eklenenler</h3>
+
+              <button
+                type="button"
+                className="goldBlogNewSeeAll"
+                onClick={() => setNewAllOpen(true)}
+              >
+                Tümünü gör
+              </button>
+            </div>
+
+            <div
+              className="goldBlogNewRail"
+              ref={newRailRef}
+            >
+              {newArticles.map(
+                (article) => (
+                  <button
+                    type="button"
+                    className="goldBlogNewCard"
+                    key={article.slug}
+                    onClick={() =>
+                      openReader(article, true)
+                    }
+                  >
+                    <div className="goldBlogNewCardMeta">
+                      <span className="goldBlogNewBadge">
+                        YENİ
+                      </span>
+
+                      <span>
+                        {article.readingTime}
+                      </span>
+                    </div>
+
+                    <p>
+                      {article.category}
+                    </p>
+
+                    <h4 className="goldBlogNewCardTitle">
+                      {article.title}
+                    </h4>
+                  </button>
+                ),
+              )}
+            </div>
+          </section>
+
           <header className="goldBlogHubIntro">
             <div>
               <p className="goldBlogHubEyebrow">
@@ -3807,57 +4158,6 @@ export default function GoldBlogSection() {
               )}
             </div>
           </div>
-
-          <section className="goldBlogNewSection">
-            <div className="goldBlogHubSectionHeading">
-              <div>
-                <p className="goldBlogHubSectionEyebrow">
-                  YENİ EKLENENLER
-                </p>
-
-                <h3>
-                  Son eklenen
-                  <span> GoldBlog yazıları.</span>
-                </h3>
-              </div>
-            </div>
-
-            <div
-              className="goldBlogNewRail"
-              ref={newRailRef}
-            >
-              {newArticles.map(
-                (article) => (
-                  <button
-                    type="button"
-                    className="goldBlogNewCard"
-                    key={article.slug}
-                    onClick={() =>
-                      openReader(article)
-                    }
-                  >
-                    <div className="goldBlogNewCardMeta">
-                      <span className="goldBlogNewBadge">
-                        YENİ
-                      </span>
-
-                      <span>
-                        {article.readingTime} Okuma
-                      </span>
-                    </div>
-
-                    <p>
-                      {article.category}
-                    </p>
-
-                    <h4 className="goldBlogNewCardTitle">
-                      {article.title}
-                    </h4>
-                  </button>
-                ),
-              )}
-            </div>
-          </section>
 
           <section className="goldBlogSocialRailSection">
             <div className="goldBlogSocialRailHeader">
@@ -4001,6 +4301,57 @@ export default function GoldBlogSection() {
         </div>
       </section>
 
+      {newAllOpen ? (
+        <div
+          className="goldBlogMiniBackdrop"
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setNewAllOpen(false);
+            }
+          }}
+        >
+          <div
+            className="goldBlogMiniPaper"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="goldBlogNewAllTitle"
+          >
+            <div className="goldBlogMiniTop">
+              <div>
+                <p>GOLDBLOG</p>
+                <h2 id="goldBlogNewAllTitle">
+                  Son eklenenler
+                </h2>
+              </div>
+              <button
+                type="button"
+                className="goldBlogMiniClose"
+                onClick={() => setNewAllOpen(false)}
+                aria-label="Son eklenenleri kapat"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="goldBlogMiniList">
+              {newArticles.map((article) => (
+                <button
+                  type="button"
+                  className="goldBlogMiniItem"
+                  key={`all-${article.slug}`}
+                  onClick={() => openReader(article, true)}
+                >
+                  <p>{article.category}</p>
+                  <strong>{article.title}</strong>
+                  <span>{article.readingTime} okuma</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       {discoverCategory ? (
         <div className="goldBlogDiscoverBackdrop">
           <div className="goldBlogDiscoverPaper">
@@ -4052,7 +4403,11 @@ export default function GoldBlogSection() {
 
       {readerArticle && (
         <div
-          className="goldBlogReaderBackdrop"
+          className={
+            readerMini
+              ? "goldBlogReaderBackdrop isMini"
+              : "goldBlogReaderBackdrop"
+          }
           role="presentation"
           onMouseDown={(event) => {
             if (
