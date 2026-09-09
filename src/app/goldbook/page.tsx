@@ -171,13 +171,9 @@ const goldBookCardStyles = `
         #24170f 46%,
         #120c09 100%
       ) !important;
-    box-shadow:
-      0 20px 42px rgba(18, 11, 6, 0.30),
-      inset 0 1px 0 rgba(255, 236, 196, 0.16),
-      inset 0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+    box-shadow: none !important;
     transition:
       transform 180ms ease,
-      box-shadow 180ms ease,
       border-color 180ms ease;
   }
 
@@ -197,9 +193,7 @@ const goldBookCardStyles = `
   .goldbookCompactPage .goldbookCompactCard:hover {
     transform: translateY(-4px);
     border-color: rgba(232, 190, 104, 0.62) !important;
-    box-shadow:
-      0 26px 52px rgba(18, 11, 6, 0.34),
-      inset 0 1px 0 rgba(255, 236, 196, 0.20) !important;
+    box-shadow: none !important;
   }
 
   .goldbookCompactPage .goldbookCompactCardTop {

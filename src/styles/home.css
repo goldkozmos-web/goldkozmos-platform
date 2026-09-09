@@ -19471,9 +19471,7 @@ font-size:32px;
   background:
     rgba(255, 255, 255, 0.82);
 
-  box-shadow:
-    0 19px 50px
-    rgba(65, 44, 16, 0.055);
+  box-shadow: none;
 }
 
 
