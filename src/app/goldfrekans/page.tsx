@@ -57,7 +57,7 @@ const goldFrekansTracks = [
 
 const styles = `
   .goldFrekansPage {
-    background: #f7f1e8;
+    background: #24170f;
   }
 
   .goldFrekansHero {
@@ -178,8 +178,7 @@ const styles = `
     padding: 64px 0 94px;
     overflow: hidden;
     background:
-      radial-gradient(circle at 88% 3%, rgba(188, 143, 58, 0.10), transparent 30%),
-      linear-gradient(180deg, #f8f3ea 0%, #f4ecdf 100%);
+      linear-gradient(180deg, #3a271b 0%, #24170f 56%, #1a120c 100%);
   }
 
   .goldFrekansArchiveInner {
@@ -200,45 +199,16 @@ const styles = `
   }
 
   .goldFrekansArchiveHeader p {
-    margin: 0 0 11px;
-    color: #9b742f;
-    letter-spacing: 0.22em;
-    font-size: 10px;
-    font-weight: 700;
-  }
-
-  .goldFrekansArchiveHeader h2 {
     margin: 0;
-    color: #211811;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(41px, 3.2vw, 54px);
-    font-weight: 400;
-    line-height: 0.98;
-    letter-spacing: -1.5px;
-  }
-
-  .goldFrekansArchiveHeader h2 span {
-    color: #a77a2d;
+    color: #e0c07a;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   .goldFrekansControls {
-    display: flex;
-    gap: 8px;
-    padding-bottom: 2px;
-  }
-
-  .goldFrekansControls button {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: 1px solid rgba(155, 116, 47, 0.28);
-    border-radius: 999px;
-    background: rgba(255, 253, 248, 0.76);
-    color: #8d6728;
-    font-size: 17px;
-    cursor: pointer;
+    display: none;
   }
 
   .goldFrekansScroller {
@@ -260,14 +230,17 @@ const styles = `
   .goldFrekansCard {
     flex: 0 0 380px;
     min-width: 0;
+    padding: 14px 14px 0;
     overflow: hidden;
     scroll-snap-align: start;
-    border: 2px solid rgba(205, 158, 70, 0.76);
-    border-radius: 24px;
+    border: 1px solid rgba(232, 204, 148, 0.72);
+    border-radius: 22px;
     background:
-      radial-gradient(circle at 88% 4%, rgba(199, 154, 67, 0.13), transparent 30%),
-      linear-gradient(145deg, #2b1d13 0%, #1e150f 58%, #17100c 100%);
-    box-shadow: 0 20px 46px rgba(48, 31, 13, 0.20), 0 6px 16px rgba(48, 31, 13, 0.10);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 28%),
+      linear-gradient(165deg, #fffdf8 0%, #f6eee0 52%, #efe4d2 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 252, 246, 0.92) inset,
+      0 0 0 1px rgba(48, 28, 12, 0.04) inset;
   }
 
   .goldFrekansCardVisual {
@@ -275,7 +248,9 @@ const styles = `
     display: block;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    background: #21160f;
+    border: 1px solid rgba(176, 138, 62, 0.22);
+    border-radius: 14px;
+    background: #1c140f;
   }
 
   .goldFrekansCardVisual img {
@@ -283,30 +258,32 @@ const styles = `
     width: 100%;
     height: 100%;
     object-fit: cover;
+    filter: saturate(0.94) contrast(1.06);
   }
 
   .goldFrekansNumber {
     position: absolute;
-    top: 14px;
-    left: 14px;
+    top: 12px;
+    left: 12px;
     min-width: 34px;
     height: 28px;
     padding: 0 9px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(218, 176, 95, 0.25);
+    border: 1px solid rgba(232, 204, 148, 0.42);
     border-radius: 999px;
-    color: #e0b766;
-    background: rgba(29, 19, 12, 0.87);
+    color: #f6edd8;
+    background: rgba(29, 19, 12, 0.78);
     font-size: 8px;
     font-weight: 700;
+    letter-spacing: 0.12em;
   }
 
   .goldFrekansPlay {
     position: absolute;
-    right: 14px;
-    bottom: 14px;
+    right: 12px;
+    bottom: 12px;
     width: 42px;
     height: 42px;
     display: grid;
@@ -315,17 +292,17 @@ const styles = `
     color: #20160f;
     background: linear-gradient(135deg, #b88431, #ddb761);
     font-size: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: none;
   }
 
   .goldFrekansCardBody {
-    padding: 21px 20px 19px;
+    padding: 18px 6px 16px;
   }
 
   .goldFrekansCategory {
     margin: 0 0 9px;
-    color: #c99c4b;
-    letter-spacing: 0.15em;
+    color: #a8792a;
+    letter-spacing: 0.16em;
     font-size: 8px;
     font-weight: 700;
     line-height: 1.3;
@@ -334,18 +311,18 @@ const styles = `
   .goldFrekansCard h3 {
     min-height: 52px;
     margin: 0;
-    color: #fffaf1;
+    color: #2a1c12;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 24px;
     font-weight: 400;
-    line-height: 1.03;
+    line-height: 1.12;
     letter-spacing: -0.55px;
   }
 
   .goldFrekansDescription {
     min-height: 72px;
     margin: 13px 0 0;
-    color: rgba(255, 250, 241, 0.62);
+    color: #6a5c50;
     font-size: 11.5px;
     line-height: 1.55;
   }
@@ -353,11 +330,11 @@ const styles = `
   .goldFrekansListenLink {
     margin-top: 17px;
     padding-top: 15px;
-    border-top: 1px solid rgba(214, 173, 97, 0.16);
+    border-top: 1px solid rgba(176, 138, 62, 0.18);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #d8af62;
+    color: #8d6320;
     text-decoration: none;
     font-size: 10px;
     font-weight: 700;
@@ -366,21 +343,22 @@ const styles = `
   .goldFrekansBottomNote {
     margin-top: 46px;
     padding: 30px 34px;
-    border: 1px solid rgba(199, 154, 67, 0.22);
+    border: 1px solid rgba(232, 204, 148, 0.42);
     border-radius: 25px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 36px;
     background:
-      radial-gradient(circle at 88% 8%, rgba(190, 143, 62, 0.17), transparent 32%),
-      linear-gradient(145deg, #291c13 0%, #18110d 100%);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 32%),
+      linear-gradient(165deg, #fffdf8 0%, #f3eadc 100%);
+    box-shadow: none;
   }
 
   .goldFrekansBottomNote small {
     display: block;
     margin-bottom: 8px;
-    color: #c89a47;
+    color: #a8792a;
     letter-spacing: 0.17em;
     font-size: 8px;
     font-weight: 700;
@@ -389,7 +367,7 @@ const styles = `
   .goldFrekansBottomNote h3 {
     max-width: 720px;
     margin: 0;
-    color: #fffaf1;
+    color: #2a1c12;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 32px;
     font-weight: 400;
@@ -400,18 +378,18 @@ const styles = `
     min-width: 185px;
     min-height: 46px;
     padding: 0 17px;
-    border: 1px solid rgba(167, 122, 45, 0.34);
+    border: 0;
     border-radius: 999px;
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
     gap: 18px;
-    color: #2a1b12;
-    background: linear-gradient(120deg, #c8963f 0%, #e0bb6a 100%);
+    color: #fffaf1;
+    background: #2a1c12;
     text-decoration: none;
     font-size: 11.5px;
     font-weight: 700;
-    box-shadow: 0 10px 24px rgba(66, 42, 17, 0.12);
+    box-shadow: none;
     transition: transform 160ms ease, filter 160ms ease;
   }
 
@@ -447,11 +425,7 @@ const styles = `
     }
 
     .goldFrekansArchiveHeader {
-      align-items: center;
-    }
-
-    .goldFrekansArchiveHeader h2 {
-      font-size: clamp(36px, 8vw, 48px);
+      align-items: flex-start;
     }
 
     .goldFrekansCard {
@@ -462,29 +436,34 @@ const styles = `
       grid-template-columns: 1fr;
     }
   }
+
+  .goldFrekansPage {
+    background: #24170f !important;
+  }
+
+  .goldFrekansArchive {
+    background:
+      linear-gradient(180deg, #3a271b 0%, #24170f 56%, #1a120c 100%) !important;
+  }
+
+  .goldFrekansControls {
+    display: none !important;
+  }
+
+  .goldFrekansCard {
+    box-shadow: none !important;
+  }
+
+  .goldFrekansPlay,
+  .goldFrekansBottomNote,
+  .goldFrekansBottomNote a {
+    box-shadow: none !important;
+  }
 `;
 
 export default function GoldFrekansPage() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const scrollSlider = (direction: "left" | "right") => {
-    const slider = sliderRef.current;
-
-    if (!slider) return;
-
-    const firstCard =
-      slider.querySelector<HTMLElement>(".goldFrekansCard");
-
-    const amount = firstCard
-      ? firstCard.offsetWidth + 18
-      : slider.clientWidth * 0.34;
-
-    slider.scrollBy({
-      left: direction === "right" ? amount : -amount,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <main className="homeV3Page goldFrekansPage" id="top">
@@ -603,29 +582,6 @@ export default function GoldFrekansPage() {
           <header className="goldFrekansArchiveHeader">
             <div>
               <p>GOLDFREKANS · YOUTUBE KÜTÜPHANESİ</p>
-
-              <h2>
-                Dinlemek istediğin
-                <span> kaydı seç.</span>
-              </h2>
-            </div>
-
-            <div className="goldFrekansControls">
-              <button
-                type="button"
-                onClick={() => scrollSlider("left")}
-                aria-label="Önceki GoldFrekans kaydı"
-              >
-                ←
-              </button>
-
-              <button
-                type="button"
-                onClick={() => scrollSlider("right")}
-                aria-label="Sonraki GoldFrekans kaydı"
-              >
-                →
-              </button>
             </div>
           </header>
 
