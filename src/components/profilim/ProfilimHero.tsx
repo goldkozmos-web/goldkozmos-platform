@@ -68,7 +68,7 @@ export default function ProfilimHero({
       <div className="profilimLevelBar" aria-label="Gelişim seviyesi">
         <span
           className="profilimLevelBarFill"
-          style={{ width: `${Math.max(percent, 6)}%` }}
+          style={{ width: `${percent}%` }}
         />
       </div>
 
