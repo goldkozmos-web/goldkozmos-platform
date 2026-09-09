@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -10,6 +11,9 @@ import type {
   RefObject,
   UIEvent,
 } from "react";
+import GoldBlogComments, {
+  formatYorumCount,
+} from "./GoldBlogComments";
 
 type GoldBlogCategoryKey =
   | "spirituel-stoa"
@@ -3269,6 +3273,9 @@ export default function GoldBlogSection() {
   const [readingProgress, setReadingProgress] =
     useState(0);
 
+  const [commentCounts, setCommentCounts] =
+    useState<Record<string, number>>({});
+
   const categoryRailRef =
     useRef<HTMLDivElement>(null);
 
@@ -3310,6 +3317,35 @@ export default function GoldBlogSection() {
       ),
     [],
   );
+
+  const handleCommentCount = useCallback(
+    (postId: string, count: number) => {
+      setCommentCounts((current) => ({
+        ...current,
+        [postId]: count,
+      }));
+    },
+    [],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch("/api/goldblog/comments/counts", {
+      cache: "no-store",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!cancelled && data?.counts) {
+          setCommentCounts(data.counts);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const rail = categoryRailRef.current;
@@ -4195,6 +4231,10 @@ export default function GoldBlogSection() {
 
                       <span>
                         {article.readingTime} Okuma
+                        {" · "}
+                        {formatYorumCount(
+                          commentCounts[article.slug] ?? 0,
+                        )}
                       </span>
                     </div>
 
@@ -4278,6 +4318,12 @@ export default function GoldBlogSection() {
                     <div className="goldBlogArticleRowAction">
                       <small>
                         {article.readingTime} Okuma
+                      </small>
+
+                      <small className="goldBlogCommentCount">
+                        {formatYorumCount(
+                          commentCounts[article.slug] ?? 0,
+                        )}
                       </small>
 
                       <button
@@ -4614,6 +4660,12 @@ export default function GoldBlogSection() {
                   </span>
 
                   <span>
+                    {formatYorumCount(
+                      commentCounts[readerArticle.slug] ?? 0,
+                    )}
+                  </span>
+
+                  <span>
                     GOLDKOZMOS® GOLDBLOG
                   </span>
                 </div>
@@ -4639,6 +4691,11 @@ export default function GoldBlogSection() {
                     Okuduğun şey sende ne bıraktı?
                   </h3>
                 </div>
+
+                <GoldBlogComments
+                  postId={readerArticle.slug}
+                  onCountChange={handleCommentCount}
+                />
               </article>
             </div>
           </div>

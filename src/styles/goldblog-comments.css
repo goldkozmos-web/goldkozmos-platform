@@ -1,0 +1,200 @@
+.goldBlogComments {
+  margin-top: 36px;
+  padding-top: 8px;
+}
+
+.goldBlogCommentsHead p {
+  margin: 0;
+  color: #9d742d;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.goldBlogCommentsHead h3 {
+  margin: 8px 0 0;
+  color: #281d15;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.goldBlogCommentsHint,
+.goldBlogCommentsError {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.goldBlogCommentsError {
+  color: #8a2f1f;
+}
+
+.goldBlogCommentsHint {
+  color: #746d63;
+}
+
+.goldBlogCommentGate,
+.goldBlogCommentComposer,
+.goldBlogCommentCard {
+  margin-top: 22px;
+  padding: 20px;
+  border: 1px solid rgba(168, 124, 44, 0.16);
+  border-radius: 18px;
+  background: #fffdf8;
+}
+
+.goldBlogCommentGate p {
+  margin: 0 0 14px;
+  color: #32241a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.goldBlogCommentGate a,
+.goldBlogCommentComposerBar button,
+.goldBlogCommentActions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(181, 137, 56, 0.34);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #2a1c13 0%, #1a120d 100%);
+  color: #ddb362;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.goldBlogCommentActions button {
+  background: transparent;
+  color: #8d6728;
+  border-color: rgba(168, 124, 44, 0.22);
+}
+
+.goldBlogCommentIdentity,
+.goldBlogCommentCardTop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.goldBlogCommentIdentity img,
+.goldBlogCommentIdentity span,
+.goldBlogCommentCardTop img,
+.goldBlogCommentCardTop span {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: grid;
+  place-items: center;
+  background: #f4e7d0;
+  color: #8d6728;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.goldBlogCommentIdentity strong,
+.goldBlogCommentCardTop strong {
+  display: block;
+  color: #241911;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.goldBlogCommentCardTop time {
+  display: block;
+  margin-top: 3px;
+  color: #8a8176;
+  font-size: 12px;
+}
+
+.goldBlogCommentComposer textarea,
+.goldBlogCommentCard textarea {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-height: 112px;
+  padding: 14px;
+  border: 1px solid rgba(168, 124, 44, 0.18);
+  border-radius: 14px;
+  background: #fbf6ed;
+  color: #211811;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.goldBlogCommentComposerBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.goldBlogCommentComposerBar small {
+  color: #a8792a;
+  font-size: 12px;
+}
+
+.goldBlogCommentList {
+  display: grid;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.goldBlogCommentCard p {
+  margin: 0;
+  color: #32241a;
+  font-size: 16px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.goldBlogCommentActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.goldBlogCommentCount {
+  color: #936a26;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 700px) {
+  .goldBlogCommentGate,
+  .goldBlogCommentComposer,
+  .goldBlogCommentCard {
+    padding: 16px;
+  }
+
+  .goldBlogCommentsHead h3 {
+    font-size: 22px;
+  }
+
+  .goldBlogCommentComposer textarea,
+  .goldBlogCommentCard textarea {
+    font-size: 16px;
+  }
+
+  .goldBlogCommentCardTop {
+    align-items: flex-start;
+  }
+
+  .goldBlogCommentCardTop time {
+    line-height: 1.4;
+  }
+}
