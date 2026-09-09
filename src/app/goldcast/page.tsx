@@ -49,6 +49,10 @@ const episodes = [
   YENİ SPOTIFY BÖLÜMLERİ GELDİĞİNDE
   BURAYA YENİ OBJE EKLEYECEĞİZ.
 */
+const youtubeChannelUrl = "https://youtube.com/@goldkozmos";
+const spotifyShowUrl =
+  "https://open.spotify.com/show/0343du5jxaHZOJhqDJZKYQ";
+
 const spotifyEpisodes = [
   {
     number: "01",
@@ -858,6 +862,34 @@ const goldcastPremiumStyles = `
     text-transform: uppercase !important;
   }
 
+  .goldcastPage .goldcastChannelHead {
+    display: flex !important;
+    align-items: baseline !important;
+    flex-wrap: wrap !important;
+    gap: 8px 14px !important;
+    max-width: none !important;
+  }
+
+  .goldcastPage .goldcastChannelLink {
+    color: #e0c07a !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
+    color: #a8792a !important;
+  }
+
+  .goldcastPage .goldcastChannelLink:hover {
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+  }
+
   .goldcastPage .goldcastYTCard.isActive,
   .goldcastPage .goldcastSpotifyEpisodeCard.isActive {
     border-color: rgba(240, 208, 138, 0.72) !important;
@@ -983,8 +1015,16 @@ export default function GoldCastPage() {
       >
         <div className="goldcastYTContainer">
           <header className="goldcastYTHeader">
-            <div>
+            <div className="goldcastChannelHead">
               <h2>YOUTUBE · GOLDCAST</h2>
+              <a
+                className="goldcastChannelLink"
+                href={youtubeChannelUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Kanala git
+              </a>
             </div>
           </header>
 
@@ -1044,8 +1084,16 @@ export default function GoldCastPage() {
       <section className="goldcastSpotifyArchive">
         <div className="goldcastSpotifyArchiveInner">
           <header className="goldcastSpotifyArchiveHeader">
-            <div>
+            <div className="goldcastChannelHead">
               <h2>SPOTIFY · GOLDCAST</h2>
+              <a
+                className="goldcastChannelLink"
+                href={spotifyShowUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Kanala git
+              </a>
             </div>
 
             {spotifyEpisodes.length > 1 && (
