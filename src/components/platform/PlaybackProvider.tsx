@@ -29,6 +29,7 @@ type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
   youtubeId?: string;
   spotifyEmbedUrl?: string;
+  artworkUrl?: string;
 };
 
 type StartAudioInput = {
@@ -48,6 +49,7 @@ type StartYoutubeInput = {
   href: string;
   youtubeId: string;
   description?: string;
+  artworkUrl?: string;
 };
 
 type StartSpotifyInput = {
@@ -57,6 +59,7 @@ type StartSpotifyInput = {
   href: string;
   embedUrl: string;
   description?: string;
+  artworkUrl?: string;
 };
 
 type PlaybackContextValue = {
@@ -174,6 +177,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       lastPlayedAt: now,
       status: "playing",
       youtubeId: input.youtubeId,
+      artworkUrl: input.artworkUrl,
       description: input.description ?? existing?.description,
     };
 
@@ -206,6 +210,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       lastPlayedAt: now,
       status: "playing",
       spotifyEmbedUrl: embed.toString(),
+      artworkUrl: input.artworkUrl,
       description: input.description ?? existing?.description,
     };
 
@@ -389,6 +394,19 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
               </div>
             </div>
           )}
+
+          {minimized ? (
+            <img
+              className="platformYoutubeMiniArt"
+              src={
+                session.artworkUrl ||
+                (session.youtubeId
+                  ? `https://i.ytimg.com/vi/${session.youtubeId}/hqdefault.jpg`
+                  : undefined)
+              }
+              alt=""
+            />
+          ) : null}
 
           <iframe
             ref={session.youtubeId ? youtubeRef : undefined}

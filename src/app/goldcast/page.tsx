@@ -693,6 +693,7 @@ export default function GoldCastPage() {
       title: episode.title,
       href: "/goldcast",
       youtubeId,
+      artworkUrl: episode.thumbnail,
       description: episode.description,
     });
   };
@@ -861,6 +862,7 @@ export default function GoldCastPage() {
                     title: episode.title,
                     href: "/goldcast",
                     embedUrl: episode.embedUrl,
+                    artworkUrl: episode.cover,
                     description: episode.description,
                   })
                 }
