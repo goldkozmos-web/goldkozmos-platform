@@ -116,7 +116,13 @@ export function resumeOffset(currentTime?: number, durationSeconds?: number) {
     return 0;
   }
 
-  if (duration > 0 && time >= Math.max(duration - 8, duration * 0.97)) {
+  // Only treat as finished when duration looks like a real episode, not a
+  // leftover / preview clock that would restart the recording at 100%.
+  if (
+    duration >= 15 &&
+    time >= Math.max(duration - 8, duration * 0.97) &&
+    time <= duration + 1.5
+  ) {
     return 0;
   }
 

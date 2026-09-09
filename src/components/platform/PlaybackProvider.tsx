@@ -11,12 +11,17 @@ import {
   type ReactNode,
 } from "react";
 import {
-  clampProgress,
   progressKey,
   resumeOffset,
   type PlatformId,
   type PlatformProgress,
 } from "../../data/platformFlow";
+import {
+  mergePlaybackFields,
+  normalizePlaybackClocks,
+  pickTrustedDuration,
+  secondsFromPlayerClock,
+} from "../../lib/mediaTime";
 import {
   getLatestProgress,
   getProgressForPlatform,
@@ -148,7 +153,10 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         session: {
           ...session,
           currentTime,
-          durationSeconds: duration || session.durationSeconds,
+          durationSeconds: pickTrustedDuration(
+            session.durationSeconds ?? 0,
+            duration,
+          ),
         },
         minimized,
         isPlaying,
@@ -220,6 +228,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     setSession(next);
     setCurrentTime(startAt);
+    setDuration(existing?.durationSeconds ?? 0);
     setMinimized(false);
     persist(next);
 
@@ -277,6 +286,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     setSession(next);
     setCurrentTime(startAt);
+    setDuration(existing?.durationSeconds ?? 0);
     setMinimized(false);
     setIsPlaying(true);
     persist(next);
@@ -326,6 +336,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     setSession(next);
     setCurrentTime(startAt);
+    setDuration(existing?.durationSeconds ?? 0);
     setMinimized(false);
     setIsPlaying(true);
     persist(next);
@@ -418,17 +429,9 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     spotifyControllerRef.current = null;
 
     if (session) {
-      const durationSeconds = duration || session.durationSeconds;
       persist({
         ...session,
-        currentTime,
-        durationSeconds,
-        progress:
-          durationSeconds && durationSeconds > 0
-            ? clampProgress(currentTime / durationSeconds)
-            : currentTime > 0
-              ? 0.01
-              : session.progress,
+        ...mergePlaybackFields(session, currentTime, duration),
         status: "paused",
         lastPlayedAt: new Date().toISOString(),
       });
@@ -445,26 +448,15 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const durationSeconds = duration || session.durationSeconds || 0;
     const next: PlatformProgress = {
       ...session,
-      currentTime,
-      durationSeconds,
-      progress:
-        durationSeconds > 0
-          ? clampProgress(currentTime / durationSeconds)
-          : currentTime > 0
-            ? Math.max(session.progress, 0.01)
-            : session.progress,
+      ...mergePlaybackFields(session, currentTime, duration),
       lastPlayedAt: new Date().toISOString(),
       status: isPlaying ? "playing" : "paused",
     };
 
     const timer = window.setTimeout(() => {
       persist(next);
-      setSession((current) =>
-        current && current.contentId === next.contentId ? { ...current, ...next } : current,
-      );
     }, 400);
 
     return () => window.clearTimeout(timer);
@@ -507,12 +499,14 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       const info = data.info;
 
       if (data.event === "infoDelivery" && info && typeof info === "object") {
-        if (typeof info.currentTime === "number") {
-          setCurrentTime(info.currentTime);
+        const time = secondsFromPlayerClock(info.currentTime);
+        if (time != null) {
+          setCurrentTime(time);
         }
 
-        if (typeof info.duration === "number" && info.duration > 0) {
-          setDuration(info.duration);
+        const length = secondsFromPlayerClock(info.duration);
+        if (length != null) {
+          setDuration((current) => pickTrustedDuration(current, length));
         }
 
         if (typeof info.playerState === "number") {
@@ -579,18 +573,18 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
           });
 
           controller.addListener("playback_update", (event) => {
-            const data = event.data;
+            const clocks = normalizePlaybackClocks(event.data ?? {});
 
-            if (typeof data?.position === "number") {
-              setCurrentTime(data.position / 1000);
+            if (clocks.position != null) {
+              setCurrentTime(clocks.position);
             }
 
-            if (typeof data?.duration === "number" && data.duration > 0) {
-              setDuration(data.duration / 1000);
+            if (clocks.duration != null) {
+              setDuration((current) => pickTrustedDuration(current, clocks.duration));
             }
 
-            if (typeof data?.isPaused === "boolean") {
-              setIsPlaying(!data.isPaused);
+            if (typeof event.data?.isPaused === "boolean") {
+              setIsPlaying(!event.data.isPaused);
             }
           });
         },

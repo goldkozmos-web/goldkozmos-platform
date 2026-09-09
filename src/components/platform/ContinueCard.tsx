@@ -6,6 +6,7 @@ import {
   formatProgressPercent,
   type PlatformProgress,
 } from "../../data/platformFlow";
+import { displayProgressFromItem } from "../../lib/mediaTime";
 import { usePlayback } from "./PlaybackProvider";
 
 type ContinueCardProps = {
@@ -79,7 +80,9 @@ export default function ContinueCard({
       item.platform)
     : "";
   const artwork = item ? continueArtwork(item) : null;
-  const percent = item ? formatProgressPercent(item.progress) : "0%";
+  const percent = item
+    ? formatProgressPercent(displayProgressFromItem(item))
+    : "0%";
 
   return (
     <section
