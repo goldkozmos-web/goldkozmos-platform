@@ -3169,10 +3169,10 @@ const goldBlogHubStyles = `
   }
 
   .goldblogPage .goldBlogDiscoverPaper {
-    width: min(720px, 100%);
+    width: min(640px, 100%);
     min-height: 100%;
     margin: 0 auto;
-    padding: 18px 18px 110px;
+    padding: 20px 16px 120px;
     box-sizing: border-box;
     background:
       linear-gradient(180deg, #3a271b 0%, #24170f 48%, #1a120c 100%);
@@ -3225,52 +3225,91 @@ const goldBlogHubStyles = `
   .goldblogPage .goldBlogDiscoverList {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 14px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
 
   .goldblogPage .goldBlogDiscoverItem {
     width: 100%;
-    padding: 16px 16px 14px;
-    border: 1px solid rgba(232, 204, 148, 0.28);
-    border-radius: 16px;
+    max-width: 100%;
+    margin: 0;
+    padding: 18px 16px 14px;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 1px solid rgba(214, 178, 108, 0.38);
+    border-radius: 18px;
     background:
-      linear-gradient(165deg, #fffdf8 0%, #f6eee0 100%);
-    box-shadow: none;
+      linear-gradient(180deg, #fffefb 0%, #f7f0e4 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.92);
     text-align: left;
+    transform: none;
   }
 
   .goldblogPage .goldBlogDiscoverCopy {
+    display: block;
     width: 100%;
+    max-width: 100%;
+    margin: 0;
     padding: 0;
+    box-sizing: border-box;
     border: 0;
     background: transparent;
     text-align: left;
     cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transform: none;
   }
 
   .goldblogPage .goldBlogDiscoverCopy p {
-    margin: 0 0 6px;
-    color: #a8792a;
-    font-size: 8px;
+    margin: 0 0 8px;
+    color: #a1772d;
+    font-size: 10px;
     font-weight: 800;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
   }
 
-  .goldblogPage .goldBlogDiscoverCopy strong {
+  .goldblogPage .goldBlogDiscoverTitleRow {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 12px;
+  }
+
+  .goldblogPage .goldBlogDiscoverCopy strong,
+  .goldblogPage .goldBlogDiscoverTitleRow strong {
     display: block;
-    color: #2a1c12;
+    min-width: 0;
+    margin: 0;
+    color: #1f160f;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 400;
-    line-height: 1.15;
+    line-height: 1.18;
+    letter-spacing: -0.03em;
   }
 
-  .goldblogPage .goldBlogDiscoverCopy span {
+  .goldblogPage .goldBlogDiscoverMore {
+    flex: 0 0 auto;
+    margin: 6px 0 0;
+    color: #a1772d;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .goldblogPage .goldBlogDiscoverCopy > span {
     display: block;
     margin-top: 8px;
-    color: #6a5c50;
-    font-size: 12px;
-    line-height: 1.45;
+    color: #5f564c;
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   @media (max-width: 700px) {
@@ -4397,7 +4436,12 @@ export default function GoldBlogSection() {
                       }}
                     >
                       <p>{article.category}</p>
-                      <strong>{article.title}</strong>
+                      <div className="goldBlogDiscoverTitleRow">
+                        <strong>{article.title}</strong>
+                        <span className="goldBlogDiscoverMore">
+                          Devamını oku
+                        </span>
+                      </div>
                       <span>{article.description}</span>
                     </button>
 
