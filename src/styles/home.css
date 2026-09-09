@@ -45025,22 +45025,20 @@ html:has(.goldbookCompactPage) {
   .goldcastPage
   .goldcastYTHeader
   h2 {
-    max-width: 280px !important;
+    max-width: none !important;
 
     margin: 0 !important;
 
-    color: #241911 !important;
+    color: #e0c07a !important;
 
-    font-family:
-      Georgia,
-      "Times New Roman",
-      serif !important;
+    font-family: inherit !important;
 
-    font-size: 29px !important;
-    line-height: 0.98 !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
 
-    letter-spacing: -0.7px !important;
-    font-weight: 400 !important;
+    letter-spacing: 0.18em !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
   }
 
   .goldcastPage

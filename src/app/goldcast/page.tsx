@@ -101,12 +101,13 @@ const youtubeOnlyStyles = `
 
     .goldcastPage .goldcastYTHeader h2 {
       margin: 0;
-      color: #f7ead0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(30px, 2.5vw, 42px);
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: -1px;
+      color: #e0c07a;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
 
     .goldcastPage .goldcastYTHeader h2 span {
@@ -635,7 +636,13 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastYTHeader h2,
   .goldcastPage .goldcastYTHeader h2 span {
     max-width: none !important;
-    color: #f7ead0 !important;
+    color: #e0c07a !important;
+    font-family: inherit !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
   }
 
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) {
