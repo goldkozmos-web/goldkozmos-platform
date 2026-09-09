@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import {
   deleteGoldBlogComment,
   updateGoldBlogComment,
-} from "../../../../../lib/goldblog/comments";
+} from "@/lib/goldblog/comments";
 
 export const dynamic = "force-dynamic";
 

@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from "../supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 
 export type GoldBlogSessionUser = {
   id: string;

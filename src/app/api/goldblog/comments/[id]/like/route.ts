@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { toggleGoldBlogCommentLike } from "../../../../../../lib/goldblog/comments";
+import { toggleGoldBlogCommentLike } from "@/lib/goldblog/comments";
 
 export const dynamic = "force-dynamic";
 

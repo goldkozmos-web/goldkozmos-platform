@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { countGoldBlogComments } from "../../../../../lib/goldblog/comments";
-import { listGoldBlogPostIds } from "../../../../../lib/goldblog/posts";
+import { countGoldBlogComments } from "@/lib/goldblog/comments";
+import { listGoldBlogPostIds } from "@/lib/goldblog/posts";
 
 export const dynamic = "force-dynamic";
 

@@ -4,7 +4,7 @@ import {
   countGoldBlogComments,
   createGoldBlogComment,
   listGoldBlogComments,
-} from "../../../../lib/goldblog/comments";
+} from "@/lib/goldblog/comments";
 
 export const dynamic = "force-dynamic";
 

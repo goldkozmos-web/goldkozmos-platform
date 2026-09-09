@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { getGoldBlogSessionUser } from "../../../../lib/goldblog/session";
-import { hasSupabaseConfig } from "../../../../lib/supabase/env";
+import { getGoldBlogSessionUser } from "@/lib/goldblog/session";
+import { hasSupabaseConfig } from "@/lib/supabase/env";
 
 export const dynamic = "force-dynamic";
 
