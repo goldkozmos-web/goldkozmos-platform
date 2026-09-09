@@ -545,6 +545,52 @@ const goldcastPremiumStyles = `
     display: none !important;
   }
 
+  .goldcastPage .platformPageContinue {
+    width: min(1180px, calc(100% - 32px));
+    margin: 18px auto 10px;
+    padding: 22px 20px 18px;
+    box-sizing: border-box;
+    border: 1px solid rgba(161, 118, 43, 0.14);
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 18px 50px rgba(66, 42, 17, 0.06);
+  }
+
+  .goldcastPage .platformContinueKicker {
+    color: #9d742d;
+  }
+
+  .goldcastPage .platformContinue h2 {
+    font-size: 30px;
+    color: #241911;
+  }
+
+  .goldcastPage .platformContinueLead {
+    color: #7d6a52;
+  }
+
+  .goldcastPage .platformContinueCard {
+    margin-top: 16px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .goldcastPage .platformContinueCta:hover {
+    background: #241911;
+    border-color: #241911;
+  }
+
+  @media (min-width: 901px) {
+    .goldcastPage .platformPageContinue {
+      width: min(1180px, calc(100% - 80px));
+      margin: 28px auto 0;
+      padding: 26px 24px 22px;
+    }
+  }
+
   .goldcastPage .goldcastFloatingWhatsapp,
   .goldcastPage .goldcastFloatingWhatsappLabel,
   .goldcastPage .goldcastYTControls,
