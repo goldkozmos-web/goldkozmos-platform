@@ -673,8 +673,7 @@ const goldcastPremiumStyles = `
     text-transform: uppercase !important;
   }
 
-  .goldcastPage .goldcastYTCard,
-  .goldcastPage .goldcastSpotifyEpisodeCard {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) {
     overflow: visible !important;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 28%),
@@ -687,7 +686,7 @@ const goldcastPremiumStyles = `
       0 22px 40px rgba(24, 14, 8, 0.22) !important;
   }
 
-  .goldcastPage .goldcastYTCard:hover {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
     transform: translateY(-6px) !important;
     box-shadow:
       0 1px 0 rgba(255, 252, 246, 0.95) inset,
@@ -695,12 +694,12 @@ const goldcastPremiumStyles = `
       0 28px 48px rgba(24, 14, 8, 0.26) !important;
   }
 
-  .goldcastPage .goldcastYTCard .goldcastYTTop {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTop {
     color: #b08a3e !important;
     letter-spacing: 0.16em !important;
   }
 
-  .goldcastPage .goldcastYTCard .goldcastYTImage {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTImage {
     border: 1px solid rgba(176, 138, 62, 0.22) !important;
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.35) inset,
@@ -708,30 +707,78 @@ const goldcastPremiumStyles = `
     background: #1c140f !important;
   }
 
-  .goldcastPage .goldcastYTCard .goldcastYTImage img {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTImage img {
     filter: saturate(0.92) contrast(1.04);
   }
 
-  .goldcastPage .goldcastYTCard .goldcastYTTitle,
-  .goldcastPage .goldcastYTCard h3 {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
     color: #2a1c12 !important;
     letter-spacing: -0.03em !important;
     line-height: 1.12 !important;
   }
 
-  .goldcastPage .goldcastYTCard .goldcastYTSubtitle {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTSubtitle {
     color: #a8792a !important;
     letter-spacing: 0.01em !important;
   }
 
-  .goldcastPage .goldcastYTCard .goldcastYTDescription {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTDescription {
     color: #6a5c50 !important;
     line-height: 1.5 !important;
   }
 
-  .goldcastPage .goldcastYTCard .goldcastYTCategory {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTCategory {
     color: #a8792a !important;
     letter-spacing: 0.16em !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard {
+    overflow: visible !important;
+    background:
+      linear-gradient(180deg, rgba(255, 232, 186, 0.10) 0%, transparent 28%),
+      linear-gradient(155deg, #3c291b 0%, #24170f 48%, #120c09 100%) !important;
+    border: 1px solid rgba(214, 172, 88, 0.42) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 232, 186, 0.12) inset,
+      0 14px 28px rgba(48, 31, 13, 0.22),
+      0 28px 48px rgba(24, 14, 8, 0.18) !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard:hover {
+    transform: translateY(-6px) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 232, 186, 0.16) inset,
+      0 18px 32px rgba(48, 31, 13, 0.28),
+      0 32px 52px rgba(24, 14, 8, 0.22) !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTop {
+    color: #e0c07a !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTImage {
+    border: 1px solid rgba(214, 172, 88, 0.28) !important;
+    box-shadow: 0 10px 18px rgba(8, 4, 2, 0.28) !important;
+    background: #120c09 !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle,
+  .goldcastPage .goldcastSpotifyEpisodeCard h3 {
+    color: #fffaf1 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.12 !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTSubtitle,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTCategory {
+    color: #e0c07a !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
+    color: rgba(247, 234, 208, 0.72) !important;
+    line-height: 1.5 !important;
   }
 
   .goldcastPage .goldcastFloatingWhatsapp,
@@ -789,8 +836,12 @@ const goldcastPremiumStyles = `
     padding-bottom: 28px !important;
   }
 
+  .goldcastPage .goldcastYTSection,
   .goldcastPage .goldcastSpotifyArchive {
     overflow: visible !important;
+  }
+
+  .goldcastPage .goldcastSpotifyArchive {
     background:
       linear-gradient(180deg, #fbf8f2 0%, #f4eadc 100%) !important;
   }
