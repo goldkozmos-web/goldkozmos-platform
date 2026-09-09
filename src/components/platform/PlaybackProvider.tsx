@@ -23,9 +23,11 @@ import {
   writePlatformProgressMap,
   type PlatformProgressMap,
 } from "../../lib/platformProgress";
+import { sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
 
 type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
+  youtubeId?: string;
 };
 
 type StartAudioInput = {
@@ -38,6 +40,15 @@ type StartAudioInput = {
   currentTime?: number;
 };
 
+type StartYoutubeInput = {
+  platform: PlatformId;
+  contentId: string;
+  title: string;
+  href: string;
+  youtubeId: string;
+  description?: string;
+};
+
 type PlaybackContextValue = {
   items: PlatformProgressMap;
   session: PlaybackSession | null;
@@ -46,6 +57,7 @@ type PlaybackContextValue = {
   currentTime: number;
   duration: number;
   startAudio: (input: StartAudioInput) => void;
+  startYoutube: (input: StartYoutubeInput) => void;
   toggle: () => void;
   seek: (seconds: number) => void;
   minimize: () => void;
@@ -59,6 +71,7 @@ const PlaybackContext = createContext<PlaybackContextValue | null>(null);
 
 export function PlaybackProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const youtubeRef = useRef<HTMLIFrameElement>(null);
   const [items, setItems] = useState<PlatformProgressMap>({});
   const [session, setSession] = useState<PlaybackSession | null>(null);
   const [minimized, setMinimized] = useState(false);
@@ -121,6 +134,41 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         );
       }
 
+      sendYoutubeCommand(youtubeRef.current, "pauseVideo");
+
+      const map = upsertProgressEntry(current, next);
+      writePlatformProgressMap(map);
+      return map;
+    });
+  }, []);
+
+  const startYoutube = useCallback((input: StartYoutubeInput) => {
+    const now = new Date().toISOString();
+    const audio = audioRef.current;
+    audio?.pause();
+
+    setItems((current) => {
+      const existing = current[`${input.platform}:${input.contentId}`] ?? null;
+      const next: PlaybackSession = {
+        platform: input.platform,
+        contentId: input.contentId,
+        contentType: "video",
+        title: input.title,
+        href: input.href,
+        progress: existing?.progress ?? 0,
+        currentTime: existing?.currentTime ?? 0,
+        durationSeconds: existing?.durationSeconds,
+        lastOpenedAt: now,
+        lastPlayedAt: now,
+        status: "playing",
+        youtubeId: input.youtubeId,
+        description: input.description ?? existing?.description,
+      };
+
+      setSession(next);
+      setMinimized(false);
+      setIsPlaying(true);
+
       const map = upsertProgressEntry(current, next);
       writePlatformProgressMap(map);
       return map;
@@ -130,7 +178,20 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const toggle = useCallback(() => {
     const audio = audioRef.current;
 
-    if (!audio || !session) {
+    if (!session) {
+      return;
+    }
+
+    if (session.youtubeId) {
+      sendYoutubeCommand(
+        youtubeRef.current,
+        isPlaying ? "pauseVideo" : "playVideo",
+      );
+      setIsPlaying((current) => !current);
+      return;
+    }
+
+    if (!audio) {
       return;
     }
 
@@ -144,7 +205,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     audio.pause();
     setIsPlaying(false);
-  }, [session]);
+  }, [session, isPlaying]);
 
   const seek = useCallback((seconds: number) => {
     const audio = audioRef.current;
@@ -168,13 +229,14 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const stop = useCallback(() => {
     const audio = audioRef.current;
     audio?.pause();
+    sendYoutubeCommand(youtubeRef.current, "stopVideo");
     setIsPlaying(false);
     setSession(null);
     setMinimized(false);
   }, []);
 
   useEffect(() => {
-    if (!session || !ready) {
+    if (!session || !ready || session.youtubeId) {
       return;
     }
 
@@ -212,6 +274,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       currentTime,
       duration,
       startAudio,
+      startYoutube,
       toggle,
       seek,
       minimize,
@@ -228,6 +291,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       currentTime,
       duration,
       startAudio,
+      startYoutube,
       toggle,
       seek,
       minimize,
@@ -252,6 +316,53 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         onPause={() => setIsPlaying(false)}
         onEnded={() => setIsPlaying(false)}
       />
+      {session?.youtubeId ? (
+        <div
+          className={`platformYoutubeShell${minimized ? " isMini" : " isStage"}`}
+        >
+          {minimized ? null : (
+            <div className="platformYoutubeChrome">
+              <div>
+                <p>YouTube · GoldCast</p>
+                <strong>{session.title}</strong>
+              </div>
+              <div>
+                <button type="button" onClick={toggle}>
+                  {isPlaying ? "Duraklat" : "Oynat"}
+                </button>
+                <button type="button" onClick={minimize}>
+                  Küçült
+                </button>
+                <button type="button" onClick={stop}>
+                  Kapat
+                </button>
+              </div>
+            </div>
+          )}
+
+          <iframe
+            ref={youtubeRef}
+            src={youtubeEmbedSrc(session.youtubeId, true)}
+            title={session.title}
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowFullScreen
+          />
+
+          {minimized ? (
+            <div className="platformYoutubeMiniBar">
+              <button type="button" onClick={expand}>
+                {session.title}
+              </button>
+              <button type="button" onClick={toggle}>
+                {isPlaying ? "❚❚" : "▶"}
+              </button>
+              <button type="button" onClick={stop} aria-label="Kapat">
+                ×
+              </button>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
       {children}
     </PlaybackContext.Provider>
   );

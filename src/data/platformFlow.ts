@@ -29,6 +29,7 @@ export type PlatformProgress = {
   lastPlayedAt?: string | null;
   status: PlatformProgressStatus;
   audioUrl?: string;
+  youtubeId?: string;
   description?: string;
 };
 
@@ -57,7 +58,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     name: "GoldCast",
     tagline: "Sohbet ve yayınlar",
     href: "/goldcast",
-    contentType: "audio",
+    contentType: "video",
     tone: "taupe",
     mark: "◎",
   },
