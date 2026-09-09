@@ -35,7 +35,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  let body: { postId?: unknown; content?: unknown } = {};
+  let body: { postId?: unknown; content?: unknown; parentCommentId?: unknown } =
+    {};
 
   try {
     body = await request.json();
@@ -47,7 +48,13 @@ export async function POST(request: Request) {
   }
 
   const postId = typeof body.postId === "string" ? body.postId.trim() : "";
-  const result = await createGoldBlogComment(postId, body.content);
+  const parentCommentId =
+    typeof body.parentCommentId === "string" ? body.parentCommentId : null;
+  const result = await createGoldBlogComment(
+    postId,
+    body.content,
+    parentCommentId,
+  );
 
   if ("error" in result && result.error) {
     return NextResponse.json(

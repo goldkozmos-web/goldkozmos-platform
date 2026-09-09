@@ -4,6 +4,9 @@ import test from "node:test";
 import {
   canDeleteComment,
   canEditComment,
+  canReplyToParent,
+  formatRelativeTime,
+  nextLikeState,
   sanitizeCommentContent,
   validateCommentContent,
 } from "../src/lib/goldblog/commentValidation.ts";
@@ -52,4 +55,20 @@ test("delete own or admin", () => {
   assert.equal(canDeleteComment("u1", "u2", false), false);
   assert.equal(canDeleteComment("u1", "u1", false), true);
   assert.equal(canDeleteComment("admin", "u2", true), true);
+});
+
+test("replies stay one level", () => {
+  assert.equal(canReplyToParent(null), true);
+  assert.equal(canReplyToParent("parent-id"), false);
+});
+
+test("like toggle is reversible", () => {
+  assert.deepEqual(nextLikeState(false, 0), { likedByMe: true, likeCount: 1 });
+  assert.deepEqual(nextLikeState(true, 12), { likedByMe: false, likeCount: 11 });
+});
+
+test("relative time stays compact", () => {
+  const now = Date.parse("2026-09-09T12:00:00.000Z");
+  assert.equal(formatRelativeTime("2026-09-09T11:59:30.000Z", now), "şimdi");
+  assert.equal(formatRelativeTime("2026-09-09T11:40:00.000Z", now), "20dk");
 });

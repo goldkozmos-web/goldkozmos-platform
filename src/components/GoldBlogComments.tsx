@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import type { FormEvent } from "react";
+import { useEffect, useState } from "react";
+import type { FormEvent, KeyboardEvent } from "react";
 
 import {
   COMMENT_MAX_LENGTH,
+  formatLikeCount,
+  formatRelativeTime,
+  formatReplyToggle,
   formatYorumCount,
 } from "../lib/goldblog/commentValidation";
 import "../styles/goldblog-comments.css";
@@ -21,13 +24,17 @@ type CommentItem = {
   id: string;
   postId: string;
   userId: string;
+  parentCommentId: string | null;
   content: string;
   createdAt: string;
   updatedAt: string;
   displayName: string;
   avatarUrl: string | null;
+  likeCount: number;
+  likedByMe: boolean;
   canEdit: boolean;
   canDelete: boolean;
+  replies: CommentItem[];
 };
 
 type GoldBlogCommentsProps = {
@@ -40,24 +47,33 @@ function initials(name: string) {
   return parts.map((part) => part.charAt(0).toUpperCase()).join("") || "G";
 }
 
-function formatCommentDate(value: string) {
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return "";
-  }
-
-  return new Intl.DateTimeFormat("tr-TR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(date);
-}
-
 function loginHref(postId: string) {
   return `/giris?next=${encodeURIComponent(`/goldblog?yazi=${postId}`)}`;
+}
+
+function totalCount(comments: CommentItem[]) {
+  return comments.reduce(
+    (sum, comment) => sum + 1 + comment.replies.length,
+    0,
+  );
+}
+
+function Avatar({
+  url,
+  name,
+}: {
+  url: string | null;
+  name: string;
+}) {
+  if (url) {
+    return <img className="goldBlogCommentAvatar" src={url} alt="" />;
+  }
+
+  return (
+    <span className="goldBlogCommentAvatar" aria-hidden="true">
+      {initials(name)}
+    </span>
+  );
 }
 
 export default function GoldBlogComments({
@@ -69,9 +85,11 @@ export default function GoldBlogComments({
   const [draft, setDraft] = useState("");
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyDraft, setReplyDraft] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editDraft, setEditDraft] = useState("");
-  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [openReplies, setOpenReplies] = useState<Record<string, boolean>>({});
   const [error, setError] = useState("");
   const [unavailable, setUnavailable] = useState(false);
 
@@ -105,10 +123,11 @@ export default function GoldBlogComments({
           return;
         }
 
+        const next = (data.comments ?? []) as CommentItem[];
         setUnavailable(false);
-        setComments(data.comments ?? []);
+        setComments(next);
         setViewer(data.viewer ?? null);
-        onCountChange?.(postId, (data.comments ?? []).length);
+        onCountChange?.(postId, totalCount(next));
       } catch {
         if (!cancelled) {
           setError("Yorumlar yüklenemedi.");
@@ -127,10 +146,30 @@ export default function GoldBlogComments({
     };
   }, [onCountChange, postId]);
 
-  const remaining = COMMENT_MAX_LENGTH - draft.length;
+  function patchComment(
+    commentId: string,
+    updater: (comment: CommentItem) => CommentItem,
+  ) {
+    setComments((current) =>
+      current.map((comment) => {
+        if (comment.id === commentId) {
+          return updater(comment);
+        }
 
-  async function submitComment(event: FormEvent) {
-    event.preventDefault();
+        return {
+          ...comment,
+          replies: comment.replies.map((reply) =>
+            reply.id === commentId ? updater(reply) : reply,
+          ),
+        };
+      }),
+    );
+  }
+
+  async function submitComment(
+    content: string,
+    parentCommentId?: string,
+  ) {
     setSending(true);
     setError("");
 
@@ -138,22 +177,61 @@ export default function GoldBlogComments({
       const response = await fetch("/api/goldblog/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postId, content: draft }),
+        body: JSON.stringify({
+          postId,
+          content,
+          parentCommentId,
+        }),
       });
       const data = await response.json();
 
       if (!response.ok) {
         setError(data.error || "Yorum gönderilemedi.");
-        return;
+        return false;
       }
 
-      setComments((current) => [data.comment, ...current]);
-      setDraft("");
-      onCountChange?.(postId, data.count ?? comments.length + 1);
+      const created = data.comment as CommentItem;
+      created.replies = created.replies ?? [];
+
+      if (parentCommentId) {
+        setComments((current) =>
+          current.map((comment) =>
+            comment.id === parentCommentId
+              ? { ...comment, replies: [...comment.replies, created] }
+              : comment,
+          ),
+        );
+        setOpenReplies((current) => ({ ...current, [parentCommentId]: true }));
+        onCountChange?.(postId, totalCount(comments) + 1);
+      } else {
+        const next = [created, ...comments];
+        setComments(next);
+        onCountChange?.(postId, totalCount(next));
+      }
+
+      return true;
     } catch {
       setError("Yorum gönderilemedi.");
+      return false;
     } finally {
       setSending(false);
+    }
+  }
+
+  async function handleRootSubmit(event?: FormEvent) {
+    event?.preventDefault();
+    const ok = await submitComment(draft);
+    if (ok) {
+      setDraft("");
+    }
+  }
+
+  async function handleReplySubmit(event: FormEvent | KeyboardEvent, parentId: string) {
+    event.preventDefault();
+    const ok = await submitComment(replyDraft, parentId);
+    if (ok) {
+      setReplyDraft("");
+      setReplyingTo(null);
     }
   }
 
@@ -174,9 +252,11 @@ export default function GoldBlogComments({
         return;
       }
 
-      setComments((current) =>
-        current.map((item) => (item.id === id ? data.comment : item)),
-      );
+      patchComment(id, (comment) => ({
+        ...comment,
+        ...data.comment,
+        replies: comment.replies,
+      }));
       setEditingId(null);
       setEditDraft("");
     } catch {
@@ -201,10 +281,14 @@ export default function GoldBlogComments({
         return;
       }
 
-      const next = comments.filter((item) => item.id !== id);
+      const next = comments
+        .filter((comment) => comment.id !== id)
+        .map((comment) => ({
+          ...comment,
+          replies: comment.replies.filter((reply) => reply.id !== id),
+        }));
       setComments(next);
-      setConfirmDeleteId(null);
-      onCountChange?.(postId, next.length);
+      onCountChange?.(postId, totalCount(next));
     } catch {
       setError("Yorum silinemedi.");
     } finally {
@@ -212,17 +296,220 @@ export default function GoldBlogComments({
     }
   }
 
-  const heading = useMemo(
-    () => (loading ? "Yorumlar" : formatYorumCount(comments.length)),
-    [comments.length, loading],
-  );
+  async function toggleLike(id: string) {
+    if (!viewer) {
+      setError("Beğenmek için hesabına giriş yap.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/goldblog/comments/${id}/like`, {
+        method: "POST",
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || "Beğeni kaydedilemedi.");
+        return;
+      }
+
+      patchComment(id, (comment) => ({
+        ...comment,
+        likedByMe: data.likedByMe,
+        likeCount: data.likeCount,
+      }));
+    } catch {
+      setError("Beğeni kaydedilemedi.");
+    }
+  }
+
+  function onComposerKeyDown(
+    event: KeyboardEvent<HTMLTextAreaElement>,
+    onSubmit: () => void,
+  ) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      onSubmit();
+    }
+  }
+
+  function renderEntry(comment: CommentItem, isReply = false) {
+    const editing = editingId === comment.id;
+
+    return (
+      <article
+        className={`goldBlogCommentRow ${isReply ? "isReply" : ""}`}
+        key={comment.id}
+      >
+        <Avatar url={comment.avatarUrl} name={comment.displayName} />
+
+        <div className="goldBlogCommentBody">
+          {editing ? (
+            <form
+              className="goldBlogCommentInlineForm"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void saveEdit(comment.id);
+              }}
+            >
+              <textarea
+                value={editDraft}
+                maxLength={COMMENT_MAX_LENGTH}
+                rows={2}
+                onChange={(event) => setEditDraft(event.target.value)}
+              />
+              <div className="goldBlogCommentMeta">
+                <button type="submit" disabled={sending || !editDraft.trim()}>
+                  Kaydet
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingId(null);
+                    setEditDraft("");
+                  }}
+                >
+                  Vazgeç
+                </button>
+              </div>
+            </form>
+          ) : (
+            <p>
+              <strong>{comment.displayName}</strong> {comment.content}
+            </p>
+          )}
+
+          {!editing ? (
+            <div className="goldBlogCommentMeta">
+              <time dateTime={comment.createdAt}>
+                {formatRelativeTime(comment.createdAt)}
+                {comment.updatedAt !== comment.createdAt ? " · düzenlendi" : ""}
+              </time>
+
+              <button
+                type="button"
+                className={comment.likedByMe ? "isOn" : undefined}
+                onClick={() => void toggleLike(comment.id)}
+              >
+                Beğen
+              </button>
+
+              {!isReply ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!viewer) {
+                      setError("Yorum yapmak için giriş yap.");
+                      return;
+                    }
+
+                    setReplyingTo(
+                      replyingTo === comment.id ? null : comment.id,
+                    );
+                    setReplyDraft("");
+                  }}
+                >
+                  Yanıtla
+                </button>
+              ) : null}
+
+              {comment.canEdit ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingId(comment.id);
+                    setEditDraft(comment.content);
+                  }}
+                >
+                  Düzenle
+                </button>
+              ) : null}
+
+              {comment.canDelete ? (
+                <button
+                  type="button"
+                  onClick={() => void removeComment(comment.id)}
+                >
+                  Sil
+                </button>
+              ) : null}
+            </div>
+          ) : null}
+
+          {comment.likeCount > 0 ? (
+            <p className="goldBlogCommentLikes">
+              {formatLikeCount(comment.likeCount)}
+            </p>
+          ) : null}
+
+          {!isReply && comment.replies.length > 0 && !openReplies[comment.id] ? (
+            <button
+              type="button"
+              className="goldBlogCommentThreadToggle"
+              onClick={() =>
+                setOpenReplies((current) => ({
+                  ...current,
+                  [comment.id]: true,
+                }))
+              }
+            >
+              {formatReplyToggle(comment.replies.length)}
+            </button>
+          ) : null}
+
+          {!isReply && openReplies[comment.id] ? (
+            <div className="goldBlogCommentReplies">
+              {comment.replies.map((reply) => renderEntry(reply, true))}
+              <button
+                type="button"
+                className="goldBlogCommentThreadToggle"
+                onClick={() =>
+                  setOpenReplies((current) => ({
+                    ...current,
+                    [comment.id]: false,
+                  }))
+                }
+              >
+                Yanıtları gizle
+              </button>
+            </div>
+          ) : null}
+
+          {!isReply && replyingTo === comment.id && viewer ? (
+            <form
+              className="goldBlogCommentComposer isInline"
+              onSubmit={(event) => void handleReplySubmit(event, comment.id)}
+            >
+              <Avatar url={viewer.avatarUrl} name={viewer.displayName} />
+              <textarea
+                value={replyDraft}
+                maxLength={COMMENT_MAX_LENGTH}
+                rows={1}
+                placeholder={`@${comment.displayName} yanıtla…`}
+                onChange={(event) => setReplyDraft(event.target.value)}
+                onKeyDown={(event) =>
+                  onComposerKeyDown(event, () => {
+                    void handleReplySubmit(event, comment.id);
+                  })
+                }
+              />
+              <button type="submit" disabled={sending || !replyDraft.trim()}>
+                Paylaş
+              </button>
+            </form>
+          ) : null}
+        </div>
+      </article>
+    );
+  }
 
   return (
     <section className="goldBlogComments" aria-label="Yorumlar">
-      <header className="goldBlogCommentsHead">
-        <p>YORUMLAR</p>
-        <h3>{heading}</h3>
-      </header>
+      {!loading && comments.length > 0 ? (
+        <p className="goldBlogCommentsCount">
+          {formatYorumCount(totalCount(comments))}
+        </p>
+      ) : null}
 
       {unavailable ? (
         <p className="goldBlogCommentsHint">
@@ -231,139 +518,37 @@ export default function GoldBlogComments({
       ) : null}
 
       {!unavailable && viewer ? (
-        <form className="goldBlogCommentComposer" onSubmit={submitComment}>
-          <div className="goldBlogCommentIdentity">
-            {viewer.avatarUrl ? (
-              <img src={viewer.avatarUrl} alt="" />
-            ) : (
-              <span aria-hidden="true">{initials(viewer.displayName)}</span>
-            )}
-            <strong>{viewer.displayName}</strong>
-          </div>
-
+        <form className="goldBlogCommentComposer" onSubmit={handleRootSubmit}>
+          <Avatar url={viewer.avatarUrl} name={viewer.displayName} />
           <textarea
             value={draft}
             maxLength={COMMENT_MAX_LENGTH}
-            rows={4}
-            placeholder="Bu yazı sende ne bıraktı?"
+            rows={1}
+            placeholder="Yorum ekle…"
             onChange={(event) => setDraft(event.target.value)}
+            onKeyDown={(event) =>
+              onComposerKeyDown(event, () => {
+                void handleRootSubmit(event);
+              })
+            }
           />
-
-          <div className="goldBlogCommentComposerBar">
-            <small>{remaining}</small>
-            <button type="submit" disabled={sending || !draft.trim()}>
-              {sending && !editingId ? "Gönderiliyor…" : "Yorum Yap"}
-            </button>
-          </div>
+          <button type="submit" disabled={sending || !draft.trim()}>
+            {sending && !replyingTo && !editingId ? "…" : "Paylaş"}
+          </button>
         </form>
       ) : null}
 
       {!unavailable && !viewer ? (
-        <div className="goldBlogCommentGate">
-          <p>Yorum yapmak için hesabına giriş yap.</p>
-          <Link href={loginHref(postId)}>Giriş Yap</Link>
-        </div>
+        <p className="goldBlogCommentGate">
+          Yorum yapmak için giriş yap.{" "}
+          <Link href={loginHref(postId)}>Giriş yap</Link>
+        </p>
       ) : null}
 
       {error ? <p className="goldBlogCommentsError">{error}</p> : null}
 
       <div className="goldBlogCommentList">
-        {comments.map((comment) => (
-          <article className="goldBlogCommentCard" key={comment.id}>
-            <div className="goldBlogCommentCardTop">
-              {comment.avatarUrl ? (
-                <img src={comment.avatarUrl} alt="" />
-              ) : (
-                <span aria-hidden="true">
-                  {initials(comment.displayName)}
-                </span>
-              )}
-
-              <div>
-                <strong>{comment.displayName}</strong>
-                <time dateTime={comment.createdAt}>
-                  {formatCommentDate(comment.createdAt)}
-                  {comment.updatedAt !== comment.createdAt ? " · düzenlendi" : ""}
-                </time>
-              </div>
-            </div>
-
-            {editingId === comment.id ? (
-              <>
-                <textarea
-                  value={editDraft}
-                  maxLength={COMMENT_MAX_LENGTH}
-                  rows={4}
-                  onChange={(event) => setEditDraft(event.target.value)}
-                />
-                <div className="goldBlogCommentActions">
-                  <button
-                    type="button"
-                    disabled={sending}
-                    onClick={() => void saveEdit(comment.id)}
-                  >
-                    Kaydet
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEditingId(null);
-                      setEditDraft("");
-                    }}
-                  >
-                    Vazgeç
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p>{comment.content}</p>
-            )}
-
-            {editingId !== comment.id && (comment.canEdit || comment.canDelete) ? (
-              <div className="goldBlogCommentActions">
-                {comment.canEdit ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEditingId(comment.id);
-                      setEditDraft(comment.content);
-                      setConfirmDeleteId(null);
-                    }}
-                  >
-                    Düzenle
-                  </button>
-                ) : null}
-
-                {comment.canDelete ? (
-                  confirmDeleteId === comment.id ? (
-                    <>
-                      <button
-                        type="button"
-                        disabled={sending}
-                        onClick={() => void removeComment(comment.id)}
-                      >
-                        Silinsin
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setConfirmDeleteId(null)}
-                      >
-                        Vazgeç
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setConfirmDeleteId(comment.id)}
-                    >
-                      Sil
-                    </button>
-                  )
-                ) : null}
-              </div>
-            ) : null}
-          </article>
-        ))}
+        {comments.map((comment) => renderEntry(comment))}
       </div>
     </section>
   );

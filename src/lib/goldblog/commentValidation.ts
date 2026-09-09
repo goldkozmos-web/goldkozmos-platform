@@ -63,3 +63,65 @@ export function canDeleteComment(
 export function formatYorumCount(count: number) {
   return `${count} yorum`;
 }
+
+export function formatLikeCount(count: number) {
+  return `${count} beğenme`;
+}
+
+export function formatReplyToggle(count: number) {
+  return `${count} yanıtı gör`;
+}
+
+export function formatRelativeTime(value: string, now = Date.now()) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  const diffMs = Math.max(0, now - date.getTime());
+  const minutes = Math.floor(diffMs / 60_000);
+
+  if (minutes < 1) {
+    return "şimdi";
+  }
+
+  if (minutes < 60) {
+    return `${minutes}dk`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+
+  if (hours < 24) {
+    return `${hours}s`;
+  }
+
+  const days = Math.floor(hours / 24);
+
+  if (days < 7) {
+    return `${days}g`;
+  }
+
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "numeric",
+    month: "short",
+  }).format(date);
+}
+
+export function nextLikeState(likedByMe: boolean, likeCount: number) {
+  if (likedByMe) {
+    return {
+      likedByMe: false,
+      likeCount: Math.max(0, likeCount - 1),
+    };
+  }
+
+  return {
+    likedByMe: true,
+    likeCount: likeCount + 1,
+  };
+}
+
+export function canReplyToParent(parentCommentId: string | null) {
+  return parentCommentId === null;
+}
