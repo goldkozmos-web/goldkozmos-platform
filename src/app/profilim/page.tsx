@@ -1,3 +1,5 @@
+import ProfilimClient from "./ProfilimClient";
+
 export const metadata = {
   title: "Profilim",
 };
@@ -22,6 +24,9 @@ export default function ProfilimPage() {
       >
         Profilim
       </h1>
+      <div style={{ marginTop: 24, display: "grid", gap: 12, maxWidth: 420 }}>
+        <ProfilimClient />
+      </div>
     </main>
   );
 }

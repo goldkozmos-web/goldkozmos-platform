@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -10,6 +11,9 @@ import type {
   RefObject,
   UIEvent,
 } from "react";
+import GoldBlogComments, {
+  formatYorumCount,
+} from "./GoldBlogComments";
 
 type GoldBlogCategoryKey =
   | "spirituel-stoa"
@@ -772,7 +776,7 @@ const goldBlogHubStyles = `
 
   .goldBlogReaderScroll {
     height: 100%;
-    padding: 112px 0 54px;
+    padding: 112px 0 88px;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -837,12 +841,13 @@ const goldBlogHubStyles = `
   }
 
   .goldBlogReaderEnd {
+    clear: both;
     margin-top: 42px;
-    padding: 28px 0 0;
+    padding: 28px 0 36px;
     border-top: 1px solid rgba(164, 119, 39, 0.16);
   }
 
-  .goldBlogReaderEnd p {
+  .goldBlogReaderEnd > p {
     margin: 0;
     color: #9d742d;
     font-size: 9px;
@@ -850,7 +855,7 @@ const goldBlogHubStyles = `
     letter-spacing: 0.14em;
   }
 
-  .goldBlogReaderEnd h3 {
+  .goldBlogReaderEnd > h3 {
     margin: 9px 0 0;
     color: #281d15;
     font-family: Georgia, "Times New Roman", serif;
@@ -1029,7 +1034,7 @@ const goldBlogHubStyles = `
     }
 
     .goldBlogReaderScroll {
-      padding: 98px 0 42px;
+      padding: 98px 0 120px;
     }
 
     .goldBlogReaderArticle {
@@ -1764,7 +1769,7 @@ const goldBlogHubStyles = `
     }
 
     .goldBlogReaderScroll {
-      padding: 126px 0 66px !important;
+      padding: 126px 0 120px !important;
     }
 
     .goldBlogReaderArticle {
@@ -3269,6 +3274,9 @@ export default function GoldBlogSection() {
   const [readingProgress, setReadingProgress] =
     useState(0);
 
+  const [commentCounts, setCommentCounts] =
+    useState<Record<string, number>>({});
+
   const categoryRailRef =
     useRef<HTMLDivElement>(null);
 
@@ -3310,6 +3318,35 @@ export default function GoldBlogSection() {
       ),
     [],
   );
+
+  const handleCommentCount = useCallback(
+    (postId: string, count: number) => {
+      setCommentCounts((current) => ({
+        ...current,
+        [postId]: count,
+      }));
+    },
+    [],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch("/api/goldblog/comments/counts", {
+      cache: "no-store",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!cancelled && data?.counts) {
+          setCommentCounts(data.counts);
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const rail = categoryRailRef.current;
@@ -4195,6 +4232,10 @@ export default function GoldBlogSection() {
 
                       <span>
                         {article.readingTime} Okuma
+                        {" · "}
+                        {formatYorumCount(
+                          commentCounts[article.slug] ?? 0,
+                        )}
                       </span>
                     </div>
 
@@ -4278,6 +4319,12 @@ export default function GoldBlogSection() {
                     <div className="goldBlogArticleRowAction">
                       <small>
                         {article.readingTime} Okuma
+                      </small>
+
+                      <small className="goldBlogCommentCount">
+                        {formatYorumCount(
+                          commentCounts[article.slug] ?? 0,
+                        )}
                       </small>
 
                       <button
@@ -4614,6 +4661,12 @@ export default function GoldBlogSection() {
                   </span>
 
                   <span>
+                    {formatYorumCount(
+                      commentCounts[readerArticle.slug] ?? 0,
+                    )}
+                  </span>
+
+                  <span>
                     GOLDKOZMOS® GOLDBLOG
                   </span>
                 </div>
@@ -4638,6 +4691,11 @@ export default function GoldBlogSection() {
                   <h3>
                     Okuduğun şey sende ne bıraktı?
                   </h3>
+
+                  <GoldBlogComments
+                    postId={readerArticle.slug}
+                    onCountChange={handleCommentCount}
+                  />
                 </div>
               </article>
             </div>
