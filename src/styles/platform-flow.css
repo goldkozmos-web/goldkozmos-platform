@@ -409,7 +409,7 @@
   top: auto;
   left: 12px;
   right: 12px;
-  bottom: calc(98px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
   width: auto;
   height: 76px;
   grid-template-columns: 76px minmax(0, 1fr);
