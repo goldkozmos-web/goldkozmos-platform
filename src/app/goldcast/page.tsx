@@ -866,8 +866,20 @@ const goldcastPremiumStyles = `
     display: flex !important;
     align-items: baseline !important;
     flex-wrap: wrap !important;
-    gap: 8px 14px !important;
+    gap: 6px 8px !important;
     max-width: none !important;
+  }
+
+  .goldcastPage .goldcastChannelDash {
+    color: #e0c07a !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelDash {
+    color: #a8792a !important;
   }
 
   .goldcastPage .goldcastChannelLink {
@@ -876,7 +888,9 @@ const goldcastPremiumStyles = `
     font-weight: 700 !important;
     letter-spacing: 0.14em !important;
     line-height: 1.2 !important;
-    text-decoration: none !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+    text-decoration-thickness: 1px !important;
     text-transform: uppercase !important;
     white-space: nowrap !important;
   }
@@ -886,8 +900,7 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .goldcastChannelLink:hover {
-    text-decoration: underline !important;
-    text-underline-offset: 3px !important;
+    opacity: 0.82 !important;
   }
 
   .goldcastPage .goldcastYTCard.isActive,
@@ -1017,6 +1030,9 @@ export default function GoldCastPage() {
           <header className="goldcastYTHeader">
             <div className="goldcastChannelHead">
               <h2>YOUTUBE · GOLDCAST</h2>
+              <span className="goldcastChannelDash" aria-hidden="true">
+                -
+              </span>
               <a
                 className="goldcastChannelLink"
                 href={youtubeChannelUrl}
@@ -1086,6 +1102,9 @@ export default function GoldCastPage() {
           <header className="goldcastSpotifyArchiveHeader">
             <div className="goldcastChannelHead">
               <h2>SPOTIFY · GOLDCAST</h2>
+              <span className="goldcastChannelDash" aria-hidden="true">
+                -
+              </span>
               <a
                 className="goldcastChannelLink"
                 href={spotifyShowUrl}
