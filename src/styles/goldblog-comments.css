@@ -1,0 +1,253 @@
+.goldBlogComments {
+  clear: both;
+  display: block;
+  margin-top: 22px;
+  padding: 4px 0 24px;
+  min-height: 88px;
+}
+
+.goldBlogCommentsCount {
+  margin: 0 0 14px;
+  color: #211811;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.goldBlogCommentsError,
+.goldBlogCommentsEmpty,
+.goldBlogCommentGate {
+  margin: 0 0 14px;
+  color: #6f675f;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.5;
+}
+
+.goldBlogCommentsError {
+  color: #8a2f1f;
+}
+
+.goldBlogCommentGate a {
+  color: #a8792a;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.goldBlogCommentComposer {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.goldBlogCommentComposer.isInline {
+  margin: 10px 0 0;
+}
+
+.goldBlogCommentAvatar {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(168, 124, 44, 0.18);
+  background: #f4ead8;
+  color: #8d6728;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.goldBlogCommentComposer textarea,
+.goldBlogCommentInlineForm textarea {
+  width: 100%;
+  max-width: 100%;
+  min-height: 36px;
+  max-height: 96px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(33, 24, 17, 0.1);
+  border-radius: 0;
+  background: transparent;
+  color: #211811;
+  font-size: 14px;
+  line-height: 1.45;
+  resize: none;
+}
+
+.goldBlogCommentComposer textarea:focus,
+.goldBlogCommentInlineForm textarea:focus {
+  outline: none;
+  border-bottom-color: rgba(168, 124, 44, 0.55);
+}
+
+.goldBlogCommentComposer button[type="submit"] {
+  min-height: 36px;
+  padding: 0 4px 0 8px;
+  border: 0;
+  background: transparent;
+  color: #a8792a;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.goldBlogCommentComposer button[type="submit"]:disabled,
+.goldBlogCommentComposerAction {
+  color: rgba(168, 124, 44, 0.35);
+  cursor: default;
+}
+
+.goldBlogCommentComposerField,
+.goldBlogCommentComposerAction {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  text-decoration: none;
+}
+
+.goldBlogCommentComposerField {
+  border-bottom: 1px solid rgba(33, 24, 17, 0.1);
+  color: #8a8176;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.goldBlogCommentComposerAction {
+  padding: 0 4px 0 8px;
+  color: #a8792a;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.goldBlogCommentList {
+  display: grid;
+  gap: 16px;
+}
+
+.goldBlogCommentRow {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.goldBlogCommentRow.isReply {
+  grid-template-columns: 28px minmax(0, 1fr);
+}
+
+.goldBlogCommentRow.isReply .goldBlogCommentAvatar {
+  width: 28px;
+  height: 28px;
+}
+
+.goldBlogCommentBody p {
+  margin: 0;
+  color: #211811;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.goldBlogCommentBody p strong {
+  margin-right: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.goldBlogCommentMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.goldBlogCommentMeta time,
+.goldBlogCommentMeta button,
+.goldBlogCommentLikes,
+.goldBlogCommentThreadToggle {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8a8176;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.goldBlogCommentMeta button,
+.goldBlogCommentThreadToggle {
+  min-height: 28px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.goldBlogCommentMeta button.isOn,
+.goldBlogCommentLikes {
+  color: #a8792a;
+}
+
+.goldBlogCommentLikes {
+  margin: 4px 0 0;
+  font-weight: 650;
+}
+
+.goldBlogCommentThreadToggle {
+  margin-top: 8px;
+  color: #6b635c;
+}
+
+.goldBlogCommentReplies {
+  display: grid;
+  gap: 14px;
+  margin-top: 12px;
+  padding-left: 2px;
+}
+
+.goldBlogCommentInlineForm {
+  display: grid;
+  gap: 8px;
+}
+
+.goldBlogCommentCount {
+  color: #936a26;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 700px) {
+  .goldBlogCommentComposer {
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  .goldBlogCommentRow {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .goldBlogCommentAvatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .goldBlogCommentComposer textarea,
+  .goldBlogCommentBody p {
+    font-size: 15px;
+  }
+
+  .goldBlogCommentMeta {
+    gap: 10px;
+  }
+
+  .goldBlogCommentReplies {
+    margin-left: 0;
+  }
+}

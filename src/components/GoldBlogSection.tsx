@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -10,6 +11,7 @@ import type {
   RefObject,
   UIEvent,
 } from "react";
+import GoldBlogComments from "./GoldBlogComments";
 
 type GoldBlogCategoryKey =
   | "spirituel-stoa"
@@ -363,25 +365,19 @@ const goldBlogHubStyles = `
     background:
       radial-gradient(circle at 88% 10%, rgba(213, 171, 91, 0.17), transparent 30%),
       linear-gradient(145deg, #2b1d13 0%, #1b120d 100%);
-    box-shadow:
-      0 18px 44px rgba(51, 32, 15, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    box-shadow: none;
     color: #fffaf1;
     text-align: left;
     cursor: pointer;
     transition:
       transform 180ms ease,
-      border-color 180ms ease,
-      box-shadow 180ms ease;
+      border-color 180ms ease;
   }
 
   .goldblogPage .goldBlogCategoryCard:hover,
   .goldblogPage .goldBlogCategoryCard.isActive {
     transform: translateY(-4px);
     border-color: rgba(217, 175, 94, 0.72);
-    box-shadow:
-      0 24px 50px rgba(51, 32, 15, 0.2),
-      0 0 0 1px rgba(217, 175, 94, 0.08);
   }
 
   .goldblogPage .goldBlogCategoryCard::after {
@@ -464,18 +460,24 @@ const goldBlogHubStyles = `
 
   .goldblogPage .goldBlogNewCard {
     flex: 0 0 calc((100% - 32px) / 3);
-    min-width: 320px;
-    min-height: 260px;
-    padding: 24px;
+    min-width: 220px;
+    min-height: 0;
+    padding: 18px;
     display: flex;
     flex-direction: column;
     scroll-snap-align: start;
     border: 1px solid rgba(168, 124, 44, 0.17);
-    border-radius: 22px;
+    border-radius: 18px;
     background:
       radial-gradient(circle at 96% 4%, rgba(200, 157, 78, 0.12), transparent 29%),
       linear-gradient(180deg, #fffdf9 0%, #fbf6ed 100%);
-    box-shadow: 0 16px 34px rgba(79, 52, 18, 0.05);
+    box-shadow: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
   }
 
   .goldblogPage .goldBlogNewCardMeta {
@@ -518,6 +520,16 @@ const goldBlogHubStyles = `
     font-size: 25px;
     font-weight: 400;
     line-height: 1.05;
+  }
+
+  .goldblogPage .goldBlogNewCardTitle {
+    margin: 0;
+    color: #251b14;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
   }
 
   .goldblogPage .goldBlogNewCard > span {
@@ -3241,6 +3253,149 @@ const goldBlogHubStyles = `
     }
   }
 
+  .goldblogPage .goldBlogCategoryCard,
+  .goldblogPage .goldBlogCategoryCard:hover,
+  .goldblogPage .goldBlogCategoryCard.isActive,
+  .goldblogPage .goldBlogNewCard,
+  .goldblogPage .goldBlogNewCard:hover,
+  .goldblogPage .goldBlogNewCard:first-child {
+    box-shadow: none !important;
+  }
+
+  .goldblogPage .goldBlogDiscoverBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    background: #24170f;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .goldblogPage .goldBlogDiscoverPaper {
+    width: min(720px, 100%);
+    min-height: 100%;
+    margin: 0 auto;
+    padding: 18px 18px 110px;
+    box-sizing: border-box;
+    background:
+      linear-gradient(180deg, #3a271b 0%, #24170f 48%, #1a120c 100%);
+  }
+
+  .goldblogPage .goldBlogDiscoverTop {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+
+  .goldblogPage .goldBlogDiscoverTop p {
+    margin: 0 0 8px;
+    color: #e0c07a;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  .goldblogPage .goldBlogDiscoverTop h2 {
+    margin: 0;
+    color: #fffaf1;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .goldblogPage .goldBlogDiscoverClose {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(232, 204, 148, 0.28);
+    border-radius: 50%;
+    color: #f6edd8;
+    background: transparent;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .goldblogPage .goldBlogDiscoverList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .goldblogPage .goldBlogDiscoverItem {
+    width: 100%;
+    padding: 16px 16px 14px;
+    border: 1px solid rgba(232, 204, 148, 0.28);
+    border-radius: 16px;
+    background:
+      linear-gradient(165deg, #fffdf8 0%, #f6eee0 100%);
+    box-shadow: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .goldblogPage .goldBlogDiscoverItem p {
+    margin: 0 0 6px;
+    color: #a8792a;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+  }
+
+  .goldblogPage .goldBlogDiscoverItem strong {
+    display: block;
+    color: #2a1c12;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .goldblogPage .goldBlogDiscoverItem span {
+    display: block;
+    margin-top: 8px;
+    color: #6a5c50;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 700px) {
+    .goldblogPage .goldBlogNewCard,
+    .goldblogPage .goldBlogNewCard:first-child {
+      flex: 0 0 min(68vw, 220px) !important;
+      width: min(68vw, 220px) !important;
+      min-width: 0 !important;
+      min-height: 0 !important;
+      padding: 14px 14px 16px !important;
+      border-radius: 18px !important;
+    }
+
+    .goldblogPage .goldBlogNewCard > span,
+    .goldblogPage .goldBlogNewCard:first-child > span {
+      display: none !important;
+    }
+
+    .goldblogPage .goldBlogNewCard h4,
+    .goldblogPage .goldBlogNewCard:first-child h4,
+    .goldblogPage .goldBlogNewCardTitle {
+      font-size: 18px !important;
+      letter-spacing: -0.03em !important;
+    }
+
+    .goldblogPage .goldBlogCategoryCard:not(.isFocused),
+    .goldblogPage .goldBlogCategoryCard.isActive:not(.isFocused),
+    .goldblogPage .goldBlogCategoryCard.isFocused,
+    .goldblogPage .goldBlogCategoryCard.isFocused.isActive {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  }
+
 `;
 
 const canonicalGoldBlogUrl =
@@ -3251,8 +3406,8 @@ export default function GoldBlogSection() {
   const [activeCategory, setActiveCategory] =
     useState<GoldBlogCategoryKey>("spirituel-stoa");
 
-  const [focusedCategory, setFocusedCategory] =
-    useState<GoldBlogCategoryKey>("spirituel-stoa");
+  const [discoverCategory, setDiscoverCategory] =
+    useState<GoldBlogCategoryKey | null>(null);
 
   const [readerArticle, setReaderArticle] =
     useState<GoldBlogArticle | null>(null);
@@ -3269,6 +3424,9 @@ export default function GoldBlogSection() {
   const [readingProgress, setReadingProgress] =
     useState(0);
 
+  const [commentCounts, setCommentCounts] =
+    useState<Record<string, number>>({});
+
   const categoryRailRef =
     useRef<HTMLDivElement>(null);
 
@@ -3278,29 +3436,17 @@ export default function GoldBlogSection() {
   const socialRailRef =
     useRef<HTMLDivElement>(null);
 
-  const archiveRef =
-    useRef<HTMLDivElement>(null);
-
   const readerContentRef =
     useRef<HTMLDivElement>(null);
 
-  const filteredArticles = useMemo(
-    () =>
-      goldBlogArticles.filter(
-        (article) =>
-          article.categoryKey ===
-          activeCategory,
-      ),
-    [activeCategory],
-  );
-
-  const activeCategoryInfo = useMemo(
-    () =>
-      goldBlogCategories.find(
-        (category) =>
-          category.key === activeCategory,
-      ) ?? goldBlogCategories[0],
-    [activeCategory],
+  const handleCommentCount = useCallback(
+    (postId: string, count: number) => {
+      setCommentCounts((current) => ({
+        ...current,
+        [postId]: count,
+      }));
+    },
+    [],
   );
 
   const newArticles = useMemo(
@@ -3312,259 +3458,21 @@ export default function GoldBlogSection() {
   );
 
   useEffect(() => {
-    const rail = categoryRailRef.current;
+    let cancelled = false;
 
-    if (!rail) return;
-
-    const mobileQuery =
-      window.matchMedia("(max-width: 700px)");
-
-    let animationFrame = 0;
-    let loopTimer: number | null = null;
-    let isLooping = false;
-
-    const updateFocusedCard = () => {
-      window.cancelAnimationFrame(animationFrame);
-
-      animationFrame =
-        window.requestAnimationFrame(() => {
-          if (!mobileQuery.matches) {
-            setFocusedCategory("spirituel-stoa");
-            return;
-          }
-
-          const cards = Array.from(
-            rail.querySelectorAll<HTMLButtonElement>(
-              "[data-category-key]",
-            ),
-          );
-
-          if (!cards.length) return;
-
-          const railRect =
-            rail.getBoundingClientRect();
-
-          const railCenter =
-            railRect.left +
-            railRect.width / 2;
-
-          let closestCard = cards[0];
-          let closestDistance =
-            Number.POSITIVE_INFINITY;
-
-          cards.forEach((card) => {
-            const cardRect =
-              card.getBoundingClientRect();
-
-            const cardCenter =
-              cardRect.left +
-              cardRect.width / 2;
-
-            const distance =
-              Math.abs(
-                cardCenter - railCenter,
-              );
-
-            if (
-              distance <
-              closestDistance
-            ) {
-              closestDistance =
-                distance;
-
-              closestCard =
-                card;
-            }
-          });
-
-          const categoryKey =
-            closestCard.dataset
-              .categoryKey as
-              | GoldBlogCategoryKey
-              | undefined;
-
-          if (categoryKey) {
-            setFocusedCategory(
-              categoryKey,
-            );
-
-            /*
-             * Mobilde kart ekranın odağına geldiği anda
-             * aşağıdaki kategori/yazı alanı da otomatik değişsin.
-             * Burada selectCategory() kullanmıyoruz çünkü o fonksiyon
-             * sayfayı aşağı kaydırıyor. Kullanıcı kartları rahatça
-             * kaydırmaya devam edebilsin.
-             */
-            setActiveCategory(
-              (currentCategory) =>
-                currentCategory === categoryKey
-                  ? currentCategory
-                  : categoryKey,
-            );
-          }
-        });
-    };
-
-    const scheduleLoopToStart = () => {
-      if (
-        !mobileQuery.matches ||
-        isLooping
-      ) {
-        return;
-      }
-
-      if (loopTimer !== null) {
-        window.clearTimeout(loopTimer);
-      }
-
-      loopTimer = window.setTimeout(() => {
-        const maxScrollLeft =
-          rail.scrollWidth -
-          rail.clientWidth;
-
-        const edgeThreshold = 12;
-
-        if (
-          maxScrollLeft <= 0 ||
-          rail.scrollLeft <
-            maxScrollLeft - edgeThreshold
-        ) {
-          return;
+    fetch("/api/goldblog/comments/counts", {
+      cache: "no-store",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!cancelled && data?.counts) {
+          setCommentCounts(data.counts);
         }
-
-        isLooping = true;
-
-        rail.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-
-        window.setTimeout(() => {
-          isLooping = false;
-          updateFocusedCard();
-        }, 850);
-      }, 700);
-    };
-
-    const handleRailScroll = () => {
-      updateFocusedCard();
-      scheduleLoopToStart();
-    };
-
-    updateFocusedCard();
-
-    rail.addEventListener(
-      "scroll",
-      handleRailScroll,
-      {
-        passive: true,
-      },
-    );
-
-    window.addEventListener(
-      "resize",
-      updateFocusedCard,
-    );
-
-    mobileQuery.addEventListener(
-      "change",
-      updateFocusedCard,
-    );
+      })
+      .catch(() => {});
 
     return () => {
-      window.cancelAnimationFrame(
-        animationFrame,
-      );
-
-      if (loopTimer !== null) {
-        window.clearTimeout(loopTimer);
-      }
-
-      rail.removeEventListener(
-        "scroll",
-        handleRailScroll,
-      );
-
-      window.removeEventListener(
-        "resize",
-        updateFocusedCard,
-      );
-
-      mobileQuery.removeEventListener(
-        "change",
-        updateFocusedCard,
-      );
-    };
-  }, []);
-
-  useEffect(() => {
-    const rail = socialRailRef.current;
-
-    if (!rail) return;
-
-    const mobileQuery =
-      window.matchMedia("(max-width: 700px)");
-
-    let loopTimer: number | null = null;
-    let isLooping = false;
-
-    const scheduleSocialLoopToStart = () => {
-      if (
-        !mobileQuery.matches ||
-        isLooping
-      ) {
-        return;
-      }
-
-      if (loopTimer !== null) {
-        window.clearTimeout(loopTimer);
-      }
-
-      loopTimer = window.setTimeout(() => {
-        const maxScrollLeft =
-          rail.scrollWidth -
-          rail.clientWidth;
-
-        const edgeThreshold = 12;
-
-        if (
-          maxScrollLeft <= 0 ||
-          rail.scrollLeft <
-            maxScrollLeft - edgeThreshold
-        ) {
-          return;
-        }
-
-        isLooping = true;
-
-        rail.scrollTo({
-          left: 0,
-          behavior: "smooth",
-        });
-
-        window.setTimeout(() => {
-          isLooping = false;
-        }, 850);
-      }, 700);
-    };
-
-    rail.addEventListener(
-      "scroll",
-      scheduleSocialLoopToStart,
-      {
-        passive: true,
-      },
-    );
-
-    return () => {
-      if (loopTimer !== null) {
-        window.clearTimeout(loopTimer);
-      }
-
-      rail.removeEventListener(
-        "scroll",
-        scheduleSocialLoopToStart,
-      );
+      cancelled = true;
     };
   }, []);
 
@@ -3731,13 +3639,7 @@ export default function GoldBlogSection() {
     categoryKey: GoldBlogCategoryKey,
   ) {
     setActiveCategory(categoryKey);
-
-    window.setTimeout(() => {
-      archiveRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }, 60);
+    setDiscoverCategory(categoryKey);
   }
 
   function updateArticleUrl(
@@ -4009,23 +3911,16 @@ export default function GoldBlogSection() {
               </p>
 
               <h2>
-                Hangi alanda
-                <span> okumak istiyorsun?</span>
+                Keşfet
               </h2>
             </div>
 
             <div className="goldBlogHubIntroText">
               <p>
-                Beş ana alandan birini seç.
-                Seçtiğin kategorinin yazıları
-                hemen aşağıda sıralansın.
-                <strong>
-                  {" "}
-                  “Devamını Oku”
-                </strong>{" "}
-                dediğinde ise sayfadan ayrılmadan,
-                sakin bir okuma penceresinde
-                yazının tamamını aç.
+                Bir kategoriye dokun, yazıları
+                tam ekranda keşfet. Yeni eklenen
+                küçük kartlara basınca o yazı
+                açılır.
               </p>
             </div>
           </header>
@@ -4077,17 +3972,7 @@ export default function GoldBlogSection() {
                     data-category-key={
                       category.key
                     }
-                    className={`goldBlogCategoryCard ${
-                      activeCategory ===
-                      category.key
-                        ? "isActive"
-                        : ""
-                    } ${
-                      focusedCategory ===
-                      category.key
-                        ? "isFocused"
-                        : ""
-                    }`}
+                    className="goldBlogCategoryCard"
                     key={category.key}
                     onClick={() =>
                       selectCategory(
@@ -4184,9 +4069,13 @@ export default function GoldBlogSection() {
             >
               {newArticles.map(
                 (article) => (
-                  <article
+                  <button
+                    type="button"
                     className="goldBlogNewCard"
                     key={article.slug}
+                    onClick={() =>
+                      openReader(article)
+                    }
                   >
                     <div className="goldBlogNewCardMeta">
                       <span className="goldBlogNewBadge">
@@ -4202,94 +4091,10 @@ export default function GoldBlogSection() {
                       {article.category}
                     </p>
 
-                    <h4>
+                    <span className="goldBlogNewCardTitle">
                       {article.title}
-                    </h4>
-
-                    <span>
-                      {article.description}
                     </span>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        openReader(article)
-                      }
-                    >
-                      Hemen Oku →
-                    </button>
-                  </article>
-                ),
-              )}
-            </div>
-          </section>
-
-          <section
-            className="goldBlogArchive"
-            ref={archiveRef}
-          >
-            <header className="goldBlogArchiveHeader">
-              <div className="goldBlogArchiveHeaderTop">
-                <div>
-                  <p className="goldBlogHubSectionEyebrow">
-                    SEÇİLİ KATEGORİ
-                  </p>
-
-                  <h3>
-                    {activeCategoryInfo.title}
-                  </h3>
-                </div>
-
-                <span className="goldBlogArchiveCount">
-                  {filteredArticles.length} Yazı
-                </span>
-              </div>
-
-              <p>
-                {activeCategoryInfo.description}
-              </p>
-            </header>
-
-            <div className="goldBlogArticleList">
-              {filteredArticles.map(
-                (article) => (
-                  <article
-                    className="goldBlogArticleRow"
-                    key={article.slug}
-                  >
-                    <div className="goldBlogArticleRowNumber">
-                      {article.number}
-                    </div>
-
-                    <div className="goldBlogArticleRowCopy">
-                      <p>
-                        {article.category}
-                      </p>
-
-                      <h4>
-                        {article.title}
-                      </h4>
-
-                      <span>
-                        {article.description}
-                      </span>
-                    </div>
-
-                    <div className="goldBlogArticleRowAction">
-                      <small>
-                        {article.readingTime} Okuma
-                      </small>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          openReader(article)
-                        }
-                      >
-                        Devamını Oku →
-                      </button>
-                    </div>
-                  </article>
+                  </button>
                 ),
               )}
             </div>
@@ -4465,6 +4270,55 @@ export default function GoldBlogSection() {
         </div>
       </section>
 
+      {discoverCategory ? (
+        <div className="goldBlogDiscoverBackdrop">
+          <div className="goldBlogDiscoverPaper">
+            <div className="goldBlogDiscoverTop">
+              <div>
+                <p>KEŞFET</p>
+                <h2>
+                  {goldBlogCategories.find(
+                    (category) =>
+                      category.key === discoverCategory,
+                  )?.title}
+                </h2>
+              </div>
+              <button
+                type="button"
+                className="goldBlogDiscoverClose"
+                onClick={() => setDiscoverCategory(null)}
+                aria-label="Keşfet ekranını kapat"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="goldBlogDiscoverList">
+              {goldBlogArticles
+                .filter(
+                  (article) =>
+                    article.categoryKey === discoverCategory,
+                )
+                .map((article) => (
+                  <button
+                    type="button"
+                    className="goldBlogDiscoverItem"
+                    key={article.slug}
+                    onClick={() => {
+                      setDiscoverCategory(null);
+                      openReader(article);
+                    }}
+                  >
+                    <p>{article.category}</p>
+                    <strong>{article.title}</strong>
+                    <span>{article.description}</span>
+                  </button>
+                ))}
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       {readerArticle && (
         <div
           className="goldBlogReaderBackdrop"
@@ -4638,6 +4492,11 @@ export default function GoldBlogSection() {
                   <h3>
                     Okuduğun şey sende ne bıraktı?
                   </h3>
+
+                  <GoldBlogComments
+                    postId={readerArticle.slug}
+                    onCountChange={handleCommentCount}
+                  />
                 </div>
               </article>
             </div>
