@@ -568,6 +568,23 @@ const goldcastPremiumStyles = `
     background:
       linear-gradient(180deg, rgba(255, 232, 186, 0.10) 0%, transparent 26%),
       linear-gradient(155deg, #3c291b 0%, #24170f 48%, #120c09 100%) !important;
+    transform: translateY(0);
+    transition: transform 180ms ease;
+  }
+
+  @media (hover: hover) {
+    .goldcastPage .goldcastYTCard:hover {
+      transform: translateY(-6px);
+    }
+  }
+
+  .goldcastPage .goldcastYTCard:active {
+    transform: translateY(-3px);
+  }
+
+  .goldcastPage .goldcastYTScroller {
+    padding-top: 10px !important;
+    overflow-y: visible !important;
   }
 
   .goldcastPage .goldcastYTCard.isActive {
