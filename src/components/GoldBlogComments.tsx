@@ -505,11 +505,13 @@ export default function GoldBlogComments({
 
   return (
     <section className="goldBlogComments" aria-label="Yorumlar">
-      {!loading && comments.length > 0 ? (
-        <p className="goldBlogCommentsCount">
-          {formatYorumCount(totalCount(comments))}
-        </p>
-      ) : null}
+      <p className="goldBlogCommentsCount">
+        {loading
+          ? "Yorumlar"
+          : comments.length > 0
+            ? formatYorumCount(totalCount(comments))
+            : "Yorumlar"}
+      </p>
 
       {viewer && !unavailable ? (
         <form className="goldBlogCommentComposer" onSubmit={handleRootSubmit}>

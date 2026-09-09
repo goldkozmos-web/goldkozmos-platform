@@ -700,6 +700,8 @@ const goldBlogHubStyles = `
 
   .goldBlogReaderPaper {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: min(980px, 100%);
     height: min(90vh, 920px);
     overflow: hidden;
@@ -798,8 +800,10 @@ const goldBlogHubStyles = `
   }
 
   .goldBlogReaderScroll {
-    height: 100%;
-    padding: 112px 0 54px;
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    padding: 112px 0 120px;
     overflow-y: auto;
     overscroll-behavior: contain;
   }
@@ -869,7 +873,7 @@ const goldBlogHubStyles = `
     border-top: 1px solid rgba(164, 119, 39, 0.16);
   }
 
-  .goldBlogReaderEnd p {
+  .goldBlogReaderEnd > p {
     margin: 0;
     color: #9d742d;
     font-size: 9px;
@@ -878,7 +882,7 @@ const goldBlogHubStyles = `
   }
 
   .goldBlogReaderEnd h3 {
-    margin: 9px 0 0;
+    margin: 9px 0 18px;
     color: #281d15;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 25px;
@@ -1057,7 +1061,7 @@ const goldBlogHubStyles = `
     }
 
     .goldBlogReaderScroll {
-      padding: 98px 0 42px;
+      padding: 98px 0 120px;
     }
 
     .goldBlogReaderArticle {
@@ -3473,9 +3477,17 @@ const goldBlogHubStyles = `
 
   .goldBlogReaderBackdrop.isMini .goldBlogReaderPaper {
     width: min(440px, 100%) !important;
-    height: min(78dvh, 720px) !important;
+    height: min(82dvh, 760px) !important;
+    display: flex !important;
+    flex-direction: column !important;
     border: 1px solid rgba(206, 161, 75, 0.36) !important;
     border-radius: 22px !important;
+  }
+
+  .goldBlogReaderBackdrop.isMini .goldBlogReaderScroll {
+    flex: 1 !important;
+    min-height: 0 !important;
+    padding-bottom: 140px !important;
   }
 
   @media (min-width: 901px) {
@@ -3594,9 +3606,6 @@ export default function GoldBlogSection() {
     useRef<HTMLDivElement>(null);
 
   const newRailRef =
-    useRef<HTMLDivElement>(null);
-
-  const socialRailRef =
     useRef<HTMLDivElement>(null);
 
   const readerContentRef =
@@ -4158,146 +4167,6 @@ export default function GoldBlogSection() {
               )}
             </div>
           </div>
-
-          <section className="goldBlogSocialRailSection">
-            <div className="goldBlogSocialRailHeader">
-              <div>
-                <p className="goldBlogHubSectionEyebrow">
-                  GOLDKOZMOS KANALLARI
-                </p>
-
-                <h3>
-                  Bağlantıda kal,
-                  <span> dilediğin yerden devam et.</span>
-                </h3>
-              </div>
-            </div>
-
-            <div
-              className="goldBlogSocialRail"
-              ref={socialRailRef}
-            >
-              <a
-                className="goldBlogSocialCard"
-                href="https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="goldBlogSocialCardMark">
-                  <img
-                    src="/images/services/goldblog/social/instagram.webp"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <p>GÖRSEL İÇERİKLER</p>
-                <h4>Instagram</h4>
-                <span className="goldBlogSocialCardLink">
-                  @goldkozmos ↗
-                </span>
-              </a>
-
-              <a
-                className="goldBlogSocialCard"
-                href="https://www.tiktok.com/@goldkozmos?_r=1&_t=ZS-98y87m276cX"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="goldBlogSocialCardMark">
-                  <img
-                    src="/images/services/goldblog/social/tiktok.webp"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <p>KISA VİDEOLAR</p>
-                <h4>TikTok</h4>
-                <span className="goldBlogSocialCardLink">
-                  @goldkozmos ↗
-                </span>
-              </a>
-
-              <a
-                className="goldBlogSocialCard"
-                href="https://x.com/GoldKozmos"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="goldBlogSocialCardMark">
-                  <img
-                    src="/images/services/goldblog/social/x.webp"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <p>DÜŞÜNCE NOTLARI</p>
-                <h4>X</h4>
-                <span className="goldBlogSocialCardLink">
-                  @GoldKozmos ↗
-                </span>
-              </a>
-
-              <a
-                className="goldBlogSocialCard"
-                href="https://www.threads.com/@goldkozmos"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="goldBlogSocialCardMark">
-                  <img
-                    src="/images/services/goldblog/social/threads.webp"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <p>GÜNLÜK PAYLAŞIMLAR</p>
-                <h4>Threads</h4>
-                <span className="goldBlogSocialCardLink">
-                  @goldkozmos ↗
-                </span>
-              </a>
-
-              <a
-                className="goldBlogSocialCard"
-                href="https://youtube.com/@goldkozmos?si=Rna82s44awxWfnXt"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="goldBlogSocialCardMark">
-                  <img
-                    src="/images/services/goldblog/social/youtube.webp"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <p>VİDEO YAYINLARI</p>
-                <h4>YouTube</h4>
-                <span className="goldBlogSocialCardLink">
-                  @goldkozmos ↗
-                </span>
-              </a>
-
-              <a
-                className="goldBlogSocialCard"
-                href="https://open.spotify.com/show/0343du5jxaHZOJhqDJZKYQ"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="goldBlogSocialCardMark">
-                  <img
-                    src="/images/services/goldblog/social/spotify.webp"
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </span>
-                <p>GOLDCAST</p>
-                <h4>Spotify</h4>
-                <span className="goldBlogSocialCardLink">
-                  Dinle ↗
-                </span>
-              </a>
-            </div>
-          </section>
         </div>
       </section>
 
