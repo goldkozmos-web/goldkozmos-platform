@@ -547,35 +547,79 @@ const goldcastPremiumStyles = `
 
   .goldcastPage .platformPageContinue {
     width: min(1180px, calc(100% - 32px));
-    margin: 18px auto 10px;
-    padding: 22px 20px 18px;
+    margin: 10px auto 6px;
+    padding: 12px 14px 12px;
     box-sizing: border-box;
     border: 1px solid rgba(161, 118, 43, 0.14);
-    border-radius: 26px;
+    border-radius: 18px;
     background: rgba(255, 255, 255, 0.72);
-    box-shadow: 0 18px 50px rgba(66, 42, 17, 0.06);
+    box-shadow: 0 10px 28px rgba(66, 42, 17, 0.05);
+  }
+
+  .goldcastPage .platformContinue {
+    padding-top: 0;
   }
 
   .goldcastPage .platformContinueKicker {
+    margin: 0 0 2px;
     color: #9d742d;
+    font-size: 9px;
+    letter-spacing: 0.18em;
   }
 
   .goldcastPage .platformContinue h2 {
-    font-size: 30px;
+    font-size: 18px;
+    letter-spacing: -0.02em;
     color: #241911;
   }
 
   .goldcastPage .platformContinueLead {
-    color: #7d6a52;
+    display: none;
   }
 
   .goldcastPage .platformContinueCard {
-    margin-top: 16px;
+    margin-top: 10px;
     padding: 0;
     border: 0;
     border-radius: 0;
     background: transparent;
     box-shadow: none;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 8px 12px;
+    align-items: center;
+  }
+
+  .goldcastPage .platformContinueArt,
+  .goldcastPage .platformContinueMark {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+  }
+
+  .goldcastPage .platformContinueCopy {
+    gap: 2px;
+  }
+
+  .goldcastPage .platformContinueCopy strong {
+    font-size: 15px;
+  }
+
+  .goldcastPage .platformContinueDesc {
+    -webkit-line-clamp: 1;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .goldcastPage .platformContinueMeter {
+    margin-top: 2px;
+    gap: 5px;
+  }
+
+  .goldcastPage .platformContinueCta {
+    min-height: 30px;
+    margin-top: 4px;
+    padding: 0 12px;
+    font-size: 10px;
   }
 
   .goldcastPage .platformContinueCta:hover {
@@ -586,8 +630,12 @@ const goldcastPremiumStyles = `
   @media (min-width: 901px) {
     .goldcastPage .platformPageContinue {
       width: min(1180px, calc(100% - 80px));
-      margin: 28px auto 0;
-      padding: 26px 24px 22px;
+      margin: 16px auto 0;
+      padding: 14px 18px 14px;
+    }
+
+    .goldcastPage .platformContinue h2 {
+      font-size: 20px;
     }
   }
 

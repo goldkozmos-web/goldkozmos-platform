@@ -163,30 +163,30 @@
   margin: 0;
   color: #2a1c12;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 28px;
+  font-size: 22px;
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1.15;
 }
 
 .platformContinueLead {
-  margin: 8px 0 0;
+  margin: 4px 0 0;
   max-width: 28em;
   color: #7a6b5c;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .platformContinueCard {
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr);
-  gap: 16px 18px;
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 10px 12px;
   align-items: start;
-  margin-top: 18px;
-  padding: 16px;
+  margin-top: 12px;
+  padding: 12px;
   border: 1px solid rgba(176, 138, 62, 0.22);
-  border-radius: 22px;
+  border-radius: 18px;
   background:
     linear-gradient(180deg, rgba(255, 250, 240, 0.92) 0%, #f4eadc 100%);
   box-shadow:
@@ -197,9 +197,9 @@
 .platformContinueArt,
 .platformContinueMark {
   display: block;
-  width: 92px;
-  height: 92px;
-  border-radius: 16px;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
   object-fit: cover;
   background: #2a1c12;
 }
@@ -232,7 +232,7 @@
 .platformContinueCopy strong {
   color: #2a1c12;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1.25;
@@ -241,18 +241,18 @@
 .platformContinueDesc {
   display: -webkit-box;
   overflow: hidden;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   color: #6f6256;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .platformContinueMeter {
   display: grid;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 6px;
+  margin-top: 2px;
 }
 
 .platformContinuePercent {
@@ -279,16 +279,16 @@
 
 .platformContinueCta {
   justify-self: start;
-  min-height: 38px;
-  margin-top: 6px;
-  padding: 0 16px;
+  min-height: 32px;
+  margin-top: 4px;
+  padding: 0 12px;
   display: inline-grid;
   place-items: center;
   border: 1px solid rgba(176, 138, 62, 0.45);
   border-radius: 999px;
   background: transparent;
   color: #2a1c12;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -320,7 +320,7 @@
 
 .platformPageContinue {
   width: min(720px, calc(100% - 32px));
-  margin: 22px auto 8px;
+  margin: 12px auto 6px;
 }
 
 .platformMiniPlayer {
@@ -471,24 +471,24 @@
   }
 
   .platformContinue h2 {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .platformContinueCard {
-    grid-template-columns: 76px minmax(0, 1fr);
-    gap: 14px;
-    padding: 14px;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px;
   }
 
   .platformContinueArt,
   .platformContinueMark {
-    width: 76px;
-    height: 76px;
-    border-radius: 14px;
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
   }
 
   .platformContinueCopy strong {
-    font-size: 18px;
+    font-size: 15px;
   }
 
   .platformContinueCta {
