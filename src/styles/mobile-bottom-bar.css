@@ -9,6 +9,10 @@
     padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
   }
 
+  body.hasPlatformMiniDock {
+    padding-bottom: calc(190px + env(safe-area-inset-bottom, 0px));
+  }
+
   .homeV3Page .homeV3FloatingWhatsapp,
   .homeV3FloatingWhatsapp,
   .goldcastPage .goldcastFloatingWhatsapp,

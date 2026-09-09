@@ -405,14 +405,27 @@
   color: #1db954;
 }
 
-.platformYoutubeShell.isSpotify.isMini {
-  height: 168px;
-  grid-template-columns: 1fr;
-  grid-template-rows: minmax(0, 1fr) 44px;
+.platformYoutubeShell.isMini {
+  top: auto;
+  left: 12px;
+  right: 12px;
+  bottom: calc(98px + env(safe-area-inset-bottom, 0px));
+  width: auto;
+  height: 76px;
+  grid-template-columns: 128px minmax(0, 1fr);
+  grid-template-rows: 76px;
+  border: 1px solid rgba(214, 172, 88, 0.42);
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(24, 14, 8, 0.30);
 }
 
-.platformYoutubeShell.isSpotify .platformYoutubeChrome button,
-.platformYoutubeShell.isSpotify .platformYoutubeMiniBar button {
+.platformYoutubeShell.isSpotify.isMini {
+  height: 76px;
+  grid-template-columns: 76px minmax(0, 1fr);
+  grid-template-rows: 76px;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChrome button {
   background: #1db954;
   color: #121212;
 }
@@ -448,8 +461,7 @@
   gap: 8px;
 }
 
-.platformYoutubeChrome button,
-.platformYoutubeMiniBar button {
+.platformYoutubeChrome button {
   min-height: 36px;
   padding: 0 12px;
   border: 0;
@@ -469,16 +481,29 @@
   background: #000;
 }
 
-.platformYoutubeMiniBar {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 44px 36px;
-  align-items: center;
-  gap: 6px;
-  padding: 0 8px 0 10px;
+.platformYoutubeShell.isMini iframe {
+  width: 100%;
+  height: 76px;
+  pointer-events: none;
 }
 
-.platformYoutubeMiniBar button:first-child {
+.platformYoutubeMiniBar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 0 8px 0 12px;
+  background: #1a120c;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeMiniBar {
+  background: #181818;
+}
+
+.platformYoutubeMiniTitle {
   overflow: hidden;
+  min-width: 0;
   min-height: 44px;
   padding: 0;
   border: 0;
@@ -487,14 +512,57 @@
   text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 13px;
+  line-height: 1.25;
+  cursor: pointer;
 }
 
-.platformYoutubeMiniBar button:last-child {
+.platformYoutubeMiniPlay {
+  width: 42px;
+  min-width: 42px;
+  height: 42px;
+  min-height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #d4a24a;
+  color: #1c120b;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.platformYoutubeMiniClose {
   width: 36px;
+  min-width: 36px;
+  height: 36px;
   min-height: 36px;
   padding: 0;
+  border: 0;
+  border-radius: 50%;
   background: transparent;
   color: #d4a552;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeMiniPlay {
+  background: #1db954;
+  color: #121212;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeMiniClose {
+  color: #1db954;
+}
+
+@media (min-width: 701px) {
+  .platformYoutubeShell.isMini {
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    width: min(420px, calc(100vw - 48px));
+  }
 }
 

@@ -96,6 +96,15 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     setReady(true);
   }, []);
 
+  useEffect(() => {
+    const mini =
+      Boolean(session?.youtubeId || session?.spotifyEmbedUrl) && minimized;
+    document.body.classList.toggle("hasPlatformMiniDock", mini);
+    return () => {
+      document.body.classList.remove("hasPlatformMiniDock");
+    };
+  }, [minimized, session?.spotifyEmbedUrl, session?.youtubeId]);
+
   const persist = useCallback(
     (entry: PlatformProgress) => {
       setItems((current) => {
@@ -395,15 +404,29 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
           {minimized ? (
             <div className="platformYoutubeMiniBar">
-              <button type="button" onClick={expand}>
+              <button
+                type="button"
+                className="platformYoutubeMiniTitle"
+                onClick={expand}
+              >
                 {session.title}
               </button>
               {session.youtubeId ? (
-                <button type="button" onClick={toggle}>
+                <button
+                  type="button"
+                  className="platformYoutubeMiniPlay"
+                  onClick={toggle}
+                  aria-label={isPlaying ? "Duraklat" : "Oynat"}
+                >
                   {isPlaying ? "❚❚" : "▶"}
                 </button>
               ) : null}
-              <button type="button" onClick={stop} aria-label="Kapat">
+              <button
+                type="button"
+                className="platformYoutubeMiniClose"
+                onClick={stop}
+                aria-label="Kapat"
+              >
                 ×
               </button>
             </div>
