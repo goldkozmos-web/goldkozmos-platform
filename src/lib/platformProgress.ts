@@ -53,10 +53,14 @@ export function writePlatformProgressMap(map: PlatformProgressMap) {
     return;
   }
 
-  window.localStorage.setItem(
-    PLATFORM_PROGRESS_STORAGE_KEY,
-    JSON.stringify(map),
-  );
+  try {
+    window.localStorage.setItem(
+      PLATFORM_PROGRESS_STORAGE_KEY,
+      JSON.stringify(map),
+    );
+  } catch {
+    // Private mode / blocked storage should not prevent in-app playback.
+  }
 }
 
 export function upsertProgressEntry(
