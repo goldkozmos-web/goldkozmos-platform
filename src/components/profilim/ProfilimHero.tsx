@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { createProfilimBrowserClient } from "../../lib/profilim/auth.client";
@@ -15,7 +14,7 @@ export default function ProfilimHero({
   user,
   level,
 }: {
-  user: ProfilimUser;
+  user: NonNullable<ProfilimUser>;
   level: ProfilimLevel;
 }) {
   const router = useRouter();
@@ -30,7 +29,7 @@ export default function ProfilimHero({
   return (
     <header className="profilimHero">
       <div className="profilimHeroTop">
-        {user?.avatarUrl ? (
+        {user.avatarUrl ? (
           <img
             className="profilimAvatar"
             src={user.avatarUrl}
@@ -38,31 +37,28 @@ export default function ProfilimHero({
           />
         ) : (
           <span className="profilimAvatar" aria-hidden="true">
-            {user ? initials(user.displayName) : "G"}
+            {initials(user.displayName)}
           </span>
         )}
 
         <div className="profilimHeroCopy">
           <p className="profilimHeroEyebrow">GOLDKOZMOS · PROFİLİM</p>
-          <h1>{user ? user.displayName : "Profilim"}</h1>
+          <h1>{user.displayName}</h1>
+          {user.email ? (
+            <p className="profilimLevelLabel">{user.email}</p>
+          ) : null}
           <p className="profilimLevelLabel">
             Seviye {level.level} · {level.title}
           </p>
         </div>
 
-        {user ? (
-          <button
-            type="button"
-            className="profilimTextAction"
-            onClick={() => void signOut()}
-          >
-            Çıkış
-          </button>
-        ) : (
-          <Link className="profilimTextAction" href="/giris?next=/profilim">
-            Giriş
-          </Link>
-        )}
+        <button
+          type="button"
+          className="profilimTextAction"
+          onClick={() => void signOut()}
+        >
+          Çıkış Yap
+        </button>
       </div>
 
       <div className="profilimLevelBar" aria-label="Gelişim seviyesi">

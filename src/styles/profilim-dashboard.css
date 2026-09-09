@@ -586,3 +586,63 @@
     text-shadow: none !important;
   }
 }
+
+.profilimGate {
+  padding: 28px 20px 24px 22px;
+  border: 1px solid rgba(176, 130, 48, 0.38);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(212, 176, 106, 0.18), transparent 46%),
+    linear-gradient(180deg, #fffdf7 0%, #f6ecdc 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 12px 28px rgba(48, 30, 14, 0.12);
+}
+
+.profilimGate h1 {
+  margin: 10px 0 0;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 8vw, 40px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.6px;
+}
+
+.profilimGate > p {
+  max-width: 34em;
+  margin: 12px 0 0;
+  color: #6f675f;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.profilimGoogleWrap {
+  margin-top: 22px;
+}
+
+.profilimGoogleButton {
+  min-height: 48px;
+  width: 100%;
+  max-width: 360px;
+  padding: 0 18px;
+  border: 1px solid rgba(184, 138, 52, 0.42);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2a1c13, #1a120d);
+  color: #e0b86c;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.profilimGoogleButton:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.profilimGoogleError {
+  margin: 10px 0 0;
+  color: #8a2f1f;
+  font-size: 13px;
+}
