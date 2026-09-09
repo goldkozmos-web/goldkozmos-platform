@@ -13,8 +13,16 @@ export default function ContinueGlance({
   platformId,
   variant = "glance",
 }: ContinueGlanceProps) {
-  const { latest, forPlatform } = usePlayback();
+  const { latest, forPlatform, session } = usePlayback();
   const item = platformId ? forPlatform(platformId) : latest;
+  const liveRecording = Boolean(
+    session?.youtubeId || session?.spotifyEmbedUrl || session?.audioUrl,
+  );
+
+  // Mini dock / player is the live control; the continue card is for after close.
+  if (liveRecording) {
+    return null;
+  }
 
   if (variant === "page" && !item) {
     return null;
