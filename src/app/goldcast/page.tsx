@@ -209,7 +209,15 @@ const youtubeOnlyStyles = `
       font-weight: 700;
     }
 
-    .goldcastPage .goldcastYTCard h3 {
+    .goldcastPage .goldcastYTBody,
+    .goldcastPage .goldcastYTCategory,
+    .goldcastPage .goldcastYTTitle,
+    .goldcastPage .goldcastYTSubtitle,
+    .goldcastPage .goldcastYTDescription {
+      display: block;
+    }
+
+    .goldcastPage .goldcastYTTitle {
       margin: 0;
       color: #fffaf1;
       font-family: Georgia, "Times New Roman", serif;
@@ -598,6 +606,7 @@ const goldcastPremiumStyles = `
     padding-bottom: 18px !important;
   }
 
+  .goldcastPage .goldcastYTSection,
   .goldcastPage .goldcastSpotifyArchive {
     overflow: visible !important;
   }
@@ -605,6 +614,14 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastYTCard.isActive,
   .goldcastPage .goldcastSpotifyEpisodeCard.isActive {
     border-color: rgba(240, 208, 138, 0.72) !important;
+  }
+
+  .goldcastPage .goldcastYTBody,
+  .goldcastPage .goldcastYTCategory,
+  .goldcastPage .goldcastYTTitle,
+  .goldcastPage .goldcastYTSubtitle,
+  .goldcastPage .goldcastYTDescription {
+    display: block;
   }
 
   .goldcastPage .goldcastYTImage {
@@ -638,8 +655,7 @@ const goldcastPremiumStyles = `
       border-radius: 12px !important;
     }
 
-    .goldcastPage .goldcastYTCard h3,
-    .goldcastPage .goldcastSpotifyEpisodeCard h3 {
+    .goldcastPage .goldcastYTTitle {
       font-size: 18px !important;
       letter-spacing: -0.04em !important;
     }
@@ -745,10 +761,10 @@ export default function GoldCastPage() {
                   aria-label={`${episode.title} ekranda aç`}
                   onClick={() => openEpisode(episode)}
                 >
-                <div className="goldcastYTTop">
+                <span className="goldcastYTTop">
                   <span>{episode.number}</span>
                   <span>▶</span>
-                </div>
+                </span>
 
                 <span className="goldcastYTImage">
                   <img
@@ -758,21 +774,21 @@ export default function GoldCastPage() {
                   />
                 </span>
 
-                <div className="goldcastYTBody">
-                  <p className="goldcastYTCategory">
+                <span className="goldcastYTBody">
+                  <span className="goldcastYTCategory">
                     {episode.category}
-                  </p>
+                  </span>
 
-                  <h3>{episode.title}</h3>
+                  <span className="goldcastYTTitle">{episode.title}</span>
 
-                  <p className="goldcastYTSubtitle">
+                  <span className="goldcastYTSubtitle">
                     {episode.subtitle}
-                  </p>
+                  </span>
 
-                  <p className="goldcastYTDescription">
+                  <span className="goldcastYTDescription">
                     {episode.description}
-                  </p>
-                </div>
+                  </span>
+                </span>
               </button>
             ))}
           </div>
@@ -849,10 +865,10 @@ export default function GoldCastPage() {
                   })
                 }
               >
-                <div className="goldcastYTTop">
+                <span className="goldcastYTTop">
                   <span>{episode.number}</span>
                   <span>▶</span>
-                </div>
+                </span>
 
                 <span className="goldcastYTImage">
                   <img
@@ -862,17 +878,17 @@ export default function GoldCastPage() {
                   />
                 </span>
 
-                <div className="goldcastYTBody">
-                  <p className="goldcastYTCategory">
+                <span className="goldcastYTBody">
+                  <span className="goldcastYTCategory">
                     SPOTIFY · {episode.category}
-                  </p>
+                  </span>
 
-                  <h3>{episode.title}</h3>
+                  <span className="goldcastYTTitle">{episode.title}</span>
 
-                  <p className="goldcastYTDescription">
+                  <span className="goldcastYTDescription">
                     {episode.description}
-                  </p>
-                </div>
+                  </span>
+                </span>
               </button>
             ))}
           </div>

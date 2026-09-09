@@ -45264,6 +45264,8 @@ html:has(.goldbookCompactPage) {
   }
 
   .goldcastPage
+  .goldcastYTTitle,
+  .goldcastPage
   .goldcastYTCard
   h3 {
     margin: 0 !important;
