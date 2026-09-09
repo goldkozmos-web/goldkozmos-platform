@@ -107,3 +107,18 @@ export function clampProgress(value: number) {
 export function formatProgressPercent(progress: number) {
   return `${Math.round(clampProgress(progress) * 100)}%`;
 }
+
+export function resumeOffset(currentTime?: number, durationSeconds?: number) {
+  const time = Number(currentTime) || 0;
+  const duration = Number(durationSeconds) || 0;
+
+  if (time < 2) {
+    return 0;
+  }
+
+  if (duration > 0 && time >= Math.max(duration - 8, duration * 0.97)) {
+    return 0;
+  }
+
+  return time;
+}

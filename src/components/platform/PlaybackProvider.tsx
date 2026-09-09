@@ -12,6 +12,8 @@ import {
 } from "react";
 import {
   clampProgress,
+  progressKey,
+  resumeOffset,
   type PlatformId,
   type PlatformProgress,
 } from "../../data/platformFlow";
@@ -26,7 +28,7 @@ import {
   type PlatformProgressMap,
 } from "../../lib/platformProgress";
 import { usePathname, useRouter } from "next/navigation";
-import { sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
+import { listenToYoutube, sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
 
 type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
@@ -89,6 +91,7 @@ const PlaybackContext = createContext<PlaybackContextValue | null>(null);
 export function PlaybackProvider({ children }: { children: ReactNode }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const youtubeRef = useRef<HTMLIFrameElement>(null);
+  const embedStartRef = useRef(0);
   const [items, setItems] = useState<PlatformProgressMap>({});
   const [session, setSession] = useState<PlaybackSession | null>(null);
   const [minimized, setMinimized] = useState(false);
@@ -102,13 +105,17 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     const live = readLivePlayback();
 
-    if (
-      live?.session &&
-      (live.session.youtubeId || live.session.spotifyEmbedUrl)
-    ) {
-      setSession(live.session);
+    if (live?.session) {
+      const startAt = resumeOffset(
+        live.session.currentTime,
+        live.session.durationSeconds,
+      );
+      embedStartRef.current = startAt;
+      setSession({ ...live.session, currentTime: startAt });
+      setCurrentTime(startAt);
+      setDuration(live.session.durationSeconds ?? 0);
       setMinimized(true);
-      setIsPlaying(live.isPlaying);
+      setIsPlaying(Boolean(live.isPlaying));
     }
 
     setReady(true);
@@ -119,9 +126,13 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (session?.youtubeId || session?.spotifyEmbedUrl) {
+    if (session?.youtubeId || session?.spotifyEmbedUrl || session?.audioUrl) {
       writeLivePlayback({
-        session,
+        session: {
+          ...session,
+          currentTime,
+          durationSeconds: duration || session.durationSeconds,
+        },
         minimized,
         isPlaying,
       });
@@ -129,7 +140,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     }
 
     writeLivePlayback(null);
-  }, [isPlaying, minimized, ready, session]);
+  }, [currentTime, duration, isPlaying, minimized, ready, session]);
 
   useEffect(() => {
     const mini =
@@ -153,7 +164,27 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
   const startAudio = useCallback((input: StartAudioInput) => {
     const now = new Date().toISOString();
-    const existing = items[`${input.platform}:${input.contentId}`] ?? null;
+    const existing = items[progressKey(input.platform, input.contentId)] ?? null;
+    const startAt = resumeOffset(
+      input.currentTime ?? existing?.currentTime,
+      existing?.durationSeconds,
+    );
+
+    if (
+      session?.audioUrl === input.audioUrl &&
+      session.contentId === input.contentId
+    ) {
+      setMinimized(false);
+      const audio = audioRef.current;
+      if (audio) {
+        void audio.play().then(
+          () => setIsPlaying(true),
+          () => setIsPlaying(false),
+        );
+      }
+      return;
+    }
+
     const next: PlaybackSession = {
       platform: input.platform,
       contentId: input.contentId,
@@ -161,7 +192,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       title: input.title,
       href: input.href,
       progress: existing?.progress ?? 0,
-      currentTime: input.currentTime ?? existing?.currentTime ?? 0,
+      currentTime: startAt,
       durationSeconds: existing?.durationSeconds,
       lastOpenedAt: now,
       lastPlayedAt: now,
@@ -171,6 +202,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     };
 
     setSession(next);
+    setCurrentTime(startAt);
     setMinimized(false);
     persist(next);
 
@@ -181,7 +213,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         audio.src = input.audioUrl;
       }
 
-      audio.currentTime = next.currentTime ?? 0;
+      audio.currentTime = startAt;
       void audio.play().then(
         () => setIsPlaying(true),
         () => setIsPlaying(false),
@@ -189,13 +221,26 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     }
 
     sendYoutubeCommand(youtubeRef.current, "pauseVideo");
-  }, [items, persist]);
+  }, [items, persist, session]);
 
   const startYoutube = useCallback((input: StartYoutubeInput) => {
     const now = new Date().toISOString();
     audioRef.current?.pause();
 
-    const existing = items[`${input.platform}:${input.contentId}`] ?? null;
+    if (session?.youtubeId === input.youtubeId) {
+      setMinimized(false);
+      setIsPlaying(true);
+      sendYoutubeCommand(youtubeRef.current, "playVideo");
+      return;
+    }
+
+    const existing = items[progressKey(input.platform, input.contentId)] ?? null;
+    const startAt = resumeOffset(
+      existing?.currentTime,
+      existing?.durationSeconds,
+    );
+    embedStartRef.current = startAt;
+
     const next: PlaybackSession = {
       platform: input.platform,
       contentId: input.contentId,
@@ -203,7 +248,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       title: input.title,
       href: input.href,
       progress: existing?.progress ?? 0,
-      currentTime: existing?.currentTime ?? 0,
+      currentTime: startAt,
       durationSeconds: existing?.durationSeconds,
       lastOpenedAt: now,
       lastPlayedAt: now,
@@ -214,21 +259,38 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     };
 
     setSession(next);
+    setCurrentTime(startAt);
     setMinimized(false);
     setIsPlaying(true);
     persist(next);
-  }, [items, persist]);
+  }, [items, persist, session?.youtubeId]);
 
   const startSpotify = useCallback((input: StartSpotifyInput) => {
     const now = new Date().toISOString();
     audioRef.current?.pause();
     sendYoutubeCommand(youtubeRef.current, "pauseVideo");
 
+    const existing = items[progressKey(input.platform, input.contentId)] ?? null;
+    const startAt = resumeOffset(
+      existing?.currentTime,
+      existing?.durationSeconds,
+    );
+    embedStartRef.current = startAt;
+
     const embed = new URL(input.embedUrl, "https://open.spotify.com");
     embed.searchParams.set("theme", "0");
     embed.searchParams.set("autoplay", "1");
 
-    const existing = items[`${input.platform}:${input.contentId}`] ?? null;
+    if (startAt > 0) {
+      embed.searchParams.set("t", String(Math.floor(startAt)));
+    }
+
+    if (session?.spotifyEmbedUrl?.includes(embed.pathname)) {
+      setMinimized(false);
+      setIsPlaying(true);
+      return;
+    }
+
     const next: PlaybackSession = {
       platform: input.platform,
       contentId: input.contentId,
@@ -236,7 +298,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       title: input.title,
       href: input.href,
       progress: existing?.progress ?? 0,
-      currentTime: existing?.currentTime ?? 0,
+      currentTime: startAt,
       durationSeconds: existing?.durationSeconds,
       lastOpenedAt: now,
       lastPlayedAt: now,
@@ -247,10 +309,11 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     };
 
     setSession(next);
+    setCurrentTime(startAt);
     setMinimized(false);
     setIsPlaying(true);
     persist(next);
-  }, [items, persist]);
+  }, [items, persist, session?.spotifyEmbedUrl]);
 
   const toggle = useCallback(() => {
     const audio = audioRef.current;
@@ -306,29 +369,47 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const stop = useCallback(() => {
     const audio = audioRef.current;
     audio?.pause();
-    sendYoutubeCommand(youtubeRef.current, "stopVideo");
+    sendYoutubeCommand(youtubeRef.current, "pauseVideo");
+
+    if (session) {
+      const durationSeconds = duration || session.durationSeconds;
+      persist({
+        ...session,
+        currentTime,
+        durationSeconds,
+        progress:
+          durationSeconds && durationSeconds > 0
+            ? clampProgress(currentTime / durationSeconds)
+            : currentTime > 0
+              ? 0.01
+              : session.progress,
+        status: "paused",
+        lastPlayedAt: new Date().toISOString(),
+      });
+    }
+
     setIsPlaying(false);
     setSession(null);
     setMinimized(false);
     writeLivePlayback(null);
-  }, []);
+  }, [currentTime, duration, persist, session]);
 
   useEffect(() => {
-    if (!session || !ready || session.youtubeId || session.spotifyEmbedUrl) {
+    if (!session || !ready) {
       return;
     }
 
-    const audio = audioRef.current;
-
-    if (!audio) {
-      return;
-    }
-
+    const durationSeconds = duration || session.durationSeconds || 0;
     const next: PlatformProgress = {
       ...session,
       currentTime,
-      durationSeconds: duration || session.durationSeconds,
-      progress: duration > 0 ? clampProgress(currentTime / duration) : session.progress,
+      durationSeconds,
+      progress:
+        durationSeconds > 0
+          ? clampProgress(currentTime / durationSeconds)
+          : currentTime > 0
+            ? Math.max(session.progress, 0.01)
+            : session.progress,
       lastPlayedAt: new Date().toISOString(),
       status: isPlaying ? "playing" : "paused",
     };
@@ -342,6 +423,91 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     return () => window.clearTimeout(timer);
   }, [currentTime, duration, isPlaying, ready, persist, session]);
+
+  useEffect(() => {
+    if (!session?.youtubeId) {
+      return;
+    }
+
+    function onMessage(event: MessageEvent) {
+      const origin = event.origin || "";
+
+      if (!origin.includes("youtube.com") && !origin.includes("youtube-nocookie.com")) {
+        return;
+      }
+
+      let data = event.data;
+
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        } catch {
+          return;
+        }
+      }
+
+      if (!data || typeof data !== "object") {
+        return;
+      }
+
+      if (data.event === "onReady" || data.event === "initialDelivery") {
+        listenToYoutube(youtubeRef.current);
+        const startAt = embedStartRef.current;
+        if (startAt > 1) {
+          sendYoutubeCommand(youtubeRef.current, "seekTo", [startAt, true]);
+        }
+      }
+
+      const info = data.info;
+
+      if (data.event === "infoDelivery" && info && typeof info === "object") {
+        if (typeof info.currentTime === "number") {
+          setCurrentTime(info.currentTime);
+        }
+
+        if (typeof info.duration === "number" && info.duration > 0) {
+          setDuration(info.duration);
+        }
+
+        if (typeof info.playerState === "number") {
+          setIsPlaying(info.playerState === 1);
+        }
+      }
+    }
+
+    window.addEventListener("message", onMessage);
+    const poll = window.setInterval(() => {
+      listenToYoutube(youtubeRef.current);
+    }, 2000);
+
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.clearInterval(poll);
+    };
+  }, [session?.youtubeId]);
+
+  useEffect(() => {
+    if (!session?.audioUrl) {
+      return;
+    }
+
+    const audio = audioRef.current;
+
+    if (!audio) {
+      return;
+    }
+
+    if (audio.getAttribute("src") !== session.audioUrl) {
+      audio.src = session.audioUrl;
+      audio.currentTime = session.currentTime ?? 0;
+      if (isPlaying) {
+        void audio.play().then(
+          () => setIsPlaying(true),
+          () => setIsPlaying(false),
+        );
+      }
+    }
+  }, [isPlaying, session?.audioUrl, session?.currentTime, session?.contentId]);
 
   const value = useMemo<PlaybackContextValue>(
     () => ({
@@ -446,12 +612,28 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             ref={session.youtubeId ? youtubeRef : undefined}
             src={
               session.youtubeId
-                ? youtubeEmbedSrc(session.youtubeId, true)
+                ? youtubeEmbedSrc(
+                    session.youtubeId,
+                    true,
+                    embedStartRef.current,
+                  )
                 : session.spotifyEmbedUrl
             }
             title={session.title}
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"
             allowFullScreen
+            onLoad={() => {
+              if (session.youtubeId) {
+                listenToYoutube(youtubeRef.current);
+                if (embedStartRef.current > 1) {
+                  sendYoutubeCommand(
+                    youtubeRef.current,
+                    "seekTo",
+                    [embedStartRef.current, true],
+                  );
+                }
+              }
+            }}
           />
 
           {minimized ? (

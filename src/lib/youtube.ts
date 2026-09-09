@@ -6,7 +6,11 @@ export function youtubeIdFromUrl(url: string) {
   return match?.[1] ?? null;
 }
 
-export function youtubeEmbedSrc(id: string, autoplay = true) {
+export function youtubeEmbedSrc(
+  id: string,
+  autoplay = true,
+  startSeconds = 0,
+) {
   const params = new URLSearchParams({
     autoplay: autoplay ? "1" : "0",
     playsinline: "1",
@@ -14,6 +18,12 @@ export function youtubeEmbedSrc(id: string, autoplay = true) {
     modestbranding: "1",
     enablejsapi: "1",
   });
+
+  const start = Math.floor(Math.max(0, startSeconds));
+
+  if (start > 0) {
+    params.set("start", String(start));
+  }
 
   if (typeof window !== "undefined") {
     params.set("origin", window.location.origin);
@@ -24,14 +34,22 @@ export function youtubeEmbedSrc(id: string, autoplay = true) {
 
 export function sendYoutubeCommand(
   iframe: HTMLIFrameElement | null,
-  func: "playVideo" | "pauseVideo" | "stopVideo",
+  func: "playVideo" | "pauseVideo" | "stopVideo" | "seekTo",
+  args: unknown[] = [],
 ) {
   iframe?.contentWindow?.postMessage(
     JSON.stringify({
       event: "command",
       func,
-      args: [],
+      args,
     }),
+    "*",
+  );
+}
+
+export function listenToYoutube(iframe: HTMLIFrameElement | null) {
+  iframe?.contentWindow?.postMessage(
+    JSON.stringify({ event: "listening", id: "goldkozmos" }),
     "*",
   );
 }
