@@ -224,10 +224,10 @@
 }
 
 .goldBlogComments.isCompact {
-  margin-top: 14px;
-  padding: 12px 0 4px;
+  margin-top: 16px;
+  padding: 14px 0 2px;
   min-height: 0;
-  border-top: 1px solid rgba(168, 124, 44, 0.14);
+  border-top: 1px solid rgba(168, 124, 44, 0.16);
 }
 
 .goldBlogComments.isCompact .goldBlogCommentsCount {

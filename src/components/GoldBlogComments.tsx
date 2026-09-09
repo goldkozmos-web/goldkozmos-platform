@@ -585,16 +585,6 @@ export default function GoldBlogComments({
         </div>
       ) : null}
 
-      {!compose && onReadClick ? (
-        <button
-          type="button"
-          className="goldBlogCommentReadFirst"
-          onClick={onReadClick}
-        >
-          Yorum eklemek için yazıyı oku
-        </button>
-      ) : null}
-
       {compose && !viewer ? (
         <p className="goldBlogCommentGate">
           Yorum yapmak için giriş yap.{" "}
@@ -611,6 +601,16 @@ export default function GoldBlogComments({
       <div className="goldBlogCommentList">
         {comments.map((comment) => renderEntry(comment))}
       </div>
+
+      {!compose && onReadClick ? (
+        <button
+          type="button"
+          className="goldBlogCommentReadFirst"
+          onClick={onReadClick}
+        >
+          Yorum eklemek için yazıyı oku
+        </button>
+      ) : null}
     </section>
   );
 }
