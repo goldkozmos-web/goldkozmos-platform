@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { PlaybackProvider } from "./PlaybackProvider";
 import MiniPlayer from "./MiniPlayer";
 
@@ -12,7 +12,9 @@ export default function PlatformFlowRoot({
   return (
     <PlaybackProvider>
       {children}
-      <MiniPlayer />
+      <Suspense fallback={null}>
+        <MiniPlayer />
+      </Suspense>
     </PlaybackProvider>
   );
 }
