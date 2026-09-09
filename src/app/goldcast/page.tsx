@@ -550,10 +550,14 @@ const goldcastPremiumStyles = `
     margin: 10px auto 6px;
     padding: 12px 14px 12px;
     box-sizing: border-box;
-    border: 1px solid rgba(161, 118, 43, 0.14);
+    border: 1px solid rgba(90, 56, 18, 0.18);
     border-radius: 18px;
-    background: rgba(255, 255, 255, 0.72);
-    box-shadow: 0 10px 28px rgba(66, 42, 17, 0.05);
+    background:
+      linear-gradient(180deg, rgba(255, 244, 214, 0.28) 0%, transparent 34%),
+      linear-gradient(155deg, #e4c06a 0%, #d4a24a 46%, #c49238 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 244, 214, 0.45) inset,
+      0 12px 28px rgba(66, 42, 17, 0.16);
   }
 
   .goldcastPage .platformContinue {
@@ -577,20 +581,27 @@ const goldcastPremiumStyles = `
     width: 56px;
     height: 56px;
     border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(48, 28, 12, 0.22);
   }
 
   .goldcastPage .platformContinueCopy {
     gap: 2px;
   }
 
+  .goldcastPage .platformContinueCopy p {
+    color: #3a271b;
+  }
+
   .goldcastPage .platformContinueCopy strong {
     font-size: 15px;
+    color: #1c120b;
   }
 
   .goldcastPage .platformContinueDesc {
     -webkit-line-clamp: 1;
     font-size: 12px;
     line-height: 1.35;
+    color: rgba(28, 18, 11, 0.72);
   }
 
   .goldcastPage .platformContinueMeter {
@@ -598,16 +609,32 @@ const goldcastPremiumStyles = `
     gap: 5px;
   }
 
+  .goldcastPage .platformContinuePercent {
+    color: #3a271b;
+  }
+
+  .goldcastPage .platformContinue .platformProgressTrack {
+    background: rgba(28, 18, 11, 0.16);
+  }
+
+  .goldcastPage .platformContinue .platformProgressTrack i {
+    background: #1c120b;
+  }
+
   .goldcastPage .platformContinueCta {
     min-height: 30px;
     margin-top: 4px;
     padding: 0 12px;
     font-size: 10px;
+    border-color: #1c120b;
+    background: #1c120b;
+    color: #f7ead0;
   }
 
   .goldcastPage .platformContinueCta:hover {
-    background: #241911;
-    border-color: #241911;
+    background: #2a1c12;
+    border-color: #2a1c12;
+    color: #fff6e4;
   }
 
   @media (min-width: 901px) {
