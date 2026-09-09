@@ -560,23 +560,6 @@ const goldcastPremiumStyles = `
     padding-top: 0;
   }
 
-  .goldcastPage .platformContinueKicker {
-    margin: 0 0 2px;
-    color: #9d742d;
-    font-size: 9px;
-    letter-spacing: 0.18em;
-  }
-
-  .goldcastPage .platformContinue h2 {
-    font-size: 18px;
-    letter-spacing: -0.02em;
-    color: #241911;
-  }
-
-  .goldcastPage .platformContinueLead {
-    display: none;
-  }
-
   .goldcastPage .platformContinueCard {
     margin-top: 10px;
     padding: 0;
@@ -632,10 +615,6 @@ const goldcastPremiumStyles = `
       width: min(1180px, calc(100% - 80px));
       margin: 16px auto 0;
       padding: 14px 18px 14px;
-    }
-
-    .goldcastPage .platformContinue h2 {
-      font-size: 20px;
     }
   }
 

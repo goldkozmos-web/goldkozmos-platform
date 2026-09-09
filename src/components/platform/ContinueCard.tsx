@@ -86,14 +86,6 @@ export default function ContinueCard({
       className={`platformContinue platformContinue--${variant}`}
       aria-label={title}
     >
-      <p className="platformContinueKicker">Kaldığın yer</p>
-      <h2>{variant === "page" ? "Kaldığın yerden devam et" : title}</h2>
-      {variant === "page" ? (
-        <p className="platformContinueLead">
-          Bıraktığın saniyeden, aynı bölüm.
-        </p>
-      ) : null}
-
       {item ? (
         <div className="platformContinueCard">
           {artwork ? (
