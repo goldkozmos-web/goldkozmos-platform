@@ -4404,6 +4404,8 @@ export default function GoldBlogSection() {
                     <GoldBlogComments
                       postId={article.slug}
                       compact
+                      compose={false}
+                      onReadClick={() => openReader(article)}
                       onCountChange={handleCommentCount}
                     />
                   </article>

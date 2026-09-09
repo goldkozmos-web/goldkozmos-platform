@@ -40,6 +40,8 @@ type CommentItem = {
 type GoldBlogCommentsProps = {
   postId: string;
   compact?: boolean;
+  compose?: boolean;
+  onReadClick?: () => void;
   onCountChange?: (postId: string, count: number) => void;
 };
 
@@ -80,6 +82,8 @@ function Avatar({
 export default function GoldBlogComments({
   postId,
   compact = false,
+  compose = true,
+  onReadClick,
   onCountChange,
 }: GoldBlogCommentsProps) {
   const [comments, setComments] = useState<CommentItem[]>([]);
@@ -406,34 +410,38 @@ export default function GoldBlogComments({
                 {comment.updatedAt !== comment.createdAt ? " · düzenlendi" : ""}
               </time>
 
-              <button
-                type="button"
-                className={comment.likedByMe ? "isOn" : undefined}
-                onClick={() => void toggleLike(comment.id)}
-              >
-                Beğen
-              </button>
+              {compose ? (
+                <button
+                  type="button"
+                  className={comment.likedByMe ? "isOn" : undefined}
+                  onClick={() => void toggleLike(comment.id)}
+                >
+                  Beğen
+                </button>
+              ) : null}
 
-              <button
-                type="button"
-                onClick={() => {
-                  if (!viewer) {
-                    setError("Yorum yapmak için giriş yap.");
-                    return;
-                  }
+              {compose ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!viewer) {
+                      setError("Yorum yapmak için giriş yap.");
+                      return;
+                    }
 
-                  setReplyingTo(
-                    replyingTo === comment.id ? null : comment.id,
-                  );
-                  setReplyDraft(
-                    isReply ? `@${comment.displayName} ` : "",
-                  );
-                }}
-              >
-                Yanıtla
-              </button>
+                    setReplyingTo(
+                      replyingTo === comment.id ? null : comment.id,
+                    );
+                    setReplyDraft(
+                      isReply ? `@${comment.displayName} ` : "",
+                    );
+                  }}
+                >
+                  Yanıtla
+                </button>
+              ) : null}
 
-              {comment.canEdit ? (
+              {compose && comment.canEdit ? (
                 <button
                   type="button"
                   onClick={() => {
@@ -445,7 +453,7 @@ export default function GoldBlogComments({
                 </button>
               ) : null}
 
-              {comment.canDelete ? (
+              {compose && comment.canDelete ? (
                 <button
                   type="button"
                   onClick={() => void removeComment(comment.id)}
@@ -495,7 +503,7 @@ export default function GoldBlogComments({
             </div>
           ) : null}
 
-          {replyingTo === comment.id && viewer ? (
+          {compose && replyingTo === comment.id && viewer ? (
             <form
               className="goldBlogCommentComposer isInline"
               onSubmit={(event) => void handleReplySubmit(event, comment.id)}
@@ -536,7 +544,7 @@ export default function GoldBlogComments({
             : "Yorumlar"}
       </p>
 
-      {viewer && !unavailable ? (
+      {compose && viewer && !unavailable ? (
         <form className="goldBlogCommentComposer" onSubmit={handleRootSubmit}>
           <Avatar url={viewer.avatarUrl} name={viewer.displayName} />
           <textarea
@@ -555,7 +563,9 @@ export default function GoldBlogComments({
             {sending && !replyingTo && !editingId ? "…" : "Paylaş"}
           </button>
         </form>
-      ) : (
+      ) : null}
+
+      {compose && !viewer && !unavailable ? (
         <div className="goldBlogCommentComposer">
           <span className="goldBlogCommentAvatar" aria-hidden="true">
             G
@@ -573,9 +583,19 @@ export default function GoldBlogComments({
             Paylaş
           </Link>
         </div>
-      )}
+      ) : null}
 
-      {!viewer ? (
+      {!compose && onReadClick ? (
+        <button
+          type="button"
+          className="goldBlogCommentReadFirst"
+          onClick={onReadClick}
+        >
+          Yorum eklemek için yazıyı oku
+        </button>
+      ) : null}
+
+      {compose && !viewer ? (
         <p className="goldBlogCommentGate">
           Yorum yapmak için giriş yap.{" "}
           <Link href={loginHref(postId)}>Giriş yap</Link>

@@ -240,6 +240,19 @@
   grid-template-columns: 26px minmax(0, 1fr) auto;
 }
 
+.goldBlogCommentReadFirst {
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #a1772d;
+  font-size: 12px;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+
 @media (max-width: 700px) {
   .goldBlogCommentComposer {
     grid-template-columns: 28px minmax(0, 1fr) auto;
