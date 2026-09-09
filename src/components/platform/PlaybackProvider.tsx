@@ -25,7 +25,7 @@ import {
   writePlatformProgressMap,
   type PlatformProgressMap,
 } from "../../lib/platformProgress";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
 
 type PlaybackSession = PlatformProgress & {
@@ -516,6 +516,7 @@ export function usePlayback() {
 
 export function KeepPlayingOnNavigate() {
   const pathname = usePathname();
+  const router = useRouter();
   const { session, minimize } = usePlayback();
   const previousPath = useRef(pathname);
 
@@ -529,6 +530,80 @@ export function KeepPlayingOnNavigate() {
 
     previousPath.current = pathname;
   }, [minimize, pathname, session?.spotifyEmbedUrl, session?.youtubeId]);
+
+  useEffect(() => {
+    function onClick(event: MouseEvent) {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      const target = event.target;
+
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      const anchor = target.closest("a");
+
+      if (!(anchor instanceof HTMLAnchorElement)) {
+        return;
+      }
+
+      if (anchor.target && anchor.target !== "_self") {
+        return;
+      }
+
+      if (anchor.hasAttribute("download")) {
+        return;
+      }
+
+      const href = anchor.getAttribute("href");
+
+      if (
+        !href ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        href.startsWith("javascript:")
+      ) {
+        return;
+      }
+
+      let url: URL;
+
+      try {
+        url = new URL(href, window.location.href);
+      } catch {
+        return;
+      }
+
+      if (url.origin !== window.location.origin) {
+        return;
+      }
+
+      if (
+        url.pathname === window.location.pathname &&
+        url.search === window.location.search
+      ) {
+        return;
+      }
+
+      event.preventDefault();
+      router.push(`${url.pathname}${url.search}${url.hash}`);
+    }
+
+    document.addEventListener("click", onClick, true);
+
+    return () => {
+      document.removeEventListener("click", onClick, true);
+    };
+  }, [router]);
 
   return null;
 }
