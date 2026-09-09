@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Navbar from "../../components/Navbar";
 import FooterSection from "../../components/FooterSection";
 import ContinueGlance from "../../components/platform/ContinueGlance";
@@ -67,112 +67,6 @@ const spotifyEpisodes = [
 ];
 
 
-
-const goldcastWhatsappStyles = `
-  .goldcastPage .goldcastFloatingWhatsapp {
-    position: fixed;
-    right: 24px;
-    bottom: 92px;
-    z-index: 99998;
-
-    width: 56px;
-    height: 56px;
-
-    display: grid;
-    place-items: center;
-
-    border: 1.5px solid rgba(211, 168, 84, 0.70);
-    border-radius: 50%;
-
-    color: #d9ad58;
-
-    background:
-      linear-gradient(
-        145deg,
-        #21150f 0%,
-        #120c09 100%
-      );
-
-    box-shadow:
-      0 16px 34px rgba(18, 11, 7, 0.30),
-      0 0 0 6px rgba(211, 168, 84, 0.07);
-
-    text-decoration: none;
-
-    transition:
-      transform 180ms ease,
-      box-shadow 180ms ease,
-      border-color 180ms ease;
-  }
-
-  .goldcastPage .goldcastFloatingWhatsapp:hover {
-    transform: translateY(-3px) scale(1.03);
-    border-color: rgba(224, 187, 105, 0.95);
-
-    box-shadow:
-      0 20px 40px rgba(18, 11, 7, 0.36),
-      0 0 0 8px rgba(211, 168, 84, 0.09);
-  }
-
-  .goldcastPage .goldcastFloatingWhatsapp svg {
-    width: 26px;
-    height: 26px;
-    fill: currentColor;
-  }
-
-  .goldcastPage .goldcastFloatingWhatsappLabel {
-    position: absolute;
-
-    right: 68px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    min-width: max-content;
-
-    padding: 8px 11px;
-
-    border: 1px solid rgba(211, 168, 84, 0.24);
-    border-radius: 10px;
-
-    color: #fffaf1;
-    background: rgba(18, 12, 9, 0.94);
-
-    box-shadow:
-      0 10px 24px rgba(18, 11, 7, 0.20);
-
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-
-    opacity: 0;
-    pointer-events: none;
-
-    transition:
-      opacity 160ms ease,
-      transform 160ms ease;
-  }
-
-  .goldcastPage
-  .goldcastFloatingWhatsapp:hover
-  .goldcastFloatingWhatsappLabel {
-    opacity: 1;
-    transform: translateY(-50%) translateX(-2px);
-  }
-
-  @media (max-width: 700px) {
-    .goldcastPage .goldcastFloatingWhatsapp {
-      right: 18px;
-      bottom: 82px;
-      width: 52px;
-      height: 52px;
-    }
-
-    .goldcastPage .goldcastFloatingWhatsappLabel {
-      display: none;
-    }
-  }
-`;
 
 const youtubeOnlyStyles = `
   @media (min-width: 901px) {
@@ -642,42 +536,134 @@ const desktopSpotifyStyles = `
   }
 `;
 
+const goldcastPremiumStyles = `
+  .goldcastPage .goldcastFloatingWhatsapp,
+  .goldcastPage .goldcastFloatingWhatsappLabel {
+    display: none !important;
+  }
+
+  .goldcastPage .goldcastYTCard {
+    position: relative;
+    isolation: isolate;
+    border: 1px solid rgba(214, 172, 88, 0.40) !important;
+    background:
+      linear-gradient(180deg, rgba(255, 232, 186, 0.10) 0%, transparent 26%),
+      linear-gradient(155deg, #3c291b 0%, #24170f 48%, #120c09 100%) !important;
+    box-shadow:
+      0 20px 42px rgba(18, 11, 6, 0.30),
+      inset 0 1px 0 rgba(255, 236, 196, 0.16) !important;
+  }
+
+  .goldcastPage .goldcastYTCard::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 0;
+    z-index: 2;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, #f3d592 0%, #c8953d 52%, #8d6320 100%);
+    pointer-events: none;
+  }
+
+  .goldcastPage .goldcastYTImage {
+    position: relative;
+    overflow: hidden;
+    border: 0 !important;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.32);
+  }
+
+  .goldcastPage .goldcastYTImage::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, transparent 48%, rgba(12, 8, 5, 0.42) 100%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.22), transparent 18%);
+  }
+
+  .goldcastPage .goldcastYTImage img {
+    filter: saturate(1.06) contrast(1.04);
+  }
+
+  .goldcastPage .goldcastYTWatch {
+    letter-spacing: 0.04em;
+  }
+
+  .goldcastPage .goldcastYTWatch span,
+  .goldcastPage .goldcastInlineActions a span {
+    font-size: 13px;
+    line-height: 1;
+  }
+
+  .goldcastPage .goldcastYTControls button,
+  .goldcastPage .goldcastSpotifyControls button {
+    border: 1px solid rgba(184, 140, 62, 0.28) !important;
+    background:
+      linear-gradient(180deg, #fffdf8 0%, #f4ead8 100%) !important;
+    box-shadow:
+      0 8px 18px rgba(72, 48, 18, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85) !important;
+    color: #7a5820 !important;
+  }
+
+  .goldcastPage .analysisHubActions a:first-child,
+  .goldcastPage .goldcastInlineActions a:first-child {
+    border: 0 !important;
+    color: #1c120b !important;
+    background:
+      linear-gradient(180deg, #f3d592 0%, #d4a24a 48%, #b07d28 100%) !important;
+    box-shadow:
+      0 10px 20px rgba(92, 60, 16, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.42) !important;
+  }
+
+  .goldcastPage .analysisHubActions a:last-child,
+  .goldcastPage .goldcastInlineActions a:last-child {
+    border: 1px solid rgba(184, 140, 62, 0.28) !important;
+    color: #2a1f16 !important;
+    background:
+      linear-gradient(180deg, #fffdf8 0%, #f6eee0 100%) !important;
+    box-shadow:
+      0 8px 16px rgba(72, 48, 18, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  }
+
+  @media (max-width: 700px) {
+    .goldcastPage .goldcastYTCard {
+      border-radius: 20px !important;
+    }
+
+    .goldcastPage .goldcastYTImage {
+      border-radius: 12px !important;
+    }
+
+    .goldcastPage .goldcastYTCard h3 {
+      font-size: 21px !important;
+      letter-spacing: -0.04em !important;
+    }
+
+    .goldcastPage .goldcastInlineActions {
+      overflow: visible;
+    }
+
+    .goldcastPage .goldcastInlineActions > a {
+      min-height: 44px !important;
+      border-radius: 14px !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+    }
+  }
+`;
+
 export default function GoldCastPage() {
   const youtubeSliderRef =
     useRef<HTMLDivElement>(null);
 
   const spotifySliderRef =
     useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const backToTop =
-      document.querySelector<HTMLAnchorElement>(
-        ".goldcastPage .siteGlobalBackToTop",
-      );
-
-    if (!backToTop) return;
-
-    const handleBackToTop = (event: MouseEvent) => {
-      event.preventDefault();
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    };
-
-    backToTop.addEventListener(
-      "click",
-      handleBackToTop,
-    );
-
-    return () => {
-      backToTop.removeEventListener(
-        "click",
-        handleBackToTop,
-      );
-    };
-  }, []);
 
   const scrollSlider = (
     ref: React.RefObject<HTMLDivElement | null>,
@@ -701,9 +687,9 @@ export default function GoldCastPage() {
       className="homePage goldcastPage"
       id="top"
     >
-      <style>{goldcastWhatsappStyles}</style>
       <style>{youtubeOnlyStyles}</style>
       <style>{desktopSpotifyStyles}</style>
+      <style>{goldcastPremiumStyles}</style>
 
       <Navbar />
 
@@ -931,30 +917,6 @@ export default function GoldCastPage() {
       </section>
 
       <FooterSection />
-
-      <a
-        href="https://wa.me/905054722153"
-        className="goldcastFloatingWhatsapp"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="WhatsApp'tan mesaj gönder"
-      >
-        <svg
-          viewBox="0 0 32 32"
-          aria-hidden="true"
-        >
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            d="M16 3.2c-6.95 0-12.6 5.56-12.6 12.4 0 2.19.59 4.33 1.7 6.2L3 29l7.42-2.02A12.7 12.7 0 0 0 16 28c6.95 0 12.6-5.56 12.6-12.4S22.95 3.2 16 3.2Zm0 22.7c-1.87 0-3.7-.5-5.28-1.45l-.38-.23-4.4 1.2 1.18-4.25-.25-.4a10.2 10.2 0 0 1-1.57-5.17C5.3 9.91 10.1 5.3 16 5.3s10.7 4.61 10.7 10.3S21.9 25.9 16 25.9Zm5.88-7.67c-.32-.16-1.9-.92-2.2-1.03-.3-.1-.52-.16-.74.16-.22.32-.85 1.03-1.04 1.24-.19.21-.38.24-.7.08-.32-.16-1.36-.49-2.58-1.57-.95-.83-1.6-1.86-1.78-2.18-.19-.32-.02-.49.14-.65.15-.14.32-.37.49-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.74-1.75-1.01-2.4-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.58.08-.88.4-.3.32-1.15 1.1-1.15 2.69 0 1.58 1.18 3.11 1.34 3.33.16.21 2.32 3.48 5.62 4.88.79.33 1.4.53 1.88.68.79.25 1.5.21 2.07.13.63-.09 1.9-.76 2.17-1.49.27-.73.27-1.36.19-1.49-.08-.13-.3-.21-.62-.37Z"
-            clipRule="evenodd"
-          />
-        </svg>
-
-        <span className="goldcastFloatingWhatsappLabel">
-          WhatsApp’tan Mesaj Gönder
-        </span>
-      </a>
     </main>
   );
 }

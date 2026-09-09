@@ -19,6 +19,10 @@
   .goldbookCompactPage .siteGlobalBackToTop::before,
   .goldbookCompactPage .siteGlobalBackToTop::after,
   .goldbookCompactPage .siteGlobalBackToTop > span,
+  .goldcastPage .siteGlobalBackToTop,
+  .goldcastPage .siteGlobalBackToTop::before,
+  .goldcastPage .siteGlobalBackToTop::after,
+  .goldcastPage .siteGlobalBackToTop > span,
   .siteGlobalBackToTop {
     display: none !important;
     opacity: 0 !important;

@@ -45912,69 +45912,24 @@ html:has(.goldbookCompactPage) {
 
   /* =====================================================
      YUKARI ÇIK OKU
+     Navbar oku gizle. Tek ok GlobalContactDock.
   ====================================================== */
 
   .goldcastPage
-  .siteGlobalBackToTop {
-    position: fixed !important;
-
-    right: 17px !important;
-    bottom: 84px !important;
-
-    width: 54px !important;
-    height: 54px !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    border:
-      1px solid
-      rgba(210,164,79,0.62) !important;
-
-    border-radius: 50% !important;
-
-    background:
-      rgba(43,29,19,0.97) !important;
-
-    color:
-      #e0ad50 !important;
-
-    box-shadow:
-      0 10px 28px
-      rgba(0,0,0,0.20) !important;
-
-    text-decoration:
-      none !important;
-
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-
-    z-index: 99997 !important;
-  }
-
+  .siteGlobalBackToTop,
   .goldcastPage
-  .siteGlobalBackToTop
-  > span {
-    color:
-      #e0ad50 !important;
-
-    font-family:
-      Arial,
-      sans-serif !important;
-
-    font-size:
-      27px !important;
-
-    font-weight:
-      700 !important;
-
-    line-height:
-      1 !important;
+  .siteGlobalBackToTop::before,
+  .goldcastPage
+  .siteGlobalBackToTop::after,
+  .goldcastPage
+  .siteGlobalBackToTop > span {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
   }
 }/* =========================================================
    GOLDCAST MOBİL - ALT İKİ BUTON ÇAKIŞMASIN
