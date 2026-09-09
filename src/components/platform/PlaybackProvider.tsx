@@ -109,120 +109,102 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
   const startAudio = useCallback((input: StartAudioInput) => {
     const now = new Date().toISOString();
+    const existing = items[`${input.platform}:${input.contentId}`] ?? null;
+    const next: PlaybackSession = {
+      platform: input.platform,
+      contentId: input.contentId,
+      contentType: "audio",
+      title: input.title,
+      href: input.href,
+      progress: existing?.progress ?? 0,
+      currentTime: input.currentTime ?? existing?.currentTime ?? 0,
+      durationSeconds: existing?.durationSeconds,
+      lastOpenedAt: now,
+      lastPlayedAt: now,
+      status: "playing",
+      audioUrl: input.audioUrl,
+      description: input.description ?? existing?.description,
+    };
 
-    setItems((current) => {
-      const existing = current[`${input.platform}:${input.contentId}`] ?? null;
-      const next: PlaybackSession = {
-        platform: input.platform,
-        contentId: input.contentId,
-        contentType: "audio",
-        title: input.title,
-        href: input.href,
-        progress: existing?.progress ?? 0,
-        currentTime: input.currentTime ?? existing?.currentTime ?? 0,
-        durationSeconds: existing?.durationSeconds,
-        lastOpenedAt: now,
-        lastPlayedAt: now,
-        status: "playing",
-        audioUrl: input.audioUrl,
-        description: input.description ?? existing?.description,
-      };
+    setSession(next);
+    setMinimized(false);
+    persist(next);
 
-      setSession(next);
-      setMinimized(false);
+    const audio = audioRef.current;
 
-      const audio = audioRef.current;
-
-      if (audio) {
-        if (audio.getAttribute("src") !== input.audioUrl) {
-          audio.src = input.audioUrl;
-        }
-
-        audio.currentTime = next.currentTime ?? 0;
-        void audio.play().then(
-          () => setIsPlaying(true),
-          () => setIsPlaying(false),
-        );
+    if (audio) {
+      if (audio.getAttribute("src") !== input.audioUrl) {
+        audio.src = input.audioUrl;
       }
 
-      sendYoutubeCommand(youtubeRef.current, "pauseVideo");
+      audio.currentTime = next.currentTime ?? 0;
+      void audio.play().then(
+        () => setIsPlaying(true),
+        () => setIsPlaying(false),
+      );
+    }
 
-      const map = upsertProgressEntry(current, next);
-      writePlatformProgressMap(map);
-      return map;
-    });
-  }, []);
+    sendYoutubeCommand(youtubeRef.current, "pauseVideo");
+  }, [items, persist]);
 
   const startYoutube = useCallback((input: StartYoutubeInput) => {
     const now = new Date().toISOString();
-    const audio = audioRef.current;
-    audio?.pause();
+    audioRef.current?.pause();
 
-    setItems((current) => {
-      const existing = current[`${input.platform}:${input.contentId}`] ?? null;
-      const next: PlaybackSession = {
-        platform: input.platform,
-        contentId: input.contentId,
-        contentType: "video",
-        title: input.title,
-        href: input.href,
-        progress: existing?.progress ?? 0,
-        currentTime: existing?.currentTime ?? 0,
-        durationSeconds: existing?.durationSeconds,
-        lastOpenedAt: now,
-        lastPlayedAt: now,
-        status: "playing",
-        youtubeId: input.youtubeId,
-        description: input.description ?? existing?.description,
-      };
+    const existing = items[`${input.platform}:${input.contentId}`] ?? null;
+    const next: PlaybackSession = {
+      platform: input.platform,
+      contentId: input.contentId,
+      contentType: "video",
+      title: input.title,
+      href: input.href,
+      progress: existing?.progress ?? 0,
+      currentTime: existing?.currentTime ?? 0,
+      durationSeconds: existing?.durationSeconds,
+      lastOpenedAt: now,
+      lastPlayedAt: now,
+      status: "playing",
+      youtubeId: input.youtubeId,
+      description: input.description ?? existing?.description,
+    };
 
-      setSession(next);
-      setMinimized(false);
-      setIsPlaying(true);
-
-      const map = upsertProgressEntry(current, next);
-      writePlatformProgressMap(map);
-      return map;
-    });
-  }, []);
+    setSession(next);
+    setMinimized(false);
+    setIsPlaying(true);
+    persist(next);
+  }, [items, persist]);
 
   const startSpotify = useCallback((input: StartSpotifyInput) => {
     const now = new Date().toISOString();
-    const audio = audioRef.current;
-    audio?.pause();
+    audioRef.current?.pause();
     sendYoutubeCommand(youtubeRef.current, "pauseVideo");
 
     const embed = new URL(input.embedUrl, "https://open.spotify.com");
     embed.searchParams.set("theme", "0");
     embed.searchParams.set("autoplay", "1");
 
-    setItems((current) => {
-      const existing = current[`${input.platform}:${input.contentId}`] ?? null;
-      const next: PlaybackSession = {
-        platform: input.platform,
-        contentId: input.contentId,
-        contentType: "audio",
-        title: input.title,
-        href: input.href,
-        progress: existing?.progress ?? 0,
-        currentTime: existing?.currentTime ?? 0,
-        durationSeconds: existing?.durationSeconds,
-        lastOpenedAt: now,
-        lastPlayedAt: now,
-        status: "playing",
-        spotifyEmbedUrl: embed.toString(),
-        description: input.description ?? existing?.description,
-      };
+    const existing = items[`${input.platform}:${input.contentId}`] ?? null;
+    const next: PlaybackSession = {
+      platform: input.platform,
+      contentId: input.contentId,
+      contentType: "audio",
+      title: input.title,
+      href: input.href,
+      progress: existing?.progress ?? 0,
+      currentTime: existing?.currentTime ?? 0,
+      durationSeconds: existing?.durationSeconds,
+      lastOpenedAt: now,
+      lastPlayedAt: now,
+      status: "playing",
+      spotifyEmbedUrl: embed.toString(),
+      description: input.description ?? existing?.description,
+    };
 
-      setSession(next);
-      setMinimized(false);
-      setIsPlaying(true);
-
-      const map = upsertProgressEntry(current, next);
-      writePlatformProgressMap(map);
-      return map;
-    });
-  }, []);
+    setSession(next);
+    setMinimized(false);
+    setIsPlaying(true);
+    persist(next);
+  }, [items, persist]);
 
   const toggle = useCallback(() => {
     const audio = audioRef.current;
