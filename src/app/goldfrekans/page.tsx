@@ -345,64 +345,6 @@ const styles = `
     line-height: 1.55;
   }
 
-  .goldFrekansBottomNote {
-    margin-top: 46px;
-    padding: 30px 34px;
-    border: 1px solid rgba(232, 204, 148, 0.42);
-    border-radius: 25px;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 36px;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 32%),
-      linear-gradient(165deg, #fffdf8 0%, #f3eadc 100%);
-    box-shadow: none;
-  }
-
-  .goldFrekansBottomNote small {
-    display: block;
-    margin-bottom: 8px;
-    color: #a8792a;
-    letter-spacing: 0.17em;
-    font-size: 8px;
-    font-weight: 700;
-  }
-
-  .goldFrekansBottomNote h3 {
-    max-width: 720px;
-    margin: 0;
-    color: #2a1c12;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 1.04;
-  }
-
-  .goldFrekansBottomNote a {
-    min-width: 185px;
-    min-height: 46px;
-    padding: 0 17px;
-    border: 0;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    color: #fffaf1;
-    background: #2a1c12;
-    text-decoration: none;
-    font-size: 11.5px;
-    font-weight: 700;
-    box-shadow: none;
-    transition: transform 160ms ease, filter 160ms ease;
-  }
-
-  .goldFrekansBottomNote a:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.03);
-  }
-
   @media (max-width: 900px) {
     .goldFrekansHero {
       padding: 64px 0 58px;
@@ -450,10 +392,6 @@ const styles = `
     .goldFrekansTitle {
       font-size: 18px;
     }
-
-    .goldFrekansBottomNote {
-      grid-template-columns: 1fr;
-    }
   }
 
   .goldFrekansPage {
@@ -475,11 +413,6 @@ const styles = `
 
   .goldFrekansCard.isActive {
     border-color: rgba(176, 138, 62, 0.78) !important;
-  }
-
-  .goldFrekansBottomNote,
-  .goldFrekansBottomNote a {
-    box-shadow: none !important;
   }
 
   @media (max-width: 700px) {
@@ -688,25 +621,6 @@ export default function GoldFrekansPage() {
               </button>
               );
             })}
-          </div>
-
-          <div className="goldFrekansBottomNote">
-            <div>
-              <small>GOLDFREKANS KÜTÜPHANESİ</small>
-              <h3>
-                Yeni doğa sesleri, meditasyonlar ve frekans kayıtları
-                eklendikçe bu alan büyümeye devam edecek.
-              </h3>
-            </div>
-
-            <a
-              href={youtubeChannelUrl}
-              target="_blank"
-              rel="noreferrer"
-            >
-              YouTube’a Git
-              <span aria-hidden="true">↗</span>
-            </a>
           </div>
         </div>
       </section>
