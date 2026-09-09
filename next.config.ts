@@ -8,6 +8,16 @@ const nextConfig: NextConfig = {
         destination: "/goldmind",
         permanent: true,
       },
+      {
+        source: "/icon",
+        destination: "/icon.png",
+        permanent: false,
+      },
+      {
+        source: "/apple-icon",
+        destination: "/apple-icon.png",
+        permanent: false,
+      },
     ];
   },
 };

@@ -220,14 +220,13 @@ const goldBookCardStyles = `
   .goldbookCompactPage .goldbookCompactCover::after {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: 0 auto 0 0;
+    width: 10px;
     pointer-events: none;
     background: linear-gradient(
       90deg,
-      rgba(0, 0, 0, 0.38) 0%,
-      transparent 14%,
-      rgba(255, 255, 255, 0.10) 48%,
-      transparent 72%
+      rgba(0, 0, 0, 0.42),
+      transparent
     );
   }
 
@@ -253,13 +252,12 @@ const goldBookCardStyles = `
   }
 
   .goldbookCompactPage .goldbookCompactPrice {
-    display: inline-flex !important;
-    align-items: center;
-    width: fit-content;
-    padding: 5px 10px !important;
-    border: 1px solid rgba(224, 180, 92, 0.34) !important;
-    border-radius: 999px !important;
-    background: rgba(224, 180, 92, 0.10) !important;
+    display: block !important;
+    width: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
     color: #f0d08a !important;
     letter-spacing: 0.02em;
   }
@@ -343,27 +341,14 @@ const goldBookCardStyles = `
 `;
 
 const goldBookChromeStyles = `
-  .goldbookSocialDock,
-  .goldbookSocialDockButton {
-    display: none !important;
-  }
-
   @media (max-width: 700px) {
     .goldbookCompactPage .siteGlobalBackToTop,
     .goldbookCompactPage .siteGlobalBackToTop::before,
     .goldbookCompactPage .siteGlobalBackToTop::after {
+      display: none !important;
       background: transparent !important;
       border: 0 !important;
       box-shadow: none !important;
-    }
-
-    .goldbookSocialDock,
-    .goldbookSocialDockPanel,
-    .goldbookSocialDockButton {
-      display: none !important;
-      opacity: 0 !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
     }
   }
 `;

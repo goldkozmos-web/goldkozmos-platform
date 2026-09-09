@@ -67,7 +67,8 @@ const whatsappActions = [
 const whatsappNumber = "905054722153";
 
 const dockStyles = `
-  .goldkozmosGlobalContactDock {
+  .goldkozmosGlobalContactDock,
+  .goldkozmosGlobalContactPanel {
     display: none;
   }
 
@@ -80,7 +81,7 @@ const dockStyles = `
     }
 
     /* Eski shared oku kapat.
-       Yeni yukarı çık butonu WhatsApp dock'unun içinde. */
+       Yeni yukarı çık butonu dock içindeki tek oktur. */
     .siteGlobalBackToTop {
       display: none !important;
     }
@@ -148,6 +149,7 @@ const dockStyles = `
       left: 50%;
       right: auto;
       bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+      z-index: 100000;
 
       box-sizing: border-box;
       width: min(372px, calc(100vw - 32px));
@@ -478,22 +480,20 @@ export default function GlobalContactDock() {
   }, []);
 
   /*
-    GoldBook'ta aynı sistem sayfanın içinde zaten var.
-    Mobilde bottom bar WhatsApp paneli için dock yine de render edilir;
-    yuvarlak buton CSS ile gizlenir.
+    Mobilde bottom bar WhatsApp paneli bu dock’tan açılır.
+    Yuvarlak WhatsApp butonu yok; yalnızca yukarı-ok durur.
   */
 
   return (
     <>
       <style>{dockStyles}</style>
 
-      <div className="goldkozmosGlobalContactDock">
-        <div
-          className={`goldkozmosGlobalContactPanel ${
-            open ? "isOpen" : ""
-          }`}
-          aria-hidden={!open}
-        >
+      <div
+        className={`goldkozmosGlobalContactPanel ${
+          open ? "isOpen" : ""
+        }`}
+        aria-hidden={!open}
+      >
           <div className="goldkozmosGlobalContactIntro">
             <small>WHATSAPP</small>
             <strong>Nasıl yardımcı olabilirim?</strong>
@@ -547,8 +547,9 @@ export default function GlobalContactDock() {
               </a>
             ))}
           </div>
-        </div>
+      </div>
 
+      <div className="goldkozmosGlobalContactDock">
         <button
           type="button"
           className="goldkozmosGlobalBackToTop"
