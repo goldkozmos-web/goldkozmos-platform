@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 import FooterSection from "../../components/FooterSection";
 import ContinueGlance from "../../components/platform/ContinueGlance";
+import { usePlayback } from "../../components/platform/PlaybackProvider";
+import { youtubeIdFromUrl } from "../../lib/youtube";
 import "../../styles/home.css";
 
 const youtubeChannelUrl = "https://youtube.com/@goldkozmos";
@@ -191,11 +193,15 @@ const styles = `
     justify-content: space-between;
     align-items: flex-end;
     gap: 40px;
-    margin-bottom: 28px;
+    margin-bottom: 20px;
   }
 
   .goldFrekansArchiveHeader > div:first-child {
-    max-width: 760px;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    max-width: none;
   }
 
   .goldFrekansArchiveHeader p {
@@ -207,6 +213,24 @@ const styles = `
     text-transform: uppercase;
   }
 
+  .goldFrekansChannelDash {
+    color: #e0c07a;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .goldFrekansChannelLink {
+    color: #e0c07a;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
   .goldFrekansControls {
     display: none;
   }
@@ -216,7 +240,7 @@ const styles = `
     gap: 18px;
     width: 100%;
     margin: 0;
-    padding: 4px 0 12px;
+    padding: 18px 0 28px;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
@@ -228,13 +252,19 @@ const styles = `
   }
 
   .goldFrekansCard {
-    flex: 0 0 380px;
+    flex: 0 0 320px;
+    width: 320px;
+    max-width: 320px;
     min-width: 0;
-    padding: 14px 14px 0;
+    padding: 0;
     overflow: hidden;
     scroll-snap-align: start;
+    text-align: left;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
     border: 1px solid rgba(232, 204, 148, 0.72);
-    border-radius: 22px;
+    border-radius: 24px;
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 28%),
       linear-gradient(165deg, #fffdf8 0%, #f6eee0 52%, #efe4d2 100%);
@@ -243,13 +273,32 @@ const styles = `
       0 0 0 1px rgba(48, 28, 12, 0.04) inset;
   }
 
+  .goldFrekansCard.isActive {
+    border-color: rgba(176, 138, 62, 0.78);
+  }
+
+  .goldFrekansTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 34px;
+    padding: 13px 16px 11px;
+    color: #b08a3e;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+  }
+
   .goldFrekansCardVisual {
     position: relative;
     display: block;
-    aspect-ratio: 16 / 10;
+    width: calc(100% - 32px);
+    aspect-ratio: 16 / 9;
+    margin: 0 16px;
     overflow: hidden;
+    box-sizing: border-box;
     border: 1px solid rgba(176, 138, 62, 0.22);
-    border-radius: 14px;
+    border-radius: 16px;
     background: #1c140f;
   }
 
@@ -258,49 +307,17 @@ const styles = `
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: saturate(0.94) contrast(1.06);
-  }
-
-  .goldFrekansNumber {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    min-width: 34px;
-    height: 28px;
-    padding: 0 9px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(232, 204, 148, 0.42);
-    border-radius: 999px;
-    color: #f6edd8;
-    background: rgba(29, 19, 12, 0.78);
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-  }
-
-  .goldFrekansPlay {
-    position: absolute;
-    right: 12px;
-    bottom: 12px;
-    width: 42px;
-    height: 42px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    color: #20160f;
-    background: linear-gradient(135deg, #b88431, #ddb761);
-    font-size: 10px;
-    box-shadow: none;
+    filter: saturate(0.92) contrast(1.04);
   }
 
   .goldFrekansCardBody {
-    padding: 18px 6px 16px;
+    display: block;
+    padding: 16px 16px 18px;
   }
 
   .goldFrekansCategory {
-    margin: 0 0 9px;
+    display: block;
+    margin: 0 0 7px;
     color: #a8792a;
     letter-spacing: 0.16em;
     font-size: 8px;
@@ -308,36 +325,24 @@ const styles = `
     line-height: 1.3;
   }
 
-  .goldFrekansCard h3 {
-    min-height: 52px;
+  .goldFrekansTitle {
+    display: block;
     margin: 0;
     color: #2a1c12;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 24px;
+    font-size: 23px;
     font-weight: 400;
     line-height: 1.12;
-    letter-spacing: -0.55px;
+    letter-spacing: -0.04em;
   }
 
   .goldFrekansDescription {
-    min-height: 72px;
-    margin: 13px 0 0;
+    display: block;
+    min-height: 0;
+    margin: 9px 0 0;
     color: #6a5c50;
-    font-size: 11.5px;
+    font-size: 10.5px;
     line-height: 1.55;
-  }
-
-  .goldFrekansListenLink {
-    margin-top: 17px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(176, 138, 62, 0.18);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #8d6320;
-    text-decoration: none;
-    font-size: 10px;
-    font-weight: 700;
   }
 
   .goldFrekansBottomNote {
@@ -429,7 +434,21 @@ const styles = `
     }
 
     .goldFrekansCard {
-      flex-basis: min(82vw, 370px);
+      flex: 0 0 min(68vw, 248px);
+      flex-basis: min(68vw, 248px);
+      width: min(68vw, 248px);
+      max-width: 248px;
+      border-radius: 18px;
+    }
+
+    .goldFrekansCardVisual {
+      width: calc(100% - 24px);
+      margin: 0 12px;
+      border-radius: 12px;
+    }
+
+    .goldFrekansTitle {
+      font-size: 18px;
     }
 
     .goldFrekansBottomNote {
@@ -454,16 +473,46 @@ const styles = `
     box-shadow: none !important;
   }
 
-  .goldFrekansPlay,
+  .goldFrekansCard.isActive {
+    border-color: rgba(176, 138, 62, 0.78) !important;
+  }
+
   .goldFrekansBottomNote,
   .goldFrekansBottomNote a {
     box-shadow: none !important;
+  }
+
+  @media (max-width: 700px) {
+    .goldFrekansCard {
+      flex: 0 0 min(68vw, 248px) !important;
+      width: min(68vw, 248px) !important;
+      max-width: 248px !important;
+    }
   }
 `;
 
 export default function GoldFrekansPage() {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { startYoutube, session, isPlaying } = usePlayback();
+
+  const openTrack = (track: (typeof goldFrekansTracks)[number]) => {
+    const youtubeId = youtubeIdFromUrl(track.youtubeUrl);
+
+    if (!youtubeId) {
+      return;
+    }
+
+    startYoutube({
+      platform: "goldfrekans",
+      contentId: youtubeId,
+      title: track.title,
+      href: "/goldfrekans",
+      youtubeId,
+      artworkUrl: track.thumbnail,
+      description: track.description,
+    });
+  };
 
   return (
     <main className="homeV3Page goldFrekansPage" id="top">
@@ -581,7 +630,18 @@ export default function GoldFrekansPage() {
         <div className="goldFrekansArchiveInner">
           <header className="goldFrekansArchiveHeader">
             <div>
-              <p>GOLDFREKANS · YOUTUBE KÜTÜPHANESİ</p>
+              <p>GOLDFREKANS · YOUTUBE</p>
+              <span className="goldFrekansChannelDash" aria-hidden="true">
+                -
+              </span>
+              <a
+                className="goldFrekansChannelLink"
+                href={youtubeChannelUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Kanala git
+              </a>
             </div>
           </header>
 
@@ -589,59 +649,45 @@ export default function GoldFrekansPage() {
             className="goldFrekansScroller"
             ref={sliderRef}
           >
-            {goldFrekansTracks.map((track) => (
-              <article
-                className="goldFrekansCard"
+            {goldFrekansTracks.map((track) => {
+              const youtubeId = youtubeIdFromUrl(track.youtubeUrl);
+              const isActive = session?.contentId === youtubeId;
+
+              return (
+              <button
+                type="button"
+                className={`goldFrekansCard${isActive ? " isActive" : ""}`}
                 key={track.youtubeUrl}
+                aria-label={`${track.title} ekranda aç`}
+                onClick={() => openTrack(track)}
               >
-                <a
-                  className="goldFrekansCardVisual"
-                  href={track.youtubeUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${track.title} YouTube'da dinle`}
-                >
+                <span className="goldFrekansTop">
+                  <span>{track.number}</span>
+                  <span>{isActive && isPlaying ? "❚❚" : "▶"}</span>
+                </span>
+
+                <span className="goldFrekansCardVisual">
                   <img
                     src={track.thumbnail}
-                    alt={track.title}
+                    alt=""
                     loading="lazy"
                   />
+                </span>
 
-                  <span className="goldFrekansNumber">
-                    {track.number}
-                  </span>
-
-                  <span
-                    className="goldFrekansPlay"
-                    aria-hidden="true"
-                  >
-                    ▶
-                  </span>
-                </a>
-
-                <div className="goldFrekansCardBody">
-                  <p className="goldFrekansCategory">
+                <span className="goldFrekansCardBody">
+                  <span className="goldFrekansCategory">
                     {track.category}
-                  </p>
+                  </span>
 
-                  <h3>{track.title}</h3>
+                  <span className="goldFrekansTitle">{track.title}</span>
 
-                  <p className="goldFrekansDescription">
+                  <span className="goldFrekansDescription">
                     {track.description}
-                  </p>
-
-                  <a
-                    className="goldFrekansListenLink"
-                    href={track.youtubeUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    YouTube’da Dinle
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-              </article>
-            ))}
+                  </span>
+                </span>
+              </button>
+              );
+            })}
           </div>
 
           <div className="goldFrekansBottomNote">
