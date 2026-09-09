@@ -698,6 +698,7 @@ export default function GoldCastPage() {
                       : ""
                   }`}
                   key={episode.youtubeUrl}
+                  aria-label={`${episode.title} ekranda aç`}
                   onClick={() => openEpisode(episode)}
                 >
                 <div className="goldcastYTTop">
