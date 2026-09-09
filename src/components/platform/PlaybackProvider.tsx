@@ -29,6 +29,7 @@ import {
 } from "../../lib/platformProgress";
 import { usePathname, useRouter } from "next/navigation";
 import { listenToYoutube, sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
+import SeekScrubber from "./SeekScrubber";
 import {
   loadSpotifyIframeApi,
   spotifyEmbedSrc,
@@ -375,9 +376,17 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   }, [session, isPlaying]);
 
   const seek = useCallback((seconds: number) => {
+    const time = Math.max(0, seconds);
+
+    if (session?.youtubeId) {
+      sendYoutubeCommand(youtubeRef.current, "seekTo", [time, true]);
+      setCurrentTime(time);
+      return;
+    }
+
     if (session?.spotifyEmbedUrl) {
-      spotifyControllerRef.current?.seek(seconds);
-      setCurrentTime(seconds);
+      spotifyControllerRef.current?.seek(Math.floor(time));
+      setCurrentTime(time);
       return;
     }
 
@@ -387,9 +396,9 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    audio.currentTime = seconds;
-    setCurrentTime(seconds);
-  }, [session?.spotifyEmbedUrl]);
+    audio.currentTime = time;
+    setCurrentTime(time);
+  }, [session?.spotifyEmbedUrl, session?.youtubeId]);
 
   const minimize = useCallback(() => {
     setMinimized(true);
@@ -785,6 +794,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
               >
                 ×
               </button>
+              <SeekScrubber className="platformSeek--mini" />
             </div>
           ) : null}
         </div>

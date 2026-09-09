@@ -155,7 +155,7 @@
   grid-template-columns: 64px minmax(0, 1fr);
   gap: 10px 12px;
   align-items: start;
-  margin-top: 12px;
+  margin-top: 0;
   padding: 12px;
   border: 1px solid rgba(176, 138, 62, 0.22);
   border-radius: 18px;
@@ -300,9 +300,10 @@
   left: 18px;
   bottom: 18px;
   z-index: 99990;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
   align-items: center;
-  gap: 8px;
+  gap: 6px 8px;
   width: min(380px, calc(100vw - 110px));
   padding: 10px 10px 10px 14px;
   border: 1px solid rgba(160, 119, 42, 0.22);
@@ -505,9 +506,9 @@
   right: 12px;
   bottom: calc(90px + env(safe-area-inset-bottom, 0px));
   width: auto;
-  height: 72px;
+  height: 96px;
   grid-template-columns: 72px minmax(0, 1fr);
-  grid-template-rows: 72px;
+  grid-template-rows: 96px;
   border: 1px solid rgba(232, 196, 118, 0.48);
   border-radius: 22px;
   background:
@@ -544,9 +545,9 @@
 }
 
 .platformYoutubeShell.isSpotify.isMini {
-  height: 72px;
+  height: 96px;
   grid-template-columns: 72px minmax(0, 1fr);
-  grid-template-rows: 72px;
+  grid-template-rows: 96px;
 }
 
 .platformYoutubeShell.isSpotify .platformYoutubeChrome button {
@@ -691,11 +692,39 @@
   grid-row: 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-rows: minmax(0, 1fr) 16px;
   align-items: center;
-  gap: 8px;
+  gap: 2px 8px;
   min-width: 0;
-  padding: 0 10px 0 12px;
+  padding: 6px 10px 8px 12px;
   background: transparent;
+}
+
+.platformSeek {
+  display: block;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  accent-color: #d4a552;
+  cursor: pointer;
+}
+
+.platformSeek:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.platformSeek--mini {
+  grid-column: 1 / -1;
+}
+
+.platformSeek--audio {
+  grid-column: 1 / -1;
+}
+
+.platformYoutubeShell.isSpotify .platformSeek {
+  accent-color: #1db954;
 }
 
 .platformYoutubeShell.isSpotify .platformYoutubeMiniBar {
