@@ -45564,9 +45564,7 @@ html:has(.goldbookCompactPage) {
         #17100c
       ) !important;
 
-    box-shadow:
-      0 20px 46px
-      rgba(48, 31, 13, 0.16) !important;
+    box-shadow: none !important;
   }
 
   .goldcastPage

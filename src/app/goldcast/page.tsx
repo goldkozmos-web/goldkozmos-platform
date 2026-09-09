@@ -404,7 +404,7 @@ const desktopSpotifyStyles = `
         radial-gradient(circle at 88% 4%, rgba(199, 154, 67, 0.18), transparent 30%),
         radial-gradient(circle at 8% 92%, rgba(167, 122, 45, 0.08), transparent 28%),
         linear-gradient(145deg, #2b1d13 0%, #1e150f 56%, #17100c 100%);
-      box-shadow: 0 28px 70px rgba(48, 31, 13, 0.18);
+      box-shadow: none;
     }
 
     .goldcastPage .goldcastSpotifyEpisodeCard::before {
@@ -743,18 +743,12 @@ const goldcastPremiumStyles = `
       linear-gradient(180deg, rgba(255, 232, 186, 0.10) 0%, transparent 28%),
       linear-gradient(155deg, #3c291b 0%, #24170f 48%, #120c09 100%) !important;
     border: 1px solid rgba(214, 172, 88, 0.42) !important;
-    box-shadow:
-      0 1px 0 rgba(255, 232, 186, 0.12) inset,
-      0 14px 28px rgba(48, 31, 13, 0.22),
-      0 28px 48px rgba(24, 14, 8, 0.18) !important;
+    box-shadow: none !important;
   }
 
   .goldcastPage .goldcastSpotifyEpisodeCard:hover {
     transform: translateY(-6px) !important;
-    box-shadow:
-      0 1px 0 rgba(255, 232, 186, 0.16) inset,
-      0 18px 32px rgba(48, 31, 13, 0.28),
-      0 32px 52px rgba(24, 14, 8, 0.22) !important;
+    box-shadow: none !important;
   }
 
   .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTop {
@@ -823,10 +817,13 @@ const goldcastPremiumStyles = `
     display: none !important;
   }
 
-  .goldcastPage .goldcastYTCard:hover,
-  .goldcastPage .goldcastSpotifyEpisodeCard:hover {
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
     transform: translateY(-8px) !important;
     box-shadow: 0 18px 28px rgba(48, 31, 13, 0.22) !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard:hover {
+    box-shadow: none !important;
   }
 
   .goldcastPage .goldcastYTCard:active,
