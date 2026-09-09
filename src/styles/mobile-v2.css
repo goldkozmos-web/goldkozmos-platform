@@ -1346,7 +1346,7 @@
       100% !important;
 
     min-height:
-      285px !important;
+      0 !important;
 
     padding:
       20px
@@ -1885,220 +1885,24 @@
   }
 }/* =========================================================
    GOLDBLOG MOBİL
-   GERÇEK AKTİF KART ODAK SİSTEMİ
+   KATEGORİ KARTLARI EŞİT GÖRÜNÜR
 ========================================================= */
 
 @media (max-width: 700px) {
 
-  /* ÖNCEKİ SCROLL ANİMASYONUNU İPTAL ET */
   .goldblogPage
   .goldBlogCategoryCard {
     animation: none !important;
-
-    transition:
-      opacity 280ms ease,
-      filter 280ms ease,
-      transform 280ms ease,
-      border-color 280ms ease,
-      box-shadow 280ms ease !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
-
-  /* GÖLGE/YÜKSELME KESİLMESİN */
   .goldblogPage
   .goldBlogCategoryRail {
-    padding-top: 14px !important;
-    padding-bottom: 28px !important;
-  }
-
-
-  /* =====================================================
-     ODAKTA OLMAYAN KARTLAR
-  ====================================================== */
-
-  .goldblogPage
-  .goldBlogCategoryCard:not(.isFocused),
-  .goldblogPage
-  .goldBlogCategoryCard.isActive:not(.isFocused) {
-
-    opacity: 0.46 !important;
-
-    filter:
-      saturate(0.62)
-      brightness(0.72) !important;
-
-    transform:
-      translateY(5px)
-      scale(0.965) !important;
-
-    border-color:
-      rgba(
-        188,
-        145,
-        66,
-        0.20
-      ) !important;
-
-    box-shadow:
-      0 10px 24px
-      rgba(
-        33,
-        20,
-        10,
-        0.08
-      ) !important;
-  }
-
-
-  /* =====================================================
-     EKRANDAKİ AKTİF KART
-  ====================================================== */
-
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused {
-
-    opacity: 1 !important;
-
-    filter: none !important;
-
-    transform:
-      translateY(-6px)
-      scale(1) !important;
-
-    border-color:
-      rgba(
-        222,
-        181,
-        96,
-        0.78
-      ) !important;
-
-    box-shadow:
-      0 28px 58px
-      rgba(
-        42,
-        25,
-        11,
-        0.23
-      ),
-      0 0 0 1px
-      rgba(
-        223,
-        182,
-        99,
-        0.18
-      ),
-      0 0 34px
-      rgba(
-        190,
-        139,
-        48,
-        0.12
-      ) !important;
-
-    z-index: 5 !important;
-  }
-
-
-  /* AKTİF KARTIN GÖRSELİ */
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardImage {
-
-    box-shadow:
-      0 15px 30px
-      rgba(
-        0,
-        0,
-        0,
-        0.20
-      ) !important;
-  }
-
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardImage
-  img {
-
-    filter:
-      saturate(1.07)
-      contrast(1.03) !important;
-
-    transform:
-      scale(1.015) !important;
-  }
-
-
-  /* =====================================================
-     SEÇİLİ ETİKETİ
-  ====================================================== */
-
-  .goldblogPage
-  .goldBlogCategoryCard
-  .goldBlogCategoryCardTop
-  > span:first-child::after {
-
-    content: "" !important;
-  }
-
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardTop
-  > span:first-child::after {
-
-    content:
-      " · SEÇİLİ" !important;
-
-    margin-left:
-      5px !important;
-
-    color:
-      #e2b763 !important;
-
-    font-size:
-      6px !important;
-
-    letter-spacing:
-      0.16em !important;
-
-    font-weight:
-      800 !important;
-  }
-
-
-  /* AKTİF KARTIN OKU */
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardTop
-  > span:last-child {
-
-    border-color:
-      rgba(
-        222,
-        181,
-        96,
-        0.55
-      ) !important;
-
-    background:
-      rgba(
-        218,
-        174,
-        88,
-        0.09
-      ) !important;
-
-    color:
-      #e0b25b !important;
-
-    box-shadow:
-      0 0 20px
-      rgba(
-        211,
-        163,
-        72,
-        0.14
-      ) !important;
+    padding-top: 4px !important;
+    padding-bottom: 12px !important;
   }
 }/* =========================================================
    GOLDBLOG MOBİL
