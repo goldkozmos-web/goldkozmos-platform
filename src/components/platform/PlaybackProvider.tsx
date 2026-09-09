@@ -50,6 +50,18 @@ type PlaybackSession = PlatformProgress & {
   artworkUrl?: string;
 };
 
+function playbackSourceLabel(session: PlaybackSession) {
+  if (session.spotifyEmbedUrl) {
+    return "Spotify · GoldCast";
+  }
+
+  if (session.platform === "goldfrekans") {
+    return "YouTube · GoldFrekans";
+  }
+
+  return "YouTube · GoldCast";
+}
+
 type StartAudioInput = {
   platform: PlatformId;
   contentId: string;
@@ -686,9 +698,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             <div className="platformYoutubeChrome">
               <div>
                 <p>
-                  {session.spotifyEmbedUrl
-                    ? "Spotify · GoldCast"
-                    : "YouTube · GoldCast"}
+                  {playbackSourceLabel(session)}
                 </p>
                 <strong>{session.title}</strong>
               </div>
@@ -766,9 +776,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
                 onClick={expand}
               >
                 <small>
-                  {session.spotifyEmbedUrl
-                    ? "Spotify · GoldCast"
-                    : "YouTube · GoldCast"}
+                  {playbackSourceLabel(session)}
                 </small>
                 <strong>{session.title}</strong>
               </button>
