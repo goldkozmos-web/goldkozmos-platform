@@ -1,0 +1,260 @@
+.profilimPage {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201, 155, 68, 0.12), transparent 28%),
+    radial-gradient(circle at 100% 18%, rgba(179, 132, 47, 0.08), transparent 24%),
+    linear-gradient(180deg, #fffdf8 0%, #f6efe3 100%);
+  color: #211811;
+}
+
+.profilimDash {
+  padding: 118px 20px 56px;
+}
+
+.profilimDashInner {
+  width: min(920px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.profilimHero {
+  padding: 22px 20px 20px;
+  border: 1px solid rgba(168, 124, 44, 0.18);
+  border-radius: 24px;
+  background: rgba(255, 252, 246, 0.88);
+  box-shadow: 0 16px 40px rgba(48, 30, 14, 0.06);
+}
+
+.profilimHeroTop {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profilimAvatar {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(168, 124, 44, 0.28);
+  background: #f4ead8;
+  color: #8d6728;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.profilimHeroEyebrow,
+.profilimCardEyebrow {
+  margin: 0;
+  color: #a8792a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.profilimHeroCopy h1,
+.profilimCard h2 {
+  margin: 6px 0 0;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.4px;
+}
+
+.profilimHeroCopy h1 {
+  font-size: clamp(28px, 7vw, 40px);
+  line-height: 1.05;
+}
+
+.profilimLevelLabel {
+  margin: 8px 0 0;
+  color: #6f675f;
+  font-size: 14px;
+}
+
+.profilimLevelBar {
+  width: 100%;
+  height: 7px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(164, 119, 39, 0.12);
+}
+
+.profilimLevelBarFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9e7224, #dfbf7c);
+}
+
+.profilimHeroMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+  color: #7a7268;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.profilimTextAction {
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8d6728;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.profilimDashGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.profilimCard {
+  min-height: 168px;
+  padding: 20px 18px 18px;
+  border: 1px solid rgba(168, 124, 44, 0.16);
+  border-radius: 22px;
+  background: rgba(255, 253, 248, 0.92);
+}
+
+.profilimCard h2 {
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.profilimCardBody {
+  margin-top: 16px;
+}
+
+.profilimCardLead {
+  margin: 0 0 8px;
+  color: #221812;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.profilimCardText,
+.profilimEmpty p {
+  margin: 0;
+  color: #6f675f;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.profilimEmpty {
+  display: grid;
+  gap: 10px;
+}
+
+.profilimEmptyMark {
+  width: 28px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(168, 124, 44, 0.35);
+}
+
+.profilimStatRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profilimStatRow li {
+  display: grid;
+  gap: 4px;
+}
+
+.profilimStatRow strong {
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.profilimStatRow span {
+  color: #7a7268;
+  font-size: 12px;
+}
+
+.profilimStackList,
+.profilimJourney {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profilimStackList a,
+.profilimStackList li,
+.profilimJourney li {
+  display: grid;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.profilimStackList strong,
+.profilimJourney strong {
+  color: #221812;
+  font-size: 15px;
+}
+
+.profilimStackList span,
+.profilimJourney span {
+  color: #8a8176;
+  font-size: 12px;
+}
+
+@media (min-width: 760px) {
+  .profilimDash {
+    padding: 132px 32px 72px;
+  }
+
+  .profilimHero {
+    padding: 28px 28px 24px;
+  }
+
+  .profilimDashGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .profilimDashWide {
+    grid-column: 1 / -1;
+  }
+
+  .profilimCard {
+    padding: 24px 22px 22px;
+  }
+}
+
+@media (max-width: 700px) {
+  .profilimDash {
+    padding: 104px 16px 28px;
+  }
+
+  .profilimHero,
+  .profilimCard {
+    border-radius: 20px;
+  }
+
+  .profilimAvatar {
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+  }
+}
