@@ -26,6 +26,7 @@ import {
   type PlatformProgressMap,
 } from "../../lib/platformProgress";
 import { usePathname } from "next/navigation";
+import { sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
 
 type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
