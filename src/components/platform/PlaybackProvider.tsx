@@ -29,6 +29,7 @@ import {
 } from "../../lib/platformProgress";
 import { usePathname, useRouter } from "next/navigation";
 import { listenToYoutube, sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
+import { spotifyEmbedSrc } from "../../lib/spotify";
 
 type PlaybackSession = PlatformProgress & {
   audioUrl?: string;
@@ -111,7 +112,13 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         live.session.durationSeconds,
       );
       embedStartRef.current = startAt;
-      setSession({ ...live.session, currentTime: startAt });
+      setSession({
+        ...live.session,
+        currentTime: startAt,
+        spotifyEmbedUrl: live.session.spotifyEmbedUrl
+          ? spotifyEmbedSrc(live.session.spotifyEmbedUrl, Boolean(live.isPlaying))
+          : live.session.spotifyEmbedUrl,
+      });
       setCurrentTime(startAt);
       setDuration(live.session.durationSeconds ?? 0);
       setMinimized(true);
@@ -277,15 +284,12 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     );
     embedStartRef.current = startAt;
 
-    const embed = new URL(input.embedUrl, "https://open.spotify.com");
-    embed.searchParams.set("theme", "0");
-    embed.searchParams.set("autoplay", "1");
+    const embedUrl = spotifyEmbedSrc(input.embedUrl, true);
 
-    if (startAt > 0) {
-      embed.searchParams.set("t", String(Math.floor(startAt)));
-    }
-
-    if (session?.spotifyEmbedUrl?.includes(embed.pathname)) {
+    if (
+      session?.contentId === input.contentId &&
+      session.spotifyEmbedUrl === embedUrl
+    ) {
       setMinimized(false);
       setIsPlaying(true);
       return;
@@ -303,7 +307,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       lastOpenedAt: now,
       lastPlayedAt: now,
       status: "playing",
-      spotifyEmbedUrl: embed.toString(),
+      spotifyEmbedUrl: embedUrl,
       artworkUrl: input.artworkUrl,
       description: input.description ?? existing?.description,
     };
@@ -617,7 +621,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
                     true,
                     embedStartRef.current,
                   )
-                : session.spotifyEmbedUrl
+                : spotifyEmbedSrc(session.spotifyEmbedUrl ?? "", true)
             }
             title={session.title}
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"

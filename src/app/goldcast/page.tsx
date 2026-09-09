@@ -57,7 +57,7 @@ const spotifyEpisodes = [
     description:
       "Kendinle kurduğun ilişkiyi ve fark etmeden taşıdığın zihinsel yükleri gözlemlemeye davet eden GoldCast bölümü.",
     embedUrl:
-      "https://open.spotify.com/embed/show/0343du5jxaHZOJhqDJZKYQ?utm_source=generator&theme=0",
+      "https://open.spotify.com/embed/episode/2OUemDgzVGfHOcweo3TNLX?utm_source=generator",
     cover: "https://i.ytimg.com/vi/OXWK7tGNXyc/hqdefault.jpg",
   },
 ];

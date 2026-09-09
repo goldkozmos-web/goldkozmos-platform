@@ -511,6 +511,24 @@
   background: #000;
 }
 
+.platformYoutubeShell.isSpotify.isStage {
+  background: #121212;
+}
+
+.platformYoutubeShell.isSpotify.isStage iframe {
+  width: min(100%, 720px);
+  height: 352px;
+  max-height: 352px;
+  min-height: 352px;
+  align-self: center;
+  justify-self: center;
+  margin: 0 auto 28px;
+  border-radius: 12px;
+  pointer-events: auto;
+  opacity: 1;
+  background: transparent;
+}
+
 .platformYoutubeMiniArt {
   grid-column: 1;
   grid-row: 1;
