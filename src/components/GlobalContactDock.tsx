@@ -96,8 +96,8 @@ const dockStyles = `
       bottom: 0;
       z-index: 3;
 
-      width: 52px;
-      height: 52px;
+      width: 44px;
+      height: 44px;
 
       margin: 0;
       padding: 0;
@@ -106,31 +106,22 @@ const dockStyles = `
       align-items: center;
       justify-content: center;
 
-      border: 1.5px solid rgba(236, 205, 132, 0.82);
-      border-radius: 50%;
+      border: 0;
+      border-radius: 0;
 
-      background:
-        radial-gradient(
-          circle at 32% 26%,
-          rgba(255, 236, 196, 0.28),
-          transparent 46%
-        ),
-        linear-gradient(
-          152deg,
-          #3a281c 0%,
-          #21150f 48%,
-          #120c09 100%
-        );
-
-      box-shadow:
-        0 8px 18px rgba(18, 11, 7, 0.28),
-        inset 0 1px 0 rgba(255, 244, 220, 0.26),
-        inset 0 -7px 12px rgba(0, 0, 0, 0.32);
+      background: transparent;
+      box-shadow: none;
 
       cursor: pointer;
       pointer-events: auto;
       appearance: none;
       -webkit-appearance: none;
+    }
+
+    .goldkozmosGlobalBackToTop::before,
+    .goldkozmosGlobalBackToTop::after {
+      content: none;
+      display: none;
     }
 
     .goldkozmosGlobalBackToTop svg {
@@ -142,8 +133,8 @@ const dockStyles = `
 
     .goldkozmosGlobalContactDock {
       position: fixed;
-      right: 17px;
-      bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+      right: 16px;
+      bottom: calc(102px + env(safe-area-inset-bottom, 0px));
       z-index: 99998;
 
       display: flex;
