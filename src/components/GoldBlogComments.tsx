@@ -557,12 +557,6 @@ export default function GoldBlogComments({
         </p>
       ) : null}
 
-      {unavailable ? (
-        <p className="goldBlogCommentsHint">
-          Yorumlar kalıcı veritabanına bağlanınca burada görünecek.
-        </p>
-      ) : null}
-
       {error ? <p className="goldBlogCommentsError">{error}</p> : null}
 
       {comments.length === 0 && !error && !loading ? (
