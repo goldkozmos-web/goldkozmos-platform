@@ -18,7 +18,7 @@ export default function PdfAnalysesSection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Yüklenmiş bir PDF analizin yok. Tamamlanan analizler burada listelenecek." />
+        <ProfilimEmptyState text="Yüklenmiş bir PDF analiz yok." />
       )}
     </ProfilimSectionCard>
   );

@@ -18,7 +18,7 @@ export default function LetterSection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Kendine yazılmış bir mektup yok. İlk mektubun burada saklanacak." />
+        <ProfilimEmptyState text="Kendine yazılmış bir mektup yok." />
       )}
     </ProfilimSectionCard>
   );

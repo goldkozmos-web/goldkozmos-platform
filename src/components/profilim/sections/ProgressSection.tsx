@@ -23,7 +23,7 @@ export default function ProgressSection({
           </li>
         </ul>
       ) : (
-        <ProfilimEmptyState text="Seviyen, satın almalarla değil tamamladığın içerik ve aktivitelerle ilerler. Henüz kayıtlı bir ilerleme yok." />
+        <ProfilimEmptyState text="Seviye, tamamladığın içeriklerle ilerler." />
       )}
     </ProfilimSectionCard>
   );

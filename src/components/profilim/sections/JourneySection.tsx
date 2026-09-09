@@ -22,7 +22,7 @@ export default function JourneySection({
           ))}
         </ol>
       ) : (
-        <ProfilimEmptyState text="Gelişim yolculuğun, tamamladığın içerik ve aktivitelerle burada görünecek." />
+        <ProfilimEmptyState text="Tamamladığın adımlar burada görünecek." />
       )}
     </ProfilimSectionCard>
   );

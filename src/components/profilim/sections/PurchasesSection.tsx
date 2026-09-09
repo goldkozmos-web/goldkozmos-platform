@@ -19,7 +19,7 @@ export default function PurchasesSection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Satın aldığın bir çalışma görünmüyor. Aldığın içerikler seviye puanı yazmaz; erişimin burada durur." />
+        <ProfilimEmptyState text="Satın aldığın bir çalışma yok." />
       )}
     </ProfilimSectionCard>
   );

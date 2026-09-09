@@ -18,7 +18,7 @@ export default function TodayNeedSection({
           <p className="profilimCardText">{todayNeed.text}</p>
         </>
       ) : (
-        <ProfilimEmptyState text="Bugün için kişisel bir yönlendirme henüz oluşmadı. Bir çalışmaya dokunduğunda burası dolacak." />
+        <ProfilimEmptyState text="Bugün için henüz bir yönlendirme yok." />
       )}
     </ProfilimSectionCard>
   );

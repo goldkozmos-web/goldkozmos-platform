@@ -18,7 +18,7 @@ export default function JournalSection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Henüz bir günlük kaydın yok. Yazdıkların gelişim yolculuğuna XP olarak da yansır." />
+        <ProfilimEmptyState text="Henüz bir günlük kaydın yok." />
       )}
     </ProfilimSectionCard>
   );

@@ -19,7 +19,7 @@ export default function AppointmentsSection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Planlanmış bir randevun yok. Alınan seanslar burada görünecek." />
+        <ProfilimEmptyState text="Planlanmış bir randevun yok." />
       )}
     </ProfilimSectionCard>
   );

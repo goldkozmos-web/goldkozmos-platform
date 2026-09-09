@@ -28,7 +28,7 @@ export default function LibrarySection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Kütüphanen şu an boş. Açtığın içerikler zamanla burada arşivlenecek." />
+        <ProfilimEmptyState text="Kütüphanen şu an boş." />
       )}
     </ProfilimSectionCard>
   );

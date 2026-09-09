@@ -21,7 +21,7 @@ export default function FavoritesSection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Henüz bir favorin yok. Beğendiğin içerikler burada toplanacak." />
+        <ProfilimEmptyState text="Henüz bir favorin yok." />
       )}
     </ProfilimSectionCard>
   );

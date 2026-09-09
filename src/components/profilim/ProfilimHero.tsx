@@ -49,35 +49,35 @@ export default function ProfilimHero({
             Seviye {level.level} · {level.title}
           </p>
         </div>
+
+        {user ? (
+          <button
+            type="button"
+            className="profilimTextAction"
+            onClick={() => void signOut()}
+          >
+            Çıkış
+          </button>
+        ) : (
+          <Link className="profilimTextAction" href="/giris?next=/profilim">
+            Giriş
+          </Link>
+        )}
       </div>
 
       <div className="profilimLevelBar" aria-label="Gelişim seviyesi">
         <span
           className="profilimLevelBarFill"
-          style={{ width: `${percent}%` }}
+          style={{ width: `${Math.max(percent, 6)}%` }}
         />
       </div>
 
-      <div className="profilimHeroMeta">
-        <span>
+      <p className="profilimHeroMeta">
+        <strong>
           {level.xpIntoLevel} / {level.xpForNextLevel} XP
-        </span>
-        <span>XP, tamamlanan içerik ve aktivitelerden gelir.</span>
-      </div>
-
-      {user ? (
-        <button
-          type="button"
-          className="profilimTextAction"
-          onClick={() => void signOut()}
-        >
-          Çıkış yap
-        </button>
-      ) : (
-        <Link className="profilimTextAction" href="/giris?next=/profilim">
-          Giriş yap
-        </Link>
-      )}
+        </strong>
+        <span>İçerik tamamlayınca artar</span>
+      </p>
     </header>
   );
 }

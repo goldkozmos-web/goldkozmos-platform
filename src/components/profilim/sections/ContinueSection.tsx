@@ -24,7 +24,7 @@ export default function ContinueSection({
           ))}
         </ul>
       ) : (
-        <ProfilimEmptyState text="Yarım kalan bir çalışman yok. Bir içeriğe başladığında kaldığın yer burada bekler." />
+        <ProfilimEmptyState text="Yarım kalan bir çalışman yok." />
       )}
     </ProfilimSectionCard>
   );
