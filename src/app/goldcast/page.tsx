@@ -861,7 +861,6 @@ export default function GoldCastPage() {
         <div className="goldcastYTContainer">
           <header className="goldcastYTHeader">
             <div>
-              <p>GÜNCEL GOLDCAST BÖLÜMLERİ</p>
               <h2>YOUTUBE · GOLDCAST</h2>
             </div>
           </header>
