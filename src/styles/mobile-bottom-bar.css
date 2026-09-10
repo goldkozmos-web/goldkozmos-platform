@@ -249,6 +249,16 @@
     transform: translateY(-3px);
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard,
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard:hover,
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard:focus-visible,
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard:active {
+      transition: none;
+      transform: none;
+    }
+  }
+
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailMark {
     display: none !important;
   }
