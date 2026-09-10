@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { getSupabasePublicEnv } from "./lib/profilim/env";
+import { getSupabasePublicEnv } from "./lib/supabase/env";
 
 const AUTH_REFRESH_MS = 2500;
 
@@ -32,7 +32,7 @@ export async function proxy(request: NextRequest) {
 
     let response = NextResponse.next({ request });
 
-    const supabase = createServerClient(env.url, env.anonKey, {
+    const supabase = createServerClient(env.url, env.publishableKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll();
