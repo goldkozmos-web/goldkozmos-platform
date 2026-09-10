@@ -7,6 +7,18 @@ export async function createProfilimServerClient() {
   return createSupabaseServerClient();
 }
 
+async function flagsOrNull(
+  supabase: NonNullable<Awaited<ReturnType<typeof createProfilimServerClient>>>,
+  userId: string,
+) {
+  return Promise.race([
+    fetchOwnProfileFlags(supabase, userId),
+    new Promise<null>((resolve) => {
+      setTimeout(() => resolve(null), 2500);
+    }),
+  ]);
+}
+
 export async function getProfilimSessionUser(): Promise<ProfilimUser> {
   const supabase = await createProfilimServerClient();
 
@@ -24,7 +36,7 @@ export async function getProfilimSessionUser(): Promise<ProfilimUser> {
     return null;
   }
 
-  const flags = await fetchOwnProfileFlags(supabase, actor.id);
+  const flags = await flagsOrNull(supabase, actor.id);
 
   return {
     ...actor,
