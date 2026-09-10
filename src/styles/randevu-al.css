@@ -1,0 +1,199 @@
+.randevuAlPage {
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(201, 155, 68, 0.08), transparent 28%),
+    linear-gradient(180deg, #fffdf9 0%, #f7f1e6 100%);
+  color: #211811;
+}
+
+.randevuAlBooking {
+  width: min(720px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 120px;
+  display: grid;
+  gap: 22px;
+}
+
+.randevuAlEyebrow,
+.randevuAlGroupLabel {
+  margin: 0;
+  color: #a8792a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.randevuAlHeader h1 {
+  margin: 6px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.randevuAlHeader p,
+.randevuAlServices p {
+  margin: 8px 0 0;
+  color: #6a635b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.randevuAlCalendar,
+.randevuAlServices {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+  border: 1px solid rgba(198, 168, 112, 0.28);
+  border-radius: 24px;
+  background: #fffdf8;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 12px 28px rgba(72, 48, 18, 0.05);
+}
+
+.randevuAlCalendarNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.randevuAlCalendarNav strong {
+  text-transform: capitalize;
+  font-size: 15px;
+}
+
+.randevuAlCalendarNav button,
+.randevuAlDay {
+  border: 1px solid rgba(176, 130, 48, 0.2);
+  background: #fffaf1;
+  color: #211811;
+  cursor: pointer;
+}
+
+.randevuAlCalendarNav button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.randevuAlWeek,
+.randevuAlGrid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.randevuAlWeek {
+  color: #8a8176;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.randevuAlDay {
+  min-height: 40px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.randevuAlDay.isMuted {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.randevuAlDay:disabled {
+  color: #b4aaa0;
+  background: transparent;
+  cursor: default;
+}
+
+.randevuAlDay.isOn {
+  border-color: rgba(176, 130, 48, 0.7);
+  background: linear-gradient(180deg, #f7ead3, #efe0c8);
+  color: #6b4e1f;
+  font-weight: 700;
+}
+
+.randevuAlServices h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.randevuAlServiceGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.randevuAlServiceCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 52px;
+  padding: 10px 12px;
+  border: 1px solid rgba(176, 130, 48, 0.18);
+  border-radius: 16px;
+  background: #fffaf1;
+  color: #221812;
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  touch-action: manipulation;
+}
+
+.randevuAlServiceCard.isOn {
+  border-color: #c9a24a;
+  background: linear-gradient(180deg, #f7ead3, #f3e4c8);
+  box-shadow: 0 0 0 1px #c9a24a inset;
+}
+
+.randevuAlCheck {
+  flex: 0 0 auto;
+  color: #8d6728;
+  font-size: 16px;
+}
+
+.randevuAlWhatsapp,
+.randevuAlWhatsapp.isOff {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+  text-decoration: none;
+}
+
+.randevuAlWhatsapp {
+  background: linear-gradient(180deg, #f0d48a, #c9a24a);
+  color: #211812;
+}
+
+.randevuAlWhatsapp.isOff {
+  background: #efe6d6;
+  color: #8a8176;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .randevuAlHeader h1 {
+    font-size: 28px;
+  }
+
+  .randevuAlServiceGrid {
+    grid-template-columns: 1fr;
+  }
+}
