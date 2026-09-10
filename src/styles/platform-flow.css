@@ -372,7 +372,7 @@
 
 @media (max-width: 700px) {
   .platformRail {
-    overflow: visible;
+    display: none;
   }
 
   .platformRail .homeV3Container {
