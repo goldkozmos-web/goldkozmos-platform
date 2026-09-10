@@ -107,50 +107,15 @@ export function isAdminRole(role: string | null | undefined): role is "admin" {
   return role === "admin";
 }
 
-export const ADMIN_GOOGLE_EMAIL = "goldkozmos@gmail.com";
-
-export function isAdminGoogleEmail(email: string | null | undefined) {
-  return (email ?? "").trim().toLowerCase() === ADMIN_GOOGLE_EMAIL;
-}
-
-export function emailFromAuthRecord(user: {
-  email?: string | null;
-  user_metadata?: Record<string, unknown> | null;
-  identities?: Array<{ identity_data?: Record<string, unknown> | null }> | null;
-} | null) {
-  if (!user) {
-    return null;
-  }
-
-  const metadataEmail =
-    typeof user.user_metadata?.email === "string"
-      ? user.user_metadata.email
-      : "";
-  const identityEmail = (user.identities ?? [])
-    .map((identity) => identity.identity_data?.email)
-    .find((value) => typeof value === "string" && value.trim());
-
-  const email =
-    user.email?.trim() ||
-    metadataEmail.trim() ||
-    (typeof identityEmail === "string" ? identityEmail.trim() : "");
-
-  return email || null;
-}
-
-export function postAuthPath(email: string | null | undefined) {
-  return isAdminGoogleEmail(email) ? "/admin" : "/profilim";
-}
-
 export function normalizeProfileRole(role: string | null | undefined): AdminRole {
   return role === "admin" ? "admin" : "user";
 }
 
 export function canAccessAdmin(
   role: string | null | undefined,
-  email?: string | null,
+  isAdminFlag?: boolean | null,
 ) {
-  return isAdminRole(role) || isAdminGoogleEmail(email);
+  return isAdminRole(role) || isAdminFlag === true;
 }
 
 export function istanbulDayStartIso(now = new Date()) {

@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { postLoginPath, fetchOwnProfileFlags } from "../../../lib/admin/profile";
 import { createSupabaseBrowserClient } from "../../../lib/supabase/browser";
-import { emailFromAuthRecord, postAuthPath } from "../../../lib/admin/access";
 
 export default function AuthCallbackPage() {
   const [message, setMessage] = useState("Giriş tamamlanıyor…");
@@ -14,6 +14,16 @@ export default function AuthCallbackPage() {
     const code = search.get("code");
     const oauthError = search.get("error") || hash.get("error");
     const supabase = createSupabaseBrowserClient();
+
+    async function routeAfterLogin(userId: string | undefined) {
+      if (!supabase || !userId) {
+        window.location.replace("/profilim");
+        return;
+      }
+
+      const profile = await fetchOwnProfileFlags(supabase, userId);
+      window.location.replace(postLoginPath(profile));
+    }
 
     async function finishSignIn() {
       if (oauthError || !supabase) {
@@ -36,7 +46,7 @@ export default function AuthCallbackPage() {
       } = await supabase.auth.getSession();
 
       if (session?.user) {
-        window.location.replace(postAuthPath(emailFromAuthRecord(session.user)));
+        await routeAfterLogin(session.user.id);
         return;
       }
 
@@ -57,9 +67,7 @@ export default function AuthCallbackPage() {
         data: { session: later },
       } = await supabase.auth.getSession();
 
-      window.location.replace(
-        postAuthPath(emailFromAuthRecord(later?.user ?? null)),
-      );
+      await routeAfterLogin(later?.user?.id);
     }
 
     void finishSignIn();

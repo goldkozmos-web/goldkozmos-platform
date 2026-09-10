@@ -1,4 +1,5 @@
 import { createSupabaseServerClient } from "../supabase/create-server-client";
+import { fetchOwnProfileFlags, isAdminProfile } from "../admin/profile";
 import { profilimUserFromAuth } from "./userFromAuth";
 import type { ProfilimUser } from "./types";
 
@@ -17,5 +18,16 @@ export async function getProfilimSessionUser(): Promise<ProfilimUser> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return profilimUserFromAuth(user);
+  const actor = profilimUserFromAuth(user);
+
+  if (!actor) {
+    return null;
+  }
+
+  const flags = await fetchOwnProfileFlags(supabase, actor.id);
+
+  return {
+    ...actor,
+    isAdmin: isAdminProfile(flags),
+  };
 }

@@ -2,25 +2,14 @@ import { redirect } from "next/navigation";
 
 import { createSupabaseServerClient } from "../supabase/create-server-client";
 import { profilimUserFromAuth } from "../profilim/userFromAuth";
-import {
-  canAccessAdmin,
-  isAdminGoogleEmail,
-  normalizeProfileRole,
-  type AdminActor,
-} from "./access";
+import { canAccessAdmin, normalizeProfileRole, type AdminActor } from "./access";
+import { fetchOwnProfileFlags, isAdminProfile } from "./profile";
 
 export type AdminAccess =
   | { status: "unconfigured" }
   | { status: "signed-out" }
   | { status: "forbidden"; actor: AdminActor }
   | { status: "ok"; actor: AdminActor };
-
-type ProfileRow = {
-  display_name: string | null;
-  avatar_url: string | null;
-  role?: string | null;
-  is_admin?: boolean | null;
-};
 
 export async function getAdminAccess(): Promise<AdminAccess> {
   const supabase = await createSupabaseServerClient();
@@ -39,42 +28,19 @@ export async function getAdminAccess(): Promise<AdminAccess> {
     return { status: "signed-out" };
   }
 
-  const full = await supabase
-    .from("profiles")
-    .select("display_name, avatar_url, role, is_admin")
-    .eq("id", user.id)
-    .maybeSingle();
-
-  const fallback = full.error
-    ? await supabase
-        .from("profiles")
-        .select("display_name, avatar_url, is_admin")
-        .eq("id", user.id)
-        .maybeSingle()
-    : null;
-
-  const row = ((full.error ? fallback?.data : full.data) ?? null) as ProfileRow | null;
-
-  if (!row) {
-    await supabase.from("profiles").upsert({
-      id: user.id,
-      display_name: actorBase.displayName,
-      avatar_url: actorBase.avatarUrl,
-    });
-  }
-
-  const role = isAdminGoogleEmail(actorBase.email)
+  const flags = await fetchOwnProfileFlags(supabase, user.id);
+  const role = isAdminProfile(flags)
     ? "admin"
-    : normalizeProfileRole(row?.role || (row?.is_admin ? "admin" : "user"));
+    : normalizeProfileRole(flags?.role);
   const actor: AdminActor = {
     id: actorBase.id,
-    displayName: row?.display_name?.trim() || actorBase.displayName,
+    displayName: actorBase.displayName,
     email: actorBase.email,
-    avatarUrl: row?.avatar_url || actorBase.avatarUrl,
+    avatarUrl: actorBase.avatarUrl,
     role,
   };
 
-  if (!canAccessAdmin(role, actor.email)) {
+  if (!canAccessAdmin(flags?.role, flags?.is_admin)) {
     return { status: "forbidden", actor };
   }
 
