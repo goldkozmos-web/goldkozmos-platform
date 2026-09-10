@@ -10,5 +10,11 @@ export function createSupabaseBrowserClient() {
     return null;
   }
 
-  return createBrowserClient(env.url, env.publishableKey);
+  return createBrowserClient(env.url, env.publishableKey, {
+    auth: {
+      flowType: "pkce",
+      detectSessionInUrl: true,
+      persistSession: true,
+    },
+  });
 }

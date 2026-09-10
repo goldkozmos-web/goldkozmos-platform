@@ -1,6 +1,7 @@
 import type { ProfilimDashboardData } from "../../lib/profilim/types";
 import ProfilimGate from "./ProfilimGate";
 import ProfilimHero from "./ProfilimHero";
+import ProfilimSessionSync from "./ProfilimSessionSync";
 import AppointmentsSection from "./sections/AppointmentsSection";
 import ContinueSection from "./sections/ContinueSection";
 import FavoritesSection from "./sections/FavoritesSection";
@@ -20,6 +21,7 @@ export default function ProfilimDashboard({
 }) {
   return (
     <section className="profilimDash">
+      <ProfilimSessionSync signedIn={Boolean(data.user)} />
       <div className="profilimDashInner">
         {data.user ? (
           <>
