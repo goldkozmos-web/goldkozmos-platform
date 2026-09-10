@@ -35,17 +35,24 @@ export type ProfilimFavorite = {
   kind: string;
 };
 
+export type ProfilimAppointmentStatus =
+  | "upcoming"
+  | "past"
+  | "cancelled";
+
 export type ProfilimAppointment = {
   id: string;
   title: string;
   startsAt: string;
-  status: string;
+  status: ProfilimAppointmentStatus | string;
 };
 
 export type ProfilimPdfAnalysis = {
   id: string;
   title: string;
   createdAt: string;
+  viewUrl?: string;
+  downloadUrl?: string;
 };
 
 export type ProfilimLibraryItem = {
@@ -53,17 +60,20 @@ export type ProfilimLibraryItem = {
   title: string;
   kind: string;
   href?: string;
+  coverUrl?: string;
 };
 
 export type ProfilimJournalEntry = {
   id: string;
   excerpt: string;
+  body?: string;
   createdAt: string;
 };
 
 export type ProfilimLetter = {
   id: string;
   title: string;
+  body?: string;
   createdAt: string;
 };
 
@@ -87,12 +97,53 @@ export type ProfilimContinueItem = {
   title: string;
   href: string;
   progress: number;
+  platform?: string;
+};
+
+export type ProfilimPlatformTrack = {
+  id: string;
+  label: string;
+  progress: number;
+};
+
+export type ProfilimTodayNeedChoiceId =
+  | "calm"
+  | "focus"
+  | "understand"
+  | "write"
+  | "breathe"
+  | "rest";
+
+export type ProfilimTodayNeedRecommendation = {
+  goldmind?: string;
+  goldblog?: string;
+  goldbook?: string;
+};
+
+export type ProfilimTodayNeedChoice = {
+  id: ProfilimTodayNeedChoiceId;
+  label: string;
+  recommendation: ProfilimTodayNeedRecommendation;
 };
 
 export type ProfilimTodayNeed = {
   title: string;
   text: string;
+  choiceId?: ProfilimTodayNeedChoiceId;
 } | null;
+
+export type ProfilimDrawerId =
+  | "today"
+  | "progress"
+  | "continue"
+  | "favorites"
+  | "purchases"
+  | "pdfs"
+  | "appointments"
+  | "library"
+  | "journal"
+  | "letter"
+  | "journey";
 
 export type ProfilimDashboardSources = {
   user: ProfilimUser;
