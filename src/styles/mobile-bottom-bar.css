@@ -131,7 +131,7 @@
     box-sizing: border-box;
     width: 90vw;
     max-width: 420px;
-    max-height: min(82dvh, 720px);
+    max-height: min(72dvh, 620px);
     overflow: hidden;
     padding: 0;
     border: 1px solid rgba(198, 168, 112, 0.32);
@@ -214,8 +214,9 @@
     background:
       linear-gradient(180deg, #ffffff 0%, #fcfaf6 68%, #f7f1e6 100%);
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.95) inset,
-      0 10px 22px rgba(72, 48, 18, 0.06);
+      0 1px 0 rgba(255, 255, 255, 0.96) inset,
+      0 12px 28px rgba(72, 48, 18, 0.08),
+      0 1px 2px rgba(72, 48, 18, 0.05);
     transform: none;
   }
 
@@ -226,9 +227,8 @@
 
   .goldkozmosMobileGoldsSheet .goldkozmosGoldsCard .platformRailTagline,
   .goldkozmosMobileGoldsSheet .goldkozmosGoldsCard .platformRailEmpty,
-  .goldkozmosMobileGoldsSheet .goldkozmosGoldsCard .platformRailResume,
   .goldkozmosMobileGoldsSheet .goldkozmosGoldsCard .platformRailPercent {
-    color: #6a635b;
+    color: #5f5850;
   }
 
   .goldkozmosMobileGoldsSheet .goldkozmosGoldsCard .platformRailResume {
