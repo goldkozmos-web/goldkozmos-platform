@@ -164,6 +164,12 @@ export default function ProfilimDashboard({
   }, []);
 
   useEffect(() => {
+    if (data.user?.isAdmin || user?.isAdmin) {
+      window.location.replace("/admin");
+    }
+  }, [data.user?.isAdmin, user?.isAdmin]);
+
+  useEffect(() => {
     if (!user?.id) return;
     setNeedId(readTodayNeedChoice(user.id));
     setJournal(readJournalEntries(user.id));
@@ -237,6 +243,19 @@ export default function ProfilimDashboard({
 
   const latest = continueItems[0];
   const meta = open ? DRAWERS[open] : null;
+
+  if (data.user?.isAdmin || user?.isAdmin) {
+    return (
+      <section className="profilimDash">
+        <div className="profilimDashInner">
+          <section className="profilimGate">
+            <p className="profilimGateEyebrow">GOLDKOZMOS · YÖNETİM</p>
+            <h1>Yönetim paneline alınıyorsun…</h1>
+          </section>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="profilimDash">

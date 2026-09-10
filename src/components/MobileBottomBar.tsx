@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PLATFORM_CATALOG } from "../data/platformFlow";
+import { fetchOwnProfileFlags, isAdminProfile } from "../lib/admin/profile";
+import { createSupabaseBrowserClient } from "../lib/supabase/browser";
 import { usePlayback } from "./platform/PlaybackProvider";
 import PlatformProgressCard from "./platform/PlatformProgressCard";
 
@@ -42,9 +44,25 @@ function ProfileIcon() {
 export default function MobileBottomBar() {
   const pathname = usePathname();
   const [goldsOpen, setGoldsOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setGoldsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+    if (!supabase) return;
+
+    void supabase.auth.getSession().then(async ({ data: { session } }) => {
+      const userId = session?.user?.id;
+      if (!userId) {
+        setIsAdmin(false);
+        return;
+      }
+      const flags = await fetchOwnProfileFlags(supabase, userId);
+      setIsAdmin(isAdminProfile(flags));
+    });
   }, [pathname]);
 
   useEffect(() => {
@@ -170,14 +188,14 @@ export default function MobileBottomBar() {
         </button>
 
         <Link
-          href="/profilim"
+          href={isAdmin ? "/admin" : "/profilim"}
           className={atProfile ? "isActive" : undefined}
           aria-current={atProfile ? "page" : undefined}
         >
           <span className="goldkozmosMobileBottomIcon">
             <ProfileIcon />
           </span>
-          Profilim
+          {isAdmin ? "Yönetim" : "Profilim"}
         </Link>
       </nav>
     </>
