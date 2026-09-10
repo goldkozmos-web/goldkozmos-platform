@@ -58,7 +58,7 @@ const supportLinks = [
   },
   {
     label: "Randevu Al",
-    href: "/randevu",
+    href: "/randevu-al",
   },
   {
     label: "İletişim",

@@ -1,7 +1,16 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+import {
+  BIREBIR_SERVICE_CARDS,
+  ENERJI_SERVICE_CARDS,
+  canSubmitRandevuRequest,
+  formatRandevuDate,
+  randevuRequestSummary,
+  randevuWhatsappHref,
+} from "../lib/randevu-al/booking";
 
 const socialLinks = [
   {
@@ -44,31 +53,29 @@ const socialLinks = [
 const whatsappActions = [
   {
     title: "Randevu Al",
-    opensCalendar: true,
-    message: "",
+    kind: "booking-page" as const,
   },
   {
     title: "Hangi Çalışma Bana Uygun?",
-    opensCalendar: false,
+    kind: "whatsapp" as const,
     message:
       "Merhaba, hangi Goldkozmos çalışmasının bana uygun olduğuna karar veremedim. Kısaca bilgi almak istiyorum.",
   },
   {
     title: "Atölyeler Hakkında Bilgi",
-    opensCalendar: false,
+    kind: "whatsapp" as const,
     message:
       "Merhaba, Goldkozmos Rezonans Atölyeleri hakkında bilgi almak istiyorum.",
   },
   {
     title: "Satın Alma / Erişim Desteği",
-    opensCalendar: false,
+    kind: "whatsapp" as const,
     message:
       "Merhaba, satın alma veya erişim konusunda desteğe ihtiyacım var.",
   },
   {
     title: "Randevu Takvimine Göz At",
-    opensCalendar: true,
-    message: "",
+    kind: "calendar" as const,
   },
 ];
 
@@ -93,19 +100,6 @@ function minSelectableIso(now = new Date()) {
   const next = startOfDay(now);
   next.setDate(next.getDate() + 1);
   return toIsoDate(next);
-}
-
-function formatRequestDate(iso: string) {
-  const [year, month, day] = iso.split("-").map(Number);
-  return new Date(year, month - 1, day).toLocaleDateString("tr-TR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
-
-function appointmentRequestMessage(iso: string) {
-  return `Merhaba, ${formatRequestDate(iso)} için randevu almak istiyorum. Uygun saatleri ve benim için uygun çalışma alanını konuşmak istiyorum.`;
 }
 
 function whatsappHref(message: string) {
@@ -465,19 +459,94 @@ const dockStyles = `
       font-weight: 700;
     }
 
-    .goldkozmosGlobalWhatsappCta {
+    .goldkozmosGlobalServiceHead {
+      margin: 4px 0 0;
+      color: rgba(255, 250, 241, 0.72);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .goldkozmosGlobalServiceHead strong {
+      color: #f0d48a;
+      text-transform: capitalize;
+    }
+
+    .goldkozmosGlobalServiceLabel {
+      margin: 8px 0 0;
+      color: #c99a47;
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .goldkozmosGlobalServiceGrid {
+      display: grid;
+      gap: 6px;
+    }
+
+    .goldkozmosGlobalServiceCard {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      min-height: 52px;
+      padding: 10px 12px;
+      border: 1px solid rgba(215, 171, 91, 0.18);
+      border-radius: 14px;
+      background: rgba(255, 250, 241, 0.04);
+      color: #fff8ec;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      appearance: none;
+    }
+
+    .goldkozmosGlobalServiceCard b {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .goldkozmosGlobalServiceCard small {
+      display: block;
+      margin-top: 3px;
+      color: rgba(240, 212, 138, 0.82);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .goldkozmosGlobalServiceCard.isOn {
+      border-color: #c9a24a;
+      background: linear-gradient(180deg, rgba(240, 212, 138, 0.22), rgba(201, 162, 74, 0.16));
+      box-shadow: 0 0 0 1px #c9a24a inset;
+    }
+
+    .goldkozmosGlobalWhatsappCta,
+    .goldkozmosGlobalWhatsappCta.isOff {
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 48px;
       padding: 0 16px;
+      border: 0;
       border-radius: 999px;
-      background: linear-gradient(180deg, #f0d48a, #c9a24a);
-      color: #211812;
+      font: inherit;
       font-size: 13px;
       font-weight: 800;
       text-align: center;
       text-decoration: none;
+    }
+
+    .goldkozmosGlobalWhatsappCta {
+      background: linear-gradient(180deg, #f0d48a, #c9a24a);
+      color: #211812;
+    }
+
+    .goldkozmosGlobalWhatsappCta.isOff {
+      background: rgba(255, 250, 241, 0.08);
+      color: rgba(255, 250, 241, 0.42);
+      cursor: not-allowed;
     }
 
     .goldkozmosGlobalContactDivider {
@@ -569,9 +638,11 @@ const dockStyles = `
 
 export default function GlobalContactDock() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<"menu" | "calendar">("menu");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<string | null>(null);
   const [cursor, setCursor] = useState(() => {
     const min = minSelectableIso();
     const [year, month] = min.split("-").map(Number);
@@ -584,10 +655,13 @@ export default function GlobalContactDock() {
     [cursor.month, cursor.year],
   );
 
+  const ready = canSubmitRandevuRequest(selectedDate, selectedService);
+
   function resetPanel() {
     setOpen(false);
     setStep("menu");
     setSelectedDate(null);
+    setSelectedService(null);
   }
 
   useEffect(() => {
@@ -600,6 +674,7 @@ export default function GlobalContactDock() {
         if (current) {
           setStep("menu");
           setSelectedDate(null);
+          setSelectedService(null);
         }
         return !current;
       });
@@ -674,7 +749,11 @@ export default function GlobalContactDock() {
             <small>WHATSAPP</small>
             <strong id="goldkozmosWhatsappHelpTitle">
               {step === "calendar"
-                ? "Randevu günü seç"
+                ? selectedService
+                  ? "Talebi ilet"
+                  : selectedDate
+                    ? "Çalışmayı seç"
+                    : "Randevu günü seç"
                 : "Nasıl yardımcı olabilirim?"}
             </strong>
           </div>
@@ -691,23 +770,43 @@ export default function GlobalContactDock() {
         <div className="goldkozmosGlobalContactBody">
           {step === "menu" ? (
             <div className="goldkozmosGlobalWhatsappActions">
-              {whatsappActions.map((action) =>
-                action.opensCalendar ? (
-                  <button
-                    key={action.title}
-                    type="button"
-                    className={`goldkozmosGlobalWhatsappAction${
-                      action.title === "Randevu Al" ? " isFeatured" : ""
-                    }`}
-                    onClick={() => {
-                      setSelectedDate(null);
-                      setStep("calendar");
-                    }}
-                  >
-                    <span>{action.title}</span>
-                    <span aria-hidden="true">↗</span>
-                  </button>
-                ) : (
+              {whatsappActions.map((action) => {
+                if (action.kind === "booking-page") {
+                  return (
+                    <button
+                      key={action.title}
+                      type="button"
+                      className="goldkozmosGlobalWhatsappAction isFeatured"
+                      onClick={() => {
+                        resetPanel();
+                        router.push("/randevu-al");
+                      }}
+                    >
+                      <span>{action.title}</span>
+                      <span aria-hidden="true">↗</span>
+                    </button>
+                  );
+                }
+
+                if (action.kind === "calendar") {
+                  return (
+                    <button
+                      key={action.title}
+                      type="button"
+                      className="goldkozmosGlobalWhatsappAction"
+                      onClick={() => {
+                        setSelectedDate(null);
+                        setSelectedService(null);
+                        setStep("calendar");
+                      }}
+                    >
+                      <span>{action.title}</span>
+                      <span aria-hidden="true">↗</span>
+                    </button>
+                  );
+                }
+
+                return (
                   <a
                     key={action.title}
                     className="goldkozmosGlobalWhatsappAction"
@@ -719,8 +818,8 @@ export default function GlobalContactDock() {
                     <span>{action.title}</span>
                     <span aria-hidden="true">↗</span>
                   </a>
-                ),
-              )}
+                );
+              })}
             </div>
           ) : (
             <div className="goldkozmosGlobalCalendar">
@@ -729,6 +828,7 @@ export default function GlobalContactDock() {
                 className="goldkozmosGlobalContactBack"
                 onClick={() => {
                   setSelectedDate(null);
+                  setSelectedService(null);
                   setStep("menu");
                 }}
               >
@@ -797,7 +897,10 @@ export default function GlobalContactDock() {
                         selectedDate === cell.iso ? " isOn" : ""
                       }`}
                       disabled={disabled}
-                      onClick={() => setSelectedDate(cell.iso)}
+                      onClick={() => {
+                        setSelectedDate(cell.iso);
+                        setSelectedService(null);
+                      }}
                     >
                       {cell.day}
                     </button>
@@ -806,16 +909,86 @@ export default function GlobalContactDock() {
               </div>
 
               {selectedDate ? (
+                <div className="goldkozmosGlobalServices">
+                  <p className="goldkozmosGlobalServiceHead">
+                    <strong>{formatRandevuDate(selectedDate)}</strong>
+                    <br />
+                    {randevuRequestSummary(selectedDate, selectedService)}
+                  </p>
+
+                  <p className="goldkozmosGlobalServiceLabel">Birebir</p>
+                  <div className="goldkozmosGlobalServiceGrid">
+                    {BIREBIR_SERVICE_CARDS.map((service) => (
+                      <button
+                        key={service.name}
+                        type="button"
+                        className={`goldkozmosGlobalServiceCard${
+                          selectedService === service.name ? " isOn" : ""
+                        }`}
+                        onClick={() => setSelectedService(service.name)}
+                      >
+                        <span>
+                          <b>{service.name}</b>
+                          <small>
+                            {service.duration} · {service.format}
+                          </small>
+                        </span>
+                        {selectedService === service.name ? (
+                          <span aria-hidden="true">✓</span>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+
+                  <p className="goldkozmosGlobalServiceLabel">
+                    Enerji çalışmaları
+                  </p>
+                  <div className="goldkozmosGlobalServiceGrid">
+                    {ENERJI_SERVICE_CARDS.map((service) => (
+                      <button
+                        key={service.name}
+                        type="button"
+                        className={`goldkozmosGlobalServiceCard${
+                          selectedService === service.name ? " isOn" : ""
+                        }`}
+                        onClick={() => setSelectedService(service.name)}
+                      >
+                        <span>
+                          <b>{service.name}</b>
+                          <small>
+                            {service.duration} · {service.format}
+                          </small>
+                        </span>
+                        {selectedService === service.name ? (
+                          <span aria-hidden="true">✓</span>
+                        ) : null}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {ready && selectedDate && selectedService ? (
                 <a
                   className="goldkozmosGlobalWhatsappCta"
-                  href={whatsappHref(appointmentRequestMessage(selectedDate))}
+                  href={randevuWhatsappHref(selectedDate, selectedService)}
                   target="_blank"
                   rel="noreferrer"
                   onClick={resetPanel}
                 >
-                  WhatsApp’tan Randevu Talebi Oluştur
+                  WhatsApp’tan talep ilet
                 </a>
-              ) : null}
+              ) : (
+                <button
+                  type="button"
+                  className="goldkozmosGlobalWhatsappCta isOff"
+                  disabled
+                >
+                  {selectedDate
+                    ? "Çalışmayı seçince açılır"
+                    : "Önce günü seç"}
+                </button>
+              )}
             </div>
           )}
 

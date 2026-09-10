@@ -3,25 +3,21 @@
 import { useMemo, useState } from "react";
 
 import {
-  BIREBIR_SERVICES,
-  ENERJI_SERVICES,
+  BIREBIR_SERVICE_CARDS,
+  ENERJI_SERVICE_CARDS,
   canSubmitRandevuRequest,
   formatRandevuDate,
+  formatRandevuWeekday,
+  randevuMinIso,
+  randevuRequestSummary,
   randevuWhatsappHref,
+  type RandevuServiceCard,
 } from "../../lib/randevu-al/booking";
 
-const WEEKDAYS = ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"];
+const WEEKDAYS = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
 
 function pad(value: number) {
   return String(value).padStart(2, "0");
-}
-
-function toIsoDate(date: Date) {
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-}
-
-function todayIso() {
-  return toIsoDate(new Date());
 }
 
 function calendarCells(year: number, month: number) {
@@ -50,42 +46,99 @@ function monthLabel(year: number, month: number) {
   });
 }
 
+function ServiceCard({
+  service,
+  selected,
+  onSelect,
+}: {
+  service: RandevuServiceCard;
+  selected: boolean;
+  onSelect: (name: string) => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={`randevuAlServiceCard${selected ? " isOn" : ""}`}
+      onClick={() => onSelect(service.name)}
+      aria-pressed={selected}
+    >
+      <span className="randevuAlServiceCopy">
+        <strong>{service.name}</strong>
+        <em>
+          {service.duration} · {service.format}
+        </em>
+        <span>{service.note}</span>
+      </span>
+      <span className="randevuAlCheck" aria-hidden="true">
+        {selected ? "✓" : ""}
+      </span>
+    </button>
+  );
+}
+
 export default function RandevuAlBooking() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<string | null>(null);
+  const minIso = randevuMinIso();
   const [cursor, setCursor] = useState(() => {
-    const now = new Date();
-    return { year: now.getFullYear(), month: now.getMonth() };
+    const [year, month] = minIso.split("-").map(Number);
+    return { year, month: month - 1 };
   });
 
-  const minIso = todayIso();
   const cells = useMemo(
     () => calendarCells(cursor.year, cursor.month),
     [cursor.month, cursor.year],
   );
   const ready = canSubmitRandevuRequest(selectedDate, selectedService);
-
-  function selectDate(iso: string) {
-    setSelectedDate(iso);
-  }
-
-  function selectService(service: string) {
-    setSelectedService(service);
-  }
+  const summary = randevuRequestSummary(selectedDate, selectedService);
+  const minMonth = minIso.slice(0, 7);
+  const cursorMonth = `${cursor.year}-${pad(cursor.month + 1)}`;
+  const prevMonthDisabled = cursorMonth <= minMonth;
 
   return (
     <section className="randevuAlBooking">
       <header className="randevuAlHeader">
-        <p className="randevuAlEyebrow">RANDEVU</p>
-        <h1>Randevu al</h1>
-        <p>Önce günü, sonra hizmeti seç. WhatsApp yalnızca en alttaki butondan açılır.</p>
+        <p className="randevuAlEyebrow">GOLDKOZMOS RANDEVU</p>
+        <h1>Günü ve çalışmayı seç</h1>
+        <p>
+          Bu bir talep formudur. Uygun saat Gold ile WhatsApp’ta netleşir;
+          takvimdeki gün henüz rezervasyon kilidi değildir.
+        </p>
       </header>
 
+      <ol className="randevuAlSteps">
+        <li className={selectedDate ? "isDone" : "isNow"}>
+          <span>01</span>
+          Gün
+        </li>
+        <li
+          className={
+            selectedService ? "isDone" : selectedDate ? "isNow" : undefined
+          }
+        >
+          <span>02</span>
+          Çalışma
+        </li>
+        <li className={ready ? "isNow" : undefined}>
+          <span>03</span>
+          Talep
+        </li>
+      </ol>
+
       <div className="randevuAlCalendar">
+        <div className="randevuAlPanelHead">
+          <span>01</span>
+          <div>
+            <h2>Günü seç</h2>
+            <p>Yarın ve sonrası açık. Bugün için yer bırakılmıyor.</p>
+          </div>
+        </div>
+
         <div className="randevuAlCalendarNav">
           <button
             type="button"
             aria-label="Önceki ay"
+            disabled={prevMonthDisabled}
             onClick={() =>
               setCursor((current) => {
                 const date = new Date(current.year, current.month - 1, 1);
@@ -130,80 +183,78 @@ export default function RandevuAlBooking() {
                 type="button"
                 className={`randevuAlDay${selectedDate === cell.iso ? " isOn" : ""}`}
                 disabled={disabled}
-                onClick={() => selectDate(cell.iso as string)}
+                onClick={() => setSelectedDate(cell.iso as string)}
               >
                 {cell.day}
               </button>
             );
           })}
         </div>
+
+        {selectedDate ? (
+          <p className="randevuAlDateChip">
+            <strong>{formatRandevuDate(selectedDate)}</strong>
+            <span>{formatRandevuWeekday(selectedDate)}</span>
+          </p>
+        ) : null}
       </div>
 
       {selectedDate ? (
         <div className="randevuAlServices">
-          <h2>Hangi hizmet için randevu almak istiyorsunuz?</h2>
-          <p>
-            Seçilen gün: <strong>{formatRandevuDate(selectedDate)}</strong>
-          </p>
+          <div className="randevuAlPanelHead">
+            <span>02</span>
+            <div>
+              <h2>Çalışmayı seç</h2>
+              <p>
+                Kartlar yalnızca seçim içindir; WhatsApp açılmaz. Saat, talep
+                mesajında konuşulur.
+              </p>
+            </div>
+          </div>
 
           <p className="randevuAlGroupLabel">Birebir</p>
-          <div className="randevuAlServiceGrid">
-            {BIREBIR_SERVICES.map((service) => (
-              <button
-                key={service}
-                type="button"
-                className={`randevuAlServiceCard${
-                  selectedService === service ? " isOn" : ""
-                }`}
-                onClick={() => selectService(service)}
-              >
-                <span>{service}</span>
-                {selectedService === service ? (
-                  <span className="randevuAlCheck" aria-hidden="true">
-                    ✓
-                  </span>
-                ) : null}
-              </button>
+          <div className="randevuAlServiceGrid isPair">
+            {BIREBIR_SERVICE_CARDS.map((service) => (
+              <ServiceCard
+                key={service.name}
+                service={service}
+                selected={selectedService === service.name}
+                onSelect={setSelectedService}
+              />
             ))}
           </div>
 
-          <p className="randevuAlGroupLabel">Enerji Çalışmaları</p>
+          <p className="randevuAlGroupLabel">Enerji çalışmaları</p>
           <div className="randevuAlServiceGrid">
-            {ENERJI_SERVICES.map((service) => (
-              <button
-                key={service}
-                type="button"
-                className={`randevuAlServiceCard${
-                  selectedService === service ? " isOn" : ""
-                }`}
-                onClick={() => selectService(service)}
-              >
-                <span>{service}</span>
-                {selectedService === service ? (
-                  <span className="randevuAlCheck" aria-hidden="true">
-                    ✓
-                  </span>
-                ) : null}
-              </button>
+            {ENERJI_SERVICE_CARDS.map((service) => (
+              <ServiceCard
+                key={service.name}
+                service={service}
+                selected={selectedService === service.name}
+                onSelect={setSelectedService}
+              />
             ))}
           </div>
         </div>
       ) : null}
 
-      {ready && selectedDate && selectedService ? (
-        <a
-          className="randevuAlWhatsapp"
-          href={randevuWhatsappHref(selectedDate, selectedService)}
-          target="_blank"
-          rel="noreferrer"
-        >
-          WhatsApp’tan Randevu Talebi Oluştur
-        </a>
-      ) : (
-        <button type="button" className="randevuAlWhatsapp isOff" disabled>
-          WhatsApp’tan Randevu Talebi Oluştur
-        </button>
-      )}
+      <div className={`randevuAlCta${ready ? " isReady" : ""}`}>
+        <p>{summary}</p>
+        {ready && selectedDate && selectedService ? (
+          <a
+            className="randevuAlWhatsapp"
+            href={randevuWhatsappHref(selectedDate, selectedService)}
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp’tan talep ilet
+          </a>
+        ) : (
+          <button type="button" className="randevuAlWhatsapp isOff" disabled>
+            WhatsApp’tan talep ilet
+          </button>
+        )}
+      </div>
     </section>
   );
 }

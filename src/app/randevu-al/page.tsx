@@ -8,7 +8,7 @@ import "../../styles/randevu-al.css";
 export const metadata: Metadata = {
   title: "Randevu Al",
   description:
-    "GoldKozmos randevu talebi: gün ve hizmet seç, WhatsApp üzerinden ilet.",
+    "GoldKozmos randevu talebi: günü ve çalışmayı seç, uygun saati WhatsApp üzerinden netleştir.",
   robots: { index: false, follow: false },
 };
 

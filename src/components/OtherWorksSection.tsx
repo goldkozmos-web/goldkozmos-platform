@@ -7,7 +7,7 @@ const works = [
     title: "Tek Birebir Seans",
     description:
       "Belirli bir konuya odaklanmak, mevcut durumunu daha net görmek ve sana özel bir yön oluşturmak için birebir çalışma.",
-    meta: "50–60 dk · Online",
+    meta: "90 dk · Online",
     price: "2.500 TL",
     href: "/calismalar/birebir-seanslar",
     button: "Seansı İncele",
