@@ -35,12 +35,12 @@ test("metrics without a source stay at zero instead of invented counts", () => {
   assert.equal(adminMetricValue(true, 0), 0);
 });
 
-test("login path follows the own profiles row", () => {
+test("login always returns to Profilim so the public site stays reachable", () => {
   assert.equal(isAdminProfile({ role: "admin", is_admin: false }), true);
   assert.equal(isAdminProfile({ role: "ADMIN", is_admin: false }), true);
   assert.equal(isAdminProfile({ role: "user", is_admin: true }), true);
   assert.equal(isAdminProfile({ role: "user", is_admin: false }), false);
-  assert.equal(postLoginPath({ role: "admin", is_admin: true }), "/admin");
+  assert.equal(postLoginPath({ role: "admin", is_admin: true }), "/profilim");
   assert.equal(postLoginPath({ role: "user", is_admin: false }), "/profilim");
   assert.equal(postLoginPath(null), "/profilim");
 });
