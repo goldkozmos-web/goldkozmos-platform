@@ -1,11 +1,17 @@
-import AdminEmpty from "../../../components/admin/AdminEmpty";
+import AdminEventList from "../../../components/admin/AdminEventList";
+import { loadAdminLive } from "../../../lib/admin/load";
 
-export default function AdminPurchasesPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AdminPurchasesPage() {
+  const live = await loadAdminLive();
+
   return (
-    <AdminEmpty
+    <AdminEventList
       eyebrow="Satın Almalar"
-      title="Satın alma takibi henüz bağlı değil"
-      text="Shopier tıklamaları için event kaydı bu iskelette yok."
+      emptyTitle="Bugün satın alma tıklaması yok"
+      emptyText="Shopier’e giden ziyaretçiler burada Ziyaretçi olarak görünür."
+      items={live.purchases}
     />
   );
 }

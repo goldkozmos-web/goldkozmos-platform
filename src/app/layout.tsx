@@ -6,6 +6,7 @@ import type {
 import GlobalContactDock from "../components/GlobalContactDock";
 import MobileBottomBar from "../components/MobileBottomBar";
 import PlatformFlowRoot from "../components/platform/PlatformFlowRoot";
+import PresenceTracker from "../components/presence/PresenceTracker";
 
 import "../styles/home.css";
 import "../styles/mobile-v2.css";
@@ -151,6 +152,7 @@ export default function RootLayout({
         />
 
         <PlatformFlowRoot>
+          <PresenceTracker />
           {children}
           <GlobalContactDock />
           <MobileBottomBar />

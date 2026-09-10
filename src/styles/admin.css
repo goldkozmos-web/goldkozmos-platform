@@ -155,6 +155,27 @@
   gap: 10px;
 }
 
+.adminStack {
+  display: grid;
+  gap: 22px;
+}
+
+.adminSectionLabel {
+  margin: 0 0 2px;
+  color: #a8792a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.adminProfilimLink {
+  color: #8d6728;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
 .adminMember {
   display: flex;
   align-items: center;
