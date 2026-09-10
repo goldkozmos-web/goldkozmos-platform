@@ -27,9 +27,10 @@ export default function PlatformProgressCard({
 
   return (
     <Link
-      className={`platformRailCard platformRailCard--${platform.tone}${
-        className ? ` ${className}` : ""
-      }`}
+      className={
+        className ??
+        `platformRailCard platformRailCard--${platform.tone}`
+      }
       href={platform.href}
       onClick={onOpen}
     >

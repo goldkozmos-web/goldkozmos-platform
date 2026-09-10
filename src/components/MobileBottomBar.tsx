@@ -126,7 +126,7 @@ export default function MobileBottomBar() {
                 key={item.id}
                 platform={item}
                 progress={forPlatform(item.id)}
-                className="goldkozmosGoldsCard"
+                className="goldsPopupCard"
                 onOpen={() => setGoldsOpen(false)}
               />
             ))}
