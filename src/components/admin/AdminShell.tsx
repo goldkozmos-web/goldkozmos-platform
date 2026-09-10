@@ -4,8 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { ADMIN_NAV, type AdminActor } from "../../lib/admin/access";
+import { AdminLiveProvider, useAdminLive } from "./AdminLiveProvider";
 
-export default function AdminShell({
+function AdminChrome({
   actor,
   children,
 }: {
@@ -13,6 +14,7 @@ export default function AdminShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const { toast, notifyReady, enableNotify } = useAdminLive();
 
   return (
     <div className="adminShell">
@@ -34,7 +36,21 @@ export default function AdminShell({
         <Link className="adminProfilimLink" href="/profilim">
           Profilim
         </Link>
+        {notifyReady ? (
+          <span className="adminNotifyOn">Bildirim açık</span>
+        ) : (
+          <button type="button" className="adminNotifyBtn" onClick={enableNotify}>
+            Bildirimleri aç
+          </button>
+        )}
       </div>
+
+      {toast ? (
+        <div className="adminToast" role="status">
+          <strong>{toast.title}</strong>
+          <span>{toast.body}</span>
+        </div>
+      ) : null}
 
       <div className="adminBody">{children}</div>
 
@@ -57,5 +73,19 @@ export default function AdminShell({
         })}
       </nav>
     </div>
+  );
+}
+
+export default function AdminShell({
+  actor,
+  children,
+}: {
+  actor: AdminActor;
+  children: React.ReactNode;
+}) {
+  return (
+    <AdminLiveProvider>
+      <AdminChrome actor={actor}>{children}</AdminChrome>
+    </AdminLiveProvider>
   );
 }

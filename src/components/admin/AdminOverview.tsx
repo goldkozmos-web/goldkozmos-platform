@@ -1,44 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 import type { AdminOverviewMetric } from "../../lib/admin/load";
+import { useAdminLive } from "./AdminLiveProvider";
 
 export default function AdminOverview({
   metrics,
 }: {
   metrics: AdminOverviewMetric[];
 }) {
-  const [rows, setRows] = useState(metrics);
-
-  useEffect(() => {
-    setRows(metrics);
-  }, [metrics]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function refresh() {
-      const response = await fetch("/api/admin/live", { cache: "no-store" });
-      if (!response.ok || cancelled) {
-        return;
-      }
-      const data = (await response.json()) as { metrics?: AdminOverviewMetric[] };
-      if (data.metrics) {
-        setRows(data.metrics);
-      }
-    }
-
-    const timer = window.setInterval(() => {
-      void refresh();
-    }, 10000);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(timer);
-    };
-  }, []);
+  const { live } = useAdminLive();
+  const rows = live?.metrics ?? metrics;
 
   return (
     <section className="adminOverview">
