@@ -51,12 +51,19 @@
 }
 
 .profilimHeroEyebrow,
-.profilimFeaturedEyebrow,
-.profilimTileEyebrow,
 .profilimDrawerEyebrow {
   margin: 0;
   color: #a8792a;
   font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.profilimFeaturedEyebrow,
+.profilimTileEyebrow {
+  margin: 0;
+  color: #a8792a;
+  font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.16em;
 }
@@ -134,10 +141,14 @@
   width: 100%;
   margin: 0;
   padding: 18px 40px 16px 18px;
-  border: 1px solid rgba(176, 130, 48, 0.18);
+  border: 1px solid rgba(198, 168, 112, 0.28);
   border-radius: 20px;
-  background: linear-gradient(180deg, #fffdf8 0%, #f8f1e4 100%);
-  box-shadow: none;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fcfaf6 72%, #f8f4ec 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 10px 24px rgba(72, 48, 18, 0.045),
+    0 1px 2px rgba(72, 48, 18, 0.04);
   text-align: left;
   cursor: pointer;
   appearance: none;
@@ -158,8 +169,8 @@
 }
 
 .profilimFeaturedTitle {
-  font-size: 22px;
-  line-height: 1.15;
+  font-size: 19px;
+  line-height: 1.18;
 }
 
 .profilimFeaturedBody {
@@ -167,7 +178,7 @@
   gap: 8px;
   margin-top: 10px;
   color: #6a635b;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.4;
 }
 
@@ -176,7 +187,7 @@
   flex-wrap: wrap;
   gap: 8px 12px;
   color: #7a5720;
-  font-size: 11px;
+  font-size: 10px;
 }
 
 .profilimInlineBar {
@@ -194,7 +205,7 @@
   top: 18px;
   right: 14px;
   color: #b8893a;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1;
 }
 
@@ -205,8 +216,8 @@
 
 .profilimTileTitle {
   max-width: 11ch;
-  font-size: 16px;
-  line-height: 1.2;
+  font-size: 14px;
+  line-height: 1.22;
 }
 
 .profilimTileGrid {
@@ -471,7 +482,7 @@
   }
 
   .profilimFeaturedTitle {
-    font-size: 26px;
+    font-size: 22px;
   }
 }
 

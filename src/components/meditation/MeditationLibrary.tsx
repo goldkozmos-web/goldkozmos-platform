@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   GOLDMIND_COLLECTIONS,
   getCollectionPractices,
@@ -8,6 +8,7 @@ import {
   getFeaturedPractices,
   getTodaysPicks,
   isMeditationPlayable,
+  meditationFilterFromFocus,
   type MeditationFilter,
   type MeditationPractice,
 } from "../../data/meditation";
@@ -22,8 +23,15 @@ import LiveActivity from "../LiveActivity";
 import { useGoldMindLiveCount } from "../../lib/goldmindPresence";
 import { usePlayback } from "../platform/PlaybackProvider";
 
-export default function MeditationLibrary() {
-  const [filter, setFilter] = useState<MeditationFilter>("Tümü");
+export default function MeditationLibrary({
+  initialFocus,
+}: {
+  initialFocus?: string;
+}) {
+  const focusFilter = meditationFilterFromFocus(initialFocus);
+  const [filter, setFilter] = useState<MeditationFilter>(
+    () => focusFilter ?? "Tümü",
+  );
   const activeUsers = useGoldMindLiveCount();
   const { startAudio, session, minimized } = usePlayback();
 
@@ -36,6 +44,24 @@ export default function MeditationLibrary() {
     () => getTodaysPicks(filter),
     [filter],
   );
+
+  useEffect(() => {
+    if (!focusFilter) {
+      return;
+    }
+
+    setFilter(focusFilter);
+
+    const node =
+      document.querySelector(".goldmindQuickCard.isActive") ??
+      document.querySelector(".goldmindQuick");
+
+    node?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "center",
+    });
+  }, [focusFilter]);
 
   function handleFilterChange(nextFilter: MeditationFilter) {
     setFilter(nextFilter);

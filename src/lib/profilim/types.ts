@@ -114,16 +114,21 @@ export type ProfilimTodayNeedChoiceId =
   | "breathe"
   | "rest";
 
-export type ProfilimTodayNeedRecommendation = {
-  goldmind?: string;
-  goldblog?: string;
-  goldbook?: string;
-};
+export type ProfilimTodayNeedFocus =
+  | "sakinles"
+  | "odaklanma"
+  | "nefes"
+  | "dinlenme";
+
+export type ProfilimTodayNeedAction =
+  | { type: "goldmind"; focus: ProfilimTodayNeedFocus }
+  | { type: "journal" }
+  | { type: "awareness" };
 
 export type ProfilimTodayNeedChoice = {
   id: ProfilimTodayNeedChoiceId;
   label: string;
-  recommendation: ProfilimTodayNeedRecommendation;
+  action: ProfilimTodayNeedAction;
 };
 
 export type ProfilimTodayNeed = {
@@ -143,7 +148,8 @@ export type ProfilimDrawerId =
   | "library"
   | "journal"
   | "letter"
-  | "journey";
+  | "journey"
+  | "understand";
 
 export type ProfilimDashboardSources = {
   user: ProfilimUser;

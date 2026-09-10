@@ -17,6 +17,23 @@ export const MEDITATION_FILTERS = [
 export type MeditationFilter =
   (typeof MEDITATION_FILTERS)[number];
 
+export const GOLDMIND_FOCUS_QUERY: Record<string, MeditationFilter> = {
+  sakinles: "Gevşeme",
+  odaklanma: "Odaklanma",
+  nefes: "Nefes",
+  dinlenme: "Uyku",
+};
+
+export function meditationFilterFromFocus(
+  focus: string | null | undefined,
+): MeditationFilter | null {
+  if (!focus) {
+    return null;
+  }
+
+  return GOLDMIND_FOCUS_QUERY[focus] ?? null;
+}
+
 export type MeditationPractice = {
   id: string;
   title: string;

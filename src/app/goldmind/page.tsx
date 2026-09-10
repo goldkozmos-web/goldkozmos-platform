@@ -50,7 +50,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function GoldMindPage() {
+export default async function GoldMindPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ focus?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const rawFocus = params.focus;
+  const initialFocus = Array.isArray(rawFocus) ? rawFocus[0] : rawFocus;
+
   return (
     <main
       className="homeV3Page meditationPage"
@@ -60,7 +68,7 @@ export default function GoldMindPage() {
 
       <section className="meditationSection">
         <div className="meditationInner">
-          <MeditationLibrary />
+          <MeditationLibrary initialFocus={initialFocus} />
         </div>
       </section>
 
