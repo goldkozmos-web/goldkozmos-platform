@@ -1,29 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { postLoginPath, fetchOwnProfileFlags } from "../../../lib/admin/profile";
 import { createSupabaseBrowserClient } from "../../../lib/supabase/browser";
 
 export default function AuthCallbackPage() {
   const [message, setMessage] = useState("Giriş tamamlanıyor…");
+  const ran = useRef(false);
 
   useEffect(() => {
+    if (ran.current) {
+      return;
+    }
+    ran.current = true;
+
     const search = new URLSearchParams(window.location.search);
     const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
     const code = search.get("code");
     const oauthError = search.get("error") || hash.get("error");
     const supabase = createSupabaseBrowserClient();
-
-    async function routeAfterLogin(userId: string | undefined) {
-      if (!supabase || !userId) {
-        window.location.replace("/profilim");
-        return;
-      }
-
-      const profile = await fetchOwnProfileFlags(supabase, userId);
-      window.location.replace(postLoginPath(profile));
-    }
 
     async function finishSignIn() {
       if (oauthError || !supabase) {
@@ -33,41 +28,19 @@ export default function AuthCallbackPage() {
 
       if (code) {
         const { error } = await supabase.auth.exchangeCodeForSession(code);
-
         if (error) {
-          setMessage("Giriş tamamlanamadı. Profilime dönülüyor…");
-          window.location.replace("/profilim?auth=error");
-          return;
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          if (!session?.user) {
+            setMessage("Giriş tamamlanamadı. Profilime dönülüyor…");
+            window.location.replace("/profilim?auth=error");
+            return;
+          }
         }
       }
 
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      if (session?.user) {
-        await routeAfterLogin(session.user.id);
-        return;
-      }
-
-      await new Promise<void>((resolve) => {
-        const timeout = window.setTimeout(() => resolve(), 4000);
-        const {
-          data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-          if (nextSession?.user) {
-            window.clearTimeout(timeout);
-            subscription.unsubscribe();
-            resolve();
-          }
-        });
-      });
-
-      const {
-        data: { session: later },
-      } = await supabase.auth.getSession();
-
-      await routeAfterLogin(later?.user?.id);
+      window.location.replace("/profilim");
     }
 
     void finishSignIn();

@@ -108,9 +108,15 @@ export default function ProfilimDashboard({
     const client = supabase;
     let cancelled = false;
 
-    async function resolveUser(sessionUser: Parameters<typeof profilimUserFromAuth>[0]) {
+    async function resolveUser(
+      sessionUser: Parameters<typeof profilimUserFromAuth>[0],
+      event?: string,
+    ) {
       const next = profilimUserFromAuth(sessionUser);
       if (!next) {
+        if (event === "INITIAL_SESSION") {
+          return;
+        }
         if (!cancelled) {
           setUser(null);
           setChecking(false);
@@ -118,20 +124,38 @@ export default function ProfilimDashboard({
         return;
       }
 
-      const flags = await fetchOwnProfileFlags(client, next.id);
-      if (cancelled) return;
-      setUser({ ...next, isAdmin: isAdminProfile(flags) });
-      setChecking(false);
+      if (!cancelled) {
+        setUser((current) => ({
+          ...next,
+          isAdmin: current?.isAdmin,
+        }));
+        setChecking(false);
+      }
+
+      try {
+        const flags = await Promise.race([
+          fetchOwnProfileFlags(client, next.id),
+          new Promise<null>((resolve) => {
+            setTimeout(() => resolve(null), 2500);
+          }),
+        ]);
+        if (cancelled) return;
+        setUser({ ...next, isAdmin: isAdminProfile(flags) });
+      } catch {
+        if (!cancelled) {
+          setUser(next);
+        }
+      }
     }
 
     void client.auth.getSession().then(({ data: { session } }) => {
-      void resolveUser(session?.user ?? null);
+      void resolveUser(session?.user ?? null, "GET_SESSION");
     });
 
     const {
       data: { subscription },
-    } = client.auth.onAuthStateChange((_event, session) => {
-      void resolveUser(session?.user ?? null);
+    } = client.auth.onAuthStateChange((event, session) => {
+      void resolveUser(session?.user ?? null, event);
     });
 
     return () => {
