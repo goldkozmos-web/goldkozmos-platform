@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { createSupabaseBrowserClient } from "../../../lib/supabase/browser";
+import { emailFromAuthRecord, postAuthPath } from "../../../lib/admin/access";
 
 export default function AuthCallbackPage() {
   const [message, setMessage] = useState("Giriş tamamlanıyor…");
@@ -35,7 +36,7 @@ export default function AuthCallbackPage() {
       } = await supabase.auth.getSession();
 
       if (session?.user) {
-        window.location.replace("/profilim");
+        window.location.replace(postAuthPath(emailFromAuthRecord(session.user)));
         return;
       }
 
@@ -52,7 +53,13 @@ export default function AuthCallbackPage() {
         });
       });
 
-      window.location.replace("/profilim");
+      const {
+        data: { session: later },
+      } = await supabase.auth.getSession();
+
+      window.location.replace(
+        postAuthPath(emailFromAuthRecord(later?.user ?? null)),
+      );
     }
 
     void finishSignIn();
