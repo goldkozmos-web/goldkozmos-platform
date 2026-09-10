@@ -85,6 +85,23 @@
   line-height: 1.4;
 }
 
+.profilimAdminJump {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 16px;
+  padding: 0 18px;
+  border: 1px solid rgba(210, 166, 82, 0.55);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2c1d14, #140e0a);
+  color: #e3bc70;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
 .profilimHeroLevel {
   display: flex;
   align-items: baseline;

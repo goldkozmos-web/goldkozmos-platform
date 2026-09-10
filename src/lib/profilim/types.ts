@@ -3,6 +3,7 @@ export type ProfilimUser = {
   displayName: string;
   email: string | null;
   avatarUrl: string | null;
+  isAdmin?: boolean;
 } | null;
 
 export type ProfilimActivityKind =

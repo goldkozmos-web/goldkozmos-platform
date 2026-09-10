@@ -4,20 +4,20 @@ import test from "node:test";
 import {
   adminMetricValue,
   canAccessAdmin,
-  emailFromAuthRecord,
   istanbulDayStartIso,
   normalizeProfileRole,
-  postAuthPath,
 } from "../src/lib/admin/access.ts";
+import {
+  isAdminProfile,
+  postLoginPath,
+} from "../src/lib/admin/profile.ts";
 
-test("only admin role or goldkozmos@gmail.com can enter /admin", () => {
+test("admin access comes from profile role or is_admin, not email", () => {
   assert.equal(canAccessAdmin("admin"), true);
-  assert.equal(canAccessAdmin("user"), false);
+  assert.equal(canAccessAdmin("user", true), true);
+  assert.equal(canAccessAdmin("user", false), false);
   assert.equal(canAccessAdmin(null), false);
   assert.equal(canAccessAdmin("superuser"), false);
-  assert.equal(canAccessAdmin("user", "goldkozmos@gmail.com"), true);
-  assert.equal(canAccessAdmin("user", "  GoldKozmos@gmail.com  "), true);
-  assert.equal(canAccessAdmin("user", "else@gmail.com"), false);
 });
 
 test("unknown or missing profile role stays user", () => {
@@ -32,16 +32,13 @@ test("metrics without a source stay at zero instead of invented counts", () => {
   assert.equal(adminMetricValue(true, 0), 0);
 });
 
-test("goldkozmos@gmail.com lands on /admin after Google login", () => {
-  assert.equal(postAuthPath("goldkozmos@gmail.com"), "/admin");
-  assert.equal(postAuthPath("uye@example.com"), "/profilim");
-  assert.equal(
-    emailFromAuthRecord({
-      email: null,
-      user_metadata: { email: "goldkozmos@gmail.com" },
-    }),
-    "goldkozmos@gmail.com",
-  );
+test("login path follows the own profiles row", () => {
+  assert.equal(isAdminProfile({ role: "admin", is_admin: false }), true);
+  assert.equal(isAdminProfile({ role: "user", is_admin: true }), true);
+  assert.equal(isAdminProfile({ role: "user", is_admin: false }), false);
+  assert.equal(postLoginPath({ role: "admin", is_admin: true }), "/admin");
+  assert.equal(postLoginPath({ role: "user", is_admin: false }), "/profilim");
+  assert.equal(postLoginPath(null), "/profilim");
 });
 
 test("Istanbul day start is a real timestamptz, not a fake clock", () => {

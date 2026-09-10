@@ -31,6 +31,7 @@ import {
   getProgressForPlatform,
   readPlatformProgressMap,
 } from "../../lib/platformProgress";
+import { fetchOwnProfileFlags, isAdminProfile } from "../../lib/admin/profile";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import ProfilimCompactTile from "./ProfilimCompactTile";
 import ProfilimDrawer from "./ProfilimDrawer";
@@ -102,17 +103,30 @@ export default function ProfilimDashboard({
 
     let cancelled = false;
 
-    void supabase.auth.getSession().then(({ data: { session } }) => {
+    void supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (cancelled) return;
-      setUser(profilimUserFromAuth(session?.user ?? null));
+      const next = profilimUserFromAuth(session?.user ?? null);
+      if (next) {
+        const flags = await fetchOwnProfileFlags(supabase, next.id);
+        next.isAdmin = isAdminProfile(flags);
+      }
+      if (cancelled) return;
+      setUser(next);
       setChecking(false);
     });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(profilimUserFromAuth(session?.user ?? null));
-      setChecking(false);
+      void (async () => {
+        const next = profilimUserFromAuth(session?.user ?? null);
+        if (next) {
+          const flags = await fetchOwnProfileFlags(supabase, next.id);
+          next.isAdmin = isAdminProfile(flags);
+        }
+        setUser(next);
+        setChecking(false);
+      })();
     });
 
     return () => {
