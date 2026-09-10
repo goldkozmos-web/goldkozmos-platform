@@ -26,7 +26,7 @@ const contactOptions = [
     description:
       "Birebir seanslar, grup çalışmaları, tarot ve numeroloji hizmetleri için başvuru sayfasına ilerle.",
     linkText: "Randevu Sayfasına Git",
-    href: "/randevu",
+    href: "/randevu-al",
     external: false,
   },
 ];
