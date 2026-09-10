@@ -4,10 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import {
-  BIREBIR_SERVICES,
-  ENERJI_SERVICES,
+  BIREBIR_SERVICE_CARDS,
+  ENERJI_SERVICE_CARDS,
   canSubmitRandevuRequest,
   formatRandevuDate,
+  randevuRequestSummary,
   randevuWhatsappHref,
 } from "../lib/randevu-al/booking";
 
@@ -462,11 +463,12 @@ const dockStyles = `
       margin: 4px 0 0;
       color: rgba(255, 250, 241, 0.72);
       font-size: 12px;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .goldkozmosGlobalServiceHead strong {
       color: #f0d48a;
+      text-transform: capitalize;
     }
 
     .goldkozmosGlobalServiceLabel {
@@ -485,21 +487,33 @@ const dockStyles = `
 
     .goldkozmosGlobalServiceCard {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 8px;
-      min-height: 44px;
-      padding: 8px 12px;
+      min-height: 52px;
+      padding: 10px 12px;
       border: 1px solid rgba(215, 171, 91, 0.18);
       border-radius: 14px;
       background: rgba(255, 250, 241, 0.04);
       color: #fff8ec;
       font: inherit;
-      font-size: 12px;
-      font-weight: 600;
       text-align: left;
       cursor: pointer;
       appearance: none;
+    }
+
+    .goldkozmosGlobalServiceCard b {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .goldkozmosGlobalServiceCard small {
+      display: block;
+      margin-top: 3px;
+      color: rgba(240, 212, 138, 0.82);
+      font-size: 10px;
+      font-weight: 600;
     }
 
     .goldkozmosGlobalServiceCard.isOn {
@@ -735,9 +749,11 @@ export default function GlobalContactDock() {
             <small>WHATSAPP</small>
             <strong id="goldkozmosWhatsappHelpTitle">
               {step === "calendar"
-                ? selectedDate
-                  ? "Hizmet seç"
-                  : "Randevu günü seç"
+                ? selectedService
+                  ? "Talebi ilet"
+                  : selectedDate
+                    ? "Çalışmayı seç"
+                    : "Randevu günü seç"
                 : "Nasıl yardımcı olabilirim?"}
             </strong>
           </div>
@@ -895,25 +911,29 @@ export default function GlobalContactDock() {
               {selectedDate ? (
                 <div className="goldkozmosGlobalServices">
                   <p className="goldkozmosGlobalServiceHead">
-                    Seçilen gün:{" "}
                     <strong>{formatRandevuDate(selectedDate)}</strong>
                     <br />
-                    WhatsApp yalnızca hizmet seçildikten sonra açılır.
+                    {randevuRequestSummary(selectedDate, selectedService)}
                   </p>
 
                   <p className="goldkozmosGlobalServiceLabel">Birebir</p>
                   <div className="goldkozmosGlobalServiceGrid">
-                    {BIREBIR_SERVICES.map((service) => (
+                    {BIREBIR_SERVICE_CARDS.map((service) => (
                       <button
-                        key={service}
+                        key={service.name}
                         type="button"
                         className={`goldkozmosGlobalServiceCard${
-                          selectedService === service ? " isOn" : ""
+                          selectedService === service.name ? " isOn" : ""
                         }`}
-                        onClick={() => setSelectedService(service)}
+                        onClick={() => setSelectedService(service.name)}
                       >
-                        <span>{service}</span>
-                        {selectedService === service ? (
+                        <span>
+                          <b>{service.name}</b>
+                          <small>
+                            {service.duration} · {service.format}
+                          </small>
+                        </span>
+                        {selectedService === service.name ? (
                           <span aria-hidden="true">✓</span>
                         ) : null}
                       </button>
@@ -921,20 +941,25 @@ export default function GlobalContactDock() {
                   </div>
 
                   <p className="goldkozmosGlobalServiceLabel">
-                    Enerji Çalışmaları
+                    Enerji çalışmaları
                   </p>
                   <div className="goldkozmosGlobalServiceGrid">
-                    {ENERJI_SERVICES.map((service) => (
+                    {ENERJI_SERVICE_CARDS.map((service) => (
                       <button
-                        key={service}
+                        key={service.name}
                         type="button"
                         className={`goldkozmosGlobalServiceCard${
-                          selectedService === service ? " isOn" : ""
+                          selectedService === service.name ? " isOn" : ""
                         }`}
-                        onClick={() => setSelectedService(service)}
+                        onClick={() => setSelectedService(service.name)}
                       >
-                        <span>{service}</span>
-                        {selectedService === service ? (
+                        <span>
+                          <b>{service.name}</b>
+                          <small>
+                            {service.duration} · {service.format}
+                          </small>
+                        </span>
+                        {selectedService === service.name ? (
                           <span aria-hidden="true">✓</span>
                         ) : null}
                       </button>
@@ -951,7 +976,7 @@ export default function GlobalContactDock() {
                   rel="noreferrer"
                   onClick={resetPanel}
                 >
-                  WhatsApp’tan Randevu Talebi Oluştur
+                  WhatsApp’tan talep ilet
                 </a>
               ) : (
                 <button
@@ -959,7 +984,9 @@ export default function GlobalContactDock() {
                   className="goldkozmosGlobalWhatsappCta isOff"
                   disabled
                 >
-                  WhatsApp’tan Randevu Talebi Oluştur
+                  {selectedDate
+                    ? "Çalışmayı seçince açılır"
+                    : "Önce günü seç"}
                 </button>
               )}
             </div>

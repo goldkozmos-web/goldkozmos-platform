@@ -1,5 +1,6 @@
 .randevuAlPage {
   min-height: 100dvh;
+  padding-top: 86px;
   background:
     radial-gradient(circle at 8% 0%, rgba(201, 155, 68, 0.08), transparent 28%),
     linear-gradient(180deg, #fffdf9 0%, #f7f1e6 100%);
@@ -7,11 +8,11 @@
 }
 
 .randevuAlBooking {
-  width: min(720px, calc(100% - 32px));
+  width: min(760px, calc(100% - 32px));
   margin: 0 auto;
-  padding: 28px 0 120px;
+  padding: 28px 0 140px;
   display: grid;
-  gap: 22px;
+  gap: 18px;
 }
 
 .randevuAlEyebrow,
@@ -24,33 +25,118 @@
   text-transform: uppercase;
 }
 
-.randevuAlHeader h1 {
-  margin: 6px 0 0;
+.randevuAlGroupLabel {
+  margin-top: 6px;
+}
+
+.randevuAlHeader h1,
+.randevuAlPanelHead h2,
+.randevuAlServiceCopy strong {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 34px;
   font-weight: 400;
   letter-spacing: -0.04em;
 }
 
-.randevuAlHeader p,
-.randevuAlServices p {
+.randevuAlHeader h1 {
   margin: 8px 0 0;
+  font-size: 36px;
+  line-height: 1.05;
+}
+
+.randevuAlHeader p {
+  margin: 10px 0 0;
+  max-width: 42em;
   color: #6a635b;
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.randevuAlSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.randevuAlSteps li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(198, 168, 112, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.7);
+  color: #8a8176;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.randevuAlSteps span {
+  color: #c9a24a;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+
+.randevuAlSteps li.isNow {
+  border-color: rgba(176, 130, 48, 0.45);
+  background: #fffaf1;
+  color: #6b4e1f;
+}
+
+.randevuAlSteps li.isDone {
+  border-color: rgba(176, 130, 48, 0.28);
+  background: linear-gradient(180deg, #f7ead3, #f3e4c8);
+  color: #6b4e1f;
 }
 
 .randevuAlCalendar,
-.randevuAlServices {
+.randevuAlServices,
+.randevuAlCta {
   display: grid;
-  gap: 12px;
-  padding: 18px;
+  gap: 14px;
+  padding: 20px;
   border: 1px solid rgba(198, 168, 112, 0.28);
-  border-radius: 24px;
-  background: #fffdf8;
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fcfaf6 72%, #f8f4ec 100%);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
     0 12px 28px rgba(72, 48, 18, 0.05);
+}
+
+.randevuAlPanelHead {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.randevuAlPanelHead > span {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(184, 138, 52, 0.35);
+  background: linear-gradient(160deg, #f7ead3, #e7d3ad);
+  color: #7a5720;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 15px;
+}
+
+.randevuAlPanelHead h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.randevuAlPanelHead p {
+  margin: 4px 0 0;
+  color: #6a635b;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .randevuAlCalendarNav {
@@ -62,21 +148,26 @@
 
 .randevuAlCalendarNav strong {
   text-transform: capitalize;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .randevuAlCalendarNav button,
 .randevuAlDay {
-  border: 1px solid rgba(176, 130, 48, 0.2);
+  border: 1px solid rgba(176, 130, 48, 0.18);
   background: #fffaf1;
   color: #211811;
   cursor: pointer;
 }
 
 .randevuAlCalendarNav button {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
+}
+
+.randevuAlCalendarNav button:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .randevuAlWeek,
@@ -94,8 +185,8 @@
 }
 
 .randevuAlDay {
-  min-height: 40px;
-  border-radius: 12px;
+  min-height: 44px;
+  border-radius: 14px;
   font-size: 14px;
 }
 
@@ -107,59 +198,124 @@
 .randevuAlDay:disabled {
   color: #b4aaa0;
   background: transparent;
+  border-color: transparent;
   cursor: default;
 }
 
 .randevuAlDay.isOn {
-  border-color: rgba(176, 130, 48, 0.7);
-  background: linear-gradient(180deg, #f7ead3, #efe0c8);
-  color: #6b4e1f;
+  border-color: #c9a24a;
+  background: linear-gradient(180deg, #f0d48a, #c9a24a);
+  color: #211812;
   font-weight: 700;
+  box-shadow: 0 8px 16px rgba(148, 108, 32, 0.18);
 }
 
-.randevuAlServices h2 {
+.randevuAlDateChip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 24px;
-  font-weight: 400;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(201, 162, 74, 0.1);
+  color: #6b4e1f;
+}
+
+.randevuAlDateChip strong {
+  font-size: 15px;
+}
+
+.randevuAlDateChip span {
+  text-transform: capitalize;
+  font-size: 13px;
+  color: #8d6728;
 }
 
 .randevuAlServiceGrid {
   display: grid;
+  gap: 10px;
+}
+
+.randevuAlServiceGrid.isPair {
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
 }
 
 .randevuAlServiceCard {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
-  min-height: 52px;
-  padding: 10px 12px;
-  border: 1px solid rgba(176, 130, 48, 0.18);
-  border-radius: 16px;
-  background: #fffaf1;
+  gap: 12px;
+  min-height: 92px;
+  padding: 14px 16px;
+  border: 1px solid rgba(176, 130, 48, 0.16);
+  border-radius: 20px;
+  background: #fffdf8;
   color: #221812;
   text-align: left;
   cursor: pointer;
   appearance: none;
   font: inherit;
-  font-size: 13px;
-  font-weight: 600;
   touch-action: manipulation;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.randevuAlServiceCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(176, 130, 48, 0.38);
+}
+
+.randevuAlServiceCopy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.randevuAlServiceCopy strong {
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.randevuAlServiceCopy em {
+  color: #8d6728;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.randevuAlServiceCopy span {
+  color: #6a635b;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
 .randevuAlServiceCard.isOn {
   border-color: #c9a24a;
-  background: linear-gradient(180deg, #f7ead3, #f3e4c8);
-  box-shadow: 0 0 0 1px #c9a24a inset;
+  background: linear-gradient(180deg, #fff8ea, #f3e4c8);
+  box-shadow: 0 0 0 1px #c9a24a inset, 0 10px 22px rgba(148, 108, 32, 0.12);
 }
 
 .randevuAlCheck {
   flex: 0 0 auto;
+  width: 22px;
   color: #8d6728;
   font-size: 16px;
+  line-height: 1.4;
+}
+
+.randevuAlCta {
+  position: sticky;
+  bottom: 18px;
+  z-index: 20;
+  gap: 10px;
+}
+
+.randevuAlCta p {
+  margin: 0;
+  color: #6b4e1f;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .randevuAlWhatsapp,
@@ -167,11 +323,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 52px;
+  min-height: 54px;
   padding: 0 18px;
   border: 0;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   text-align: center;
   text-decoration: none;
@@ -180,20 +336,42 @@
 .randevuAlWhatsapp {
   background: linear-gradient(180deg, #f0d48a, #c9a24a);
   color: #211812;
+  box-shadow: 0 10px 22px rgba(148, 108, 32, 0.18);
 }
 
 .randevuAlWhatsapp.isOff {
   background: #efe6d6;
   color: #8a8176;
   cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 900px) {
+  .randevuAlPage {
+    padding-top: 76px;
+  }
+}
+
+@media (max-width: 700px) {
+  .randevuAlCta {
+    bottom: calc(102px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 @media (max-width: 640px) {
   .randevuAlHeader h1 {
-    font-size: 28px;
+    font-size: 30px;
   }
 
-  .randevuAlServiceGrid {
+  .randevuAlSteps {
     grid-template-columns: 1fr;
+  }
+
+  .randevuAlServiceGrid.isPair {
+    grid-template-columns: 1fr;
+  }
+
+  .randevuAlDay {
+    min-height: 40px;
   }
 }
