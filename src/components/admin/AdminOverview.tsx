@@ -42,25 +42,23 @@ export default function AdminOverview({
 
   return (
     <section className="adminOverview">
-      {rows.map((metric) => (
-        <Link
-          key={metric.id}
-          href={metric.href}
-          className={`adminCard${metric.hasSource ? "" : " isEmpty"}`}
-        >
-          <p>{metric.title}</p>
-          <strong>{metric.value}</strong>
-          <span>
-            {metric.hasSource
-              ? metric.value === 0
-                ? metric.empty
-                : metric.id === "live"
-                  ? "Şu an sitede"
-                  : "Bugün · gerçek kayıt"
-              : metric.empty}
-          </span>
-        </Link>
-      ))}
+      {rows.map((metric) => {
+        const liveOn = metric.id === "live" && metric.value > 0;
+
+        return (
+          <Link
+            key={metric.id}
+            href={metric.href}
+            className={`adminCard${metric.hasSource ? "" : " isEmpty"}${liveOn ? " isLive" : ""}`}
+          >
+            <p>{metric.title}</p>
+            <strong>
+              {liveOn ? <i className="adminLiveDot" aria-hidden="true" /> : null}
+              {metric.value}
+            </strong>
+          </Link>
+        );
+      })}
     </section>
   );
 }
