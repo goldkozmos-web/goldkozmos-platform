@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { createProfilimBrowserClient } from "../../lib/profilim/auth.client";
 import type { ProfilimLevel, ProfilimUser } from "../../lib/profilim/types";
 
@@ -50,12 +48,6 @@ export default function ProfilimHero({
           Çıkış Yap
         </button>
       </div>
-
-      {user.isAdmin ? (
-        <Link className="profilimAdminJump" href="/admin">
-          Yönetim Paneline Git
-        </Link>
-      ) : null}
 
       <div className="profilimHeroLevel">
         <span>
