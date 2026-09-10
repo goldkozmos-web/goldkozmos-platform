@@ -214,15 +214,16 @@
     min-height: 0;
     padding: 14px 16px 13px;
     overflow: hidden;
-    color: #1a120c;
+    color: #f6ead4;
     text-decoration: none;
-    border: 1px solid rgba(168, 124, 52, 0.2);
+    border: 1px solid rgba(232, 196, 118, 0.28);
     border-radius: 18px;
-    background: #fffdf8;
+    background:
+      linear-gradient(180deg, rgba(247, 234, 208, 0.08), transparent 34%),
+      linear-gradient(155deg, #3a2a1f 0%, #241810 100%);
     box-shadow:
-      0 1px 0 #fff inset,
-      0 1px 1px rgba(72, 48, 18, 0.06),
-      0 10px 20px rgba(72, 48, 18, 0.08);
+      0 1px 0 rgba(255, 248, 232, 0.08) inset,
+      0 10px 20px rgba(28, 16, 8, 0.16);
     transform: none;
   }
 
@@ -231,17 +232,17 @@
   }
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard strong {
-    color: #1a120c;
+    color: #f6e6c8;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 400;
-    letter-spacing: -0.045em;
-    line-height: 1.08;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
   }
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailTagline {
     margin: 0 0 2px;
-    color: #6a635b;
+    color: rgba(247, 234, 208, 0.72);
     font-size: 12px;
     line-height: 1.35;
     font-weight: 500;
@@ -249,14 +250,14 @@
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailEmpty,
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailPercent {
-    color: #7a7268;
+    color: rgba(247, 234, 208, 0.62);
     font-size: 12px;
     line-height: 1.35;
     font-weight: 500;
   }
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailResume {
-    color: #6b4e1f;
+    color: #f3e2c0;
     font-size: 12px;
     line-height: 1.35;
     -webkit-line-clamp: 2;
