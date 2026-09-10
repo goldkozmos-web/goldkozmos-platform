@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import AppointmentAdminBell from "./appointments/AppointmentAdminBell";
 
 export default function HomeNavbar() {
   const pathname = usePathname();
@@ -45,6 +46,8 @@ export default function HomeNavbar() {
           <a href="/hakkimda">Hakkımda</a>
           <a href={faqHref}>SSS</a>
         </nav>
+
+        <AppointmentAdminBell />
 
         <a
           className="homeV3NavTest"
