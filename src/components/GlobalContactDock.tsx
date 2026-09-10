@@ -638,6 +638,7 @@ const dockStyles = `
 
 export default function GlobalContactDock() {
   const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<"menu" | "calendar">("menu");
@@ -724,6 +725,10 @@ export default function GlobalContactDock() {
     Mobilde bottom bar WhatsApp paneli bu dock’tan açılır.
     Yuvarlak WhatsApp butonu yok; yalnızca yukarı-ok durur.
   */
+
+  if (isAdmin) {
+    return null;
+  }
 
   return (
     <>

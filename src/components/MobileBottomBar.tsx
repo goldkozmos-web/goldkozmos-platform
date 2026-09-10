@@ -88,6 +88,10 @@ export default function MobileBottomBar() {
   );
   const atProfile = pathname === "/profilim";
 
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <>
       {goldsOpen ? (
