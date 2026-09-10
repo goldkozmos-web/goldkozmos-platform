@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { createProfilimServerClient } from "../../../lib/profilim/auth.server";
+import { createSupabaseServerClient } from "../../../lib/supabase/create-server-client";
 
 function safeNextPath(value: string | null) {
   if (value && value.startsWith("/") && !value.startsWith("//")) {
@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   const next = safeNextPath(url.searchParams.get("next"));
 
   if (code) {
-    const supabase = await createProfilimServerClient();
+    const supabase = await createSupabaseServerClient();
 
     if (supabase) {
       const { error } = await supabase.auth.exchangeCodeForSession(code);

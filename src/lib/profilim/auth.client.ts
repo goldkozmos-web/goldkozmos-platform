@@ -1,15 +1,7 @@
-import { createBrowserClient } from "@supabase/ssr";
-
-import { getSupabasePublicEnv } from "./env";
+import { createSupabaseBrowserClient } from "../supabase/browser";
 
 export function createProfilimBrowserClient() {
-  const env = getSupabasePublicEnv();
-
-  if (!env) {
-    return null;
-  }
-
-  return createBrowserClient(env.url, env.anonKey);
+  return createSupabaseBrowserClient();
 }
 
 export async function signInWithGoogle() {

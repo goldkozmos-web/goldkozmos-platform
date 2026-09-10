@@ -10,5 +10,5 @@ export function createSupabaseBrowserClient() {
     return null;
   }
 
-  return createBrowserClient(env.url, env.anonKey);
+  return createBrowserClient(env.url, env.publishableKey);
 }
