@@ -20084,25 +20084,25 @@ font-size:32px;
 .aboutCompactLead {
   max-width: 650px;
 
-  margin: 21px 0 0;
+  margin: 20px 0 0;
 
-  color: #564c42;
+  color: #4a4138;
 
   font-size: 16px;
 
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .aboutCompactIntro {
   max-width: 650px;
 
-  margin: 14px 0 0;
+  margin: 12px 0 0;
 
-  color: #776c61;
+  color: #4a4138;
 
-  font-size: 13px;
+  font-size: 16px;
 
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .aboutCompactHeroActions {
@@ -20121,66 +20121,71 @@ font-size:32px;
 .aboutCompactPortrait {
   position: relative;
 
-  width: min(100%, 360px);
+  display: flex;
+
+  flex-direction: column;
+
+  width: min(100%, 380px);
 
   justify-self: end;
 
-  aspect-ratio: 4 / 5;
-
   overflow: hidden;
 
-  border-radius: 25px;
+  border-radius: 22px;
 
   background: #19140f;
 
   box-shadow:
-    0 24px 60px rgba(55, 37, 14, 0.15);
+    0 22px 48px rgba(55, 37, 14, 0.12);
 }
 
 .aboutCompactPortrait img {
   display: block;
 
   width: 100%;
-  height: 100%;
+  height: auto;
+
+  aspect-ratio: 4 / 5;
 
   object-fit: cover;
-  object-position: center 18%;
-
-  transform: scale(1.04);
+  object-position: 50% 12%;
 }
 
 .aboutCompactPortraitTag {
-  position: absolute;
-
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
-
   display: flex;
 
   align-items: center;
 
   gap: 14px;
 
-  padding: 11px 14px;
+  width: 100%;
 
-  border:
-    1px solid rgba(255, 246, 224, 0.12);
+  margin: 0;
 
-  border-radius: 14px;
+  padding: 12px 16px 13px;
 
-  background:
-    rgba(29, 23, 18, 0.82);
+  box-sizing: border-box;
 
-  backdrop-filter: blur(10px);
+  border: 0;
+
+  border-top:
+    1px solid rgba(232, 204, 148, 0.14);
+
+  border-radius: 0;
+
+  background: #1c1611;
+
+  backdrop-filter: none;
 }
 
 .aboutCompactPortraitTag > span {
-  color: #d1aa5a;
+  color: #d4b36a;
 
-  font-size: 8px;
+  font-size: 10px;
 
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
+
+  font-weight: 800;
 }
 
 .aboutCompactPortraitTag > div {
@@ -20188,7 +20193,7 @@ font-size:32px;
 
   flex-direction: column;
 
-  gap: 2px;
+  gap: 3px;
 }
 
 .aboutCompactPortraitTag strong {
@@ -20199,16 +20204,16 @@ font-size:32px;
     "Times New Roman",
     serif;
 
-  font-size: 14px;
+  font-size: 16px;
 
   font-weight: 400;
 }
 
 .aboutCompactPortraitTag small {
   color:
-    rgba(255, 248, 233, 0.56);
+    rgba(255, 248, 233, 0.68);
 
-  font-size: 8px;
+  font-size: 11px;
 }
 
 
