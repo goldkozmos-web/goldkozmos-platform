@@ -8,12 +8,14 @@ export default function AuthCallbackPage() {
   const [message, setMessage] = useState("Giriş tamamlanıyor…");
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+    const search = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const code = search.get("code");
+    const oauthError = search.get("error") || hash.get("error");
     const supabase = createSupabaseBrowserClient();
 
     async function finishSignIn() {
-      if (!supabase) {
+      if (oauthError || !supabase) {
         window.location.replace("/profilim?auth=error");
         return;
       }
@@ -27,6 +29,28 @@ export default function AuthCallbackPage() {
           return;
         }
       }
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        window.location.replace("/profilim");
+        return;
+      }
+
+      await new Promise<void>((resolve) => {
+        const timeout = window.setTimeout(() => resolve(), 4000);
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+          if (nextSession?.user) {
+            window.clearTimeout(timeout);
+            subscription.unsubscribe();
+            resolve();
+          }
+        });
+      });
 
       window.location.replace("/profilim");
     }
