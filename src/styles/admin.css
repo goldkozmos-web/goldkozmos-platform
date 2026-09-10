@@ -94,7 +94,7 @@
 
 .adminOverview {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 4px;
 }
 
@@ -111,12 +111,10 @@
 }
 
 .adminCard {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  min-height: 30px;
-  padding: 4px 8px;
+  display: grid;
+  gap: 2px;
+  min-height: 0;
+  padding: 5px 6px 6px;
   border: 1px solid rgba(184, 150, 88, 0.2);
   border-radius: 8px;
   background: #fffcf7;
@@ -131,10 +129,13 @@
 .adminCard p {
   margin: 0;
   color: #8d6d3a;
-  font-size: 7px;
+  font-size: 6px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .adminCard strong {
@@ -143,7 +144,7 @@
   gap: 4px;
   color: #1f1610;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 400;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.03em;
@@ -151,8 +152,8 @@
 }
 
 .adminLiveDot {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: #2f9d62;
 }
@@ -310,10 +311,4 @@
 .adminNav a.isOn {
   background: linear-gradient(180deg, #f7ead3, #f3e4c8);
   color: #6b4e1f;
-}
-
-@media (min-width: 520px) {
-  .adminOverview {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
