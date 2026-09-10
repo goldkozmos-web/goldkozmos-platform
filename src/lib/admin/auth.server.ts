@@ -74,7 +74,7 @@ export async function getAdminAccess(): Promise<AdminAccess> {
     role,
   };
 
-  if (!canAccessAdmin(role)) {
+  if (!canAccessAdmin(role, actor.email)) {
     return { status: "forbidden", actor };
   }
 

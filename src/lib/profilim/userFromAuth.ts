@@ -17,7 +17,17 @@ export function profilimUserFromAuth(
     return null;
   }
 
-  const email = user.email ?? null;
+  const email =
+    user.email?.trim() ||
+    stringMeta(user.user_metadata as Record<string, unknown> | undefined, "email") ||
+    (user.identities ?? [])
+      .map((identity) =>
+        typeof identity.identity_data?.email === "string"
+          ? identity.identity_data.email.trim()
+          : "",
+      )
+      .find(Boolean) ||
+    null;
   const metadata = user.user_metadata as Record<string, unknown> | undefined;
   const displayName =
     stringMeta(metadata, "full_name") ||

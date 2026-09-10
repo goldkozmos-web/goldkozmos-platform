@@ -113,6 +113,35 @@ export function isAdminGoogleEmail(email: string | null | undefined) {
   return (email ?? "").trim().toLowerCase() === ADMIN_GOOGLE_EMAIL;
 }
 
+export function emailFromAuthRecord(user: {
+  email?: string | null;
+  user_metadata?: Record<string, unknown> | null;
+  identities?: Array<{ identity_data?: Record<string, unknown> | null }> | null;
+} | null) {
+  if (!user) {
+    return null;
+  }
+
+  const metadataEmail =
+    typeof user.user_metadata?.email === "string"
+      ? user.user_metadata.email
+      : "";
+  const identityEmail = (user.identities ?? [])
+    .map((identity) => identity.identity_data?.email)
+    .find((value) => typeof value === "string" && value.trim());
+
+  const email =
+    user.email?.trim() ||
+    metadataEmail.trim() ||
+    (typeof identityEmail === "string" ? identityEmail.trim() : "");
+
+  return email || null;
+}
+
+export function postAuthPath(email: string | null | undefined) {
+  return isAdminGoogleEmail(email) ? "/admin" : "/profilim";
+}
+
 export function normalizeProfileRole(role: string | null | undefined): AdminRole {
   return role === "admin" ? "admin" : "user";
 }

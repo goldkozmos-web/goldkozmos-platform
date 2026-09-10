@@ -4,8 +4,10 @@ import test from "node:test";
 import {
   adminMetricValue,
   canAccessAdmin,
+  emailFromAuthRecord,
   istanbulDayStartIso,
   normalizeProfileRole,
+  postAuthPath,
 } from "../src/lib/admin/access.ts";
 
 test("only admin role or goldkozmos@gmail.com can enter /admin", () => {
@@ -28,6 +30,18 @@ test("metrics without a source stay at zero instead of invented counts", () => {
   assert.equal(adminMetricValue(false, 128), 0);
   assert.equal(adminMetricValue(true, 3), 3);
   assert.equal(adminMetricValue(true, 0), 0);
+});
+
+test("goldkozmos@gmail.com lands on /admin after Google login", () => {
+  assert.equal(postAuthPath("goldkozmos@gmail.com"), "/admin");
+  assert.equal(postAuthPath("uye@example.com"), "/profilim");
+  assert.equal(
+    emailFromAuthRecord({
+      email: null,
+      user_metadata: { email: "goldkozmos@gmail.com" },
+    }),
+    "goldkozmos@gmail.com",
+  );
 });
 
 test("Istanbul day start is a real timestamptz, not a fake clock", () => {
