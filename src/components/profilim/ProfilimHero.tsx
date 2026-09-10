@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { createProfilimBrowserClient } from "../../lib/profilim/auth.client";
 import type { ProfilimLevel, ProfilimUser } from "../../lib/profilim/types";
 
@@ -17,13 +15,12 @@ export default function ProfilimHero({
   user: NonNullable<ProfilimUser>;
   level: ProfilimLevel;
 }) {
-  const router = useRouter();
   const percent = Math.round(level.progress * 100);
 
   async function signOut() {
     const supabase = createProfilimBrowserClient();
     await supabase?.auth.signOut();
-    router.refresh();
+    window.location.replace("/profilim");
   }
 
   return (

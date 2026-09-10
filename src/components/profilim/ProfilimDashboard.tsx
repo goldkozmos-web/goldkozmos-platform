@@ -1,7 +1,13 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+
+import { assembleDashboard } from "../../lib/profilim/dashboard";
 import type { ProfilimDashboardData } from "../../lib/profilim/types";
+import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
+import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import ProfilimGate from "./ProfilimGate";
 import ProfilimHero from "./ProfilimHero";
-import ProfilimSessionSync from "./ProfilimSessionSync";
 import AppointmentsSection from "./sections/AppointmentsSection";
 import ContinueSection from "./sections/ContinueSection";
 import FavoritesSection from "./sections/FavoritesSection";
@@ -19,31 +25,72 @@ export default function ProfilimDashboard({
 }: {
   data: ProfilimDashboardData;
 }) {
+  const [user, setUser] = useState(data.user);
+  const [checking, setChecking] = useState(!data.user);
+
+  useEffect(() => {
+    const supabase = createSupabaseBrowserClient();
+
+    if (!supabase) {
+      setChecking(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    void supabase.auth.getSession().then(({ data: { session } }) => {
+      if (cancelled) return;
+      setUser(profilimUserFromAuth(session?.user ?? null));
+      setChecking(false);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(profilimUserFromAuth(session?.user ?? null));
+      setChecking(false);
+    });
+
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const view = useMemo(
+    () => assembleDashboard({ ...data, user }),
+    [data, user],
+  );
+
   return (
     <section className="profilimDash">
-      <ProfilimSessionSync signedIn={Boolean(data.user)} />
       <div className="profilimDashInner">
-        {data.user ? (
+        {checking ? (
+          <section className="profilimGate">
+            <p className="profilimGateEyebrow">GOLDKOZMOS · PROFİLİM</p>
+            <h1>Profilin açılıyor…</h1>
+          </section>
+        ) : view.user ? (
           <>
-            <ProfilimHero user={data.user} level={data.level} />
+            <ProfilimHero user={view.user} level={view.level} />
 
             <div className="profilimDashGrid">
               <div className="profilimDashWide">
-                <TodayNeedSection todayNeed={data.todayNeed} />
+                <TodayNeedSection todayNeed={view.todayNeed} />
               </div>
 
-              <ProgressSection progress={data.progress} />
-              <ContinueSection items={data.continueItems} />
-              <FavoritesSection items={data.favorites} />
-              <PurchasesSection items={data.purchases} />
-              <PdfAnalysesSection items={data.pdfAnalyses} />
-              <AppointmentsSection items={data.appointments} />
-              <LibrarySection items={data.library} />
-              <JournalSection items={data.journalEntries} />
-              <LetterSection items={data.letters} />
+              <ProgressSection progress={view.progress} />
+              <ContinueSection items={view.continueItems} />
+              <FavoritesSection items={view.favorites} />
+              <PurchasesSection items={view.purchases} />
+              <PdfAnalysesSection items={view.pdfAnalyses} />
+              <AppointmentsSection items={view.appointments} />
+              <LibrarySection items={view.library} />
+              <JournalSection items={view.journalEntries} />
+              <LetterSection items={view.letters} />
 
               <div className="profilimDashWide">
-                <JourneySection items={data.recentActivity} />
+                <JourneySection items={view.recentActivity} />
               </div>
             </div>
           </>
