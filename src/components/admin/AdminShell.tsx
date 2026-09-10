@@ -24,11 +24,17 @@ export default function AdminShell({
         <p className="adminActor">
           {actor.displayName}
           <span>admin</span>
-          <Link className="adminProfilimLink" href="/profilim">
-            Profilim
-          </Link>
         </p>
       </header>
+
+      <div className="adminExitRow">
+        <Link className="adminSiteJump" href="/">
+          Siteye dön
+        </Link>
+        <Link className="adminProfilimLink" href="/profilim">
+          Profilim
+        </Link>
+      </div>
 
       <div className="adminBody">{children}</div>
 

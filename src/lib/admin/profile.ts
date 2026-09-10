@@ -30,7 +30,7 @@ export function canShowMemberProfilim(
 export function postLoginPath(
   profile: ProfileAdminFlags | null | undefined,
 ) {
-  return isAdminProfile(profile) ? "/admin" : "/profilim";
+  return "/profilim";
 }
 
 export async function fetchOwnProfileFlags(

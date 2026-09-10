@@ -13,7 +13,7 @@ export default function AdminLocked({
         <p>GOLDKOZMOS · YÖNETİM</p>
         <h1>{title}</h1>
         <p>{text}</p>
-        <Link href="/profilim">Profilime dön</Link>
+        <Link href="/">Siteye dön</Link>
       </section>
     </main>
   );
