@@ -38,13 +38,18 @@ export type ProfilimFavorite = {
 export type ProfilimAppointmentStatus =
   | "upcoming"
   | "past"
-  | "cancelled";
+  | "cancelled"
+  | "pending"
+  | "confirmed"
+  | "completed";
 
 export type ProfilimAppointment = {
   id: string;
   title: string;
   startsAt: string;
   status: ProfilimAppointmentStatus | string;
+  date?: string;
+  time?: string;
 };
 
 export type ProfilimPdfAnalysis = {

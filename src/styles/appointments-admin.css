@@ -1,0 +1,234 @@
+.appointmentsAdminPage {
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(201, 155, 68, 0.08), transparent 28%),
+    linear-gradient(180deg, #fffdf9 0%, #f7f1e6 100%);
+  color: #211811;
+}
+
+.appointmentsAdminShell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 80px;
+  display: grid;
+  gap: 22px;
+}
+
+.appointmentsAdminHeader h1 {
+  margin: 6px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.appointmentsAdminHeader p,
+.appointmentsAdminEmpty,
+.appointmentsAdminDenied p {
+  margin: 8px 0 0;
+  color: #6a635b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.appointmentsAdminEyebrow {
+  margin: 0;
+  color: #a8792a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.appointmentsAdminSummary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.appointmentsAdminStat {
+  padding: 16px 16px 14px;
+  border: 1px solid rgba(198, 168, 112, 0.28);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fcfaf6 72%, #f8f4ec 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 10px 24px rgba(72, 48, 18, 0.045);
+}
+
+.appointmentsAdminStat strong {
+  display: block;
+  margin-top: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #211812;
+}
+
+.appointmentsAdminStat span {
+  color: #7a7268;
+  font-size: 12px;
+}
+
+.appointmentsAdminList {
+  display: grid;
+  gap: 12px;
+}
+
+.appointmentsAdminCard {
+  display: grid;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid rgba(198, 168, 112, 0.28);
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #fcfaf6 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 10px 24px rgba(72, 48, 18, 0.045);
+}
+
+.appointmentsAdminCardTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.appointmentsAdminCardTop h2 {
+  margin: 4px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.appointmentsAdminMeta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 16px;
+}
+
+.appointmentsAdminMeta span,
+.appointmentsAdminCardTop small {
+  color: #7a7268;
+  font-size: 12px;
+}
+
+.appointmentsAdminMeta strong {
+  display: block;
+  margin-top: 3px;
+  color: #221812;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.appointmentsAdminStatus {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #f4ead6;
+  color: #6b4e1f;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.appointmentsAdminStatus.isPending {
+  background: #f8e7c8;
+}
+
+.appointmentsAdminStatus.isConfirmed {
+  background: #e8f0df;
+  color: #355226;
+}
+
+.appointmentsAdminStatus.isCompleted {
+  background: #eee8df;
+  color: #5d564e;
+}
+
+.appointmentsAdminStatus.isCancelled {
+  background: #f3e4e1;
+  color: #7a3b32;
+}
+
+.appointmentsAdminActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.appointmentsAdminActions button {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid rgba(176, 130, 48, 0.28);
+  border-radius: 999px;
+  background: #fffaf1;
+  color: #6b4e1f;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.appointmentsAdminActions button.isDanger {
+  border-color: rgba(160, 72, 58, 0.28);
+  color: #7a3b32;
+}
+
+.appointmentsAdminToast {
+  position: fixed;
+  right: 18px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 80;
+  width: min(320px, calc(100% - 24px));
+  padding: 16px 18px;
+  border: 1px solid rgba(198, 168, 112, 0.4);
+  border-radius: 18px;
+  background: #fffdf8;
+  box-shadow: 0 18px 40px rgba(32, 20, 10, 0.16);
+}
+
+.appointmentsAdminToast strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.appointmentsAdminDenied {
+  width: min(560px, calc(100% - 32px));
+  margin: 48px auto;
+  padding: 28px;
+  border: 1px solid rgba(198, 168, 112, 0.28);
+  border-radius: 24px;
+  background: #fffdf8;
+}
+
+.appointmentsAdminDenied h1 {
+  margin: 8px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+
+@media (max-width: 900px) {
+  .appointmentsAdminSummary,
+  .appointmentsAdminMeta {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .appointmentsAdminHeader h1 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .appointmentsAdminSummary {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .appointmentsAdminCardTop {
+    flex-direction: column;
+  }
+}

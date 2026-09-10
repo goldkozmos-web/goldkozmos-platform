@@ -16,6 +16,13 @@ import type {
   ProfilimTodayNeedChoiceId,
 } from "../../lib/profilim/types";
 import { TODAY_NEED_CHOICES } from "../../lib/profilim/todayNeed";
+import {
+  appointmentStatusLabel,
+  formatAppointmentClock,
+  formatAppointmentDate,
+  groupCustomerAppointments,
+} from "../../lib/appointments/status";
+import type { AppointmentRecord } from "../../lib/appointments/types";
 import ProfilimEmptyState from "./ProfilimEmptyState";
 
 function formatWhen(value: string) {
@@ -28,13 +35,6 @@ function formatWhen(value: string) {
     dateStyle: "medium",
     timeStyle: "short",
   });
-}
-
-function appointmentLabel(status: string) {
-  if (status === "upcoming") return "Yaklaşan";
-  if (status === "past") return "Geçmiş";
-  if (status === "cancelled") return "İptal";
-  return status;
 }
 
 export function TodayNeedPanel({
@@ -226,16 +226,29 @@ export function AppointmentsPanel({
   items: ProfilimAppointment[];
 }) {
   const groups = useMemo(() => {
-    const upcoming = items.filter((item) => item.status === "upcoming");
-    const past = items.filter((item) => item.status === "past");
-    const cancelled = items.filter((item) => item.status === "cancelled");
-    const other = items.filter(
-      (item) =>
-        item.status !== "upcoming" &&
-        item.status !== "past" &&
-        item.status !== "cancelled",
-    );
-    return { upcoming, past, cancelled, other };
+    const records: AppointmentRecord[] = items.map((item) => ({
+      id: item.id,
+      userId: "",
+      serviceId: "",
+      serviceName: item.title,
+      appointmentDate: item.date || item.startsAt.slice(0, 10),
+      startTime: item.time || item.startsAt.slice(11, 16) || "00:00",
+      endTime: null,
+      status:
+        item.status === "upcoming"
+          ? "confirmed"
+          : item.status === "past"
+            ? "completed"
+            : item.status === "cancelled"
+              ? "cancelled"
+              : (item.status as AppointmentRecord["status"]),
+      clientName: "",
+      clientEmail: "",
+      createdAt: item.startsAt,
+      updatedAt: item.startsAt,
+    }));
+
+    return groupCustomerAppointments(records);
   }, [items]);
 
   if (items.length === 0) {
@@ -248,7 +261,6 @@ export function AppointmentsPanel({
     { label: "Yaklaşan", items: groups.upcoming },
     { label: "Geçmiş", items: groups.past },
     { label: "İptal", items: groups.cancelled },
-    { label: "Diğer", items: groups.other },
   ];
 
   return (
@@ -261,10 +273,13 @@ export function AppointmentsPanel({
               {block.items.map((item) => (
                 <li key={item.id} className="profilimAppointmentCard">
                   <span className="profilimStatus">
-                    {appointmentLabel(item.status)}
+                    {appointmentStatusLabel(item.status)}
                   </span>
-                  <strong>{item.title}</strong>
-                  <small>{formatWhen(item.startsAt)}</small>
+                  <strong>{item.serviceName}</strong>
+                  <small>
+                    {formatAppointmentDate(item.appointmentDate)} •{" "}
+                    {formatAppointmentClock(item.startTime)}
+                  </small>
                 </li>
               ))}
             </ul>

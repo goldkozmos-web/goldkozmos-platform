@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import AppointmentAdminBell from "./appointments/AppointmentAdminBell";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] =
@@ -314,6 +315,8 @@ export default function Navbar() {
               SSS
             </a>
           </nav>
+
+          <AppointmentAdminBell />
 
           <Link
             href="/sana-uygun-calismayi-bul"

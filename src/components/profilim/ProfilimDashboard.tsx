@@ -19,6 +19,7 @@ import type {
   ProfilimLetter,
   ProfilimPlatformTrack,
   ProfilimTodayNeedChoiceId,
+  ProfilimAppointment,
 } from "../../lib/profilim/types";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import {
@@ -32,6 +33,7 @@ import {
   readPlatformProgressMap,
 } from "../../lib/platformProgress";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
+import { useLiveAppointments } from "../appointments/useLiveAppointments";
 import ProfilimCompactTile from "./ProfilimCompactTile";
 import ProfilimDrawer from "./ProfilimDrawer";
 import ProfilimFeaturedCard from "./ProfilimFeaturedCard";
@@ -91,6 +93,11 @@ export default function ProfilimDashboard({
   const [needId, setNeedId] = useState("");
   const [journal, setJournal] = useState(data.journalEntries);
   const [letters, setLetters] = useState(data.letters);
+  const { appointments } = useLiveAppointments({
+    enabled: Boolean(user?.id),
+    mineOnly: true,
+    userId: user?.id,
+  });
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -156,17 +163,25 @@ export default function ProfilimDashboard({
     setLetters(readLetters(user.id));
   }, [user?.id]);
 
-  const view = useMemo(
-    () =>
-      assembleDashboard({
-        ...data,
-        user,
-        continueItems,
-        journalEntries: journal,
-        letters,
-      }),
-    [data, user, continueItems, journal, letters],
-  );
+  const view = useMemo(() => {
+    const mapped: ProfilimAppointment[] = appointments.map((item) => ({
+      id: item.id,
+      title: item.serviceName,
+      startsAt: `${item.appointmentDate}T${item.startTime}`,
+      status: item.status,
+      date: item.appointmentDate,
+      time: item.startTime,
+    }));
+
+    return assembleDashboard({
+      ...data,
+      user,
+      continueItems,
+      journalEntries: journal,
+      letters,
+      appointments: mapped,
+    });
+  }, [appointments, data, user, continueItems, journal, letters]);
 
   const close = useCallback(() => setOpen(null), []);
 
