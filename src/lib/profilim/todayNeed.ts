@@ -1,71 +1,50 @@
 import type {
   ProfilimTodayNeedChoice,
   ProfilimTodayNeedChoiceId,
+  ProfilimTodayNeedFocus,
 } from "./types";
+
+export function goldmindUrlForFocus(focus: ProfilimTodayNeedFocus) {
+  return `/goldmind?focus=${encodeURIComponent(focus)}`;
+}
 
 export const TODAY_NEED_CHOICES: ProfilimTodayNeedChoice[] = [
   {
     id: "calm",
     label: "Sakinleşmek",
-    recommendation: {
-      goldmind: "sakinlik",
-      goldblog: "sakinlik",
-      goldbook: "sakinlik",
-    },
+    action: { type: "goldmind", focus: "sakinles" },
   },
   {
     id: "focus",
     label: "Odaklanmak",
-    recommendation: {
-      goldmind: "odak",
-      goldblog: "odak",
-      goldbook: "odak",
-    },
+    action: { type: "goldmind", focus: "odaklanma" },
   },
   {
     id: "understand",
     label: "Kendimi anlamak",
-    recommendation: {
-      goldmind: "kendilik",
-      goldblog: "kendilik",
-      goldbook: "kendilik",
-    },
+    action: { type: "awareness" },
   },
   {
     id: "write",
     label: "Yazmak",
-    recommendation: {
-      goldmind: "yazi",
-      goldblog: "yazi",
-      goldbook: "yazi",
-    },
+    action: { type: "journal" },
   },
   {
     id: "breathe",
     label: "Nefes almak",
-    recommendation: {
-      goldmind: "nefes",
-      goldblog: "nefes",
-      goldbook: "nefes",
-    },
+    action: { type: "goldmind", focus: "nefes" },
   },
   {
     id: "rest",
     label: "Dinlenmek",
-    recommendation: {
-      goldmind: "dinlenme",
-      goldblog: "dinlenme",
-      goldbook: "dinlenme",
-    },
+    action: { type: "goldmind", focus: "dinlenme" },
   },
 ];
 
 export function todayNeedChoiceById(
   id: string | null | undefined,
 ): ProfilimTodayNeedChoice | null {
-  return (
-    TODAY_NEED_CHOICES.find((choice) => choice.id === id) ?? null
-  );
+  return TODAY_NEED_CHOICES.find((choice) => choice.id === id) ?? null;
 }
 
 export function isTodayNeedChoiceId(

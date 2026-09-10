@@ -15,7 +15,7 @@ import type {
   ProfilimPurchase,
   ProfilimTodayNeedChoiceId,
 } from "../../lib/profilim/types";
-import { TODAY_NEED_CHOICES, todayNeedChoiceById } from "../../lib/profilim/todayNeed";
+import { TODAY_NEED_CHOICES } from "../../lib/profilim/todayNeed";
 import ProfilimEmptyState from "./ProfilimEmptyState";
 
 function formatWhen(value: string) {
@@ -44,8 +44,6 @@ export function TodayNeedPanel({
   selectedId: string;
   onSelect: (id: ProfilimTodayNeedChoiceId) => void;
 }) {
-  const selected = todayNeedChoiceById(selectedId);
-
   return (
     <div className="profilimNeedGrid">
       {TODAY_NEED_CHOICES.map((choice) => (
@@ -58,18 +56,26 @@ export function TodayNeedPanel({
           {choice.label}
         </button>
       ))}
-
-      {selected ? (
-        <p className="profilimDrawerNote">
-          {selected.label} seçildi. GoldMind, GoldBlog ve GoldBook önerileri
-          bu tercihe göre bağlanacak.
-        </p>
-      ) : (
-        <p className="profilimDrawerNote">
-          Bugün nasıl ilerlemek istediğini seç.
-        </p>
-      )}
     </div>
+  );
+}
+
+export function AwarenessPanel() {
+  return (
+    <ul className="profilimDrawerList">
+      <li>
+        <a href="/goldblog?yazi=insan-kendinden-ne-zaman-uzaklasir">
+          <span>GoldBlog</span>
+          <strong>Kendilik Rezonansı</strong>
+        </a>
+      </li>
+      <li>
+        <a href="/goldbook">
+          <span>GoldBook</span>
+          <strong>İçindeki Kozmosu Kucakla</strong>
+        </a>
+      </li>
+    </ul>
   );
 }
 

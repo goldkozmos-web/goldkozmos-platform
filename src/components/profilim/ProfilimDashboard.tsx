@@ -21,7 +21,11 @@ import type {
   ProfilimTodayNeedChoiceId,
 } from "../../lib/profilim/types";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
-import { TODAY_NEED_CHOICES } from "../../lib/profilim/todayNeed";
+import {
+  TODAY_NEED_CHOICES,
+  goldmindUrlForFocus,
+  todayNeedChoiceById,
+} from "../../lib/profilim/todayNeed";
 import {
   getLatestProgress,
   getProgressForPlatform,
@@ -45,6 +49,7 @@ import {
   ProgressPanel,
   PurchasesPanel,
   TodayNeedPanel,
+  AwarenessPanel,
 } from "./ProfilimPanels";
 
 const TRACKS: { id: "goldmind" | "goldbook" | "rezonans"; label: string }[] = [
@@ -68,6 +73,7 @@ const DRAWERS: Record<
   journal: { eyebrow: "YAZI", title: "Kişisel Günlüğüm" },
   letter: { eyebrow: "MEKTUP", title: "Kendime Mektup" },
   journey: { eyebrow: "YOLCULUK", title: "Gelişim Yolculuğum" },
+  understand: { eyebrow: "FARKINDALIK", title: "Kendimi Anlamak" },
 };
 
 export default function ProfilimDashboard({
@@ -169,6 +175,24 @@ export default function ProfilimDashboard({
     if (user?.id) {
       writeTodayNeedChoice(user.id, id);
     }
+
+    const choice = todayNeedChoiceById(id);
+    if (!choice) {
+      return;
+    }
+
+    if (choice.action.type === "goldmind") {
+      setOpen(null);
+      window.location.assign(goldmindUrlForFocus(choice.action.focus));
+      return;
+    }
+
+    if (choice.action.type === "journal") {
+      setOpen("journal");
+      return;
+    }
+
+    setOpen("understand");
   }
 
   function addJournal(body: string) {
@@ -349,6 +373,7 @@ export default function ProfilimDashboard({
               xp={view.xp}
             />
           ) : null}
+          {open === "understand" ? <AwarenessPanel /> : null}
         </ProfilimDrawer>
       ) : null}
     </section>
