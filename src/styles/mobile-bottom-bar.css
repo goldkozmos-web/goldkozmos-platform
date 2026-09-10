@@ -206,15 +206,15 @@
   .goldkozmosMobileGoldsSheet a.goldsPopupCard {
     display: grid;
     align-content: start;
-    gap: 6px;
+    gap: 3px;
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
     min-width: 0;
     min-height: 0;
-    padding: 16px 16px 14px;
+    padding: 14px 16px 13px;
     overflow: hidden;
-    color: #1f160f;
+    color: #1a120c;
     text-decoration: none;
     border: 1px solid rgba(168, 124, 52, 0.2);
     border-radius: 18px;
@@ -231,34 +231,41 @@
   }
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard strong {
-    color: #1f160f;
+    color: #1a120c;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 21px;
+    font-size: 22px;
     font-weight: 400;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
+    letter-spacing: -0.045em;
+    line-height: 1.08;
   }
 
-  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailTagline,
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailTagline {
+    margin: 0 0 2px;
+    color: #6a635b;
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailEmpty,
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailPercent {
-    color: #5a524a;
+    color: #7a7268;
     font-size: 12px;
-    line-height: 1.4;
+    line-height: 1.35;
     font-weight: 500;
   }
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailResume {
     color: #6b4e1f;
     font-size: 12px;
-    line-height: 1.4;
+    line-height: 1.35;
     -webkit-line-clamp: 2;
   }
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailEmpty {
-    margin-top: 4px;
-    padding-top: 8px;
-    border-top: 1px solid rgba(176, 130, 48, 0.14);
+    margin: 0;
+    padding: 0;
+    border: 0;
   }
 
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailPercent {
@@ -268,8 +275,8 @@
   .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformProgressTrack {
     display: block;
     width: 100%;
-    height: 4px;
-    margin-top: 8px;
+    height: 3px;
+    margin-top: 6px;
     overflow: hidden;
     border-radius: 999px;
     background: rgba(120, 86, 28, 0.12);
