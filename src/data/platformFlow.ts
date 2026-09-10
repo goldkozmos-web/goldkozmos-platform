@@ -29,6 +29,8 @@ export type PlatformProgress = {
   lastPlayedAt?: string | null;
   status: PlatformProgressStatus;
   audioUrl?: string;
+  youtubeId?: string;
+  spotifyEmbedUrl?: string;
   description?: string;
 };
 
@@ -57,7 +59,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     name: "GoldCast",
     tagline: "Sohbet ve yayınlar",
     href: "/goldcast",
-    contentType: "audio",
+    contentType: "video",
     tone: "taupe",
     mark: "◎",
   },
@@ -104,4 +106,25 @@ export function clampProgress(value: number) {
 
 export function formatProgressPercent(progress: number) {
   return `${Math.round(clampProgress(progress) * 100)}%`;
+}
+
+export function resumeOffset(currentTime?: number, durationSeconds?: number) {
+  const time = Number(currentTime) || 0;
+  const duration = Number(durationSeconds) || 0;
+
+  if (time < 2) {
+    return 0;
+  }
+
+  // Only treat as finished when duration looks like a real episode, not a
+  // leftover / preview clock that would restart the recording at 100%.
+  if (
+    duration >= 15 &&
+    time >= Math.max(duration - 8, duration * 0.97) &&
+    time <= duration + 1.5
+  ) {
+    return 0;
+  }
+
+  return time;
 }

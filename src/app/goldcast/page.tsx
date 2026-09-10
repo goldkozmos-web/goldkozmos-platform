@@ -1,16 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Navbar from "../../components/Navbar";
 import FooterSection from "../../components/FooterSection";
 import ContinueGlance from "../../components/platform/ContinueGlance";
+import { usePlayback } from "../../components/platform/PlaybackProvider";
+import { youtubeIdFromUrl } from "../../lib/youtube";
 import "../../styles/home.css";
-
-const youtubeChannelUrl =
-  "https://youtube.com/@goldkozmos?si=NbufFa7Zo3wsQuoo";
-
-const spotifyShowUrl =
-  "https://open.spotify.com/show/0343du5jxaHZOJhqDJZKYQ";
 
 const episodes = [
   {
@@ -53,6 +49,10 @@ const episodes = [
   YENİ SPOTIFY BÖLÜMLERİ GELDİĞİNDE
   BURAYA YENİ OBJE EKLEYECEĞİZ.
 */
+const youtubeChannelUrl = "https://youtube.com/@goldkozmos";
+const spotifyShowUrl =
+  "https://open.spotify.com/show/0343du5jxaHZOJhqDJZKYQ";
+
 const spotifyEpisodes = [
   {
     number: "01",
@@ -61,126 +61,19 @@ const spotifyEpisodes = [
     description:
       "Kendinle kurduğun ilişkiyi ve fark etmeden taşıdığın zihinsel yükleri gözlemlemeye davet eden GoldCast bölümü.",
     embedUrl:
-      "https://open.spotify.com/embed/show/0343du5jxaHZOJhqDJZKYQ?utm_source=generator&theme=0",
-    spotifyUrl: spotifyShowUrl,
+      "https://open.spotify.com/embed/episode/2OUemDgzVGfHOcweo3TNLX?utm_source=generator",
+    cover: "https://i.ytimg.com/vi/OXWK7tGNXyc/hqdefault.jpg",
   },
 ];
 
 
-
-const goldcastWhatsappStyles = `
-  .goldcastPage .goldcastFloatingWhatsapp {
-    position: fixed;
-    right: 24px;
-    bottom: 92px;
-    z-index: 99998;
-
-    width: 56px;
-    height: 56px;
-
-    display: grid;
-    place-items: center;
-
-    border: 1.5px solid rgba(211, 168, 84, 0.70);
-    border-radius: 50%;
-
-    color: #d9ad58;
-
-    background:
-      linear-gradient(
-        145deg,
-        #21150f 0%,
-        #120c09 100%
-      );
-
-    box-shadow:
-      0 16px 34px rgba(18, 11, 7, 0.30),
-      0 0 0 6px rgba(211, 168, 84, 0.07);
-
-    text-decoration: none;
-
-    transition:
-      transform 180ms ease,
-      box-shadow 180ms ease,
-      border-color 180ms ease;
-  }
-
-  .goldcastPage .goldcastFloatingWhatsapp:hover {
-    transform: translateY(-3px) scale(1.03);
-    border-color: rgba(224, 187, 105, 0.95);
-
-    box-shadow:
-      0 20px 40px rgba(18, 11, 7, 0.36),
-      0 0 0 8px rgba(211, 168, 84, 0.09);
-  }
-
-  .goldcastPage .goldcastFloatingWhatsapp svg {
-    width: 26px;
-    height: 26px;
-    fill: currentColor;
-  }
-
-  .goldcastPage .goldcastFloatingWhatsappLabel {
-    position: absolute;
-
-    right: 68px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    min-width: max-content;
-
-    padding: 8px 11px;
-
-    border: 1px solid rgba(211, 168, 84, 0.24);
-    border-radius: 10px;
-
-    color: #fffaf1;
-    background: rgba(18, 12, 9, 0.94);
-
-    box-shadow:
-      0 10px 24px rgba(18, 11, 7, 0.20);
-
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-
-    opacity: 0;
-    pointer-events: none;
-
-    transition:
-      opacity 160ms ease,
-      transform 160ms ease;
-  }
-
-  .goldcastPage
-  .goldcastFloatingWhatsapp:hover
-  .goldcastFloatingWhatsappLabel {
-    opacity: 1;
-    transform: translateY(-50%) translateX(-2px);
-  }
-
-  @media (max-width: 700px) {
-    .goldcastPage .goldcastFloatingWhatsapp {
-      right: 18px;
-      bottom: 82px;
-      width: 52px;
-      height: 52px;
-    }
-
-    .goldcastPage .goldcastFloatingWhatsappLabel {
-      display: none;
-    }
-  }
-`;
 
 const youtubeOnlyStyles = `
   @media (min-width: 901px) {
     .goldcastPage .goldcastYTSection {
       padding: 34px 0 58px;
       background:
-        radial-gradient(circle at 94% 20%, rgba(188, 143, 58, 0.07), transparent 28%),
-        linear-gradient(180deg, #fbf8f2 0%, #f7f1e8 100%);
+        linear-gradient(180deg, #3a271b 0%, #24170f 56%, #1a120c 100%);
     }
 
     .goldcastPage .goldcastYTContainer {
@@ -188,10 +81,10 @@ const youtubeOnlyStyles = `
       margin: 0 auto;
       padding: 26px 24px 20px;
       box-sizing: border-box;
-      border: 1px solid rgba(161, 118, 43, 0.14);
+      border: 0;
       border-radius: 26px;
-      background: rgba(255, 255, 255, 0.72);
-      box-shadow: 0 18px 50px rgba(66, 42, 17, 0.06);
+      background: transparent;
+      box-shadow: none;
     }
 
     .goldcastPage .goldcastYTHeader {
@@ -204,7 +97,7 @@ const youtubeOnlyStyles = `
 
     .goldcastPage .goldcastYTHeader p {
       margin: 0 0 8px;
-      color: #9d742d;
+      color: #e0c07a;
       letter-spacing: 0.19em;
       font-size: 9px;
       font-weight: 700;
@@ -212,12 +105,13 @@ const youtubeOnlyStyles = `
 
     .goldcastPage .goldcastYTHeader h2 {
       margin: 0;
-      color: #241911;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(30px, 2.5vw, 42px);
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: -1px;
+      color: #e0c07a;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
 
     .goldcastPage .goldcastYTHeader h2 span {
@@ -247,7 +141,7 @@ const youtubeOnlyStyles = `
       display: flex;
       gap: 18px;
       width: 100%;
-      padding: 2px 0 10px;
+      padding: 14px 0 18px;
       overflow-x: auto;
       overflow-y: hidden;
       scroll-snap-type: x mandatory;
@@ -319,7 +213,15 @@ const youtubeOnlyStyles = `
       font-weight: 700;
     }
 
-    .goldcastPage .goldcastYTCard h3 {
+    .goldcastPage .goldcastYTBody,
+    .goldcastPage .goldcastYTCategory,
+    .goldcastPage .goldcastYTTitle,
+    .goldcastPage .goldcastYTSubtitle,
+    .goldcastPage .goldcastYTDescription {
+      display: block;
+    }
+
+    .goldcastPage .goldcastYTTitle {
       margin: 0;
       color: #fffaf1;
       font-family: Georgia, "Times New Roman", serif;
@@ -416,16 +318,17 @@ const desktopSpotifyStyles = `
 
     .goldcastPage .goldcastSpotifyArchiveHeader h2 {
       margin: 0;
-      color: #211811;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(40px, 3.2vw, 52px);
-      font-weight: 400;
-      line-height: 0.98;
-      letter-spacing: -1.4px;
+      color: #a8792a;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
 
     .goldcastPage .goldcastSpotifyArchiveHeader h2 span {
-      color: #a77a2d;
+      color: #a8792a;
       font: inherit;
     }
 
@@ -459,10 +362,10 @@ const desktopSpotifyStyles = `
 
     .goldcastPage .goldcastSpotifyScroller {
       display: flex;
-      gap: 22px;
+      gap: 18px;
       width: 100%;
       margin: 0;
-      padding: 4px 0 10px;
+      padding: 14px 0 18px;
       overflow-x: auto;
       overflow-y: hidden;
       scroll-snap-type: x mandatory;
@@ -501,7 +404,7 @@ const desktopSpotifyStyles = `
         radial-gradient(circle at 88% 4%, rgba(199, 154, 67, 0.18), transparent 30%),
         radial-gradient(circle at 8% 92%, rgba(167, 122, 45, 0.08), transparent 28%),
         linear-gradient(145deg, #2b1d13 0%, #1e150f 56%, #17100c 100%);
-      box-shadow: 0 28px 70px rgba(48, 31, 13, 0.18);
+      box-shadow: none;
     }
 
     .goldcastPage .goldcastSpotifyEpisodeCard::before {
@@ -642,6 +545,421 @@ const desktopSpotifyStyles = `
   }
 `;
 
+const goldcastPremiumStyles = `
+  body:has(.goldcastPage) .goldkozmosGlobalBackToTop {
+    display: none !important;
+  }
+
+  .goldcastPage .platformPageContinue {
+    width: min(1180px, calc(100% - 32px));
+    margin: 10px auto 6px;
+    padding: 12px 14px 12px;
+    box-sizing: border-box;
+    border: 1px solid rgba(90, 56, 18, 0.18);
+    border-radius: 18px;
+    background:
+      linear-gradient(180deg, rgba(255, 244, 214, 0.28) 0%, transparent 34%),
+      linear-gradient(155deg, #e4c06a 0%, #d4a24a 46%, #c49238 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 244, 214, 0.45) inset,
+      0 12px 28px rgba(66, 42, 17, 0.16);
+  }
+
+  .goldcastPage .platformContinue {
+    padding-top: 0;
+  }
+
+  .goldcastPage .platformContinueCard {
+    margin-top: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 8px 12px;
+    align-items: center;
+  }
+
+  .goldcastPage .platformContinueArt,
+  .goldcastPage .platformContinueMark {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(48, 28, 12, 0.22);
+  }
+
+  .goldcastPage .platformContinueCopy {
+    gap: 2px;
+  }
+
+  .goldcastPage .platformContinueCopy p {
+    color: #3a271b;
+  }
+
+  .goldcastPage .platformContinueCopy strong {
+    font-size: 15px;
+    color: #1c120b;
+  }
+
+  .goldcastPage .platformContinueDesc {
+    -webkit-line-clamp: 1;
+    font-size: 12px;
+    line-height: 1.35;
+    color: rgba(28, 18, 11, 0.72);
+  }
+
+  .goldcastPage .platformContinueMeter {
+    margin-top: 2px;
+    gap: 5px;
+  }
+
+  .goldcastPage .platformContinuePercent {
+    color: #3a271b;
+  }
+
+  .goldcastPage .platformContinue .platformProgressTrack {
+    background: rgba(28, 18, 11, 0.16);
+  }
+
+  .goldcastPage .platformContinue .platformProgressTrack i {
+    background: #1c120b;
+  }
+
+  .goldcastPage .platformContinueCta {
+    min-height: 30px;
+    margin-top: 4px;
+    padding: 0 12px;
+    font-size: 10px;
+    border-color: #1c120b;
+    background: #1c120b;
+    color: #f7ead0;
+  }
+
+  .goldcastPage .platformContinueCta:hover {
+    background: #2a1c12;
+    border-color: #2a1c12;
+    color: #fff6e4;
+  }
+
+  @media (min-width: 901px) {
+    .goldcastPage .platformPageContinue {
+      width: min(1180px, calc(100% - 80px));
+      margin: 16px auto 0;
+      padding: 14px 18px 14px;
+    }
+  }
+
+  .goldcastPage .goldcastYTSection {
+    background:
+      linear-gradient(180deg, #3a271b 0%, #24170f 56%, #1a120c 100%) !important;
+  }
+
+  .goldcastPage .goldcastYTContainer {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .goldcastPage .goldcastYTHeader p {
+    color: #e0c07a !important;
+  }
+
+  .goldcastPage .goldcastYTHeader h2,
+  .goldcastPage .goldcastYTHeader h2 span {
+    max-width: none !important;
+    color: #e0c07a !important;
+    font-family: inherit !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) {
+    overflow: visible !important;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, transparent 28%),
+      linear-gradient(165deg, #fffdf8 0%, #f6eee0 52%, #efe4d2 100%) !important;
+    border: 1px solid rgba(232, 204, 148, 0.72) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 252, 246, 0.92) inset,
+      0 0 0 1px rgba(48, 28, 12, 0.04) inset,
+      0 10px 18px rgba(24, 14, 8, 0.18),
+      0 22px 40px rgba(24, 14, 8, 0.22) !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
+    transform: translateY(-6px) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 252, 246, 0.95) inset,
+      0 16px 24px rgba(24, 14, 8, 0.22),
+      0 28px 48px rgba(24, 14, 8, 0.26) !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTop {
+    color: #b08a3e !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTImage {
+    border: 1px solid rgba(176, 138, 62, 0.22) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.35) inset,
+      0 10px 18px rgba(48, 28, 12, 0.16) !important;
+    background: #1c140f !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTImage img {
+    filter: saturate(0.92) contrast(1.04);
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
+    color: #2a1c12 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.12 !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTSubtitle {
+    color: #a8792a !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTDescription {
+    color: #6a5c50 !important;
+    line-height: 1.5 !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTCategory {
+    color: #a8792a !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard {
+    overflow: visible !important;
+    background:
+      linear-gradient(180deg, rgba(255, 232, 186, 0.10) 0%, transparent 28%),
+      linear-gradient(155deg, #3c291b 0%, #24170f 48%, #120c09 100%) !important;
+    border: 1px solid rgba(214, 172, 88, 0.42) !important;
+    box-shadow: none !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: none !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTop {
+    color: #e0c07a !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTImage {
+    border: 1px solid rgba(214, 172, 88, 0.28) !important;
+    box-shadow: 0 10px 18px rgba(8, 4, 2, 0.28) !important;
+    background: #120c09 !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle,
+  .goldcastPage .goldcastSpotifyEpisodeCard h3 {
+    color: #fffaf1 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.12 !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTSubtitle,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTCategory {
+    color: #e0c07a !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
+    color: rgba(247, 234, 208, 0.72) !important;
+    line-height: 1.5 !important;
+  }
+
+  .goldcastPage .goldcastFloatingWhatsapp,
+  .goldcastPage .goldcastFloatingWhatsappLabel,
+  .goldcastPage .goldcastYTControls,
+  .goldcastPage .goldcastSpotifyControls,
+  .goldcastPage .goldcastYTFooter,
+  .goldcastPage .goldcastYTWatch {
+    display: none !important;
+  }
+
+  .goldcastPage .goldcastYTImage,
+  .goldcastPage .goldcastInlineActions a,
+  .goldcastPage .analysisHubActions a {
+    box-shadow: none !important;
+  }
+
+  .goldcastPage .goldcastYTCard,
+  .goldcastPage .goldcastSpotifyEpisodeCard {
+    position: relative;
+    isolation: isolate;
+    display: block !important;
+    grid-template-columns: none !important;
+    grid-template-areas: none !important;
+    text-align: left;
+    padding: 0 !important;
+    min-height: 0 !important;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    transform: translateY(0);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard::before,
+  .goldcastPage .goldcastSpotifyEpisodeCard::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 18px 28px rgba(48, 31, 13, 0.22) !important;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard:hover {
+    box-shadow: none !important;
+  }
+
+  .goldcastPage .goldcastYTCard:active,
+  .goldcastPage .goldcastSpotifyEpisodeCard:active {
+    transform: translateY(-3px) !important;
+  }
+
+  .goldcastPage .goldcastYTScroller,
+  .goldcastPage .goldcastSpotifyScroller {
+    padding-top: 18px !important;
+    padding-bottom: 28px !important;
+  }
+
+  .goldcastPage .goldcastYTSection,
+  .goldcastPage .goldcastSpotifyArchive {
+    overflow: visible !important;
+  }
+
+  .goldcastPage .goldcastSpotifyArchive {
+    background:
+      linear-gradient(180deg, #fbf8f2 0%, #f4eadc 100%) !important;
+  }
+
+  .goldcastPage .goldcastSpotifyArchiveHeader h2,
+  .goldcastPage .goldcastSpotifyArchiveHeader h2 span {
+    max-width: none !important;
+    color: #a8792a !important;
+    font-family: inherit !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+  }
+
+  .goldcastPage .goldcastChannelHead {
+    display: flex !important;
+    align-items: baseline !important;
+    flex-wrap: wrap !important;
+    gap: 6px 8px !important;
+    max-width: none !important;
+  }
+
+  .goldcastPage .goldcastChannelDash {
+    color: #e0c07a !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelDash {
+    color: #a8792a !important;
+  }
+
+  .goldcastPage .goldcastChannelLink {
+    color: #e0c07a !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+    line-height: 1.2 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px !important;
+    text-decoration-thickness: 1px !important;
+    text-transform: uppercase !important;
+    white-space: nowrap !important;
+  }
+
+  .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
+    color: #a8792a !important;
+  }
+
+  .goldcastPage .goldcastChannelLink:hover {
+    opacity: 0.82 !important;
+  }
+
+  .goldcastPage .goldcastYTCard.isActive,
+  .goldcastPage .goldcastSpotifyEpisodeCard.isActive {
+    border-color: rgba(240, 208, 138, 0.72) !important;
+  }
+
+  .goldcastPage .goldcastYTBody,
+  .goldcastPage .goldcastYTCategory,
+  .goldcastPage .goldcastYTTitle,
+  .goldcastPage .goldcastYTSubtitle,
+  .goldcastPage .goldcastYTDescription {
+    display: block;
+  }
+
+  .goldcastPage .goldcastYTImage {
+    position: relative;
+    overflow: hidden;
+    border: 0 !important;
+    padding: 0;
+    width: calc(100% - 32px);
+    background: #120d09;
+    cursor: pointer;
+  }
+
+  .goldcastPage .goldcastSpotifyEpisodeCard {
+    flex: 0 0 320px !important;
+    width: 320px !important;
+    max-width: 320px !important;
+    border-radius: 24px !important;
+  }
+
+  @media (max-width: 700px) {
+    .goldcastPage .goldcastYTCard,
+    .goldcastPage .goldcastSpotifyEpisodeCard {
+      flex-basis: min(68vw, 248px) !important;
+      width: min(68vw, 248px) !important;
+      max-width: 248px !important;
+      border-radius: 18px !important;
+    }
+
+    .goldcastPage .goldcastYTImage {
+      width: calc(100% - 24px) !important;
+      border-radius: 12px !important;
+    }
+
+    .goldcastPage .goldcastYTTitle {
+      font-size: 18px !important;
+      letter-spacing: -0.04em !important;
+    }
+  }
+
+  @media (min-width: 901px) {
+    .goldcastPage .goldcastYTCard,
+    .goldcastPage .goldcastSpotifyEpisodeCard {
+      flex: 0 0 320px !important;
+      width: 320px !important;
+      max-width: 320px !important;
+    }
+  }
+`;
+
 export default function GoldCastPage() {
   const youtubeSliderRef =
     useRef<HTMLDivElement>(null);
@@ -649,35 +967,25 @@ export default function GoldCastPage() {
   const spotifySliderRef =
     useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const backToTop =
-      document.querySelector<HTMLAnchorElement>(
-        ".goldcastPage .siteGlobalBackToTop",
-      );
+  const { startYoutube, startSpotify, session } = usePlayback();
 
-    if (!backToTop) return;
+  const openEpisode = (episode: (typeof episodes)[number]) => {
+    const youtubeId = youtubeIdFromUrl(episode.youtubeUrl);
 
-    const handleBackToTop = (event: MouseEvent) => {
-      event.preventDefault();
+    if (!youtubeId) {
+      return;
+    }
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    };
-
-    backToTop.addEventListener(
-      "click",
-      handleBackToTop,
-    );
-
-    return () => {
-      backToTop.removeEventListener(
-        "click",
-        handleBackToTop,
-      );
-    };
-  }, []);
+    startYoutube({
+      platform: "goldcast",
+      contentId: youtubeId,
+      title: episode.title,
+      href: "/goldcast",
+      youtubeId,
+      artworkUrl: episode.thumbnail,
+      description: episode.description,
+    });
+  };
 
   const scrollSlider = (
     ref: React.RefObject<HTMLDivElement | null>,
@@ -701,9 +1009,9 @@ export default function GoldCastPage() {
       className="homePage goldcastPage"
       id="top"
     >
-      <style>{goldcastWhatsappStyles}</style>
       <style>{youtubeOnlyStyles}</style>
       <style>{desktopSpotifyStyles}</style>
+      <style>{goldcastPremiumStyles}</style>
 
       <Navbar />
 
@@ -717,40 +1025,19 @@ export default function GoldCastPage() {
       >
         <div className="goldcastYTContainer">
           <header className="goldcastYTHeader">
-            <div>
-              <p>GÜNCEL GOLDCAST BÖLÜMLERİ</p>
-              <h2>
-                Bir başlığa dokun,
-                <span> video YouTube’da açılsın.</span>
-              </h2>
-            </div>
-
-            <div className="goldcastYTControls">
-              <button
-                type="button"
-                onClick={() =>
-                  scrollSlider(
-                    youtubeSliderRef,
-                    "left",
-                  )
-                }
-                aria-label="Önceki bölüm"
+            <div className="goldcastChannelHead">
+              <h2>YOUTUBE · GOLDCAST</h2>
+              <span className="goldcastChannelDash" aria-hidden="true">
+                -
+              </span>
+              <a
+                className="goldcastChannelLink"
+                href={youtubeChannelUrl}
+                target="_blank"
+                rel="noreferrer"
               >
-                ←
-              </button>
-
-              <button
-                type="button"
-                onClick={() =>
-                  scrollSlider(
-                    youtubeSliderRef,
-                    "right",
-                  )
-                }
-                aria-label="Sonraki bölüm"
-              >
-                →
-              </button>
+                Kanala git
+              </a>
             </div>
           </header>
 
@@ -759,74 +1046,48 @@ export default function GoldCastPage() {
             className="goldcastYTScroller"
           >
             {episodes.map((episode) => (
-              <article
-                className="goldcastYTCard"
-                key={episode.youtubeUrl}
-              >
-                <div className="goldcastYTTop">
+                <button
+                  type="button"
+                  className={`goldcastYTCard${
+                    session?.contentId ===
+                    youtubeIdFromUrl(episode.youtubeUrl)
+                      ? " isActive"
+                      : ""
+                  }`}
+                  key={episode.youtubeUrl}
+                  aria-label={`${episode.title} ekranda aç`}
+                  onClick={() => openEpisode(episode)}
+                >
+                <span className="goldcastYTTop">
                   <span>{episode.number}</span>
                   <span>▶</span>
-                </div>
+                </span>
 
-                <a
-                  className="goldcastYTImage"
-                  href={episode.youtubeUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`${episode.title} YouTube'da izle`}
-                >
+                <span className="goldcastYTImage">
                   <img
                     src={episode.thumbnail}
-                    alt={episode.title}
+                    alt=""
                     loading="lazy"
                   />
-                </a>
+                </span>
 
-                <div className="goldcastYTBody">
-                  <p className="goldcastYTCategory">
+                <span className="goldcastYTBody">
+                  <span className="goldcastYTCategory">
                     {episode.category}
-                  </p>
+                  </span>
 
-                  <h3>{episode.title}</h3>
+                  <span className="goldcastYTTitle">{episode.title}</span>
 
-                  <p className="goldcastYTSubtitle">
+                  <span className="goldcastYTSubtitle">
                     {episode.subtitle}
-                  </p>
+                  </span>
 
-                  <p className="goldcastYTDescription">
+                  <span className="goldcastYTDescription">
                     {episode.description}
-                  </p>
-
-                  <a
-                    className="goldcastYTWatch"
-                    href={episode.youtubeUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    YouTube’da İzle
-                    <span>↗</span>
-                  </a>
-                </div>
-              </article>
+                  </span>
+                </span>
+              </button>
             ))}
-          </div>
-
-          <div className="goldcastYTFooter">
-            <div className="analysisHubActions goldcastInlineActions">
-              <a
-                href={youtubeChannelUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                YouTube Kanalıma Git
-                <span>↗</span>
-              </a>
-
-              <a href="/iletisim">
-                İletişime Geç
-                <span>→</span>
-              </a>
-            </div>
           </div>
         </div>
       </section>
@@ -836,13 +1097,19 @@ export default function GoldCastPage() {
       <section className="goldcastSpotifyArchive">
         <div className="goldcastSpotifyArchiveInner">
           <header className="goldcastSpotifyArchiveHeader">
-            <div>
-              <p>SPOTIFY · GOLDCAST</p>
-
-              <h2>
-                Dinlemek istediğin
-                <span> bölümü seç.</span>
-              </h2>
+            <div className="goldcastChannelHead">
+              <h2>SPOTIFY · GOLDCAST</h2>
+              <span className="goldcastChannelDash" aria-hidden="true">
+                -
+              </span>
+              <a
+                className="goldcastChannelLink"
+                href={spotifyShowUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Kanala git
+              </a>
             </div>
 
             {spotifyEpisodes.length > 1 && (
@@ -881,80 +1148,58 @@ export default function GoldCastPage() {
             ref={spotifySliderRef}
           >
             {spotifyEpisodes.map((episode) => (
-              <article
-                className="goldcastSpotifyEpisodeCard"
+              <button
+                type="button"
+                className={`goldcastYTCard goldcastSpotifyEpisodeCard${
+                  session?.contentId === `spotify-${episode.number}`
+                    ? " isActive"
+                    : ""
+                }`}
                 key={episode.number}
+                aria-label={`${episode.title} Spotify ekranında aç`}
+                onClick={() =>
+                  startSpotify({
+                    platform: "goldcast",
+                    contentId: `spotify-${episode.number}`,
+                    title: episode.title,
+                    href: "/goldcast",
+                    embedUrl: episode.embedUrl,
+                    artworkUrl: episode.cover,
+                    description: episode.description,
+                  })
+                }
               >
-                <div className="goldcastSpotifyEpisodeTop">
+                <span className="goldcastYTTop">
                   <span>{episode.number}</span>
+                  <span>▶</span>
+                </span>
 
-                  <span className="goldcastSpotifyMiniLogo">
-                    ◉
-                  </span>
-                </div>
-
-                <p className="goldcastSpotifyEpisodeCategory">
-                  {episode.category}
-                </p>
-
-                <h3>{episode.title}</h3>
-
-                <p className="goldcastSpotifyEpisodeDescription">
-                  {episode.description}
-                </p>
-
-                <div className="goldcastSpotifyEpisodeEmbed">
-                  <iframe
-                    src={episode.embedUrl}
-                    width="100%"
-                    frameBorder="0"
-                    scrolling="no"
-                    allowFullScreen
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                <span className="goldcastYTImage">
+                  <img
+                    src={episode.cover}
+                    alt=""
                     loading="lazy"
-                    title={`${episode.title} Spotify`}
                   />
-                </div>
+                </span>
 
-                <a
-                  href={episode.spotifyUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Spotify’da Dinle
-                  <span>↗</span>
-                </a>
-              </article>
+                <span className="goldcastYTBody">
+                  <span className="goldcastYTCategory">
+                    SPOTIFY · {episode.category}
+                  </span>
+
+                  <span className="goldcastYTTitle">{episode.title}</span>
+
+                  <span className="goldcastYTDescription">
+                    {episode.description}
+                  </span>
+                </span>
+              </button>
             ))}
           </div>
         </div>
       </section>
 
       <FooterSection />
-
-      <a
-        href="https://wa.me/905054722153"
-        className="goldcastFloatingWhatsapp"
-        target="_blank"
-        rel="noreferrer"
-        aria-label="WhatsApp'tan mesaj gönder"
-      >
-        <svg
-          viewBox="0 0 32 32"
-          aria-hidden="true"
-        >
-          <path
-            fill="currentColor"
-            fillRule="evenodd"
-            d="M16 3.2c-6.95 0-12.6 5.56-12.6 12.4 0 2.19.59 4.33 1.7 6.2L3 29l7.42-2.02A12.7 12.7 0 0 0 16 28c6.95 0 12.6-5.56 12.6-12.4S22.95 3.2 16 3.2Zm0 22.7c-1.87 0-3.7-.5-5.28-1.45l-.38-.23-4.4 1.2 1.18-4.25-.25-.4a10.2 10.2 0 0 1-1.57-5.17C5.3 9.91 10.1 5.3 16 5.3s10.7 4.61 10.7 10.3S21.9 25.9 16 25.9Zm5.88-7.67c-.32-.16-1.9-.92-2.2-1.03-.3-.1-.52-.16-.74.16-.22.32-.85 1.03-1.04 1.24-.19.21-.38.24-.7.08-.32-.16-1.36-.49-2.58-1.57-.95-.83-1.6-1.86-1.78-2.18-.19-.32-.02-.49.14-.65.15-.14.32-.37.49-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.74-1.75-1.01-2.4-.27-.64-.54-.55-.74-.56h-.63c-.22 0-.58.08-.88.4-.3.32-1.15 1.1-1.15 2.69 0 1.58 1.18 3.11 1.34 3.33.16.21 2.32 3.48 5.62 4.88.79.33 1.4.53 1.88.68.79.25 1.5.21 2.07.13.63-.09 1.9-.76 2.17-1.49.27-.73.27-1.36.19-1.49-.08-.13-.3-.21-.62-.37Z"
-            clipRule="evenodd"
-          />
-        </svg>
-
-        <span className="goldcastFloatingWhatsappLabel">
-          WhatsApp’tan Mesaj Gönder
-        </span>
-      </a>
     </main>
   );
 }

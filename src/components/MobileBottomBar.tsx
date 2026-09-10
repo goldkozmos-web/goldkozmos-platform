@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PLATFORM_CATALOG } from "../data/platformFlow";
 
@@ -97,20 +98,20 @@ export default function MobileBottomBar() {
         >
           <div className="goldkozmosMobileGoldsTrack">
             {PLATFORM_CATALOG.map((item) => (
-              <a
+              <Link
                 key={item.id}
                 href={item.href}
                 onClick={() => setGoldsOpen(false)}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>
       ) : null}
 
       <nav className="goldkozmosMobileBottomBar" aria-label="Mobil gezinme">
-        <a
+        <Link
           href="/"
           className={atHome ? "isActive" : undefined}
           aria-current={atHome ? "page" : undefined}
@@ -119,7 +120,7 @@ export default function MobileBottomBar() {
             <HomeIcon />
           </span>
           Ev
-        </a>
+        </Link>
 
         <button
           type="button"
@@ -140,7 +141,7 @@ export default function MobileBottomBar() {
           WhatsApp
         </button>
 
-        <a
+        <Link
           href="/profilim"
           className={atProfile ? "isActive" : undefined}
           aria-current={atProfile ? "page" : undefined}
@@ -149,7 +150,7 @@ export default function MobileBottomBar() {
             <ProfileIcon />
           </span>
           Profilim
-        </a>
+        </Link>
       </nav>
     </>
   );

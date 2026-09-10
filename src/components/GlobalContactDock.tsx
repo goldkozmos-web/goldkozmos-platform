@@ -67,7 +67,8 @@ const whatsappActions = [
 const whatsappNumber = "905054722153";
 
 const dockStyles = `
-  .goldkozmosGlobalContactDock {
+  .goldkozmosGlobalContactDock,
+  .goldkozmosGlobalContactPanel {
     display: none;
   }
 
@@ -80,7 +81,7 @@ const dockStyles = `
     }
 
     /* Eski shared oku kapat.
-       Yeni yukarı çık butonu WhatsApp dock'unun içinde. */
+       Yeni yukarı çık butonu dock içindeki tek oktur. */
     .siteGlobalBackToTop {
       display: none !important;
     }
@@ -96,8 +97,8 @@ const dockStyles = `
       bottom: 0;
       z-index: 3;
 
-      width: 52px;
-      height: 52px;
+      width: 44px;
+      height: 44px;
 
       margin: 0;
       padding: 0;
@@ -106,31 +107,22 @@ const dockStyles = `
       align-items: center;
       justify-content: center;
 
-      border: 1.5px solid rgba(236, 205, 132, 0.82);
-      border-radius: 50%;
+      border: 0;
+      border-radius: 0;
 
-      background:
-        radial-gradient(
-          circle at 32% 26%,
-          rgba(255, 236, 196, 0.28),
-          transparent 46%
-        ),
-        linear-gradient(
-          152deg,
-          #3a281c 0%,
-          #21150f 48%,
-          #120c09 100%
-        );
-
-      box-shadow:
-        0 8px 18px rgba(18, 11, 7, 0.28),
-        inset 0 1px 0 rgba(255, 244, 220, 0.26),
-        inset 0 -7px 12px rgba(0, 0, 0, 0.32);
+      background: transparent;
+      box-shadow: none;
 
       cursor: pointer;
       pointer-events: auto;
       appearance: none;
       -webkit-appearance: none;
+    }
+
+    .goldkozmosGlobalBackToTop::before,
+    .goldkozmosGlobalBackToTop::after {
+      content: none;
+      display: none;
     }
 
     .goldkozmosGlobalBackToTop svg {
@@ -142,8 +134,8 @@ const dockStyles = `
 
     .goldkozmosGlobalContactDock {
       position: fixed;
-      right: 17px;
-      bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+      right: 16px;
+      bottom: calc(102px + env(safe-area-inset-bottom, 0px));
       z-index: 99998;
 
       display: flex;
@@ -157,6 +149,7 @@ const dockStyles = `
       left: 50%;
       right: auto;
       bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+      z-index: 100000;
 
       box-sizing: border-box;
       width: min(372px, calc(100vw - 32px));
@@ -487,22 +480,20 @@ export default function GlobalContactDock() {
   }, []);
 
   /*
-    GoldBook'ta aynı sistem sayfanın içinde zaten var.
-    Mobilde bottom bar WhatsApp paneli için dock yine de render edilir;
-    yuvarlak buton CSS ile gizlenir.
+    Mobilde bottom bar WhatsApp paneli bu dock’tan açılır.
+    Yuvarlak WhatsApp butonu yok; yalnızca yukarı-ok durur.
   */
 
   return (
     <>
       <style>{dockStyles}</style>
 
-      <div className="goldkozmosGlobalContactDock">
-        <div
-          className={`goldkozmosGlobalContactPanel ${
-            open ? "isOpen" : ""
-          }`}
-          aria-hidden={!open}
-        >
+      <div
+        className={`goldkozmosGlobalContactPanel ${
+          open ? "isOpen" : ""
+        }`}
+        aria-hidden={!open}
+      >
           <div className="goldkozmosGlobalContactIntro">
             <small>WHATSAPP</small>
             <strong>Nasıl yardımcı olabilirim?</strong>
@@ -556,8 +547,9 @@ export default function GlobalContactDock() {
               </a>
             ))}
           </div>
-        </div>
+      </div>
 
+      <div className="goldkozmosGlobalContactDock">
         <button
           type="button"
           className="goldkozmosGlobalBackToTop"
@@ -588,11 +580,6 @@ export default function GlobalContactDock() {
                 <stop offset="100%" stopColor="#9a6d24" />
               </linearGradient>
             </defs>
-            <path
-              fill="rgba(62, 36, 10, 0.38)"
-              d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"
-              transform="translate(0 0.7)"
-            />
             <path
               fill="url(#goldkozmosBackToTopArrowFill)"
               d="M12 4.6 5.35 11.25a1.15 1.15 0 0 0 1.63 1.62L10.85 9v9.25a1.15 1.15 0 0 0 2.3 0V9l3.87 3.87a1.15 1.15 0 1 0 1.63-1.62L12 4.6z"

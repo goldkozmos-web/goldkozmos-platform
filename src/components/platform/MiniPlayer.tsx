@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { PLATFORM_CATALOG } from "../../data/platformFlow";
 import { usePlayback } from "./PlaybackProvider";
+import SeekScrubber from "./SeekScrubber";
 
 export default function MiniPlayer() {
   const pathname = usePathname();
@@ -18,7 +19,7 @@ export default function MiniPlayer() {
     stop,
   } = usePlayback();
 
-  if (!session) {
+  if (!session || session.youtubeId || session.spotifyEmbedUrl) {
     return null;
   }
 
@@ -105,6 +106,8 @@ export default function MiniPlayer() {
           >
             ×
           </button>
+
+          {isAudio ? <SeekScrubber className="platformSeek--audio" /> : null}
         </>
       )}
     </div>

@@ -9,12 +9,24 @@
     padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
   }
 
+  body.hasPlatformMiniDock {
+    padding-bottom: calc(214px + env(safe-area-inset-bottom, 0px));
+  }
+
   .homeV3Page .homeV3FloatingWhatsapp,
   .homeV3FloatingWhatsapp,
   .goldcastPage .goldcastFloatingWhatsapp,
   .goldcastFloatingWhatsapp,
   .goldkozmosGlobalContactButton,
   .homeV3Page .siteGlobalBackToTop,
+  .goldbookCompactPage .siteGlobalBackToTop,
+  .goldbookCompactPage .siteGlobalBackToTop::before,
+  .goldbookCompactPage .siteGlobalBackToTop::after,
+  .goldbookCompactPage .siteGlobalBackToTop > span,
+  .goldcastPage .siteGlobalBackToTop,
+  .goldcastPage .siteGlobalBackToTop::before,
+  .goldcastPage .siteGlobalBackToTop::after,
+  .goldcastPage .siteGlobalBackToTop > span,
   .siteGlobalBackToTop {
     display: none !important;
     opacity: 0 !important;
@@ -109,18 +121,18 @@
 
   .goldkozmosMobileGoldsSheet {
     position: fixed;
-    left: 15px;
-    right: 15px;
-    bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    left: 18px;
+    right: 18px;
+    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
     z-index: 100000;
     display: block;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 12px;
-    border: 1px solid rgba(184, 140, 62, 0.38);
-    border-radius: 22px;
-    background: rgba(42, 28, 19, 0.92);
-    box-shadow: 0 16px 36px rgba(28, 16, 8, 0.28);
+    padding: 8px;
+    border: 1px solid rgba(210, 166, 82, 0.28);
+    border-radius: 16px;
+    background: rgba(22, 14, 10, 0.94);
+    box-shadow: 0 12px 28px rgba(18, 10, 6, 0.32);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     scrollbar-width: none;
@@ -133,27 +145,27 @@
   .goldkozmosMobileGoldsTrack {
     display: flex;
     flex-wrap: nowrap;
-    gap: 8px;
+    gap: 6px;
     width: max-content;
   }
 
   .goldkozmosMobileGoldsSheet a {
     flex: 0 0 auto;
-    min-width: 124px;
-    min-height: 52px;
-    padding: 0 18px;
+    min-width: 0;
+    min-height: 36px;
+    padding: 0 13px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: #211811;
+    color: #e3bc70;
     text-decoration: none;
-    border: 1px solid rgba(212, 168, 82, 0.55);
+    border: 1px solid rgba(210, 166, 82, 0.34);
     border-radius: 999px;
-    background: linear-gradient(180deg, #f4e3c4 0%, #e3c07a 100%);
-    box-shadow: 0 6px 14px rgba(28, 16, 8, 0.22);
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.01em;
+    background: rgba(255, 248, 235, 0.04);
+    box-shadow: none;
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: 0.02em;
     white-space: nowrap;
   }
 }

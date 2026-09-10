@@ -6,6 +6,7 @@ import {
   type PlatformDefinition,
   type PlatformProgress,
 } from "../../data/platformFlow";
+import { displayProgressFromItem } from "../../lib/mediaTime";
 
 type PlatformProgressCardProps = {
   platform: PlatformDefinition;
@@ -16,7 +17,9 @@ export default function PlatformProgressCard({
   platform,
   progress,
 }: PlatformProgressCardProps) {
-  const percent = progress ? formatProgressPercent(progress.progress) : null;
+  const percent = progress
+    ? formatProgressPercent(displayProgressFromItem(progress))
+    : null;
 
   return (
     <Link

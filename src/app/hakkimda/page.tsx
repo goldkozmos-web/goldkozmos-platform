@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
 
@@ -40,6 +41,28 @@ const approach = [
 ];
 
 export default function HakkimdaPage() {
+  const [detailOpen, setDetailOpen] = useState(false);
+
+  useEffect(() => {
+    if (!detailOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setDetailOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [detailOpen]);
+
   return (
     <main className="aboutCompactPage" id="top">
       {/* NAVBAR */}
@@ -82,6 +105,14 @@ export default function HakkimdaPage() {
                   değerlendirmenin önemini fark ettim.
                 </p>
 
+                <button
+                  type="button"
+                  className="aboutCompactReadMore"
+                  onClick={() => setDetailOpen(true)}
+                >
+                  Devamını oku
+                </button>
+
                 <div className="aboutCompactHeroActions">
                   <a
                     className="homeV3PrimaryButton"
@@ -120,110 +151,6 @@ export default function HakkimdaPage() {
                 </div>
               </div>
             </div>
-
-            {/* KISA YOLCULUK */}
-
-            <div className="aboutCompactStats">
-              {journey.map((item) => (
-                <div key={item.year}>
-                  <span>{item.year}</span>
-                  <strong>{item.title}</strong>
-                  <p>{item.text}</p>
-                </div>
-              ))}
-            </div>
-
-            {/* ORTA ALAN */}
-
-            <div className="aboutCompactMiddle">
-              <section className="aboutCompactStory">
-                <p className="aboutCompactEyebrow">
-                  GOLDKOZMOS® NASIL DOĞDU?
-                </p>
-
-                <h2>
-                  “Neden kendi sayfam olmasın?”
-                  <span> sorusu bir markaya dönüştü.</span>
-                </h2>
-
-                <p>
-                  Eğitimlerime devam ederken öğrendiklerimi yalnızca
-                  kendimde tutmak istemediğimi fark ettim. Hem öğrenmeye
-                  devam edebileceğim hem de insanlarla paylaşabileceğim
-                  kendi alanımı oluşturmak istedim.
-                </p>
-
-                <p>
-                  İnsanlarla çalıştıkça aynı sorun gibi görünen iki
-                  deneyimin altında bile bambaşka ihtiyaçlar, korkular,
-                  ilişki biçimleri ve öğrenilmiş roller bulunabileceğini
-                  gördüm.
-                </p>
-
-                <div className="aboutCompactQuote">
-                  <span>✦</span>
-
-                  <p>
-                    Goldkozmos® benim için hazır cevaplar vermekten çok,
-                    insanın kendi hayatını daha net görebileceği bir alan.
-                  </p>
-                </div>
-              </section>
-
-              <section className="aboutCompactApproach">
-                <p className="aboutCompactEyebrow">
-                  BUGÜNKÜ YAKLAŞIMIM
-                </p>
-
-                <h2>
-                  İnsanı
-                  <span> tek bir yerden okumamak.</span>
-                </h2>
-
-                <div className="aboutCompactApproachList">
-                  {approach.map((item) => (
-                    <div key={item.number}>
-                      <span>{item.number}</span>
-
-                      <div>
-                        <strong>{item.title}</strong>
-                        <p>{item.text}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </section>
-            </div>
-
-            {/* MANİFESTO */}
-
-            <div className="aboutCompactManifesto">
-              <div>
-                <p className="aboutCompactEyebrow">
-                  GOLDKOZMOS®
-                </p>
-
-                <h2>
-                  İnsan değişmeden
-                  <span> hayat değişmez.</span>
-                </h2>
-
-                <p>
-                  İnsan kendi sınırlarını, seçimlerini ve tekrar eden
-                  örüntülerini görmeden yalnızca dışarıdaki şartları
-                  değiştirmeye çalışır. Goldkozmos® bu farkındalığın
-                  içeriden başlayabileceği bir alan olarak doğdu.
-                </p>
-              </div>
-
-              <a
-                className="aboutCompactManifestoButton"
-                href="/#rezonans"
-              >
-                Çalışmaları Gör
-                <span>→</span>
-              </a>
-            </div>
           </article>
 
           <p className="aboutCompactNote">
@@ -235,6 +162,146 @@ export default function HakkimdaPage() {
       </section>
 
       <FooterSection />
+
+      {detailOpen ? (
+        <div
+          className="aboutCompactReaderBackdrop"
+          onClick={() => setDetailOpen(false)}
+        >
+          <div
+            className="aboutCompactReaderPaper"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="aboutCompactReaderTitle"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="aboutCompactReaderTopbar">
+              <div className="aboutCompactReaderBrand">
+                <span>G</span>
+                GOLDKOZMOS®
+              </div>
+
+              <button
+                type="button"
+                className="aboutCompactReaderClose"
+                onClick={() => setDetailOpen(false)}
+                aria-label="Kapat"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="aboutCompactReaderScroll">
+              <p className="aboutCompactEyebrow">
+                GOLDKOZMOS®’UN ARKASINDAKİ İSİM
+              </p>
+
+              <h2 id="aboutCompactReaderTitle">
+                Ben Özge Batıgün.
+                <span> Yolculuk, yaklaşım ve Goldkozmos®.</span>
+              </h2>
+
+              <div className="aboutCompactStats">
+                {journey.map((item) => (
+                  <div key={item.year}>
+                    <span>{item.year}</span>
+                    <strong>{item.title}</strong>
+                    <p>{item.text}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="aboutCompactMiddle">
+                <section className="aboutCompactStory">
+                  <p className="aboutCompactEyebrow">
+                    GOLDKOZMOS® NASIL DOĞDU?
+                  </p>
+
+                  <h2>
+                    “Neden kendi sayfam olmasın?”
+                    <span> sorusu bir markaya dönüştü.</span>
+                  </h2>
+
+                  <p>
+                    Eğitimlerime devam ederken öğrendiklerimi yalnızca
+                    kendimde tutmak istemediğimi fark ettim. Hem öğrenmeye
+                    devam edebileceğim hem de insanlarla paylaşabileceğim
+                    kendi alanımı oluşturmak istedim.
+                  </p>
+
+                  <p>
+                    İnsanlarla çalıştıkça aynı sorun gibi görünen iki
+                    deneyimin altında bile bambaşka ihtiyaçlar, korkular,
+                    ilişki biçimleri ve öğrenilmiş roller bulunabileceğini
+                    gördüm.
+                  </p>
+
+                  <div className="aboutCompactQuote">
+                    <span>✦</span>
+
+                    <p>
+                      Goldkozmos® benim için hazır cevaplar vermekten çok,
+                      insanın kendi hayatını daha net görebileceği bir alan.
+                    </p>
+                  </div>
+                </section>
+
+                <section className="aboutCompactApproach">
+                  <p className="aboutCompactEyebrow">
+                    BUGÜNKÜ YAKLAŞIMIM
+                  </p>
+
+                  <h2>
+                    İnsanı
+                    <span> tek bir yerden okumamak.</span>
+                  </h2>
+
+                  <div className="aboutCompactApproachList">
+                    {approach.map((item) => (
+                      <div key={item.number}>
+                        <span>{item.number}</span>
+
+                        <div>
+                          <strong>{item.title}</strong>
+                          <p>{item.text}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </div>
+
+              <div className="aboutCompactManifesto">
+                <div>
+                  <p className="aboutCompactEyebrow">
+                    GOLDKOZMOS®
+                  </p>
+
+                  <h2>
+                    İnsan değişmeden
+                    <span> hayat değişmez.</span>
+                  </h2>
+
+                  <p>
+                    İnsan kendi sınırlarını, seçimlerini ve tekrar eden
+                    örüntülerini görmeden yalnızca dışarıdaki şartları
+                    değiştirmeye çalışır. Goldkozmos® bu farkındalığın
+                    içeriden başlayabileceği bir alan olarak doğdu.
+                  </p>
+                </div>
+
+                <a
+                  className="aboutCompactManifestoButton"
+                  href="/#rezonans"
+                >
+                  Çalışmaları Gör
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {/* EKRANLA BİRLİKTE GELEN OK */}
 

@@ -146,44 +146,101 @@
   background: #fffdf8;
 }
 
-.platformContinue h2 {
-  margin: 0 0 4px;
-  color: #211811;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 17px;
-  font-weight: 600;
+.platformContinue {
+  padding-top: 0;
 }
 
 .platformContinueCard {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 16px;
-  align-items: center;
-  padding: 14px 16px;
-  border: 1px solid rgba(160, 119, 42, 0.16);
+  grid-template-columns: 64px minmax(0, 1fr);
+  gap: 10px 12px;
+  align-items: start;
+  margin-top: 0;
+  padding: 12px;
+  border: 1px solid rgba(176, 138, 62, 0.22);
   border-radius: 18px;
-  background: #fffdf8;
+  background:
+    linear-gradient(180deg, rgba(255, 250, 240, 0.92) 0%, #f4eadc 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.7) inset,
+    0 18px 36px rgba(48, 28, 12, 0.06);
+}
+
+.platformContinueArt,
+.platformContinueMark {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #2a1c12;
+}
+
+.platformContinueMark {
+  display: grid;
+  place-items: center;
+  color: #e8c878;
+  font-size: 28px;
+  background:
+    linear-gradient(180deg, rgba(247, 234, 208, 0.12), transparent 40%),
+    linear-gradient(155deg, #3a2a1f 0%, #1f1510 100%);
 }
 
 .platformContinueCopy {
   display: grid;
-  gap: 4px;
+  gap: 6px;
   min-width: 0;
 }
 
 .platformContinueCopy p {
   margin: 0;
-  color: #a8792a;
-  font-size: 11px;
+  color: #b08a3e;
+  font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .platformContinueCopy strong {
-  color: #211811;
+  color: #2a1c12;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+}
+
+.platformContinueDesc {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #6f6256;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.platformContinueMeter {
+  display: grid;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.platformContinuePercent {
+  color: #8a7350;
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.platformContinue .platformProgressTrack {
+  height: 2px;
+  background: rgba(176, 138, 62, 0.16);
+}
+
+.platformContinue .platformProgressTrack i {
+  background: linear-gradient(90deg, #c9a24a, #e0c07a);
 }
 
 .platformContinueEmpty {
@@ -192,7 +249,31 @@
   font-size: 12px;
 }
 
-.platformContinueCta,
+.platformContinueCta {
+  justify-self: start;
+  min-height: 32px;
+  margin-top: 4px;
+  padding: 0 12px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid rgba(176, 138, 62, 0.45);
+  border-radius: 999px;
+  background: transparent;
+  color: #2a1c12;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.platformContinueCta:hover {
+  background: #2a1c12;
+  border-color: #2a1c12;
+  color: #f7ead0;
+}
+
 .platformMiniToggle,
 .platformMiniRestore {
   min-height: 44px;
@@ -210,8 +291,8 @@
 }
 
 .platformPageContinue {
-  width: min(980px, calc(100% - 40px));
-  margin: 18px auto 0;
+  width: min(720px, calc(100% - 32px));
+  margin: 12px auto 6px;
 }
 
 .platformMiniPlayer {
@@ -219,9 +300,10 @@
   left: 18px;
   bottom: 18px;
   z-index: 99990;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
   align-items: center;
-  gap: 8px;
+  gap: 6px 8px;
   width: min(380px, calc(100vw - 110px));
   padding: 10px 10px 10px 14px;
   border: 1px solid rgba(160, 119, 42, 0.22);
@@ -362,7 +444,20 @@
   }
 
   .platformContinueCard {
-    grid-template-columns: 1fr;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .platformContinueArt,
+  .platformContinueMark {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+  }
+
+  .platformContinueCopy strong {
+    font-size: 15px;
   }
 
   .platformContinueCta {
@@ -376,3 +471,350 @@
     width: auto;
   }
 }
+
+.platformYoutubeShell {
+  position: fixed;
+  z-index: 100002;
+  display: grid;
+  background: #120c09;
+  overflow: hidden;
+}
+
+.platformYoutubeShell.isStage {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.platformYoutubeShell.isSpotify {
+  background: #121212;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChrome {
+  background: #181818;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChrome p {
+  color: #1db954;
+}
+
+.platformYoutubeShell.isMini {
+  top: auto;
+  left: 12px;
+  right: 12px;
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+  width: auto;
+  height: 96px;
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: 96px;
+  border: 1px solid rgba(232, 196, 118, 0.48);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 232, 186, 0.10) 0%, transparent 42%),
+    linear-gradient(155deg, #2d1e14 0%, #16100c 100%);
+  box-shadow:
+    0 18px 40px rgba(24, 14, 8, 0.34),
+    0 0 0 1px rgba(255, 244, 214, 0.06) inset;
+}
+
+.platformYoutubeShell.isMini.isPlaying::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #e0b85f, transparent);
+  animation: platformMiniPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes platformMiniPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.72);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+.platformYoutubeShell.isSpotify.isMini {
+  height: 96px;
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: 96px;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChrome button {
+  background: #1db954;
+  color: #121212;
+}
+
+.platformYoutubeChrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: calc(12px + env(safe-area-inset-top, 0px)) 14px 12px;
+  background: #1a120c;
+}
+
+.platformYoutubeChrome p {
+  margin: 0 0 4px;
+  color: #d4a552;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.platformYoutubeChrome strong {
+  display: block;
+  color: #fffaf1;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.platformYoutubeChrome div:last-child {
+  display: flex;
+  gap: 8px;
+}
+
+.platformYoutubeChrome button {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: #d4a24a;
+  color: #1c120b;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.platformYoutubeShell iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  background: #000;
+}
+
+.platformYoutubeShell.isSpotify.isStage {
+  background: #121212;
+}
+
+.platformYoutubeChromeLink {
+  min-height: 36px;
+  padding: 0 12px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: transparent;
+  color: #121212;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: inset 0 0 0 1px #121212;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeChromeLink {
+  color: #121212;
+  box-shadow: inset 0 0 0 1px #121212;
+  background: #fff;
+}
+
+.platformSpotifyHost {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: #000;
+}
+
+.platformSpotifyHost iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 12px;
+}
+
+.platformYoutubeShell.isSpotify.isStage .platformSpotifyHost {
+  width: min(100%, 720px);
+  height: 352px;
+  max-height: 352px;
+  min-height: 352px;
+  align-self: center;
+  justify-self: center;
+  margin: 0 auto 28px;
+  border-radius: 12px;
+  pointer-events: auto;
+  background: transparent;
+}
+
+.platformYoutubeShell.isMini .platformSpotifyHost,
+.platformYoutubeShell.isMini .platformSpotifyHost iframe {
+  grid-column: 1;
+  grid-row: 1;
+  width: 72px;
+  height: 72px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.platformYoutubeMiniArt {
+  grid-column: 1;
+  grid-row: 1;
+  z-index: 1;
+  display: block;
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  background: #120d09;
+}
+
+.platformYoutubeShell.isMini iframe {
+  grid-column: 1;
+  grid-row: 1;
+  width: 72px;
+  height: 72px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.platformYoutubeMiniBar {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-rows: minmax(0, 1fr) 16px;
+  align-items: center;
+  gap: 2px 8px;
+  min-width: 0;
+  padding: 6px 10px 8px 12px;
+  background: transparent;
+}
+
+.platformSeek {
+  display: block;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  accent-color: #d4a552;
+  cursor: pointer;
+}
+
+.platformSeek:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.platformSeek--mini {
+  grid-column: 1 / -1;
+}
+
+.platformSeek--audio {
+  grid-column: 1 / -1;
+}
+
+.platformYoutubeShell.isSpotify .platformSeek {
+  accent-color: #1db954;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeMiniBar {
+  background: transparent;
+}
+
+.platformYoutubeMiniTitle {
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  overflow: hidden;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fffaf1;
+  text-align: left;
+  cursor: pointer;
+}
+
+.platformYoutubeMiniTitle small {
+  overflow: hidden;
+  color: #d4a552;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.platformYoutubeMiniTitle strong {
+  display: block;
+  overflow: hidden;
+  color: #fffaf1;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.platformYoutubeMiniPlay {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #e8c574 0%, #c9943a 100%);
+  color: #1c120b;
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: 0 6px 14px rgba(201, 148, 58, 0.28);
+  cursor: pointer;
+}
+
+.platformYoutubeMiniClose {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #d4a552;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeMiniPlay {
+  background: #1db954;
+  color: #121212;
+}
+
+.platformYoutubeShell.isSpotify .platformYoutubeMiniClose {
+  color: #1db954;
+}
+
+@media (min-width: 701px) {
+  .platformYoutubeShell.isMini {
+    left: auto;
+    right: 24px;
+    bottom: 24px;
+    width: min(420px, calc(100vw - 48px));
+  }
+}
+

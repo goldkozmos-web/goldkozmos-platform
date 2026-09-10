@@ -1346,7 +1346,7 @@
       100% !important;
 
     min-height:
-      285px !important;
+      0 !important;
 
     padding:
       20px
@@ -1749,10 +1749,10 @@
   }
 
   .goldblogPage .goldBlogNewSection {
-    order: 99 !important;
+    order: 0 !important;
 
-    margin-top: 42px !important;
-    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 22px !important;
   }
 }/* =========================================================
    GOLDBLOG MOBİL
@@ -1885,220 +1885,24 @@
   }
 }/* =========================================================
    GOLDBLOG MOBİL
-   GERÇEK AKTİF KART ODAK SİSTEMİ
+   KATEGORİ KARTLARI EŞİT GÖRÜNÜR
 ========================================================= */
 
 @media (max-width: 700px) {
 
-  /* ÖNCEKİ SCROLL ANİMASYONUNU İPTAL ET */
   .goldblogPage
   .goldBlogCategoryCard {
     animation: none !important;
-
-    transition:
-      opacity 280ms ease,
-      filter 280ms ease,
-      transform 280ms ease,
-      border-color 280ms ease,
-      box-shadow 280ms ease !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
-
-  /* GÖLGE/YÜKSELME KESİLMESİN */
   .goldblogPage
   .goldBlogCategoryRail {
-    padding-top: 14px !important;
-    padding-bottom: 28px !important;
-  }
-
-
-  /* =====================================================
-     ODAKTA OLMAYAN KARTLAR
-  ====================================================== */
-
-  .goldblogPage
-  .goldBlogCategoryCard:not(.isFocused),
-  .goldblogPage
-  .goldBlogCategoryCard.isActive:not(.isFocused) {
-
-    opacity: 0.46 !important;
-
-    filter:
-      saturate(0.62)
-      brightness(0.72) !important;
-
-    transform:
-      translateY(5px)
-      scale(0.965) !important;
-
-    border-color:
-      rgba(
-        188,
-        145,
-        66,
-        0.20
-      ) !important;
-
-    box-shadow:
-      0 10px 24px
-      rgba(
-        33,
-        20,
-        10,
-        0.08
-      ) !important;
-  }
-
-
-  /* =====================================================
-     EKRANDAKİ AKTİF KART
-  ====================================================== */
-
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused {
-
-    opacity: 1 !important;
-
-    filter: none !important;
-
-    transform:
-      translateY(-6px)
-      scale(1) !important;
-
-    border-color:
-      rgba(
-        222,
-        181,
-        96,
-        0.78
-      ) !important;
-
-    box-shadow:
-      0 28px 58px
-      rgba(
-        42,
-        25,
-        11,
-        0.23
-      ),
-      0 0 0 1px
-      rgba(
-        223,
-        182,
-        99,
-        0.18
-      ),
-      0 0 34px
-      rgba(
-        190,
-        139,
-        48,
-        0.12
-      ) !important;
-
-    z-index: 5 !important;
-  }
-
-
-  /* AKTİF KARTIN GÖRSELİ */
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardImage {
-
-    box-shadow:
-      0 15px 30px
-      rgba(
-        0,
-        0,
-        0,
-        0.20
-      ) !important;
-  }
-
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardImage
-  img {
-
-    filter:
-      saturate(1.07)
-      contrast(1.03) !important;
-
-    transform:
-      scale(1.015) !important;
-  }
-
-
-  /* =====================================================
-     SEÇİLİ ETİKETİ
-  ====================================================== */
-
-  .goldblogPage
-  .goldBlogCategoryCard
-  .goldBlogCategoryCardTop
-  > span:first-child::after {
-
-    content: "" !important;
-  }
-
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardTop
-  > span:first-child::after {
-
-    content:
-      " · SEÇİLİ" !important;
-
-    margin-left:
-      5px !important;
-
-    color:
-      #e2b763 !important;
-
-    font-size:
-      6px !important;
-
-    letter-spacing:
-      0.16em !important;
-
-    font-weight:
-      800 !important;
-  }
-
-
-  /* AKTİF KARTIN OKU */
-  .goldblogPage
-  .goldBlogCategoryCard.isFocused
-  .goldBlogCategoryCardTop
-  > span:last-child {
-
-    border-color:
-      rgba(
-        222,
-        181,
-        96,
-        0.55
-      ) !important;
-
-    background:
-      rgba(
-        218,
-        174,
-        88,
-        0.09
-      ) !important;
-
-    color:
-      #e0b25b !important;
-
-    box-shadow:
-      0 0 20px
-      rgba(
-        211,
-        163,
-        72,
-        0.14
-      ) !important;
+    padding-top: 4px !important;
+    padding-bottom: 12px !important;
   }
 }/* =========================================================
    GOLDBLOG MOBİL
@@ -2990,42 +2794,86 @@
   h1 {
     max-width: 100% !important;
 
-    font-size: 35px !important;
-    line-height: 0.98 !important;
+    font-size: 32px !important;
+    line-height: 1.08 !important;
 
     letter-spacing:
-      -1.2px !important;
+      -0.04em !important;
   }
 
   .aboutCompactPage
-  .aboutCompactLead {
-    margin-top: 16px !important;
+  .aboutCompactLead,
+  .aboutCompactPage
+  .aboutCompactIntro {
+    margin-top: 14px !important;
 
-    font-size: 14px !important;
-    line-height: 1.58 !important;
+    color: #4a4138 !important;
+
+    font-size: 15px !important;
+    line-height: 1.68 !important;
   }
 
   .aboutCompactPage
   .aboutCompactIntro {
-    margin-top: 11px !important;
+    margin-top: 10px !important;
+  }
 
-    font-size: 12.5px !important;
-    line-height: 1.6 !important;
+  .aboutCompactPage
+  .aboutCompactReadMore {
+    margin-top: 14px !important;
+    font-size: 13px !important;
+  }
+
+  .aboutCompactReaderBackdrop {
+    padding: 16px 12px 24px !important;
+    z-index: 100050 !important;
+  }
+
+  .aboutCompactReaderPaper {
+    width: min(440px, 100%) !important;
+    height: min(82dvh, 760px) !important;
+    border-radius: 22px !important;
+  }
+
+  .aboutCompactReaderTopbar {
+    min-height: 62px !important;
+    padding: 0 12px 0 16px !important;
+  }
+
+  .aboutCompactReaderScroll {
+    padding: 82px 0 36px !important;
+  }
+
+  .aboutCompactReaderScroll > .aboutCompactEyebrow,
+  .aboutCompactReaderScroll > h2 {
+    width: min(100% - 32px, 100%) !important;
+  }
+
+  .aboutCompactReaderScroll > h2 {
+    font-size: 26px !important;
+  }
+
+  .aboutCompactReaderScroll .aboutCompactStats,
+  .aboutCompactReaderScroll .aboutCompactStory,
+  .aboutCompactReaderScroll .aboutCompactApproach,
+  .aboutCompactReaderScroll .aboutCompactManifesto {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 
 
-  /* BUTONLAR YAN YANA */
+  /* BUTONLAR */
 
   .aboutCompactPage
   .aboutCompactHeroActions {
-    margin-top: 17px !important;
+    margin-top: 20px !important;
 
     display: grid !important;
 
     grid-template-columns:
       repeat(2, minmax(0, 1fr)) !important;
 
-    gap: 7px !important;
+    gap: 8px !important;
   }
 
   .aboutCompactPage
@@ -3033,27 +2881,25 @@
   a {
     width: 100% !important;
 
-    min-height: 44px !important;
-    height: 44px !important;
+    min-height: 48px !important;
+    height: 48px !important;
 
-    padding: 0 10px !important;
+    padding: 0 12px !important;
 
-    font-size: 9px !important;
+    font-size: 12px !important;
+    letter-spacing: 0.01em !important;
   }
 
 
-  /* FOTOĞRAF ARTIK DEV DEĞİL */
+  /* FOTOĞRAF — METİNLE AYNI GENİŞLİK */
 
   .aboutCompactPage
   .aboutCompactPortrait {
-    width:
-      min(70vw, 260px) !important;
+    width: 100% !important;
 
-    max-width:
-      260px !important;
+    max-width: 100% !important;
 
-    margin:
-      3px auto 0 !important;
+    margin: 6px 0 0 !important;
 
     border-radius:
       18px !important;
@@ -3065,9 +2911,52 @@
     width: 100% !important;
     height: auto !important;
 
+    aspect-ratio: 4 / 5 !important;
+
     display: block !important;
 
+    object-fit: cover !important;
+    object-position: 50% 12% !important;
+
     transform: none !important;
+  }
+
+  .aboutCompactPage
+  .aboutCompactPortraitTag {
+    position: static !important;
+
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+
+    width: 100% !important;
+
+    padding:
+      12px
+      14px !important;
+
+    border-radius: 0 !important;
+
+    background: #1c1611 !important;
+  }
+
+  .aboutCompactPage
+  .aboutCompactPortraitTag
+  > span {
+    font-size: 9px !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .aboutCompactPage
+  .aboutCompactPortraitTag
+  strong {
+    font-size: 15px !important;
+  }
+
+  .aboutCompactPage
+  .aboutCompactPortraitTag
+  small {
+    font-size: 11px !important;
   }
 
 

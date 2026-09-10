@@ -259,7 +259,7 @@ export default function Navbar() {
         }`}
       >
         <div className="siteGlobalNavInner">
-          <a
+          <Link
             href="/"
             className="siteGlobalBrand"
             onClick={closeMenu}
@@ -269,10 +269,10 @@ export default function Navbar() {
             </strong>
 
             <span>REZONANS EKOLÜ</span>
-          </a>
+          </Link>
 
           <nav className="siteGlobalMenu">
-            <a href="/">Ana Sayfa</a>
+            <Link href="/">Ana Sayfa</Link>
 
             <a href="/#rezonans">
               Atölyeler
@@ -286,43 +286,43 @@ export default function Navbar() {
               Çalışmalar
             </a>
 
-            <a href="/goldbook">
+            <Link href="/goldbook">
               GoldBook
-            </a>
+            </Link>
 
-            <a href="/goldcast">
+            <Link href="/goldcast">
               GoldCast
-            </a>
+            </Link>
 
-            <a href="/goldmind">
+            <Link href="/goldmind">
               GoldMind
-            </a>
+            </Link>
 
-            <a href="/goldfrekans">
+            <Link href="/goldfrekans">
               GoldFrekans
-            </a>
+            </Link>
 
-            <a href="/goldblog">
+            <Link href="/goldblog">
               GoldBlog
-            </a>
+            </Link>
 
-            <a href="/hakkimda">
+            <Link href="/hakkimda">
               Hakkımda
-            </a>
+            </Link>
 
             <a href="/#sss">
               SSS
             </a>
           </nav>
 
-          <a
+          <Link
             href="/sana-uygun-calismayi-bul"
             className="siteGlobalTest"
             onClick={closeMenu}
           >
             Ücretsiz Test
             <span aria-hidden="true">→</span>
-          </a>
+          </Link>
 
           <button
             type="button"
@@ -352,10 +352,10 @@ export default function Navbar() {
           aria-hidden={!mobileMenuOpen}
         >
           <nav>
-            <a href="/" onClick={closeMenu}>
+            <Link href="/" onClick={closeMenu}>
               <span>01</span>
               <strong>Ana Sayfa</strong>
-            </a>
+            </Link>
 
             <a
               href="/#rezonans"
@@ -381,53 +381,53 @@ export default function Navbar() {
               <strong>Çalışmalar</strong>
             </a>
 
-            <a
+            <Link
               href="/goldbook"
               onClick={closeMenu}
             >
               <span>05</span>
               <strong>GoldBook</strong>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/goldcast"
               onClick={closeMenu}
             >
               <span>06</span>
               <strong>GoldCast</strong>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/goldmind"
               onClick={closeMenu}
             >
               <span>07</span>
               <strong>GoldMind</strong>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/goldfrekans"
               onClick={closeMenu}
             >
               <span>08</span>
               <strong>GoldFrekans</strong>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/goldblog"
               onClick={closeMenu}
             >
               <span>09</span>
               <strong>GoldBlog</strong>
-            </a>
+            </Link>
 
-            <a
+            <Link
               href="/hakkimda"
               onClick={closeMenu}
             >
               <span>10</span>
               <strong>Hakkımda</strong>
-            </a>
+            </Link>
 
             <a
               href="/#sss"
@@ -437,14 +437,14 @@ export default function Navbar() {
               <strong>SSS</strong>
             </a>
 
-            <a
+            <Link
               href="/sana-uygun-calismayi-bul"
               onClick={closeMenu}
               className="siteGlobalMobileTestLink"
             >
               <span>12</span>
               <strong>Ücretsiz Test</strong>
-            </a>
+            </Link>
           </nav>
         </div>
       </header>

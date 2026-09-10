@@ -21,12 +21,12 @@ export default function manifest(): MetadataRoute.Manifest {
 
     icons: [
       {
-        src: "/icon",
-        sizes: "96x96",
+        src: "/icon.png",
+        sizes: "512x512",
         type: "image/png",
       },
       {
-        src: "/apple-icon",
+        src: "/apple-icon.png",
         sizes: "180x180",
         type: "image/png",
       },
