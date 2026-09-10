@@ -13,5 +13,9 @@ export async function GET() {
   }
 
   const data = await loadAdminLive();
-  return NextResponse.json(data);
+  return NextResponse.json(data, {
+    headers: {
+      "Cache-Control": "no-store",
+    },
+  });
 }

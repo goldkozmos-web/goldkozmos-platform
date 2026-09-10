@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import type { AdminEventRow, AdminVisitorRow } from "../../lib/admin/load";
 import AdminEmpty from "./AdminEmpty";
+import { useAdminLive } from "./AdminLiveProvider";
 
 function whenLabel(iso: string | null) {
   if (!iso) {
@@ -29,43 +28,9 @@ export default function AdminActivity({
   visitors: AdminVisitorRow[];
   whatsapp: AdminEventRow[];
 }) {
-  const [liveVisitors, setLiveVisitors] = useState(visitors);
-  const [wa, setWa] = useState(whatsapp);
-
-  useEffect(() => {
-    setLiveVisitors(visitors);
-    setWa(whatsapp);
-  }, [visitors, whatsapp]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function refresh() {
-      const response = await fetch("/api/admin/live", { cache: "no-store" });
-      if (!response.ok || cancelled) {
-        return;
-      }
-      const data = (await response.json()) as {
-        visitors?: AdminVisitorRow[];
-        whatsapp?: AdminEventRow[];
-      };
-      if (data.visitors) {
-        setLiveVisitors(data.visitors);
-      }
-      if (data.whatsapp) {
-        setWa(data.whatsapp);
-      }
-    }
-
-    const timer = window.setInterval(() => {
-      void refresh();
-    }, 8000);
-
-    return () => {
-      cancelled = true;
-      window.clearInterval(timer);
-    };
-  }, []);
+  const { live } = useAdminLive();
+  const liveVisitors = live?.visitors ?? visitors;
+  const wa = live?.whatsapp ?? whatsapp;
 
   if (liveVisitors.length === 0 && wa.length === 0) {
     return (
