@@ -44,13 +44,6 @@ export default function AdminOverview({
     <section className="adminOverview">
       {rows.map((metric) => {
         const liveOn = metric.id === "live" && metric.value > 0;
-        const meta = !metric.hasSource
-          ? metric.empty
-          : metric.value === 0
-            ? metric.empty
-            : metric.id === "live"
-              ? "Şu an"
-              : "Bugün";
 
         return (
           <Link
@@ -63,7 +56,6 @@ export default function AdminOverview({
               {liveOn ? <i className="adminLiveDot" aria-hidden="true" /> : null}
               {metric.value}
             </strong>
-            <span>{meta}</span>
           </Link>
         );
       })}
