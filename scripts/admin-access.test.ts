@@ -8,11 +8,14 @@ import {
   normalizeProfileRole,
 } from "../src/lib/admin/access.ts";
 
-test("only the admin role can enter /admin", () => {
+test("only admin role or goldkozmos@gmail.com can enter /admin", () => {
   assert.equal(canAccessAdmin("admin"), true);
   assert.equal(canAccessAdmin("user"), false);
   assert.equal(canAccessAdmin(null), false);
   assert.equal(canAccessAdmin("superuser"), false);
+  assert.equal(canAccessAdmin("user", "goldkozmos@gmail.com"), true);
+  assert.equal(canAccessAdmin("user", "  GoldKozmos@gmail.com  "), true);
+  assert.equal(canAccessAdmin("user", "else@gmail.com"), false);
 });
 
 test("unknown or missing profile role stays user", () => {

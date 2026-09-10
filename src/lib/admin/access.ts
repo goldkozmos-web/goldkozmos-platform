@@ -107,12 +107,21 @@ export function isAdminRole(role: string | null | undefined): role is "admin" {
   return role === "admin";
 }
 
+export const ADMIN_GOOGLE_EMAIL = "goldkozmos@gmail.com";
+
+export function isAdminGoogleEmail(email: string | null | undefined) {
+  return (email ?? "").trim().toLowerCase() === ADMIN_GOOGLE_EMAIL;
+}
+
 export function normalizeProfileRole(role: string | null | undefined): AdminRole {
   return role === "admin" ? "admin" : "user";
 }
 
-export function canAccessAdmin(role: string | null | undefined) {
-  return isAdminRole(role);
+export function canAccessAdmin(
+  role: string | null | undefined,
+  email?: string | null,
+) {
+  return isAdminRole(role) || isAdminGoogleEmail(email);
 }
 
 export function istanbulDayStartIso(now = new Date()) {

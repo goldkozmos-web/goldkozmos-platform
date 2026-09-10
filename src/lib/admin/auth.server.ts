@@ -2,7 +2,12 @@ import { redirect } from "next/navigation";
 
 import { createSupabaseServerClient } from "../supabase/create-server-client";
 import { profilimUserFromAuth } from "../profilim/userFromAuth";
-import { canAccessAdmin, normalizeProfileRole, type AdminActor } from "./access";
+import {
+  canAccessAdmin,
+  isAdminGoogleEmail,
+  normalizeProfileRole,
+  type AdminActor,
+} from "./access";
 
 export type AdminAccess =
   | { status: "unconfigured" }
@@ -58,9 +63,9 @@ export async function getAdminAccess(): Promise<AdminAccess> {
     });
   }
 
-  const role = normalizeProfileRole(
-    row?.role || (row?.is_admin ? "admin" : "user"),
-  );
+  const role = isAdminGoogleEmail(actorBase.email)
+    ? "admin"
+    : normalizeProfileRole(row?.role || (row?.is_admin ? "admin" : "user"));
   const actor: AdminActor = {
     id: actorBase.id,
     displayName: row?.display_name?.trim() || actorBase.displayName,
