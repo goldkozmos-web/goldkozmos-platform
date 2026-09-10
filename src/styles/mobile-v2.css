@@ -3086,9 +3086,13 @@
 
   .aboutCompactPage
   .aboutCompactApproach
+  h2,
+  .aboutCompactPage
+  .aboutCompactManifesto
   h2 {
-    font-size: 31px !important;
-    line-height: 1.02 !important;
+    font-size: 28px !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.03em !important;
   }
 
   .aboutCompactPage
