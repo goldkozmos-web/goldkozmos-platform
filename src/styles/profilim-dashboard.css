@@ -602,44 +602,14 @@
     line-height: 1.55 !important;
   }
 
-  .profilimPage .siteGlobalBackToTop {
-    position: fixed !important;
-    right: 14px !important;
-    bottom: calc(104px + env(safe-area-inset-bottom, 0px)) !important;
-    z-index: 40 !important;
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    color: #d9ad58 !important;
-    text-decoration: none !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-  }
-
+  .profilimPage .siteGlobalBackToTop,
   .profilimPage .siteGlobalBackToTop::before,
-  .profilimPage .siteGlobalBackToTop::after {
-    content: none !important;
-    display: none !important;
-  }
-
+  .profilimPage .siteGlobalBackToTop::after,
   .profilimPage .siteGlobalBackToTop > span {
-    color: #dcb466 !important;
-    font-size: 28px !important;
-    font-weight: 500 !important;
-    line-height: 1 !important;
-    transform: none !important;
-    text-shadow: none !important;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
   }
 }
 
