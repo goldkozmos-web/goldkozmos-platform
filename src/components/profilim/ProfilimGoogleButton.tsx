@@ -1,11 +1,17 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { signInWithGoogle } from "../../lib/profilim/auth.client";
 
 export default function ProfilimGoogleButton() {
-  const [error, setError] = useState("");
+  const searchParams = useSearchParams();
+  const [error, setError] = useState(
+    searchParams.get("auth") === "error"
+      ? "Google girişi tamamlanamadı. Tekrar dene."
+      : "",
+  );
   const [pending, setPending] = useState(false);
 
   async function handleClick() {

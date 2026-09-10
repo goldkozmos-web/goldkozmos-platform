@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import ProfilimGoogleButton from "./ProfilimGoogleButton";
 
 export default function ProfilimGate() {
@@ -16,7 +18,9 @@ export default function ProfilimGate() {
         <span />
         <small>Kendi Kozmosunu Bul.</small>
       </div>
-      <ProfilimGoogleButton />
+      <Suspense>
+        <ProfilimGoogleButton />
+      </Suspense>
     </section>
   );
 }
