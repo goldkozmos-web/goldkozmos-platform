@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { PLATFORM_CATALOG } from "../data/platformFlow";
+import { usePlayback } from "./platform/PlaybackProvider";
+import PlatformProgressCard from "./platform/PlatformProgressCard";
 
 function HomeIcon() {
   return (
@@ -48,6 +50,9 @@ export default function MobileBottomBar() {
   useEffect(() => {
     if (!goldsOpen) return;
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setGoldsOpen(false);
@@ -55,7 +60,10 @@ export default function MobileBottomBar() {
     };
 
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
   }, [goldsOpen]);
 
   function openWhatsApp() {
@@ -73,6 +81,7 @@ export default function MobileBottomBar() {
     });
   }
 
+  const { forPlatform } = usePlayback();
   const atHome = pathname === "/";
   const goldsActive = PLATFORM_CATALOG.some((item) =>
     pathname.startsWith(item.href),
@@ -94,17 +103,32 @@ export default function MobileBottomBar() {
         <div
           className="goldkozmosMobileGoldsSheet"
           role="dialog"
-          aria-label="Golds"
+          aria-modal="true"
+          aria-labelledby="goldkozmosGoldsTitle"
         >
+          <div className="goldkozmosMobileGoldsTop">
+            <div>
+              <p className="goldkozmosMobileGoldsEyebrow">GOLDS</p>
+              <strong id="goldkozmosGoldsTitle">GoldKozmos alanları</strong>
+            </div>
+            <button
+              type="button"
+              className="goldkozmosMobileGoldsClose"
+              aria-label="Kapat"
+              onClick={() => setGoldsOpen(false)}
+            >
+              ×
+            </button>
+          </div>
           <div className="goldkozmosMobileGoldsTrack">
             {PLATFORM_CATALOG.map((item) => (
-              <Link
+              <PlatformProgressCard
                 key={item.id}
-                href={item.href}
-                onClick={() => setGoldsOpen(false)}
-              >
-                {item.name}
-              </Link>
+                platform={item}
+                progress={forPlatform(item.id)}
+                className="goldsPopupCard"
+                onOpen={() => setGoldsOpen(false)}
+              />
             ))}
           </div>
         </div>

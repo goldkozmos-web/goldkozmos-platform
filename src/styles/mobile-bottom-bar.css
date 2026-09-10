@@ -111,61 +111,214 @@
   .goldkozmosMobileGoldsBackdrop {
     position: fixed;
     inset: 0;
-    z-index: 99998;
+    z-index: 100020;
     display: block;
     border: 0;
     padding: 0;
-    background: transparent;
+    background: rgba(16, 10, 6, 0.52);
     cursor: pointer;
   }
 
   .goldkozmosMobileGoldsSheet {
     position: fixed;
-    left: 18px;
-    right: 18px;
-    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
-    z-index: 100000;
-    display: block;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 8px;
-    border: 1px solid rgba(210, 166, 82, 0.28);
-    border-radius: 16px;
-    background: rgba(22, 14, 10, 0.94);
-    box-shadow: 0 12px 28px rgba(18, 10, 6, 0.32);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    scrollbar-width: none;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    bottom: auto;
+    z-index: 100021;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: auto;
+    max-width: none;
+    max-height: min(74dvh, 640px);
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid rgba(176, 130, 48, 0.22);
+    border-radius: 26px;
+    background: #efe6d6;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.55) inset,
+      0 24px 56px rgba(28, 16, 8, 0.34);
+    transform: translateY(-50%);
   }
 
-  .goldkozmosMobileGoldsSheet::-webkit-scrollbar {
-    display: none;
+  .goldkozmosMobileGoldsTop {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    flex: 0 0 auto;
+    padding: 16px 16px 12px;
+    background: #efe6d6;
+    border-bottom: 1px solid rgba(176, 130, 48, 0.14);
+  }
+
+  .goldkozmosMobileGoldsEyebrow {
+    margin: 0 0 5px;
+    color: #8d6728;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+  }
+
+  .goldkozmosMobileGoldsTop strong {
+    display: block;
+    color: #1f160f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .goldkozmosMobileGoldsClose {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(176, 130, 48, 0.24);
+    border-radius: 50%;
+    background: #fffaf1;
+    color: #6b4e1f;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
   }
 
   .goldkozmosMobileGoldsTrack {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 6px;
-    width: max-content;
+    display: grid;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 16px 14px 22px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
-  .goldkozmosMobileGoldsSheet a {
-    flex: 0 0 auto;
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard {
+    display: grid;
+    align-content: start;
+    gap: 3px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
     min-width: 0;
-    min-height: 36px;
-    padding: 0 13px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: #e3bc70;
+    min-height: 0;
+    padding: 14px 16px 13px;
+    overflow: hidden;
+    color: #f6ead4;
     text-decoration: none;
-    border: 1px solid rgba(210, 166, 82, 0.34);
-    border-radius: 999px;
-    background: rgba(255, 248, 235, 0.04);
-    box-shadow: none;
+    border: 1px solid rgba(232, 196, 118, 0.34);
+    border-radius: 18px;
+    background:
+      linear-gradient(180deg, rgba(255, 244, 220, 0.12), transparent 28%),
+      linear-gradient(165deg, #433226 0%, #2a1c13 58%, #1f1510 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 248, 232, 0.16) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.28) inset,
+      0 1px 2px rgba(12, 6, 3, 0.18),
+      0 8px 18px rgba(12, 6, 3, 0.22);
+    transform: translateY(0);
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard:hover,
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard:focus-visible {
+    border-color: rgba(240, 212, 138, 0.55);
+    box-shadow:
+      0 1px 0 rgba(255, 248, 232, 0.22) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.22) inset,
+      0 10px 18px rgba(12, 6, 3, 0.18),
+      0 18px 32px rgba(12, 6, 3, 0.28);
+    transform: translateY(-6px);
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard:active {
+    border-color: rgba(240, 212, 138, 0.45);
+    transform: translateY(-3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard,
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard:hover,
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard:focus-visible,
+    .goldkozmosMobileGoldsSheet a.goldsPopupCard:active {
+      transition: none;
+      transform: none;
+    }
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailMark {
+    display: none !important;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard strong {
+    color: #f6e6c8;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailTagline {
+    margin: 0 0 2px;
+    color: rgba(247, 234, 208, 0.72);
     font-size: 12px;
-    font-weight: 650;
-    letter-spacing: 0.02em;
-    white-space: nowrap;
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailEmpty,
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailPercent {
+    color: rgba(247, 234, 208, 0.62);
+    font-size: 12px;
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailResume {
+    color: #f3e2c0;
+    font-size: 12px;
+    line-height: 1.35;
+    -webkit-line-clamp: 2;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailEmpty {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformRailPercent {
+    display: none;
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformProgressTrack {
+    display: block;
+    width: 100%;
+    height: 3px;
+    margin-top: 6px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(247, 234, 208, 0.16);
+  }
+
+  .goldkozmosMobileGoldsSheet a.goldsPopupCard .platformProgressTrack i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #9e7224, #dfc078);
   }
 }
