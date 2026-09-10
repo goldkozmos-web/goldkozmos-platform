@@ -27,11 +27,7 @@ export default function ProfilimHero({
     <header className="profilimHero">
       <div className="profilimHeroTop">
         {user.avatarUrl ? (
-          <img
-            className="profilimAvatar"
-            src={user.avatarUrl}
-            alt=""
-          />
+          <img className="profilimAvatar" src={user.avatarUrl} alt="" />
         ) : (
           <span className="profilimAvatar" aria-hidden="true">
             {initials(user.displayName)}
@@ -39,14 +35,9 @@ export default function ProfilimHero({
         )}
 
         <div className="profilimHeroCopy">
-          <p className="profilimHeroEyebrow">GOLDKOZMOS · PROFİLİM</p>
+          <p className="profilimHeroEyebrow">PROFİLİM</p>
           <h1>{user.displayName}</h1>
-          {user.email ? (
-            <p className="profilimLevelLabel">{user.email}</p>
-          ) : null}
-          <p className="profilimLevelLabel">
-            Seviye {level.level} · {level.title}
-          </p>
+          {user.email ? <p className="profilimHeroEmail">{user.email}</p> : null}
         </div>
 
         <button
@@ -58,19 +49,21 @@ export default function ProfilimHero({
         </button>
       </div>
 
+      <div className="profilimHeroLevel">
+        <span>
+          Seviye {level.level} · {level.title}
+        </span>
+        <strong>
+          {level.xpIntoLevel} / {level.xpForNextLevel} XP
+        </strong>
+      </div>
+
       <div className="profilimLevelBar" aria-label="Gelişim seviyesi">
         <span
           className="profilimLevelBarFill"
           style={{ width: `${percent}%` }}
         />
       </div>
-
-      <p className="profilimHeroMeta">
-        <strong>
-          {level.xpIntoLevel} / {level.xpForNextLevel} XP
-        </strong>
-        <span>İçerik tamamlayınca artar</span>
-      </p>
     </header>
   );
 }
