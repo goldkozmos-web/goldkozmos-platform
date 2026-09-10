@@ -69,13 +69,13 @@ export const energyWorks: EnergyWork[] = [
     title: "Mekan Enerjisi Temizliği",
     priceLabel: ENERGY_WORKS_PRICE,
     duration: "45–60 dk",
-    format: "Online / birebir",
+    format: "Online birebir",
     shortDescription:
       "Yaşam veya çalışma alanındaki durağanlığı azaltıp daha düzenli ve ferah bir ortam hissi oluşturmaya yönelik çalışma.",
     suitableFor:
       "Evde veya iş yerinde huzursuzluk, ağırlık hissedenler için.",
     howItWorks:
-      "Mekân bilgisi alınır, ardından uzaktan temizleme ve niyet çalışması yapılır.",
+      "Mekân bilgisi alınır, ardından temizleme ve niyet çalışması yapılır.",
     imageSrc: "/energy/mekan-enerjisi-temizligi.webp.jpeg",
     shopierUrl: "https://www.shopier.com/goldkozmos/50313275",
   },

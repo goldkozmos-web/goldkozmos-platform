@@ -23,7 +23,7 @@ const otherWorks = [
   {
     number: "01",
     title: "Tek Birebir Seans",
-    text: "Belirli bir konuya odaklanan 50 dakikalık birebir görüşme.",
+    text: "Belirli bir konuya odaklanan 90 dakikalık birebir görüşme.",
     image: "/images/services/birebir-seans.webp",
     href: "/calismalar/enerji-calismalari",
     cta: "Detayları Gör",

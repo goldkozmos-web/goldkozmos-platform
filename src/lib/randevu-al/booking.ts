@@ -10,7 +10,7 @@ export type RandevuServiceCard = {
 export const BIREBIR_SERVICE_CARDS: RandevuServiceCard[] = [
   {
     name: "Tek Birebir Seans",
-    duration: "50 dk",
+    duration: "90 dk",
     format: "Online birebir",
     note: "Tek bir konuya odaklanan görüşme.",
   },
@@ -44,7 +44,7 @@ export const ENERJI_SERVICE_CARDS: RandevuServiceCard[] = [
   {
     name: "Mekan Enerjisi Temizliği",
     duration: "45–60 dk",
-    format: "Online / uzaktan",
+    format: "Online birebir",
     note: "Ev veya çalışma alanındaki durağanlığı açar.",
   },
   {

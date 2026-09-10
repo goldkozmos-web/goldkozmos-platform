@@ -110,7 +110,7 @@ export default function OneToOneDetailSection() {
 
             <div className="oneToOneCompactMeta">
               <span>Online</span>
-              <span>50–60 Dakika</span>
+              <span>90 Dakika</span>
             </div>
 
             <div className="oneToOneCompactBottom">

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  BIREBIR_SERVICE_CARDS,
   ENERJI_SERVICE_CARDS,
   canSubmitRandevuRequest,
   randevuMinIso,
@@ -47,7 +48,15 @@ test("energy cards keep real duration and the original WhatsApp names", () => {
   const cakra = ENERJI_SERVICE_CARDS.find(
     (service) => service.name === "7 Çakra Dengeleme",
   );
+  const mekan = ENERJI_SERVICE_CARDS.find(
+    (service) => service.name === "Mekan Enerjisi Temizliği",
+  );
+  const birebir = BIREBIR_SERVICE_CARDS.find(
+    (service) => service.name === "Tek Birebir Seans",
+  );
   assert.ok(cakra);
   assert.equal(cakra?.duration, "45–60 dk");
+  assert.equal(mekan?.format, "Online birebir");
+  assert.equal(birebir?.duration, "90 dk");
   assert.match(randevuMinIso(new Date("2026-09-10T12:00:00")), /2026-09-11/);
 });
