@@ -5,6 +5,10 @@ export type ProfileAdminFlags = {
   is_admin: boolean | null;
 };
 
+function isTruthyAdminFlag(value: unknown) {
+  return value === true || value === 1 || value === "1" || value === "true" || value === "t";
+}
+
 export function isAdminProfile(
   profile: ProfileAdminFlags | null | undefined,
 ) {
@@ -12,7 +16,15 @@ export function isAdminProfile(
     return false;
   }
 
-  return profile.role === "admin" || profile.is_admin === true;
+  const role = String(profile.role ?? "").trim().toLowerCase();
+  return role === "admin" || isTruthyAdminFlag(profile.is_admin);
+}
+
+export function canShowMemberProfilim(
+  user: { isAdmin?: boolean } | null | undefined,
+  checking: boolean,
+) {
+  return Boolean(user) && !checking;
 }
 
 export function postLoginPath(

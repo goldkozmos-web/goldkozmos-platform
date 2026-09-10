@@ -1,11 +1,17 @@
-import AdminEmpty from "../../../components/admin/AdminEmpty";
+import AdminEventList from "../../../components/admin/AdminEventList";
+import { loadAdminLive } from "../../../lib/admin/load";
 
-export default function AdminAppointmentsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AdminAppointmentsPage() {
+  const live = await loadAdminLive();
+
   return (
-    <AdminEmpty
+    <AdminEventList
       eyebrow="Randevular"
-      title="Randevu kaydı henüz bağlı değil"
-      text="Talepler WhatsApp üzerinden gidiyor. Burada sahte liste yok."
+      emptyTitle="Bugün randevu geçişi yok"
+      emptyText="Randevu Al’dan WhatsApp’a giden ziyaretçiler burada Ziyaretçi olarak görünür."
+      items={live.appointments}
     />
   );
 }

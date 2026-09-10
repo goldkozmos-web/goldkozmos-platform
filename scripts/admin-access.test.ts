@@ -8,12 +8,14 @@ import {
   normalizeProfileRole,
 } from "../src/lib/admin/access.ts";
 import {
+  canShowMemberProfilim,
   isAdminProfile,
   postLoginPath,
 } from "../src/lib/admin/profile.ts";
 
 test("admin access comes from profile role or is_admin, not email", () => {
   assert.equal(canAccessAdmin("admin"), true);
+  assert.equal(canAccessAdmin("ADMIN"), true);
   assert.equal(canAccessAdmin("user", true), true);
   assert.equal(canAccessAdmin("user", false), false);
   assert.equal(canAccessAdmin(null), false);
@@ -23,7 +25,8 @@ test("admin access comes from profile role or is_admin, not email", () => {
 test("unknown or missing profile role stays user", () => {
   assert.equal(normalizeProfileRole(undefined), "user");
   assert.equal(normalizeProfileRole("admin"), "admin");
-  assert.equal(normalizeProfileRole("ADMIN"), "user");
+  assert.equal(normalizeProfileRole("ADMIN"), "admin");
+  assert.equal(normalizeProfileRole(" admin "), "admin");
 });
 
 test("metrics without a source stay at zero instead of invented counts", () => {
@@ -34,11 +37,19 @@ test("metrics without a source stay at zero instead of invented counts", () => {
 
 test("login path follows the own profiles row", () => {
   assert.equal(isAdminProfile({ role: "admin", is_admin: false }), true);
+  assert.equal(isAdminProfile({ role: "ADMIN", is_admin: false }), true);
   assert.equal(isAdminProfile({ role: "user", is_admin: true }), true);
   assert.equal(isAdminProfile({ role: "user", is_admin: false }), false);
   assert.equal(postLoginPath({ role: "admin", is_admin: true }), "/admin");
   assert.equal(postLoginPath({ role: "user", is_admin: false }), "/profilim");
   assert.equal(postLoginPath(null), "/profilim");
+});
+
+test("member Profilim tiles stay visible for admin accounts", () => {
+  assert.equal(canShowMemberProfilim({ isAdmin: false }, true), false);
+  assert.equal(canShowMemberProfilim({ isAdmin: true }, false), true);
+  assert.equal(canShowMemberProfilim({ isAdmin: false }, false), true);
+  assert.equal(canShowMemberProfilim(null, false), false);
 });
 
 test("Istanbul day start is a real timestamptz, not a fake clock", () => {

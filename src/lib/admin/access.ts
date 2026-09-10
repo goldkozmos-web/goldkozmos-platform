@@ -49,15 +49,15 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
     id: "visits",
     title: "Bugünkü Ziyaretler",
     href: "/admin/aktivite",
-    hasSource: false,
-    empty: "Ziyaret takibi henüz bağlı değil.",
+    hasSource: true,
+    empty: "Bugün henüz ziyaretçi yok.",
   },
   {
     id: "live",
     title: "Canlı Kullanıcılar",
     href: "/admin/aktivite",
-    hasSource: false,
-    empty: "Canlı oturum takibi henüz bağlı değil.",
+    hasSource: true,
+    empty: "Şu an sitede ziyaretçi yok.",
   },
   {
     id: "members",
@@ -70,29 +70,29 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
     id: "appointments",
     title: "Randevu Talepleri",
     href: "/admin/randevular",
-    hasSource: false,
-    empty: "Randevu talebi kaydı henüz bağlı değil.",
+    hasSource: true,
+    empty: "Bugün randevu geçişi yok.",
   },
   {
     id: "whatsapp",
     title: "WhatsApp Geçişleri",
     href: "/admin/aktivite",
-    hasSource: false,
-    empty: "WhatsApp geçiş takibi henüz bağlı değil.",
+    hasSource: true,
+    empty: "Bugün WhatsApp geçişi yok.",
   },
   {
     id: "purchases",
     title: "Satın Alma Tıklamaları",
     href: "/admin/satin-almalar",
-    hasSource: false,
-    empty: "Satın alma tıklama takibi henüz bağlı değil.",
+    hasSource: true,
+    empty: "Bugün satın alma tıklaması yok.",
   },
   {
     id: "notifications",
     title: "Yeni Bildirimler",
     href: "/admin/bildirimler",
-    hasSource: false,
-    empty: "Yönetim bildirimi henüz bağlı değil.",
+    hasSource: true,
+    empty: "Okunmamış bildirim yok.",
   },
   {
     id: "suggestions",
@@ -104,11 +104,11 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
 ];
 
 export function isAdminRole(role: string | null | undefined): role is "admin" {
-  return role === "admin";
+  return String(role ?? "").trim().toLowerCase() === "admin";
 }
 
 export function normalizeProfileRole(role: string | null | undefined): AdminRole {
-  return role === "admin" ? "admin" : "user";
+  return isAdminRole(role) ? "admin" : "user";
 }
 
 export function canAccessAdmin(

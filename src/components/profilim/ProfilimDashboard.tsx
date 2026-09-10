@@ -31,7 +31,11 @@ import {
   getProgressForPlatform,
   readPlatformProgressMap,
 } from "../../lib/platformProgress";
-import { fetchOwnProfileFlags, isAdminProfile } from "../../lib/admin/profile";
+import {
+  canShowMemberProfilim,
+  fetchOwnProfileFlags,
+  isAdminProfile,
+} from "../../lib/admin/profile";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import ProfilimCompactTile from "./ProfilimCompactTile";
 import ProfilimDrawer from "./ProfilimDrawer";
@@ -101,32 +105,33 @@ export default function ProfilimDashboard({
       return;
     }
 
+    const client = supabase;
     let cancelled = false;
 
-    void supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (cancelled) return;
-      const next = profilimUserFromAuth(session?.user ?? null);
-      if (next) {
-        const flags = await fetchOwnProfileFlags(supabase, next.id);
-        next.isAdmin = isAdminProfile(flags);
+    async function resolveUser(sessionUser: Parameters<typeof profilimUserFromAuth>[0]) {
+      const next = profilimUserFromAuth(sessionUser);
+      if (!next) {
+        if (!cancelled) {
+          setUser(null);
+          setChecking(false);
+        }
+        return;
       }
+
+      const flags = await fetchOwnProfileFlags(client, next.id);
       if (cancelled) return;
-      setUser(next);
+      setUser({ ...next, isAdmin: isAdminProfile(flags) });
       setChecking(false);
+    }
+
+    void client.auth.getSession().then(({ data: { session } }) => {
+      void resolveUser(session?.user ?? null);
     });
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      void (async () => {
-        const next = profilimUserFromAuth(session?.user ?? null);
-        if (next) {
-          const flags = await fetchOwnProfileFlags(supabase, next.id);
-          next.isAdmin = isAdminProfile(flags);
-        }
-        setUser(next);
-        setChecking(false);
-      })();
+    } = client.auth.onAuthStateChange((_event, session) => {
+      void resolveUser(session?.user ?? null);
     });
 
     return () => {
@@ -162,12 +167,6 @@ export default function ProfilimDashboard({
       }),
     );
   }, []);
-
-  useEffect(() => {
-    if (data.user?.isAdmin || user?.isAdmin) {
-      window.location.replace("/admin");
-    }
-  }, [data.user?.isAdmin, user?.isAdmin]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -243,19 +242,7 @@ export default function ProfilimDashboard({
 
   const latest = continueItems[0];
   const meta = open ? DRAWERS[open] : null;
-
-  if (data.user?.isAdmin || user?.isAdmin) {
-    return (
-      <section className="profilimDash">
-        <div className="profilimDashInner">
-          <section className="profilimGate">
-            <p className="profilimGateEyebrow">GOLDKOZMOS · YÖNETİM</p>
-            <h1>Yönetim paneline alınıyorsun…</h1>
-          </section>
-        </div>
-      </section>
-    );
-  }
+  const showMemberTiles = canShowMemberProfilim(user, checking);
 
   return (
     <section className="profilimDash">
@@ -265,9 +252,9 @@ export default function ProfilimDashboard({
             <p className="profilimGateEyebrow">GOLDKOZMOS · PROFİLİM</p>
             <h1>Profilin açılıyor…</h1>
           </section>
-        ) : view.user ? (
+        ) : showMemberTiles ? (
           <>
-            <ProfilimHero user={view.user} level={view.level} />
+            {user ? <ProfilimHero user={user} level={view.level} /> : null}
 
             <div className="profilimFeaturedStack">
               <ProfilimFeaturedCard

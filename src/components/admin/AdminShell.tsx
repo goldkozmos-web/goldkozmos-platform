@@ -24,6 +24,9 @@ export default function AdminShell({
         <p className="adminActor">
           {actor.displayName}
           <span>admin</span>
+          <Link className="adminProfilimLink" href="/profilim">
+            Profilim
+          </Link>
         </p>
       </header>
 

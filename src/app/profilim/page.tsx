@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import type { Metadata } from "next";
 
 import FooterSection from "../../components/FooterSection";
@@ -18,10 +17,6 @@ export const metadata: Metadata = {
 
 export default async function ProfilimPage() {
   const data = await loadProfilimDashboard();
-
-  if (data.user?.isAdmin) {
-    redirect("/admin");
-  }
 
   return (
     <main className="homePage profilimPage" id="top">

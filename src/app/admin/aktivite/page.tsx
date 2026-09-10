@@ -1,11 +1,12 @@
-import AdminEmpty from "../../../components/admin/AdminEmpty";
+import AdminActivity from "../../../components/admin/AdminActivity";
+import { loadAdminLive } from "../../../lib/admin/load";
 
-export default function AdminActivityPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AdminActivityPage() {
+  const live = await loadAdminLive();
+
   return (
-    <AdminEmpty
-      eyebrow="Aktivite"
-      title="Aktivite henüz bağlı değil"
-      text="Ziyaret, canlı oturum ve WhatsApp geçişi için event tracking bu görevde kurulmadı."
-    />
+    <AdminActivity visitors={live.visitors} whatsapp={live.whatsapp} />
   );
 }
