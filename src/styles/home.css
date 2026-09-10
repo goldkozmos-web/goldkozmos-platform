@@ -20105,6 +20105,140 @@ font-size:32px;
   line-height: 1.7;
 }
 
+.aboutCompactReadMore {
+  display: inline-flex;
+  align-items: center;
+  margin: 16px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #a1772d;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.aboutCompactReadMore:hover {
+  color: #7f5c24;
+}
+
+.aboutCompactReaderBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100050;
+  padding: 28px;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 13, 9, 0.72);
+  backdrop-filter: blur(9px);
+}
+
+.aboutCompactReaderPaper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(980px, 100%);
+  height: min(90vh, 920px);
+  overflow: hidden;
+  border: 1px solid rgba(206, 161, 75, 0.36);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 92% 4%, rgba(206, 161, 75, 0.1), transparent 25%),
+    #fffdf8;
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.aboutCompactReaderTopbar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 5;
+  min-height: 72px;
+  padding: 0 18px 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid rgba(173, 129, 48, 0.13);
+  background: rgba(255, 253, 248, 0.94);
+  backdrop-filter: blur(15px);
+}
+
+.aboutCompactReaderBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #9c742d;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.aboutCompactReaderBrand span {
+  width: 29px;
+  height: 29px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(171, 127, 45, 0.27);
+  border-radius: 50%;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11px;
+}
+
+.aboutCompactReaderClose {
+  width: 38px;
+  min-height: 38px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(166, 121, 41, 0.24);
+  border-radius: 50%;
+  background: #fffaf1;
+  color: #7f5c24;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.aboutCompactReaderScroll {
+  flex: 1;
+  min-height: 0;
+  padding: 96px 0 48px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.aboutCompactReaderScroll > .aboutCompactEyebrow {
+  width: min(760px, calc(100% - 64px));
+  margin: 0 auto 12px;
+}
+
+.aboutCompactReaderScroll > h2 {
+  width: min(760px, calc(100% - 64px));
+  margin: 0 auto;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 4.4vw, 48px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+.aboutCompactReaderScroll > h2 span {
+  color: #9a7631;
+}
+
+.aboutCompactReaderScroll .aboutCompactStats {
+  margin-top: 28px;
+}
+
+.aboutCompactReaderScroll .aboutCompactManifesto {
+  margin: 0;
+  border-radius: 0;
+}
+
 .aboutCompactHeroActions {
   display: flex;
 
@@ -37710,15 +37844,17 @@ h1 span {
 
     justify-self: end !important;
 
-    aspect-ratio: 0.96 / 1 !important;
+    aspect-ratio: auto !important;
   }
 
   .aboutCompactPage .aboutCompactPortrait img {
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
+
+    aspect-ratio: 4 / 5 !important;
 
     object-fit: cover !important;
-    object-position: center 18% !important;
+    object-position: 50% 12% !important;
   }
 }.homeV3Faq {
   padding: 72px 0 78px !important;

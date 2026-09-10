@@ -2818,6 +2818,49 @@
     margin-top: 10px !important;
   }
 
+  .aboutCompactPage
+  .aboutCompactReadMore {
+    margin-top: 14px !important;
+    font-size: 13px !important;
+  }
+
+  .aboutCompactReaderBackdrop {
+    padding: 16px 12px 24px !important;
+    z-index: 100050 !important;
+  }
+
+  .aboutCompactReaderPaper {
+    width: min(440px, 100%) !important;
+    height: min(82dvh, 760px) !important;
+    border-radius: 22px !important;
+  }
+
+  .aboutCompactReaderTopbar {
+    min-height: 62px !important;
+    padding: 0 12px 0 16px !important;
+  }
+
+  .aboutCompactReaderScroll {
+    padding: 82px 0 36px !important;
+  }
+
+  .aboutCompactReaderScroll > .aboutCompactEyebrow,
+  .aboutCompactReaderScroll > h2 {
+    width: min(100% - 32px, 100%) !important;
+  }
+
+  .aboutCompactReaderScroll > h2 {
+    font-size: 26px !important;
+  }
+
+  .aboutCompactReaderScroll .aboutCompactStats,
+  .aboutCompactReaderScroll .aboutCompactStory,
+  .aboutCompactReaderScroll .aboutCompactApproach,
+  .aboutCompactReaderScroll .aboutCompactManifesto {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
 
   /* BUTONLAR */
 
