@@ -106,9 +106,13 @@ function AccountBody({ user }: { user: NonNullable<ProfilimUser> }) {
           <dd>
             <input
               className="ayarlarNameInput"
+              type="text"
+              name="displayName"
               value={name}
               maxLength={80}
               autoComplete="name"
+              placeholder="Ad soyadın"
+              aria-label="Ad soyad"
               onChange={(event) => setName(event.target.value)}
             />
           </dd>
