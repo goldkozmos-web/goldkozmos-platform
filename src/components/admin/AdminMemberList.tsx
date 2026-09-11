@@ -29,7 +29,7 @@ export default function AdminMemberList({
       <AdminEmpty
         eyebrow="Üyeler"
         title="Henüz üye görünmüyor"
-        text="Google ile girenler otomatik alınır. Arkadaşını e-posta ile de kalıcı üye yapabilirsin."
+        text="Google ile girenler otomatik alınır. E-posta ile de ekleyebilirsin."
         quiet
       />
     );
@@ -104,44 +104,52 @@ export function AdminMemberDesk({
     await refresh();
   }
 
+  const form = (
+    <form className="adminCompose" onSubmit={(event) => void addMember(event)}>
+      <header className="adminPanelHead">
+        <div>
+          <p className="adminSectionLabel">Kalıcı üye ekle</p>
+          <h2>Yeni üyelik</h2>
+        </div>
+      </header>
+      <div className="adminFields">
+        <label>
+          Ad
+          <input
+            value={displayName}
+            onChange={(event) => setDisplayName(event.target.value)}
+            placeholder="Arkadaşının adı"
+            maxLength={80}
+            required
+          />
+        </label>
+        <label>
+          E-posta
+          <input
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="ornek@gmail.com"
+            maxLength={120}
+            required
+          />
+        </label>
+      </div>
+      <button type="submit" disabled={pending}>
+        {pending ? "Kaydediliyor…" : "Üyeliği kaydet"}
+      </button>
+      {status ? <p className="adminHint">{status}</p> : null}
+    </form>
+  );
+
+  if (compact) {
+    return form;
+  }
+
   return (
     <div className="adminStack">
-      <form className="adminCompose" onSubmit={(event) => void addMember(event)}>
-        <header className="adminPanelHead">
-          <div>
-            <p className="adminSectionLabel">Kalıcı üye ekle</p>
-            <h2>Yeni üyelik</h2>
-          </div>
-        </header>
-        <div className="adminFields">
-          <label>
-            Ad
-            <input
-              value={displayName}
-              onChange={(event) => setDisplayName(event.target.value)}
-              placeholder="Arkadaşının adı"
-              maxLength={80}
-              required
-            />
-          </label>
-          <label>
-            E-posta
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="ornek@gmail.com"
-              maxLength={120}
-              required
-            />
-          </label>
-        </div>
-        <button type="submit" disabled={pending}>
-          {pending ? "Kaydediliyor…" : "Üyeliği kaydet"}
-        </button>
-        {status ? <p className="adminHint">{status}</p> : null}
-      </form>
-      {compact ? null : <AdminMemberList members={members} />}
+      {form}
+      <AdminMemberList members={members} />
     </div>
   );
 }

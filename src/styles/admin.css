@@ -277,19 +277,13 @@
 }
 
 .adminDesk {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 16px;
-  align-items: stretch;
+  align-items: start;
 }
 
 .adminDesk > .adminStack {
   gap: 0;
-}
-
-.adminDesk > .adminStack,
-.adminDesk .adminCompose,
-.adminDesk .adminPanel {
-  min-height: 100%;
 }
 
 .adminSectionLabel {
@@ -299,20 +293,21 @@
 .adminPanel,
 .adminCompose {
   display: grid;
+  align-content: start;
   gap: 14px;
   padding: 20px 20px 18px;
 }
 
 .adminPanelHead {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
 }
 
 .adminPanelHead h2 {
-  font-size: 26px;
-  line-height: 1.05;
+  font-size: 22px;
+  line-height: 1.12;
 }
 
 .adminBadge.isLive {
@@ -323,12 +318,12 @@
 .adminQuiet {
   display: grid;
   gap: 4px;
-  padding: 6px 2px 4px;
+  padding: 2px 0 0;
 }
 
 .adminQuiet strong {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   color: #3a3228;
 }
@@ -468,6 +463,10 @@
   gap: 12px;
 }
 
+.adminDesk .adminFields {
+  grid-template-columns: 1fr;
+}
+
 .adminCompose input,
 .adminCompose select,
 .adminCompose textarea {
@@ -498,17 +497,24 @@
 }
 
 .adminEmpty.isQuiet {
-  padding: 22px 20px;
+  padding: 18px 20px;
 }
 
 .adminEmpty.isQuiet h2 {
-  font-size: 22px;
+  font-size: 20px;
 }
 
 @media (max-width: 900px) {
   .adminOverview,
-  .adminDesk,
   .adminFields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .adminDesk {
+    grid-template-columns: 1fr;
+  }
+
+  .adminDesk .adminFields {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -542,7 +548,8 @@
     font-size: 26px;
   }
 
-  .adminFields {
+  .adminFields,
+  .adminDesk .adminFields {
     grid-template-columns: 1fr;
   }
 

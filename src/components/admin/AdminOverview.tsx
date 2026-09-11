@@ -54,7 +54,7 @@ export default function AdminOverview({
           <header className="adminPanelHead">
             <div>
               <p className="adminSectionLabel">Şu an sitede</p>
-              <h2>Canlı ziyaret</h2>
+              <h2>Canlı</h2>
             </div>
             <span className={`adminBadge${liveNow.length ? " isLive" : ""}`}>
               {liveNow.length}
@@ -62,11 +62,8 @@ export default function AdminOverview({
           </header>
           {liveNow.length === 0 ? (
             <div className="adminQuiet">
-              <strong>Beklemede</strong>
-              <span>
-                Açık bir site sekmesi birkaç saniyede buraya düşer. Yönetim paneli
-                sayılmaz.
-              </span>
+              <strong>Sitede açık sekme yok</strong>
+              <span>Yönetim paneli sayılmaz. Birisi sitedeyken burada görünür.</span>
             </div>
           ) : (
             <div className="adminPresence">
