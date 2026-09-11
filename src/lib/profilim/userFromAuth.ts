@@ -29,11 +29,16 @@ export function profilimUserFromAuth(
       .find(Boolean) ||
     null;
   const metadata = user.user_metadata as Record<string, unknown> | undefined;
+  const phone =
+    (typeof user.phone === "string" && user.phone.trim()) ||
+    stringMeta(metadata, "phone") ||
+    "";
   const displayName =
     stringMeta(metadata, "full_name") ||
     stringMeta(metadata, "name") ||
     stringMeta(metadata, "display_name") ||
     email?.split("@")[0]?.trim() ||
+    phone ||
     "GoldKozmos";
 
   return {

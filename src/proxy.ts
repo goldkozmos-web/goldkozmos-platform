@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 import { getSupabasePublicEnv } from "./lib/supabase/env";
+import { lastingCookieOptions, supabaseCookieOptions } from "./lib/supabase/session";
 
 export async function proxy(request: NextRequest) {
   const env = getSupabasePublicEnv();
@@ -11,8 +12,10 @@ export async function proxy(request: NextRequest) {
   }
 
   let response = NextResponse.next({ request });
+  const host = request.nextUrl.hostname;
 
   const supabase = createServerClient(env.url, env.publishableKey, {
+    cookieOptions: supabaseCookieOptions(host),
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -25,7 +28,10 @@ export async function proxy(request: NextRequest) {
         response = NextResponse.next({ request });
 
         cookiesToSet.forEach(({ name, value, options }) => {
-          response.cookies.set(name, value, options);
+          response.cookies.set(name, value, {
+            ...options,
+            ...lastingCookieOptions(options as Record<string, unknown>, value),
+          });
         });
       },
     },

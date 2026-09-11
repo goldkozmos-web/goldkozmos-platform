@@ -34,7 +34,7 @@
   font-size: 11px;
   font-weight: 650;
   letter-spacing: 0.14em;
-  text-transform: none;
+  text-transform: none !important;
 }
 
 .adminBrand h1,
@@ -153,7 +153,7 @@
 .adminOverview {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
+  gap: 8px;
 }
 
 .adminEmpty,
@@ -162,66 +162,69 @@
 .adminPanel,
 .adminCompose,
 .adminHint {
-  border: 1px solid rgba(198, 168, 112, 0.28);
-  border-radius: 22px;
-  background:
-    linear-gradient(180deg, #ffffff 0%, #fcfaf6 68%, #f7f1e6 100%);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.95) inset,
-    0 18px 40px rgba(72, 48, 18, 0.05);
+  border: 1px solid rgba(198, 168, 112, 0.18);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: none;
 }
 
-.adminCard {
+.adminCard,
+.adminMetric {
   display: grid;
   align-content: space-between;
-  gap: 8px;
-  min-height: 124px;
-  padding: 16px 16px 14px;
-  border: 1px solid rgba(184, 150, 88, 0.18);
-  border-radius: 20px;
-  background: rgba(255, 253, 248, 0.88);
+  gap: 4px;
+  min-height: 78px;
+  padding: 11px 12px 10px;
+  border: 1px solid rgba(198, 168, 112, 0.16);
+  border-radius: 14px;
+  background: #ffffff;
   color: inherit;
   text-decoration: none;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
-  transition: border-color 160ms ease, transform 160ms ease;
+  box-shadow: none;
+  transition: border-color 160ms ease;
 }
 
-.adminCard:hover {
-  border-color: rgba(168, 124, 52, 0.4);
-  transform: translateY(-1px);
+.adminCard:hover,
+.adminMetric:hover {
+  border-color: rgba(168, 124, 52, 0.32);
+  transform: none;
 }
 
-.adminCard p {
+.adminCard p,
+.adminMetric p {
   margin: 0;
-  color: #7d6a4c;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0;
-  text-transform: none;
+  color: #8a7b68;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none !important;
 }
 
-.adminCard strong {
+.adminCard strong,
+.adminMetric strong {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: #1f1610;
-  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  font-size: 30px;
-  font-weight: 560;
+  gap: 7px;
+  color: #241910;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.04em;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+  letter-spacing: -0.03em;
   line-height: 1;
 }
 
 .adminCardHint {
-  color: #8d857c;
-  font-size: 12px;
-  line-height: 1.35;
+  color: #9a9187;
+  font-size: 11px;
+  line-height: 1.3;
 }
 
-.adminCard.isLive {
-  border-color: rgba(61, 140, 96, 0.22);
-  background: rgba(245, 250, 246, 0.92);
+.adminCard.isLive,
+.adminMetric.isLive {
+  border-color: rgba(61, 140, 96, 0.16);
+  background: #f8fbf9;
 }
 
 .adminLiveDot {
@@ -549,16 +552,18 @@
 
   .adminOverview {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    gap: 7px;
   }
 
-  .adminCard {
-    min-height: 112px;
-    padding: 14px 14px 12px;
+  .adminCard,
+  .adminMetric {
+    min-height: 72px;
+    padding: 10px 11px 9px;
   }
 
-  .adminCard strong {
-    font-size: 26px;
+  .adminCard strong,
+  .adminMetric strong {
+    font-size: 20px;
   }
 
   .adminFields,

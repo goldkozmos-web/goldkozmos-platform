@@ -14,6 +14,7 @@ import {
   isGoogleAccountsUrl,
   isSupabaseAuthorizeUrl,
 } from "../src/lib/supabase/google-authorize.ts";
+import { normalizeTrPhone, phoneOtpMessage } from "../src/lib/auth/phone.ts";
 import type { User } from "@supabase/supabase-js";
 
 function fakeUser(metadata: Record<string, unknown>, email = "gold@example.com") {
@@ -103,4 +104,16 @@ test("only Google account URLs are treated as the login hop", () => {
     ),
     false,
   );
+});
+
+test("Turkish mobile numbers normalize to E.164", () => {
+  assert.equal(normalizeTrPhone("0532 111 22 33"), "+905321112233");
+  assert.equal(normalizeTrPhone("+90 532 111 22 33"), "+905321112233");
+  assert.equal(normalizeTrPhone("5321112233"), "+905321112233");
+  assert.equal(normalizeTrPhone("123"), null);
+});
+
+test("phone OTP errors stay human", () => {
+  assert.match(phoneOtpMessage("Unsupported phone provider"), /Google/);
+  assert.match(phoneOtpMessage("Invalid token"), /Kod/);
 });

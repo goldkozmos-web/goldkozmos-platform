@@ -2,7 +2,7 @@
 
 import { adminMetricHint, formatAdminCount } from "../../lib/admin/access";
 import type { AdminOverviewMetric } from "../../lib/admin/load";
-import AdminMemberList, { AdminMemberDesk } from "./AdminMemberList";
+import AdminMemberList from "./AdminMemberList";
 import { useAdminLive } from "./AdminLiveProvider";
 
 export default function AdminOverview({
@@ -26,7 +26,7 @@ export default function AdminOverview({
             <a
               key={metric.id}
               href={metric.href}
-              className={`adminCard${emptyLook ? " isEmpty" : ""}${liveOn ? " isLive" : ""}`}
+              className={`adminMetric adminCard${emptyLook ? " isEmpty" : ""}${liveOn ? " isLive" : ""}`}
             >
               <p>{metric.title}</p>
               <strong>
@@ -41,8 +41,7 @@ export default function AdminOverview({
         })}
       </section>
 
-      <div className="adminDesk">
-        <section className="adminPanel">
+      <section className="adminPanel">
           <header className="adminPanelHead">
             <div>
               <p className="adminSectionLabel">Açık sekmeler</p>
@@ -69,15 +68,12 @@ export default function AdminOverview({
                       {visitor.path}
                     </small>
                   </div>
-                  <span className="adminBadge isLive">Canlı</span>
+                  <span className="adminBadge isLive">Açık</span>
                 </article>
               ))}
             </div>
           )}
         </section>
-
-        <AdminMemberDesk members={members} compact />
-      </div>
 
       <AdminMemberList members={members} />
     </div>

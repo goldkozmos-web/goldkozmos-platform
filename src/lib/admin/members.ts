@@ -17,7 +17,8 @@ export function parseMemberInput(raw: {
 }
 
 export function memberSourceLabel(source: string | null | undefined) {
-  if (source === "admin") return "Kalıcı · sen ekledin";
-  if (source === "shopier") return "Kalıcı · Shopier";
-  return "Kalıcı · Google";
+  if (source === "admin") return "Elle eklendi";
+  if (source === "shopier") return "Shopier";
+  if (source === "phone") return "Telefon";
+  return "Google";
 }

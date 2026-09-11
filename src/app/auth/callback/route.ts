@@ -42,5 +42,6 @@ export async function GET(request: NextRequest) {
     return htmlRedirect(next.toString());
   }
 
+  await auth.supabase.rpc("ensure_own_membership");
   return auth.redirect(profilimAfterAuthUrl(origin));
 }

@@ -15,6 +15,6 @@ test("member add keeps a permanent roster row", () => {
   });
   assert.equal("email" in parsed && parsed.email, "arkadas@gmail.com");
   assert.equal("displayName" in parsed && parsed.displayName, "Ayşe");
-  assert.equal(memberSourceLabel("admin"), "Kalıcı · sen ekledin");
-  assert.equal(memberSourceLabel("google"), "Kalıcı · Google");
+  assert.equal(memberSourceLabel("admin"), "Elle eklendi");
+  assert.equal(memberSourceLabel("google"), "Google");
 });

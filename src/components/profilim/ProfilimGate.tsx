@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import ProfilimGoogleButton from "./ProfilimGoogleButton";
+import ProfilimSignIn from "./ProfilimSignIn";
 
 export default function ProfilimGate() {
   return (
@@ -11,15 +11,15 @@ export default function ProfilimGate() {
         <span> kozmosuna gir</span>
       </h1>
       <p className="profilimGateLead">
-        Google hesabınla devam et. Girişten sonra gelişim panelin, kütüphanen
-        ve yolculuğun burada toplanır.
+        Google ile bir kez girmen yeterli; kaydın kalıcı kalır. İstersen
+        telefonuna kod da gönderebiliriz.
       </p>
       <div className="profilimGateMotto">
         <span />
         <small>Kendi Kozmosunu Bul.</small>
       </div>
       <Suspense>
-        <ProfilimGoogleButton />
+        <ProfilimSignIn />
       </Suspense>
     </section>
   );
