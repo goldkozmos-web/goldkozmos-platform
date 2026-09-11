@@ -36,14 +36,36 @@ type AdminLiveContextValue = {
   live: AdminLiveSnapshot | null;
   toast: AdminAlert | null;
   notifyReady: boolean;
-  enableNotify: () => void;
+  toggleNotify: () => void;
   refresh: () => Promise<void>;
 };
 
 const AdminLiveContext = createContext<AdminLiveContextValue | null>(null);
 
+const ALERT_PREF_KEY = "gk-admin-alerts";
+
+function readAlertPref() {
+  try {
+    return window.localStorage.getItem(ALERT_PREF_KEY) !== "off";
+  } catch {
+    return true;
+  }
+}
+
+function writeAlertPref(on: boolean) {
+  try {
+    window.localStorage.setItem(ALERT_PREF_KEY, on ? "on" : "off");
+  } catch {
+    // Private mode can block storage.
+  }
+}
+
+function permissionGranted() {
+  return typeof Notification !== "undefined" && Notification.permission === "granted";
+}
+
 function pushDesktopAlert(alert: AdminAlert) {
-  if (typeof Notification === "undefined" || Notification.permission !== "granted") {
+  if (!permissionGranted()) {
     return;
   }
 
@@ -63,11 +85,12 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
   const [notifyReady, setNotifyReady] = useState(false);
   const cursor = useRef<ReturnType<typeof nextLiveCursor> | null>(null);
   const inFlight = useRef(false);
+  const alertsOn = useRef(false);
 
   useEffect(() => {
-    setNotifyReady(
-      typeof Notification !== "undefined" && Notification.permission === "granted",
-    );
+    const on = readAlertPref() && permissionGranted();
+    alertsOn.current = on;
+    setNotifyReady(on);
   }, []);
 
   const refresh = useCallback(async () => {
@@ -122,7 +145,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
       cursor.current = nextLiveCursor(snapshot.metrics, snapshot.visitors);
       setLive(snapshot);
 
-      if (alerts[0]) {
+      if (alerts[0] && alertsOn.current) {
         setToast(alerts[0]);
         for (const alert of alerts) {
           pushDesktopAlert(alert);
@@ -163,18 +186,32 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
-  const enableNotify = useCallback(() => {
-    if (typeof Notification === "undefined") {
+  const toggleNotify = useCallback(() => {
+    if (alertsOn.current) {
+      writeAlertPref(false);
+      alertsOn.current = false;
+      setNotifyReady(false);
       return;
     }
+
+    if (typeof Notification === "undefined") {
+      writeAlertPref(true);
+      alertsOn.current = true;
+      setNotifyReady(true);
+      return;
+    }
+
     void Notification.requestPermission().then((permission) => {
-      setNotifyReady(permission === "granted");
+      const on = permission === "granted";
+      writeAlertPref(on);
+      alertsOn.current = on;
+      setNotifyReady(on);
     });
   }, []);
 
   const value = useMemo(
-    () => ({ live, toast, notifyReady, enableNotify, refresh }),
-    [live, toast, notifyReady, enableNotify, refresh],
+    () => ({ live, toast, notifyReady, toggleNotify, refresh }),
+    [live, toast, notifyReady, toggleNotify, refresh],
   );
 
   return (

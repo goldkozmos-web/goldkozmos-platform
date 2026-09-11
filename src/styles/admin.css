@@ -154,7 +154,6 @@
 
 .adminSiteJump:hover,
 .adminProfilimLink:hover,
-.adminNotifyBtn:hover,
 .adminGear:hover {
   background: #fff;
 }
@@ -175,10 +174,24 @@
   cursor: pointer;
 }
 
-.adminNotifyOn {
-  color: var(--admin-ink);
-  font-size: 13px;
-  font-weight: 700;
+.adminNotifyBtn.isOn {
+  background: #e7f6ee;
+  color: #1f6b43;
+}
+
+.adminNotifyBtn.isOff {
+  background: #f6e1de;
+  color: #9b2c2c;
+}
+
+.adminNotifyBtn.isOn:hover,
+.adminNotifyBtn.isOn:focus-visible {
+  background: #d4efdf;
+}
+
+.adminNotifyBtn.isOff:hover,
+.adminNotifyBtn.isOff:focus-visible {
+  background: #f0d0cc;
 }
 
 .adminRemoveBtn {

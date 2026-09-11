@@ -27,7 +27,7 @@ function AdminChrome({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { toast, notifyReady, enableNotify } = useAdminLive();
+  const { toast, notifyReady, toggleNotify } = useAdminLive();
 
   return (
     <div className="adminShell">
@@ -53,13 +53,14 @@ function AdminChrome({
           <a className="adminSiteJump" href="/">
             Siteye dön
           </a>
-          {notifyReady ? (
-            <span className="adminNotifyOn">Bildirimler açık</span>
-          ) : (
-            <button type="button" className="adminNotifyBtn" onClick={enableNotify}>
-              Bildirimleri aç
-            </button>
-          )}
+          <button
+            type="button"
+            className={`adminNotifyBtn${notifyReady ? " isOn" : " isOff"}`}
+            aria-pressed={notifyReady}
+            onClick={toggleNotify}
+          >
+            {notifyReady ? "Bildirimler açık" : "Bildirimler kapalı"}
+          </button>
         </div>
       </header>
 
