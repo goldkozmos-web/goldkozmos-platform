@@ -104,6 +104,12 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
   },
 ];
 
+export const SITE_ADMIN_EMAIL = "goldkozmos@gmail.com";
+
+export function isSiteAdminEmail(email: string | null | undefined) {
+  return String(email ?? "").trim().toLowerCase() === SITE_ADMIN_EMAIL;
+}
+
 export function isAdminRole(role: string | null | undefined): role is "admin" {
   return String(role ?? "").trim().toLowerCase() === "admin";
 }
@@ -112,11 +118,8 @@ export function normalizeProfileRole(role: string | null | undefined): AdminRole
   return isAdminRole(role) ? "admin" : "user";
 }
 
-export function canAccessAdmin(
-  role: string | null | undefined,
-  isAdminFlag?: boolean | null,
-) {
-  return isAdminRole(role) || isAdminFlag === true;
+export function canAccessAdmin(email: string | null | undefined) {
+  return isSiteAdminEmail(email);
 }
 
 export function istanbulDayStartIso(now = new Date()) {

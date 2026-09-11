@@ -5,6 +5,7 @@ import {
   adminMetricValue,
   canAccessAdmin,
   istanbulDayStartIso,
+  isSiteAdminEmail,
   normalizeProfileRole,
 } from "../src/lib/admin/access.ts";
 import {
@@ -13,13 +14,15 @@ import {
   postLoginPath,
 } from "../src/lib/admin/profile.ts";
 
-test("admin access comes from profile role or is_admin, not email", () => {
-  assert.equal(canAccessAdmin("admin"), true);
-  assert.equal(canAccessAdmin("ADMIN"), true);
-  assert.equal(canAccessAdmin("user", true), true);
-  assert.equal(canAccessAdmin("user", false), false);
+test("admin access is only goldkozmos@gmail.com", () => {
+  assert.equal(canAccessAdmin("goldkozmos@gmail.com"), true);
+  assert.equal(canAccessAdmin("GoldKozmos@gmail.com"), true);
+  assert.equal(canAccessAdmin(" goldkozmos@gmail.com "), true);
+  assert.equal(canAccessAdmin("someone@gmail.com"), false);
+  assert.equal(canAccessAdmin("admin"), false);
   assert.equal(canAccessAdmin(null), false);
-  assert.equal(canAccessAdmin("superuser"), false);
+  assert.equal(isSiteAdminEmail("goldkozmos@gmail.com"), true);
+  assert.equal(isSiteAdminEmail("other@goldkozmos.com"), false);
 });
 
 test("unknown or missing profile role stays user", () => {

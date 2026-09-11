@@ -23,7 +23,7 @@ export default async function AdminLayout({
     return (
       <AdminLocked
         title="Yönetim henüz bağlanmadı"
-        text="Supabase oturumu olmadan yönetim alanı açılamaz. Ayrı bir admin şifresi yoktur; Google hesabın ve profil rolün kullanılır."
+        text="Supabase oturumu olmadan yönetim alanı açılamaz. Ayrı bir admin şifresi yoktur; yalnızca goldkozmos@gmail.com girer."
       />
     );
   }
@@ -32,7 +32,7 @@ export default async function AdminLayout({
     return (
       <AdminLocked
         title="Bu alan yalnızca yönetim içindir"
-        text="Girişin var, fakat rolün admin değil. Rolünü sen değiştiremezsin; yetki yalnızca veritabanından verilir."
+        text="Bu alan yalnızca goldkozmos@gmail.com Google hesabına açıktır."
       />
     );
   }
@@ -41,7 +41,7 @@ export default async function AdminLayout({
     return (
       <AdminLocked
         title="Yönetim Merkezi"
-        text="Bu alana yalnızca admin rolüyle girilir."
+        text="Bu alana yalnızca goldkozmos@gmail.com ile girilir."
       />
     );
   }

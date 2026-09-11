@@ -32,11 +32,8 @@ import {
   getProgressForPlatform,
   readPlatformProgressMap,
 } from "../../lib/platformProgress";
-import {
-  canShowMemberProfilim,
-  fetchOwnProfileFlags,
-  isAdminProfile,
-} from "../../lib/admin/profile";
+import { canShowMemberProfilim } from "../../lib/admin/profile";
+import { isSiteAdminEmail } from "../../lib/admin/access";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import ProfilimCompactTile from "./ProfilimCompactTile";
 import ProfilimDrawer from "./ProfilimDrawer";
@@ -125,26 +122,11 @@ export default function ProfilimDashboard({
       }
 
       if (!cancelled) {
-        setUser((current) => ({
+        setUser({
           ...next,
-          isAdmin: current?.isAdmin,
-        }));
+          isAdmin: isSiteAdminEmail(next.email),
+        });
         setChecking(false);
-      }
-
-      try {
-        const flags = await Promise.race([
-          fetchOwnProfileFlags(client, next.id),
-          new Promise<null>((resolve) => {
-            setTimeout(() => resolve(null), 2500);
-          }),
-        ]);
-        if (cancelled) return;
-        setUser({ ...next, isAdmin: isAdminProfile(flags) });
-      } catch {
-        if (!cancelled) {
-          setUser(next);
-        }
       }
     }
 

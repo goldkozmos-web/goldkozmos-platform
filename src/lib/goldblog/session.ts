@@ -1,3 +1,4 @@
+import { isSiteAdminEmail } from "@/lib/admin/access";
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 
 export type GoldBlogSessionUser = {
@@ -7,13 +8,6 @@ export type GoldBlogSessionUser = {
   avatarUrl: string | null;
   isAdmin: boolean;
 };
-
-function adminEmails() {
-  return (process.env.GOLDBLOG_ADMIN_EMAILS ?? "")
-    .split(",")
-    .map((value) => value.trim().toLowerCase())
-    .filter(Boolean);
-}
 
 function displayNameFrom(
   email: string | null,
@@ -77,9 +71,7 @@ export async function getGoldBlogSessionUser(): Promise<GoldBlogSessionUser | nu
   }
 
   const email = user.email ?? null;
-  const isAdmin =
-    Boolean(profile?.is_admin) ||
-    (email ? adminEmails().includes(email.toLowerCase()) : false);
+  const isAdmin = isSiteAdminEmail(email);
 
   return {
     id: user.id,

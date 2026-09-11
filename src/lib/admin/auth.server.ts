@@ -2,8 +2,11 @@ import { redirect } from "next/navigation";
 
 import { createSupabaseServerClient } from "../supabase/create-server-client";
 import { profilimUserFromAuth } from "../profilim/userFromAuth";
-import { canAccessAdmin, normalizeProfileRole, type AdminActor } from "./access";
-import { fetchOwnProfileFlags, isAdminProfile } from "./profile";
+import {
+  canAccessAdmin,
+  isSiteAdminEmail,
+  type AdminActor,
+} from "./access";
 
 export type AdminAccess =
   | { status: "unconfigured" }
@@ -18,29 +21,32 @@ export async function getAdminAccess(): Promise<AdminAccess> {
     return { status: "unconfigured" };
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const auth = await Promise.race([
+    supabase.auth.getUser(),
+    new Promise<null>((resolve) => {
+      setTimeout(() => resolve(null), 2000);
+    }),
+  ]);
 
-  const actorBase = profilimUserFromAuth(user);
-
-  if (!user || !actorBase) {
+  if (!auth) {
     return { status: "signed-out" };
   }
 
-  const flags = await fetchOwnProfileFlags(supabase, user.id);
-  const role = isAdminProfile(flags)
-    ? "admin"
-    : normalizeProfileRole(flags?.role);
+  const actorBase = profilimUserFromAuth(auth.data.user);
+
+  if (!auth.data.user || !actorBase) {
+    return { status: "signed-out" };
+  }
+
   const actor: AdminActor = {
     id: actorBase.id,
     displayName: actorBase.displayName,
     email: actorBase.email,
     avatarUrl: actorBase.avatarUrl,
-    role,
+    role: isSiteAdminEmail(actorBase.email) ? "admin" : "user",
   };
 
-  if (!canAccessAdmin(flags?.role, flags?.is_admin)) {
+  if (!canAccessAdmin(actor.email)) {
     return { status: "forbidden", actor };
   }
 

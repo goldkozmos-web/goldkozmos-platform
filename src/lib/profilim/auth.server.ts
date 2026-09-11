@@ -1,22 +1,10 @@
 import { createSupabaseServerClient } from "../supabase/create-server-client";
-import { fetchOwnProfileFlags, isAdminProfile } from "../admin/profile";
+import { isSiteAdminEmail } from "../admin/access";
 import { profilimUserFromAuth } from "./userFromAuth";
 import type { ProfilimUser } from "./types";
 
 export async function createProfilimServerClient() {
   return createSupabaseServerClient();
-}
-
-async function flagsOrNull(
-  supabase: NonNullable<Awaited<ReturnType<typeof createProfilimServerClient>>>,
-  userId: string,
-) {
-  return Promise.race([
-    fetchOwnProfileFlags(supabase, userId),
-    new Promise<null>((resolve) => {
-      setTimeout(() => resolve(null), 2500);
-    }),
-  ]);
 }
 
 export async function getProfilimSessionUser(): Promise<ProfilimUser> {
@@ -44,11 +32,9 @@ export async function getProfilimSessionUser(): Promise<ProfilimUser> {
       return null;
     }
 
-    const flags = await flagsOrNull(supabase, actor.id);
-
     return {
       ...actor,
-      isAdmin: isAdminProfile(flags),
+      isAdmin: isSiteAdminEmail(actor.email),
     };
   } catch {
     return null;
