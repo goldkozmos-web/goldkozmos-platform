@@ -946,6 +946,10 @@
 }
 
 .profilimGoogleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   min-height: 50px;
   width: 100%;
   padding: 0 18px;
@@ -958,6 +962,7 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: none;
+  text-decoration: none;
   cursor: pointer;
 }
 

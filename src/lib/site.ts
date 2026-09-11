@@ -13,6 +13,10 @@ export function appOriginFromUrl(url: string) {
   return SITE_ORIGIN;
 }
 
+export function googleStartUrl(origin: string) {
+  return `${origin.replace(/\/$/, "")}/auth/google`;
+}
+
 export function googleCallbackUrl(origin: string) {
   return `${origin.replace(/\/$/, "")}/auth/callback`;
 }
