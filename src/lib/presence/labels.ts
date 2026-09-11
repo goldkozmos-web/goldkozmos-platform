@@ -1,5 +1,5 @@
 export const VISITOR_LABEL = "Ziyaretçi";
-export const LIVE_WINDOW_MS = 45_000;
+export const LIVE_WINDOW_MS = 120_000;
 
 const COUNTRY_NAMES: Record<string, string> = {
   TR: "Türkiye",
@@ -146,6 +146,7 @@ export function parsePresencePayload(raw: unknown): {
   path?: string;
   referrer?: string;
   href?: string;
+  visitorKey?: string;
 } | null {
   if (!raw || typeof raw !== "object") {
     return null;
@@ -168,5 +169,7 @@ export function parsePresencePayload(raw: unknown): {
     path: typeof body.path === "string" ? body.path.slice(0, 300) : "/",
     referrer: typeof body.referrer === "string" ? body.referrer.slice(0, 500) : "",
     href: typeof body.href === "string" ? body.href.slice(0, 500) : "",
+    visitorKey:
+      typeof body.visitorKey === "string" ? body.visitorKey.slice(0, 80) : "",
   };
 }

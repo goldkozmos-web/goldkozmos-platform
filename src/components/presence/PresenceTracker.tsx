@@ -5,20 +5,34 @@ import { usePathname } from "next/navigation";
 
 import { presenceKindFromHref, shouldSkipPresencePath } from "../../lib/presence/labels";
 
-function ping(body: Record<string, string>) {
-  const payload = JSON.stringify(body);
-  const blob = new Blob([payload], { type: "application/json" });
+const VISITOR_STORAGE_KEY = "gk_zid";
 
-  if (typeof navigator !== "undefined" && navigator.sendBeacon) {
-    navigator.sendBeacon("/api/presence", blob);
-    return;
+function visitorKey() {
+  try {
+    const existing = window.localStorage.getItem(VISITOR_STORAGE_KEY)?.trim();
+    if (existing && existing.length >= 8) {
+      return existing;
+    }
+    const next = window.crypto.randomUUID();
+    window.localStorage.setItem(VISITOR_STORAGE_KEY, next);
+    return next;
+  } catch {
+    return "";
   }
+}
+
+function ping(body: Record<string, string>) {
+  const payload = JSON.stringify({
+    ...body,
+    visitorKey: visitorKey(),
+  });
 
   void fetch("/api/presence", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: payload,
     keepalive: true,
+    credentials: "same-origin",
   });
 }
 
@@ -30,26 +44,26 @@ export default function PresenceTracker() {
       return;
     }
 
-    const path = `${pathname}${window.location.search}`;
-    ping({
-      kind: "page",
-      path,
-      referrer: document.referrer || "",
-    });
-
-    const beat = () => {
-      if (document.visibilityState === "hidden") {
-        return;
-      }
+    const send = (kind: "page" | "heartbeat") => {
       ping({
-        kind: "heartbeat",
+        kind,
         path: `${window.location.pathname}${window.location.search}`,
         referrer: document.referrer || "",
       });
     };
 
-    const timer = window.setInterval(beat, 20000);
+    send("page");
+
+    const beat = () => {
+      if (document.visibilityState === "hidden") {
+        return;
+      }
+      send("heartbeat");
+    };
+
+    const timer = window.setInterval(beat, 8000);
     document.addEventListener("visibilitychange", beat);
+    window.addEventListener("focus", beat);
 
     function onClick(event: MouseEvent) {
       const target = event.target;
@@ -83,6 +97,7 @@ export default function PresenceTracker() {
     return () => {
       window.clearInterval(timer);
       document.removeEventListener("visibilitychange", beat);
+      window.removeEventListener("focus", beat);
       document.removeEventListener("click", onClick, true);
     };
   }, [pathname]);

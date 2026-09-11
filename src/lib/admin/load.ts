@@ -1,3 +1,5 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
+
 import { createSupabaseServerClient } from "../supabase/create-server-client";
 import {
   ADMIN_OVERVIEW_CARDS,
@@ -72,7 +74,7 @@ function mapMemberRow(row: Record<string, unknown>): AdminMemberRow {
 }
 
 async function fetchAdminMembers(
-  supabase: NonNullable<Awaited<ReturnType<typeof createSupabaseServerClient>>>,
+  supabase: SupabaseClient,
 ): Promise<AdminMemberRow[]> {
   const rpc = await supabase.rpc("list_site_members");
   if (!rpc.error && Array.isArray(rpc.data)) {
@@ -101,8 +103,8 @@ async function fetchAdminMembers(
 
 export { emptyAdminMetrics };
 
-export async function loadAdminLive() {
-  const supabase = await createSupabaseServerClient();
+export async function loadAdminLive(client?: SupabaseClient | null) {
+  const supabase = client ?? (await createSupabaseServerClient());
   const memberStart = istanbulDayStartIso();
 
   let memberCount = 0;
@@ -127,14 +129,7 @@ export async function loadAdminLive() {
         .from("site_visitors")
         .select("visitor_key", { count: "exact", head: true })
         .gte("last_seen_at", memberStart),
-      supabase
-        .from("site_visitors")
-        .select(
-          "visitor_key, first_path, first_referrer, country, region, city, last_path, last_seen_at",
-        )
-        .gte("last_seen_at", memberStart)
-        .order("last_seen_at", { ascending: false })
-        .limit(80),
+      supabase.rpc("list_live_visitors", { p_since: memberStart }),
       supabase
         .from("site_events")
         .select("id, kind, path, source, href, country, region, city, created_at")
@@ -149,7 +144,22 @@ export async function loadAdminLive() {
     memberCount = memberRows.length || memberHead.count || 0;
     visitCount = visits.count ?? 0;
 
-    const visitorRows = liveRows.data ?? [];
+    let visitorRows: Record<string, unknown>[] =
+      !liveRows.error && Array.isArray(liveRows.data)
+        ? (liveRows.data as Record<string, unknown>[])
+        : [];
+    if (liveRows.error) {
+      const fallback = await supabase
+        .from("site_visitors")
+        .select(
+          "visitor_key, first_path, first_referrer, country, region, city, last_path, last_seen_at",
+        )
+        .gte("last_seen_at", new Date(Date.now() - 10 * 60 * 1000).toISOString())
+        .order("last_seen_at", { ascending: false })
+        .limit(80);
+      visitorRows = (fallback.data ?? []) as Record<string, unknown>[];
+    }
+
     visitors = visitorRows.map((row) => {
       const lastSeenAt = asText(row.last_seen_at) || null;
       const path = asText(row.last_path) || "/";

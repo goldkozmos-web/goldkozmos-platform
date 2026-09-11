@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { createSupabaseServerClient } from "../supabase/create-server-client";
+import { createSupabaseAnonClient } from "../supabase/anon";
 import {
   describeReferrer,
   isPresenceBot,
@@ -23,6 +23,7 @@ export type PresencePayload = {
   path?: string;
   referrer?: string;
   href?: string;
+  visitorKey?: string;
 };
 
 function headerText(request: NextRequest, name: string) {
@@ -38,7 +39,15 @@ function headerText(request: NextRequest, name: string) {
   }
 }
 
-export function visitorKeyFromRequest(request: NextRequest) {
+export function visitorKeyFromRequest(
+  request: NextRequest,
+  hinted?: string,
+) {
+  const fromBody = hinted?.trim() || "";
+  if (fromBody.length >= 8 && fromBody.length <= 80) {
+    return fromBody;
+  }
+
   const existing = request.cookies.get(VISITOR_COOKIE)?.value?.trim();
   if (existing && existing.length >= 8 && existing.length <= 80) {
     return existing;
@@ -66,7 +75,7 @@ export async function recordPresence(
   request: NextRequest,
   payload: PresencePayload,
 ) {
-  const visitorKey = visitorKeyFromRequest(request);
+  const visitorKey = visitorKeyFromRequest(request, payload.visitorKey);
   const ok = () =>
     withVisitorCookie(NextResponse.json({ ok: true }), visitorKey);
 
@@ -84,7 +93,7 @@ export async function recordPresence(
 
   const referrer =
     payload.referrer?.trim() || request.headers.get("referer") || "";
-  const supabase = await createSupabaseServerClient();
+  const supabase = createSupabaseAnonClient();
 
   if (!supabase) {
     return ok();
