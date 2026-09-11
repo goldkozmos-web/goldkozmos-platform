@@ -5,16 +5,18 @@ export default function ProfilimFeaturedCard({
   title,
   children,
   onOpen,
+  className,
 }: {
   eyebrow: string;
   title: string;
   children?: ReactNode;
   onOpen: () => void;
+  className?: string;
 }) {
   return (
     <button
       type="button"
-      className="profilimFeatured"
+      className={["profilimFeatured", className].filter(Boolean).join(" ")}
       onClick={onOpen}
     >
       <span className="profilimFeaturedEyebrow">{eyebrow}</span>

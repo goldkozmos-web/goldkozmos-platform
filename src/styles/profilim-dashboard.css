@@ -18,7 +18,7 @@
 
 .profilimHero {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding: 20px 18px 18px;
   border: 1px solid rgba(176, 130, 48, 0.22);
   border-radius: 24px;
@@ -89,17 +89,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
+  width: 100%;
+  min-height: 52px;
   margin-top: 16px;
   padding: 0 18px;
   border: 1px solid rgba(210, 166, 82, 0.55);
   border-radius: 999px;
   background: linear-gradient(180deg, #2c1d14, #140e0a);
   color: #e3bc70;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-decoration: none;
+}
+
+.profilimAdminFeatured {
+  background: linear-gradient(180deg, #2c1d14, #140e0a) !important;
+  border-color: rgba(210, 166, 82, 0.55) !important;
+}
+
+.profilimAdminFeatured .profilimFeaturedEyebrow,
+.profilimAdminFeatured .profilimFeaturedTitle,
+.profilimAdminFeatured .profilimFeaturedBody,
+.profilimAdminFeatured .profilimFeaturedChevron {
+  color: #e3bc70;
 }
 
 .profilimHeroLevel {
