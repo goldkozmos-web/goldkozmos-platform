@@ -40,6 +40,7 @@ export default function AuthCallbackPage() {
         }
       }
 
+      await supabase.auth.getSession();
       window.location.replace("/profilim");
     }
 
