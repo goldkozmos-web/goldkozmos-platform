@@ -16,6 +16,7 @@ self.addEventListener("push", (event) => {
       body: payload.body || "Yeni hareket var.",
       icon: "/icon.png",
       badge: "/icon.png",
+      vibrate: [160, 80, 160],
       data: { url: payload.url || "/admin" },
     }),
   );
