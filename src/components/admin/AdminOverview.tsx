@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { adminMetricHint, formatAdminCount } from "../../lib/admin/access";
 import type { AdminOverviewMetric } from "../../lib/admin/load";
 import AdminMemberList from "./AdminMemberList";
@@ -11,6 +13,7 @@ export default function AdminOverview({
   metrics: AdminOverviewMetric[];
 }) {
   const { live } = useAdminLive();
+  const pathname = usePathname();
   const rows = live?.metrics ?? metrics;
   const members = live?.members ?? [];
   const liveNow = (live?.visitors ?? []).filter((visitor) => visitor.live);
@@ -21,12 +24,15 @@ export default function AdminOverview({
         {rows.map((metric) => {
           const liveOn = metric.id === "live" && metric.value > 0;
           const emptyLook = !metric.hasSource || metric.value <= 0;
+          const selected =
+            pathname === metric.href ||
+            (metric.href !== "/admin" && pathname.startsWith(`${metric.href}/`));
 
           return (
             <a
               key={metric.id}
               href={metric.href}
-              className={`adminMetric adminCard${emptyLook ? " isEmpty" : ""}${liveOn ? " isLive" : ""}`}
+              className={`adminMetric adminCard${emptyLook ? " isEmpty" : ""}${liveOn ? " isLive" : ""}${selected ? " isOn" : ""}`}
             >
               <p>{metric.title}</p>
               <strong>
