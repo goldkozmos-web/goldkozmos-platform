@@ -10,5 +10,16 @@ export function createSupabaseBrowserClient() {
     return null;
   }
 
-  return createBrowserClient(env.url, env.publishableKey);
+  const onGold =
+    typeof window !== "undefined" &&
+    window.location.hostname.endsWith("goldkozmos.com");
+
+  return createBrowserClient(env.url, env.publishableKey, {
+    cookieOptions: {
+      path: "/",
+      sameSite: "lax",
+      secure: typeof window !== "undefined" && window.location.protocol === "https:",
+      ...(onGold ? { domain: ".goldkozmos.com" } : {}),
+    },
+  });
 }
