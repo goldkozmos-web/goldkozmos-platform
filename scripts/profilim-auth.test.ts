@@ -6,6 +6,7 @@ import {
   appOriginFromUrl,
   googleCallbackUrl,
   googleStartUrl,
+  htmlRedirectPage,
   profilimAfterAuthUrl,
 } from "../src/lib/site.ts";
 import type { User } from "@supabase/supabase-js";
@@ -56,4 +57,12 @@ test("Google returns to a live HTML callback, not an API payload", () => {
     profilimAfterAuthUrl("https://goldkozmos.com", true),
     "https://goldkozmos.com/profilim?auth=error",
   );
+});
+
+test("auth redirects send an HTML page Chrome will not pretty-print", () => {
+  const page = htmlRedirectPage("https://goldkozmos.com/profilim");
+  assert.equal(page.includes("<!DOCTYPE html>"), true);
+  assert.equal(page.includes("text/html"), false);
+  assert.equal(page.includes('location.replace("https://goldkozmos.com/profilim")'), true);
+  assert.equal(page.includes('content="0;url=https://goldkozmos.com/profilim"'), true);
 });

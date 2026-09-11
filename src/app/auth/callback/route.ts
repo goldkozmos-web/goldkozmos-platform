@@ -1,18 +1,13 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 
 import { appOriginFromUrl, profilimAfterAuthUrl } from "@/lib/site";
 import {
   createAuthCookieClient,
   hasPkceVerifierCookie,
+  htmlRedirect,
 } from "@/lib/supabase/auth-cookies";
 
 export const dynamic = "force-dynamic";
-
-function oturumHandoff(request: NextRequest, origin: string) {
-  const next = new URL("/auth/oturum", origin);
-  next.search = request.nextUrl.search;
-  return NextResponse.redirect(next);
-}
 
 export async function GET(request: NextRequest) {
   const origin = appOriginFromUrl(request.url);
@@ -20,25 +15,31 @@ export async function GET(request: NextRequest) {
   const oauthError = request.nextUrl.searchParams.get("error");
 
   if (oauthError) {
-    return NextResponse.redirect(profilimAfterAuthUrl(origin, true));
+    return htmlRedirect(profilimAfterAuthUrl(origin, true));
   }
 
   if (!code) {
-    return NextResponse.redirect(profilimAfterAuthUrl(origin));
+    return htmlRedirect(profilimAfterAuthUrl(origin));
   }
 
   if (!hasPkceVerifierCookie(request)) {
-    return oturumHandoff(request, origin);
+    const next = new URL("/auth/oturum", origin);
+    next.search = request.nextUrl.search;
+    return htmlRedirect(next.toString());
   }
 
   const auth = createAuthCookieClient(request);
   if (!auth) {
-    return oturumHandoff(request, origin);
+    const next = new URL("/auth/oturum", origin);
+    next.search = request.nextUrl.search;
+    return htmlRedirect(next.toString());
   }
 
   const { error } = await auth.supabase.auth.exchangeCodeForSession(code);
   if (error) {
-    return oturumHandoff(request, origin);
+    const next = new URL("/auth/oturum", origin);
+    next.search = request.nextUrl.search;
+    return htmlRedirect(next.toString());
   }
 
   return auth.redirect(profilimAfterAuthUrl(origin));

@@ -1,7 +1,7 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
 
 import { appOriginFromUrl, googleCallbackUrl, profilimAfterAuthUrl } from "@/lib/site";
-import { createAuthCookieClient } from "@/lib/supabase/auth-cookies";
+import { createAuthCookieClient, htmlRedirect } from "@/lib/supabase/auth-cookies";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const auth = createAuthCookieClient(request);
 
   if (!auth) {
-    return NextResponse.redirect(profilimAfterAuthUrl(origin, true));
+    return htmlRedirect(profilimAfterAuthUrl(origin, true));
   }
 
   const { data, error } = await auth.supabase.auth.signInWithOAuth({
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
   });
 
   if (error || !data.url) {
-    return NextResponse.redirect(profilimAfterAuthUrl(origin, true));
+    return htmlRedirect(profilimAfterAuthUrl(origin, true));
   }
 
   return auth.redirect(data.url);
