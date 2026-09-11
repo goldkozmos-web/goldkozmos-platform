@@ -21,6 +21,7 @@ import type {
   ProfilimTodayNeedChoiceId,
 } from "../../lib/profilim/types";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
+import { shouldClearProfilimUser } from "../../lib/profilim/sessionEvents";
 import {
   TODAY_NEED_CHOICES,
   goldmindUrlForFocus,
@@ -114,10 +115,7 @@ export default function ProfilimDashboard({
     ) {
       const next = profilimUserFromAuth(sessionUser);
       if (!next) {
-        if (event === "INITIAL_SESSION") {
-          return;
-        }
-        if (!cancelled) {
+        if (shouldClearProfilimUser(event) && !cancelled) {
           setUser(null);
           setChecking(false);
         }
@@ -158,8 +156,15 @@ export default function ProfilimDashboard({
       void resolveUser(session?.user ?? null, event);
     });
 
+    const timeout = window.setTimeout(() => {
+      if (!cancelled) {
+        setChecking(false);
+      }
+    }, 4000);
+
     return () => {
       cancelled = true;
+      window.clearTimeout(timeout);
       subscription.unsubscribe();
     };
   }, []);

@@ -11,11 +11,7 @@ export async function signInWithGoogle() {
     return { error: "Giriş altyapısı henüz bağlanmadı." };
   }
 
-  const origin =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
-      ? window.location.origin
-      : "https://goldkozmos.com";
+  const origin = window.location.origin;
 
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "google",
