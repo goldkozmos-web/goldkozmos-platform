@@ -10,9 +10,7 @@
   --admin-shadow-soft: 0 8px 24px rgba(48, 32, 18, 0.06);
   min-height: 100dvh;
   padding: 0 0 calc(210px + env(safe-area-inset-bottom, 0px));
-  background:
-    radial-gradient(120% 70% at 50% -10%, #e7d7a4 0%, rgba(231, 215, 164, 0) 58%),
-    linear-gradient(180deg, #e9dcab 0%, #efe8d4 42%, #f4f1ea 100%);
+  background: linear-gradient(180deg, #8f7460 0%, #cbb9a8 38%, #ffffff 100%);
   color: var(--admin-ink);
   font-family: "SF Pro Text", "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
