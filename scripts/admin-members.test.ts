@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { memberSourceLabel, mergeMemberRows, parseMemberInput } from "../src/lib/admin/members.ts";
+import {
+  memberSourceLabel,
+  mergeMemberRows,
+  parseMemberInput,
+  parseRemovedMemberContent,
+  withoutRemovedMembers,
+} from "../src/lib/admin/members.ts";
 import {
   isMemberVisitorKey,
   memberRowFromAuthUser,
@@ -19,10 +25,10 @@ test("member add needs a real email and a name", () => {
 test("member add keeps a permanent roster row", () => {
   const parsed = parseMemberInput({
     email: " arkadas@gmail.com ",
-    displayName: "Ayşe",
+    displayName: "Ayse",
   });
   assert.equal("email" in parsed && parsed.email, "arkadas@gmail.com");
-  assert.equal("displayName" in parsed && parsed.displayName, "Ayşe");
+  assert.equal("displayName" in parsed && parsed.displayName, "Ayse");
   assert.equal(memberSourceLabel("admin"), "Elle eklendi");
   assert.equal(memberSourceLabel("google"), "Google");
 });
@@ -33,7 +39,7 @@ test("admin member desk merges empty RPC with profile rows", () => {
     [
       {
         id: "u1",
-        displayName: "Ayşe Yılmaz",
+        displayName: "Ayse Yilmaz",
         role: "user",
         email: "ayse@gmail.com",
         createdAt: "2026-09-11T10:00:00.000Z",
@@ -58,16 +64,16 @@ test("member join is stored on the visitor log Gold already sees", () => {
   assert.equal(userIdFromMemberKey(key), id);
   const row = memberRowFromVisitor({
     visitor_key: key,
-    first_source: "Ayşe Yılmaz",
+    first_source: "Ayse Yilmaz",
     first_referrer: "ayse@gmail.com",
     href: "+905321112233",
-    city: "İstanbul",
+    city: "Istanbul",
     created_at: "2026-09-11T17:00:00.000Z",
   });
   assert.equal(row?.email, "ayse@gmail.com");
-  assert.equal(row?.displayName, "Ayşe Yılmaz");
+  assert.equal(row?.displayName, "Ayse Yilmaz");
   assert.equal(row?.phone, "+905321112233");
-  assert.equal(row?.city, "İstanbul");
+  assert.equal(row?.city, "Istanbul");
 });
 
 test("admin member desk reads gkmem rows from the live visitor RPC", () => {
@@ -76,7 +82,7 @@ test("admin member desk reads gkmem rows from the live visitor RPC", () => {
   const rows = membersFromVisitorRows([
     {
       visitor_key: key,
-      first_source: "Yeni Üye",
+      first_source: "Yeni Uye",
       first_referrer: "yeni@gmail.com",
       last_seen_at: "2026-09-11T17:00:00.000Z",
     },
@@ -87,7 +93,47 @@ test("admin member desk reads gkmem rows from the live visitor RPC", () => {
   ]);
   assert.equal(rows.length, 1);
   assert.equal(rows[0]?.email, "yeni@gmail.com");
-  assert.equal(rows[0]?.displayName, "Yeni Üye");
+  assert.equal(rows[0]?.displayName, "Yeni Uye");
+});
+
+test("removed members drop off the admin roster", () => {
+  const marker = "out:ayse@gmail.com|u1";
+  const kept = withoutRemovedMembers(
+    [
+      {
+        id: "u1",
+        displayName: "Ayse",
+        role: "user",
+        email: "ayse@gmail.com",
+        createdAt: null,
+        source: "google",
+        status: "active",
+        authUserId: "u1",
+        city: null,
+        age: null,
+        phone: null,
+        interests: null,
+      },
+      {
+        id: "u2",
+        displayName: "Gold",
+        role: "admin",
+        email: "goldkozmos@gmail.com",
+        createdAt: null,
+        source: "google",
+        status: "active",
+        authUserId: "u2",
+        city: null,
+        age: null,
+        phone: null,
+        interests: null,
+      },
+    ],
+    [{ email: "ayse@gmail.com", authUserId: "u1" }],
+  );
+  assert.equal(kept.length, 1);
+  assert.equal(kept[0]?.email, "goldkozmos@gmail.com");
+  assert.equal(parseRemovedMemberContent(marker)?.email, "ayse@gmail.com");
 });
 
 test("Google auth users map onto the admin member desk", () => {
@@ -95,9 +141,9 @@ test("Google auth users map onto the admin member desk", () => {
     id: "u-4",
     email: "arkadas@gmail.com",
     created_at: "2026-09-01T00:00:00.000Z",
-    user_metadata: { full_name: "Arkadaş" },
+    user_metadata: { full_name: "Arkadas" },
   });
-  assert.equal(row?.displayName, "Arkadaş");
+  assert.equal(row?.displayName, "Arkadas");
   assert.equal(row?.email, "arkadas@gmail.com");
   assert.equal(row?.source, "google");
 });

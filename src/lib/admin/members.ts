@@ -38,6 +38,39 @@ export type SiteMemberRow = {
   interests: string | null;
 };
 
+export const REMOVED_MEMBERS_POST = "gk-member-out";
+
+export function removedMemberContent(email: string, authUserId?: string | null) {
+  const mail = email.trim().toLowerCase();
+  const id = String(authUserId ?? "").trim();
+  return id ? `out:${mail}|${id}` : `out:${mail}`;
+}
+
+export function parseRemovedMemberContent(content: string) {
+  const raw = content.trim();
+  if (!raw.startsWith("out:")) return null;
+  const rest = raw.slice(4);
+  const [email, authUserId] = rest.split("|");
+  const mail = (email ?? "").trim().toLowerCase();
+  if (!mail) return null;
+  return { email: mail, authUserId: (authUserId ?? "").trim() };
+}
+
+export function withoutRemovedMembers(
+  rows: SiteMemberRow[],
+  removed: { email: string; authUserId: string }[],
+) {
+  const emails = new Set(removed.map((item) => item.email).filter(Boolean));
+  const ids = new Set(removed.map((item) => item.authUserId).filter(Boolean));
+  return rows.filter((row) => {
+    const email = (row.email ?? "").trim().toLowerCase();
+    const id = (row.authUserId || row.id).trim();
+    if (email && emails.has(email)) return false;
+    if (id && ids.has(id)) return false;
+    return true;
+  });
+}
+
 export function mergeMemberRows(groups: SiteMemberRow[][]) {
   const byKey = new Map<string, SiteMemberRow>();
 

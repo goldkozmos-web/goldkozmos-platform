@@ -23,6 +23,7 @@ const NAV: Record<string, string> = {
   "/admin/icerikler": "M7 4h8l4 4v12H7zM15 4v4h4",
   "/admin/oneriler": "M12 3 14.2 8.6 20 9.2 16 13.4 17.2 19 12 16.2 6.8 19 8 13.4 4 9.2 9.8 8.6z",
   "/admin/bildirimler": "M6 9a6 6 0 1 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9zM10 19a2 2 0 0 0 4 0",
+  "/admin/cikar": "M16 19v-1a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v1M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 11h-6",
 };
 
 const METRIC: Record<string, string> = {

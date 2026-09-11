@@ -13,7 +13,13 @@ import {
   isMemberVisitorKey,
   membersFromVisitorRows,
 } from "./member-keys";
-import { mergeMemberRows, type SiteMemberRow } from "./members";
+import {
+  mergeMemberRows,
+  parseRemovedMemberContent,
+  REMOVED_MEMBERS_POST,
+  withoutRemovedMembers,
+  type SiteMemberRow,
+} from "./members";
 import {
   VISITOR_LABEL,
   describeEntry,
@@ -82,6 +88,18 @@ async function rpcRows(supabase: SupabaseClient, name: string) {
 
 export const MEMBER_LOG_SINCE = "2020-01-01T00:00:00.000Z";
 
+async function fetchRemovedMembers(supabase: SupabaseClient) {
+  const pack = await supabase
+    .from("comments")
+    .select("content")
+    .eq("post_id", REMOVED_MEMBERS_POST)
+    .limit(500);
+  if (pack.error || !Array.isArray(pack.data)) return [];
+  return pack.data
+    .map((row) => parseRemovedMemberContent(asText(row.content)))
+    .filter((row): row is { email: string; authUserId: string } => Boolean(row));
+}
+
 async function fetchLoggedMembers(supabase: SupabaseClient) {
   const live = await supabase.rpc("list_live_visitors", {
     p_since: MEMBER_LOG_SINCE,
@@ -93,11 +111,12 @@ async function fetchLoggedMembers(supabase: SupabaseClient) {
 async function fetchAdminMembers(
   supabase: SupabaseClient,
 ): Promise<AdminMemberRow[]> {
-  const [roster, classic, authUsers, loggedLive] = await Promise.all([
+  const [roster, classic, authUsers, loggedLive, removed] = await Promise.all([
     rpcRows(supabase, "list_admin_roster"),
     rpcRows(supabase, "list_site_members"),
     listGoogleAuthMembers(),
     fetchLoggedMembers(supabase),
+    fetchRemovedMembers(supabase),
   ]);
 
   const wide = await supabase
@@ -131,24 +150,27 @@ async function fetchAdminMembers(
     .order("created_at", { ascending: false })
     .limit(200);
 
-  return mergeMemberRows([
-    authUsers,
-    roster,
-    classic,
-    loggedLive,
-    (table.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>)),
-    membersFromVisitorRows(
-      (logged.data ?? []) as Record<string, unknown>[],
-    ),
-    (profiles.data ?? []).map((row) =>
-      mapMemberRow({
-        ...(row as Record<string, unknown>),
-        auth_user_id: row.id,
-        source: "google",
-        status: "active",
-      }),
-    ),
-  ]);
+  return withoutRemovedMembers(
+    mergeMemberRows([
+      authUsers,
+      roster,
+      classic,
+      loggedLive,
+      (table.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>)),
+      membersFromVisitorRows(
+        (logged.data ?? []) as Record<string, unknown>[],
+      ),
+      (profiles.data ?? []).map((row) =>
+        mapMemberRow({
+          ...(row as Record<string, unknown>),
+          auth_user_id: row.id,
+          source: "google",
+          status: "active",
+        }),
+      ),
+    ]),
+    removed,
+  );
 }
 
 export { emptyAdminMetrics };

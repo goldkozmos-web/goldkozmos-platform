@@ -25,6 +25,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { href: "/admin/icerikler", label: "İçerik" },
   { href: "/admin/oneriler", label: "Öneri" },
   { href: "/admin/bildirimler", label: "Bildirim" },
+  { href: "/admin/cikar", label: "Çıkar" },
 ];
 
 export type AdminOverviewCardId =
