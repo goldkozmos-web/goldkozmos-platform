@@ -74,11 +74,13 @@ export default function AdminMessageDesk({
             onChange={(event) => setRecipientId(event.target.value)}
           >
             <option value="all">Tüm üyeler</option>
-            {members.map((member) => (
-              <option key={member.id} value={member.id}>
-                {member.displayName}
-              </option>
-            ))}
+            {members
+              .filter((member) => member.authUserId)
+              .map((member) => (
+                <option key={member.id} value={member.authUserId || member.id}>
+                  {member.displayName}
+                </option>
+              ))}
           </select>
         </label>
         <label>

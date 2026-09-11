@@ -52,16 +52,22 @@ export type AdminMemberRow = {
   role: string;
   email: string | null;
   createdAt: string | null;
+  source: string;
+  status: string;
+  authUserId: string | null;
 };
 
 function mapMemberRow(row: Record<string, unknown>): AdminMemberRow {
   return {
-    id: asText(row.id),
+    id: asText(row.id) || asText(row.auth_user_id),
     displayName:
       asText(row.display_name) || asText(row.displayName) || "GoldKozmos üyesi",
     role: asText(row.role) === "admin" ? "admin" : "user",
     email: asText(row.email) || null,
     createdAt: asText(row.created_at) || asText(row.createdAt) || null,
+    source: asText(row.source) || "google",
+    status: asText(row.status) || "active",
+    authUserId: asText(row.auth_user_id) || asText(row.authUserId) || null,
   };
 }
 
@@ -74,12 +80,23 @@ async function fetchAdminMembers(
   }
 
   const { data } = await supabase
+    .from("site_members")
+    .select("id, display_name, email, source, status, auth_user_id, created_at")
+    .eq("status", "active")
+    .order("created_at", { ascending: false })
+    .limit(200);
+
+  if (data && data.length > 0) {
+    return data.map((row) => mapMemberRow(row as Record<string, unknown>));
+  }
+
+  const profiles = await supabase
     .from("profiles")
     .select("id, display_name, role, created_at")
     .order("created_at", { ascending: false })
     .limit(120);
 
-  return (data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>));
+  return (profiles.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>));
 }
 
 export { emptyAdminMetrics };
@@ -129,7 +146,7 @@ export async function loadAdminLive() {
     ]);
 
     membersList = memberRows;
-    memberCount = memberHead.count ?? memberRows.length;
+    memberCount = memberRows.length || memberHead.count || 0;
     visitCount = visits.count ?? 0;
 
     const visitorRows = liveRows.data ?? [];

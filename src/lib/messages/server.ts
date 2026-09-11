@@ -99,8 +99,21 @@ export async function sendMemberMessage(raw: {
   let recipientIds: string[] = [];
 
   if (parsed.recipientId === "all") {
-    const { data } = await supabase.from("profiles").select("id");
-    recipientIds = (data ?? []).map((row) => String(row.id));
+    const roster = await supabase
+      .from("site_members")
+      .select("auth_user_id")
+      .eq("status", "active")
+      .not("auth_user_id", "is", null);
+    recipientIds = (roster.data ?? [])
+      .map((row) =>
+        typeof row.auth_user_id === "string" ? row.auth_user_id : "",
+      )
+      .filter(Boolean);
+
+    if (recipientIds.length === 0) {
+      const { data } = await supabase.from("profiles").select("id");
+      recipientIds = (data ?? []).map((row) => String(row.id));
+    }
   } else {
     recipientIds = [parsed.recipientId];
   }

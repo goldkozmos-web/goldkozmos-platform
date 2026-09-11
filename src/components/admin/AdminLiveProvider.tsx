@@ -36,6 +36,7 @@ type AdminLiveContextValue = {
   toast: AdminAlert | null;
   notifyReady: boolean;
   enableNotify: () => void;
+  refresh: () => Promise<void>;
 };
 
 const AdminLiveContext = createContext<AdminLiveContextValue | null>(null);
@@ -135,8 +136,8 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ live, toast, notifyReady, enableNotify }),
-    [live, toast, notifyReady, enableNotify],
+    () => ({ live, toast, notifyReady, enableNotify, refresh }),
+    [live, toast, notifyReady, enableNotify, refresh],
   );
 
   return (

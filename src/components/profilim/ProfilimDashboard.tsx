@@ -129,6 +129,7 @@ export default function ProfilimDashboard({
           isAdmin: isSiteAdminEmail(next.email),
         });
         setChecking(false);
+        void client.rpc("ensure_own_membership");
       }
     }
 

@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import type { AdminOverviewMetric } from "../../lib/admin/load";
-import AdminMemberList from "./AdminMemberList";
+import { AdminMemberDesk } from "./AdminMemberList";
 import { useAdminLive } from "./AdminLiveProvider";
 
 export default function AdminOverview({
@@ -37,7 +37,7 @@ export default function AdminOverview({
         })}
       </section>
 
-      <AdminMemberList members={members} />
+      <AdminMemberDesk members={members} />
     </div>
   );
 }
