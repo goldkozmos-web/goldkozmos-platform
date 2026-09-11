@@ -312,3 +312,59 @@
   background: linear-gradient(180deg, #f7ead3, #f3e4c8);
   color: #6b4e1f;
 }
+
+.adminCompose,
+.adminHint {
+  border: 1px solid rgba(198, 168, 112, 0.28);
+  border-radius: 18px;
+  background: #fffcf7;
+}
+
+.adminCompose {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.adminCompose label {
+  display: grid;
+  gap: 6px;
+  color: #6b4e1f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.adminCompose input,
+.adminCompose select,
+.adminCompose textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(184, 140, 62, 0.28);
+  border-radius: 12px;
+  background: #fff;
+  color: #211811;
+  font: inherit;
+}
+
+.adminCompose button {
+  justify-self: start;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2c1d14, #140e0a);
+  color: #e3bc70;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.adminCompose small,
+.adminHint {
+  color: #6a635b;
+  font-size: 13px;
+}
+
+.adminHint {
+  margin: 0;
+  padding: 16px 18px;
+}

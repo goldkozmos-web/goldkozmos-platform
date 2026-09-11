@@ -18,6 +18,7 @@ export type AdminNavItem = {
 export const ADMIN_NAV: AdminNavItem[] = [
   { href: "/admin", label: "Genel Bakış" },
   { href: "/admin/kullanicilar", label: "Kullanıcılar" },
+  { href: "/admin/mesajlar", label: "Mesajlar" },
   { href: "/admin/aktivite", label: "Aktivite" },
   { href: "/admin/randevular", label: "Randevular" },
   { href: "/admin/satin-almalar", label: "Satın Almalar" },
