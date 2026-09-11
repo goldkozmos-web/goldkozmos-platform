@@ -11,7 +11,7 @@ export default function AyarlarSorun() {
     <AyarlarFrame title="Sorun Bildir" backHref="/ayarlar">
       {() => (
         <form
-          className="ayarlarCard ayarlarForm"
+          className="adminPanel ayarlarCard ayarlarForm"
           onSubmit={(event) => {
             event.preventDefault();
             const text = note.trim() || "Merhaba, bir sorun bildirmek istiyorum.";

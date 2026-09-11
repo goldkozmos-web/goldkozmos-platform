@@ -1,5 +1,5 @@
-import AyarlarHesap from "../../../components/ayarlar/AyarlarHesap";
+import AyarlarHesapCard from "../../../components/ayarlar/AyarlarHesapCard";
 
 export default function Page() {
-  return <AyarlarHesap />;
+  return <AyarlarHesapCard />;
 }

@@ -6,7 +6,7 @@ export default function AyarlarHakkinda() {
   return (
     <AyarlarFrame title="GoldKozmos Hakkında" backHref="/ayarlar">
       {() => (
-        <div className="ayarlarCard ayarlarCopy">
+        <div className="adminPanel ayarlarCard ayarlarCopy">
           <p>
             GoldKozmos® Rezonans Ekolü; kendilik, ilişkiler, bolluk ve farkındalık
             alanlarını bir araya getirir.

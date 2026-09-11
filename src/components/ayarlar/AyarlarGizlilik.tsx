@@ -6,7 +6,7 @@ export default function AyarlarGizlilik() {
   return (
     <AyarlarFrame title="Gizlilik ve Güvenlik" backHref="/ayarlar">
       {() => (
-        <div className="ayarlarCard ayarlarCopy">
+        <div className="adminPanel ayarlarCard ayarlarCopy">
           <p>
             Google hesabın yalnızca giriş içindir. Profilindeki bilgiler senin
             kozmosunda kalır; yönetim yalnızca senin hesabını görür.

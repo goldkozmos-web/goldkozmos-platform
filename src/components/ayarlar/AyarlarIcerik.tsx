@@ -49,7 +49,7 @@ function InterestsBody({ user }: { user: NonNullable<ProfilimUser> }) {
   }
 
   return (
-    <div className="ayarlarCard">
+    <div className="adminPanel ayarlarCard">
       {SETTINGS_INTERESTS.map((item) => {
         const on = prefs.interests.includes(item.id);
         return (

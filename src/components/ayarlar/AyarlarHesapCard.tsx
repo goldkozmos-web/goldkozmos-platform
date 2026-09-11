@@ -94,7 +94,15 @@ function AccountBody({ user }: { user: NonNullable<ProfilimUser> }) {
   }
 
   return (
-    <div className="ayarlarCard ayarlarAccount">
+    <div
+      className="adminPanel ayarlarCard ayarlarAccount"
+      style={{
+        background: "#ffffff",
+        border: 0,
+        borderRadius: 22,
+        boxShadow: "0 10px 28px rgba(48, 32, 18, 0.08)",
+      }}
+    >
       {user.avatarUrl ? (
         <img className="ayarlarPhoto" src={user.avatarUrl} alt="" />
       ) : (
@@ -113,6 +121,17 @@ function AccountBody({ user }: { user: NonNullable<ProfilimUser> }) {
               autoComplete="name"
               placeholder="Ad soyadın"
               aria-label="Ad soyad"
+              style={{
+                width: "100%",
+                minHeight: 46,
+                padding: "0 14px",
+                border: 0,
+                borderRadius: 16,
+                background: "#f4f0e4",
+                color: "#1c1410",
+                fontSize: 16,
+                fontWeight: 600,
+              }}
               onChange={(event) => setName(event.target.value)}
             />
           </dd>
@@ -130,6 +149,16 @@ function AccountBody({ user }: { user: NonNullable<ProfilimUser> }) {
         type="button"
         className="ayarlarSave"
         disabled={busy}
+        style={{
+          width: "calc(100% - 8px)",
+          minHeight: 44,
+          border: 0,
+          borderRadius: 999,
+          background: "#1c1410",
+          color: "#e3bc70",
+          fontSize: 14,
+          fontWeight: 700,
+        }}
         onClick={() => void save()}
       >
         {busy ? "Kaydediliyor…" : "Kaydet"}
@@ -139,7 +168,7 @@ function AccountBody({ user }: { user: NonNullable<ProfilimUser> }) {
   );
 }
 
-export default function AyarlarHesap() {
+export default function AyarlarHesapCard() {
   return (
     <AyarlarFrame title="Hesap Bilgileri" backHref="/ayarlar">
       {(user) => <AccountBody user={user} />}
