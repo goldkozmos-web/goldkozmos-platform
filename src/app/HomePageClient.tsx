@@ -2358,6 +2358,16 @@ const homepageArchiveStyles = `
     }
   }
 
+  .homeV3Page .homeV3Hero {
+    background: linear-gradient(
+      180deg,
+      #2c1c14 0%,
+      #5a3c2e 40%,
+      #8f6a50 78%,
+      #c4a078 100%
+    ) !important;
+  }
+
   .homeV3Page .homeV3HeroCard .homeHeroActionRow {
     grid-column: 1 / -1 !important;
     width: 100% !important;
@@ -2389,6 +2399,13 @@ const homepageArchiveStyles = `
     grid-template-columns: none !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
+    background: linear-gradient(
+      165deg,
+      #2c1c14 0%,
+      #624030 48%,
+      #b08a62 100%
+    ) !important;
+    border: 1px solid rgba(210, 166, 82, 0.28) !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestIcon {
