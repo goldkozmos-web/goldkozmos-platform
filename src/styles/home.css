@@ -21755,7 +21755,7 @@ font-size:32px;
 
   background: #ffffff;
 
-  border: 1px solid rgba(176, 130, 48, 0.28);
+  border: 1px solid rgba(18, 16, 14, 0.28);
 
   box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14);
 }
@@ -21792,7 +21792,7 @@ font-size:32px;
 .homeHeroMiniTestCopy > p {
   margin: 0 0 4px;
 
-  color: #9a7328;
+  color: #c4a056;
 
   font-size: 7px;
 
@@ -21804,7 +21804,7 @@ font-size:32px;
 .homeHeroMiniTestCopy h2 {
   margin: 0;
 
-  color: #1c1410;
+  color: #14110e;
 
   font-family:
     Georgia,
@@ -21821,7 +21821,7 @@ font-size:32px;
 }
 
 .homeHeroMiniTestCopy h2 span {
-  color: #9a7328;
+  color: #c4a056;
 }
 
 

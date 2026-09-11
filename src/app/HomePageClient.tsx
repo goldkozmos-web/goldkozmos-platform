@@ -2406,7 +2406,7 @@ const homepageArchiveStyles = `
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     background: #ffffff !important;
-    border: 1px solid rgba(176, 130, 48, 0.28) !important;
+    border: 1px solid rgba(18, 16, 14, 0.28) !important;
     box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14) !important;
   }
 
@@ -2420,28 +2420,28 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy p {
-    font-size: 8px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.08em !important;
+    font-size: 10px !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.06em !important;
     line-height: 1.3 !important;
     margin: 0 0 5px !important;
-    color: #9a7328 !important;
+    color: #c4a056 !important;
     -webkit-font-smoothing: antialiased !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 {
     white-space: normal !important;
-    font-size: 15px !important;
-    font-weight: 400 !important;
-    line-height: 1.22 !important;
+    font-size: 17px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
     letter-spacing: -0.02em !important;
-    color: #1c1410 !important;
+    color: #14110e !important;
     text-rendering: geometricPrecision !important;
     -webkit-font-smoothing: antialiased !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 span {
-    color: #9a7328 !important;
+    color: #c4a056 !important;
   }
 
   .homeHeroActionCard {
@@ -2472,7 +2472,7 @@ const homepageArchiveStyles = `
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest > a span,
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionCta span {
-    color: #a5782d;
+    color: #c4a056;
   }
 
   .homeV3Page .homeV3HeroSocials {
