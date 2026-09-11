@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import type { AdminOverviewMetric } from "../../lib/admin/load";
 import AdminMemberList, { AdminMemberDesk } from "./AdminMemberList";
 import { useAdminLive } from "./AdminLiveProvider";
@@ -35,7 +33,7 @@ export default function AdminOverview({
                   : metric.empty;
 
           return (
-            <Link
+            <a
               key={metric.id}
               href={metric.href}
               className={`adminCard${metric.hasSource ? "" : " isEmpty"}${liveOn ? " isLive" : ""}`}
@@ -46,7 +44,7 @@ export default function AdminOverview({
                 {metric.value}
               </strong>
               <span className="adminCardHint">{hint}</span>
-            </Link>
+            </a>
           );
         })}
       </section>
