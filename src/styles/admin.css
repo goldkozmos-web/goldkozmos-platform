@@ -1,36 +1,55 @@
 .adminPage {
-  --admin-ink: #16110c;
-  --admin-gold: #b08a3a;
-  --admin-gold-line: #c4a45c;
-  --admin-gold-soft: #f3ead6;
-  --admin-gold-press: #ead9b6;
-  --admin-muted: #6b5a3a;
+  --admin-ink: #14110e;
+  --admin-gold: #a57b2e;
+  --admin-gold-line: rgba(165, 123, 46, 0.38);
+  --admin-gold-soft: #efe6d2;
+  --admin-gold-press: #e7d9b8;
+  --admin-muted: #6e5c3c;
   --admin-paper: #ffffff;
-  --admin-shadow: 0 1px 1px rgba(22, 17, 12, 0.04), 0 8px 20px rgba(48, 32, 12, 0.08),
-    0 2px 6px rgba(176, 138, 58, 0.12);
-  --admin-shadow-hover: 0 2px 2px rgba(22, 17, 12, 0.05), 0 14px 28px rgba(48, 32, 12, 0.1),
-    0 4px 10px rgba(176, 138, 58, 0.16);
+  --admin-stage: #f3f1ec;
+  --admin-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 2px rgba(28, 20, 10, 0.05),
+    0 12px 28px rgba(28, 20, 10, 0.07);
+  --admin-shadow-hover:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 4px 8px rgba(28, 20, 10, 0.05),
+    0 18px 36px rgba(28, 20, 10, 0.1);
   min-height: 100dvh;
-  padding: 0 0 calc(176px + env(safe-area-inset-bottom, 0px));
-  background: var(--admin-paper);
+  padding: 0 0 calc(168px + env(safe-area-inset-bottom, 0px));
+  background: var(--admin-stage);
   color: var(--admin-ink);
+  font-family: "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .adminShell {
-  width: min(1080px, calc(100% - 28px));
+  width: min(980px, calc(100% - 24px));
   margin: 0 auto;
-  padding: 28px 0 24px;
+  padding: 18px 0 20px;
   display: grid;
-  gap: 22px;
+  gap: 16px;
 }
 
 .adminTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 16px 20px;
+  padding: 20px 22px 18px;
+  border: 1px solid var(--admin-gold-line);
+  border-radius: 24px;
+  background: var(--admin-paper);
+  box-shadow: var(--admin-shadow);
+}
+
+.adminExitRow {
+  grid-column: 1 / -1;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--admin-gold-line);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
 }
 
 .adminBrand p,
@@ -58,17 +77,17 @@
 
 .adminTop h1,
 .adminBrand h1 {
-  font-size: clamp(32px, 4vw, 42px);
-  line-height: 0.98;
+  font-size: clamp(28px, 3.6vw, 36px);
+  line-height: 1;
 }
 
 .adminLead {
   display: block;
-  margin-top: 10px;
-  color: var(--admin-ink);
-  font-size: 15px;
-  line-height: 1.5;
-  max-width: 34ch;
+  margin-top: 8px;
+  color: var(--admin-muted);
+  font-size: 14px;
+  line-height: 1.45;
+  max-width: 40ch;
 }
 
 .adminDate {
@@ -82,15 +101,15 @@
   display: grid;
   justify-items: end;
   gap: 6px;
-  min-width: 168px;
-  padding: 14px 16px;
+  min-width: 180px;
+  padding: 12px 14px;
   border: 1px solid var(--admin-gold-line);
-  border-radius: 20px;
-  background: var(--admin-paper);
+  border-radius: 16px;
+  background: var(--admin-stage);
   color: var(--admin-ink);
   font-size: 13px;
   font-weight: 600;
-  box-shadow: var(--admin-shadow);
+  box-shadow: none;
 }
 
 .adminActor strong {
@@ -122,13 +141,6 @@
   letter-spacing: 0.02em;
 }
 
-.adminExitRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-
 .adminSiteJump:hover,
 .adminProfilimLink:hover,
 .adminNotifyBtn:hover {
@@ -146,8 +158,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 42px;
-  padding: 0 16px;
+  min-height: 38px;
+  padding: 0 14px;
   border: 1px solid var(--admin-gold-line);
   border-radius: 999px;
   background: var(--admin-paper);
@@ -156,7 +168,7 @@
   font-weight: 650;
   letter-spacing: 0;
   text-decoration: none;
-  box-shadow: var(--admin-shadow);
+  box-shadow: none;
 }
 
 .adminCompose button {
@@ -175,7 +187,7 @@
 .adminOverview {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .adminEmpty,
@@ -185,7 +197,7 @@
 .adminCompose,
 .adminHint {
   border: 1px solid var(--admin-gold-line);
-  border-radius: 18px;
+  border-radius: 22px;
   background: var(--admin-paper);
   box-shadow: var(--admin-shadow);
 }
@@ -194,32 +206,35 @@
 .adminMetric {
   display: grid;
   align-content: space-between;
-  gap: 4px;
-  min-height: 78px;
-  padding: 11px 12px 10px;
+  gap: 8px;
+  min-height: 108px;
+  padding: 16px 16px 14px;
   border: 1px solid var(--admin-gold-line);
-  border-radius: 14px;
+  border-radius: 20px;
   background: var(--admin-paper);
   color: inherit;
   text-decoration: none;
   box-shadow: var(--admin-shadow);
-  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease,
+    transform 180ms ease;
 }
 
 .adminCard:hover,
 .adminMetric:hover,
 .adminCard:focus-visible,
 .adminMetric:focus-visible {
-  background: var(--admin-gold-soft);
+  background: var(--admin-paper);
   border-color: var(--admin-gold);
   box-shadow: var(--admin-shadow-hover);
-  transform: none;
+  transform: translateY(-1px);
 }
 
 .adminCard:active,
 .adminMetric:active {
-  background: var(--admin-gold-press);
+  background: var(--admin-gold-soft);
   border-color: var(--admin-gold);
+  box-shadow: var(--admin-shadow);
+  transform: translateY(0);
 }
 
 .adminCard.isOn,
@@ -232,9 +247,9 @@
 .adminMetric p {
   margin: 0;
   color: var(--admin-gold);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
   text-transform: none !important;
 }
 
@@ -244,9 +259,9 @@
   align-items: center;
   gap: 7px;
   color: var(--admin-ink);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 22px;
-  font-weight: 600;
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 650;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "lnum" 1;
   letter-spacing: -0.03em;
@@ -269,7 +284,7 @@
 .adminMetric.isLive:hover,
 .adminCard.isLive:focus-visible,
 .adminMetric.isLive:focus-visible {
-  background: var(--admin-gold-soft);
+  background: var(--admin-paper);
 }
 
 .adminLiveDot {
@@ -405,7 +420,14 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 16px 18px;
+  padding: 14px 16px;
+}
+
+.adminPanel .adminMember,
+.adminList .adminMember {
+  border-radius: 16px;
+  box-shadow: none;
+  background: var(--admin-stage);
 }
 
 .adminMember strong {
@@ -419,7 +441,7 @@
 .adminProfilimLink {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
+  min-height: 38px;
   padding: 0 14px;
   border: 1px solid var(--admin-gold-line);
   border-radius: 999px;
@@ -428,14 +450,14 @@
   font-size: 13px;
   font-weight: 650;
   text-decoration: none;
-  box-shadow: var(--admin-shadow);
+  box-shadow: none;
 }
 
 .adminNotifyBtn,
 .adminNotifyOn {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
+  min-height: 38px;
   padding: 0 12px;
   border-radius: 999px;
   font-size: 13px;
@@ -447,7 +469,7 @@
   background: var(--admin-paper);
   color: var(--admin-ink);
   cursor: pointer;
-  box-shadow: var(--admin-shadow);
+  box-shadow: none;
 }
 
 .adminNotifyOn {
@@ -478,29 +500,30 @@
   position: fixed;
   left: 50%;
   right: auto;
-  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   z-index: 100040;
-  width: min(1080px, calc(100% - 24px));
+  width: min(980px, calc(100% - 20px));
   transform: translateX(-50%);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
-  padding: 8px;
+  gap: 4px;
+  padding: 6px;
   border: 1px solid var(--admin-gold-line);
-  border-radius: 24px;
-  background: var(--admin-paper);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--admin-shadow-hover);
-  backdrop-filter: none;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
 }
 
 .adminNav a {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 38px;
+  min-height: 42px;
   padding: 0 8px;
-  border-radius: 14px;
-  color: var(--admin-ink);
+  border-radius: 22px;
+  color: var(--admin-muted);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0;
@@ -510,16 +533,19 @@
 
 .adminNav a:hover,
 .adminNav a:focus-visible {
-  background: var(--admin-gold-soft);
+  background: var(--admin-stage);
+  color: var(--admin-ink);
 }
 
 .adminNav a:active {
   background: var(--admin-gold-press);
+  color: var(--admin-ink);
 }
 
 .adminNav a.isOn {
   background: var(--admin-gold-soft);
   color: var(--admin-ink);
+  font-weight: 700;
 }
 
 .adminCompose label {
@@ -603,8 +629,15 @@
     justify-items: start;
   }
 
+  .adminTop {
+    grid-template-columns: 1fr;
+    border-radius: 22px;
+    padding: 18px 16px 16px;
+  }
+
   .adminActor {
     width: 100%;
+    justify-items: start;
   }
 
   .adminOverview {
@@ -614,13 +647,13 @@
 
   .adminCard,
   .adminMetric {
-    min-height: 72px;
-    padding: 10px 11px 9px;
+    min-height: 96px;
+    padding: 14px 14px 12px;
   }
 
   .adminCard strong,
   .adminMetric strong {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .adminFields,

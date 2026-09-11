@@ -40,23 +40,22 @@ function AdminChrome({
           {actor.email ? <em>{actor.email}</em> : null}
           <span>Yönetici</span>
         </p>
+        <div className="adminExitRow">
+          <a className="adminSiteJump" href="/">
+            Siteye dön
+          </a>
+          <a className="adminProfilimLink" href="/profilim">
+            Profilim
+          </a>
+          {notifyReady ? (
+            <span className="adminNotifyOn">Bildirimler açık</span>
+          ) : (
+            <button type="button" className="adminNotifyBtn" onClick={enableNotify}>
+              Bildirimleri aç
+            </button>
+          )}
+        </div>
       </header>
-
-      <div className="adminExitRow">
-        <a className="adminSiteJump" href="/">
-          Siteye dön
-        </a>
-        <a className="adminProfilimLink" href="/profilim">
-          Profilim
-        </a>
-        {notifyReady ? (
-          <span className="adminNotifyOn">Bildirimler açık</span>
-        ) : (
-          <button type="button" className="adminNotifyBtn" onClick={enableNotify}>
-            Bildirimleri aç
-          </button>
-        )}
-      </div>
 
       {toast ? (
         <div className="adminToast" role="status">
