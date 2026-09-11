@@ -22,7 +22,6 @@ import type {
 } from "../../lib/profilim/types";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import { shouldClearProfilimUser } from "../../lib/profilim/sessionEvents";
-import { sessionNeedsPhoneStep } from "../../lib/auth/phone";
 import {
   TODAY_NEED_CHOICES,
   goldmindUrlForFocus,
@@ -123,8 +122,13 @@ export default function ProfilimDashboard({
       }
 
       if (!cancelled) {
-        const { data: aal } = await client.auth.mfa.getAuthenticatorAssuranceLevel();
-        if (sessionNeedsPhoneStep(aal?.currentLevel)) {
+        const phoneStatus = await fetch("/api/auth/phone", {
+          credentials: "same-origin",
+        });
+        const phoneJson = (await phoneStatus.json().catch(() => null)) as {
+          ok?: boolean;
+        } | null;
+        if (!phoneJson?.ok) {
           window.location.replace("/auth/telefon");
           return;
         }

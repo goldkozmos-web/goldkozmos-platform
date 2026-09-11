@@ -9,7 +9,6 @@ import {
   type AdminActor,
 } from "../../lib/admin/access";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
-import { sessionNeedsPhoneStep } from "../../lib/auth/phone";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import AdminLocked from "./AdminLocked";
 import AdminShell from "./AdminShell";
@@ -50,6 +49,12 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
 
     let cancelled = false;
 
+    async function phoneStepMissing() {
+      const res = await fetch("/api/auth/phone", { credentials: "same-origin" });
+      const json = (await res.json().catch(() => null)) as { ok?: boolean } | null;
+      return !json?.ok;
+    }
+
     function applyUser(sessionUser: Parameters<typeof profilimUserFromAuth>[0]) {
       if (cancelled) return;
       const next = actorFromSessionUser(sessionUser);
@@ -73,8 +78,7 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
     ]).then(async (pack) => {
       const user = pack && "data" in pack ? pack.data.session?.user ?? null : null;
       if (user) {
-        const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-        if (sessionNeedsPhoneStep(aal?.currentLevel)) {
+        if (await phoneStepMissing()) {
           window.location.replace("/auth/telefon?next=/admin");
           return;
         }
@@ -88,8 +92,7 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
       if (!session?.user) {
         return;
       }
-      const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-      if (sessionNeedsPhoneStep(aal?.currentLevel)) {
+      if (await phoneStepMissing()) {
         window.location.replace("/auth/telefon?next=/admin");
         return;
       }

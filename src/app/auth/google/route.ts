@@ -1,6 +1,7 @@
 import { type NextRequest } from "next/server";
 
 import { appOriginFromUrl, googleCallbackUrl, profilimAfterAuthUrl } from "@/lib/site";
+import { clearPhoneStepCookieHeader } from "@/lib/auth/phone";
 import { createAuthCookieClient, htmlRedirect } from "@/lib/supabase/auth-cookies";
 import { resolveGoogleAuthorizeUrl } from "@/lib/supabase/google-authorize";
 
@@ -45,5 +46,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  return auth.redirect(googleUrl);
+  const response = auth.redirect(googleUrl);
+  response.headers.append(
+    "Set-Cookie",
+    clearPhoneStepCookieHeader(request.nextUrl.hostname),
+  );
+  return response;
 }

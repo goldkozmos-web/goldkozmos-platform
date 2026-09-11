@@ -21,6 +21,7 @@ import {
   normalizeTrPhone,
   phoneOtpMessage,
   sessionNeedsPhoneStep,
+  toE164,
 } from "../src/lib/auth/phone.ts";
 import type { User } from "@supabase/supabase-js";
 
@@ -118,11 +119,15 @@ test("Turkish mobile numbers normalize to E.164", () => {
   assert.equal(normalizeTrPhone("+90 532 111 22 33"), "+905321112233");
   assert.equal(normalizeTrPhone("5321112233"), "+905321112233");
   assert.equal(normalizeTrPhone("123"), null);
+  assert.equal(toE164("49", "0176 12345678"), "+4917612345678");
+  assert.equal(toE164("90", "0212 111 22 33"), null);
 });
 
 test("phone OTP errors stay human", () => {
-  assert.match(phoneOtpMessage("Unsupported phone provider"), /telefonuna/);
+  assert.match(phoneOtpMessage("Unsupported phone provider"), /SMS/);
   assert.match(phoneOtpMessage("Invalid token"), /Kod/);
+  assert.match(phoneOtpMessage("Phone factor already exists"), /Kod gönderilemedi/);
+  assert.doesNotMatch(phoneOtpMessage("Phone MFA is disabled"), /cep numarası/);
 });
 
 test("Google login is not finished until phone MFA is aal2", () => {
