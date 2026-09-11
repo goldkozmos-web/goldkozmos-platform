@@ -26,20 +26,31 @@ export async function getProfilimSessionUser(): Promise<ProfilimUser> {
     return null;
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  try {
+    const auth = await Promise.race([
+      supabase.auth.getUser(),
+      new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), 2000);
+      }),
+    ]);
 
-  const actor = profilimUserFromAuth(user);
+    if (!auth) {
+      return null;
+    }
 
-  if (!actor) {
+    const actor = profilimUserFromAuth(auth.data.user);
+
+    if (!actor) {
+      return null;
+    }
+
+    const flags = await flagsOrNull(supabase, actor.id);
+
+    return {
+      ...actor,
+      isAdmin: isAdminProfile(flags),
+    };
+  } catch {
     return null;
   }
-
-  const flags = await flagsOrNull(supabase, actor.id);
-
-  return {
-    ...actor,
-    isAdmin: isAdminProfile(flags),
-  };
 }
