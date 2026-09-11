@@ -8,13 +8,20 @@ import {
   googleStartUrl,
   htmlAuthMessagePage,
   htmlRedirectPage,
+  phoneStepUrl,
   profilimAfterAuthUrl,
+  safeAppPath,
 } from "../src/lib/site.ts";
 import {
   isGoogleAccountsUrl,
   isSupabaseAuthorizeUrl,
 } from "../src/lib/supabase/google-authorize.ts";
-import { normalizeTrPhone, phoneOtpMessage } from "../src/lib/auth/phone.ts";
+import {
+  maskTrPhone,
+  normalizeTrPhone,
+  phoneOtpMessage,
+  sessionNeedsPhoneStep,
+} from "../src/lib/auth/phone.ts";
 import type { User } from "@supabase/supabase-js";
 
 function fakeUser(metadata: Record<string, unknown>, email = "gold@example.com") {
@@ -114,6 +121,15 @@ test("Turkish mobile numbers normalize to E.164", () => {
 });
 
 test("phone OTP errors stay human", () => {
-  assert.match(phoneOtpMessage("Unsupported phone provider"), /Google/);
+  assert.match(phoneOtpMessage("Unsupported phone provider"), /telefonuna/);
   assert.match(phoneOtpMessage("Invalid token"), /Kod/);
+});
+
+test("Google login is not finished until phone MFA is aal2", () => {
+  assert.equal(sessionNeedsPhoneStep("aal1"), true);
+  assert.equal(sessionNeedsPhoneStep("aal2"), false);
+  assert.equal(maskTrPhone("+905321112233"), "0532 *** ** 33");
+  assert.equal(phoneStepUrl("https://goldkozmos.com"), "https://goldkozmos.com/auth/telefon");
+  assert.equal(safeAppPath("/admin"), "/admin");
+  assert.equal(safeAppPath("https://evil.com"), "/profilim");
 });

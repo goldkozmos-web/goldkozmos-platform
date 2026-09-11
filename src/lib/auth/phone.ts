@@ -16,17 +16,30 @@ export function normalizeTrPhone(raw: string) {
   return null;
 }
 
+export function sessionNeedsPhoneStep(currentLevel: string | null | undefined) {
+  return currentLevel !== "aal2";
+}
+
+export function maskTrPhone(phone: string) {
+  const digits = String(phone ?? "").replace(/\D/g, "");
+  const local = digits.startsWith("90") ? digits.slice(2) : digits;
+  if (local.length < 10) {
+    return "kayıtlı telefonun";
+  }
+  return `0${local.slice(0, 3)} *** ** ${local.slice(-2)}`;
+}
+
 export function phoneOtpMessage(error: string | null | undefined) {
   const text = String(error ?? "").toLowerCase();
   if (!text) return "Kod gönderilemedi. Numarayı kontrol edip tekrar dene.";
   if (text.includes("sms") || text.includes("provider") || text.includes("unsupported")) {
-    return "Telefon kodu henüz açık değil. Google ile girebilirsin.";
+    return "Kod telefonuna şu an ulaşamadı. Biraz sonra tekrar dene.";
   }
-  if (text.includes("token") || text.includes("otp") || text.includes("expired")) {
+  if (text.includes("token") || text.includes("otp") || text.includes("expired") || text.includes("challenge")) {
     return "Kod yanlış veya süresi doldu. Yeni kod iste.";
   }
   if (text.includes("invalid") || text.includes("phone")) {
     return "Geçerli bir Türkiye cep numarası yaz.";
   }
-  return "Kod şu an gönderilemedi. Google ile devam edebilirsin.";
+  return "Kod gönderilemedi. Telefonuna gelen son kodu dene veya yeni kod iste.";
 }

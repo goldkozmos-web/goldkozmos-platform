@@ -9,6 +9,7 @@ import {
   type AdminActor,
 } from "../../lib/admin/access";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
+import { sessionNeedsPhoneStep } from "../../lib/auth/phone";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import AdminLocked from "./AdminLocked";
 import AdminShell from "./AdminShell";
@@ -69,17 +70,30 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
       new Promise<null>((resolve) => {
         setTimeout(() => resolve(null), 800);
       }),
-    ]).then((pack) => {
+    ]).then(async (pack) => {
       const user = pack && "data" in pack ? pack.data.session?.user ?? null : null;
       if (user) {
+        const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+        if (sessionNeedsPhoneStep(aal?.currentLevel)) {
+          window.location.replace("/auth/telefon?next=/admin");
+          return;
+        }
         applyUser(user);
       }
     });
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      applyUser(session?.user ?? null);
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!session?.user) {
+        return;
+      }
+      const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+      if (sessionNeedsPhoneStep(aal?.currentLevel)) {
+        window.location.replace("/auth/telefon?next=/admin");
+        return;
+      }
+      applyUser(session.user);
     });
 
     return () => {

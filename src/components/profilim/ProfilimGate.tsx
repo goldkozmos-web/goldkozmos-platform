@@ -11,8 +11,8 @@ export default function ProfilimGate() {
         <span> kozmosuna gir</span>
       </h1>
       <p className="profilimGateLead">
-        Google ile bir kez girmen yeterli; kaydın kalıcı kalır. İstersen
-        telefonuna kod da gönderebiliriz.
+        Google ile gir, sonra telefonuna gelen kodu yaz. Kod sende yoksa
+        giriş tamamlanmaz.
       </p>
       <div className="profilimGateMotto">
         <span />

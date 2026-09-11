@@ -25,6 +25,22 @@ export function profilimAfterAuthUrl(origin: string, failed = false) {
   return failed ? `${origin}/profilim?auth=error` : `${origin}/profilim`;
 }
 
+export function phoneStepUrl(origin: string, next = "/profilim") {
+  const url = new URL("/auth/telefon", `${origin.replace(/\/$/, "")}/`);
+  if (next && next !== "/profilim") {
+    url.searchParams.set("next", next);
+  }
+  return url.toString();
+}
+
+export function safeAppPath(raw: string | null | undefined, fallback = "/profilim") {
+  const path = String(raw ?? "").trim();
+  if (!path.startsWith("/") || path.startsWith("//") || path.includes("://")) {
+    return fallback;
+  }
+  return path;
+}
+
 const AUTH_PAGE_STYLE =
   'html,body{margin:0;min-height:100dvh;background:#fffdf9;color:#211811;font-family:Georgia,"Times New Roman",serif}p,h1{padding:0 24px;text-align:center}main{padding:64px 24px}h1{font-size:28px}a{color:#8d6728}';
 
