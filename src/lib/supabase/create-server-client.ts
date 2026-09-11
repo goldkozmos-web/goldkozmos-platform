@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { getSupabasePublicEnv } from "./env";
-import { lastingCookieOptions, supabaseCookieOptions } from "./session";
+import { lastingCookieOptions } from "./session";
 
 export async function createSupabaseServerClient() {
   const env = getSupabasePublicEnv();
@@ -10,11 +10,9 @@ export async function createSupabaseServerClient() {
     return null;
   }
 
-  const headerList = await headers();
-  const host = headerList.get("x-forwarded-host") || headerList.get("host");
+  const cookieStore = await cookies();
 
   return createServerClient(env.url, env.publishableKey, {
-    cookieOptions: supabaseCookieOptions(host?.split(":")[0]),
     cookies: {
       getAll() {
         return cookieStore.getAll();
