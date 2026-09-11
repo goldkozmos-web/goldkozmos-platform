@@ -1,5 +1,6 @@
 "use client";
 
+import { adminMetricHint, formatAdminCount } from "../../lib/admin/access";
 import type { AdminOverviewMetric } from "../../lib/admin/load";
 import AdminMemberList, { AdminMemberDesk } from "./AdminMemberList";
 import { useAdminLive } from "./AdminLiveProvider";
@@ -19,31 +20,22 @@ export default function AdminOverview({
       <section className="adminOverview" aria-label="Bugünün özeti">
         {rows.map((metric) => {
           const liveOn = metric.id === "live" && metric.value > 0;
-          const hint =
-            metric.id === "live"
-              ? liveOn
-                ? "Şu an açık"
-                : metric.empty
-              : metric.id === "members"
-                ? metric.value > 0
-                  ? "Kayıtlı"
-                  : metric.empty
-                : metric.value > 0
-                  ? "Bugün"
-                  : metric.empty;
+          const emptyLook = !metric.hasSource || metric.value <= 0;
 
           return (
             <a
               key={metric.id}
               href={metric.href}
-              className={`adminCard${metric.hasSource ? "" : " isEmpty"}${liveOn ? " isLive" : ""}`}
+              className={`adminCard${emptyLook ? " isEmpty" : ""}${liveOn ? " isLive" : ""}`}
             >
               <p>{metric.title}</p>
               <strong>
                 {liveOn ? <i className="adminLiveDot" aria-hidden="true" /> : null}
-                {metric.value}
+                {formatAdminCount(metric.value)}
               </strong>
-              <span className="adminCardHint">{hint}</span>
+              <span className="adminCardHint">
+                {adminMetricHint(metric.id, metric.value, metric.empty)}
+              </span>
             </a>
           );
         })}
@@ -53,17 +45,17 @@ export default function AdminOverview({
         <section className="adminPanel">
           <header className="adminPanelHead">
             <div>
-              <p className="adminSectionLabel">Şu an sitede</p>
-              <h2>Canlı</h2>
+              <p className="adminSectionLabel">Açık sekmeler</p>
+              <h2>Şu an sitede</h2>
             </div>
             <span className={`adminBadge${liveNow.length ? " isLive" : ""}`}>
-              {liveNow.length}
+              {formatAdminCount(liveNow.length)}
             </span>
           </header>
           {liveNow.length === 0 ? (
             <div className="adminQuiet">
-              <strong>Sitede açık sekme yok</strong>
-              <span>Yönetim paneli sayılmaz. Birisi sitedeyken burada görünür.</span>
+              <strong>Şu an sitede kimse yok</strong>
+              <span>Yönetim sayfası sayılmaz. Biri sitedeyken burada görünür.</span>
             </div>
           ) : (
             <div className="adminPresence">

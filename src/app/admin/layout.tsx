@@ -6,7 +6,7 @@ import "../../styles/admin.css";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Yönetim Merkezi",
+  title: "Yönetim",
   robots: { index: false, follow: false },
 };
 

@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  adminMetricHint,
   adminMetricValue,
   canAccessAdmin,
+  formatAdminCount,
   istanbulDayStartIso,
   isSiteAdminEmail,
   normalizeProfileRole,
@@ -65,6 +67,15 @@ test("overview member chip counts all members, not only today", () => {
     metrics.every((metric) => metric.value === 0),
     true,
   );
+});
+
+test("metric hints stay polite and zeros stay numeric", () => {
+  assert.equal(formatAdminCount(0), "0");
+  assert.equal(formatAdminCount(2), "2");
+  assert.equal(adminMetricHint("live", 0, "Şu an kimse yok"), "Şu an kimse yok");
+  assert.equal(adminMetricHint("live", 2, "Şu an kimse yok"), "şu an 2 kişi");
+  assert.equal(adminMetricHint("members", 1, "Henüz üye yok"), "kayıtlı üye");
+  assert.equal(adminMetricHint("visits", 5, "Bugün henüz yok"), "bugün");
 });
 
 test("Istanbul day start is a real timestamptz, not a fake clock", () => {
