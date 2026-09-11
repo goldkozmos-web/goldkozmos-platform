@@ -2,6 +2,7 @@
 
 import { createBrowserClient } from "@supabase/ssr";
 import { getSupabasePublicEnv } from "./env";
+import { supabaseCookieOptions } from "./session";
 
 export function createSupabaseBrowserClient() {
   const env = getSupabasePublicEnv();
@@ -10,16 +11,19 @@ export function createSupabaseBrowserClient() {
     return null;
   }
 
-  const onGold =
-    typeof window !== "undefined" &&
-    window.location.hostname.endsWith("goldkozmos.com");
+  const host = typeof window !== "undefined" ? window.location.hostname : "";
+  const secure =
+    typeof window !== "undefined" && window.location.protocol === "https:";
 
   return createBrowserClient(env.url, env.publishableKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+    },
     cookieOptions: {
-      path: "/",
-      sameSite: "lax",
-      secure: typeof window !== "undefined" && window.location.protocol === "https:",
-      ...(onGold ? { domain: ".goldkozmos.com" } : {}),
+      ...supabaseCookieOptions(host),
+      secure,
     },
   });
 }

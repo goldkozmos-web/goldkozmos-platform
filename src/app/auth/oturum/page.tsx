@@ -32,6 +32,7 @@ export default function AuthOturumPage() {
         }
       }
 
+      await supabase.rpc("ensure_own_membership");
       window.location.replace("/profilim");
     }
 

@@ -945,6 +945,63 @@
   margin-top: 20px;
 }
 
+.profilimAuthSplit {
+  margin: 18px 0 12px;
+  color: #8a8176;
+  font-size: 12px;
+  text-align: center;
+}
+
+.profilimPhoneForm {
+  display: grid;
+  gap: 10px;
+}
+
+.profilimPhoneForm label {
+  display: grid;
+  gap: 6px;
+  color: #6b4e1f;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.profilimPhoneForm input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(184, 140, 62, 0.28);
+  border-radius: 14px;
+  background: #fff;
+  color: #211811;
+  font: inherit;
+}
+
+.profilimPhoneButton,
+.profilimPhoneGhost {
+  min-height: 46px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.profilimPhoneButton {
+  border: 1px solid rgba(184, 140, 62, 0.28);
+  background: #fff;
+  color: #5c4318;
+  cursor: pointer;
+}
+
+.profilimPhoneButton:disabled {
+  opacity: 0.7;
+}
+
+.profilimPhoneGhost {
+  border: 0;
+  background: transparent;
+  color: #8a8176;
+  cursor: pointer;
+}
+
 .profilimGoogleButton {
   display: flex;
   align-items: center;

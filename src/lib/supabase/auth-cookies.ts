@@ -3,6 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { htmlAuthMessagePage, htmlRedirectPage } from "../site";
 import { getSupabasePublicEnv } from "./env";
+import { lastingCookieOptions, supabaseCookieOptions } from "./session";
 
 type CookieToSet = {
   name: string;
@@ -86,21 +87,20 @@ export function createAuthCookieClient(request: NextRequest) {
 
   const jar: CookieToSet[] = [];
   const host = request.nextUrl.hostname;
-  const onGold = host.endsWith("goldkozmos.com");
 
   const supabase = createServerClient(env.url, env.publishableKey, {
-    cookieOptions: {
-      path: "/",
-      sameSite: "lax",
-      ...(onGold ? { domain: ".goldkozmos.com", secure: true } : {}),
-    },
+    cookieOptions: supabaseCookieOptions(host),
     cookies: {
       getAll() {
         return request.cookies.getAll();
       },
       setAll(cookiesToSet) {
         cookiesToSet.forEach(({ name, value, options }) => {
-          jar.push({ name, value, options });
+          jar.push({
+            name,
+            value,
+            options: lastingCookieOptions(options, value),
+          });
           request.cookies.set(name, value);
         });
       },
