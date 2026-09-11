@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { ADMIN_NAV, type AdminActor } from "../../lib/admin/access";
 import { AdminLiveProvider, useAdminLive } from "./AdminLiveProvider";
-import { AdminGearIcon, AdminNavIcon } from "./AdminIcons";
+import { AdminNavIcon } from "./AdminIcons";
 
 function todayLabel() {
   return new Intl.DateTimeFormat("tr-TR", {
@@ -58,9 +58,6 @@ function AdminChrome({
             <span className="adminLevel">Yönetici</span>
           </div>
         </div>
-        <a className="adminGear" href="/profilim" aria-label="Profilim">
-          <AdminGearIcon />
-        </a>
         <p className="adminLead">
           GoldKozmos masa · {todayLabel()}
         </p>

@@ -44,18 +44,3 @@ export function AdminNavIcon({ href }: { href: string }) {
 export function AdminMetricIcon({ id }: { id: string }) {
   return <Icon path={METRIC[id] || METRIC.visits} />;
 }
-
-export function AdminGearIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M12 15.2A3.2 3.2 0 1 0 12 8.8a3.2 3.2 0 0 0 0 6.4zM19.4 13a7.6 7.6 0 0 0 .1-2l2-1.5-1.8-3.2-2.4.6a7.7 7.7 0 0 0-1.7-1L15.2 3h-6.4L8.4 5.9a7.7 7.7 0 0 0-1.7 1L4.3 6.3 2.5 9.5 4.5 11a7.6 7.6 0 0 0 0 2l-2 1.5 1.8 3.2 2.4-.6a7.7 7.7 0 0 0 1.7 1L8.8 21h6.4l.4-2.9a7.7 7.7 0 0 0 1.7-1l2.4.6 1.8-3.2z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
