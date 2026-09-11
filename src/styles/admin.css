@@ -187,8 +187,8 @@
 }
 
 .adminLocked a {
-  justify-self: start;
-  margin-top: 10px;
+  display: inline-block;
+  margin: 8px 14px 0 0;
   color: #8d6728;
   font-size: 14px;
   font-weight: 700;

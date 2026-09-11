@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import {
   listInboxMessages,
   sendMemberMessage,
-} from "../../../lib/messages/server";
+} from "@/lib/messages/server";
 
 export const dynamic = "force-dynamic";
 

@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import type { User } from "@supabase/supabase-js";
 
 import { createSupabaseServerClient } from "../supabase/create-server-client";
@@ -79,11 +78,5 @@ export async function getAdminAccess(): Promise<AdminAccess> {
 }
 
 export async function requireAdminPage() {
-  const access = await getAdminAccess();
-
-  if (access.status === "signed-out") {
-    redirect("/profilim");
-  }
-
-  return access;
+  return getAdminAccess();
 }

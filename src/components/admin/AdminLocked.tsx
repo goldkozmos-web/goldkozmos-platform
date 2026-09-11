@@ -8,13 +8,12 @@ export default function AdminLocked({
   text: string;
 }) {
   return (
-    <main className="adminPage">
-      <section className="adminLocked">
-        <p>GOLDKOZMOS · YÖNETİM</p>
-        <h1>{title}</h1>
-        <p>{text}</p>
-        <Link href="/">Siteye dön</Link>
-      </section>
-    </main>
+    <section className="adminLocked">
+      <p>GOLDKOZMOS · YÖNETİM</p>
+      <h1>{title}</h1>
+      <p>{text}</p>
+      <Link href="/profilim">Profilim’den gir</Link>
+      <Link href="/">Siteye dön</Link>
+    </section>
   );
 }

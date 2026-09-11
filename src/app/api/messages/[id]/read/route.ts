@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { markInboxMessageRead } from "../../../../lib/messages/server";
+import { markInboxMessageRead } from "@/lib/messages/server";
 
 export const dynamic = "force-dynamic";
 
