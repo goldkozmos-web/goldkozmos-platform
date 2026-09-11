@@ -10,8 +10,9 @@ export default function manifest(): MetadataRoute.Manifest {
       "Kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk ve spiritüel farkındalık ekosistemi.",
 
     start_url: "/",
-
+    scope: "/",
     display: "standalone",
+    id: "/",
 
     background_color: "#fbf7ef",
 

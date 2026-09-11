@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
+import { notifyPresencePush } from "../admin/push-server";
 import { createSupabaseAnonClient } from "../supabase/anon";
 import {
   describeReferrer,
@@ -115,6 +116,13 @@ export async function recordPresence(
   if (error) {
     return ok();
   }
+
+  void notifyPresencePush({
+    kind: payload.kind,
+    path,
+    visitorKey,
+    heartbeat: payload.kind === "heartbeat",
+  });
 
   return ok();
 }

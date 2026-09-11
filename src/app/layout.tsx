@@ -75,6 +75,12 @@ export const metadata: Metadata = {
 
     images: ["/opengraph-image"],
   },
+
+  appleWebApp: {
+    capable: true,
+    title: "Goldkozmos",
+    statusBarStyle: "default",
+  },
 };
 
 export const viewport: Viewport = {

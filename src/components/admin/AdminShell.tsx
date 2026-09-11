@@ -62,6 +62,9 @@ function AdminChrome({
             {notifyReady ? "Bildirimler açık" : "Bildirimler kapalı"}
           </button>
         </div>
+        <p className="adminNotifyHint">
+          Telefona düşmesi için siteyi Ana Ekran’a ekle, Yönetim’i oradan aç.
+        </p>
       </header>
 
       {toast ? (

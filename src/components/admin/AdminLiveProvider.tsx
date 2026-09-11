@@ -64,6 +64,62 @@ function permissionGranted() {
   return typeof Notification !== "undefined" && Notification.permission === "granted";
 }
 
+function pushSupported() {
+  return typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window;
+}
+
+function urlBase64ToUint8Array(base64: string) {
+  const padding = "=".repeat((4 - (base64.length % 4)) % 4);
+  const raw = atob((base64 + padding).replace(/-/g, "+").replace(/_/g, "/"));
+  const output = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i += 1) {
+    output[i] = raw.charCodeAt(i);
+  }
+  return output;
+}
+
+async function authHeaders() {
+  const headers: HeadersInit = { "Content-Type": "application/json" };
+  const supabase = createSupabaseBrowserClient();
+  if (!supabase) return headers;
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+  if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+}
+
+async function enablePhonePush() {
+  if (!pushSupported()) return;
+  const registration = await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+  await navigator.serviceWorker.ready;
+  const keyRes = await fetch("/api/admin/push", { credentials: "same-origin" });
+  const pack = (await keyRes.json()) as { publicKey?: string };
+  if (!pack.publicKey) return;
+  const subscription = await registration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(pack.publicKey),
+  });
+  await fetch("/api/admin/push", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: await authHeaders(),
+    body: JSON.stringify({ subscription }),
+  });
+}
+
+async function disablePhonePush() {
+  if (!pushSupported()) return;
+  const registration = await navigator.serviceWorker.ready.catch(() => null);
+  const subscription = await registration?.pushManager.getSubscription();
+  await fetch("/api/admin/push", {
+    method: "DELETE",
+    credentials: "same-origin",
+    headers: await authHeaders(),
+    body: JSON.stringify({ endpoint: subscription?.endpoint || "" }),
+  });
+  await subscription?.unsubscribe();
+}
+
 function pushDesktopAlert(alert: AdminAlert) {
   if (!permissionGranted()) {
     return;
@@ -91,6 +147,11 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     const on = readAlertPref() && permissionGranted();
     alertsOn.current = on;
     setNotifyReady(on);
+    if (on) {
+      void navigator.serviceWorker?.register("/sw.js", { scope: "/" }).then(() => {
+        void enablePhonePush().catch(() => undefined);
+      });
+    }
   }, []);
 
   const refresh = useCallback(async () => {
@@ -191,21 +252,30 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
       writeAlertPref(false);
       alertsOn.current = false;
       setNotifyReady(false);
+      void disablePhonePush().catch(() => undefined);
       return;
     }
 
-    if (typeof Notification === "undefined") {
+    function turnOn() {
       writeAlertPref(true);
       alertsOn.current = true;
       setNotifyReady(true);
+      void enablePhonePush().catch(() => undefined);
+    }
+
+    if (typeof Notification === "undefined") {
+      turnOn();
       return;
     }
 
     void Notification.requestPermission().then((permission) => {
-      const on = permission === "granted";
-      writeAlertPref(on);
-      alertsOn.current = on;
-      setNotifyReady(on);
+      if (permission !== "granted") {
+        writeAlertPref(false);
+        alertsOn.current = false;
+        setNotifyReady(false);
+        return;
+      }
+      turnOn();
     });
   }, []);
 
