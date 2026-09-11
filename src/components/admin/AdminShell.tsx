@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { ADMIN_NAV, type AdminActor } from "../../lib/admin/access";
@@ -33,12 +32,12 @@ function AdminChrome({
       </header>
 
       <div className="adminExitRow">
-        <Link className="adminSiteJump" href="/">
+        <a className="adminSiteJump" href="/">
           Siteye dön
-        </Link>
-        <Link className="adminProfilimLink" href="/profilim">
+        </a>
+        <a className="adminProfilimLink" href="/profilim">
           Profilim
-        </Link>
+        </a>
         {notifyReady ? (
           <span className="adminNotifyOn">Bildirim açık</span>
         ) : (
@@ -65,13 +64,13 @@ function AdminChrome({
               : pathname.startsWith(item.href);
 
           return (
-            <Link
+            <a
               key={item.href}
               href={item.href}
               className={active ? "isOn" : undefined}
             >
               {item.label}
-            </Link>
+            </a>
           );
         })}
       </nav>

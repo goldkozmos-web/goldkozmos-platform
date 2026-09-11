@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function AdminLocked({
   title,
   text,
@@ -13,12 +11,12 @@ export default function AdminLocked({
       <h1>{title}</h1>
       <p>{text}</p>
       <div className="adminExitRow">
-        <Link className="adminSiteJump" href="/">
+        <a className="adminSiteJump" href="/">
           Siteye dön
-        </Link>
-        <Link className="adminProfilimLink" href="/profilim">
+        </a>
+        <a className="adminProfilimLink" href="/profilim">
           Profilim’den gir
-        </Link>
+        </a>
       </div>
     </section>
   );

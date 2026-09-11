@@ -5,20 +5,19 @@ export default function ProfilimFeaturedCard({
   title,
   children,
   onOpen,
+  href,
   className,
 }: {
   eyebrow: string;
   title: string;
   children?: ReactNode;
-  onOpen: () => void;
+  onOpen?: () => void;
+  href?: string;
   className?: string;
 }) {
-  return (
-    <button
-      type="button"
-      className={["profilimFeatured", className].filter(Boolean).join(" ")}
-      onClick={onOpen}
-    >
+  const classNames = ["profilimFeatured", className].filter(Boolean).join(" ");
+  const body = (
+    <>
       <span className="profilimFeaturedEyebrow">{eyebrow}</span>
       <strong className="profilimFeaturedTitle">{title}</strong>
       {children ? (
@@ -27,6 +26,20 @@ export default function ProfilimFeaturedCard({
       <span className="profilimFeaturedChevron" aria-hidden="true">
         ›
       </span>
+    </>
+  );
+
+  if (href) {
+    return (
+      <a className={classNames} href={href}>
+        {body}
+      </a>
+    );
+  }
+
+  return (
+    <button type="button" className={classNames} onClick={onOpen}>
+      {body}
     </button>
   );
 }

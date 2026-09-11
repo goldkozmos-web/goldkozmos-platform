@@ -191,6 +191,9 @@
 
 .profilimFeatured {
   min-height: 108px;
+  color: inherit;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
 .profilimFeaturedTitle,

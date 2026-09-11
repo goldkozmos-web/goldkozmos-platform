@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 
 import { assembleDashboard } from "../../lib/profilim/dashboard";
 import {
@@ -87,7 +86,6 @@ export default function ProfilimDashboard({
 }: {
   data: ProfilimDashboardData;
 }) {
-  const router = useRouter();
   const [user, setUser] = useState(data.user);
   const [checking, setChecking] = useState(false);
   const [open, setOpen] = useState<ProfilimDrawerId | null>(null);
@@ -160,12 +158,6 @@ export default function ProfilimDashboard({
       subscription.unsubscribe();
     };
   }, []);
-
-  useEffect(() => {
-    if (isSiteAdminEmail(user?.email)) {
-      router.prefetch("/admin");
-    }
-  }, [router, user?.email]);
 
   useEffect(() => {
     const map = readPlatformProgressMap();
@@ -284,9 +276,7 @@ export default function ProfilimDashboard({
                   className="profilimAdminFeatured"
                   eyebrow="YÖNETİM"
                   title="Yönetim Merkezi"
-                  onOpen={() => {
-                    window.location.assign("/admin");
-                  }}
+                  href="/admin"
                 >
                   Canlı ziyaretçiler, üyeler, mesajlar
                 </ProfilimFeaturedCard>
