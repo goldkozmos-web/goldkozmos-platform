@@ -3,16 +3,16 @@
   --admin-gold: #c4a056;
   --admin-gold-deep: #9a7328;
   --admin-brown: #6b5344;
-  --admin-soft: #f3e6d2;
-  --admin-press: #e8d7b4;
+  --admin-soft: #eee6cf;
+  --admin-press: #e4d9b6;
   --admin-paper: #ffffff;
   --admin-shadow: 0 10px 28px rgba(48, 32, 18, 0.08);
   --admin-shadow-soft: 0 8px 24px rgba(48, 32, 18, 0.06);
   min-height: 100dvh;
   padding: 0 0 calc(210px + env(safe-area-inset-bottom, 0px));
   background:
-    radial-gradient(120% 70% at 50% -10%, #f6d9b8 0%, rgba(246, 217, 184, 0) 58%),
-    linear-gradient(180deg, #f4d7bc 0%, #f6ebe1 38%, #f7f3ee 100%);
+    radial-gradient(120% 70% at 50% -10%, #e7d7a4 0%, rgba(231, 215, 164, 0) 58%),
+    linear-gradient(180deg, #e9dcab 0%, #efe8d4 42%, #f4f1ea 100%);
   color: var(--admin-ink);
   font-family: "SF Pro Text", "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -262,7 +262,7 @@
 
 .adminMetric.isPair:hover,
 .adminMetric.isPair:focus-visible {
-  background: #fffdf8;
+  background: #faf8f1;
 }
 
 .adminMetricIcon {
@@ -451,7 +451,7 @@
   padding: 8px 6px 10px;
   border: 0;
   border-radius: 32px;
-  background: rgba(255, 252, 248, 0.92);
+  background: rgba(255, 252, 245, 0.94);
   box-shadow: 0 10px 30px rgba(48, 32, 18, 0.12);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -526,7 +526,7 @@
   padding: 12px 14px;
   border: 0;
   border-radius: 16px;
-  background: #f7f2ea;
+  background: #f4f0e4;
   color: var(--admin-ink);
   font: inherit;
 }
