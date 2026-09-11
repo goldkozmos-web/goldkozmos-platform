@@ -5,6 +5,15 @@ import { usePathname } from "next/navigation";
 import { ADMIN_NAV, type AdminActor } from "../../lib/admin/access";
 import { AdminLiveProvider, useAdminLive } from "./AdminLiveProvider";
 
+function todayLabel() {
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/Istanbul",
+  }).format(new Date());
+}
+
 function AdminChrome({
   actor,
   children,
@@ -19,14 +28,16 @@ function AdminChrome({
     <div className="adminShell">
       <header className="adminTop">
         <div className="adminBrand">
-          <p>GoldKozmos · Yönetim</p>
-          <h1>Yönetim Merkezi</h1>
+          <p>GoldKozmos</p>
+          <h1>Yönetim</h1>
           <span className="adminLead">
-            Canlı ziyaret, üyeler ve bugünün hareketi tek masada.
+            Bugünün ziyareti, açık sekmeler ve üyeler.
           </span>
+          <span className="adminDate">{todayLabel()}</span>
         </div>
         <p className="adminActor">
           <strong>{actor.displayName}</strong>
+          {actor.email ? <em>{actor.email}</em> : null}
           <span>Yönetici</span>
         </p>
       </header>
@@ -39,7 +50,7 @@ function AdminChrome({
           Profilim
         </a>
         {notifyReady ? (
-          <span className="adminNotifyOn">Bildirim açık</span>
+          <span className="adminNotifyOn">Bildirimler açık</span>
         ) : (
           <button type="button" className="adminNotifyBtn" onClick={enableNotify}>
             Bildirimleri aç

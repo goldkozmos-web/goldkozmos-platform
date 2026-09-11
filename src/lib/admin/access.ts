@@ -16,15 +16,15 @@ export type AdminNavItem = {
 };
 
 export const ADMIN_NAV: AdminNavItem[] = [
-  { href: "/admin", label: "Genel Bakış" },
-  { href: "/admin/kullanicilar", label: "Kullanıcılar" },
+  { href: "/admin", label: "Özet" },
+  { href: "/admin/kullanicilar", label: "Üyeler" },
   { href: "/admin/mesajlar", label: "Mesajlar" },
-  { href: "/admin/aktivite", label: "Aktivite" },
-  { href: "/admin/randevular", label: "Randevular" },
-  { href: "/admin/satin-almalar", label: "Satın Almalar" },
-  { href: "/admin/icerikler", label: "İçerikler" },
-  { href: "/admin/oneriler", label: "Öneriler" },
-  { href: "/admin/bildirimler", label: "Bildirimler" },
+  { href: "/admin/aktivite", label: "Hareket" },
+  { href: "/admin/randevular", label: "Randevu" },
+  { href: "/admin/satin-almalar", label: "Satış" },
+  { href: "/admin/icerikler", label: "İçerik" },
+  { href: "/admin/oneriler", label: "Öneri" },
+  { href: "/admin/bildirimler", label: "Bildirim" },
 ];
 
 export type AdminOverviewCardId =
@@ -51,56 +51,56 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
     title: "Ziyaretler",
     href: "/admin/aktivite",
     hasSource: true,
-    empty: "Bugün yok",
+    empty: "Bugün henüz yok",
   },
   {
     id: "live",
-    title: "Canlı",
+    title: "Sitede",
     href: "/admin/aktivite",
     hasSource: true,
-    empty: "Şu an yok",
+    empty: "Şu an kimse yok",
   },
   {
     id: "members",
     title: "Üyeler",
     href: "/admin/kullanicilar",
     hasSource: true,
-    empty: "Üye yok",
+    empty: "Henüz üye yok",
   },
   {
     id: "appointments",
-    title: "Randevu",
+    title: "Randevular",
     href: "/admin/randevular",
     hasSource: true,
-    empty: "Bugün yok",
+    empty: "Bugün randevu yok",
   },
   {
     id: "whatsapp",
     title: "WhatsApp",
     href: "/admin/aktivite",
     hasSource: true,
-    empty: "Bugün yok",
+    empty: "Bugün yazışma yok",
   },
   {
     id: "purchases",
-    title: "Satın alma",
+    title: "Satışlar",
     href: "/admin/satin-almalar",
     hasSource: true,
-    empty: "Bugün yok",
+    empty: "Bugün satış yok",
   },
   {
     id: "notifications",
-    title: "Bildirim",
+    title: "Bildirimler",
     href: "/admin/bildirimler",
     hasSource: true,
-    empty: "Yeni yok",
+    empty: "Yeni bildirim yok",
   },
   {
     id: "suggestions",
-    title: "Öneri",
+    title: "Öneriler",
     href: "/admin/oneriler",
     hasSource: false,
-    empty: "Bağlı değil",
+    empty: "Henüz bağlı değil",
   },
 ];
 
@@ -143,6 +143,32 @@ export function adminMetricValue(hasSource: boolean, count: number) {
   }
 
   return Number.isFinite(count) && count > 0 ? Math.floor(count) : 0;
+}
+
+export function formatAdminCount(value: number) {
+  return Math.max(0, Math.floor(Number.isFinite(value) ? value : 0)).toLocaleString(
+    "tr-TR",
+  );
+}
+
+export function adminMetricHint(
+  id: AdminOverviewCardId,
+  value: number,
+  empty: string,
+) {
+  if (value <= 0) {
+    return empty;
+  }
+
+  if (id === "live") {
+    return value === 1 ? "şu an 1 kişi" : `şu an ${formatAdminCount(value)} kişi`;
+  }
+
+  if (id === "members") {
+    return value === 1 ? "kayıtlı üye" : "kayıtlı üyeler";
+  }
+
+  return "bugün";
 }
 
 export function emptyAdminMetrics() {

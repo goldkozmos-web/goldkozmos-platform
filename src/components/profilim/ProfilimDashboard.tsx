@@ -275,10 +275,10 @@ export default function ProfilimDashboard({
                 <ProfilimFeaturedCard
                   className="profilimAdminFeatured"
                   eyebrow="YÖNETİM"
-                  title="Yönetim Merkezi"
+                  title="Yönetim"
                   href="/admin"
                 >
-                  Canlı ziyaretçiler, üyeler, mesajlar
+                  Bugünün ziyareti, üyeler ve mesajlar
                 </ProfilimFeaturedCard>
               ) : null}
 
