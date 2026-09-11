@@ -23,6 +23,7 @@ import type {
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import { shouldClearProfilimUser } from "../../lib/profilim/sessionEvents";
 import { isMemberProfileComplete } from "../../lib/auth/membership";
+import { recordMemberJoin } from "../../lib/admin/member-log";
 import {
   TODAY_NEED_CHOICES,
   goldmindUrlForFocus,
@@ -133,6 +134,7 @@ export default function ProfilimDashboard({
         });
         setChecking(false);
         void client.rpc("ensure_own_membership");
+        void recordMemberJoin(sessionUser);
       }
     }
 

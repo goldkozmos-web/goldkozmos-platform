@@ -6,6 +6,7 @@ import {
   parseMemberProfile,
 } from "@/lib/auth/membership";
 import { isSiteAdminEmail } from "@/lib/admin/access";
+import { recordMemberJoin } from "@/lib/admin/member-log";
 import { toE164 } from "@/lib/auth/phone";
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 
@@ -85,6 +86,11 @@ export async function POST(request: Request) {
     p_age: parsed.age,
     p_interests: parsed.interests.join(","),
     p_phone: parsed.phone,
+  });
+  await recordMemberJoin(user, {
+    displayName,
+    city: parsed.city,
+    phone: parsed.phone,
   });
 
   return NextResponse.json({ ok: true });

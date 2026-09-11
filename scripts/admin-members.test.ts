@@ -2,6 +2,12 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { memberSourceLabel, mergeMemberRows, parseMemberInput } from "../src/lib/admin/members.ts";
+import {
+  isMemberVisitorKey,
+  memberRowFromVisitor,
+  memberVisitorKey,
+  userIdFromMemberKey,
+} from "../src/lib/admin/member-keys.ts";
 
 test("member add needs a real email and a name", () => {
   assert.equal("error" in parseMemberInput({ email: "nope", displayName: "Ayse" }), true);
@@ -41,4 +47,23 @@ test("admin member desk merges empty RPC with profile rows", () => {
   ]);
   assert.equal(merged.length, 1);
   assert.equal(merged[0]?.email, "ayse@gmail.com");
+});
+
+test("member join is stored on the visitor log Gold already sees", () => {
+  const id = "11111111-2222-3333-4444-555555555555";
+  const key = memberVisitorKey(id);
+  assert.equal(isMemberVisitorKey(key), true);
+  assert.equal(userIdFromMemberKey(key), id);
+  const row = memberRowFromVisitor({
+    visitor_key: key,
+    first_source: "Ayşe Yılmaz",
+    first_referrer: "ayse@gmail.com",
+    href: "+905321112233",
+    city: "İstanbul",
+    created_at: "2026-09-11T17:00:00.000Z",
+  });
+  assert.equal(row?.email, "ayse@gmail.com");
+  assert.equal(row?.displayName, "Ayşe Yılmaz");
+  assert.equal(row?.phone, "+905321112233");
+  assert.equal(row?.city, "İstanbul");
 });

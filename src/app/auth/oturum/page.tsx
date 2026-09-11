@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
+import { recordMemberJoin } from "../../../lib/admin/member-log";
 import { createSupabaseBrowserClient } from "../../../lib/supabase/browser";
 
 export default function AuthOturumPage() {
@@ -33,6 +34,8 @@ export default function AuthOturumPage() {
       }
 
       await supabase.rpc("ensure_own_membership");
+      const { data: userPack } = await supabase.auth.getUser();
+      await recordMemberJoin(userPack.user ?? null);
       window.location.replace("/auth/kayit");
     }
 

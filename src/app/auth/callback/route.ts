@@ -1,5 +1,6 @@
 import { type NextRequest } from "next/server";
 
+import { recordMemberJoin } from "@/lib/admin/member-log";
 import { appOriginFromUrl, registerStepUrl, profilimAfterAuthUrl } from "@/lib/site";
 import {
   createAuthCookieClient,
@@ -43,5 +44,7 @@ export async function GET(request: NextRequest) {
   }
 
   await auth.supabase.rpc("ensure_own_membership");
+  const { data: userPack } = await auth.supabase.auth.getUser();
+  await recordMemberJoin(userPack.user ?? null);
   return auth.redirect(registerStepUrl(origin));
 }

@@ -8,6 +8,7 @@ import {
   istanbulDayStartIso,
   type AdminOverviewCardId,
 } from "./access";
+import { isMemberVisitorKey, memberRowFromVisitor } from "./member-keys";
 import { mergeMemberRows, type SiteMemberRow } from "./members";
 import {
   VISITOR_LABEL,
@@ -105,10 +106,22 @@ async function fetchAdminMembers(
     .order("created_at", { ascending: false })
     .limit(200);
 
+  const logged = await supabase
+    .from("site_visitors")
+    .select(
+      "visitor_key, first_path, first_referrer, first_source, href, city, created_at, last_seen_at",
+    )
+    .like("visitor_key", "gkmem_%")
+    .order("created_at", { ascending: false })
+    .limit(200);
+
   return mergeMemberRows([
     roster,
     classic,
     (table.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>)),
+    (logged.data ?? [])
+      .map((row) => memberRowFromVisitor(row as Record<string, unknown>))
+      .filter((row): row is SiteMemberRow => Boolean(row)),
     (profiles.data ?? []).map((row) =>
       mapMemberRow({
         ...(row as Record<string, unknown>),
@@ -179,7 +192,9 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
       visitorRows = (fallback.data ?? []) as Record<string, unknown>[];
     }
 
-    visitors = visitorRows.map((row) => {
+    visitors = visitorRows
+      .filter((row) => !isMemberVisitorKey(asText(row.visitor_key)))
+      .map((row) => {
       const lastSeenAt = asText(row.last_seen_at) || null;
       const path = asText(row.last_path) || "/";
       return {
@@ -195,7 +210,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
           asText(row.first_referrer) || null,
         ),
         path,
-        live: isLiveAt(lastSeenAt) && !path.startsWith("/admin"),
+        live: isLiveAt(lastSeenAt) && !path.startsWith("/admin") && path !== "/uyelik",
         lastSeenAt,
       };
     });

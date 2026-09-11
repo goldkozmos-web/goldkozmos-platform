@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+import { recordMemberJoin } from "../../../lib/admin/member-log";
 import {
   MEMBER_INTERESTS,
   isMemberProfileComplete,
@@ -51,6 +52,7 @@ export default function AuthKayitPage() {
         return;
       }
       if (!alive) return;
+      void recordMemberJoin(user);
       const names = prefillFromGoogle(user);
       setFirstName((current) => current || names.firstName);
       setLastName((current) => current || names.lastName);
@@ -128,6 +130,11 @@ export default function AuthKayitPage() {
         p_age: parsed.age,
         p_interests: parsed.interests.join(","),
         p_phone: parsed.phone,
+      });
+      await recordMemberJoin(sessionPack.user ?? null, {
+        displayName: `${parsed.firstName} ${parsed.lastName}`.trim(),
+        city: parsed.city,
+        phone: parsed.phone,
       });
     }
     const res = await fetch("/api/auth/kayit", {
