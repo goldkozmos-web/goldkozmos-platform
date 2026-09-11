@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import type { AdminOverviewMetric } from "../../lib/admin/load";
-import { AdminMemberDesk } from "./AdminMemberList";
+import AdminMemberList, { AdminMemberDesk } from "./AdminMemberList";
 import { useAdminLive } from "./AdminLiveProvider";
 
 export default function AdminOverview({
@@ -18,9 +18,21 @@ export default function AdminOverview({
 
   return (
     <div className="adminStack">
-      <section className="adminOverview">
+      <section className="adminOverview" aria-label="Bugünün özeti">
         {rows.map((metric) => {
           const liveOn = metric.id === "live" && metric.value > 0;
+          const hint =
+            metric.id === "live"
+              ? liveOn
+                ? "Şu an açık"
+                : metric.empty
+              : metric.id === "members"
+                ? metric.value > 0
+                  ? "Kayıtlı"
+                  : metric.empty
+                : metric.value > 0
+                  ? "Bugün"
+                  : metric.empty;
 
           return (
             <Link
@@ -33,40 +45,54 @@ export default function AdminOverview({
                 {liveOn ? <i className="adminLiveDot" aria-hidden="true" /> : null}
                 {metric.value}
               </strong>
+              <span className="adminCardHint">{hint}</span>
             </Link>
           );
         })}
       </section>
 
-      <section className="adminList">
-        <p className="adminSectionLabel">Şu an sitede</p>
-        {liveNow.length === 0 ? (
-          <article className="adminMember">
+      <div className="adminDesk">
+        <section className="adminPanel">
+          <header className="adminPanelHead">
             <div>
-              <strong>Şu an kimse yok</strong>
-              <small>Açık bir site sekmesi birkaç saniyede buraya düşer. Yönetim paneli sayılmaz.</small>
+              <p className="adminSectionLabel">Şu an sitede</p>
+              <h2>Canlı ziyaret</h2>
             </div>
-          </article>
-        ) : (
-          liveNow.map((visitor) => (
-            <article key={visitor.id} className="adminMember">
-              <div>
-                <strong>
-                  {visitor.label}
-                  {" · canlı"}
-                </strong>
-                <small>
-                  {visitor.location}
-                  {" · "}
-                  {visitor.path}
-                </small>
-              </div>
-            </article>
-          ))
-        )}
-      </section>
+            <span className={`adminBadge${liveNow.length ? " isLive" : ""}`}>
+              {liveNow.length}
+            </span>
+          </header>
+          {liveNow.length === 0 ? (
+            <div className="adminQuiet">
+              <strong>Beklemede</strong>
+              <span>
+                Açık bir site sekmesi birkaç saniyede buraya düşer. Yönetim paneli
+                sayılmaz.
+              </span>
+            </div>
+          ) : (
+            <div className="adminPresence">
+              {liveNow.map((visitor) => (
+                <article key={visitor.id} className="adminMember">
+                  <div>
+                    <strong>{visitor.label}</strong>
+                    <small>
+                      {visitor.location}
+                      {" · "}
+                      {visitor.path}
+                    </small>
+                  </div>
+                  <span className="adminBadge isLive">Canlı</span>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
 
-      <AdminMemberDesk members={members} />
+        <AdminMemberDesk members={members} compact />
+      </div>
+
+      <AdminMemberList members={members} />
     </div>
   );
 }

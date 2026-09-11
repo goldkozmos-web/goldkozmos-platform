@@ -66,7 +66,12 @@ export default function AdminMessageDesk({
   return (
     <div className="adminStack">
       <form className="adminCompose" onSubmit={(event) => void send(event)}>
-        <p className="adminSectionLabel">Üyelere mesaj gönder</p>
+        <header className="adminPanelHead">
+          <div>
+            <p className="adminSectionLabel">Üyelere mesaj</p>
+            <h2>Yeni mesaj</h2>
+          </div>
+        </header>
         <label>
           Alıcı
           <select

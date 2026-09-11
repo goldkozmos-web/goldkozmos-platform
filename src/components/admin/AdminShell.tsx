@@ -19,13 +19,16 @@ function AdminChrome({
   return (
     <div className="adminShell">
       <header className="adminTop">
-        <div>
-          <p>GOLDKOZMOS · YÖNETİM</p>
+        <div className="adminBrand">
+          <p>GoldKozmos · Yönetim</p>
           <h1>Yönetim Merkezi</h1>
+          <span className="adminLead">
+            Canlı ziyaret, üyeler ve bugünün hareketi tek masada.
+          </span>
         </div>
         <p className="adminActor">
-          {actor.displayName}
-          <span>admin</span>
+          <strong>{actor.displayName}</strong>
+          <span>Yönetici</span>
         </p>
       </header>
 

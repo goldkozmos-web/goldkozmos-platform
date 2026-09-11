@@ -30,6 +30,7 @@ export default function AdminMemberList({
         eyebrow="Üyeler"
         title="Henüz üye görünmüyor"
         text="Google ile girenler otomatik alınır. Arkadaşını e-posta ile de kalıcı üye yapabilirsin."
+        quiet
       />
     );
   }
@@ -43,19 +44,25 @@ export default function AdminMemberList({
             <strong>{member.displayName}</strong>
             <small>
               {member.email ? `${member.email} · ` : ""}
-              {member.role === "admin" ? "admin · " : ""}
               {memberSourceLabel(member.source)}
               {member.authUserId ? " · giriş yaptı" : " · henüz giriş yok"}
               {member.createdAt ? ` · ${whenLabel(member.createdAt)}` : ""}
             </small>
           </div>
+          {member.role === "admin" ? <span className="adminBadge">Yönetici</span> : null}
         </article>
       ))}
     </section>
   );
 }
 
-export function AdminMemberDesk({ members }: { members: AdminMemberRow[] }) {
+export function AdminMemberDesk({
+  members,
+  compact = false,
+}: {
+  members: AdminMemberRow[];
+  compact?: boolean;
+}) {
   const { refresh } = useAdminLive();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -98,34 +105,41 @@ export function AdminMemberDesk({ members }: { members: AdminMemberRow[] }) {
   return (
     <div className="adminStack">
       <form className="adminCompose" onSubmit={(event) => void addMember(event)}>
-        <p className="adminSectionLabel">Kalıcı üye ekle</p>
-        <label>
-          Ad
-          <input
-            value={displayName}
-            onChange={(event) => setDisplayName(event.target.value)}
-            placeholder="Arkadaşının adı"
-            maxLength={80}
-            required
-          />
-        </label>
-        <label>
-          E-posta
-          <input
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            placeholder="ornek@gmail.com"
-            maxLength={120}
-            required
-          />
-        </label>
+        <header className="adminPanelHead">
+          <div>
+            <p className="adminSectionLabel">Kalıcı üye ekle</p>
+            <h2>Yeni üyelik</h2>
+          </div>
+        </header>
+        <div className="adminFields">
+          <label>
+            Ad
+            <input
+              value={displayName}
+              onChange={(event) => setDisplayName(event.target.value)}
+              placeholder="Arkadaşının adı"
+              maxLength={80}
+              required
+            />
+          </label>
+          <label>
+            E-posta
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="ornek@gmail.com"
+              maxLength={120}
+              required
+            />
+          </label>
+        </div>
         <button type="submit" disabled={pending}>
           {pending ? "Kaydediliyor…" : "Üyeliği kaydet"}
         </button>
         {status ? <p className="adminHint">{status}</p> : null}
       </form>
-      <AdminMemberList members={members} />
+      {compact ? null : <AdminMemberList members={members} />}
     </div>
   );
 }
