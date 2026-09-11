@@ -22,6 +22,7 @@ import type {
 } from "../../lib/profilim/types";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import { shouldClearProfilimUser } from "../../lib/profilim/sessionEvents";
+import { sessionNeedsPhoneStep } from "../../lib/auth/phone";
 import {
   TODAY_NEED_CHOICES,
   goldmindUrlForFocus,
@@ -122,6 +123,11 @@ export default function ProfilimDashboard({
       }
 
       if (!cancelled) {
+        const { data: aal } = await client.auth.mfa.getAuthenticatorAssuranceLevel();
+        if (sessionNeedsPhoneStep(aal?.currentLevel)) {
+          window.location.replace("/auth/telefon");
+          return;
+        }
         setUser({
           ...next,
           isAdmin: isSiteAdminEmail(next.email),
