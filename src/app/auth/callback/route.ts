@@ -1,13 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { appOriginFromUrl, profilimAfterAuthUrl } from "@/lib/site";
 import {
-  appOriginFromUrl,
-  profilimAfterAuthUrl,
-} from "@/lib/site";
-import {
-  createCallbackSupabase,
+  createAuthCookieClient,
   hasPkceVerifierCookie,
-} from "@/lib/supabase/callback";
+} from "@/lib/supabase/auth-cookies";
 
 export const dynamic = "force-dynamic";
 
@@ -34,17 +31,15 @@ export async function GET(request: NextRequest) {
     return oturumHandoff(request, origin);
   }
 
-  const success = NextResponse.redirect(profilimAfterAuthUrl(origin));
-  const supabase = createCallbackSupabase(request, success);
-
-  if (!supabase) {
+  const auth = createAuthCookieClient(request);
+  if (!auth) {
     return oturumHandoff(request, origin);
   }
 
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+  const { error } = await auth.supabase.auth.exchangeCodeForSession(code);
   if (error) {
     return oturumHandoff(request, origin);
   }
 
-  return success;
+  return auth.redirect(profilimAfterAuthUrl(origin));
 }

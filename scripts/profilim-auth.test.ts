@@ -5,6 +5,7 @@ import { profilimUserFromAuth } from "../src/lib/profilim/userFromAuth.ts";
 import {
   appOriginFromUrl,
   googleCallbackUrl,
+  googleStartUrl,
   profilimAfterAuthUrl,
 } from "../src/lib/site.ts";
 import type { User } from "@supabase/supabase-js";
@@ -38,6 +39,10 @@ test("Google returns to a live HTML callback, not an API payload", () => {
   assert.equal(
     googleCallbackUrl("https://goldkozmos.com"),
     "https://goldkozmos.com/auth/callback",
+  );
+  assert.equal(
+    googleStartUrl("https://goldkozmos.com"),
+    "https://goldkozmos.com/auth/google",
   );
   assert.equal(
     appOriginFromUrl("https://www.goldkozmos.com/profilim"),
