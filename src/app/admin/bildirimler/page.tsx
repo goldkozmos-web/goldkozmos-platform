@@ -24,7 +24,7 @@ export default async function AdminNotificationsPage() {
     <section className="adminList">
       {items.map((item) => (
         <article key={item.id} className="adminMember">
-          <div>
+          <div className="adminMemberCopy">
             <strong>{item.actorName}</strong>
             <small>{item.excerpt}</small>
           </div>

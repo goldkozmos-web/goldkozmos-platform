@@ -103,7 +103,7 @@ export default function AdminOverview({
           <div className="adminPresence">
             {liveNow.map((visitor) => (
               <article key={visitor.id} className="adminMember">
-                <div>
+                <div className="adminMemberCopy">
                   <strong>{visitor.label}</strong>
                   <small>
                     {visitor.location}

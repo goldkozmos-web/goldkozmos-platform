@@ -74,9 +74,9 @@ export default function AdminRemoveDesk({
       {error ? <p className="adminSectionLabel">{error}</p> : null}
       {removable.map((member) => (
         <article key={member.id} className="adminMember">
-          <div>
+          <div className="adminMemberCopy">
             <strong>{member.displayName}</strong>
-            <small>{member.email || "E-posta yok"}</small>
+            {member.email ? <em>{member.email}</em> : null}
           </div>
           <button
             type="button"

@@ -88,10 +88,10 @@ export default function AdminMemberList({
       </header>
       {members.map((member) => (
         <article key={member.id} className="adminMember">
-          <div>
+          <div className="adminMemberCopy">
             <strong>{member.displayName}</strong>
+            {member.email ? <em>{member.email}</em> : null}
             <small>
-              {member.email ? `${member.email} · ` : ""}
               {memberSourceLabel(member.source)}
               {" · "}
               {memberStatus(member)}

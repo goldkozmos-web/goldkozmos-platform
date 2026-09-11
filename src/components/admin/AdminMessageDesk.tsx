@@ -120,7 +120,7 @@ export default function AdminMessageDesk({
         ) : (
           outbox.map((item) => (
             <article key={item.id} className="adminMember">
-              <div>
+              <div className="adminMemberCopy">
                 <strong>{item.title}</strong>
                 <small>
                   {item.recipientName || "Üye"}

@@ -48,7 +48,7 @@ export default function AdminActivity({
         <p className="adminSectionLabel">Ziyaretçiler</p>
         {liveVisitors.map((visitor) => (
           <article key={visitor.id} className="adminMember">
-            <div>
+            <div className="adminMemberCopy">
               <strong>
                 {visitor.label}
                 {visitor.live ? " · canlı" : ""}
@@ -72,7 +72,7 @@ export default function AdminActivity({
           <p className="adminSectionLabel">WhatsApp geçişleri</p>
           {wa.map((item) => (
             <article key={item.id} className="adminMember">
-              <div>
+              <div className="adminMemberCopy">
                 <strong>{item.label}</strong>
                 <small>
                   {item.location}

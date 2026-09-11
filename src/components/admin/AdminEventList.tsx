@@ -43,7 +43,7 @@ export default function AdminEventList({
     <section className="adminList">
       {rows.map((item) => (
         <article key={item.id} className="adminMember">
-          <div>
+          <div className="adminMemberCopy">
             <strong>{item.label}</strong>
             <small>
               {item.location}
