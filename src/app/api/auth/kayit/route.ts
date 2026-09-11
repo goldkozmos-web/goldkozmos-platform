@@ -66,6 +66,18 @@ export async function POST(request: Request) {
   const displayName = memberDisplayName(parsed);
   await supabase.from("profiles").update({ display_name: displayName }).eq("id", user.id);
   await supabase.rpc("ensure_own_membership");
+  if (user.email) {
+    await supabase.from("site_members").upsert(
+      {
+        email: user.email.trim().toLowerCase(),
+        display_name: displayName,
+        auth_user_id: user.id,
+        source: "google",
+        status: "active",
+      },
+      { onConflict: "email" },
+    );
+  }
   await supabase.rpc("save_own_membership_profile", {
     p_first_name: parsed.firstName,
     p_last_name: parsed.lastName,

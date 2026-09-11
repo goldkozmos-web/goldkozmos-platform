@@ -6,6 +6,7 @@ import { memberSourceLabel } from "../../lib/admin/members";
 import { MEMBER_INTERESTS } from "../../lib/auth/membership";
 import type { AdminMemberRow } from "../../lib/admin/load";
 import AdminEmpty from "./AdminEmpty";
+import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import { useAdminLive } from "./AdminLiveProvider";
 
 function whenLabel(iso: string | null) {
@@ -46,13 +47,24 @@ export default function AdminMemberList({
   const { refresh } = useAdminLive();
 
   useEffect(() => {
-    void fetch("/api/admin/members", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sync: true }),
-    })
-      .then(() => refresh())
-      .catch(() => undefined);
+    async function syncRoster() {
+      const headers: HeadersInit = { "Content-Type": "application/json" };
+      const supabase = createSupabaseBrowserClient();
+      if (supabase) {
+        const { data } = await supabase.auth.getSession();
+        const token = data.session?.access_token;
+        if (token) headers.Authorization = `Bearer ${token}`;
+      }
+      await fetch("/api/admin/members", {
+        method: "POST",
+        headers,
+        credentials: "same-origin",
+        body: JSON.stringify({ sync: true }),
+      });
+      await refresh();
+    }
+
+    void syncRoster().catch(() => undefined);
   }, [refresh]);
 
   if (members.length === 0) {

@@ -8,6 +8,7 @@ import {
   istanbulDayStartIso,
   type AdminOverviewCardId,
 } from "./access";
+import { mergeMemberRows, type SiteMemberRow } from "./members";
 import {
   VISITOR_LABEL,
   describeEntry,
@@ -48,20 +49,7 @@ function asText(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : "";
 }
 
-export type AdminMemberRow = {
-  id: string;
-  displayName: string;
-  role: string;
-  email: string | null;
-  createdAt: string | null;
-  source: string;
-  status: string;
-  authUserId: string | null;
-  city: string | null;
-  age: string | null;
-  phone: string | null;
-  interests: string | null;
-};
+export type AdminMemberRow = SiteMemberRow;
 
 function mapMemberRow(row: Record<string, unknown>): AdminMemberRow {
   return {
@@ -81,32 +69,55 @@ function mapMemberRow(row: Record<string, unknown>): AdminMemberRow {
   };
 }
 
+async function rpcRows(supabase: SupabaseClient, name: string) {
+  const rpc = await supabase.rpc(name);
+  if (rpc.error || !Array.isArray(rpc.data)) return [];
+  return rpc.data.map((row) => mapMemberRow(row as Record<string, unknown>));
+}
+
 async function fetchAdminMembers(
   supabase: SupabaseClient,
 ): Promise<AdminMemberRow[]> {
-  const rpc = await supabase.rpc("list_site_members");
-  if (!rpc.error && Array.isArray(rpc.data)) {
-    return rpc.data.map((row) => mapMemberRow(row as Record<string, unknown>));
-  }
+  const [roster, classic] = await Promise.all([
+    rpcRows(supabase, "list_admin_roster"),
+    rpcRows(supabase, "list_site_members"),
+  ]);
 
-  const { data } = await supabase
+  const wide = await supabase
     .from("site_members")
-    .select("id, display_name, email, source, status, auth_user_id, created_at")
-    .eq("status", "active")
+    .select(
+      "id, display_name, email, source, status, auth_user_id, created_at, first_name, last_name, city, age, interests, phone",
+    )
     .order("created_at", { ascending: false })
     .limit(200);
 
-  if (data && data.length > 0) {
-    return data.map((row) => mapMemberRow(row as Record<string, unknown>));
-  }
+  const table = wide.error
+    ? await supabase
+        .from("site_members")
+        .select("id, display_name, email, source, status, auth_user_id, created_at")
+        .order("created_at", { ascending: false })
+        .limit(200)
+    : wide;
 
   const profiles = await supabase
     .from("profiles")
     .select("id, display_name, role, created_at")
     .order("created_at", { ascending: false })
-    .limit(120);
+    .limit(200);
 
-  return (profiles.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>));
+  return mergeMemberRows([
+    roster,
+    classic,
+    (table.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>)),
+    (profiles.data ?? []).map((row) =>
+      mapMemberRow({
+        ...(row as Record<string, unknown>),
+        auth_user_id: row.id,
+        source: "google",
+        status: "active",
+      }),
+    ),
+  ]);
 }
 
 export { emptyAdminMetrics };

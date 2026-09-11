@@ -108,6 +108,19 @@ export default function AuthKayitPage() {
           .eq("id", userId);
       }
       await supabase.rpc("ensure_own_membership");
+      const email = sessionPack.user?.email?.trim().toLowerCase();
+      if (email && userId) {
+        await supabase.from("site_members").upsert(
+          {
+            email,
+            display_name: `${parsed.firstName} ${parsed.lastName}`.trim(),
+            auth_user_id: userId,
+            source: "google",
+            status: "active",
+          },
+          { onConflict: "email" },
+        );
+      }
       await supabase.rpc("save_own_membership_profile", {
         p_first_name: parsed.firstName,
         p_last_name: parsed.lastName,
