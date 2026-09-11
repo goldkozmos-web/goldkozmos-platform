@@ -21755,10 +21755,10 @@ font-size:32px;
 
   background:
     linear-gradient(
-      115deg,
-      #332819 0%,
-      #281f17 55%,
-      #211a15 100%
+      165deg,
+      #2c1c14 0%,
+      #624030 48%,
+      #b08a62 100%
     );
 
   border:
@@ -35101,23 +35101,13 @@ section:has(+ .deepFinderSection) {
 ========================================================= */
 
 .homeV3Hero {
-  background:
-    radial-gradient(
-      circle at 17% 30%,
-      rgba(194, 145, 60, 0.16),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 87% 22%,
-      rgba(218, 174, 88, 0.1),
-      transparent 28%
-    ),
-    linear-gradient(
-      145deg,
-      #201711 0%,
-      #2a1e16 50%,
-      #211711 100%
-    ) !important;
+  background: linear-gradient(
+    180deg,
+    #2c1c14 0%,
+    #5a3c2e 40%,
+    #8f6a50 78%,
+    #c4a078 100%
+  ) !important;
 }
 
 
