@@ -285,7 +285,7 @@ export default function ProfilimDashboard({
                   eyebrow="YÖNETİM"
                   title="Yönetim Merkezi"
                   onOpen={() => {
-                    router.push("/admin");
+                    window.location.assign("/admin");
                   }}
                 >
                   Canlı ziyaretçiler, üyeler, mesajlar

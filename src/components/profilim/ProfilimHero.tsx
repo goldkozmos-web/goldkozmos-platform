@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { isSiteAdminEmail } from "../../lib/admin/access";
 import { createProfilimBrowserClient } from "../../lib/profilim/auth.client";
 import type { ProfilimLevel, ProfilimUser } from "../../lib/profilim/types";
@@ -53,9 +51,9 @@ export default function ProfilimHero({
       </div>
 
       {isSiteAdminEmail(user.email) ? (
-        <Link className="profilimAdminJump" href="/admin">
+        <a className="profilimAdminJump" href="/admin">
           Yönetim Paneline Git
-        </Link>
+        </a>
       ) : null}
 
       <div className="profilimHeroLevel">

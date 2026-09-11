@@ -37,20 +37,11 @@ const BOOT_ACTOR: AdminActor = {
 
 export default function AdminClientGate({ children }: { children: ReactNode }) {
   const [actor, setActor] = useState<AdminActor | null>(BOOT_ACTOR);
-  const [denied, setDenied] = useState<"signed-out" | "forbidden" | "unconfigured" | null>(
-    null,
-  );
+  const [denied, setDenied] = useState<"forbidden" | "unconfigured" | null>(null);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
-    const localPreview =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1";
-
     if (!supabase) {
-      if (localPreview) {
-        return;
-      }
       setDenied("unconfigured");
       setActor(null);
       return;
@@ -58,13 +49,10 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
 
     let cancelled = false;
 
-    void supabase.auth.getSession().then(({ data: { session } }) => {
+    function applyUser(sessionUser: Parameters<typeof profilimUserFromAuth>[0]) {
       if (cancelled) return;
-      const next = actorFromSessionUser(session?.user ?? null);
+      const next = actorFromSessionUser(sessionUser);
       if (!next) {
-        if (localPreview) return;
-        setDenied("signed-out");
-        setActor(null);
         return;
       }
       if (!canAccessAdmin(next.email)) {
@@ -74,10 +62,29 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
       }
       setDenied(null);
       setActor(next);
+    }
+
+    void Promise.race([
+      supabase.auth.getSession(),
+      new Promise<null>((resolve) => {
+        setTimeout(() => resolve(null), 800);
+      }),
+    ]).then((pack) => {
+      const user = pack && "data" in pack ? pack.data.session?.user ?? null : null;
+      if (user) {
+        applyUser(user);
+      }
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      applyUser(session?.user ?? null);
     });
 
     return () => {
       cancelled = true;
+      subscription.unsubscribe();
     };
   }, []);
 
@@ -99,17 +106,10 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
     );
   }
 
-  if (denied === "signed-out") {
-    return (
-      <AdminLocked
-        title="Yönetim Merkezi"
-        text="goldkozmos@gmail.com ile Profilim’den giriş yap, sonra buraya dön."
-      />
-    );
-  }
-
   if (!actor) {
-    return null;
+    return (
+      <AdminShell actor={BOOT_ACTOR}>{children}</AdminShell>
+    );
   }
 
   return <AdminShell actor={actor}>{children}</AdminShell>;

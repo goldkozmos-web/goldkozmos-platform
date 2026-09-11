@@ -62,6 +62,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
   const [toast, setToast] = useState<AdminAlert | null>(null);
   const [notifyReady, setNotifyReady] = useState(false);
   const cursor = useRef<ReturnType<typeof nextLiveCursor> | null>(null);
+  const inFlight = useRef(false);
 
   useEffect(() => {
     setNotifyReady(
@@ -70,46 +71,67 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const refresh = useCallback(async () => {
-    const headers: HeadersInit = {};
-    const supabase = createSupabaseBrowserClient();
-    if (supabase) {
-      const { data } = await supabase.auth.getSession();
-      const token = data.session?.access_token;
-      if (token) {
-        headers.Authorization = `Bearer ${token}`;
-      }
-    }
-
-    const response = await fetch("/api/admin/live", {
-      cache: "no-store",
-      credentials: "same-origin",
-      headers,
-    });
-    if (!response.ok) {
+    if (inFlight.current) {
       return;
     }
-
-    const data = (await response.json()) as AdminLiveSnapshot;
-    const snapshot: AdminLiveSnapshot = {
-      metrics: data.metrics ?? [],
-      visitors: data.visitors ?? [],
-      whatsapp: data.whatsapp ?? [],
-      purchases: data.purchases ?? [],
-      appointments: data.appointments ?? [],
-      members: data.members ?? [],
-    };
-    const alerts = diffAdminLive(cursor.current, {
-      metrics: snapshot.metrics,
-      visitors: snapshot.visitors,
-    });
-    cursor.current = nextLiveCursor(snapshot.metrics, snapshot.visitors);
-    setLive(snapshot);
-
-    if (alerts[0]) {
-      setToast(alerts[0]);
-      for (const alert of alerts) {
-        pushDesktopAlert(alert);
+    inFlight.current = true;
+    try {
+      const headers: HeadersInit = {};
+      const supabase = createSupabaseBrowserClient();
+      if (supabase) {
+        const pack = await Promise.race([
+          supabase.auth.getSession(),
+          new Promise<null>((resolve) => {
+            setTimeout(() => resolve(null), 400);
+          }),
+        ]);
+        const token =
+          pack && "data" in pack ? pack.data.session?.access_token : undefined;
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
       }
+
+      const response = await Promise.race([
+        fetch("/api/admin/live", {
+          cache: "no-store",
+          credentials: "same-origin",
+          headers,
+        }),
+        new Promise<null>((resolve) => {
+          setTimeout(() => resolve(null), 4000);
+        }),
+      ]);
+      if (!response || !response.ok) {
+        return;
+      }
+
+      const data = (await response.json()) as AdminLiveSnapshot;
+      const snapshot: AdminLiveSnapshot = {
+        metrics: data.metrics ?? [],
+        visitors: data.visitors ?? [],
+        whatsapp: data.whatsapp ?? [],
+        purchases: data.purchases ?? [],
+        appointments: data.appointments ?? [],
+        members: data.members ?? [],
+      };
+      const alerts = diffAdminLive(cursor.current, {
+        metrics: snapshot.metrics,
+        visitors: snapshot.visitors,
+      });
+      cursor.current = nextLiveCursor(snapshot.metrics, snapshot.visitors);
+      setLive(snapshot);
+
+      if (alerts[0]) {
+        setToast(alerts[0]);
+        for (const alert of alerts) {
+          pushDesktopAlert(alert);
+        }
+      }
+    } catch {
+      // Keep the last painted desk if a poll fails.
+    } finally {
+      inFlight.current = false;
     }
   }, []);
 
