@@ -74,7 +74,9 @@ export function AdminMemberDesk({
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sync: true }),
-    }).then(() => refresh());
+    })
+      .then(() => refresh())
+      .catch(() => undefined);
   }, [refresh]);
 
   async function addMember(event: React.FormEvent) {
