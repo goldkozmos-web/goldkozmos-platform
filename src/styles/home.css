@@ -35145,51 +35145,31 @@ section:has(+ .deepFinderSection) {
 /* TÜM BÖLÜM KOYU KAHVE */
 
 .homeV3Other {
-  background:
-    radial-gradient(
-      circle at 10% 25%,
-      rgba(205, 158, 73, 0.13),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 90% 75%,
-      rgba(181, 132, 52, 0.09),
-      transparent 26%
-    ),
-    linear-gradient(
-      145deg,
-      #201711 0%,
-      #2b1f17 52%,
-      #211711 100%
-    ) !important;
+  background: linear-gradient(
+    180deg,
+    #b89a82 0%,
+    #e4d8cc 42%,
+    #ffffff 100%
+  ) !important;
 
-  border-top:
-    1px solid rgba(210, 166, 82, 0.13) !important;
-
-  border-bottom:
-    1px solid rgba(210, 166, 82, 0.13) !important;
+  border-top: 0 !important;
+  border-bottom: 0 !important;
 }
 
-
-/* =========================================================
-   SOL BAŞLIK RENKLERİ
-========================================================= */
-
 .homeV3PersonalHeading h2 {
-  color: #fff8ed !important;
+  color: #1c1410 !important;
 }
 
 .homeV3PersonalHeading h2 span {
-  color: #d2a654 !important;
+  color: #9a7328 !important;
 }
 
 .homeV3PersonalHeading .homeV3Eyebrow {
-  color: #cda354 !important;
+  color: #9a7328 !important;
 }
 
 .homeV3PersonalDescription {
-  color:
-    rgba(255, 246, 230, 0.62) !important;
+  color: #4a382c !important;
 }
 
 
@@ -35397,7 +35377,7 @@ section:has(+ .deepFinderSection) {
 .homeV3PersonalHeading .homeV3Eyebrow {
   margin-bottom: 8px !important;
 
-  color: #d3a654 !important;
+  color: #9a7328 !important;
 
   letter-spacing: 2.4px !important;
 }
@@ -35407,7 +35387,7 @@ section:has(+ .deepFinderSection) {
 
   margin: 0 !important;
 
-  color: #fff8ed !important;
+  color: #1c1410 !important;
 
   font-size:
     clamp(
@@ -35422,7 +35402,7 @@ section:has(+ .deepFinderSection) {
 }
 
 .homeV3PersonalHeading h2 span {
-  color: #d1a24d !important;
+  color: #9a7328 !important;
 }
 
 .homeV3PersonalDescription {
@@ -35433,8 +35413,7 @@ section:has(+ .deepFinderSection) {
     0
     0 !important;
 
-  color:
-    rgba(255, 247, 233, 0.61) !important;
+  color: #4a382c !important;
 
   font-size: 12px !important;
 
