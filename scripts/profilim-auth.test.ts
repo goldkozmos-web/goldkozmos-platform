@@ -6,9 +6,14 @@ import {
   appOriginFromUrl,
   googleCallbackUrl,
   googleStartUrl,
+  htmlAuthMessagePage,
   htmlRedirectPage,
   profilimAfterAuthUrl,
 } from "../src/lib/site.ts";
+import {
+  isGoogleAccountsUrl,
+  isSupabaseAuthorizeUrl,
+} from "../src/lib/supabase/google-authorize.ts";
 import type { User } from "@supabase/supabase-js";
 
 function fakeUser(metadata: Record<string, unknown>, email = "gold@example.com") {
@@ -65,4 +70,37 @@ test("auth redirects send an HTML page Chrome will not pretty-print", () => {
   assert.equal(page.includes("text/html"), false);
   assert.equal(page.includes('location.replace("https://goldkozmos.com/profilim")'), true);
   assert.equal(page.includes('content="0;url=https://goldkozmos.com/profilim"'), true);
+});
+
+test("auth timeout page is HTML, not JSON", () => {
+  const page = htmlAuthMessagePage(
+    "Google şu an yanıt vermiyor",
+    "Tekrar dene.",
+    "/auth/google",
+    "Tekrar dene",
+  );
+  assert.equal(page.startsWith("<!DOCTYPE html>"), true);
+  assert.equal(page.includes("application/json"), false);
+  assert.equal(page.includes('{"message"'), false);
+});
+
+test("only Google account URLs are treated as the login hop", () => {
+  assert.equal(
+    isGoogleAccountsUrl(
+      "https://accounts.google.com/o/oauth2/v2/auth?client_id=x",
+    ),
+    true,
+  );
+  assert.equal(
+    isSupabaseAuthorizeUrl(
+      "https://viomlucbaiewgzeaspoz.supabase.co/auth/v1/authorize?provider=google",
+    ),
+    true,
+  );
+  assert.equal(
+    isGoogleAccountsUrl(
+      "https://viomlucbaiewgzeaspoz.supabase.co/auth/v1/authorize?provider=google",
+    ),
+    false,
+  );
 });
