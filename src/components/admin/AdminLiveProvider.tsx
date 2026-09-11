@@ -21,6 +21,7 @@ import type {
   AdminOverviewMetric,
   AdminVisitorRow,
 } from "../../lib/admin/load";
+import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 
 export type AdminLiveSnapshot = {
   metrics: AdminOverviewMetric[];
@@ -69,7 +70,21 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const refresh = useCallback(async () => {
-    const response = await fetch("/api/admin/live", { cache: "no-store" });
+    const headers: HeadersInit = {};
+    const supabase = createSupabaseBrowserClient();
+    if (supabase) {
+      const { data } = await supabase.auth.getSession();
+      const token = data.session?.access_token;
+      if (token) {
+        headers.Authorization = `Bearer ${token}`;
+      }
+    }
+
+    const response = await fetch("/api/admin/live", {
+      cache: "no-store",
+      credentials: "same-origin",
+      headers,
+    });
     if (!response.ok) {
       return;
     }
@@ -102,7 +117,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     void refresh();
     const timer = window.setInterval(() => {
       void refresh();
-    }, 4000);
+    }, 2000);
 
     function onFocus() {
       void refresh();

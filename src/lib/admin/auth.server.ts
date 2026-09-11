@@ -1,5 +1,9 @@
-import type { User } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 
+import {
+  createSupabaseAccessClient,
+  createSupabaseAnonClient,
+} from "../supabase/anon";
 import { createSupabaseServerClient } from "../supabase/create-server-client";
 import { profilimUserFromAuth } from "../profilim/userFromAuth";
 import {
@@ -7,6 +11,7 @@ import {
   isSiteAdminEmail,
   type AdminActor,
 } from "./access";
+import { bearerTokenFromRequest } from "./bearer";
 
 export type AdminAccess =
   | { status: "unconfigured" }
@@ -43,20 +48,49 @@ function accessFromActor(actor: AdminActor | null): AdminAccess {
 }
 
 export async function getAdminAccess(): Promise<AdminAccess> {
-  const supabase = await createSupabaseServerClient();
+  const resolved = await resolveAdminRequest();
+  return resolved.access;
+}
 
-  if (!supabase) {
-    return { status: "unconfigured" };
+export async function resolveAdminRequest(request?: Request) {
+  const empty = {
+    access: { status: "unconfigured" } as AdminAccess,
+    client: null as SupabaseClient | null,
+  };
+
+  const bearer = bearerTokenFromRequest(request);
+  if (bearer) {
+    const probe = createSupabaseAnonClient();
+    if (!probe) {
+      return empty;
+    }
+
+    const { data } = await probe.auth.getUser(bearer);
+    const access = accessFromActor(actorFromUser(data.user ?? null));
+    return {
+      access,
+      client: access.status === "ok" ? createSupabaseAccessClient(bearer) : null,
+    };
   }
 
-  const sessionPack = await Promise.race([
-    supabase.auth.getSession(),
-    new Promise<null>((resolve) => {
-      setTimeout(() => resolve(null), 400);
-    }),
-  ]);
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) {
+    return empty;
+  }
 
-  return accessFromActor(actorFromUser(sessionPack?.data.session?.user ?? null));
+  const sessionPack = await supabase.auth.getSession();
+  const token = sessionPack.data.session?.access_token ?? "";
+  const access = accessFromActor(
+    actorFromUser(sessionPack.data.session?.user ?? null),
+  );
+
+  return {
+    access,
+    client:
+      access.status === "ok" && token
+        ? createSupabaseAccessClient(token)
+        : supabase,
+  };
 }
 
 export async function requireAdminPage() {
