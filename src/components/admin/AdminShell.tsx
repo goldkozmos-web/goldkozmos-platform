@@ -30,6 +30,7 @@ function AdminChrome({
         <div className="adminBrand">
           <p>GoldKozmos</p>
           <h1>Yönetim</h1>
+          <i className="adminRule" aria-hidden="true" />
           <span className="adminLead">
             Bugünün ziyareti, açık sekmeler ve üyeler.
           </span>

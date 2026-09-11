@@ -1,23 +1,54 @@
 .adminPage {
   --admin-ink: #14110e;
-  --admin-gold: #a57b2e;
-  --admin-gold-line: rgba(165, 123, 46, 0.38);
-  --admin-gold-soft: #efe6d2;
-  --admin-gold-press: #e7d9b8;
+  --admin-gold: #9a7328;
+  --admin-gold-line: rgba(154, 115, 40, 0.32);
+  --admin-gold-soft: #f0e6d0;
+  --admin-gold-press: #e6d5b0;
   --admin-muted: #6e5c3c;
   --admin-paper: #ffffff;
-  --admin-stage: #f3f1ec;
+  --admin-stage: #ebe8e1;
+  --admin-corner: 16px;
+  --admin-corner-w: 1.5px;
   --admin-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 1px 2px rgba(28, 20, 10, 0.05),
-    0 12px 28px rgba(28, 20, 10, 0.07);
+    0 1px 0 rgba(255, 255, 255, 0.92) inset,
+    0 1px 2px rgba(28, 20, 10, 0.04),
+    0 16px 40px rgba(28, 20, 10, 0.08);
   --admin-shadow-hover:
     0 1px 0 rgba(255, 255, 255, 0.95) inset,
-    0 4px 8px rgba(28, 20, 10, 0.05),
-    0 18px 36px rgba(28, 20, 10, 0.1);
+    0 6px 14px rgba(28, 20, 10, 0.06),
+    0 22px 44px rgba(28, 20, 10, 0.11);
+  --admin-frame:
+    linear-gradient(var(--admin-gold), var(--admin-gold)),
+    linear-gradient(var(--admin-gold), var(--admin-gold)),
+    linear-gradient(var(--admin-gold), var(--admin-gold)),
+    linear-gradient(var(--admin-gold), var(--admin-gold)),
+    linear-gradient(var(--admin-gold), var(--admin-gold)),
+    linear-gradient(var(--admin-gold), var(--admin-gold)),
+    linear-gradient(var(--admin-gold), var(--admin-gold)),
+    linear-gradient(var(--admin-gold), var(--admin-gold));
+  --admin-frame-size:
+    var(--admin-corner) var(--admin-corner-w),
+    var(--admin-corner-w) var(--admin-corner),
+    var(--admin-corner) var(--admin-corner-w),
+    var(--admin-corner-w) var(--admin-corner),
+    var(--admin-corner) var(--admin-corner-w),
+    var(--admin-corner-w) var(--admin-corner),
+    var(--admin-corner) var(--admin-corner-w),
+    var(--admin-corner-w) var(--admin-corner);
+  --admin-frame-pos:
+    top 11px left 11px,
+    top 11px left 11px,
+    top 11px right 11px,
+    top 11px right 11px,
+    bottom 11px left 11px,
+    bottom 11px left 11px,
+    bottom 11px right 11px,
+    bottom 11px right 11px;
   min-height: 100dvh;
   padding: 0 0 calc(168px + env(safe-area-inset-bottom, 0px));
-  background: var(--admin-stage);
+  background:
+    radial-gradient(ellipse 90% 42% at 50% -8%, rgba(154, 115, 40, 0.14), transparent 58%),
+    var(--admin-stage);
   color: var(--admin-ink);
   font-family: "SF Pro Text", "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -36,10 +67,14 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: start;
   gap: 16px 20px;
-  padding: 20px 22px 18px;
+  padding: 22px 24px 20px;
   border: 1px solid var(--admin-gold-line);
-  border-radius: 24px;
-  background: var(--admin-paper);
+  border-radius: 26px;
+  background-color: var(--admin-paper);
+  background-image: var(--admin-frame);
+  background-repeat: no-repeat;
+  background-size: var(--admin-frame-size);
+  background-position: var(--admin-frame-pos);
   box-shadow: var(--admin-shadow);
 }
 
@@ -60,7 +95,7 @@
   color: var(--admin-gold);
   font-size: 11px;
   font-weight: 650;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.22em;
   text-transform: none !important;
 }
 
@@ -79,6 +114,14 @@
 .adminBrand h1 {
   font-size: clamp(28px, 3.6vw, 36px);
   line-height: 1;
+}
+
+.adminRule {
+  display: block;
+  width: 42px;
+  height: 1px;
+  margin: 14px 0 0;
+  background: var(--admin-gold);
 }
 
 .adminLead {
@@ -192,13 +235,16 @@
 
 .adminEmpty,
 .adminLocked,
-.adminMember,
 .adminPanel,
 .adminCompose,
 .adminHint {
   border: 1px solid var(--admin-gold-line);
   border-radius: 22px;
-  background: var(--admin-paper);
+  background-color: var(--admin-paper);
+  background-image: var(--admin-frame);
+  background-repeat: no-repeat;
+  background-size: var(--admin-frame-size);
+  background-position: var(--admin-frame-pos);
   box-shadow: var(--admin-shadow);
 }
 
@@ -207,49 +253,56 @@
   display: grid;
   align-content: space-between;
   gap: 8px;
-  min-height: 108px;
-  padding: 16px 16px 14px;
+  min-height: 118px;
+  padding: 18px 16px 16px;
   border: 1px solid var(--admin-gold-line);
-  border-radius: 20px;
-  background: var(--admin-paper);
+  border-radius: 18px;
+  background-color: var(--admin-paper);
+  background-image: var(--admin-frame);
+  background-repeat: no-repeat;
+  background-size:
+    12px 1.5px, 1.5px 12px, 12px 1.5px, 1.5px 12px,
+    12px 1.5px, 1.5px 12px, 12px 1.5px, 1.5px 12px;
+  background-position:
+    top 8px left 8px, top 8px left 8px, top 8px right 8px, top 8px right 8px,
+    bottom 8px left 8px, bottom 8px left 8px, bottom 8px right 8px, bottom 8px right 8px;
   color: inherit;
   text-decoration: none;
-  box-shadow: var(--admin-shadow);
-  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease,
-    transform 180ms ease;
+  box-shadow: none;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
 .adminCard:hover,
 .adminMetric:hover,
 .adminCard:focus-visible,
 .adminMetric:focus-visible {
-  background: var(--admin-paper);
+  background-color: #fbf7ee;
   border-color: var(--admin-gold);
-  box-shadow: var(--admin-shadow-hover);
   transform: translateY(-1px);
 }
 
 .adminCard:active,
 .adminMetric:active {
-  background: var(--admin-gold-soft);
+  background-color: var(--admin-gold-soft);
   border-color: var(--admin-gold);
-  box-shadow: var(--admin-shadow);
   transform: translateY(0);
 }
 
 .adminCard.isOn,
 .adminMetric.isOn {
-  background: var(--admin-gold-soft);
+  background-color: var(--admin-gold-soft);
   border-color: var(--admin-gold);
 }
 
 .adminCard p,
 .adminMetric p {
   margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--admin-gold-line);
   color: var(--admin-gold);
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 0.04em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: none !important;
 }
 
@@ -259,9 +312,9 @@
   align-items: center;
   gap: 7px;
   color: var(--admin-ink);
-  font-family: inherit;
-  font-size: 28px;
-  font-weight: 650;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 400;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "lnum" 1;
   letter-spacing: -0.03em;
@@ -277,14 +330,14 @@
 .adminCard.isLive,
 .adminMetric.isLive {
   border-color: var(--admin-gold-line);
-  background: var(--admin-paper);
+  background-color: var(--admin-paper);
 }
 
 .adminCard.isLive:hover,
 .adminMetric.isLive:hover,
 .adminCard.isLive:focus-visible,
 .adminMetric.isLive:focus-visible {
-  background: var(--admin-paper);
+  background-color: #fbf7ee;
 }
 
 .adminLiveDot {
@@ -370,7 +423,7 @@
   display: grid;
   align-content: start;
   gap: 14px;
-  padding: 20px 20px 18px;
+  padding: 22px 22px 20px;
 }
 
 .adminPanelHead {
@@ -378,6 +431,8 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--admin-gold-line);
 }
 
 .adminPanelHead h2 {
@@ -421,6 +476,10 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
+  border: 1px solid var(--admin-gold-line);
+  border-radius: 16px;
+  background: var(--admin-stage);
+  box-shadow: none;
 }
 
 .adminPanel .adminMember,
@@ -507,13 +566,17 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 4px;
-  padding: 6px;
+  padding: 8px;
   border: 1px solid var(--admin-gold-line);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.92);
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.94);
+  background-image: var(--admin-frame);
+  background-repeat: no-repeat;
+  background-size: var(--admin-frame-size);
+  background-position: var(--admin-frame-pos);
   box-shadow: var(--admin-shadow-hover);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .adminNav a {
@@ -653,7 +716,7 @@
 
   .adminCard strong,
   .adminMetric strong {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .adminFields,

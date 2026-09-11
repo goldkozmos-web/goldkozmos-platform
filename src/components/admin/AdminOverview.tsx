@@ -20,7 +20,14 @@ export default function AdminOverview({
 
   return (
     <div className="adminStack">
-      <section className="adminOverview" aria-label="Bugünün özeti">
+      <section className="adminPanel" aria-label="Bugünün özeti">
+        <header className="adminPanelHead">
+          <div>
+            <p className="adminSectionLabel">Masa</p>
+            <h2>Bugün</h2>
+          </div>
+        </header>
+        <div className="adminOverview">
         {rows.map((metric) => {
           const liveOn = metric.id === "live" && metric.value > 0;
           const emptyLook = !metric.hasSource || metric.value <= 0;
@@ -45,6 +52,7 @@ export default function AdminOverview({
             </a>
           );
         })}
+        </div>
       </section>
 
       <section className="adminPanel">
