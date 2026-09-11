@@ -31,7 +31,13 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  await supabase.auth.getUser();
+  // Refresh cookies if auth is fast; never stall HTML if Supabase hangs.
+  await Promise.race([
+    supabase.auth.getUser(),
+    new Promise<void>((resolve) => {
+      setTimeout(resolve, 600);
+    }),
+  ]);
 
   return response;
 }

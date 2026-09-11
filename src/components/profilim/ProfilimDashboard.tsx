@@ -90,7 +90,7 @@ export default function ProfilimDashboard({
   data: ProfilimDashboardData;
 }) {
   const [user, setUser] = useState(data.user);
-  const [checking, setChecking] = useState(!data.user);
+  const [checking, setChecking] = useState(false);
   const [open, setOpen] = useState<ProfilimDrawerId | null>(null);
   const [continueItems, setContinueItems] = useState(data.continueItems);
   const [tracks, setTracks] = useState<ProfilimPlatformTrack[]>(
@@ -148,7 +148,12 @@ export default function ProfilimDashboard({
       }
     }
 
-    void client.auth.getSession().then(({ data: { session } }) => {
+    void Promise.race([
+      client.auth.getSession(),
+      new Promise<{ data: { session: null } }>((resolve) => {
+        setTimeout(() => resolve({ data: { session: null } }), 3000);
+      }),
+    ]).then(({ data: { session } }) => {
       void resolveUser(session?.user ?? null, "GET_SESSION");
     });
 
@@ -278,12 +283,7 @@ export default function ProfilimDashboard({
   return (
     <section className="profilimDash">
       <div className="profilimDashInner">
-        {checking ? (
-          <section className="profilimGate">
-            <p className="profilimGateEyebrow">GOLDKOZMOS · PROFİLİM</p>
-            <h1>Profilin açılıyor…</h1>
-          </section>
-        ) : showMemberTiles ? (
+        {showMemberTiles ? (
           <>
             {user ? <ProfilimHero user={user} level={view.level} /> : null}
 
