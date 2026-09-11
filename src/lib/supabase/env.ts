@@ -48,6 +48,20 @@ export function getSupabasePublicEnv() {
   return { url, publishableKey };
 }
 
+export function getSupabaseServiceKey() {
+  return unwrapEnvValue(
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      process.env.SUPABASE_SECRET_KEY ||
+      process.env.SUPABASE_SERVICE_KEY ||
+      "",
+    [
+      "SUPABASE_SERVICE_ROLE_KEY",
+      "SUPABASE_SECRET_KEY",
+      "SUPABASE_SERVICE_KEY",
+    ],
+  );
+}
+
 export function hasSupabaseConfig() {
   return getSupabasePublicEnv() !== null;
 }

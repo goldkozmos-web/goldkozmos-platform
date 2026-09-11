@@ -4,6 +4,7 @@ import test from "node:test";
 import { memberSourceLabel, mergeMemberRows, parseMemberInput } from "../src/lib/admin/members.ts";
 import {
   isMemberVisitorKey,
+  memberRowFromAuthUser,
   memberRowFromVisitor,
   memberVisitorKey,
   userIdFromMemberKey,
@@ -66,4 +67,16 @@ test("member join is stored on the visitor log Gold already sees", () => {
   assert.equal(row?.displayName, "Ayşe Yılmaz");
   assert.equal(row?.phone, "+905321112233");
   assert.equal(row?.city, "İstanbul");
+});
+
+test("Google auth users map onto the admin member desk", () => {
+  const row = memberRowFromAuthUser({
+    id: "u-4",
+    email: "arkadas@gmail.com",
+    created_at: "2026-09-01T00:00:00.000Z",
+    user_metadata: { full_name: "Arkadaş" },
+  });
+  assert.equal(row?.displayName, "Arkadaş");
+  assert.equal(row?.email, "arkadas@gmail.com");
+  assert.equal(row?.source, "google");
 });

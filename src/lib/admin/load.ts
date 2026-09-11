@@ -8,6 +8,7 @@ import {
   istanbulDayStartIso,
   type AdminOverviewCardId,
 } from "./access";
+import { listGoogleAuthMembers } from "../supabase/service";
 import { isMemberVisitorKey, memberRowFromVisitor } from "./member-keys";
 import { mergeMemberRows, type SiteMemberRow } from "./members";
 import {
@@ -79,9 +80,10 @@ async function rpcRows(supabase: SupabaseClient, name: string) {
 async function fetchAdminMembers(
   supabase: SupabaseClient,
 ): Promise<AdminMemberRow[]> {
-  const [roster, classic] = await Promise.all([
+  const [roster, classic, authUsers] = await Promise.all([
     rpcRows(supabase, "list_admin_roster"),
     rpcRows(supabase, "list_site_members"),
+    listGoogleAuthMembers(),
   ]);
 
   const wide = await supabase
@@ -116,6 +118,7 @@ async function fetchAdminMembers(
     .limit(200);
 
   return mergeMemberRows([
+    authUsers,
     roster,
     classic,
     (table.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>)),
