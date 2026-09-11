@@ -62,10 +62,10 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
   },
   {
     id: "members",
-    title: "Yeni üye",
+    title: "Üyeler",
     href: "/admin/kullanicilar",
     hasSource: true,
-    empty: "Bugün yok",
+    empty: "Üye yok",
   },
   {
     id: "appointments",

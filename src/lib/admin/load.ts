@@ -46,6 +46,42 @@ function asText(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : "";
 }
 
+export type AdminMemberRow = {
+  id: string;
+  displayName: string;
+  role: string;
+  email: string | null;
+  createdAt: string | null;
+};
+
+function mapMemberRow(row: Record<string, unknown>): AdminMemberRow {
+  return {
+    id: asText(row.id),
+    displayName:
+      asText(row.display_name) || asText(row.displayName) || "GoldKozmos üyesi",
+    role: asText(row.role) === "admin" ? "admin" : "user",
+    email: asText(row.email) || null,
+    createdAt: asText(row.created_at) || asText(row.createdAt) || null,
+  };
+}
+
+async function fetchAdminMembers(
+  supabase: NonNullable<Awaited<ReturnType<typeof createSupabaseServerClient>>>,
+): Promise<AdminMemberRow[]> {
+  const rpc = await supabase.rpc("list_site_members");
+  if (!rpc.error && Array.isArray(rpc.data)) {
+    return rpc.data.map((row) => mapMemberRow(row as Record<string, unknown>));
+  }
+
+  const { data } = await supabase
+    .from("profiles")
+    .select("id, display_name, role, created_at")
+    .order("created_at", { ascending: false })
+    .limit(120);
+
+  return (data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>));
+}
+
 export { emptyAdminMetrics };
 
 export async function loadAdminLive() {
@@ -63,14 +99,14 @@ export async function loadAdminLive() {
   let whatsapp: AdminEventRow[] = [];
   let purchases: AdminEventRow[] = [];
   let appointments: AdminEventRow[] = [];
+  let membersList: AdminMemberRow[] = [];
 
   if (supabase) {
-    const [members, visits, liveRows, events, sessionPack] = await Promise.all([
-      supabase
-        .from("profiles")
-        .select("id", { count: "exact", head: true })
-        .gte("created_at", memberStart),
-      supabase
+    const [memberRows, memberHead, visits, liveRows, events, sessionPack] =
+      await Promise.all([
+        fetchAdminMembers(supabase),
+        supabase.from("profiles").select("id", { count: "exact", head: true }),
+        supabase
         .from("site_visitors")
         .select("visitor_key", { count: "exact", head: true })
         .gte("last_seen_at", memberStart),
@@ -92,7 +128,8 @@ export async function loadAdminLive() {
       supabase.auth.getSession(),
     ]);
 
-    memberCount = members.count ?? 0;
+    membersList = memberRows;
+    memberCount = memberHead.count ?? memberRows.length;
     visitCount = visits.count ?? 0;
 
     const visitorRows = liveRows.data ?? [];
@@ -181,15 +218,9 @@ export async function loadAdminLive() {
     whatsapp,
     purchases,
     appointments,
+    members: membersList,
   };
 }
-
-export type AdminMemberRow = {
-  id: string;
-  displayName: string;
-  role: string;
-  createdAt: string | null;
-};
 
 export async function loadAdminMembers(): Promise<AdminMemberRow[]> {
   const supabase = await createSupabaseServerClient();
@@ -198,18 +229,5 @@ export async function loadAdminMembers(): Promise<AdminMemberRow[]> {
     return [];
   }
 
-  const { data } = await supabase
-    .from("profiles")
-    .select("id, display_name, role, created_at")
-    .order("created_at", { ascending: false })
-    .limit(80);
-
-  return (data ?? []).map((row) => ({
-    id: String(row.id),
-    displayName:
-      (typeof row.display_name === "string" && row.display_name.trim()) ||
-      "GoldKozmos üyesi",
-    role: row.role === "admin" ? "admin" : "user",
-    createdAt: typeof row.created_at === "string" ? row.created_at : null,
-  }));
+  return fetchAdminMembers(supabase);
 }

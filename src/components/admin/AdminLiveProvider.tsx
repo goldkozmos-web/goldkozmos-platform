@@ -17,6 +17,7 @@ import {
 } from "../../lib/admin/alerts";
 import type {
   AdminEventRow,
+  AdminMemberRow,
   AdminOverviewMetric,
   AdminVisitorRow,
 } from "../../lib/admin/load";
@@ -27,6 +28,7 @@ export type AdminLiveSnapshot = {
   whatsapp: AdminEventRow[];
   purchases: AdminEventRow[];
   appointments: AdminEventRow[];
+  members: AdminMemberRow[];
 };
 
 type AdminLiveContextValue = {
@@ -72,12 +74,20 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     }
 
     const data = (await response.json()) as AdminLiveSnapshot;
-    const alerts = diffAdminLive(cursor.current, {
+    const snapshot: AdminLiveSnapshot = {
       metrics: data.metrics ?? [],
       visitors: data.visitors ?? [],
+      whatsapp: data.whatsapp ?? [],
+      purchases: data.purchases ?? [],
+      appointments: data.appointments ?? [],
+      members: data.members ?? [],
+    };
+    const alerts = diffAdminLive(cursor.current, {
+      metrics: snapshot.metrics,
+      visitors: snapshot.visitors,
     });
-    cursor.current = nextLiveCursor(data.metrics ?? [], data.visitors ?? []);
-    setLive(data);
+    cursor.current = nextLiveCursor(snapshot.metrics, snapshot.visitors);
+    setLive(snapshot);
 
     if (alerts[0]) {
       setToast(alerts[0]);

@@ -56,8 +56,10 @@ test("member Profilim tiles stay visible for admin accounts", () => {
   assert.equal(canShowMemberProfilim(null, false), false);
 });
 
-test("admin overview can paint zeros before live data arrives", () => {
+test("overview member chip counts all members, not only today", () => {
   const metrics = emptyAdminMetrics();
+  const members = metrics.find((metric) => metric.id === "members");
+  assert.equal(members?.title, "Üyeler");
   assert.equal(metrics.length > 0, true);
   assert.equal(
     metrics.every((metric) => metric.value === 0),
