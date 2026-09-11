@@ -104,7 +104,7 @@ export default function AdminMessageDesk({
             maxLength={2000}
             rows={5}
             onChange={(event) => setBody(event.target.value)}
-            placeholder="Üyelerin Gelen Mesajlar kutusuna düşer."
+            placeholder="Üye kutusuna düşer."
           />
         </label>
         <button type="submit" disabled={pending}>

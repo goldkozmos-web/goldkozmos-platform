@@ -70,7 +70,7 @@ export default function AdminSuggestionDesk({
           <textarea
             value={body}
             onChange={(event) => setBody(event.target.value)}
-            placeholder="Üyeden gelen veya senin notun."
+            placeholder="Notunu yaz."
             maxLength={900}
             required
           />
