@@ -1,21 +1,14 @@
 import { NextResponse } from "next/server";
 import { cookies, headers } from "next/headers";
 
-import { PHONE_STEP_COOKIE, phoneStepCookieHeader } from "@/lib/auth/phone";
+import {
+  PHONE_STEP_COOKIE,
+  accessTokenHasFreshPhone,
+  phoneStepCookieHeader,
+} from "@/lib/auth/phone";
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 
 export const dynamic = "force-dynamic";
-
-function aalFromToken(token: string) {
-  try {
-    const payload = JSON.parse(
-      Buffer.from(token.split(".")[1] ?? "", "base64").toString("utf8"),
-    ) as { aal?: string };
-    return String(payload.aal ?? "");
-  } catch {
-    return "";
-  }
-}
 
 function recentlyConfirmed(iso: string | null | undefined) {
   if (!iso) return false;
@@ -26,9 +19,11 @@ function recentlyConfirmed(iso: string | null | undefined) {
 async function currentAuth() {
   const supabase = await createSupabaseServerClient();
   if (!supabase) return null;
-  const { data } = await supabase.auth.getSession();
-  if (!data.session?.user) return null;
-  return data.session;
+  const { data: userPack } = await supabase.auth.getUser();
+  if (!userPack.user) return null;
+  const { data: sessionPack } = await supabase.auth.getSession();
+  if (!sessionPack.session) return null;
+  return { ...sessionPack.session, user: userPack.user };
 }
 
 export async function GET() {
@@ -52,8 +47,9 @@ export async function POST() {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
-  const aal = aalFromToken(session.access_token);
-  const fresh = aal === "aal2" || recentlyConfirmed(session.user.phone_confirmed_at);
+  const fresh =
+    accessTokenHasFreshPhone(session.access_token) ||
+    recentlyConfirmed(session.user.phone_confirmed_at);
   if (!fresh) {
     return NextResponse.json({ ok: false }, { status: 403 });
   }

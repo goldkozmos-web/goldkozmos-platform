@@ -17,10 +17,14 @@ import {
   isSupabaseAuthorizeUrl,
 } from "../src/lib/supabase/google-authorize.ts";
 import {
+  accessTokenHasFreshPhone,
   maskTrPhone,
   normalizeTrPhone,
+  otpCodeFromInput,
   phoneOtpMessage,
+  phoneVerifyMessage,
   sessionNeedsPhoneStep,
+  splitE164,
   toE164,
 } from "../src/lib/auth/phone.ts";
 import type { User } from "@supabase/supabase-js";
@@ -125,9 +129,23 @@ test("Turkish mobile numbers normalize to E.164", () => {
 
 test("phone OTP errors stay human", () => {
   assert.match(phoneOtpMessage("Unsupported phone provider"), /SMS/);
-  assert.match(phoneOtpMessage("Invalid token"), /Kod/);
+  assert.match(phoneVerifyMessage("Invalid token"), /eşleşmedi|6 hane/);
   assert.match(phoneOtpMessage("Phone factor already exists"), /Kod gönderilemedi/);
   assert.doesNotMatch(phoneOtpMessage("Phone MFA is disabled"), /cep numarası/);
+  assert.equal(otpCodeFromInput(" 12 34 56 "), "123456");
+  assert.deepEqual(splitE164("+905321112233"), { dial: "90", local: "5321112233" });
+});
+
+test("a freshly verified phone token can close the Google login step", () => {
+  const payload = Buffer.from(
+    JSON.stringify({
+      aal: "aal1",
+      amr: [{ method: "phone", timestamp: Math.floor(Date.now() / 1000) }],
+    }),
+    "utf8",
+  ).toString("base64url");
+  assert.equal(accessTokenHasFreshPhone(`hdr.${payload}.sig`), true);
+  assert.equal(accessTokenHasFreshPhone("not-a-jwt"), false);
 });
 
 test("Google login is not finished until phone MFA is aal2", () => {

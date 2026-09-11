@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import {
   PHONE_COUNTRIES,
   maskTrPhone,
-  phoneOtpMessage,
+  otpCodeFromInput,
+  phoneSendMessage,
+  phoneVerifyMessage,
+  splitE164,
   toE164,
 } from "../../../lib/auth/phone";
 import { safeAppPath } from "../../../lib/site";
@@ -23,7 +26,6 @@ type SendMode = "mfa" | "change" | "otp";
 export default function AuthTelefonPage() {
   const searchParams = useSearchParams();
   const next = safeAppPath(searchParams.get("next"));
-  const ran = useRef(false);
   const [dial, setDial] = useState("90");
   const [local, setLocal] = useState("");
   const [masked, setMasked] = useState("");
@@ -32,7 +34,7 @@ export default function AuthTelefonPage() {
   const [challengeId, setChallengeId] = useState("");
   const [code, setCode] = useState("");
   const [mode, setMode] = useState<SendMode>("change");
-  const [needsNumber, setNeedsNumber] = useState(false);
+  const [needsNumber, setNeedsNumber] = useState(true);
   const [pending, setPending] = useState(true);
   const [error, setError] = useState("");
 
@@ -42,6 +44,14 @@ export default function AuthTelefonPage() {
       credentials: "same-origin",
     });
     return res.ok;
+  }
+
+  function rememberPhone(phone: string, nextMode: SendMode) {
+    setMode(nextMode);
+    setE164(phone);
+    setMasked(maskTrPhone(phone));
+    setNeedsNumber(false);
+    setCode("");
   }
 
   async function sendViaMfa(
@@ -74,52 +84,53 @@ export default function AuthTelefonPage() {
       return { error: challenge.error?.message ?? "challenge" };
     }
 
-    setMode("mfa");
     setFactorId(factor.id);
     setChallengeId(challenge.data.id);
-    setMasked(maskTrPhone(factor.phone || phone));
-    setE164(phone);
-    setNeedsNumber(false);
+    rememberPhone(factor.phone || phone, "mfa");
     return { error: null };
   }
 
-  async function sendViaUserPhone(
+  async function sendCode(
     client: NonNullable<ReturnType<typeof createSupabaseBrowserClient>>,
     phone: string,
   ) {
-    const { error: updateError } = await client.auth.updateUser({ phone });
-    if (!updateError) {
-      setMode("change");
-      setE164(phone);
-      setMasked(maskTrPhone(phone));
-      setNeedsNumber(false);
+    const updated = await client.auth.updateUser({ phone });
+    if (!updated.error) {
+      rememberPhone(phone, "change");
       return { error: null };
     }
 
-    const otp = await client.auth.signInWithOtp({
+    const change = await client.auth.resend({
+      type: "phone_change",
       phone,
-      options: { shouldCreateUser: false, channel: "sms" },
     });
-    if (otp.error) {
-      return { error: otp.error.message };
+    if (!change.error) {
+      rememberPhone(phone, "change");
+      return { error: null };
     }
-    setMode("otp");
-    setE164(phone);
-    setMasked(maskTrPhone(phone));
-    setNeedsNumber(false);
-    return { error: null };
+
+    const mfa = await sendViaMfa(client, phone);
+    if (!mfa.error) return mfa;
+
+    const sms = await client.auth.resend({ type: "sms", phone });
+    if (!sms.error) {
+      rememberPhone(phone, "otp");
+      return { error: null };
+    }
+
+    return {
+      error: updated.error.message || change.error.message || mfa.error || sms.error?.message,
+    };
   }
 
   useEffect(() => {
-    if (ran.current) return;
-    ran.current = true;
-
     const supabase = createSupabaseBrowserClient();
     if (!supabase) {
       window.location.replace("/profilim");
       return;
     }
     const client = supabase;
+    let alive = true;
 
     async function boot() {
       const { data: sessionPack } = await client.auth.getSession();
@@ -136,33 +147,29 @@ export default function AuthTelefonPage() {
         return;
       }
 
+      if (!alive) return;
       const existing = user.phone || "";
       if (existing) {
-        const mfa = await sendViaMfa(client, existing);
-        if (!mfa.error) {
-          setPending(false);
-          return;
-        }
-        const fallback = await sendViaUserPhone(client, existing);
-        setPending(false);
-        if (fallback.error) {
-          setNeedsNumber(true);
-          setError(phoneOtpMessage(fallback.error));
-        }
-        return;
+        const parts = splitE164(existing);
+        setDial(parts.dial);
+        setLocal(parts.local);
+        setE164(existing);
+        setMasked(maskTrPhone(existing));
       }
-
       setNeedsNumber(true);
       setPending(false);
     }
 
     void boot();
+    return () => {
+      alive = false;
+    };
   }, [next]);
 
   async function enroll(event: React.FormEvent) {
     event.preventDefault();
     const supabase = createSupabaseBrowserClient();
-    const phone = toE164(dial, local);
+    const phone = toE164(dial, local) || e164;
     if (!phone) {
       setError(
         dial === "90"
@@ -175,59 +182,71 @@ export default function AuthTelefonPage() {
 
     setPending(true);
     setError("");
-    const mfa = await sendViaMfa(supabase, phone);
-    if (!mfa.error) {
-      setPending(false);
-      return;
-    }
-    const fallback = await sendViaUserPhone(supabase, phone);
+    const sent = await sendCode(supabase, phone);
     setPending(false);
-    if (fallback.error) {
-      setError(phoneOtpMessage(fallback.error));
-    }
+    if (sent.error) setError(phoneSendMessage(sent.error));
   }
 
   async function verify(event: React.FormEvent) {
     event.preventDefault();
     const supabase = createSupabaseBrowserClient();
     if (!supabase) return;
-    const token = code.trim();
+    const client = supabase;
+    const token = otpCodeFromInput(code);
     if (token.length < 4) {
-      setError("Telefonuna gelen kodu yaz.");
+      setError("Telefonuna gelen 6 haneli kodu yaz.");
       return;
     }
 
     setPending(true);
     setError("");
 
-    let verifyError = "";
-    if (mode === "mfa") {
-      const result = await supabase.auth.mfa.verify({
+    const attempts: string[] = [];
+
+    async function tryMfa() {
+      if (!factorId || !challengeId) return false;
+      const result = await client.auth.mfa.verify({
         factorId,
         challengeId,
         code: token,
       });
-      verifyError = result.error?.message ?? "";
-    } else {
-      const result = await supabase.auth.verifyOtp({
-        phone: e164,
-        token,
-        type: mode === "change" ? "phone_change" : "sms",
-      });
-      verifyError = result.error?.message ?? "";
+      if (!result.error) return true;
+      attempts.push(result.error.message);
+      return false;
     }
 
-    if (verifyError) {
+    async function tryOtp(type: "phone_change" | "sms") {
+      if (!e164) return false;
+      const result = await client.auth.verifyOtp({
+        phone: e164,
+        token,
+        type,
+      });
+      if (!result.error) return true;
+      attempts.push(result.error.message);
+      return false;
+    }
+
+    let ok = false;
+    if (mode === "mfa") {
+      ok = (await tryMfa()) || (await tryOtp("phone_change")) || (await tryOtp("sms"));
+    } else if (mode === "otp") {
+      ok = (await tryOtp("sms")) || (await tryOtp("phone_change")) || (await tryMfa());
+    } else {
+      ok = (await tryOtp("phone_change")) || (await tryOtp("sms")) || (await tryMfa());
+    }
+
+    if (!ok) {
       setPending(false);
-      setError(phoneOtpMessage(verifyError));
+      setError(phoneVerifyMessage(attempts[0]));
       return;
     }
 
-    await supabase.auth.refreshSession();
+    await client.auth.refreshSession();
     const locked = await markPhoneStep();
     if (!locked) {
       setPending(false);
-      setError("Kod alındı ama kilit tamamlanamadı. Yeni kod iste.");
+      setError("Kod doğru. Bir saniye sonra tekrar dene.");
       return;
     }
     window.location.replace(next);
@@ -239,16 +258,9 @@ export default function AuthTelefonPage() {
     if (!supabase || !phone) return;
     setPending(true);
     setError("");
-    const mfa = await sendViaMfa(supabase, phone);
-    if (!mfa.error) {
-      setPending(false);
-      setCode("");
-      return;
-    }
-    const fallback = await sendViaUserPhone(supabase, phone);
+    const sent = await sendCode(supabase, phone);
     setPending(false);
-    setCode("");
-    if (fallback.error) setError(phoneOtpMessage(fallback.error));
+    if (sent.error) setError(phoneSendMessage(sent.error));
   }
 
   return (
@@ -266,13 +278,14 @@ export default function AuthTelefonPage() {
               ) : (
                 <>
                   Telefonuna
-                  <span> kod gönderildi</span>
+                  <span> kod gitti</span>
                 </>
               )}
             </h1>
             <p className="profilimGateLead">
-              Google kabul edildi. Girişi senin adına başkası tamamlayamasın
-              diye her seferinde {masked || "telefonuna"} kod gelir.
+              {needsNumber
+                ? "Google kabul edildi. Kodu ancak senin telefonun alsın diye numaranı yazıp gönder."
+                : `SMS ${masked || "telefonuna"} ulaştı. Gelen 6 haneyi boşluksuz yaz.`}
             </p>
 
             {needsNumber ? (
@@ -313,7 +326,7 @@ export default function AuthTelefonPage() {
                     inputMode="numeric"
                     autoComplete="one-time-code"
                     value={code}
-                    onChange={(event) => setCode(event.target.value)}
+                    onChange={(event) => setCode(otpCodeFromInput(event.target.value))}
                     placeholder="6 haneli kod"
                     maxLength={8}
                     required

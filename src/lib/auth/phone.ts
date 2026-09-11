@@ -79,7 +79,55 @@ export function maskTrPhone(phone: string) {
   return `+${digits.slice(0, digits.length - 4)} ** ${local.slice(-2)}`;
 }
 
-export function phoneOtpMessage(error: string | null | undefined) {
+export function otpCodeFromInput(raw: string) {
+  return String(raw ?? "").replace(/\D/g, "");
+}
+
+export function splitE164(phone: string) {
+  const digits = String(phone ?? "").replace(/\D/g, "");
+  const countries = [...PHONE_COUNTRIES].sort((a, b) => b.dial.length - a.dial.length);
+  for (const country of countries) {
+    if (digits.startsWith(country.dial) && digits.length > country.dial.length) {
+      return { dial: country.dial, local: digits.slice(country.dial.length) };
+    }
+  }
+  return { dial: "90", local: digits.replace(/^0/, "") };
+}
+
+function jwtPayload(token: string) {
+  try {
+    const part = String(token ?? "").split(".")[1] ?? "";
+    if (!part) return null;
+    const b64 = part.replace(/-/g, "+").replace(/_/g, "/");
+    const padded = b64 + "=".repeat((4 - (b64.length % 4)) % 4);
+    const json =
+      typeof atob === "function"
+        ? atob(padded)
+        : Buffer.from(padded, "base64").toString("utf8");
+    return JSON.parse(json) as {
+      aal?: string;
+      amr?: { method?: string; timestamp?: number }[];
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function accessTokenHasFreshPhone(token: string, nowMs = Date.now()) {
+  const payload = jwtPayload(token);
+  if (!payload) return false;
+  if (payload.aal === "aal2") return true;
+  const amr = Array.isArray(payload.amr) ? payload.amr : [];
+  const nowSec = nowMs / 1000;
+  return amr.some((item) => {
+    const method = String(item.method ?? "").toLowerCase();
+    const ts = Number(item.timestamp ?? 0);
+    if (!Number.isFinite(ts) || nowSec - ts > 10 * 60) return false;
+    return method === "phone" || method === "otp" || method.includes("mfa/phone");
+  });
+}
+
+export function phoneSendMessage(error: string | null | undefined) {
   const text = String(error ?? "").toLowerCase();
   if (!text) return "Kod gönderilemedi. Numarayı kontrol edip tekrar dene.";
   if (
@@ -92,13 +140,26 @@ export function phoneOtpMessage(error: string | null | undefined) {
   if (text.includes("sms") || text.includes("provider") || text.includes("unsupported") || text.includes("twilio")) {
     return "SMS şu an gönderilemedi. Biraz sonra yeni kod iste.";
   }
-  if (text.includes("token") || text.includes("otp") || text.includes("expired") || text.includes("challenge")) {
-    return "Kod yanlış veya süresi doldu. Yeni kod iste.";
-  }
   if (text.includes("mfa") && text.includes("disabled")) {
     return "Telefon doğrulaması henüz açık değil. Biraz sonra tekrar dene.";
   }
-  return "Kod gönderilemedi. Yeni kod iste veya numarayı kontrol et.";
+  return "Kod gönderilemedi. Numarayı kontrol edip tekrar dene.";
+}
+
+export function phoneVerifyMessage(error: string | null | undefined) {
+  const text = String(error ?? "").toLowerCase();
+  if (!text) return "Kod doğrulanamadı. Gelen son kodu dene.";
+  if (text.includes("expired")) {
+    return "Kodun süresi doldu. Yeni kod iste.";
+  }
+  if (text.includes("token") || text.includes("otp") || text.includes("invalid")) {
+    return "Bu kod eşleşmedi. SMS’teki son 6 haneyi boşluksuz yaz.";
+  }
+  return "Kod doğrulanamadı. SMS’teki son kodu dene.";
+}
+
+export function phoneOtpMessage(error: string | null | undefined) {
+  return phoneSendMessage(error);
 }
 
 export function phoneStepCookieHeader(userId: string, hostname?: string | null) {
