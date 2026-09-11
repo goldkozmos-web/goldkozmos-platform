@@ -49,5 +49,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profilim", "/profilim/:path*", "/auth/telefon"],
+  matcher: ["/profilim", "/profilim/:path*", "/auth/telefon", "/auth/kayit"],
 };

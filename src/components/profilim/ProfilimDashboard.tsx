@@ -22,6 +22,7 @@ import type {
 } from "../../lib/profilim/types";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import { shouldClearProfilimUser } from "../../lib/profilim/sessionEvents";
+import { isMemberProfileComplete } from "../../lib/auth/membership";
 import {
   TODAY_NEED_CHOICES,
   goldmindUrlForFocus,
@@ -122,14 +123,8 @@ export default function ProfilimDashboard({
       }
 
       if (!cancelled) {
-        const phoneStatus = await fetch("/api/auth/phone", {
-          credentials: "same-origin",
-        });
-        const phoneJson = (await phoneStatus.json().catch(() => null)) as {
-          ok?: boolean;
-        } | null;
-        if (!phoneJson?.ok) {
-          window.location.replace("/auth/telefon");
+        if (!isSiteAdminEmail(next.email) && !isMemberProfileComplete(sessionUser)) {
+          window.location.replace("/auth/kayit");
           return;
         }
         setUser({

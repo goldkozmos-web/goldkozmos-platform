@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json(
-    { error: "Üyeler Google veya telefonla kendiliğinden kaydolur." },
+    { error: "Üyeler Google ile girince kaydolur." },
     { status: 400 },
   );
 }

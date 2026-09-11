@@ -25,12 +25,16 @@ export function profilimAfterAuthUrl(origin: string, failed = false) {
   return failed ? `${origin}/profilim?auth=error` : `${origin}/profilim`;
 }
 
-export function phoneStepUrl(origin: string, next = "/profilim") {
-  const url = new URL("/auth/telefon", `${origin.replace(/\/$/, "")}/`);
+export function registerStepUrl(origin: string, next = "/profilim") {
+  const url = new URL("/auth/kayit", `${origin.replace(/\/$/, "")}/`);
   if (next && next !== "/profilim") {
     url.searchParams.set("next", next);
   }
   return url.toString();
+}
+
+export function phoneStepUrl(origin: string, next = "/profilim") {
+  return registerStepUrl(origin, next);
 }
 
 export function safeAppPath(raw: string | null | undefined, fallback = "/profilim") {

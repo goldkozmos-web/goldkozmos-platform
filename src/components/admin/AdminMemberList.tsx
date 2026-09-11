@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 
 import { memberSourceLabel } from "../../lib/admin/members";
+import { MEMBER_INTERESTS } from "../../lib/auth/membership";
 import type { AdminMemberRow } from "../../lib/admin/load";
 import AdminEmpty from "./AdminEmpty";
 import { useAdminLive } from "./AdminLiveProvider";
@@ -19,6 +20,19 @@ function whenLabel(iso: string | null) {
   }).format(date);
 }
 
+function memberDetails(member: AdminMemberRow) {
+  const labels = new Map<string, string>(
+    MEMBER_INTERESTS.map((item) => [item.id, item.label]),
+  );
+  const interests = (member.interests ?? "")
+    .split(",")
+    .map((item) => labels.get(item.trim()) || item.trim())
+    .filter(Boolean)
+    .join(", ");
+  return [member.city, member.age ? `${member.age} yaş` : "", member.phone, interests]
+    .filter(Boolean)
+    .join(" · ");
+}
 function memberStatus(member: AdminMemberRow) {
   if (member.authUserId) return "aktif";
   return "kayıtlı";
@@ -46,7 +60,7 @@ export default function AdminMemberList({
       <AdminEmpty
         eyebrow="Üyeler"
         title="Henüz üye görünmüyor"
-        text="Google veya telefonla girenler otomatik kaydolur."
+        text="Google ile girenler kayıt kartını doldurunca üye listesine düşer."
         quiet
       />
     );
@@ -65,6 +79,7 @@ export default function AdminMemberList({
               {" · "}
               {memberStatus(member)}
               {member.createdAt ? ` · ${whenLabel(member.createdAt)}` : ""}
+              {memberDetails(member) ? ` · ${memberDetails(member)}` : ""}
             </small>
           </div>
           {member.role === "admin" ? <span className="adminBadge">Yönetici</span> : null}

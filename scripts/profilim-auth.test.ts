@@ -28,6 +28,7 @@ import {
   toE164,
 } from "../src/lib/auth/phone.ts";
 import type { User } from "@supabase/supabase-js";
+import { parseMemberProfile } from "../src/lib/auth/membership.ts";
 
 function fakeUser(metadata: Record<string, unknown>, email = "gold@example.com") {
   return {
@@ -152,7 +153,36 @@ test("Google login is not finished until phone MFA is aal2", () => {
   assert.equal(sessionNeedsPhoneStep("aal1"), true);
   assert.equal(sessionNeedsPhoneStep("aal2"), false);
   assert.equal(maskTrPhone("+905321112233"), "0532 *** ** 33");
-  assert.equal(phoneStepUrl("https://goldkozmos.com"), "https://goldkozmos.com/auth/telefon");
+  assert.equal(phoneStepUrl("https://goldkozmos.com"), "https://goldkozmos.com/auth/kayit");
   assert.equal(safeAppPath("/admin"), "/admin");
   assert.equal(safeAppPath("https://evil.com"), "/profilim");
+});
+
+test("membership card needs name, city, age, interest, phone and privacy", () => {
+  const parsed = parseMemberProfile({
+    firstName: "Ayşe",
+    lastName: "Yılmaz",
+    city: "İstanbul",
+    age: "32",
+    interests: ["tarot", "meditasyon"],
+    phone: "+905321112233",
+    privacyAccepted: true,
+  });
+  assert.equal("error" in parsed, false);
+  if ("error" in parsed) return;
+  assert.equal(parsed.phone, "+905321112233");
+  assert.equal(parsed.age, 32);
+  assert.equal(
+    "error" in
+      parseMemberProfile({
+        firstName: "Ayşe",
+        lastName: "Yılmaz",
+        city: "İstanbul",
+        age: "32",
+        interests: ["tarot"],
+        phone: "+905321112233",
+        privacyAccepted: false,
+      }),
+    true,
+  );
 });

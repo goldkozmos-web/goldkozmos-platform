@@ -57,6 +57,10 @@ export type AdminMemberRow = {
   source: string;
   status: string;
   authUserId: string | null;
+  city: string | null;
+  age: string | null;
+  phone: string | null;
+  interests: string | null;
 };
 
 function mapMemberRow(row: Record<string, unknown>): AdminMemberRow {
@@ -70,6 +74,10 @@ function mapMemberRow(row: Record<string, unknown>): AdminMemberRow {
     source: asText(row.source) || "google",
     status: asText(row.status) || "active",
     authUserId: asText(row.auth_user_id) || asText(row.authUserId) || null,
+    city: asText(row.city) || null,
+    age: asText(row.age) || (typeof row.age === "number" ? String(row.age) : null),
+    phone: asText(row.phone) || null,
+    interests: asText(row.interests) || null,
   };
 }
 

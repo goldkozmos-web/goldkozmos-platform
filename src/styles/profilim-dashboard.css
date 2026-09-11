@@ -1041,8 +1041,70 @@
   cursor: default;
 }
 
-.profilimGoogleError {
-  margin: 10px 0 0;
-  color: #8a2f1f;
+.profilimRegisterRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.profilimInterestField {
+  margin: 4px 0 0;
+  padding: 0;
+  border: 0;
+}
+
+.profilimInterestField legend {
+  color: #6b4e1f;
+  font-size: 12px;
+  font-weight: 650;
+  margin-bottom: 8px;
+}
+
+.profilimInterestGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profilimInterestChip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(184, 140, 62, 0.28);
+  border-radius: 999px;
+  background: #fff;
+  color: #211811;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profilimInterestChip input,
+.profilimPrivacy input {
+  width: auto;
+  min-height: 0;
+  margin: 0;
+  accent-color: #8d6728;
+}
+
+.profilimPrivacy {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  color: #5c4a3a;
   font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.profilimPrivacy a {
+  color: #8d6728;
+}
+
+@media (max-width: 640px) {
+  .profilimRegisterRow {
+    grid-template-columns: 1fr;
+  }
 }

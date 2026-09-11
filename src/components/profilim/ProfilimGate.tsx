@@ -11,8 +11,8 @@ export default function ProfilimGate() {
         <span> kozmosuna gir</span>
       </h1>
       <p className="profilimGateLead">
-        Google ile gir, sonra telefonuna gelen kodu yaz. Kod sende yoksa
-        giriş tamamlanmaz.
+        Google ile gir, ardından kısa üyelik kartını doldur. Bilgilerin gizli
+        kalır; yalnızca senin kozmosun için.
       </p>
       <div className="profilimGateMotto">
         <span />

@@ -1,6 +1,6 @@
 import { type NextRequest } from "next/server";
 
-import { appOriginFromUrl, phoneStepUrl, profilimAfterAuthUrl } from "@/lib/site";
+import { appOriginFromUrl, registerStepUrl, profilimAfterAuthUrl } from "@/lib/site";
 import {
   createAuthCookieClient,
   hasPkceVerifierCookie,
@@ -43,5 +43,5 @@ export async function GET(request: NextRequest) {
   }
 
   await auth.supabase.rpc("ensure_own_membership");
-  return auth.redirect(phoneStepUrl(origin));
+  return auth.redirect(registerStepUrl(origin));
 }
