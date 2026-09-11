@@ -1,6 +1,6 @@
 "use client";
 
-import type { AdminEventRow, AdminVisitorRow } from "../../lib/admin/load";
+import type { AdminVisitorRow } from "../../lib/admin/load";
 import AdminEmpty from "./AdminEmpty";
 import { useAdminLive } from "./AdminLiveProvider";
 
@@ -23,19 +23,16 @@ function whenLabel(iso: string | null) {
 
 export default function AdminActivity({
   visitors,
-  whatsapp,
 }: {
   visitors: AdminVisitorRow[];
-  whatsapp: AdminEventRow[];
 }) {
   const { live } = useAdminLive();
   const liveVisitors = live?.visitors ?? visitors;
-  const wa = live?.whatsapp ?? whatsapp;
 
-  if (liveVisitors.length === 0 && wa.length === 0) {
+  if (liveVisitors.length === 0) {
     return (
       <AdminEmpty
-        eyebrow="Aktivite"
+        eyebrow="Hareket"
         title="Henüz ziyaretçi yok"
         text="Anonim gezinenler Ziyaretçi olarak görünür. Giriş kaynağı ve konum, veri gelince burada durur."
       />
@@ -46,48 +43,28 @@ export default function AdminActivity({
     <div className="adminStack">
       <section className="adminList">
         <p className="adminSectionLabel">Ziyaretçiler</p>
-        {liveVisitors.map((visitor) => (
-          <article key={visitor.id} className="adminMember">
-            <div className="adminMemberCopy">
-              <strong>
-                {visitor.label}
-                {visitor.live ? " · canlı" : ""}
-              </strong>
-              <small>
-                {visitor.location}
-                {" · giriş "}
-                {visitor.entry}
-              </small>
-            </div>
-            <small>
-              {visitor.path}
-              {visitor.lastSeenAt ? ` · ${whenLabel(visitor.lastSeenAt)}` : ""}
-            </small>
-          </article>
-        ))}
-      </section>
-
-      {wa.length ? (
-        <section className="adminList">
-          <p className="adminSectionLabel">WhatsApp geçişleri</p>
-          {wa.map((item) => (
-            <article key={item.id} className="adminMember">
+        {liveVisitors.map((visitor) => {
+          return (
+            <article key={visitor.id} className="adminMember">
               <div className="adminMemberCopy">
-                <strong>{item.label}</strong>
+                <strong>
+                  {visitor.label}
+                  {visitor.live ? " · canlı" : ""}
+                </strong>
                 <small>
-                  {item.location}
-                  {" · "}
-                  {item.source}
+                  {visitor.location}
+                  {" · giriş "}
+                  {visitor.entry}
                 </small>
               </div>
               <small>
-                {item.path}
-                {item.createdAt ? ` · ${whenLabel(item.createdAt)}` : ""}
+                {visitor.path}
+                {visitor.lastSeenAt ? ` · ${whenLabel(visitor.lastSeenAt)}` : ""}
               </small>
             </article>
-          ))}
-        </section>
-      ) : null}
+          );
+        })}
+      </section>
     </div>
   );
 }

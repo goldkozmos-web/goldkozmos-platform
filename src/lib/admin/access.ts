@@ -78,7 +78,7 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
   {
     id: "whatsapp",
     title: "WhatsApp",
-    href: "/admin/aktivite",
+    href: "/admin/whatsapp",
     hasSource: true,
     empty: "Bugün yazışma yok",
   },
