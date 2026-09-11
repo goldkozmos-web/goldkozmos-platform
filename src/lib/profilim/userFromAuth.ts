@@ -34,9 +34,9 @@ export function profilimUserFromAuth(
     stringMeta(metadata, "phone") ||
     "";
   const displayName =
+    stringMeta(metadata, "display_name") ||
     stringMeta(metadata, "full_name") ||
     stringMeta(metadata, "name") ||
-    stringMeta(metadata, "display_name") ||
     email?.split("@")[0]?.trim() ||
     phone ||
     "GoldKozmos";

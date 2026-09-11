@@ -200,6 +200,31 @@
   font-size: 15px;
 }
 
+.ayarlarNameInput {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 12px;
+  background: #f7f1e6;
+  color: #221812;
+  font: inherit;
+  font-size: 15px;
+}
+
+.ayarlarSave {
+  width: calc(100% - 8px);
+  min-height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: #1c1410;
+  color: #e3bc70;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 .ayarlarNote,
 .ayarlarCopy p {
   margin: 0;
