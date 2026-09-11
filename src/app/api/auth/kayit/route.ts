@@ -87,11 +87,15 @@ export async function POST(request: Request) {
     p_interests: parsed.interests.join(","),
     p_phone: parsed.phone,
   });
-  await recordMemberJoin(user, {
-    displayName,
-    city: parsed.city,
-    phone: parsed.phone,
-  });
+  await recordMemberJoin(
+    user,
+    {
+      displayName,
+      city: parsed.city,
+      phone: parsed.phone,
+    },
+    supabase,
+  );
 
   return NextResponse.json({ ok: true });
 }

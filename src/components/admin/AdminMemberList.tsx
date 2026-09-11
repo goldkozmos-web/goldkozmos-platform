@@ -72,7 +72,7 @@ export default function AdminMemberList({
       <AdminEmpty
         eyebrow="Üyeler"
         title="Henüz üye görünmüyor"
-        text="Google ile girenler kayıt kartını doldurunca üye listesine düşer."
+        text="Google ile giren herkes hemen bu listeye düşer. Eski girişler, kişi siteye bir kez daha girince görünür."
         quiet
       />
     );

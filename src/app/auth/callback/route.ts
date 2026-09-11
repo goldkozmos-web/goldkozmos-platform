@@ -45,6 +45,6 @@ export async function GET(request: NextRequest) {
 
   await auth.supabase.rpc("ensure_own_membership");
   const { data: userPack } = await auth.supabase.auth.getUser();
-  await recordMemberJoin(userPack.user ?? null);
+  await recordMemberJoin(userPack.user ?? null, undefined, auth.supabase);
   return auth.redirect(registerStepUrl(origin));
 }

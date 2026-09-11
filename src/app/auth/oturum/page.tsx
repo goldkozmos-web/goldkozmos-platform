@@ -35,7 +35,7 @@ export default function AuthOturumPage() {
 
       await supabase.rpc("ensure_own_membership");
       const { data: userPack } = await supabase.auth.getUser();
-      await recordMemberJoin(userPack.user ?? null);
+      await recordMemberJoin(userPack.user ?? null, undefined, supabase);
       window.location.replace("/auth/kayit");
     }
 

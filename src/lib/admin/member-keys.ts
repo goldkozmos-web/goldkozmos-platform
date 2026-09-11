@@ -57,6 +57,15 @@ export function memberRowFromVisitor(row: Record<string, unknown>): SiteMemberRo
   };
 }
 
+export function membersFromVisitorRows(
+  rows: Record<string, unknown>[] | null | undefined,
+): SiteMemberRow[] {
+  if (!Array.isArray(rows)) return [];
+  return rows
+    .map((row) => memberRowFromVisitor(row))
+    .filter((row): row is SiteMemberRow => Boolean(row));
+}
+
 export function memberRowFromAuthUser(user: {
   id?: string;
   email?: string | null;

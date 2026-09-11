@@ -52,7 +52,7 @@ export default function AuthKayitPage() {
         return;
       }
       if (!alive) return;
-      void recordMemberJoin(user);
+      void recordMemberJoin(user, undefined, client);
       const names = prefillFromGoogle(user);
       setFirstName((current) => current || names.firstName);
       setLastName((current) => current || names.lastName);
@@ -131,11 +131,15 @@ export default function AuthKayitPage() {
         p_interests: parsed.interests.join(","),
         p_phone: parsed.phone,
       });
-      await recordMemberJoin(sessionPack.user ?? null, {
-        displayName: `${parsed.firstName} ${parsed.lastName}`.trim(),
-        city: parsed.city,
-        phone: parsed.phone,
-      });
+      await recordMemberJoin(
+        sessionPack.user ?? null,
+        {
+          displayName: `${parsed.firstName} ${parsed.lastName}`.trim(),
+          city: parsed.city,
+          phone: parsed.phone,
+        },
+        supabase,
+      );
     }
     const res = await fetch("/api/auth/kayit", {
       method: "POST",

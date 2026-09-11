@@ -9,7 +9,10 @@ import {
   type AdminOverviewCardId,
 } from "./access";
 import { listGoogleAuthMembers } from "../supabase/service";
-import { isMemberVisitorKey, memberRowFromVisitor } from "./member-keys";
+import {
+  isMemberVisitorKey,
+  membersFromVisitorRows,
+} from "./member-keys";
 import { mergeMemberRows, type SiteMemberRow } from "./members";
 import {
   VISITOR_LABEL,
@@ -77,13 +80,24 @@ async function rpcRows(supabase: SupabaseClient, name: string) {
   return rpc.data.map((row) => mapMemberRow(row as Record<string, unknown>));
 }
 
+export const MEMBER_LOG_SINCE = "2020-01-01T00:00:00.000Z";
+
+async function fetchLoggedMembers(supabase: SupabaseClient) {
+  const live = await supabase.rpc("list_live_visitors", {
+    p_since: MEMBER_LOG_SINCE,
+  });
+  if (live.error || !Array.isArray(live.data)) return [];
+  return membersFromVisitorRows(live.data as Record<string, unknown>[]);
+}
+
 async function fetchAdminMembers(
   supabase: SupabaseClient,
 ): Promise<AdminMemberRow[]> {
-  const [roster, classic, authUsers] = await Promise.all([
+  const [roster, classic, authUsers, loggedLive] = await Promise.all([
     rpcRows(supabase, "list_admin_roster"),
     rpcRows(supabase, "list_site_members"),
     listGoogleAuthMembers(),
+    fetchLoggedMembers(supabase),
   ]);
 
   const wide = await supabase
@@ -121,10 +135,11 @@ async function fetchAdminMembers(
     authUsers,
     roster,
     classic,
+    loggedLive,
     (table.data ?? []).map((row) => mapMemberRow(row as Record<string, unknown>)),
-    (logged.data ?? [])
-      .map((row) => memberRowFromVisitor(row as Record<string, unknown>))
-      .filter((row): row is SiteMemberRow => Boolean(row)),
+    membersFromVisitorRows(
+      (logged.data ?? []) as Record<string, unknown>[],
+    ),
     (profiles.data ?? []).map((row) =>
       mapMemberRow({
         ...(row as Record<string, unknown>),
@@ -175,8 +190,6 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
       supabase.auth.getSession(),
     ]);
 
-    membersList = memberRows;
-    memberCount = memberRows.length || memberHead.count || 0;
     visitCount = visits.count ?? 0;
 
     let visitorRows: Record<string, unknown>[] =
@@ -194,6 +207,12 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
         .limit(80);
       visitorRows = (fallback.data ?? []) as Record<string, unknown>[];
     }
+
+    membersList = mergeMemberRows([
+      memberRows,
+      membersFromVisitorRows(visitorRows),
+    ]);
+    memberCount = membersList.length || memberHead.count || 0;
 
     visitors = visitorRows
       .filter((row) => !isMemberVisitorKey(asText(row.visitor_key)))

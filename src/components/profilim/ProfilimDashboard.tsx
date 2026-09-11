@@ -134,7 +134,7 @@ export default function ProfilimDashboard({
         });
         setChecking(false);
         void client.rpc("ensure_own_membership");
-        void recordMemberJoin(sessionUser);
+        void recordMemberJoin(sessionUser, undefined, client);
       }
     }
 

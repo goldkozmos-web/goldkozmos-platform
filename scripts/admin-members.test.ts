@@ -6,6 +6,7 @@ import {
   isMemberVisitorKey,
   memberRowFromAuthUser,
   memberRowFromVisitor,
+  membersFromVisitorRows,
   memberVisitorKey,
   userIdFromMemberKey,
 } from "../src/lib/admin/member-keys.ts";
@@ -67,6 +68,26 @@ test("member join is stored on the visitor log Gold already sees", () => {
   assert.equal(row?.displayName, "Ayşe Yılmaz");
   assert.equal(row?.phone, "+905321112233");
   assert.equal(row?.city, "İstanbul");
+});
+
+test("admin member desk reads gkmem rows from the live visitor RPC", () => {
+  const id = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
+  const key = memberVisitorKey(id);
+  const rows = membersFromVisitorRows([
+    {
+      visitor_key: key,
+      first_source: "Yeni Üye",
+      first_referrer: "yeni@gmail.com",
+      last_seen_at: "2026-09-11T17:00:00.000Z",
+    },
+    {
+      visitor_key: "anon-visitor-1",
+      first_source: "Instagram",
+    },
+  ]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0]?.email, "yeni@gmail.com");
+  assert.equal(rows[0]?.displayName, "Yeni Üye");
 });
 
 test("Google auth users map onto the admin member desk", () => {
