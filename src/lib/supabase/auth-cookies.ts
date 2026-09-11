@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { htmlRedirectPage } from "../site";
 import { getSupabasePublicEnv } from "./env";
 
 type CookieToSet = {
@@ -8,6 +9,17 @@ type CookieToSet = {
   value: string;
   options?: Parameters<NextResponse["cookies"]["set"]>[2];
 };
+
+export function htmlRedirect(url: string) {
+  return new NextResponse(htmlRedirectPage(url), {
+    status: 302,
+    headers: {
+      Location: url,
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store",
+    },
+  });
+}
 
 export function createAuthCookieClient(request: NextRequest) {
   const env = getSupabasePublicEnv();
@@ -39,7 +51,7 @@ export function createAuthCookieClient(request: NextRequest) {
   });
 
   function redirect(url: string) {
-    const response = NextResponse.redirect(url);
+    const response = htmlRedirect(url);
     for (const { name, value, options } of jar) {
       response.cookies.set(name, value, options);
     }
