@@ -269,20 +269,20 @@ export default function ProfilimDashboard({
           <>
             {user ? <ProfilimHero user={user} level={view.level} /> : null}
 
-            {isSiteAdminEmail(user?.email) ? (
-              <ProfilimFeaturedCard
-                className="profilimAdminFeatured"
-                eyebrow="YÖNETİM"
-                title="Yönetim Merkezi"
-                onOpen={() => {
-                  window.location.assign("/admin");
-                }}
-              >
-                Canlı ziyaretçiler, üyeler, mesajlar
-              </ProfilimFeaturedCard>
-            ) : null}
-
             <div className="profilimFeaturedStack">
+              {isSiteAdminEmail(user?.email) ? (
+                <ProfilimFeaturedCard
+                  className="profilimAdminFeatured"
+                  eyebrow="YÖNETİM"
+                  title="Yönetim Merkezi"
+                  onOpen={() => {
+                    window.location.assign("/admin");
+                  }}
+                >
+                  Canlı ziyaretçiler, üyeler, mesajlar
+                </ProfilimFeaturedCard>
+              ) : null}
+
               <ProfilimFeaturedCard
                 eyebrow="BUGÜN"
                 title="Bugün Neye İhtiyacın Var?"

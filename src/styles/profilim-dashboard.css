@@ -18,7 +18,7 @@
 
 .profilimHero {
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   padding: 20px 18px 18px;
   border: 1px solid rgba(176, 130, 48, 0.22);
   border-radius: 24px;
@@ -87,25 +87,30 @@
 
 .profilimAdminJump {
   display: flex;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 52px;
+  min-height: 48px;
   margin-top: 16px;
   padding: 0 18px;
   border: 1px solid rgba(210, 166, 82, 0.55);
   border-radius: 999px;
   background: linear-gradient(180deg, #2c1d14, #140e0a);
   color: #e3bc70;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-decoration: none;
 }
 
 .profilimAdminFeatured {
+  box-sizing: border-box;
   background: linear-gradient(180deg, #2c1d14, #140e0a) !important;
   border-color: rgba(210, 166, 82, 0.55) !important;
+  box-shadow:
+    0 1px 0 rgba(227, 188, 112, 0.12) inset,
+    0 10px 24px rgba(72, 48, 18, 0.045);
 }
 
 .profilimAdminFeatured .profilimFeaturedEyebrow,
