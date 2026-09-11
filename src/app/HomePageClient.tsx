@@ -823,23 +823,12 @@ const homepageArchiveStyles = `
     padding-top: 36px !important;
     padding-bottom: 40px !important;
     border-top: none !important;
-    background:
-      radial-gradient(
-        circle at 10% 25%,
-        rgba(205, 158, 73, 0.13),
-        transparent 28%
-      ),
-      radial-gradient(
-        circle at 90% 75%,
-        rgba(181, 132, 52, 0.09),
-        transparent 26%
-      ),
-      linear-gradient(
-        145deg,
-        #201711 0%,
-        #2b1f17 52%,
-        #211711 100%
-      ) !important;
+    background: linear-gradient(
+      180deg,
+      #b89a82 0%,
+      #e4d8cc 42%,
+      #ffffff 100%
+    ) !important;
   }
 
   .homeV3Page .homeV3PersonalHub {
@@ -875,18 +864,22 @@ const homepageArchiveStyles = `
     margin-right: auto !important;
   }
 
+  .homeV3Page .homeV3Other .homeV3PersonalHeading .homeV3Eyebrow {
+    color: #9a7328 !important;
+  }
+
   .homeV3Page .homeV3PersonalHeading h2 {
-    color: #fff8ed !important;
+    color: #1c1410 !important;
     font-size: clamp(34px, 3.6vw, 50px) !important;
   }
 
   .homeV3Page .homeV3PersonalHeading h2 span {
-    color: #d4a64a !important;
+    color: #9a7328 !important;
   }
 
   .homeV3Page .homeV3PersonalDescription {
     max-width: 420px !important;
-    color: rgba(247, 234, 208, 0.72) !important;
+    color: #4a382c !important;
   }
 
   .homeV3Page .homeV3Other .homeV3OtherSlider {
@@ -1293,10 +1286,7 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergy {
     padding: 78px 0 16px;
     overflow: hidden;
-    background:
-      radial-gradient(circle at 88% 12%, rgba(197, 151, 66, 0.15), transparent 28%),
-      radial-gradient(circle at 8% 90%, rgba(197, 151, 66, 0.07), transparent 24%),
-      linear-gradient(145deg, #2a1c13 0%, #1b120d 62%, #140d09 100%);
+    background: linear-gradient(180deg, #b89a82 0%, #e4d8cc 42%, #ffffff 100%);
   }
 
   .homeV3AudioEnergyInner {
@@ -1322,14 +1312,14 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading .homeV3Eyebrow {
-    color: #c99a47;
+    color: #9a7328;
     margin-bottom: 0 !important;
     text-align: center !important;
   }
 
   .homeV3AudioEnergyHeading h2 {
     margin: 0 auto !important;
-    color: #fffaf1;
+    color: #1c1410;
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(32px, 3.4vw, 48px);
     font-weight: 400;
@@ -1341,13 +1331,13 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading h2 span {
-    color: #c99a47;
+    color: #9a7328;
   }
 
   .homeV3AudioEnergyHeading > p {
     margin: 0 auto !important;
     max-width: 440px;
-    color: rgba(255, 250, 241, 0.58);
+    color: #4a382c;
     font-size: 13px;
     line-height: 1.7;
     text-align: center !important;
@@ -1623,10 +1613,12 @@ const homepageArchiveStyles = `
 
   /* BAĞLANTIDA KAL · GOLD BOOK'TAN BAĞIMSIZ */
   .homeV3Page .homeV3Connect {
-    background:
-      radial-gradient(circle at 88% 12%, rgba(197, 151, 66, 0.15), transparent 28%),
-      radial-gradient(circle at 8% 90%, rgba(197, 151, 66, 0.07), transparent 24%),
-      linear-gradient(145deg, #2a1c13 0%, #1b120d 62%, #140d09 100%) !important;
+    background: linear-gradient(
+      180deg,
+      #b89a82 0%,
+      #e4d8cc 42%,
+      #ffffff 100%
+    ) !important;
     padding: 48px 0 64px !important;
     overflow: hidden !important;
   }
@@ -1646,7 +1638,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading .homeV3Eyebrow {
-    color: #c99a47 !important;
+    color: #9a7328 !important;
     font-size: 11px !important;
     letter-spacing: 0.18em !important;
     margin: 0 0 10px !important;
@@ -1655,7 +1647,7 @@ const homepageArchiveStyles = `
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 {
     max-width: none !important;
     margin: 0 !important;
-    color: #fffaf1 !important;
+    color: #1c1410 !important;
     font-family: Georgia, "Times New Roman", serif !important;
     font-size: clamp(32px, 6vw, 46px) !important;
     font-weight: 400 !important;
@@ -1665,13 +1657,13 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 span {
-    color: #c99a47 !important;
+    color: #9a7328 !important;
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading > p:last-child {
     max-width: 420px !important;
     margin: 12px auto 0 !important;
-    color: rgba(255, 250, 241, 0.58) !important;
+    color: #4a382c !important;
     font-size: 14px !important;
     line-height: 1.65 !important;
     text-align: center !important;
