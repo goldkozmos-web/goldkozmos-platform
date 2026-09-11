@@ -489,6 +489,26 @@
   cursor: pointer;
 }
 
+.profilimInboxItem {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profilimInboxItem p {
+  margin: 6px 0 0;
+  color: #5c564e;
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
 @media (min-width: 760px) {
   .profilimDash {
     padding: 36px 32px 72px;

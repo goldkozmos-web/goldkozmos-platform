@@ -150,7 +150,8 @@ export type ProfilimDrawerId =
   | "journal"
   | "letter"
   | "journey"
-  | "understand";
+  | "understand"
+  | "inbox";
 
 export type ProfilimDashboardSources = {
   user: ProfilimUser;

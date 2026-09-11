@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import type {
   ProfilimActivity,
@@ -16,6 +16,7 @@ import type {
   ProfilimTodayNeedChoiceId,
 } from "../../lib/profilim/types";
 import { TODAY_NEED_CHOICES } from "../../lib/profilim/todayNeed";
+import type { MemberMessage } from "../../lib/messages/types";
 import ProfilimEmptyState from "./ProfilimEmptyState";
 
 function formatWhen(value: string) {
@@ -449,5 +450,72 @@ export function JourneyPanel({
         </ol>
       )}
     </div>
+  );
+}
+
+export function InboxPanel() {
+  const [items, setItems] = useState<MemberMessage[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void fetch("/api/messages", { cache: "no-store" })
+      .then((response) => response.json())
+      .then((data: { messages?: MemberMessage[] }) => {
+        if (!cancelled) {
+          setItems(data.messages ?? []);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  function markRead(id: string) {
+    setItems((current) =>
+      current.map((item) =>
+        item.id === id
+          ? { ...item, readAt: item.readAt || new Date().toISOString() }
+          : item,
+      ),
+    );
+    void fetch(`/api/messages/${id}/read`, { method: "POST" });
+  }
+
+  if (loading) {
+    return <ProfilimEmptyState text="Mesajların açılıyor…" />;
+  }
+
+  if (items.length === 0) {
+    return (
+      <ProfilimEmptyState text="Gelen kutun boş. GoldKozmos’tan gelen notlar burada durur." />
+    );
+  }
+
+  return (
+    <ul className="profilimDrawerList">
+      {items.map((item) => (
+        <li key={item.id}>
+          <button
+            type="button"
+            className="profilimInboxItem"
+            onClick={() => markRead(item.id)}
+          >
+            <span>{item.readAt ? "Okundu" : "Yeni"}</span>
+            <strong>{item.title}</strong>
+            <small>{formatWhen(item.createdAt)}</small>
+            <p>{item.body}</p>
+          </button>
+        </li>
+      ))}
+    </ul>
   );
 }
