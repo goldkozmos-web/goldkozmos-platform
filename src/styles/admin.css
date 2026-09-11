@@ -362,6 +362,9 @@
   display: grid;
   gap: 8px;
   padding: 18px 16px;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
   overflow-wrap: anywhere;
 }
 
