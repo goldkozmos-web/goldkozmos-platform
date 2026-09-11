@@ -39,7 +39,7 @@ export default function AyarlarSil() {
   return (
     <AyarlarFrame title="Hesabımı Sil" backHref="/ayarlar">
       {() => (
-        <div className="ayarlarCard ayarlarCopy">
+        <div className="adminPanel ayarlarCard ayarlarCopy">
           <p>
             Hesabın ve girişin silinir. Bu işlem geri alınamaz.
           </p>

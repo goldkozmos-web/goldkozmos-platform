@@ -12,7 +12,7 @@ export function AyarlarGroup({
   return (
     <section className="ayarlarGroup">
       <p className="ayarlarGroupLabel">{label}</p>
-      <div className="ayarlarCard">{children}</div>
+      <div className="adminPanel ayarlarCard">{children}</div>
     </section>
   );
 }

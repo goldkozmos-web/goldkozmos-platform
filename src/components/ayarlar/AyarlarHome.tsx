@@ -20,7 +20,7 @@ function List({ user }: { user: NonNullable<ProfilimUser> }) {
     <>
       {user.isAdmin ? (
         <section className="ayarlarGroup">
-          <div className="ayarlarCard">
+          <div className="adminPanel ayarlarCard">
             <a className="ayarlarRow is-gold" href="/admin">
               <span>Yönetim Merkezine Git</span>
               <i aria-hidden="true">→</i>

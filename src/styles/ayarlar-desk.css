@@ -1,4 +1,4 @@
-html:has(.ayarlarPage),
+/* gk-ayarlar-desk-v2 — member settings, Yönetim wash */
 body:has(.ayarlarPage) {
   background: linear-gradient(180deg, #b89a82 0%, #e4d8cc 42%, #ffffff 100%) !important;
 }

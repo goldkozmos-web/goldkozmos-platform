@@ -9,7 +9,7 @@ function CookieBody({ user }: { user: NonNullable<ProfilimUser> }) {
   const { prefs, save } = useAyarlarPrefs(user.id);
 
   return (
-    <div className="ayarlarCard">
+    <div className="adminPanel ayarlarCard">
       <AyarlarToggle
         label="Zorunlu çerezler"
         on
