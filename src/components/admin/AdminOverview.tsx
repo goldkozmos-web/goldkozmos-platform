@@ -54,7 +54,7 @@ export default function AdminOverview({
           </header>
           {liveNow.length === 0 ? (
             <div className="adminQuiet">
-              <strong>Şu an sitede kimse yok</strong>
+              <strong>Kimse yok</strong>
               <span>Yönetim sayfası sayılmaz. Biri sitedeyken burada görünür.</span>
             </div>
           ) : (
