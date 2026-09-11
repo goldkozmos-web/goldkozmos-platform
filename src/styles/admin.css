@@ -194,15 +194,6 @@
   background: #f0d0cc;
 }
 
-.adminNotifyHint {
-  grid-column: 1 / -1;
-  margin: 0;
-  color: var(--admin-ink);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.35;
-}
-
 .adminRemoveBtn {
   min-height: 34px;
   padding: 0 12px;
@@ -246,6 +237,14 @@
 
 .adminLocked h1 {
   font-size: 26px;
+}
+
+.adminEmpty > p:last-child {
+  margin: 0;
+  color: var(--admin-brown);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.35;
 }
 
 .adminPanel,

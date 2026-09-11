@@ -20,17 +20,6 @@ function initialFrom(name: string) {
   return (name.trim().charAt(0) || "G").toUpperCase();
 }
 
-function notifyHintText() {
-  const ua = typeof navigator === "undefined" ? "" : navigator.userAgent;
-  if (/iphone|ipad|ipod/i.test(ua)) {
-    return "iPhone: Paylaş → Ana Ekrana Ekle, uygulamayı oradan aç, bildirimi açık tut.";
-  }
-  if (/android/i.test(ua)) {
-    return "Android: Chrome’da bildirime izin ver. Menü → Ana ekrana ekle dersen tarayıcı kapalıyken de düşer.";
-  }
-  return "Telefonda Chrome veya Safari’de bildirime izin ver. Ana ekrana eklemek daha sağlam olur.";
-}
-
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
 };
@@ -44,11 +33,9 @@ function AdminChrome({
 }) {
   const pathname = usePathname();
   const { toast, notifyReady, toggleNotify } = useAdminLive();
-  const [hint, setHint] = useState("Telefonda Chrome veya Safari’de bildirime izin ver.");
   const [install, setInstall] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
-    setHint(notifyHintText());
     function onPrompt(event: Event) {
       event.preventDefault();
       setInstall(event as BeforeInstallPromptEvent);
@@ -102,7 +89,6 @@ function AdminChrome({
             </button>
           ) : null}
         </div>
-        <p className="adminNotifyHint">{hint}</p>
       </header>
 
       {toast ? (
