@@ -43,7 +43,14 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
+    const localPreview =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
     if (!supabase) {
+      if (localPreview) {
+        return;
+      }
       setDenied("unconfigured");
       setActor(null);
       return;
@@ -55,6 +62,7 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
       if (cancelled) return;
       const next = actorFromSessionUser(session?.user ?? null);
       if (!next) {
+        if (localPreview) return;
         setDenied("signed-out");
         setActor(null);
         return;

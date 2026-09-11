@@ -1,6 +1,6 @@
 .adminPage {
   min-height: 100dvh;
-  padding: 0 0 calc(128px + env(safe-area-inset-bottom, 0px));
+  padding: 0 0 calc(176px + env(safe-area-inset-bottom, 0px));
   background:
     radial-gradient(circle at 12% -8%, rgba(212, 176, 106, 0.16), transparent 34%),
     radial-gradient(circle at 92% 8%, rgba(184, 140, 62, 0.08), transparent 26%),
@@ -126,6 +126,8 @@
 }
 
 .adminCompose button {
+  justify-self: start;
+  min-width: 168px;
   border: 0;
   cursor: pointer;
 }
@@ -251,9 +253,8 @@
   font-size: 28px;
 }
 
-.adminLocked {
-  width: min(520px, calc(100% - 32px));
-  margin: 72px auto 0;
+.adminLocked .adminExitRow {
+  margin-top: 8px;
 }
 
 .adminLocked a {
@@ -278,7 +279,17 @@
 .adminDesk {
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
+}
+
+.adminDesk > .adminStack {
+  gap: 0;
+}
+
+.adminDesk > .adminStack,
+.adminDesk .adminCompose,
+.adminDesk .adminPanel {
+  min-height: 100%;
 }
 
 .adminSectionLabel {
@@ -542,5 +553,9 @@
   .adminNav a {
     font-size: 11px;
     min-height: 38px;
+  }
+
+  .adminPage {
+    padding-bottom: calc(200px + env(safe-area-inset-bottom, 0px));
   }
 }
