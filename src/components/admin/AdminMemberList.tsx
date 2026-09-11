@@ -79,8 +79,13 @@ export default function AdminMemberList({
   }
 
   return (
-    <section className="adminList">
-      <p className="adminSectionLabel">Üyeler</p>
+    <section className="adminPanel">
+      <header className="adminPanelHead">
+        <div>
+          <p className="adminSectionLabel">Üyeler</p>
+          <h2>Kayıtlı kişiler</h2>
+        </div>
+      </header>
       {members.map((member) => (
         <article key={member.id} className="adminMember">
           <div>
