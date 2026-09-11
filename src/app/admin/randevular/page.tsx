@@ -1,17 +1,13 @@
 import AdminEventList from "../../../components/admin/AdminEventList";
-import { loadAdminLive } from "../../../lib/admin/load";
 
-export const dynamic = "force-dynamic";
-
-export default async function AdminAppointmentsPage() {
-  const live = await loadAdminLive();
-
+export default function AdminAppointmentsPage() {
   return (
     <AdminEventList
+      liveKey="appointments"
       eyebrow="Randevular"
       emptyTitle="Bugün randevu geçişi yok"
       emptyText="Randevu Al’dan WhatsApp’a giden ziyaretçiler burada Ziyaretçi olarak görünür."
-      items={live.appointments}
+      items={[]}
     />
   );
 }

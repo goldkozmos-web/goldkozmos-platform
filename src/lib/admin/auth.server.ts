@@ -52,29 +52,11 @@ export async function getAdminAccess(): Promise<AdminAccess> {
   const sessionPack = await Promise.race([
     supabase.auth.getSession(),
     new Promise<null>((resolve) => {
-      setTimeout(() => resolve(null), 800);
+      setTimeout(() => resolve(null), 400);
     }),
   ]);
 
-  const fromSession = actorFromUser(sessionPack?.data.session?.user ?? null);
-  const sessionAccess = accessFromActor(fromSession);
-
-  if (sessionAccess.status === "ok") {
-    return sessionAccess;
-  }
-
-  const userPack = await Promise.race([
-    supabase.auth.getUser(),
-    new Promise<null>((resolve) => {
-      setTimeout(() => resolve(null), 2000);
-    }),
-  ]);
-
-  if (userPack) {
-    return accessFromActor(actorFromUser(userPack.data.user));
-  }
-
-  return sessionAccess;
+  return accessFromActor(actorFromUser(sessionPack?.data.session?.user ?? null));
 }
 
 export async function requireAdminPage() {

@@ -47,7 +47,5 @@ export const config = {
     "/profilim",
     "/profilim/:path*",
     "/auth/:path*",
-    "/admin",
-    "/admin/:path*",
   ],
 };

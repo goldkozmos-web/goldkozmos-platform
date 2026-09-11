@@ -144,3 +144,14 @@ export function adminMetricValue(hasSource: boolean, count: number) {
 
   return Number.isFinite(count) && count > 0 ? Math.floor(count) : 0;
 }
+
+export function emptyAdminMetrics() {
+  return ADMIN_OVERVIEW_CARDS.map((card) => ({
+    id: card.id,
+    title: card.title,
+    href: card.href,
+    hasSource: card.hasSource,
+    empty: card.empty,
+    value: 0,
+  }));
+}

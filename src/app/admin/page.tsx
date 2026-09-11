@@ -1,8 +1,6 @@
 import AdminOverview from "../../components/admin/AdminOverview";
-import { loadAdminOverviewMetrics } from "../../lib/admin/load";
+import { emptyAdminMetrics } from "../../lib/admin/access";
 
-export default async function AdminHomePage() {
-  const metrics = await loadAdminOverviewMetrics();
-
-  return <AdminOverview metrics={metrics} />;
+export default function AdminHomePage() {
+  return <AdminOverview metrics={emptyAdminMetrics()} />;
 }

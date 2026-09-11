@@ -1,4 +1,7 @@
+"use client";
+
 import AdminEmpty from "./AdminEmpty";
+import { useAdminLive } from "./AdminLiveProvider";
 import type { AdminEventRow } from "../../lib/admin/load";
 
 function whenLabel(iso: string) {
@@ -19,13 +22,18 @@ export default function AdminEventList({
   emptyTitle,
   emptyText,
   items,
+  liveKey,
 }: {
   eyebrow: string;
   emptyTitle: string;
   emptyText: string;
   items: AdminEventRow[];
+  liveKey?: "whatsapp" | "purchases" | "appointments";
 }) {
-  if (items.length === 0) {
+  const { live } = useAdminLive();
+  const rows = (liveKey && live?.[liveKey]) || items;
+
+  if (rows.length === 0) {
     return (
       <AdminEmpty eyebrow={eyebrow} title={emptyTitle} text={emptyText} />
     );
@@ -33,7 +41,7 @@ export default function AdminEventList({
 
   return (
     <section className="adminList">
-      {items.map((item) => (
+      {rows.map((item) => (
         <article key={item.id} className="adminMember">
           <div>
             <strong>{item.label}</strong>

@@ -2,6 +2,7 @@ import { createSupabaseServerClient } from "../supabase/create-server-client";
 import {
   ADMIN_OVERVIEW_CARDS,
   adminMetricValue,
+  emptyAdminMetrics,
   istanbulDayStartIso,
   type AdminOverviewCardId,
 } from "./access";
@@ -45,15 +46,11 @@ function asText(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : "";
 }
 
-export async function loadAdminOverviewMetrics(): Promise<AdminOverviewMetric[]> {
-  const live = await loadAdminLive();
-  return live.metrics;
-}
+export { emptyAdminMetrics };
 
 export async function loadAdminLive() {
   const supabase = await createSupabaseServerClient();
   const memberStart = istanbulDayStartIso();
-  const liveSince = new Date(Date.now() - 45_000).toISOString();
 
   let memberCount = 0;
   let visitCount = 0;
@@ -68,38 +65,37 @@ export async function loadAdminLive() {
   let appointments: AdminEventRow[] = [];
 
   if (supabase) {
-    const members = await supabase
-      .from("profiles")
-      .select("id", { count: "exact", head: true })
-      .gte("created_at", memberStart);
-    memberCount = members.count ?? 0;
+    const [members, visits, liveRows, events, sessionPack] = await Promise.all([
+      supabase
+        .from("profiles")
+        .select("id", { count: "exact", head: true })
+        .gte("created_at", memberStart),
+      supabase
+        .from("site_visitors")
+        .select("visitor_key", { count: "exact", head: true })
+        .gte("last_seen_at", memberStart),
+      supabase
+        .from("site_visitors")
+        .select(
+          "visitor_key, first_path, first_referrer, country, region, city, last_path, last_seen_at",
+        )
+        .gte("last_seen_at", memberStart)
+        .order("last_seen_at", { ascending: false })
+        .limit(80),
+      supabase
+        .from("site_events")
+        .select("id, kind, path, source, href, country, region, city, created_at")
+        .gte("created_at", memberStart)
+        .in("kind", ["whatsapp", "purchase", "appointment"])
+        .order("created_at", { ascending: false })
+        .limit(120),
+      supabase.auth.getSession(),
+    ]);
 
-    const visits = await supabase
-      .from("site_visitors")
-      .select("visitor_key", { count: "exact", head: true })
-      .gte("last_seen_at", memberStart);
+    memberCount = members.count ?? 0;
     visitCount = visits.count ?? 0;
 
-    const liveRows = await supabase
-      .from("site_visitors")
-      .select(
-        "visitor_key, first_path, first_referrer, country, region, city, last_path, last_seen_at",
-      )
-      .gte("last_seen_at", memberStart)
-      .order("last_seen_at", { ascending: false })
-      .limit(80);
-
     const visitorRows = liveRows.data ?? [];
-    const liveNow = await supabase
-      .from("site_visitors")
-      .select("visitor_key, last_path, last_seen_at")
-      .gte("last_seen_at", liveSince)
-      .limit(200);
-    liveCount = (liveNow.data ?? []).filter((row) => {
-      const path = asText(row.last_path);
-      return isLiveAt(asText(row.last_seen_at) || null) && !path.startsWith("/admin");
-    }).length;
-
     visitors = visitorRows.map((row) => {
       const lastSeenAt = asText(row.last_seen_at) || null;
       const path = asText(row.last_path) || "/";
@@ -120,14 +116,7 @@ export async function loadAdminLive() {
         lastSeenAt,
       };
     });
-
-    const events = await supabase
-      .from("site_events")
-      .select("id, kind, path, source, href, country, region, city, created_at")
-      .gte("created_at", memberStart)
-      .in("kind", ["whatsapp", "purchase", "appointment"])
-      .order("created_at", { ascending: false })
-      .limit(120);
+    liveCount = visitors.filter((row) => row.live).length;
 
     const mapped = (events.data ?? []).map((row) => {
       const item: AdminEventRow = {
@@ -148,36 +137,19 @@ export async function loadAdminLive() {
 
     whatsapp = mapped.filter((row) => row.kind === "whatsapp").map((row) => row.item);
     purchases = mapped.filter((row) => row.kind === "purchase").map((row) => row.item);
-    appointments = mapped.filter((row) => row.kind === "appointment").map((row) => row.item);
+    appointments = mapped
+      .filter((row) => row.kind === "appointment")
+      .map((row) => row.item);
+    whatsappCount = whatsapp.length;
+    purchaseCount = purchases.length;
+    appointmentCount = appointments.length;
 
-    const whatsappToday = await supabase
-      .from("site_events")
-      .select("id", { count: "exact", head: true })
-      .eq("kind", "whatsapp")
-      .gte("created_at", memberStart);
-    const purchaseToday = await supabase
-      .from("site_events")
-      .select("id", { count: "exact", head: true })
-      .eq("kind", "purchase")
-      .gte("created_at", memberStart);
-    const appointmentToday = await supabase
-      .from("site_events")
-      .select("id", { count: "exact", head: true })
-      .eq("kind", "appointment")
-      .gte("created_at", memberStart);
-
-    whatsappCount = whatsappToday.count ?? 0;
-    purchaseCount = purchaseToday.count ?? 0;
-    appointmentCount = appointmentToday.count ?? 0;
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
+    const userId = sessionPack.data.session?.user?.id;
+    if (userId) {
       const notes = await supabase
         .from("comment_notifications")
         .select("id", { count: "exact", head: true })
-        .eq("recipient_id", user.id)
+        .eq("recipient_id", userId)
         .is("read_at", null);
       notificationCount = notes.count ?? 0;
     }

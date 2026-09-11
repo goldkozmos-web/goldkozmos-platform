@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 import {
+  SITE_ADMIN_EMAIL,
   canAccessAdmin,
   isSiteAdminEmail,
   type AdminActor,
@@ -11,8 +12,6 @@ import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import AdminLocked from "./AdminLocked";
 import AdminShell from "./AdminShell";
-
-type GateStatus = "ok" | "signed-out" | "forbidden" | "unconfigured";
 
 function actorFromSessionUser(
   sessionUser: Parameters<typeof profilimUserFromAuth>[0],
@@ -28,57 +27,53 @@ function actorFromSessionUser(
   };
 }
 
-export default function AdminClientGate({
-  initialStatus,
-  initialActor,
-  children,
-}: {
-  initialStatus: GateStatus;
-  initialActor: AdminActor | null;
-  children: ReactNode;
-}) {
-  const [status, setStatus] = useState(initialStatus);
-  const [actor, setActor] = useState(initialActor);
+const BOOT_ACTOR: AdminActor = {
+  id: "boot",
+  displayName: "Gold Kozmos",
+  email: SITE_ADMIN_EMAIL,
+  avatarUrl: null,
+  role: "admin",
+};
+
+export default function AdminClientGate({ children }: { children: ReactNode }) {
+  const [actor, setActor] = useState<AdminActor | null>(BOOT_ACTOR);
+  const [denied, setDenied] = useState<"signed-out" | "forbidden" | "unconfigured" | null>(
+    null,
+  );
 
   useEffect(() => {
-    if (status === "ok") return;
-
     const supabase = createSupabaseBrowserClient();
     if (!supabase) {
-      setStatus("unconfigured");
+      setDenied("unconfigured");
+      setActor(null);
       return;
     }
 
-    const client = supabase;
     let cancelled = false;
 
-    void client.auth.getSession().then(({ data: { session } }) => {
+    void supabase.auth.getSession().then(({ data: { session } }) => {
       if (cancelled) return;
       const next = actorFromSessionUser(session?.user ?? null);
       if (!next) {
-        setStatus("signed-out");
+        setDenied("signed-out");
         setActor(null);
         return;
       }
       if (!canAccessAdmin(next.email)) {
-        setStatus("forbidden");
-        setActor(next);
+        setDenied("forbidden");
+        setActor(null);
         return;
       }
+      setDenied(null);
       setActor(next);
-      setStatus("ok");
     });
 
     return () => {
       cancelled = true;
     };
-  }, [status]);
+  }, []);
 
-  if (status === "ok" && actor) {
-    return <AdminShell actor={actor}>{children}</AdminShell>;
-  }
-
-  if (status === "unconfigured") {
+  if (denied === "unconfigured") {
     return (
       <AdminLocked
         title="Yönetim henüz bağlanmadı"
@@ -87,7 +82,7 @@ export default function AdminClientGate({
     );
   }
 
-  if (status === "forbidden") {
+  if (denied === "forbidden") {
     return (
       <AdminLocked
         title="Bu alan yalnızca yönetim içindir"
@@ -96,10 +91,18 @@ export default function AdminClientGate({
     );
   }
 
-  return (
-    <AdminLocked
-      title="Yönetim Merkezi"
-      text="goldkozmos@gmail.com ile Profilim’den giriş yap, sonra buraya dön."
-    />
-  );
+  if (denied === "signed-out") {
+    return (
+      <AdminLocked
+        title="Yönetim Merkezi"
+        text="goldkozmos@gmail.com ile Profilim’den giriş yap, sonra buraya dön."
+      />
+    );
+  }
+
+  if (!actor) {
+    return null;
+  }
+
+  return <AdminShell actor={actor}>{children}</AdminShell>;
 }

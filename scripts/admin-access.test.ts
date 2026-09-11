@@ -8,6 +8,7 @@ import {
   isSiteAdminEmail,
   normalizeProfileRole,
 } from "../src/lib/admin/access.ts";
+import { emptyAdminMetrics } from "../src/lib/admin/access.ts";
 import {
   canShowMemberProfilim,
   isAdminProfile,
@@ -53,6 +54,15 @@ test("member Profilim tiles stay visible for admin accounts", () => {
   assert.equal(canShowMemberProfilim({ isAdmin: true }, false), true);
   assert.equal(canShowMemberProfilim({ isAdmin: false }, false), true);
   assert.equal(canShowMemberProfilim(null, false), false);
+});
+
+test("admin overview can paint zeros before live data arrives", () => {
+  const metrics = emptyAdminMetrics();
+  assert.equal(metrics.length > 0, true);
+  assert.equal(
+    metrics.every((metric) => metric.value === 0),
+    true,
+  );
 });
 
 test("Istanbul day start is a real timestamptz, not a fake clock", () => {
