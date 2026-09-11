@@ -2406,8 +2406,8 @@ const homepageArchiveStyles = `
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     background: #ffffff !important;
-    border: 0 !important;
-    box-shadow: 0 10px 28px rgba(48, 32, 18, 0.08) !important;
+    border: 1px solid rgba(176, 130, 48, 0.28) !important;
+    box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14) !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestIcon {

@@ -21755,9 +21755,9 @@ font-size:32px;
 
   background: #ffffff;
 
-  border: 0;
+  border: 1px solid rgba(176, 130, 48, 0.28);
 
-  box-shadow: 0 10px 28px rgba(48, 32, 18, 0.08);
+  box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14);
 }
 
 
