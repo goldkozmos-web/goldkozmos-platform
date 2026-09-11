@@ -151,7 +151,8 @@ export type ProfilimDrawerId =
   | "letter"
   | "journey"
   | "understand"
-  | "inbox";
+  | "inbox"
+  | "suggest";
 
 export type ProfilimDashboardSources = {
   user: ProfilimUser;

@@ -71,8 +71,8 @@ export default function AdminMemberList({
     return (
       <AdminEmpty
         eyebrow="Üyeler"
-        title="Henüz üye görünmüyor"
-        text="Google ile giren herkes hemen bu listeye düşer. Eski girişler, kişi siteye bir kez daha girince görünür."
+        title="Henüz üye yok"
+        text="Google ile giren herkes bu listeye düşer. Eski girişler, kişi siteye bir kez daha girince görünür."
         quiet
       />
     );

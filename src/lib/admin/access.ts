@@ -100,8 +100,8 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
     id: "suggestions",
     title: "Öneriler",
     href: "/admin/oneriler",
-    hasSource: false,
-    empty: "Henüz bağlı değil",
+    hasSource: true,
+    empty: "Henüz öneri yok",
   },
 ];
 

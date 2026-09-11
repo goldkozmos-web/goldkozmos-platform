@@ -519,3 +519,72 @@ export function InboxPanel() {
     </ul>
   );
 }
+
+export function SuggestPanel() {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [status, setStatus] = useState("");
+  const [pending, setPending] = useState(false);
+
+  return (
+    <div className="profilimDrawerStack">
+      <form
+        className="profilimCompose"
+        onSubmit={(event) => {
+          event.preventDefault();
+          const nextTitle = title.trim();
+          const nextBody = body.trim();
+          if (!nextBody) return;
+          setPending(true);
+          setStatus("");
+          void fetch("/api/suggestions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: nextTitle, body: nextBody }),
+          })
+            .then(async (response) => {
+              const data = (await response.json()) as { error?: string };
+              setPending(false);
+              if (!response.ok) {
+                setStatus(data.error || "Gönderilemedi.");
+                return;
+              }
+              setTitle("");
+              setBody("");
+              setStatus("Önerin Gold’a iletildi.");
+            })
+            .catch(() => {
+              setPending(false);
+              setStatus("Gönderilemedi.");
+            });
+        }}
+      >
+        <label>
+          Başlık
+          <input
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            placeholder="Kısa başlık"
+            maxLength={80}
+          />
+        </label>
+        <label>
+          Öneri
+          <textarea
+            value={body}
+            onChange={(event) => setBody(event.target.value)}
+            rows={5}
+            placeholder="Sitede neyi iyileştirelim?"
+            maxLength={900}
+            required
+          />
+        </label>
+        <button type="submit" disabled={pending}>
+          {pending ? "Gönderiliyor…" : "Gönder"}
+        </button>
+      </form>
+      {status ? <p className="profilimDrawerNote">{status}</p> : null}
+    </div>
+  );
+}
+

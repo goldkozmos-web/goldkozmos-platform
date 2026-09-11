@@ -4,8 +4,8 @@ export default function AdminContentPage() {
   return (
     <AdminEmpty
       eyebrow="İçerikler"
-      title="İçerik masası henüz boş"
-      text="Yayın listesi ve düzenleme bu görevde yok. Sonra bağlanır."
+      title="Henüz içerik yok"
+      text="Yayın listesi sonra bağlanır."
     />
   );
 }

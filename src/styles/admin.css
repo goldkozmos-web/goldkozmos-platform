@@ -204,11 +204,11 @@
   letter-spacing: -0.03em;
   color: var(--admin-ink);
   font-size: 15px;
-  line-height: 1.2;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
-.adminLocked h1,
-.adminEmpty h2 {
+.adminLocked h1 {
   font-size: 26px;
 }
 
@@ -357,7 +357,8 @@
 .adminLocked {
   display: grid;
   gap: 8px;
-  padding: 28px 22px;
+  padding: 18px 16px;
+  overflow-wrap: anywhere;
 }
 
 .adminLocked .adminExitRow {
@@ -592,7 +593,7 @@
 }
 
 .adminEmpty.isQuiet h2 {
-  font-size: 18px;
+  font-size: 15px;
 }
 
 @media (min-width: 760px) {

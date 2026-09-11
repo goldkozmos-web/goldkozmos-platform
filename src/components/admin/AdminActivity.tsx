@@ -34,7 +34,7 @@ export default function AdminActivity({
       <AdminEmpty
         eyebrow="Hareket"
         title="Henüz ziyaretçi yok"
-        text="Anonim gezinenler Ziyaretçi olarak görünür. Giriş kaynağı ve konum, veri gelince burada durur."
+        text="Anonim gezinenler burada görünür. Giriş kaynağı ve konum, veri gelince durur."
       />
     );
   }

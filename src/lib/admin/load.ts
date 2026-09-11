@@ -26,6 +26,7 @@ import {
   describeLocation,
   isLiveAt,
 } from "../presence/labels";
+import { SUGGESTIONS_POST } from "./suggestions";
 
 export type AdminOverviewMetric = {
   id: AdminOverviewCardId;
@@ -186,6 +187,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
   let whatsappCount = 0;
   let purchaseCount = 0;
   let notificationCount = 0;
+  let suggestionCount = 0;
   let visitors: AdminVisitorRow[] = [];
   let whatsapp: AdminEventRow[] = [];
   let purchases: AdminEventRow[] = [];
@@ -193,7 +195,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
   let membersList: AdminMemberRow[] = [];
 
   if (supabase) {
-    const [memberRows, memberHead, visits, liveRows, events, sessionPack] =
+    const [memberRows, memberHead, visits, liveRows, events, sessionPack, suggestionHead] =
       await Promise.all([
         fetchAdminMembers(supabase),
         supabase.from("profiles").select("id", { count: "exact", head: true }),
@@ -210,6 +212,10 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
         .order("created_at", { ascending: false })
         .limit(120),
       supabase.auth.getSession(),
+      supabase
+        .from("comments")
+        .select("id", { count: "exact", head: true })
+        .eq("post_id", SUGGESTIONS_POST),
     ]);
 
     visitCount = visits.count ?? 0;
@@ -295,6 +301,8 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
         .is("read_at", null);
       notificationCount = notes.count ?? 0;
     }
+
+    suggestionCount = suggestionHead.count ?? 0;
   }
 
   const counts: Record<AdminOverviewCardId, number> = {
@@ -305,7 +313,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     whatsapp: whatsappCount,
     purchases: purchaseCount,
     notifications: notificationCount,
-    suggestions: 0,
+    suggestions: suggestionCount,
   };
 
   const metrics = ADMIN_OVERVIEW_CARDS.map((card) => ({

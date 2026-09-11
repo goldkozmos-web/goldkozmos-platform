@@ -56,6 +56,7 @@ import {
   TodayNeedPanel,
   AwarenessPanel,
   InboxPanel,
+  SuggestPanel,
 } from "./ProfilimPanels";
 
 const TRACKS: { id: "goldmind" | "goldbook" | "rezonans"; label: string }[] = [
@@ -81,6 +82,7 @@ const DRAWERS: Record<
   journey: { eyebrow: "YOLCULUK", title: "Gelişim Yolculuğum" },
   understand: { eyebrow: "FARKINDALIK", title: "Kendimi Anlamak" },
   inbox: { eyebrow: "MESAJ", title: "Gelen Mesajlar" },
+  suggest: { eyebrow: "ÖNERİ", title: "Gold’a Öneri" },
 };
 
 export default function ProfilimDashboard({
@@ -339,6 +341,11 @@ export default function ProfilimDashboard({
                 onOpen={() => setOpen("inbox")}
               />
               <ProfilimCompactTile
+                eyebrow="ÖNERİ"
+                title="Gold’a Öneri"
+                onOpen={() => setOpen("suggest")}
+              />
+              <ProfilimCompactTile
                 eyebrow="KAYITLI"
                 title="Favorilerim"
                 onOpen={() => setOpen("favorites")}
@@ -432,6 +439,7 @@ export default function ProfilimDashboard({
           ) : null}
           {open === "understand" ? <AwarenessPanel /> : null}
           {open === "inbox" ? <InboxPanel /> : null}
+          {open === "suggest" ? <SuggestPanel /> : null}
         </ProfilimDrawer>
       ) : null}
     </section>

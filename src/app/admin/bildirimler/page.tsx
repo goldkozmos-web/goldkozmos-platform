@@ -14,8 +14,8 @@ export default async function AdminNotificationsPage() {
     return (
       <AdminEmpty
         eyebrow="Bildirimler"
-        title="Okunmamış bildirim yok"
-        text="GoldBlog yorum bildirimlerin buraya düşer. Sahte kayıt yok."
+        title="Yeni bildirim yok"
+        text="GoldBlog yorum bildirimlerin buraya düşer."
       />
     );
   }

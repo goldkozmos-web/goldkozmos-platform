@@ -5,8 +5,8 @@ export default function AdminWhatsappPage() {
     <AdminEventList
       liveKey="whatsapp"
       eyebrow="WhatsApp"
-      emptyTitle="Bugün WhatsApp geçişi yok"
-      emptyText="Siteden WhatsApp’a giden ziyaretçiler burada Ziyaretçi olarak görünür."
+      emptyTitle="Bugün geçiş yok"
+      emptyText="Siteden WhatsApp’a giden ziyaretçiler burada görünür."
       items={[]}
     />
   );

@@ -5,8 +5,8 @@ export default function AdminPurchasesPage() {
     <AdminEventList
       liveKey="purchases"
       eyebrow="Satın Almalar"
-      emptyTitle="Bugün satın alma tıklaması yok"
-      emptyText="Shopier’e giden ziyaretçiler burada Ziyaretçi olarak görünür."
+      emptyTitle="Bugün tıklama yok"
+      emptyText="Shopier’e giden ziyaretçiler burada görünür."
       items={[]}
     />
   );
