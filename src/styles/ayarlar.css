@@ -1,0 +1,279 @@
+.ayarlarPage {
+  min-height: 100dvh;
+  padding: 18px 18px calc(132px + env(safe-area-inset-bottom, 0px));
+  background:
+    radial-gradient(circle at 8% 0%, rgba(201, 155, 68, 0.08), transparent 28%),
+    linear-gradient(180deg, #fffdf9 0%, #f7f1e6 100%);
+  color: #211811;
+  font-family: "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+}
+
+.ayarlarShell {
+  width: min(430px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.ayarlarHead {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.ayarlarBack {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #211811;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+.ayarlarHead h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: #221812;
+}
+
+.ayarlarGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.ayarlarGroupLabel {
+  margin: 0 4px;
+  color: #8a6a32;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ayarlarCard {
+  overflow: hidden;
+  border: 1px solid rgba(176, 130, 48, 0.18);
+  border-radius: 18px;
+  background: rgba(255, 252, 247, 0.92);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+.ayarlarRow,
+.ayarlarToggle,
+.ayarlarChoice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 0;
+  border-bottom: 1px solid rgba(33, 24, 17, 0.06);
+  background: transparent;
+  color: #221812;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ayarlarRow:last-child,
+.ayarlarToggle:last-child,
+.ayarlarChoice:last-child {
+  border-bottom: 0;
+}
+
+.ayarlarRow i {
+  color: #b0893a;
+  font-style: normal;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.ayarlarRow.is-gold {
+  background: linear-gradient(180deg, #2c1d14, #140e0a);
+  color: #e3bc70;
+}
+
+.ayarlarRow.is-gold i {
+  color: #e3bc70;
+}
+
+.ayarlarRow.is-danger {
+  color: #9b2c2c;
+}
+
+.ayarlarRow.is-danger i {
+  color: #9b2c2c;
+}
+
+.ayarlarToggle input {
+  width: 42px;
+  height: 26px;
+  appearance: none;
+  border-radius: 999px;
+  background: #ddd4c4;
+  position: relative;
+  cursor: pointer;
+}
+
+.ayarlarToggle input:checked {
+  background: #c4a056;
+}
+
+.ayarlarToggle input::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.16s ease;
+}
+
+.ayarlarToggle input:checked::after {
+  transform: translateX(16px);
+}
+
+.ayarlarToggle.isLocked {
+  opacity: 0.7;
+}
+
+.ayarlarChoice.isOn {
+  color: #7a5720;
+  font-weight: 650;
+}
+
+.ayarlarAccount {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  padding: 22px 16px 18px;
+}
+
+.ayarlarPhoto {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(184, 138, 52, 0.4);
+  background: linear-gradient(160deg, #f7ead3, #e7d3ad);
+  color: #7a5720;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+}
+
+.ayarlarAccount dl {
+  width: 100%;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.ayarlarAccount div {
+  display: grid;
+  gap: 2px;
+}
+
+.ayarlarAccount dt {
+  color: #8a6a32;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ayarlarAccount dd {
+  margin: 0;
+  font-size: 15px;
+}
+
+.ayarlarNote,
+.ayarlarCopy p {
+  margin: 0;
+  padding: 14px 16px 16px;
+  color: #6f675f;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.ayarlarCopy {
+  display: grid;
+  gap: 0;
+}
+
+.ayarlarCopy a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 16px;
+  border-top: 1px solid rgba(33, 24, 17, 0.06);
+  color: #7a5720;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.ayarlarForm {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.ayarlarForm label {
+  display: grid;
+  gap: 8px;
+  color: #8a6a32;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ayarlarForm textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 0;
+  border-radius: 14px;
+  background: #f4eee3;
+  color: #221812;
+  font: inherit;
+}
+
+.ayarlarForm button,
+.ayarlarDanger {
+  min-height: 46px;
+  border: 0;
+  border-radius: 999px;
+  background: #1c1410;
+  color: #e3bc70;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ayarlarDanger {
+  margin: 8px 16px 16px;
+  background: #9b2c2c;
+  color: #fff8f0;
+}
+
+@media (max-width: 700px) {
+  .ayarlarPage {
+    padding: 14px 16px calc(140px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .ayarlarHead h1 {
+    font-size: 19px;
+  }
+}

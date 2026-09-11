@@ -151,17 +151,23 @@
   background: linear-gradient(90deg, #9e7224, #e0c07a);
 }
 
-.profilimTextAction {
-  min-height: 34px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
+.profilimSettingsGear {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(176, 130, 48, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 252, 247, 0.9);
   color: #8d6728;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+.profilimSettingsGear svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .profilimFeaturedStack,
