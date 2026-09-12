@@ -208,8 +208,9 @@ export default function ProfilimDashboard({
   useEffect(() => {
     if (!user) return;
     const params = new URLSearchParams(window.location.search);
-    if (params.get("open") === "duyguRehberi") {
-      setOpen("duyguRehberi");
+    const next = params.get("open");
+    if (next === "duyguRehberi" || next === "journal") {
+      setOpen(next);
     }
   }, [user]);
 
