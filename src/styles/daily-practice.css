@@ -73,70 +73,130 @@
 }
 
 .dailyActionBand {
-  padding: 10px 16px 22px;
-  display: flex;
-  justify-content: center;
+  padding: 8px 0 20px;
   overflow: visible;
   background: #fffdf9;
+}
+
+.dailyActionRail {
+  display: flex;
+  gap: 10px;
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 6px 2px 14px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.dailyActionRail::-webkit-scrollbar {
+  display: none;
 }
 
 .dailyActionCard {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
-  min-width: 112px;
-  max-width: 160px;
+  flex: 0 0 calc((100% - 20px) / 3);
+  min-width: 108px;
+  max-width: 148px;
   min-height: 72px;
-  padding: 14px 16px;
+  padding: 12px 10px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(196, 160, 74, 0.55);
+  overflow: hidden;
+  border: 1px solid rgba(196, 160, 74, 0.5);
   border-radius: 16px;
-  background: linear-gradient(180deg, #f6edd4 0%, #e8d08a 100%);
+  background: #e6c878;
   box-shadow: 0 8px 16px rgba(48, 32, 18, 0.1);
+  scroll-snap-align: start;
   text-decoration: none;
 }
 
-.dailyActionWash {
+.dailyActionWash,
+.dailyActionShine {
   position: absolute;
   inset: 0;
-  z-index: 0;
   pointer-events: none;
-  background: linear-gradient(
-    110deg,
-    rgba(255, 248, 228, 0.35) 0%,
-    transparent 42%,
-    rgba(212, 176, 86, 0.28) 100%
-  );
-  background-size: 180% 100%;
-  animation: dailyGoldFlow 12s ease-in-out infinite;
 }
 
-.dailyActionCard h2 {
-  position: relative;
+.dailyActionWash {
+  z-index: 0;
+  background: linear-gradient(
+    115deg,
+    #f3e2ae 0%,
+    #e8c878 18%,
+    #fff4cc 36%,
+    #d4b056 54%,
+    #ead087 72%,
+    #f3e2ae 100%
+  );
+  background-size: 280% 280%;
+  animation: dailyGoldFlow 7.5s ease-in-out infinite;
+}
+
+.dailyActionShine {
   z-index: 1;
-  margin: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 252, 236, 0.12) 38%,
+    rgba(255, 255, 255, 0.42) 50%,
+    rgba(255, 244, 200, 0.12) 62%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  animation: dailyGoldSheen 5.5s linear infinite;
+}
+
+.dailyActionLabel {
+  position: relative;
+  z-index: 2;
   color: #211812;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 400;
   letter-spacing: -0.02em;
   text-align: center;
+  line-height: 1.2;
 }
 
 @keyframes dailyGoldFlow {
   0%,
   100% {
-    background-position: 0% 50%;
+    background-position: 0% 40%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 60%;
+  }
+}
+
+@keyframes dailyGoldSheen {
+  0% {
+    background-position: -30% 0;
+  }
+  100% {
+    background-position: 130% 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dailyActionWash {
+  .dailyActionWash,
+  .dailyActionShine {
     animation: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .dailyActionRail {
+    justify-content: center;
+    overflow: visible;
+    flex-wrap: wrap;
+  }
+
+  .dailyActionCard {
+    flex: 0 0 132px;
   }
 }
 
