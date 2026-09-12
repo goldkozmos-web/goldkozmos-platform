@@ -280,7 +280,7 @@ export default function ProfilimDashboard({
   const showMemberTiles = canShowMemberProfilim(user, checking);
 
   return (
-    <section className="profilimDash">
+    <section className={showMemberTiles ? "profilimDash" : "profilimDash profilimDash--gate"}>
       <div className="profilimDashInner">
         {showMemberTiles ? (
           <>
