@@ -553,8 +553,16 @@ const goldcastPremiumStyles = `
   .goldcastPage .platformPageContinue {
     width: min(1180px, calc(100% - 32px));
     margin: 10px auto 6px;
-    padding: 12px 14px 12px;
+    padding: 0;
     box-sizing: border-box;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  .goldcastPage .platformContinueSwipeInner {
+    padding: 12px 14px 12px;
     border: 1px solid rgba(90, 56, 18, 0.18);
     border-radius: 18px;
     background:
@@ -646,6 +654,9 @@ const goldcastPremiumStyles = `
     .goldcastPage .platformPageContinue {
       width: min(1180px, calc(100% - 80px));
       margin: 16px auto 0;
+    }
+
+    .goldcastPage .platformContinueSwipeInner {
       padding: 14px 18px 14px;
     }
   }
