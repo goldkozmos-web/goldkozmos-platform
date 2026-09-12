@@ -3788,7 +3788,7 @@ const goldBlogHubStyles = `
   .goldblogPage .goldBlogNewCardMeta,
   .goldblogPage .goldBlogNewCard:first-child .goldBlogNewCardMeta {
     margin-bottom: 10px !important;
-    color: #6a5040 !important;
+    color: #16110c !important;
     font-size: 8px !important;
     letter-spacing: 0.04em;
   }
