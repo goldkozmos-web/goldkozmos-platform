@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 480" role="img" aria-label="Kılıç Kralı tarot kartı">
+  <rect width="300" height="480" rx="22" fill="#fff8ec" stroke="#c4a35a" stroke-width="10"/>
+  <rect x="18" y="18" width="264" height="444" rx="14" fill="#efe8dc" stroke="#c4a35a" stroke-width="1.5"/>
+  <text x="150" y="56" text-anchor="middle" fill="#c4a35a" font-family="Georgia, serif" font-size="11" letter-spacing="3">Kral</text>
+  <g transform="rotate(-13 159 218)"><path d="M159 172 L159 256 M141 200 L177 200" fill="none" stroke="#c4a35a" stroke-width="3"/></g>
+  <text x="150" y="400" text-anchor="middle" fill="#221812" font-family="Georgia, serif" font-size="22">Kılıç Kralı</text>
+  <text x="150" y="428" text-anchor="middle" fill="#c4a35a" font-family="Georgia, serif" font-size="11" letter-spacing="2">GOLDKOZMOS</text>
+</svg>

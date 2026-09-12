@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 480" role="img" aria-label="Tılsım Dörtlüsü tarot kartı">
+  <rect width="300" height="480" rx="22" fill="#fff8ec" stroke="#c4a35a" stroke-width="10"/>
+  <rect x="18" y="18" width="264" height="444" rx="14" fill="#f1e6d0" stroke="#c4a35a" stroke-width="1.5"/>
+  <text x="150" y="56" text-anchor="middle" fill="#c4a35a" font-family="Georgia, serif" font-size="11" letter-spacing="3">IV</text>
+  <g transform="rotate(10 154 227)"><circle cx="154" cy="227" r="21.84" fill="none" stroke="#c4a35a" stroke-width="3"/><path d="M154 210.36 L164 231.16 L138 219 L170 219 L144 231.16 Z" fill="none" stroke="#c4a35a" stroke-width="2"/></g>
+  <text x="150" y="400" text-anchor="middle" fill="#221812" font-family="Georgia, serif" font-size="22">Tılsım Dörtlüsü</text>
+  <text x="150" y="428" text-anchor="middle" fill="#c4a35a" font-family="Georgia, serif" font-size="11" letter-spacing="2">GOLDKOZMOS</text>
+</svg>

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 
 import Navbar from "../../components/Navbar";
@@ -16,7 +17,9 @@ export default function RandevuAlPage() {
   return (
     <main className="randevuAlPage" id="top">
       <Navbar />
-      <RandevuAlBooking />
+      <Suspense fallback={null}>
+        <RandevuAlBooking />
+      </Suspense>
     </main>
   );
 }

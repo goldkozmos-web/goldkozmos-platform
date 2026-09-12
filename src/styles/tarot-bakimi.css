@@ -1,0 +1,271 @@
+.tarotPage {
+  background: linear-gradient(180deg, #fffdf9 0%, #f7f1e6 100%);
+  color: #211811;
+}
+
+.tarotWrap {
+  width: min(920px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+
+.tarotEyebrow {
+  margin: 0 0 8px;
+  color: #a8792a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.tarotWrap h1 {
+  margin: 0;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 6vw, 46px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.tarotLead {
+  margin: 14px 0 0;
+  color: #5c534b;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.tarotCrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 18px;
+  color: #8a8176;
+  font-size: 12px;
+}
+
+.tarotCrumbs a {
+  color: #8d6728;
+  text-decoration: none;
+}
+
+.tarotAsk {
+  margin: 28px 0 12px;
+  font-size: 17px;
+}
+
+.tarotTopics {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .tarotTopics {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.tarotTopic {
+  padding: 14px 16px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 16px;
+  background: #fffdf8;
+  color: #221812;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.tarotTopic.isOn {
+  border-color: #c4a35a;
+  box-shadow: 0 0 0 1px #c4a35a;
+  background: #fbf3e4;
+}
+
+.tarotActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.tarotActions button,
+.tarotBtn {
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2c1d14, #140e0a);
+  color: #e3bc70;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.tarotActions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tarotGhost {
+  background: #fffdf8;
+  border: 1px solid rgba(176, 130, 48, 0.28);
+  color: #7a5720;
+}
+
+.tarotSpread {
+  display: grid;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+@media (min-width: 800px) {
+  .tarotSpread {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tarotCardFace {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid rgba(176, 130, 48, 0.2);
+  border-radius: 20px;
+  background: #fffaf1;
+  animation: tarotReveal 0.55s ease;
+}
+
+.tarotCardFace img {
+  width: 100%;
+  max-width: 240px;
+  margin: 0 auto;
+  border-radius: 16px;
+}
+
+.tarotCardFace h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.tarotCardFace small {
+  color: #a8792a;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@keyframes tarotReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px) rotate(-1.5deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tarotSynthesis,
+.tarotLearn,
+.tarotCta,
+.tarotSeo {
+  margin-top: 36px;
+}
+
+.tarotLearn,
+.tarotCta {
+  padding: 22px 20px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 22px;
+  background: #fffaf1;
+}
+
+.tarotCta {
+  background: #221812;
+  color: #f4ead8;
+}
+
+.tarotCta h2,
+.tarotCta p {
+  color: #f4ead8;
+}
+
+.tarotCta .tarotBtn {
+  display: inline-block;
+  margin: 10px 10px 0 0;
+}
+
+.tarotCta a.tarotGhost {
+  background: transparent;
+  color: #e3bc70;
+}
+
+.tarotGrid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (min-width: 800px) {
+  .tarotGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.tarotGrid a {
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(176, 130, 48, 0.18);
+  border-radius: 16px;
+  background: #fffdf8;
+  color: inherit;
+  text-decoration: none;
+}
+
+.tarotGrid img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.tarotSearch input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 54px;
+  margin: 18px 0 22px;
+  padding: 14px 16px;
+  border: 1px solid rgba(176, 130, 48, 0.28);
+  border-radius: 18px;
+  background: #fffdf8;
+  font: inherit;
+}
+
+.tarotArticle h2 {
+  margin: 32px 0 12px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.tarotArticle p,
+.tarotSeo p,
+.tarotSynthesis p {
+  color: #3a322b;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.tarotRelated {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.tarotRelated a {
+  color: #8d6728;
+  text-decoration: none;
+}

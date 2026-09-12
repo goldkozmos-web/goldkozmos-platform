@@ -98,6 +98,29 @@ export const ENERJI_SERVICES = ENERJI_SERVICE_CARDS.map(
   (service) => service.name,
 );
 
+export const TAROT_SERVICE_CARD: RandevuServiceCard = {
+  name: "Tarot Bakımı",
+  duration: "kişiye özel",
+  format: "Online tarot",
+  note: "Konuna özel tarot bakımı.",
+};
+
+export function serviceFromQuery(raw: string | null | undefined) {
+  const value = String(raw ?? "")
+    .trim()
+    .toLowerCase();
+  if (!value) return null;
+  if (
+    value === "tarot" ||
+    value === "tarot-bakimi" ||
+    value === "tarot bakımı" ||
+    value === "tarot bakimi"
+  ) {
+    return TAROT_SERVICE_CARD.name;
+  }
+  return null;
+}
+
 function pad(value: number) {
   return String(value).padStart(2, "0");
 }

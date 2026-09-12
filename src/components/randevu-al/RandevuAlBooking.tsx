@@ -1,16 +1,19 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 import {
   BIREBIR_SERVICE_CARDS,
   ENERJI_SERVICE_CARDS,
+  TAROT_SERVICE_CARD,
   canSubmitRandevuRequest,
   formatRandevuDate,
   formatRandevuWeekday,
   randevuMinIso,
   randevuRequestSummary,
   randevuWhatsappHref,
+  serviceFromQuery,
   type RandevuServiceCard,
 } from "../../lib/randevu-al/booking";
 
@@ -77,13 +80,21 @@ function ServiceCard({
 }
 
 export default function RandevuAlBooking() {
+  const searchParams = useSearchParams();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<string | null>(() =>
+    serviceFromQuery(searchParams.get("service")),
+  );
   const minIso = randevuMinIso();
   const [cursor, setCursor] = useState(() => {
     const [year, month] = minIso.split("-").map(Number);
     return { year, month: month - 1 };
   });
+
+  useEffect(() => {
+    const next = serviceFromQuery(searchParams.get("service"));
+    if (next) setSelectedService(next);
+  }, [searchParams]);
 
   const cells = useMemo(
     () => calendarCells(cursor.year, cursor.month),
@@ -210,6 +221,15 @@ export default function RandevuAlBooking() {
                 mesajında konuşulur.
               </p>
             </div>
+          </div>
+
+          <p className="randevuAlGroupLabel">Tarot</p>
+          <div className="randevuAlServiceGrid isPair">
+            <ServiceCard
+              service={TAROT_SERVICE_CARD}
+              selected={selectedService === TAROT_SERVICE_CARD.name}
+              onSelect={setSelectedService}
+            />
           </div>
 
           <p className="randevuAlGroupLabel">Birebir</p>
