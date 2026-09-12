@@ -5,10 +5,6 @@
   color: #211811;
 }
 
-.profilimPage:has(.profilimGate--entry) {
-  background: linear-gradient(180deg, #6e4e3c 0%, #b89a82 42%, #d4c6b8 100%);
-}
-
 .profilimDash--gate {
   padding-top: 28px;
   padding-bottom: 56px;
