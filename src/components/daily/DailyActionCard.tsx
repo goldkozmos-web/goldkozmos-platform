@@ -47,7 +47,20 @@ function ChipRow({
                   style={{ animationDelay: `${index * 0.5}s` }}
                 />
               </>
-            ) : null}
+            ) : (
+              <>
+                <span
+                  className="dailyActionWash dailyActionWash--brown"
+                  aria-hidden="true"
+                  style={{ animationDelay: `${index * 0.9}s` }}
+                />
+                <span
+                  className="dailyActionShine dailyActionShine--brown"
+                  aria-hidden="true"
+                  style={{ animationDelay: `${index * 0.5}s` }}
+                />
+              </>
+            )}
             <span className="dailyActionLabel">{chip.label}</span>
           </span>
         </a>

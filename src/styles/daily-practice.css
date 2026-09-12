@@ -158,9 +158,48 @@
   animation: dailyGoldSheen 5.5s linear infinite;
 }
 
+.dailyActionLabel {
+  position: relative;
+  z-index: 2;
+  color: #211812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-align: center;
+  line-height: 1.2;
+}
+
 .dailyActionCard.isBrown {
   background: #211812;
   border-color: rgba(90, 62, 36, 0.85);
+}
+
+.dailyActionWash--brown {
+  background: linear-gradient(
+    115deg,
+    #3a2418 0%,
+    #211812 18%,
+    #5a3824 36%,
+    #2a1a12 54%,
+    #4a2e1c 72%,
+    #211812 100%
+  );
+  background-size: 280% 280%;
+  animation: dailyGoldFlow 7.5s ease-in-out infinite;
+}
+
+.dailyActionShine--brown {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 248, 237, 0.06) 38%,
+    rgba(255, 248, 237, 0.22) 50%,
+    rgba(90, 62, 36, 0.12) 62%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  animation: dailyGoldSheen 5.5s linear infinite;
 }
 
 .dailyActionCard.isBrown .dailyActionLabel {
