@@ -3796,7 +3796,7 @@ const goldBlogHubStyles = `
   .goldblogPage .goldBlogNewCard > p,
   .goldblogPage .goldBlogNewCard:first-child > p {
     margin: 0 0 5px !important;
-    color: #8d6a28 !important;
+    color: #c4a056 !important;
     font-size: 8px !important;
     font-weight: 700 !important;
     letter-spacing: 0.16em !important;
@@ -3811,11 +3811,9 @@ const goldBlogHubStyles = `
     -webkit-box-orient: vertical;
     overflow: hidden;
     margin: 0 !important;
-    color: #9a7328 !important;
-    background-image: linear-gradient(180deg, #e8d08a 0%, #c4a056 46%, #8d6a28 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #16110c !important;
+    background: none !important;
+    -webkit-text-fill-color: #16110c !important;
     font-family: Georgia, "Times New Roman", serif !important;
     font-size: 14px !important;
     font-weight: 400 !important;
@@ -3903,6 +3901,25 @@ const goldBlogHubStyles = `
     overflow: visible !important;
   }
 
+  .goldblogPage .goldBlogNewHead h3 {
+    color: #16110c !important;
+    background: none !important;
+    -webkit-text-fill-color: #16110c !important;
+    font-size: 16px !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  .goldblogPage .goldBlogHubEyebrow {
+    color: #c4a056 !important;
+    background: none !important;
+    -webkit-text-fill-color: #c4a056 !important;
+  }
+
+  .goldblogPage .goldBlogNewSeeAll {
+    color: #16110c !important;
+    -webkit-text-fill-color: #16110c !important;
+  }
+
   .goldblogPage .goldBlogMiniBackdrop {
     z-index: 100050 !important;
     padding: 28px 16px calc(28px + env(safe-area-inset-bottom, 0px)) !important;
@@ -3939,11 +3956,9 @@ const goldBlogHubStyles = `
   }
 
   .goldblogPage .goldBlogMiniTop h2 {
-    color: #9a7328 !important;
-    background-image: linear-gradient(180deg, #e8d08a 0%, #c4a056 46%, #8d6a28 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #16110c !important;
+    background: none !important;
+    -webkit-text-fill-color: #16110c !important;
     font-size: 24px !important;
     letter-spacing: -0.04em !important;
     line-height: 1.1 !important;
@@ -3984,11 +3999,9 @@ const goldBlogHubStyles = `
   }
 
   .goldblogPage .goldBlogMiniItem strong {
-    color: #9a7328 !important;
-    background-image: linear-gradient(180deg, #e8d08a 0%, #c4a056 46%, #8d6a28 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #16110c !important;
+    background: none !important;
+    -webkit-text-fill-color: #16110c !important;
     font-size: 15px !important;
     line-height: 1.28 !important;
     letter-spacing: -0.03em !important;
