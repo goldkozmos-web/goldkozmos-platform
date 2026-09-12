@@ -2429,16 +2429,6 @@ const homepageArchiveStyles = `
     min-width: 0 !important;
   }
 
-  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy p {
-    font-size: 8px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.08em !important;
-    line-height: 1.3 !important;
-    margin: 0 0 5px !important;
-    color: #9a7328 !important;
-    -webkit-font-smoothing: antialiased !important;
-  }
-
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 {
     white-space: normal !important;
     font-size: 15px !important;
@@ -2451,7 +2441,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 span {
-    color: #9a7328 !important;
+    color: inherit !important;
   }
 
   .homeHeroActionCard {
@@ -2683,8 +2673,6 @@ export default function HomePageClient() {
                 href="#rezonans"
               >
                 <div className="homeHeroMiniTestCopy">
-                  <p>REZONANS ÇALIŞMALARI</p>
-
                   <h2>
                     Çalışmalarım
                   </h2>
@@ -2700,8 +2688,6 @@ export default function HomePageClient() {
                 href="/hakkimda"
               >
                 <div className="homeHeroMiniTestCopy">
-                  <p>ÖZGE BATIGÜN</p>
-
                   <h2>
                     Hakkımda
                   </h2>
@@ -2714,8 +2700,6 @@ export default function HomePageClient() {
 
               <div className="homeHeroMiniTest">
                 <div className="homeHeroMiniTestCopy">
-                  <p>ÜCRETSİZ ARKETİP TESTİ</p>
-
                   <h2>
                     Arketip testi
                   </h2>
