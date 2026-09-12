@@ -1022,7 +1022,7 @@ const goldcastPremiumStyles = `
     position: relative;
     display: flex !important;
     flex-direction: column !important;
-    height: auto;
+    height: 100%;
     min-height: 0;
     padding: 0 !important;
     box-shadow:
@@ -1115,21 +1115,24 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .goldcastCardShell {
+    display: flex;
+    flex-direction: column;
     flex: 0 0 min(62vw, 212px);
     width: min(62vw, 212px);
     max-width: 212px;
     box-sizing: border-box;
     padding: 6px 6px 14px;
     overflow: visible !important;
+    align-self: stretch;
   }
 
   .goldcastPage .goldcastCardShell .goldcastYTCard,
   .goldcastPage .goldcastCardShell .goldcastSpotifyEpisodeCard {
-    flex: none !important;
+    flex: 1 1 auto !important;
     width: 100% !important;
     max-width: none !important;
-    height: auto !important;
-    min-height: 0 !important;
+    height: 100% !important;
+    min-height: 348px !important;
     border-radius: 16px !important;
   }
 
@@ -1142,7 +1145,7 @@ const goldcastPremiumStyles = `
 
     .goldcastPage .goldcastCardShell .goldcastYTCard,
     .goldcastPage .goldcastCardShell .goldcastSpotifyEpisodeCard {
-      min-height: 0 !important;
+      min-height: 368px !important;
       border-radius: 18px !important;
     }
   }
@@ -1253,7 +1256,7 @@ const goldcastPremiumStyles = `
   main.goldcastPage .goldcastYTScroller,
   main.goldcastPage .goldcastSpotifyScroller {
     display: flex !important;
-    align-items: flex-start !important;
+    align-items: stretch !important;
   }
 
   main.goldcastPage .goldcastYTCategory,
@@ -1310,7 +1313,7 @@ const goldcastPremiumStyles = `
   main.goldcastPage .goldcastYTBody {
     display: flex !important;
     flex-direction: column;
-    flex: 0 0 auto;
+    flex: 1 1 auto;
     min-height: 0;
     padding: 8px 12px 14px !important;
   }
@@ -1327,6 +1330,20 @@ const goldcastPremiumStyles = `
 
   main.goldcastPage .goldcastYTImage img {
     transform: scale(1.12);
+  }
+
+  main.goldcastPage .goldcastCardShell .goldcastYTCard,
+  main.goldcastPage .goldcastCardShell .goldcastSpotifyEpisodeCard {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    min-height: 348px !important;
+  }
+
+  @media (min-width: 901px) {
+    main.goldcastPage .goldcastCardShell .goldcastYTCard,
+    main.goldcastPage .goldcastCardShell .goldcastSpotifyEpisodeCard {
+      min-height: 368px !important;
+    }
   }
 
   main.goldcastPage .goldcastYTTop {
