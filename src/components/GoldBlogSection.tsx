@@ -3728,6 +3728,12 @@ const goldBlogHubStyles = `
       0 14px 28px rgba(28, 16, 8, 0.14) !important;
   }
 
+  .goldblogPage {
+    background:
+      radial-gradient(ellipse at 50% -8%, rgba(198, 158, 122, 0.48), transparent 46%),
+      linear-gradient(180deg, #d8c2ac 0%, #eadfd2 34%, #f6f0e8 68%, #fffdf9 100%) !important;
+  }
+
   .goldblogPage .goldBlogNewCard,
   .goldblogPage .goldBlogNewCard:first-child {
     isolation: isolate;
@@ -3736,14 +3742,14 @@ const goldBlogHubStyles = `
     min-width: 0 !important;
     min-height: 0 !important;
     padding: 12px 13px 13px !important;
-    border: 1px solid rgba(148, 112, 72, 0.28) !important;
-    border-radius: 14px !important;
+    border: 1px solid rgba(255, 252, 248, 0.55) !important;
+    border-radius: 16px !important;
     background:
-      linear-gradient(165deg, #ead9c6 0%, #cbb39a 46%, #b08c72 100%) !important;
+      radial-gradient(ellipse at 18% -10%, rgba(214, 176, 140, 0.55), transparent 52%),
+      linear-gradient(180deg, #e2cbb6 0%, #f0e6da 48%, #fffdf9 100%) !important;
     box-shadow:
-      0 1px 0 rgba(255, 252, 246, 0.72) inset,
-      0 0 0 1px rgba(255, 244, 228, 0.28) inset,
-      0 12px 24px rgba(48, 32, 18, 0.1) !important;
+      0 1px 0 rgba(255, 255, 255, 0.78) inset,
+      0 12px 28px rgba(80, 52, 32, 0.1) !important;
     color: #1c1410 !important;
     text-align: left;
   }
