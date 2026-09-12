@@ -947,8 +947,8 @@ const goldcastPremiumStyles = `
     }
 
     .goldcastPage .goldcastYTTitle {
-      font-size: 18px !important;
-      letter-spacing: -0.04em !important;
+      font-size: 15px !important;
+      letter-spacing: -0.03em !important;
     }
   }
 
@@ -1068,11 +1068,11 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .goldcastCardShell {
-    flex: 0 0 min(72vw, 260px);
-    width: min(72vw, 260px);
-    max-width: 260px;
+    flex: 0 0 min(62vw, 212px);
+    width: min(62vw, 212px);
+    max-width: 212px;
     box-sizing: border-box;
-    padding: 8px 8px 18px;
+    padding: 6px 6px 14px;
     overflow: visible !important;
   }
 
@@ -1081,14 +1081,21 @@ const goldcastPremiumStyles = `
     flex: none !important;
     width: 100% !important;
     max-width: none !important;
-    min-height: 432px !important;
+    min-height: 348px !important;
+    border-radius: 16px !important;
   }
 
   @media (min-width: 901px) {
     .goldcastPage .goldcastCardShell {
-      flex-basis: 300px;
-      width: 300px;
-      max-width: 300px;
+      flex-basis: 252px;
+      width: 252px;
+      max-width: 252px;
+    }
+
+    .goldcastPage .goldcastCardShell .goldcastYTCard,
+    .goldcastPage .goldcastCardShell .goldcastSpotifyEpisodeCard {
+      min-height: 368px !important;
+      border-radius: 18px !important;
     }
   }
 
@@ -1110,7 +1117,7 @@ const goldcastPremiumStyles = `
     box-sizing: border-box !important;
     border: 0 !important;
     border-radius: inherit !important;
-    padding: 2px !important;
+    padding: 1.5px !important;
     pointer-events: none;
     background:
       linear-gradient(
@@ -1146,12 +1153,12 @@ const goldcastPremiumStyles = `
     .goldcastPage .goldcastYTTitle,
     .goldcastPage .goldcastYTCard h3,
     .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle {
-      font-size: 18px !important;
+      font-size: 15px !important;
     }
 
     .goldcastPage .goldcastYTDescription,
     .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
-      font-size: 13px !important;
+      font-size: 11px !important;
     }
   }
 
@@ -1200,50 +1207,52 @@ const goldcastPremiumStyles = `
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTCategory,
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTSubtitle {
     color: #b08a3c !important;
-    font-size: 10px !important;
+    font-size: 8px !important;
     font-weight: 800 !important;
-    letter-spacing: 0.14em !important;
+    letter-spacing: 0.12em !important;
   }
 
   main.goldcastPage .goldcastYTTitle,
   main.goldcastPage .goldcastYTCard h3,
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle {
     color: #16110c !important;
-    font-size: 18px !important;
+    font-size: 15px !important;
     font-weight: 600 !important;
-    line-height: 1.2 !important;
+    line-height: 1.22 !important;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    min-height: 2.4em;
+    min-height: 2.44em;
   }
 
   main.goldcastPage .goldcastYTDescription,
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
     color: #3a322c !important;
-    font-size: 13px !important;
-    line-height: 1.45 !important;
+    font-size: 11px !important;
+    line-height: 1.42 !important;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
   }
 
   main.goldcastPage .goldcastYTBody {
     display: flex !important;
     flex-direction: column;
     flex: 1 1 auto;
-    min-height: 168px;
+    min-height: 0;
+    padding: 10px 12px 12px !important;
   }
 
   main.goldcastPage .goldcastYTImage,
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTImage {
     overflow: hidden !important;
-    width: calc(100% - 28px) !important;
-    margin: 0 14px !important;
+    width: calc(100% - 20px) !important;
+    margin: 0 10px !important;
     aspect-ratio: 16 / 9 !important;
     flex: 0 0 auto;
+    border-radius: 10px !important;
   }
 
   main.goldcastPage .goldcastYTImage img {
@@ -1251,9 +1260,11 @@ const goldcastPremiumStyles = `
   }
 
   main.goldcastPage .goldcastYTTop {
-    color: #6f4e14 !important;
-    font-size: 11px !important;
+    color: #b08a3c !important;
+    font-size: 9px !important;
     font-weight: 800 !important;
+    min-height: 28px !important;
+    padding: 8px 12px 6px !important;
   }
 `;
 

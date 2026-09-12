@@ -45267,12 +45267,12 @@ html:has(.goldbookCompactPage) {
 
   .goldcastPage
   .goldcastYTTop {
-    min-height: 34px !important;
+    min-height: 28px !important;
 
     padding:
-      9px
-      13px
-      7px !important;
+      8px
+      12px
+      6px !important;
 
     display: flex !important;
     align-items: center !important;
@@ -45280,7 +45280,7 @@ html:has(.goldbookCompactPage) {
 
     color: #d2a552 !important;
 
-    font-size: 7px !important;
+    font-size: 9px !important;
     font-weight: 700 !important;
   }
 
