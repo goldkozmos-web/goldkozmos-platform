@@ -908,6 +908,7 @@
 
 .profilimGate--entry {
   isolation: isolate;
+  overflow: visible;
   width: min(100%, 20.5rem);
   margin: 4px auto 0;
   padding: 18px 18px 16px 20px;
