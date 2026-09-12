@@ -3753,13 +3753,13 @@ const goldBlogHubStyles = `
   .goldblogPage .goldBlogNewCardMeta,
   .goldblogPage .goldBlogNewCard:first-child .goldBlogNewCardMeta {
     margin-bottom: 8px !important;
-    color: rgba(246, 237, 216, 0.82) !important;
+    color: #5c4030 !important;
     font-size: 9px !important;
   }
 
   .goldblogPage .goldBlogNewCard > p,
   .goldblogPage .goldBlogNewCard:first-child > p {
-    color: #e2c67c !important;
+    color: #7a5428 !important;
     font-size: 8px !important;
     font-weight: 700 !important;
     letter-spacing: 0.12em !important;
@@ -3772,10 +3772,10 @@ const goldBlogHubStyles = `
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    color: #fff8ee !important;
+    color: #1c1410 !important;
     font-size: 13px !important;
     line-height: 1.22 !important;
-    font-weight: 500 !important;
+    font-weight: 550 !important;
     letter-spacing: -0.02em !important;
     -webkit-font-smoothing: antialiased;
   }
