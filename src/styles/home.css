@@ -45118,15 +45118,15 @@ html:has(.goldbookCompactPage) {
 
     margin: 0 !important;
 
-    color: #e0c07a !important;
+    color: #f3e0a4 !important;
 
     font-family: inherit !important;
 
-    font-size: 11px !important;
-    line-height: 1.2 !important;
+    font-size: 13px !important;
+    line-height: 1.25 !important;
 
-    letter-spacing: 0.18em !important;
-    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    font-weight: 800 !important;
     text-transform: uppercase !important;
   }
 
@@ -45343,11 +45343,11 @@ html:has(.goldbookCompactPage) {
       0
       6px !important;
 
-    color: #c89a47 !important;
+    color: #7a5818 !important;
 
-    font-size: 6.5px !important;
-    letter-spacing: 0.13em !important;
-    font-weight: 700 !important;
+    font-size: 9px !important;
+    letter-spacing: 0.1em !important;
+    font-weight: 800 !important;
   }
 
   .goldcastPage
@@ -45357,17 +45357,17 @@ html:has(.goldbookCompactPage) {
   h3 {
     margin: 0 !important;
 
-    color: #fffaf1 !important;
+    color: #16110c !important;
 
     font-family:
       Georgia,
       "Times New Roman",
       serif !important;
 
-    font-size: 19px !important;
-    line-height: 1.03 !important;
+    font-size: 18px !important;
+    line-height: 1.15 !important;
 
-    font-weight: 400 !important;
+    font-weight: 600 !important;
   }
 
   .goldcastPage
@@ -45384,11 +45384,10 @@ html:has(.goldbookCompactPage) {
   .goldcastYTDescription {
     margin-top: 7px !important;
 
-    color:
-      rgba(255, 250, 241, 0.62) !important;
+    color: #3f352c !important;
 
-    font-size: 8.5px !important;
-    line-height: 1.48 !important;
+    font-size: 13px !important;
+    line-height: 1.45 !important;
   }
 
   .goldcastPage
@@ -45543,15 +45542,15 @@ html:has(.goldbookCompactPage) {
 
     margin: 0 !important;
 
-    color: #a8792a !important;
+    color: #16110c !important;
 
     font-family: inherit !important;
 
-    font-size: 11px !important;
-    line-height: 1.2 !important;
+    font-size: 13px !important;
+    line-height: 1.25 !important;
 
-    letter-spacing: 0.18em !important;
-    font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
+    font-weight: 800 !important;
     text-transform: uppercase !important;
   }
 
@@ -45559,7 +45558,7 @@ html:has(.goldbookCompactPage) {
   .goldcastSpotifyArchiveHeader
   h2
   span {
-    color: #a77a2d !important;
+    color: #16110c !important;
   }
 
 

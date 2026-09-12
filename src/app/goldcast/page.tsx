@@ -1134,12 +1134,12 @@ const goldcastPremiumStyles = `
     .goldcastPage .goldcastYTTitle,
     .goldcastPage .goldcastYTCard h3,
     .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle {
-      font-size: 17px !important;
+      font-size: 18px !important;
     }
 
     .goldcastPage .goldcastYTDescription,
     .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
-      font-size: 11px !important;
+      font-size: 13px !important;
     }
   }
 
@@ -1148,6 +1148,67 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelDash,
   .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
     color: #16110c !important;
+  }
+
+  main.goldcastPage .goldcastSpotifyArchiveHeader h2,
+  main.goldcastPage .goldcastSpotifyArchiveHeader h2 span,
+  main.goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelDash,
+  main.goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
+    color: #16110c !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1.3 !important;
+    opacity: 1 !important;
+  }
+
+  main.goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
+    font-size: 12px !important;
+    text-decoration-thickness: 1.5px !important;
+  }
+
+  main.goldcastPage .goldcastYTHeader h2,
+  main.goldcastPage .goldcastYTHeader h2 span,
+  main.goldcastPage .goldcastYTHeader .goldcastChannelDash,
+  main.goldcastPage .goldcastYTHeader .goldcastChannelLink {
+    color: #f3e0a4 !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1.3 !important;
+    opacity: 1 !important;
+  }
+
+  main.goldcastPage .goldcastYTHeader .goldcastChannelLink {
+    font-size: 12px !important;
+  }
+
+  main.goldcastPage .goldcastYTCategory,
+  main.goldcastPage .goldcastYTSubtitle {
+    color: #6f4e14 !important;
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  main.goldcastPage .goldcastYTTitle,
+  main.goldcastPage .goldcastYTCard h3 {
+    color: #16110c !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    line-height: 1.18 !important;
+  }
+
+  main.goldcastPage .goldcastYTDescription {
+    color: #3a322c !important;
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+
+  main.goldcastPage .goldcastYTTop {
+    color: #6f4e14 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
   }
 `;
 
