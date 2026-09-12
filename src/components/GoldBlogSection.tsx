@@ -3893,6 +3893,90 @@ const goldBlogHubStyles = `
     overflow: visible !important;
   }
 
+  .goldblogPage .goldBlogMiniBackdrop {
+    z-index: 100050 !important;
+    padding: 28px 16px calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+    background: rgba(18, 12, 8, 0.52) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  .goldblogPage .goldBlogMiniPaper {
+    width: min(400px, 100%) !important;
+    max-height: min(76dvh, 620px) !important;
+    padding: 20px 16px 18px !important;
+    border: 1px solid rgba(255, 255, 255, 0.72) !important;
+    border-radius: 22px !important;
+    background: #ffffff !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 1) inset,
+      0 18px 40px rgba(20, 12, 8, 0.18),
+      0 40px 70px rgba(20, 12, 8, 0.16) !important;
+  }
+
+  .goldblogPage .goldBlogMiniTop {
+    margin-bottom: 14px !important;
+    align-items: center !important;
+  }
+
+  .goldblogPage .goldBlogMiniTop p {
+    color: #c4a056 !important;
+    font-size: 8px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  .goldblogPage .goldBlogMiniTop h2 {
+    color: #16110c !important;
+    font-size: 24px !important;
+    letter-spacing: -0.04em !important;
+    line-height: 1.1 !important;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .goldblogPage .goldBlogMiniClose {
+    width: 34px !important;
+    height: 34px !important;
+    border: 1px solid rgba(196, 160, 86, 0.38) !important;
+    background:
+      linear-gradient(180deg, #fffdf8, #f4eadc) !important;
+    color: #6a4a28 !important;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset !important;
+  }
+
+  .goldblogPage .goldBlogMiniList {
+    gap: 8px !important;
+  }
+
+  .goldblogPage .goldBlogMiniItem {
+    padding: 13px 14px 12px !important;
+    border: 1px solid rgba(40, 28, 16, 0.06) !important;
+    border-radius: 14px !important;
+    background: #fffdf9 !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 6px 14px rgba(48, 32, 18, 0.04) !important;
+  }
+
+  .goldblogPage .goldBlogMiniItem p {
+    color: #c4a056 !important;
+    font-size: 8px !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  .goldblogPage .goldBlogMiniItem strong {
+    color: #16110c !important;
+    font-size: 15px !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  .goldblogPage .goldBlogMiniItem span {
+    color: #7a7066 !important;
+    font-size: 11px !important;
+  }
+
 `;
 
 const canonicalGoldBlogUrl =
