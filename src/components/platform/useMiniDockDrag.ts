@@ -124,6 +124,7 @@ export function useMiniDockDrag(active: boolean) {
       }
 
       if (bubble) {
+        suppressClickRef.current = true;
         setBubble(false);
       }
     },
