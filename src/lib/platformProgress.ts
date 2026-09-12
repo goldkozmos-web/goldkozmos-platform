@@ -75,6 +75,19 @@ export function upsertProgressEntry(
   return next;
 }
 
+export function resetProgressEntry(
+  map: PlatformProgressMap,
+  entry: PlatformProgress,
+): PlatformProgressMap {
+  return upsertProgressEntry(map, {
+    ...entry,
+    progress: 0,
+    currentTime: 0,
+    status: "idle",
+    lastPlayedAt: new Date().toISOString(),
+  });
+}
+
 function isResumeCandidate(item: PlatformProgress) {
   return item.progress > 0 || (Number(item.currentTime) || 0) > 0;
 }
