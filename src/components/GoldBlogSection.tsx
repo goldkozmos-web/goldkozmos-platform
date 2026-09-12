@@ -3720,11 +3720,44 @@ const goldBlogHubStyles = `
   .goldblogPage .goldBlogCategoryCard:hover,
   .goldblogPage .goldBlogCategoryCard.isActive {
     overflow: hidden !important;
-    border: 1px solid rgba(196, 160, 86, 0.28) !important;
+    border: 1px solid rgba(196, 160, 86, 0.38) !important;
+    background-image:
+      radial-gradient(ellipse at 18% -8%, rgba(255, 248, 236, 0.42), transparent 44%),
+      linear-gradient(180deg, #f3e6d4 0%, #e2c48c 24%, #c4a056 48%, #8b5234 76%, #3f2418 100%) !important;
     box-shadow:
-      0 1px 0 rgba(255, 240, 220, 0.1) inset,
+      0 1px 0 rgba(255, 244, 220, 0.28) inset,
       0 2px 6px rgba(24, 14, 8, 0.12),
       0 18px 36px rgba(24, 14, 8, 0.16) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="spirituel-stoa"] {
+    background-image:
+      radial-gradient(ellipse at 18% -8%, rgba(255, 248, 236, 0.38), transparent 44%),
+      linear-gradient(180deg, #f0e2d0 0%, #dcc49a 26%, #c4a056 50%, #7a4a30 78%, #3a2016 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="iliski-rezonansi"] {
+    background-image:
+      radial-gradient(ellipse at 18% -8%, rgba(255, 248, 236, 0.4), transparent 44%),
+      linear-gradient(180deg, #f6ead8 0%, #e6c8a0 26%, #c4a056 50%, #8d5a38 78%, #4a2818 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="kendilik-rezonansi"] {
+    background-image:
+      radial-gradient(ellipse at 18% -8%, rgba(255, 250, 240, 0.42), transparent 44%),
+      linear-gradient(180deg, #f4e8d4 0%, #e8d09a 24%, #d4b56a 48%, #8b6238 76%, #3d2a14 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="bolluk-rezonansi"] {
+    background-image:
+      radial-gradient(ellipse at 18% -8%, rgba(255, 248, 230, 0.4), transparent 44%),
+      linear-gradient(180deg, #f7ecd8 0%, #e2c48c 26%, #c4a056 50%, #9a6238 78%, #4a2c14 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="goldkozmos-gunlugu"] {
+    background-image:
+      radial-gradient(ellipse at 18% -8%, rgba(255, 246, 238, 0.38), transparent 44%),
+      linear-gradient(180deg, #f2e0d0 0%, #d4b08a 26%, #c4a056 50%, #7a3e2c 78%, #3a1814 100%) !important;
   }
 
   .goldblogPage {
@@ -3745,11 +3778,14 @@ const goldBlogHubStyles = `
     padding: 12px 13px 13px !important;
     border: 1.5px solid transparent !important;
     border-radius: 16px !important;
-    background:
-      linear-gradient(#ffffff, #ffffff) padding-box,
-      linear-gradient(145deg, #f0dc9a 0%, #c4a056 42%, #8d6a28 78%, #e2c67c 100%) border-box !important;
+    background-image:
+      radial-gradient(ellipse at 18% -6%, rgba(255, 253, 248, 0.95) 0%, rgba(255, 253, 248, 0) 46%),
+      linear-gradient(168deg, #fff9f1 0%, #f4e4ce 22%, #e4c894 42%, #c4a056 62%, #8b5234 82%, #5a321c 100%),
+      linear-gradient(145deg, #f0dc9a 0%, #c4a056 42%, #8d6a28 78%, #e2c67c 100%);
+    background-origin: padding-box, padding-box, border-box !important;
+    background-clip: padding-box, padding-box, border-box !important;
     box-shadow:
-      0 1px 0 rgba(255, 252, 240, 0.7) inset,
+      0 1px 0 rgba(255, 252, 244, 0.8) inset,
       0 1px 2px rgba(72, 46, 28, 0.05),
       0 6px 14px rgba(72, 46, 28, 0.06),
       0 18px 34px rgba(72, 46, 28, 0.07) !important;
@@ -3863,29 +3899,14 @@ const goldBlogHubStyles = `
     -webkit-font-smoothing: antialiased;
   }
 
+  .goldblogPage .goldBlogCategoryCard.isActive > p {
+    color: #d4b56a !important;
+    -webkit-text-fill-color: #d4b56a !important;
+  }
+
   .goldblogPage .goldBlogCategoryCard small {
     color: rgba(246, 237, 216, 0.88) !important;
     line-height: 1.45 !important;
-  }
-
-  .goldblogPage .goldBlogCategoryCard[data-category-key="spirituel-stoa"] {
-    background: linear-gradient(180deg, #2c1c14 0%, #1a120c 100%) !important;
-  }
-
-  .goldblogPage .goldBlogCategoryCard[data-category-key="iliski-rezonansi"] {
-    background: linear-gradient(180deg, #3d281c 0%, #27180f 100%) !important;
-  }
-
-  .goldblogPage .goldBlogCategoryCard[data-category-key="kendilik-rezonansi"] {
-    background: linear-gradient(180deg, #322a18 0%, #1e1a10 100%) !important;
-  }
-
-  .goldblogPage .goldBlogCategoryCard[data-category-key="bolluk-rezonansi"] {
-    background: linear-gradient(180deg, #3f3218 0%, #2a220e 100%) !important;
-  }
-
-  .goldblogPage .goldBlogCategoryCard[data-category-key="goldkozmos-gunlugu"] {
-    background: linear-gradient(180deg, #321c18 0%, #1c100e 100%) !important;
   }
 
   .goldblogPage .goldBlogSection,
