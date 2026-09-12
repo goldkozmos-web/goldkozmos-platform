@@ -344,7 +344,7 @@ const desktopSpotifyStyles = `
 
     .goldcastPage .goldcastSpotifyArchiveHeader h2 {
       margin: 0;
-      color: #a8792a;
+      color: #16110c;
       font-family: inherit;
       font-size: 12px;
       font-weight: 700;
@@ -354,7 +354,7 @@ const desktopSpotifyStyles = `
     }
 
     .goldcastPage .goldcastSpotifyArchiveHeader h2 span {
-      color: #a8792a;
+      color: #16110c;
       font: inherit;
     }
 
@@ -872,7 +872,7 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastSpotifyArchiveHeader h2,
   .goldcastPage .goldcastSpotifyArchiveHeader h2 span {
     max-width: none !important;
-    color: #a8792a !important;
+    color: #16110c !important;
     font-family: inherit !important;
     font-size: 11px !important;
     font-weight: 700 !important;
@@ -989,6 +989,7 @@ const goldcastPremiumStyles = `
     overflow: visible !important;
     border: 0 !important;
     background: #ffffff !important;
+    position: relative;
     box-shadow:
       0 8px 18px rgba(48, 28, 12, 0.10),
       0 18px 32px rgba(48, 28, 12, 0.12) !important;
@@ -1140,6 +1141,11 @@ const goldcastPremiumStyles = `
     .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
       font-size: 11px !important;
     }
+  }
+
+  .goldcastPage .goldcastSpotifyArchiveHeader h2,
+  .goldcastPage .goldcastSpotifyArchiveHeader h2 span {
+    color: #16110c !important;
   }
 `;
 
