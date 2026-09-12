@@ -729,6 +729,10 @@
 }
 
 @media (max-width: 700px) {
+  body:has(.profilimPage) {
+    padding-bottom: 0;
+  }
+
   .profilimPage {
     padding-bottom: 0;
   }
