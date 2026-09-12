@@ -771,7 +771,7 @@ const goldcastPremiumStyles = `
 
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
-    color: #9a7428 !important;
+    color: #b08a3c !important;
     letter-spacing: -0.015em !important;
     line-height: 1.28 !important;
   }
@@ -817,7 +817,7 @@ const goldcastPremiumStyles = `
 
   .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle,
   .goldcastPage .goldcastSpotifyEpisodeCard h3 {
-    color: #9a7428 !important;
+    color: #b08a3c !important;
     letter-spacing: -0.015em !important;
     line-height: 1.28 !important;
   }
@@ -1379,6 +1379,7 @@ export default function GoldCastPage() {
       youtubeId,
       artworkUrl: episode.thumbnail,
       description: episode.description,
+      resume: false,
     });
   };
 

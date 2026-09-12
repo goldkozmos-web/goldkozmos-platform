@@ -86,7 +86,8 @@ export function capTimeToWallClock(input: {
     return undefined;
   }
 
-  const elapsed = Math.max(0, (nowMs - openedAtMs) / 1000);
+  const opened = openedAtMs > 0 ? openedAtMs : nowMs;
+  const elapsed = Math.max(0, (nowMs - opened) / 1000);
   const start = Math.max(0, Number.isFinite(startAt) ? startAt : 0);
 
   if (elapsed < 6 && playerTime + 2 < start) {
@@ -100,6 +101,35 @@ export function capTimeToWallClock(input: {
   }
 
   return Math.min(playerTime, cap);
+}
+
+/** YouTube IFrame API clocks are seconds, not milliseconds. */
+export function secondsFromYoutubeClock(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    return undefined;
+  }
+
+  if (value > MAX_EPISODE_SECONDS) {
+    return value / 1000;
+  }
+
+  return value;
+}
+
+/** Only resume into a recording when we know its real length. */
+export function youtubeResumeStart(
+  startAt: number,
+  durationSeconds: number,
+): number {
+  if (!isTrustedDuration(durationSeconds) || startAt < 2) {
+    return 0;
+  }
+
+  if (startAt >= durationSeconds - 8) {
+    return 0;
+  }
+
+  return Math.min(startAt, Math.max(0, durationSeconds - 1));
 }
 
 /** Keep a plausible episode length; ignore tiny / preview clocks that inflate %. */

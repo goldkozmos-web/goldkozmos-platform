@@ -11,7 +11,18 @@ import {
   progressFromPlayback,
   secondsFromPlayerClock,
   secondsFromSpotifyClock,
+  secondsFromYoutubeClock,
+  youtubeResumeStart,
 } from "../src/lib/mediaTime.ts";
+
+test("YouTube clocks stay in seconds and resume only with a real duration", () => {
+  assert.equal(secondsFromYoutubeClock(1_847.4), 1847.4);
+  assert.equal(youtubeResumeStart(5_000, 0), 0);
+  assert.equal(youtubeResumeStart(240, 1_847), 240);
+  assert.equal(youtubeResumeStart(1_840, 1_847), 0);
+  assert.equal(resumeOffset(5_000, 0), 0);
+  assert.equal(resumeOffset(40, 3.6), 40);
+});
 test("wall clock blocks millisecond clocks that look like seconds", () => {
   const openedAtMs = 1_000_000;
   assert.equal(

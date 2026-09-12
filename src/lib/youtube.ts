@@ -10,6 +10,7 @@ export function youtubeEmbedSrc(
   id: string,
   autoplay = true,
   startSeconds = 0,
+  durationSeconds = 0,
 ) {
   const params = new URLSearchParams({
     autoplay: autoplay ? "1" : "0",
@@ -20,8 +21,14 @@ export function youtubeEmbedSrc(
   });
 
   const start = Math.floor(Math.max(0, startSeconds));
+  const duration = Math.floor(Math.max(0, durationSeconds));
 
-  if (start > 1 && start < 4 * 60 * 60) {
+  if (
+    start > 1 &&
+    start < 4 * 60 * 60 &&
+    duration >= 90 &&
+    start < duration - 8
+  ) {
     params.set("start", String(start));
   }
 

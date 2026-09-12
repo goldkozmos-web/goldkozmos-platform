@@ -18,11 +18,13 @@ import {
 } from "../../data/platformFlow";
 import {
   capTimeToWallClock,
+  isTrustedDuration,
   mergePlaybackFields,
   normalizePlaybackClocks,
   pickTrustedDuration,
-  secondsFromPlayerClock,
+  secondsFromYoutubeClock,
   sanitizeStoredSeconds,
+  youtubeResumeStart,
 } from "../../lib/mediaTime";
 import {
   getLatestProgress,
@@ -82,6 +84,7 @@ type StartYoutubeInput = {
   youtubeId: string;
   description?: string;
   artworkUrl?: string;
+  resume?: boolean;
 };
 
 type StartSpotifyInput = {
@@ -125,6 +128,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const durationRef = useRef(0);
   const clockGuardRef = useRef({ wall: 0, time: 0 });
   const playOpenedAtRef = useRef(0);
+  const pendingSeekRef = useRef(0);
   const [items, setItems] = useState<PlatformProgressMap>({});
   const [session, setSession] = useState<PlaybackSession | null>(null);
   const [minimized, setMinimized] = useState(false);
@@ -288,11 +292,16 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     const existing = items[progressKey(input.platform, input.contentId)] ?? null;
     const storedDuration = sanitizeStoredSeconds(existing?.durationSeconds);
-    const startAt = resumeOffset(
-      sanitizeStoredSeconds(existing?.currentTime, storedDuration || undefined),
-      storedDuration,
-    );
+    const resumeAt =
+      input.resume === false
+        ? 0
+        : resumeOffset(
+            sanitizeStoredSeconds(existing?.currentTime, storedDuration || undefined),
+            storedDuration,
+          );
+    const startAt = youtubeResumeStart(resumeAt, storedDuration);
     embedStartRef.current = startAt;
+    pendingSeekRef.current = resumeAt;
     clockGuardRef.current = { wall: Date.now(), time: startAt };
     playOpenedAtRef.current = Date.now();
 
@@ -530,15 +539,37 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
       if (data.event === "infoDelivery" && info && typeof info === "object") {
         const trusted = durationRef.current;
-        const length = secondsFromPlayerClock(info.duration, trusted);
-        if (length != null) {
+        const extra = info as {
+          duration?: number;
+          currentTime?: number;
+          playerState?: number;
+          videoData?: { lengthSeconds?: number; length_seconds?: number };
+        };
+        const length = secondsFromYoutubeClock(
+          extra.duration ??
+            extra.videoData?.lengthSeconds ??
+            extra.videoData?.length_seconds,
+        );
+        if (length != null && isTrustedDuration(length)) {
           setDuration((current) => pickTrustedDuration(current, length));
+          durationRef.current = pickTrustedDuration(trusted, length);
+
+          const resumeAt = youtubeResumeStart(
+            pendingSeekRef.current,
+            length,
+          );
+          if (resumeAt > 1 && Math.abs(resumeAt - embedStartRef.current) > 2) {
+            pendingSeekRef.current = 0;
+            embedStartRef.current = resumeAt;
+            playOpenedAtRef.current = Date.now();
+            sendYoutubeCommand(youtubeRef.current, "seekTo", [resumeAt, true]);
+            setCurrentTime(resumeAt);
+          } else {
+            pendingSeekRef.current = 0;
+          }
         }
 
-        const time = secondsFromPlayerClock(
-          info.currentTime,
-          length ?? trusted,
-        );
+        const time = secondsFromYoutubeClock(extra.currentTime);
         if (time != null) {
           const next = capTimeToWallClock({
             playerTime: time,
@@ -547,18 +578,21 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             nowMs: Date.now(),
           });
           if (next != null) {
-            setCurrentTime(next);
-            clockGuardRef.current = { wall: Date.now(), time: next };
+            const cap = durationRef.current;
+            const clamped =
+              isTrustedDuration(cap) ? Math.min(next, cap) : next;
+            setCurrentTime(clamped);
+            clockGuardRef.current = { wall: Date.now(), time: clamped };
           }
         }
 
-        if (typeof info.playerState === "number") {
+        if (typeof extra.playerState === "number") {
           if (
-            info.playerState === 0 &&
-            embedStartRef.current > 2 &&
-            Date.now() - playOpenedAtRef.current < 6000
+            extra.playerState === 0 &&
+            Date.now() - playOpenedAtRef.current < 8000
           ) {
             embedStartRef.current = 0;
+            pendingSeekRef.current = 0;
             playOpenedAtRef.current = Date.now();
             clockGuardRef.current = { wall: Date.now(), time: 0 };
             setCurrentTime(0);
@@ -568,7 +602,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             return;
           }
 
-          setIsPlaying(info.playerState === 1);
+          setIsPlaying(extra.playerState === 1);
         }
       }
     }
@@ -802,6 +836,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
               session.youtubeId,
               true,
               embedStartRef.current,
+              session.durationSeconds ?? duration,
             )}
             title={session.title}
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen"

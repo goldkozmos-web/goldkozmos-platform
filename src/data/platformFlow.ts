@@ -144,5 +144,6 @@ export function resumeOffset(currentTime?: number, durationSeconds?: number) {
     return Math.min(time, Math.max(0, duration - 1));
   }
 
-  return time;
+  // Without a real duration, do not skip minutes into the recording.
+  return time >= 90 ? 0 : time;
 }
