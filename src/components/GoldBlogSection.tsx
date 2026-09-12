@@ -3749,10 +3749,8 @@ const goldBlogHubStyles = `
 
   .goldblogPage {
     background:
-      radial-gradient(ellipse 92% 58% at 12% -12%, rgba(204, 162, 122, 0.7), transparent 56%),
-      radial-gradient(ellipse 78% 48% at 94% 6%, rgba(168, 130, 104, 0.34), transparent 50%),
-      radial-gradient(ellipse 70% 42% at 50% 108%, rgba(255, 252, 248, 0.95), transparent 52%),
-      linear-gradient(180deg, #c9b096 0%, #deccba 30%, #eee5d9 58%, #f6f1ea 82%, #fcfaf6 100%) !important;
+      radial-gradient(circle at 8% 0%, rgba(201, 155, 68, 0.08), transparent 28%),
+      linear-gradient(180deg, #fffdf9 0%, #f7f1e6 100%) !important;
   }
 
   .goldblogPage .goldBlogNewCard,
