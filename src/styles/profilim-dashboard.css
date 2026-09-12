@@ -907,62 +907,81 @@
 }
 
 .profilimGate--entry {
+  isolation: isolate;
   width: min(100%, 20.5rem);
   margin: 4px auto 0;
-  padding: 15px 16px 14px 17px;
-  border: 1px solid rgba(32, 22, 12, 0.1);
-  border-radius: 16px;
-  background: #ffffff;
+  padding: 18px 18px 16px 20px;
+  border: 1px solid rgba(168, 128, 52, 0.28);
+  border-radius: 18px;
+  background:
+    linear-gradient(165deg, #ffffff 0%, #fffefb 48%, #f7f1e6 100%);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.95) inset,
-    0 1px 2px rgba(40, 28, 16, 0.05),
-    0 12px 28px rgba(40, 28, 16, 0.1),
-    0 28px 48px rgba(40, 28, 16, 0.08);
+    0 0 0 1px rgba(255, 252, 246, 0.7) inset,
+    0 2px 3px rgba(48, 32, 18, 0.05),
+    0 14px 28px rgba(48, 32, 18, 0.1),
+    0 32px 56px rgba(48, 32, 18, 0.08);
 }
 
 .profilimGate--entry::before {
-  top: 12px;
-  bottom: 12px;
+  top: 14px;
+  bottom: 14px;
   width: 2px;
+  background: linear-gradient(180deg, #e2c67c, #c4a056 55%, #8d6a28);
+  box-shadow: 0 0 10px rgba(196, 160, 86, 0.28);
+}
+
+.profilimGate--entry::after {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(184, 140, 62, 0.16);
+  border-radius: 12px;
+  pointer-events: none;
+  content: "";
 }
 
 .profilimGate--entry .profilimGateEyebrow {
   font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #b08a3c;
+  letter-spacing: 0.2em;
+  color: #c4a056;
 }
 
 .profilimGate--entry h1 {
-  margin: 7px 0 0;
+  margin: 8px 0 0;
+  color: #16110c;
   font-size: clamp(22px, 6vw, 26px);
   line-height: 1.08;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.45px;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
 }
 
 .profilimGate--entry h1 span {
-  color: #b08a3c;
+  color: #c4a056;
 }
 
 .profilimGate--entry .profilimGateLead {
   max-width: 28em;
-  margin: 8px 0 0;
+  margin: 9px 0 0;
   font-size: 12px;
-  line-height: 1.45;
-  color: #6f675f;
+  line-height: 1.5;
+  color: #5e574f;
 }
 
 .profilimGate--entry .profilimGateMotto {
   gap: 10px;
-  margin-top: 12px;
+  margin-top: 13px;
 }
 
 .profilimGate--entry .profilimGateMotto > span {
-  width: 32px;
+  width: 36px;
+  background: linear-gradient(90deg, #c4a056, rgba(196, 160, 86, 0.12));
 }
 
 .profilimGate--entry .profilimGateMotto > small {
   font-size: 11px;
+  color: #b08a3c;
 }
 
 .profilimGate--entry .profilimGoogleWrap {
