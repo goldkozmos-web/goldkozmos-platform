@@ -1109,6 +1109,103 @@
   color: #8d6728;
 }
 
+.duyguRehberiLead {
+  margin: 0 0 4px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #3a2c22;
+}
+
+.duyguRehberiPdfCard {
+  padding: 14px 14px 12px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 16px;
+  background: #fffaf1;
+}
+
+.duyguRehberiPdfCard small {
+  display: block;
+}
+
+.duyguRehberiPdfCard .profilimPdfActions span {
+  color: #b7aa9a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.duyguRehberiOutline,
+.duyguRehberiFamilies,
+.duyguRehberiChildren {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.duyguRehberiOutline {
+  display: grid;
+  gap: 8px;
+}
+
+.duyguRehberiOutline li {
+  padding: 10px 12px;
+  border: 1px solid rgba(176, 130, 48, 0.16);
+  border-radius: 12px;
+  background: #fffdf8;
+  color: #221812;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.duyguRehberiFamilies {
+  display: grid;
+  gap: 8px;
+}
+
+.duyguRehberiFamily {
+  width: 100%;
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 16px;
+  background: #fffaf1;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.duyguRehberiFamily.isOpen {
+  border-color: rgba(158, 114, 36, 0.55);
+  background: linear-gradient(180deg, #f7ead3, #efe0c8);
+}
+
+.duyguRehberiFamily strong {
+  color: #221812;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.duyguRehberiFamily span {
+  color: #8a8176;
+  font-size: 12px;
+}
+
+.duyguRehberiChildren {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 2px 4px;
+}
+
+.duyguRehberiChildren li {
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(212, 176, 106, 0.18);
+  color: #7a5720;
+  font-size: 12px;
+}
+
 @media (max-width: 640px) {
   .profilimRegisterRow {
     grid-template-columns: 1fr;

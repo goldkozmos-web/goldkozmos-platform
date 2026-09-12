@@ -154,6 +154,7 @@ export type ProfilimDrawerId =
   | "inbox"
   | "suggest"
   | "emotionJournal"
+  | "duyguRehberi"
   | "activityHistory"
   | "todos";
 
