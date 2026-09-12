@@ -1,6 +1,9 @@
-import { TAROT_DECK } from "./deck";
+import { TAROT_DECK as RAW_DECK } from "./deck";
+import { attachReading } from "./essence";
 import type { TarotCard } from "./types";
 import { foldTurkish } from "../../lib/ruya-tabirleri/search";
+
+export const TAROT_DECK: TarotCard[] = RAW_DECK.map(attachReading);
 
 export function tarotBySlug(slug: string) {
   return TAROT_DECK.find((card) => card.slug === slug) ?? null;

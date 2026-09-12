@@ -5,9 +5,9 @@ export default function TarotSeoCopy() {
       <p>
         Tarot bakımı, kartların sembolik dilinden mevcut enerjiyi okumaktır.
         GoldKozmos yaklaşımında tarot, korku veya kesin gelecek vaadi üretmez.
-        Kartlar; bağ, emek, karar ve içsel ritim gibi alanlarda şu an hangi
-        dinamiklerin çalıştığını görünür kılar. Online tarot bakımı da aynı
-        dilde ilerler: konunu seçer, kartlarını çeker ve yorumu o anki enerji
+        Kartlar; bağ, emek, karar ve içsel yön gibi alanlarda şu an hangi
+        hâlin önde durduğunu görünür kılar. Online tarot bakımı da aynı
+        dilde ilerler: konunu seçer, kartlarını çeker ve yorumu o anki hâlin
         üzerinden okursun.
       </p>
       <p>
@@ -36,28 +36,26 @@ export default function TarotSeoCopy() {
       <p>
         Tarot yorumu, kartı tek bir cümleye hapsetmeden pozisyon, konu ve kartlar
         arası ilişkiyle okumaktır. Aynı Güneş kartı genel enerjide netlik, aşkta
-        görünür bir bağ, kariyerde ise emeğin ışığa çıkması tonunda durabilir.
+        görünür bir bağ, kariyerde ise emeğin ışığa çıkması olarak durabilir.
         GoldKozmos yorumu spiritüel, sembolik, sezgisel ve enerjiseldir.
         Psikolojik analiz eklemez. Kesin olacak, kesin evleneceksiniz, kesin
         geri dönecek gibi cümleler kullanmaz.
       </p>
       <h2>Aşk Tarot Bakımı</h2>
       <p>
-        Aşk tarot bakımı, ilişkinin mevcut enerjisini, bağın veya karşı tarafın
-        alanında dolaşan titreşimi ve olası yönü birlikte gösterir. Bu, karşı
-        tarafın kesin düşüncesini ele geçirmek değildir. Kartlar, bağdaki ritim
-        ve ilerleme potansiyeli hakkında bir ayna tutar. Onun düşünceleri ve
-        duyguları konusu da aynı özenle, niyet ilanı değil iklim okuması olarak
-        ele alınır.
+        Aşk tarot bakımı, senin bu bağdaki duruşunu, karşı tarafta dolaşan hâli
+        ve olası yönü birlikte gösterir. Bu, karşı tarafın kesin düşüncesini ele
+        geçirmek değildir. Kartlar, bağın nasıl ilerlediği ve nereye kayabileceği
+        hakkında bir ayna tutar. Onun düşünceleri ve duyguları konusu da aynı
+        özenle, niyet ilanı değil katman katman bir okuma olarak ele alınır.
       </p>
       <h2>Tarot Bakımında Gelecek Nasıl Yorumlanır?</h2>
       <p>
         Tarot bakımında gelecek, kilitlenmiş bir senaryo değildir. Kartların
-        gösterdiği olası yön, mevcut dinamikler bu ritimde sürerse açılabilecek
-        bir yoldur. Enerji değişirse yön de değişir. Bu yüzden yorum “şu anki
-        dinamikler” ve “bu yönde ilerleme potansiyeli” dilinde kalır. Geleceği
-        zorlamak yerine, bakımın gösterdiği eşiği fark etmek daha dürüst bir
-        okumadır.
+        gösterdiği olası yön, şu anki hâl böyle sürerse açılabilecek bir yoldur.
+        Hâl değişirse yön de değişir. Bu yüzden yorum “kesin olacak” değil,
+        “bu yönde ilerleme potansiyeli” dilinde kalır. Geleceği zorlamak yerine,
+        bakımın gösterdiği eşiği fark etmek daha dürüst bir okumadır.
       </p>
       <h2>Kişisel Tarot Bakımı</h2>
       <p>

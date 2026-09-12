@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-import { TAROT_DECK } from "../../data/tarot/deck";
+import { TAROT_DECK } from "../../data/tarot/catalog";
 import { TAROT_TOPICS, type TarotCard, type TarotTopicId } from "../../data/tarot/types";
 import {
   cardPositionReading,
@@ -32,6 +32,22 @@ export default function TarotReading() {
         .filter((item): item is TarotCard => Boolean(item)),
     [slugs],
   );
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const topicParam = params.get("topic");
+    const cardsParam = params.get("cards");
+    if (!topicParam || !cardsParam) return;
+    if (!topicById(topicParam)) return;
+    const nextSlugs = cardsParam
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    if (nextSlugs.length !== 3) return;
+    setTopic(topicParam as TarotTopicId);
+    setSlugs(nextSlugs);
+    setStep("result");
+  }, []);
 
   async function draw() {
     if (!topic) return;

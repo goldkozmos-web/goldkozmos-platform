@@ -67,4 +67,12 @@ export type TarotCard = {
   related: string[];
   topics: Record<TarotTopicId, string>;
   blend: string;
+  generalMeaning?: string;
+  loveMeaning?: string;
+  feelingsMeaning?: string;
+  thoughtsMeaning?: string;
+  actionMeaning?: string;
+  careerMeaning?: string;
+  adviceMeaning?: string;
+  futurePotential?: string;
 };

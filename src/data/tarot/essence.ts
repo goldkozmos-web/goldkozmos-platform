@@ -1,3 +1,5 @@
+import type { TarotCard } from "./types";
+
 export type CardTone =
   | "warm"
   | "open"
@@ -36,6 +38,8 @@ export type CardEssence = {
   move: string;
   love: string;
   work: string;
+  adviceMeaning?: string;
+  futurePotential?: string;
   tones: CardTone[];
 };
 
@@ -93,11 +97,15 @@ export const CARD_ESSENCE: Record<string, CardEssence> = {
   aziz: {
     meaning:
       "Aziz, gelenek, aidiyet ve onaylanmış bir yolu anlatır. Öğreti, ritüel veya ‘doğru bulunan’ bağ biçimi öne çıkar.",
-    mind: "Zihni ‘nasıl olmalı’ çerçevesinde dolaşıyor olabilir. Aile, çevre veya alışılmış değerler düşüncesini etkiliyor olabilir.",
-    heart: "Duyguda samimiyet olsa da aidiyet ve onay arayışı karışmış olabilir. His, meşru ve kabul gören bir forma çekilmek isteyebilir.",
-    move: "Resmiyet, tanışma, söz veya geleneksel bir adım eğilimi olabilir. Kaotik bir hamleden çok onaylı yol seçilebilir.",
-    love: "İlişkide ciddiyet, değerler ve ‘bu bağın bir çerçevesi olsun’ hali konuşur. Flörtten çok anlam aranıyor olabilir.",
-    work: "Kurum, mentor, doğru kanal veya yerleşik yöntem öne çıkar. Tek başına uçmak değil, aidiyetle ilerlemek vardır.",
+    mind: "Zihni ‘nasıl olmalı’, ‘bu doğru mu’, ‘çevrem ne der’ soruları etrafında dolaşıyor olabilir. Aile, inanç veya alışılmış değerler düşüncesini etkiliyor olabilir. Karar, anlık hevesten çok meşru ve anlamlı bir çerçeve arıyor olabilir.",
+    heart: "Duyguda samimiyet olsa da aidiyet, güven ve onay arayışı karışmış olabilir. His, flörtün ötesinde ‘bu bağın bir yeri olsun’ ihtiyacına çekiliyor olabilir. Kalp, kaotik bir çekimden çok durulmuş bir bağlılık ister.",
+    move: "Resmiyet, tanışma, söz, aileye açılma veya daha geleneksel bir adım eğilimi olabilir. Kaotik bir hamleden çok, onaylı ve ciddi bir yol seçilebilir. Acele tutkudan çok duruş önemlidir.",
+    love: "İlişkide ciddiyet, değerler, güven, bağlılık veya bağın belirli bir çerçeveye oturma ihtiyacı öne çıkabilir. Taraflardan biri ilişkiye daha geleneksel veya ciddi yaklaşmak istiyor olabilir. Bu kart, bağın yüzeysel bir etkileşimden ziyade ‘bu ilişkinin yeri ne?’ sorusunu gündeme getirebileceğini anlatır. Evlilik kehaneti değildir; anlam ve sınır arayışıdır.",
+    work: "Kurum, mentor, doğru kanal veya yerleşik yöntem öne çıkar. Tek başına uçmak değil, aidiyetle ve kuralı olan bir yolla ilerlemek vardır. İtibar ve doğru kapı, rastgele fırsattan daha güçlü durur.",
+    adviceMeaning:
+      "Kendi değerlerinle çelişen bir bağ veya iş yolunu ‘olur böyle’ diye geçiştirme. Çerçevenin ne olduğunu netleştir. Ciddiyet, baskı değil; duruştur.",
+    futurePotential:
+      "Süreç olgunlaşırsa daha resmi, daha tanımlı veya daha aidiyetli bir yapıya kayabilir. Bu, acele bir taahhüt değil; bağın veya işin meşru bir zemine oturma potansiyelidir.",
     tones: ["commit", "stable", "choice"],
   },
   asiklar: {
@@ -706,12 +714,16 @@ export const CARD_ESSENCE: Record<string, CardEssence> = {
   },
   "tilsim-uclusu": {
     meaning:
-      "Tılsım Üçlüsü, ustalığı, ekip emeğini ve işin kalitesini anlatır.",
-    mind: "Zihni ‘bunu iyi yapalım’ ve birlikte üretme üzerine duruyor olabilir.",
-    heart: "Emeğe saygı ve ortak gurur duruyor olabilir.",
-    move: "İşbirliği, somut üretim ve görünür emek eğilimi olabilir.",
-    love: "İlişkide birlikte inşa etmek konuşur. Sadece his değil, ortak iş vardır.",
-    work: "Zanaat, ekip ve kaliteli çıktı öne çıkar.",
+      "Tılsım Üçlüsü, ustalığı, birlikte emeği ve işin kalitesini anlatır. Bir şey tek başına değil, omuz omuza inşa edilir.",
+    mind: "Zihni ‘bunu birlikte iyi yapalım’, plan, rol paylaşımı ve somut ilerleme üzerine duruyor olabilir. Hayal kurmaktan çok, nasıl inşa edileceğini tartıyor olabilir.",
+    heart: "Emeğe saygı, ortak gurur ve ‘yan yana üretmek güzel’ hali duruyor olabilir. His, kaçış değil; katkı ve süreklilik arar. Karşılıklı emek görülünce kalp ısınır. Tamamen geri çekilmekten çok, bağın nasıl geliştirilebileceğini görme isteği duruyor olabilir. Hızlı romantik çıkışlardan çok davranış, emek ve süreklilik önemlidir.",
+    move: "İşbirliği, somut üretim, randevuyu aksatmamak, birlikte bir düzen kurmak eğilimi olabilir. Büyük romantik jestten çok, tutulan söz ve görünen emek öne çıkar.",
+    love: "Karşılıklı emek verme, birbirini tanıma ve birlikte bir şey inşa etme potansiyeli taşır. Karşı tarafın enerjisinde tamamen geri çekilmekten çok, ilişkinin nasıl geliştirilebileceğini görme isteği olabilir. Bu kart hızlı romantik çıkışlardan çok davranış, emek ve sürekliliği önemser. Sevgi sözünden önce ‘birlikte yapabiliyor muyuz?’ sorusu durur.",
+    work: "Zanaat, ekip ve kaliteli çıktı öne çıkar. Görünür emek, doğru işbirliği ve işin hakkını vermek vardır. Tek başına parlamak değil, birlikte sağlam iş çıkarmak konuşur.",
+    adviceMeaning:
+      "Sözü büyütme, emeği küçültme. Kim ne katıyor, ne aksıyor, birlikte ne inşa ediliyor, oraya bak.",
+    futurePotential:
+      "Emek sürerse bağ veya iş daha sağlam, daha görünür, daha paylaşılmış bir yapıya evrilebilir. Kalite zamana yayılır; acele parıltı bu kartın dili değildir.",
     tones: ["growth", "stable", "commit"],
   },
   "tilsim-dortlusu": {
@@ -786,12 +798,16 @@ export const CARD_ESSENCE: Record<string, CardEssence> = {
   },
   "tilsim-prensi": {
     meaning:
-      "Tılsım Prensi, öğrenen eli ve pratik haberi anlatır. Tohum çalışkanlıkla gelir.",
-    mind: "Zihni öğrenme, somut adım ve ‘nasıl yapılır?’ üzerinedir.",
-    heart: "Sakin, temkinli bir iyi niyet duruyor olabilir.",
-    move: "Araştırma, teklifi inceleme, yavaş başlangıç eğilimi olabilir.",
-    love: "İlişkide yavaş, pratik ve öğrenen bir yaklaşım konuşur.",
-    work: "Staj, yeni iş öğrenme ve pratik kapı öne çıkar.",
+      "Tılsım Prensi, öğrenen eli ve pratik haberi anlatır. Tohum çalışkanlıkla gelir; henüz hasat yoktur.",
+    mind: "Zihni öğrenme, ‘nasıl yapılır?’, küçük somut adımlar ve temkinli bir başlangıç üzerinedir. Büyük sonucu değil, doğru ilk hamleyi tartıyor olabilir.",
+    heart: "Sakin, temkinli bir iyi niyet duruyor olabilir. His sıcak olsa da acele bağlanmaz; güven, tanıyarak büyür. Çekingenlik ilgisizlik olmak zorunda değildir.",
+    move: "Mesaj, görüşme, araştırmak, yavaş bir yaklaşım veya küçük ama ciddi bir adım eğilimi olabilir. Büyük söz zayıf; küçük gerçek hareket güçlüdür.",
+    love: "Süreç hızlı ilerlemeyebilir fakat daha somut ve güvenilir bir adıma dönüşme potansiyeli taşır. Mesaj, görüşme, küçük ama ciddi bir yaklaşım veya ilişkiyi daha sağlam zeminde ilerletme isteği görülebilir. Büyük sözlerden çok küçük ama gerçek hareketlere bakılır. Öğrenci hali vardır: bağ henüz ustalaşmamıştır, fakat sahici başlayabilir.",
+    work: "Staj, yeni iş öğrenme, pratik bir kapı ve emekle filizlenen fırsat öne çıkar. Anında statü değil; çalışarak büyüme vardır.",
+    adviceMeaning:
+      "Abartılı vaade değil, atılan küçük adıma bak. Öğrenmeye açık dur; acele ustalığa zorlama.",
+    futurePotential:
+      "Zaman verilirse tohum somut bir düzene dönüşebilir. Yavaş ilerleme, yokluk değil; kök salma olabilir. Acele zorlanırsa filiz kırılır.",
     tones: ["begin", "wait", "stable"],
   },
   "tilsim-sovalyesi": {
@@ -825,3 +841,23 @@ export const CARD_ESSENCE: Record<string, CardEssence> = {
     tones: ["power", "commit", "stable"],
   },
 };
+
+export function attachReading(card: TarotCard): TarotCard {
+  const e = CARD_ESSENCE[card.id];
+  if (!e) return card;
+  return {
+    ...card,
+    generalMeaning: e.meaning,
+    loveMeaning: e.love,
+    feelingsMeaning: e.heart,
+    thoughtsMeaning: e.mind,
+    actionMeaning: e.move,
+    careerMeaning: e.work,
+    adviceMeaning: e.adviceMeaning ?? e.mind,
+    futurePotential: e.futurePotential ?? e.move,
+  };
+}
+
+export function tonesOf(id: string): CardTone[] {
+  return CARD_ESSENCE[id]?.tones ?? [];
+}
