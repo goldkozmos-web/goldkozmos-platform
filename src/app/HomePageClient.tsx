@@ -824,12 +824,7 @@ const homepageArchiveStyles = `
     padding-top: 36px !important;
     padding-bottom: 40px !important;
     border-top: none !important;
-    background: linear-gradient(
-      180deg,
-      #b89a82 0%,
-      #e4d8cc 42%,
-      #ffffff 100%
-    ) !important;
+    background: #211812 !important;
   }
 
   .homeV3Page .homeV3PersonalHub {
@@ -866,21 +861,21 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Other .homeV3PersonalHeading .homeV3Eyebrow {
-    color: #9a7328 !important;
+    color: #cda354 !important;
   }
 
   .homeV3Page .homeV3PersonalHeading h2 {
-    color: #1c1410 !important;
+    color: #fff8ed !important;
     font-size: clamp(34px, 3.6vw, 50px) !important;
   }
 
   .homeV3Page .homeV3PersonalHeading h2 span {
-    color: #9a7328 !important;
+    color: #d2a654 !important;
   }
 
   .homeV3Page .homeV3PersonalDescription {
     max-width: 420px !important;
-    color: #4a382c !important;
+    color: rgba(255, 246, 230, 0.62) !important;
   }
 
   .homeV3Page .homeV3Other .homeV3OtherSlider {
@@ -1287,7 +1282,7 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergy {
     padding: 78px 0 16px;
     overflow: hidden;
-    background: linear-gradient(180deg, #b89a82 0%, #e4d8cc 42%, #ffffff 100%);
+    background: #211812;
   }
 
   .homeV3AudioEnergyInner {
@@ -1313,14 +1308,14 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading .homeV3Eyebrow {
-    color: #9a7328;
+    color: #cda354;
     margin-bottom: 0 !important;
     text-align: center !important;
   }
 
   .homeV3AudioEnergyHeading h2 {
     margin: 0 auto !important;
-    color: #1c1410;
+    color: #fff8ed;
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(32px, 3.4vw, 48px);
     font-weight: 400;
@@ -1332,13 +1327,13 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading h2 span {
-    color: #9a7328;
+    color: #d2a654;
   }
 
   .homeV3AudioEnergyHeading > p {
     margin: 0 auto !important;
     max-width: 440px;
-    color: #4a382c;
+    color: rgba(255, 246, 230, 0.62);
     font-size: 13px;
     line-height: 1.7;
     text-align: center !important;
@@ -1614,12 +1609,7 @@ const homepageArchiveStyles = `
 
   /* BAĞLANTIDA KAL · GOLD BOOK'TAN BAĞIMSIZ */
   .homeV3Page .homeV3Connect {
-    background: linear-gradient(
-      180deg,
-      #b89a82 0%,
-      #e4d8cc 42%,
-      #ffffff 100%
-    ) !important;
+    background: #211812 !important;
     padding: 48px 0 64px !important;
     overflow: hidden !important;
   }
@@ -1639,7 +1629,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading .homeV3Eyebrow {
-    color: #9a7328 !important;
+    color: #cda354 !important;
     font-size: 11px !important;
     letter-spacing: 0.18em !important;
     margin: 0 0 10px !important;
@@ -1648,7 +1638,7 @@ const homepageArchiveStyles = `
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 {
     max-width: none !important;
     margin: 0 !important;
-    color: #1c1410 !important;
+    color: #fff8ed !important;
     font-family: Georgia, "Times New Roman", serif !important;
     font-size: clamp(32px, 6vw, 46px) !important;
     font-weight: 400 !important;
@@ -1658,13 +1648,13 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 span {
-    color: #9a7328 !important;
+    color: #d2a654 !important;
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading > p:last-child {
     max-width: 420px !important;
     margin: 12px auto 0 !important;
-    color: #4a382c !important;
+    color: rgba(255, 246, 230, 0.62) !important;
     font-size: 14px !important;
     line-height: 1.65 !important;
     text-align: center !important;
@@ -2360,13 +2350,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Hero {
-    background: linear-gradient(
-      180deg,
-      #2c1c14 0%,
-      #5a3c2e 40%,
-      #8f6a50 78%,
-      #c4a078 100%
-    ) !important;
+    background: #211812 !important;
   }
 
   .homeV3Page .homeV3HeroCard {
