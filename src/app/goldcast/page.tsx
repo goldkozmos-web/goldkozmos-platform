@@ -1085,7 +1085,7 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastSpotifyEpisodeCard h3,
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
-    color: #9a7428 !important;
+    color: #b08a3c !important;
     font-size: 14px !important;
     font-weight: 600 !important;
     letter-spacing: -0.02em !important;
@@ -1286,7 +1286,7 @@ const goldcastPremiumStyles = `
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle,
   main.goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
   main.goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
-    color: #9a7428 !important;
+    color: #b08a3c !important;
     font-family: Georgia, "Times New Roman", serif !important;
     font-size: 15px !important;
     font-weight: 600 !important;
@@ -1296,7 +1296,7 @@ const goldcastPremiumStyles = `
     overflow: visible;
     -webkit-line-clamp: unset;
     min-height: 0;
-    text-shadow: 0 0.5px 0 rgba(255, 248, 220, 0.55);
+    text-shadow: 0 0.5px 0 rgba(255, 248, 220, 0.7);
   }
 
   main.goldcastPage .goldcastYTDescription,
