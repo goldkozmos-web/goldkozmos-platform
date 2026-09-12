@@ -9,13 +9,15 @@ import AyarlarFrame from "./AyarlarFrame";
 function splitName(raw: string) {
   const displayName = raw.replace(/\s+/g, " ").trim();
   if (displayName.length < 2 || displayName.length > 80) {
-    return { error: "Ad soyadını yaz." as const };
+    return { ok: false as const, error: "Ad soyadını yaz." };
   }
   const parts = displayName.split(" ");
+  const firstName = parts[0] ?? displayName;
   return {
+    ok: true as const,
     displayName,
-    firstName: parts[0],
-    lastName: parts.slice(1).join(" ") || parts[0],
+    firstName,
+    lastName: parts.slice(1).join(" ") || firstName,
   };
 }
 
@@ -46,7 +48,7 @@ function AccountBody({ user }: { user: NonNullable<ProfilimUser> }) {
 
   async function save() {
     const parsed = splitName(name);
-    if ("error" in parsed) {
+    if (!parsed.ok) {
       setNote(parsed.error);
       return;
     }
