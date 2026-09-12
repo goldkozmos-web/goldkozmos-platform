@@ -901,26 +901,26 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Other .homeV3OtherSlider .homeV3OtherCard {
-    flex: 0 0 min(72vw, 240px) !important;
-    min-width: min(72vw, 240px) !important;
-    width: min(72vw, 240px) !important;
-    max-width: min(72vw, 240px) !important;
+    flex: 0 0 min(70vw, 260px) !important;
+    min-width: min(70vw, 260px) !important;
+    width: min(70vw, 260px) !important;
+    max-width: min(70vw, 260px) !important;
     scroll-snap-align: start !important;
     display: flex !important;
     flex-direction: column !important;
     background: #fff !important;
     border: 1px solid rgba(151, 113, 49, 0.14) !important;
-    border-radius: 18px !important;
+    border-radius: 20px !important;
     overflow: hidden !important;
-    box-shadow:
-      0 18px 40px rgba(18, 11, 7, 0.22),
-      0 8px 18px rgba(18, 11, 7, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
   }
 
   .homeV3Page .homeV3Other .homeV3OtherVisual {
-    aspect-ratio: 4 / 3 !important;
+    aspect-ratio: 1 / 1 !important;
     height: auto !important;
     min-height: 0 !important;
+    border-radius: 0 !important;
+    background: #17130f !important;
   }
 
   .homeV3Page .homeV3Other .homeV3OtherVisual img {
@@ -940,20 +940,19 @@ const homepageArchiveStyles = `
   .homeV3Page .homeV3OtherCardBottom {
     display: flex !important;
     align-items: center !important;
-    justify-content: space-between !important;
+    justify-content: flex-end !important;
     margin-top: auto !important;
-    padding-top: 10px !important;
-  }
-
-  .homeV3Page .homeV3OtherCardBottom strong {
-    color: #251f19 !important;
-    font-size: 20px !important;
+    padding-top: 17px !important;
+    border-top: 1px solid rgba(151, 113, 49, 0.11) !important;
   }
 
   .homeV3Page .homeV3OtherCardCta {
-    color: #9a7631 !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    color: #98732f !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
   }
 
   .homeV3Page .homeV3OtherSliderControls,
@@ -1057,11 +1056,7 @@ const homepageArchiveStyles = `
     .homeV3Page .homeV3LiveArchiveBottom {
       gap: 8px !important;
       flex-wrap: wrap !important;
-    }
-
-    .homeV3Page .homeV3OtherCardBottom strong,
-    .homeV3Page .homeV3LiveArchiveBottom strong {
-      font-size: 16px !important;
+      justify-content: flex-end !important;
     }
 
     .homeV3Page .homeV3OtherCardCta,
@@ -1154,30 +1149,31 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3LiveArchiveCard {
-    flex: 0 0 240px !important;
-    width: 240px !important;
-    max-width: 240px !important;
-    overflow: hidden;
-    border: 1.5px solid rgba(198, 151, 67, 0.45);
-    border-radius: 20px;
-    background: #fffdf9;
+    flex: 0 0 min(70vw, 260px) !important;
+    width: min(70vw, 260px) !important;
+    max-width: 260px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(151, 113, 49, 0.14) !important;
+    border-radius: 20px !important;
+    background: #fff !important;
     scroll-snap-align: start !important;
-    box-shadow:
-      0 16px 34px rgba(55, 35, 16, 0.10),
-      0 4px 12px rgba(55, 35, 16, 0.05);
-    transition: transform 0.28s ease !important;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease !important;
   }
 
   .homeV3Page .homeV3LiveArchiveCard:hover {
-    transform: translateY(-6px) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 18px rgba(63, 42, 20, 0.08) !important;
   }
 
   .homeV3LiveArchiveImage {
     position: relative;
     display: block;
-    aspect-ratio: 4 / 3 !important;
+    aspect-ratio: 1 / 1 !important;
     overflow: hidden;
-    background: #24180f;
+    background: #17130f;
   }
 
   .homeV3LiveArchiveImage img {
@@ -1234,18 +1230,11 @@ const homepageArchiveStyles = `
   .homeV3LiveArchiveBottom {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 18px;
     margin-top: 18px;
     padding-top: 15px;
-    border-top: 1px solid rgba(158, 116, 44, 0.14);
-  }
-
-  .homeV3LiveArchiveBottom strong {
-    color: #9b7029;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 18px;
-    font-weight: 400;
+    border-top: 1px solid rgba(151, 113, 49, 0.11);
   }
 
   .homeV3LiveArchiveBottom a {
@@ -2837,13 +2826,9 @@ export default function HomePageClient() {
                       <p>{work.text}</p>
 
                       <div className="homeV3OtherCardBottom">
-                        {"price" in work && work.price ? (
-                          <strong>{work.price}</strong>
-                        ) : (
-                          <span />
-                        )}
                         <span className="homeV3OtherCardCta">
                           Detayları Gör
+                          <span>→</span>
                         </span>
                       </div>
                     </div>
@@ -2908,8 +2893,6 @@ export default function HomePageClient() {
                   </div>
 
                   <div className="homeV3LiveArchiveBottom">
-                    <strong>{recording.price}</strong>
-
                     <a
                       href={recording.href}
                       target={recording.href.startsWith("http") ? "_blank" : undefined}
