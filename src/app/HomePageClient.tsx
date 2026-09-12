@@ -1378,7 +1378,10 @@ const homepageArchiveStyles = `
     flex: 0 0 min(70vw, 240px) !important;
     width: min(70vw, 240px) !important;
     max-width: 240px !important;
-    transition: transform 0.28s ease !important;
+    border: 0 !important;
+    background: #fff !important;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
+    transition: transform 180ms ease, box-shadow 180ms ease !important;
   }
 
   .homeV3Page .homeV3AudioEnergyProduct:hover {
@@ -1460,9 +1463,9 @@ const homepageArchiveStyles = `
 
   .homeV3Page .homeV3BookCard,
   .homeV3Page .homeV3LibraryHub .homeV3BookCard {
-    flex: 0 0 min(70vw, 240px) !important;
-    width: min(70vw, 240px) !important;
-    max-width: 240px !important;
+    flex: 0 0 min(86vw, 360px) !important;
+    width: min(86vw, 360px) !important;
+    max-width: 360px !important;
     min-height: 0 !important;
     display: flex !important;
     flex-direction: column !important;
