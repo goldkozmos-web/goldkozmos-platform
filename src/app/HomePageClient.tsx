@@ -2686,8 +2686,7 @@ export default function HomePageClient() {
                   <p>REZONANS ÇALIŞMALARI</p>
 
                   <h2>
-                    Çalışmaları
-                    <span> keşfet</span>
+                    Çalışmalarım
                   </h2>
                 </div>
 
@@ -2705,7 +2704,6 @@ export default function HomePageClient() {
 
                   <h2>
                     Hakkımda
-                    <span> daha fazlası</span>
                   </h2>
                 </div>
 
@@ -2719,8 +2717,7 @@ export default function HomePageClient() {
                   <p>ÜCRETSİZ ARKETİP TESTİ</p>
 
                   <h2>
-                    Kendine hangi
-                    <span> arketipten bakıyorsun?</span>
+                    Arketip testi
                   </h2>
                 </div>
 
