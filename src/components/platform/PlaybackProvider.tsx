@@ -39,6 +39,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { listenToYoutube, sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
 import SeekScrubber from "./SeekScrubber";
+import { useMiniDockDrag } from "./useMiniDockDrag";
 import {
   loadSpotifyIframeApi,
   spotifyEmbedSrc,
@@ -193,14 +194,17 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     writeLivePlayback(null);
   }, [currentTime, duration, isPlaying, minimized, ready, session]);
 
+  const miniDock =
+    Boolean(session?.youtubeId || session?.spotifyEmbedUrl) && minimized;
+  const dockDrag = useMiniDockDrag(miniDock);
+
   useEffect(() => {
-    const mini =
-      Boolean(session?.youtubeId || session?.spotifyEmbedUrl) && minimized;
-    document.body.classList.toggle("hasPlatformMiniDock", mini);
+    const miniBar = miniDock && !dockDrag.bubble;
+    document.body.classList.toggle("hasPlatformMiniDock", miniBar);
     return () => {
       document.body.classList.remove("hasPlatformMiniDock");
     };
-  }, [minimized, session?.spotifyEmbedUrl, session?.youtubeId]);
+  }, [dockDrag.bubble, miniDock]);
 
   const persist = useCallback(
     (entry: PlatformProgress) => {
@@ -779,7 +783,15 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         <div
           className={`platformYoutubeShell${minimized ? " isMini" : " isStage"}${
             session.spotifyEmbedUrl ? " isSpotify" : ""
-          }${minimized && isPlaying ? " isPlaying" : ""}`}
+          }${minimized && isPlaying ? " isPlaying" : ""}${
+            miniDock && dockDrag.bubble ? " isBubble" : ""
+          }${miniDock && dockDrag.dragging ? " isDragging" : ""}`}
+          style={dockDrag.style}
+          onPointerDown={miniDock ? dockDrag.onPointerDown : undefined}
+          onPointerMove={miniDock ? dockDrag.onPointerMove : undefined}
+          onPointerUp={miniDock ? dockDrag.onPointerUp : undefined}
+          onPointerCancel={miniDock ? dockDrag.onPointerUp : undefined}
+          onClickCapture={miniDock ? dockDrag.onClickCapture : undefined}
         >
           {minimized ? null : (
             <div className="platformYoutubeChrome">
