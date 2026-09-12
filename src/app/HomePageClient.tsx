@@ -994,6 +994,12 @@ const homepageArchiveStyles = `
       aspect-ratio: 1 / 1 !important;
     }
 
+    .homeV3Page .homeV3LibraryHub .homeV3LibraryBooksGrid .homeV3BookCard {
+      flex: 0 0 min(70vw, 240px) !important;
+      width: min(70vw, 240px) !important;
+      max-width: 240px !important;
+    }
+
     .homeV3Page .homeV3Resonance .homeV3SectionHeading,
     .homeV3Page .homeV3Other .homeV3PersonalHeading,
     .homeV3Page .homeV3LiveArchiveHeading,
@@ -1982,7 +1988,7 @@ const homepageArchiveStyles = `
 
   /* SSS */
   .homeV3Page .homeV3Faq {
-    padding: 56px 0 68px !important;
+    padding: 40px 0 46px !important;
     overflow: visible !important;
     background: #fffdf8 !important;
     border-top: none !important;
@@ -2031,7 +2037,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3FaqOpen {
-    margin-top: 22px;
+    margin-top: 16px;
     min-height: 46px;
     padding: 0 22px;
     border: none;
