@@ -792,6 +792,9 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
           onPointerUp={miniDock ? dockDrag.onPointerUp : undefined}
           onPointerCancel={miniDock ? dockDrag.onPointerUp : undefined}
           onClickCapture={miniDock ? dockDrag.onClickCapture : undefined}
+          aria-label={
+            miniDock && dockDrag.bubble ? "Oynatıcıyı aç" : undefined
+          }
         >
           {minimized ? null : (
             <div className="platformYoutubeChrome">

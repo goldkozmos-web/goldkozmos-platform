@@ -4,8 +4,18 @@ import { useCallback, useEffect, useRef, useState, type MouseEvent, type Pointer
 
 const BUBBLE = 64;
 const MARGIN = 10;
-const DRAG_THRESHOLD = 10;
+const DRAG_THRESHOLD = 18;
 const NAV_CLEARANCE = 108;
+
+function guardNextClick() {
+  const block = (event: Event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    window.removeEventListener("click", block, true);
+  };
+
+  window.addEventListener("click", block, true);
+}
 
 type DockPoint = { left: number; top: number };
 
@@ -65,6 +75,10 @@ export function useMiniDockDrag(active: boolean) {
         return;
       }
 
+      if (bubble) {
+        event.preventDefault();
+      }
+
       const rect = event.currentTarget.getBoundingClientRect();
       dragRef.current = {
         pointerId: event.pointerId,
@@ -119,12 +133,14 @@ export function useMiniDockDrag(active: boolean) {
 
       if (moved) {
         suppressClickRef.current = true;
+        guardNextClick();
         setPoint((current) => clampBubble(current.left, current.top));
         return;
       }
 
       if (bubble) {
         suppressClickRef.current = true;
+        guardNextClick();
         setBubble(false);
       }
     },
