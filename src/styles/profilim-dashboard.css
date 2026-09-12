@@ -981,6 +981,10 @@
   font-size: 11px;
 }
 
+.profilimGate--entry .profilimGoogleWrap {
+  margin-top: 14px;
+}
+
 .profilimGate--entry .profilimGoogleButton {
   border: 1px solid rgba(140, 108, 36, 0.4);
   background: linear-gradient(180deg, #d4b56a 0%, #c4a056 52%, #b8923c 100%);
