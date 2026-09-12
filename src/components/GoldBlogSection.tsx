@@ -3730,20 +3730,27 @@ const goldBlogHubStyles = `
 
   .goldblogPage .goldBlogNewCard,
   .goldblogPage .goldBlogNewCard:first-child {
-    flex: 0 0 min(46vw, 158px) !important;
-    width: min(46vw, 158px) !important;
+    isolation: isolate;
+    flex: 0 0 min(48vw, 168px) !important;
+    width: min(48vw, 168px) !important;
     min-width: 0 !important;
     min-height: 0 !important;
-    padding: 11px 12px 12px !important;
-    border: 1px solid rgba(140, 108, 72, 0.28) !important;
+    padding: 12px 13px 13px !important;
+    border: 1px solid rgba(148, 112, 72, 0.28) !important;
     border-radius: 14px !important;
     background:
-      linear-gradient(180deg, #d4c0a8 0%, #b89a82 48%, #9a7a62 100%) !important;
+      linear-gradient(165deg, #ead9c6 0%, #cbb39a 46%, #b08c72 100%) !important;
     box-shadow:
-      0 1px 0 rgba(255, 252, 246, 0.55) inset,
-      0 10px 22px rgba(48, 32, 18, 0.1) !important;
+      0 1px 0 rgba(255, 252, 246, 0.72) inset,
+      0 0 0 1px rgba(255, 244, 228, 0.28) inset,
+      0 12px 24px rgba(48, 32, 18, 0.1) !important;
     color: #1c1410 !important;
     text-align: left;
+  }
+
+  .goldblogPage .goldBlogNewCard::after,
+  .goldblogPage .goldBlogNewCard:first-child::after {
+    display: none !important;
   }
 
   .goldblogPage .goldBlogNewCardImage {
@@ -3752,17 +3759,20 @@ const goldBlogHubStyles = `
 
   .goldblogPage .goldBlogNewCardMeta,
   .goldblogPage .goldBlogNewCard:first-child .goldBlogNewCardMeta {
-    margin-bottom: 8px !important;
-    color: #5c4030 !important;
-    font-size: 9px !important;
+    margin-bottom: 10px !important;
+    color: #6a5040 !important;
+    font-size: 8px !important;
+    letter-spacing: 0.04em;
   }
 
   .goldblogPage .goldBlogNewCard > p,
   .goldblogPage .goldBlogNewCard:first-child > p {
-    color: #7a5428 !important;
+    margin: 0 0 5px !important;
+    color: #8d6a28 !important;
     font-size: 8px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.16em !important;
+    line-height: 1.3 !important;
   }
 
   .goldblogPage .goldBlogNewCardTitle,
@@ -3772,19 +3782,26 @@ const goldBlogHubStyles = `
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    color: #1c1410 !important;
-    font-size: 13px !important;
-    line-height: 1.22 !important;
-    font-weight: 550 !important;
-    letter-spacing: -0.02em !important;
+    margin: 0 !important;
+    color: #16110c !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.03em !important;
+    text-rendering: geometricPrecision;
     -webkit-font-smoothing: antialiased;
   }
 
   .goldblogPage .goldBlogNewBadge {
-    padding: 4px 7px !important;
+    padding: 3px 7px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
     color: #1a120c !important;
-    background: #e2c67c !important;
-    font-size: 8px !important;
+    background: #d4b56a !important;
+    font-size: 7px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
   }
 
   .goldblogPage .goldBlogCategoryCard p,
