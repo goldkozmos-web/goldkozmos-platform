@@ -83,11 +83,16 @@
   gap: 10px;
   width: min(1180px, 100%);
   margin: 0 auto;
-  padding: 16px 22px 26px;
+  padding: 16px 22px 10px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+}
+
+.dailyActionRail.isBrown {
+  padding-top: 2px;
+  padding-bottom: 26px;
 }
 
 .dailyActionRail::-webkit-scrollbar {
@@ -153,16 +158,13 @@
   animation: dailyGoldSheen 5.5s linear infinite;
 }
 
-.dailyActionLabel {
-  position: relative;
-  z-index: 2;
-  color: #211812;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: -0.02em;
-  text-align: center;
-  line-height: 1.2;
+.dailyActionCard.isBrown {
+  background: #211812;
+  border-color: rgba(90, 62, 36, 0.85);
+}
+
+.dailyActionCard.isBrown .dailyActionLabel {
+  color: #fff8ed;
 }
 
 @keyframes dailyGoldFlow {
@@ -193,7 +195,6 @@
 
 @media (min-width: 900px) {
   .dailyActionRail {
-    justify-content: center;
     overflow: visible;
     flex-wrap: wrap;
   }
