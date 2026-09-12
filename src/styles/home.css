@@ -45374,10 +45374,10 @@ html:has(.goldbookCompactPage) {
   .goldcastYTSubtitle {
     margin-top: 7px !important;
 
-    color: #c89a47 !important;
+    color: #6f4e14 !important;
 
-    font-size: 8px !important;
-    font-weight: 700 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
   }
 
   .goldcastPage
@@ -45609,20 +45609,18 @@ html:has(.goldbookCompactPage) {
     flex:
       0
       0
-      min(82vw, 325px) !important;
+      min(68vw, 248px) !important;
 
     width:
-      min(82vw, 325px) !important;
+      min(68vw, 248px) !important;
 
     max-width:
-      325px !important;
+      248px !important;
 
     min-width: 0 !important;
     min-height: 0 !important;
 
-    padding:
-      17px
-      15px !important;
+    padding: 0 !important;
 
     display: block !important;
 
@@ -45633,24 +45631,12 @@ html:has(.goldbookCompactPage) {
     scroll-snap-align:
       start !important;
 
-    border:
-      1px solid
-      rgba(201, 157, 77, 0.30) !important;
+    border: 0 !important;
 
     border-radius:
-      20px !important;
+      18px !important;
 
-    background:
-      radial-gradient(
-        circle at 88% 4%,
-        rgba(199, 154, 67, 0.16),
-        transparent 30%
-      ),
-      linear-gradient(
-        145deg,
-        #2b1d13,
-        #17100c
-      ) !important;
+    background: #ffffff !important;
 
     box-shadow: none !important;
   }
