@@ -186,11 +186,9 @@ const youtubeOnlyStyles = `
       overflow: hidden;
       box-sizing: border-box;
       scroll-snap-align: start;
-      border: 2px solid rgba(205, 158, 70, 0.76);
+      border: 0;
       border-radius: 24px;
-      background:
-        radial-gradient(circle at 92% 8%, rgba(196, 151, 66, 0.11), transparent 30%),
-        linear-gradient(145deg, #2a1c13 0%, #1a120d 100%);
+      background: #ffffff;
       box-shadow: 0 22px 48px rgba(48, 31, 13, 0.20), 0 7px 18px rgba(48, 31, 13, 0.10);
     }
 
@@ -707,12 +705,9 @@ const goldcastPremiumStyles = `
 
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) {
     overflow: visible !important;
-    background:
-      linear-gradient(#ffffff, #ffffff) padding-box,
-      linear-gradient(145deg, #f3e0a4 0%, #c4a056 40%, #8a6624 76%, #e8cc86 100%) border-box !important;
-    border: 1.5px solid transparent !important;
+    background: #ffffff !important;
+    border: 0 !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.9) inset,
       0 8px 18px rgba(24, 14, 8, 0.10),
       0 18px 32px rgba(24, 14, 8, 0.12) !important;
   }
@@ -766,12 +761,9 @@ const goldcastPremiumStyles = `
 
   .goldcastPage .goldcastSpotifyEpisodeCard {
     overflow: visible !important;
-    background:
-      linear-gradient(#ffffff, #ffffff) padding-box,
-      linear-gradient(145deg, #f3e0a4 0%, #c4a056 40%, #8a6624 76%, #e8cc86 100%) border-box !important;
-    border: 1.5px solid transparent !important;
+    background: #ffffff !important;
+    border: 0 !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.9) inset,
       0 8px 18px rgba(24, 14, 8, 0.10),
       0 18px 32px rgba(24, 14, 8, 0.12) !important;
   }
@@ -995,12 +987,9 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastSpotifyEpisodeCard:hover,
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
     overflow: visible !important;
-    border: 1.5px solid transparent !important;
-    background:
-      linear-gradient(#ffffff, #ffffff) padding-box,
-      linear-gradient(145deg, #f3e0a4 0%, #c4a056 40%, #8a6624 76%, #e8cc86 100%) border-box !important;
+    border: 0 !important;
+    background: #ffffff !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.9) inset,
       0 8px 18px rgba(48, 28, 12, 0.10),
       0 18px 32px rgba(48, 28, 12, 0.12) !important;
   }
@@ -1028,9 +1017,7 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTImage {
     overflow: hidden !important;
     border: 0 !important;
-    box-shadow:
-      0 0 0 1px rgba(176, 138, 62, 0.34),
-      0 12px 24px rgba(24, 14, 8, 0.18) !important;
+    box-shadow: none !important;
     background: #16110c !important;
   }
 
@@ -1099,6 +1086,47 @@ const goldcastPremiumStyles = `
     box-sizing: content-box;
     padding: 4px 8px 12px;
     overflow: visible !important;
+  }
+
+  .goldcastPage .goldcastYTCard::after,
+  .goldcastPage .goldcastSpotifyEpisodeCard::after,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard)::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: inherit;
+    padding: 2px;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 248, 220, 0.7) 0%,
+        transparent 38%,
+        rgba(72, 46, 16, 0.28) 100%
+      ),
+      linear-gradient(
+        125deg,
+        #fff4c8 0%,
+        #f0d78a 8%,
+        #d4b056 18%,
+        #b8893a 32%,
+        #7a5418 46%,
+        #e6c878 58%,
+        #c4a04a 70%,
+        #8d6624 84%,
+        #f7e7b4 100%
+      );
+    box-shadow: 0 0 0 0.5px rgba(90, 58, 18, 0.35);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
   }
 
   @media (max-width: 700px) {
