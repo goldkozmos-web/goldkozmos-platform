@@ -3743,11 +3743,13 @@ const goldBlogHubStyles = `
     min-width: 0 !important;
     min-height: 0 !important;
     padding: 12px 13px 13px !important;
-    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border: 1.5px solid transparent !important;
     border-radius: 16px !important;
-    background: #ffffff !important;
+    background:
+      linear-gradient(#ffffff, #ffffff) padding-box,
+      linear-gradient(145deg, #f0dc9a 0%, #c4a056 42%, #8d6a28 78%, #e2c67c 100%) border-box !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 1) inset,
+      0 1px 0 rgba(255, 252, 240, 0.7) inset,
       0 1px 2px rgba(72, 46, 28, 0.05),
       0 6px 14px rgba(72, 46, 28, 0.06),
       0 18px 34px rgba(72, 46, 28, 0.07) !important;
@@ -3905,11 +3907,13 @@ const goldBlogHubStyles = `
     width: min(400px, 100%) !important;
     max-height: min(76dvh, 620px) !important;
     padding: 20px 16px 18px !important;
-    border: 1px solid rgba(255, 255, 255, 0.72) !important;
+    border: 1.5px solid transparent !important;
     border-radius: 22px !important;
-    background: #ffffff !important;
+    background:
+      linear-gradient(#ffffff, #ffffff) padding-box,
+      linear-gradient(145deg, #f0dc9a 0%, #c4a056 40%, #8d6a28 76%, #e2c67c 100%) border-box !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 1) inset,
+      0 1px 0 rgba(255, 252, 240, 0.75) inset,
       0 18px 40px rgba(20, 12, 8, 0.18),
       0 40px 70px rgba(20, 12, 8, 0.16) !important;
   }
@@ -3951,11 +3955,13 @@ const goldBlogHubStyles = `
 
   .goldblogPage .goldBlogMiniItem {
     padding: 13px 14px 12px !important;
-    border: 1px solid rgba(40, 28, 16, 0.06) !important;
+    border: 1.5px solid transparent !important;
     border-radius: 14px !important;
-    background: #fffdf9 !important;
+    background:
+      linear-gradient(#ffffff, #ffffff) padding-box,
+      linear-gradient(145deg, #f0dc9a 0%, #c4a056 42%, #8d6a28 78%, #e2c67c 100%) border-box !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 1px 0 rgba(255, 252, 240, 0.7) inset,
       0 6px 14px rgba(48, 32, 18, 0.04) !important;
   }
 
