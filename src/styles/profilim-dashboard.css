@@ -750,6 +750,96 @@
     font-size: 22px;
   }
 
+  .profilimPage .footerSection {
+    padding: 46px 20px 26px !important;
+  }
+
+  .profilimPage .footerContainer {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .profilimPage .footerMain {
+    display: block !important;
+  }
+
+  .profilimPage .footerBrand {
+    margin-bottom: 36px !important;
+  }
+
+  .profilimPage .footerBrand h2 {
+    max-width: 330px !important;
+    font-size: 32px !important;
+    line-height: 1 !important;
+  }
+
+  .profilimPage .footerBrand > p {
+    max-width: 340px !important;
+    margin-top: 14px !important;
+    font-size: 12px !important;
+    line-height: 1.65 !important;
+  }
+
+  .profilimPage .footerBrandMotto {
+    margin-top: 22px !important;
+  }
+
+  .profilimPage .footerNavigation {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 34px 18px !important;
+  }
+
+  .profilimPage .footerLinkColumn {
+    min-width: 0 !important;
+  }
+
+  .profilimPage .footerLinkColumn > p {
+    margin-bottom: 16px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  .profilimPage .footerLinkColumn nav {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 11px !important;
+  }
+
+  .profilimPage .footerLinkColumn nav a {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+  }
+
+  .profilimPage .footerLinkColumn:nth-child(3) {
+    grid-column: 1 / -1 !important;
+    padding-top: 25px !important;
+    border-top: 1px solid rgba(211, 168, 84, 0.12) !important;
+  }
+
+  .profilimPage .footerLinkColumn:nth-child(3) nav {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 18px !important;
+  }
+
+  .profilimPage .footerLinkColumn:nth-child(3) nav a {
+    font-size: 12px !important;
+  }
+
+  .profilimPage .footerBottom {
+    margin-top: 36px !important;
+    padding-top: 22px !important;
+    display: block !important;
+  }
+
+  .profilimPage .footerBottom p {
+    margin: 0 0 8px !important;
+    font-size: 9px !important;
+    line-height: 1.55 !important;
+  }
+
   .profilimPage .siteGlobalBackToTop,
   .profilimPage .siteGlobalBackToTop::before,
   .profilimPage .siteGlobalBackToTop::after,
