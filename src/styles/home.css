@@ -21755,9 +21755,12 @@ font-size:32px;
 
   background: #ffffff;
 
-  border: 1px solid rgba(176, 130, 48, 0.28);
+  border: 0;
 
-  box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14);
+  box-shadow:
+    0 -2px 3px rgba(48, 32, 18, 0.05),
+    0 -8px 18px rgba(48, 32, 18, 0.12),
+    0 -16px 32px rgba(48, 32, 18, 0.08);
 }
 
 

@@ -2392,7 +2392,9 @@ const homepageArchiveStyles = `
     flex-wrap: nowrap !important;
     align-items: stretch !important;
     gap: 8px !important;
-    margin-top: 8px !important;
+    margin-top: 0 !important;
+    padding-top: 18px !important;
+    overflow: visible !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest {
@@ -2416,8 +2418,11 @@ const homepageArchiveStyles = `
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     background: #ffffff !important;
-    border: 1px solid rgba(176, 130, 48, 0.28) !important;
-    box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14) !important;
+    border: 0 !important;
+    box-shadow:
+      0 -2px 3px rgba(48, 32, 18, 0.05),
+      0 -8px 18px rgba(48, 32, 18, 0.12),
+      0 -16px 32px rgba(48, 32, 18, 0.08) !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestIcon {
