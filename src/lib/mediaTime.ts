@@ -1,6 +1,7 @@
 /** Normalize player clocks so progress never races ahead of the real recording. */
 
-export const MIN_TRUSTED_DURATION_SECONDS = 15;
+/** Ignore Spotify/YouTube preview clocks (~30s) that would fill the bar in seconds. */
+export const MIN_TRUSTED_DURATION_SECONDS = 90;
 const MS_CLOCK_THRESHOLD = 10_000;
 const MAX_EPISODE_SECONDS = 4 * 60 * 60;
 
@@ -68,15 +69,52 @@ export function normalizePlaybackClocks(data: {
   };
 }
 
+/**
+ * Player clocks in milliseconds under ~10s look like real seconds
+ * (500 === 0.5s, not 8 minutes). Never let displayed time run ahead
+ * of wall-clock since play started.
+ */
+export function capTimeToWallClock(input: {
+  playerTime: number;
+  startAt: number;
+  openedAtMs: number;
+  nowMs: number;
+}): number | undefined {
+  const { playerTime, startAt, openedAtMs, nowMs } = input;
+
+  if (!Number.isFinite(playerTime) || playerTime < 0) {
+    return undefined;
+  }
+
+  const elapsed = Math.max(0, (nowMs - openedAtMs) / 1000);
+  const start = Math.max(0, Number.isFinite(startAt) ? startAt : 0);
+
+  if (elapsed < 6 && playerTime + 2 < start) {
+    return undefined;
+  }
+
+  const cap = start + elapsed * 1.2 + 1.5;
+
+  if (playerTime > cap + 2) {
+    return undefined;
+  }
+
+  return Math.min(playerTime, cap);
+}
+
 /** Keep a plausible episode length; ignore tiny / preview clocks that inflate %. */
 export function pickTrustedDuration(current: number, incoming?: number): number {
-  if (incoming == null || !Number.isFinite(incoming) || incoming < MIN_TRUSTED_DURATION_SECONDS) {
-    return current;
+  const curr = sanitizeStoredSeconds(current);
+  const next =
+    incoming == null ? undefined : secondsFromPlayerClock(incoming, curr || undefined);
+
+  if (next == null || next < MIN_TRUSTED_DURATION_SECONDS) {
+    return curr;
   }
-  if (current >= 60 && incoming < current * 0.25) {
-    return current;
+  if (curr >= 60 && next < curr * 0.25) {
+    return curr;
   }
-  return incoming;
+  return next;
 }
 
 export function isTrustedDuration(duration: number): boolean {

@@ -17,6 +17,7 @@ import {
   type PlatformProgress,
 } from "../../data/platformFlow";
 import {
+  capTimeToWallClock,
   mergePlaybackFields,
   normalizePlaybackClocks,
   pickTrustedDuration,
@@ -139,20 +140,24 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     const live = readLivePlayback();
 
     if (live?.session) {
+      const storedDuration = sanitizeStoredSeconds(live.session.durationSeconds);
       const startAt = resumeOffset(
-        live.session.currentTime,
-        live.session.durationSeconds,
+        sanitizeStoredSeconds(live.session.currentTime, storedDuration || undefined),
+        storedDuration,
       );
       embedStartRef.current = startAt;
+      playOpenedAtRef.current = Date.now();
+      clockGuardRef.current = { wall: Date.now(), time: startAt };
       setSession({
         ...live.session,
         currentTime: startAt,
+        durationSeconds: storedDuration || live.session.durationSeconds,
         spotifyEmbedUrl: live.session.spotifyEmbedUrl
           ? spotifyEmbedSrc(live.session.spotifyEmbedUrl)
           : live.session.spotifyEmbedUrl,
       });
       setCurrentTime(startAt);
-      setDuration(sanitizeStoredSeconds(live.session.durationSeconds));
+      setDuration(storedDuration);
       setMinimized(true);
       setIsPlaying(Boolean(live.isPlaying));
     }
@@ -207,9 +212,13 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const startAudio = useCallback((input: StartAudioInput) => {
     const now = new Date().toISOString();
     const existing = items[progressKey(input.platform, input.contentId)] ?? null;
+    const storedDuration = sanitizeStoredSeconds(existing?.durationSeconds);
     const startAt = resumeOffset(
-      input.currentTime ?? existing?.currentTime,
-      existing?.durationSeconds,
+      sanitizeStoredSeconds(
+        input.currentTime ?? existing?.currentTime,
+        storedDuration || undefined,
+      ),
+      storedDuration,
     );
 
     if (
@@ -235,7 +244,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       href: input.href,
       progress: existing?.progress ?? 0,
       currentTime: startAt,
-      durationSeconds: existing?.durationSeconds,
+      durationSeconds: storedDuration || existing?.durationSeconds,
       lastOpenedAt: now,
       lastPlayedAt: now,
       status: "playing",
@@ -245,7 +254,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     setSession(next);
     setCurrentTime(startAt);
-    setDuration(existing?.durationSeconds ?? 0);
+    setDuration(storedDuration);
     setMinimized(false);
     persist(next);
 
@@ -531,21 +540,15 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
           length ?? trusted,
         );
         if (time != null) {
-          const now = Date.now();
-          const prev = clockGuardRef.current;
-          const elapsed = prev.wall ? (now - prev.wall) / 1000 : 0;
-          const jumped = prev.wall > 0 && time > prev.time + Math.max(elapsed * 3, 2) + 1.25;
-
-          if (jumped) {
-            const asMs = time / 1000;
-            const cap = length ?? trusted;
-            if (cap >= 15 ? asMs <= cap + 1.5 : asMs < 30) {
-              setCurrentTime(asMs);
-              clockGuardRef.current = { wall: now, time: asMs };
-            }
-          } else {
-            setCurrentTime(time);
-            clockGuardRef.current = { wall: now, time };
+          const next = capTimeToWallClock({
+            playerTime: time,
+            startAt: embedStartRef.current,
+            openedAtMs: playOpenedAtRef.current,
+            nowMs: Date.now(),
+          });
+          if (next != null) {
+            setCurrentTime(next);
+            clockGuardRef.current = { wall: Date.now(), time: next };
           }
         }
 
@@ -556,6 +559,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             Date.now() - playOpenedAtRef.current < 6000
           ) {
             embedStartRef.current = 0;
+            playOpenedAtRef.current = Date.now();
             clockGuardRef.current = { wall: Date.now(), time: 0 };
             setCurrentTime(0);
             sendYoutubeCommand(youtubeRef.current, "seekTo", [0, true]);
@@ -634,16 +638,15 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             }
 
             if (clocks.position != null) {
-              const now = Date.now();
-              const prev = clockGuardRef.current;
-              const elapsed = prev.wall ? (now - prev.wall) / 1000 : 0;
-              const jumped =
-                prev.wall > 0 &&
-                clocks.position > prev.time + Math.max(elapsed * 3, 2) + 1.25;
-
-              if (!jumped) {
-                setCurrentTime(clocks.position);
-                clockGuardRef.current = { wall: now, time: clocks.position };
+              const next = capTimeToWallClock({
+                playerTime: clocks.position,
+                startAt: embedStartRef.current,
+                openedAtMs: playOpenedAtRef.current,
+                nowMs: Date.now(),
+              });
+              if (next != null) {
+                setCurrentTime(next);
+                clockGuardRef.current = { wall: Date.now(), time: next };
               }
             }
 

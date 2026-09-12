@@ -3,13 +3,51 @@ import test from "node:test";
 
 import { resumeOffset } from "../src/data/platformFlow.ts";
 import {
+  capTimeToWallClock,
   displayProgressFromItem,
   mergePlaybackFields,
   normalizePlaybackClocks,
+  pickTrustedDuration,
   progressFromPlayback,
   secondsFromPlayerClock,
   secondsFromSpotifyClock,
 } from "../src/lib/mediaTime.ts";
+test("wall clock blocks millisecond clocks that look like seconds", () => {
+  const openedAtMs = 1_000_000;
+  assert.equal(
+    capTimeToWallClock({
+      playerTime: 500,
+      startAt: 0,
+      openedAtMs,
+      nowMs: openedAtMs + 800,
+    }),
+    undefined,
+  );
+  assert.equal(
+    capTimeToWallClock({
+      playerTime: 8,
+      startAt: 0,
+      openedAtMs,
+      nowMs: openedAtMs + 8_000,
+    }),
+    8,
+  );
+  assert.equal(
+    capTimeToWallClock({
+      playerTime: 0,
+      startAt: 120,
+      openedAtMs,
+      nowMs: openedAtMs + 400,
+    }),
+    undefined,
+  );
+});
+
+test("30-second preview clocks are not a finished episode", () => {
+  assert.equal(progressFromPlayback(29, 30), undefined);
+  assert.equal(pickTrustedDuration(0, 30), 0);
+  assert.equal(pickTrustedDuration(0, 1_847), 1847);
+});
 
 test("player clocks treat leftover milliseconds against a real duration", () => {
   assert.equal(secondsFromPlayerClock(4_500, 1_847), 4.5);
