@@ -730,7 +730,7 @@
 
 @media (max-width: 700px) {
   .profilimPage {
-    padding-bottom: calc(118px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0;
   }
 
   .profilimDash {
@@ -751,7 +751,7 @@
   }
 
   .profilimPage .footerSection {
-    padding: 46px 20px 26px !important;
+    padding: 46px 20px calc(110px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .profilimPage .footerContainer {
