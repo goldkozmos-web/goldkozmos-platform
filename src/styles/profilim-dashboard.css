@@ -5,6 +5,18 @@
   color: #211811;
 }
 
+.profilimPage:has(.profilimGate--entry) {
+  background:
+    radial-gradient(ellipse at 50% -8%, rgba(92, 62, 38, 0.55), transparent 42%),
+    radial-gradient(ellipse at 100% 28%, rgba(28, 16, 10, 0.4), transparent 36%),
+    linear-gradient(180deg, #1c120c 0%, #2a1a12 32%, #3d281c 68%, #4f3424 100%);
+}
+
+.profilimDash--gate {
+  padding-top: 28px;
+  padding-bottom: 56px;
+}
+
 .profilimDash {
   padding: 22px 18px 48px;
 }
@@ -922,11 +934,13 @@
   width: min(100%, 20.5rem);
   margin: 4px auto 0;
   padding: 15px 16px 14px 17px;
-  border: 1px solid rgba(176, 138, 58, 0.28);
+  border: 1px solid rgba(24, 16, 10, 0.08);
   border-radius: 16px;
+  background: #ffffff;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.92) inset,
-    0 10px 24px rgba(48, 30, 14, 0.08);
+    0 1px 0 rgba(255, 255, 255, 1) inset,
+    0 1px 2px rgba(20, 12, 8, 0.06),
+    0 18px 40px rgba(12, 8, 4, 0.28);
 }
 
 .profilimGate--entry::before {
@@ -976,15 +990,6 @@
 
 .profilimGate--entry .profilimGoogleWrap {
   margin-top: 14px;
-}
-
-.profilimGate--entry .profilimGoogleButton {
-  min-height: 40px;
-  padding: 0 14px;
-  font-size: 11px;
-  font-weight: 650;
-  letter-spacing: 0.08em;
-  box-shadow: 0 8px 16px rgba(32, 20, 10, 0.14);
 }
 
 .profilimGateLead {
