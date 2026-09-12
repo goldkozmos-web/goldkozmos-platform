@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 
 import FooterSection from "../../../components/FooterSection";
-import Navbar from "../../../components/Navbar";
+import HomeNavbar from "../../../components/HomeNavbar";
 import RuyaArticle from "../../../components/ruya/RuyaArticle";
 import RuyaNoteForm from "../../../components/ruya/RuyaNoteForm";
 import RuyaSearch from "../../../components/ruya/RuyaSearch";
@@ -107,8 +107,8 @@ export default async function RuyaDetayPage({ params }: PageProps) {
   ];
 
   return (
-    <main className="homePage ruyaPage" id="top">
-      <Navbar />
+    <main className="homeV3Page ruyaPage" id="top">
+      <HomeNavbar />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

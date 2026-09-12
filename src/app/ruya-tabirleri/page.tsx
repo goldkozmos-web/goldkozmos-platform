@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import FooterSection from "../../components/FooterSection";
-import Navbar from "../../components/Navbar";
+import HomeNavbar from "../../components/HomeNavbar";
 import RuyaSearch from "../../components/ruya/RuyaSearch";
 import { ruyaUrl } from "../../lib/ruya-tabirleri/urls";
 import "../../styles/home.css";
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
 
 export default function RuyaTabirleriPage() {
   return (
-    <main className="homePage ruyaPage" id="top">
-      <Navbar />
+    <main className="homeV3Page ruyaPage" id="top">
+      <HomeNavbar />
       <div className="ruyaWrap">
         <p className="ruyaEyebrow">GOLDKOZMOS®</p>
         <h1>Rüya Tabirleri</h1>
