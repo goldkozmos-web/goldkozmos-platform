@@ -3876,6 +3876,25 @@ const goldBlogHubStyles = `
     background: linear-gradient(180deg, #321c18 0%, #1c100e 100%) !important;
   }
 
+  .goldblogPage .goldBlogSection,
+  .goldblogPage .goldBlogHub,
+  .goldblogPage .goldBlogNewSection,
+  .goldblogPage .goldBlogHubRailShell {
+    overflow: visible !important;
+  }
+
+  .goldblogPage .goldBlogNewRail,
+  .goldblogPage .goldBlogCategoryRail {
+    overflow-x: auto !important;
+    padding: 22px 12px 40px !important;
+    margin: -10px -12px -22px !important;
+  }
+
+  .goldblogPage .goldBlogNewCard,
+  .goldblogPage .goldBlogNewCard:first-child {
+    overflow: visible !important;
+  }
+
 `;
 
 const canonicalGoldBlogUrl =
