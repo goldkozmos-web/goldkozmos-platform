@@ -73,7 +73,7 @@
 }
 
 .dailyActionBand {
-  padding: 8px 0 20px;
+  padding: 2px 0 8px;
   overflow: visible;
   background: #fffdf9;
 }
@@ -81,11 +81,10 @@
 .dailyActionRail {
   display: flex;
   gap: 10px;
-  width: min(1180px, calc(100% - 32px));
+  width: min(1180px, 100%);
   margin: 0 auto;
-  padding: 6px 2px 14px;
+  padding: 16px 22px 26px;
   overflow-x: auto;
-  overflow-y: visible;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -95,12 +94,19 @@
   display: none;
 }
 
-.dailyActionCard {
-  position: relative;
-  isolation: isolate;
+.dailyActionShell {
   flex: 0 0 calc((100% - 20px) / 3);
   min-width: 108px;
   max-width: 148px;
+  display: block;
+  filter: drop-shadow(0 12px 14px rgba(48, 32, 18, 0.18));
+  scroll-snap-align: start;
+  text-decoration: none;
+}
+
+.dailyActionCard {
+  position: relative;
+  isolation: isolate;
   min-height: 72px;
   padding: 12px 10px;
   display: grid;
@@ -109,9 +115,6 @@
   border: 1px solid rgba(196, 160, 74, 0.5);
   border-radius: 16px;
   background: #e6c878;
-  box-shadow: 0 8px 16px rgba(48, 32, 18, 0.1);
-  scroll-snap-align: start;
-  text-decoration: none;
 }
 
 .dailyActionWash,
@@ -195,7 +198,7 @@
     flex-wrap: wrap;
   }
 
-  .dailyActionCard {
+  .dailyActionShell {
     flex: 0 0 132px;
   }
 }
@@ -263,7 +266,7 @@
 
 @media (max-width: 700px) {
   .dailyActionBand {
-    padding: 8px 16px 18px;
+    padding: 8px 0 18px;
   }
 
   .dailyMessageCard {

@@ -14,18 +14,20 @@ export default function DailyActionCard() {
     <section className="dailyActionBand" aria-label="GoldKozmos kısayolları">
       <div className="dailyActionRail">
         {GOLD_CHIPS.map((chip, index) => (
-          <a key={chip.href} className="dailyActionCard" href={chip.href}>
-            <span
-              className="dailyActionWash"
-              aria-hidden="true"
-              style={{ animationDelay: `${index * 0.9}s` }}
-            />
-            <span
-              className="dailyActionShine"
-              aria-hidden="true"
-              style={{ animationDelay: `${index * 0.5}s` }}
-            />
-            <span className="dailyActionLabel">{chip.label}</span>
+          <a key={chip.href} className="dailyActionShell" href={chip.href}>
+            <span className="dailyActionCard">
+              <span
+                className="dailyActionWash"
+                aria-hidden="true"
+                style={{ animationDelay: `${index * 0.9}s` }}
+              />
+              <span
+                className="dailyActionShine"
+                aria-hidden="true"
+                style={{ animationDelay: `${index * 0.5}s` }}
+              />
+              <span className="dailyActionLabel">{chip.label}</span>
+            </span>
           </a>
         ))}
       </div>
