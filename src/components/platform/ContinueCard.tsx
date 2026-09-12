@@ -31,7 +31,7 @@ export default function ContinueCard({
 }: ContinueCardProps) {
   const { startAudio, startYoutube, startSpotify } = usePlayback();
   const [flashing, setFlashing] = useState(false);
-  const flashTimer = useRef<number>(0);
+  const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function playNow() {
     if (!item) {
@@ -81,7 +81,9 @@ export default function ContinueCard({
     }
 
     setFlashing(true);
-    window.clearTimeout(flashTimer.current);
+    if (flashTimer.current) {
+      window.clearTimeout(flashTimer.current);
+    }
     flashTimer.current = window.setTimeout(() => {
       setFlashing(false);
       playNow();

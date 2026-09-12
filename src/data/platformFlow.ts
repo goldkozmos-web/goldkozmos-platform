@@ -109,8 +109,20 @@ export function formatProgressPercent(progress: number) {
 }
 
 export function resumeOffset(currentTime?: number, durationSeconds?: number) {
-  const time = Number(currentTime) || 0;
-  const duration = Number(durationSeconds) || 0;
+  let duration = Number(durationSeconds) || 0;
+  if (duration > 10_000) {
+    duration /= 1000;
+  }
+
+  let time = Number(currentTime) || 0;
+  if (time > 10_000) {
+    time /= 1000;
+  }
+
+  if (duration >= 15 && time > duration + 2) {
+    const asMs = time / 1000;
+    time = asMs <= duration + 1.5 ? asMs : 0;
+  }
 
   if (time < 2) {
     return 0;
@@ -124,6 +136,10 @@ export function resumeOffset(currentTime?: number, durationSeconds?: number) {
     time <= duration + 1.5
   ) {
     return 0;
+  }
+
+  if (duration >= 15) {
+    return Math.min(time, Math.max(0, duration - 1));
   }
 
   return time;

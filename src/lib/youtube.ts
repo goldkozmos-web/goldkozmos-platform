@@ -21,7 +21,7 @@ export function youtubeEmbedSrc(
 
   const start = Math.floor(Math.max(0, startSeconds));
 
-  if (start > 0) {
+  if (start > 1 && start < 4 * 60 * 60) {
     params.set("start", String(start));
   }
 

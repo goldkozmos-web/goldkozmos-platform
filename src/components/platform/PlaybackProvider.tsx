@@ -21,6 +21,7 @@ import {
   normalizePlaybackClocks,
   pickTrustedDuration,
   secondsFromPlayerClock,
+  sanitizeStoredSeconds,
 } from "../../lib/mediaTime";
 import {
   getLatestProgress,
@@ -120,6 +121,9 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const spotifyControllerRef = useRef<SpotifyEmbedController | null>(null);
   const spotifyShouldPlayRef = useRef(false);
   const embedStartRef = useRef(0);
+  const durationRef = useRef(0);
+  const clockGuardRef = useRef({ wall: 0, time: 0 });
+  const playOpenedAtRef = useRef(0);
   const [items, setItems] = useState<PlatformProgressMap>({});
   const [session, setSession] = useState<PlaybackSession | null>(null);
   const [minimized, setMinimized] = useState(false);
@@ -127,6 +131,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ready, setReady] = useState(false);
+  durationRef.current = duration;
 
   useEffect(() => {
     setItems(readPlatformProgressMap());
@@ -147,7 +152,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
           : live.session.spotifyEmbedUrl,
       });
       setCurrentTime(startAt);
-      setDuration(live.session.durationSeconds ?? 0);
+      setDuration(sanitizeStoredSeconds(live.session.durationSeconds));
       setMinimized(true);
       setIsPlaying(Boolean(live.isPlaying));
     }
@@ -273,11 +278,14 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     }
 
     const existing = items[progressKey(input.platform, input.contentId)] ?? null;
+    const storedDuration = sanitizeStoredSeconds(existing?.durationSeconds);
     const startAt = resumeOffset(
-      existing?.currentTime,
-      existing?.durationSeconds,
+      sanitizeStoredSeconds(existing?.currentTime, storedDuration || undefined),
+      storedDuration,
     );
     embedStartRef.current = startAt;
+    clockGuardRef.current = { wall: Date.now(), time: startAt };
+    playOpenedAtRef.current = Date.now();
 
     const next: PlaybackSession = {
       platform: input.platform,
@@ -287,7 +295,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       href: input.href,
       progress: existing?.progress ?? 0,
       currentTime: startAt,
-      durationSeconds: existing?.durationSeconds,
+      durationSeconds: storedDuration || existing?.durationSeconds,
       lastOpenedAt: now,
       lastPlayedAt: now,
       status: "playing",
@@ -298,7 +306,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     setSession(next);
     setCurrentTime(startAt);
-    setDuration(existing?.durationSeconds ?? 0);
+    setDuration(storedDuration);
     setMinimized(false);
     setIsPlaying(true);
     persist(next);
@@ -310,11 +318,14 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     sendYoutubeCommand(youtubeRef.current, "pauseVideo");
 
     const existing = items[progressKey(input.platform, input.contentId)] ?? null;
+    const storedDuration = sanitizeStoredSeconds(existing?.durationSeconds);
     const startAt = resumeOffset(
-      existing?.currentTime,
-      existing?.durationSeconds,
+      sanitizeStoredSeconds(existing?.currentTime, storedDuration || undefined),
+      storedDuration,
     );
     embedStartRef.current = startAt;
+    clockGuardRef.current = { wall: Date.now(), time: startAt };
+    playOpenedAtRef.current = Date.now();
 
     const embedUrl = spotifyEmbedSrc(input.embedUrl);
     spotifyShouldPlayRef.current = true;
@@ -337,7 +348,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       href: input.href,
       progress: existing?.progress ?? 0,
       currentTime: startAt,
-      durationSeconds: existing?.durationSeconds,
+      durationSeconds: storedDuration || existing?.durationSeconds,
       lastOpenedAt: now,
       lastPlayedAt: now,
       status: "playing",
@@ -348,7 +359,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
     setSession(next);
     setCurrentTime(startAt);
-    setDuration(existing?.durationSeconds ?? 0);
+    setDuration(storedDuration);
     setMinimized(false);
     setIsPlaying(true);
     persist(next);
@@ -504,26 +515,55 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
       if (data.event === "onReady" || data.event === "initialDelivery") {
         listenToYoutube(youtubeRef.current);
-        const startAt = embedStartRef.current;
-        if (startAt > 1) {
-          sendYoutubeCommand(youtubeRef.current, "seekTo", [startAt, true]);
-        }
       }
 
       const info = data.info;
 
       if (data.event === "infoDelivery" && info && typeof info === "object") {
-        const time = secondsFromPlayerClock(info.currentTime);
-        if (time != null) {
-          setCurrentTime(time);
-        }
-
-        const length = secondsFromPlayerClock(info.duration);
+        const trusted = durationRef.current;
+        const length = secondsFromPlayerClock(info.duration, trusted);
         if (length != null) {
           setDuration((current) => pickTrustedDuration(current, length));
         }
 
+        const time = secondsFromPlayerClock(
+          info.currentTime,
+          length ?? trusted,
+        );
+        if (time != null) {
+          const now = Date.now();
+          const prev = clockGuardRef.current;
+          const elapsed = prev.wall ? (now - prev.wall) / 1000 : 0;
+          const jumped = prev.wall > 0 && time > prev.time + Math.max(elapsed * 3, 2) + 1.25;
+
+          if (jumped) {
+            const asMs = time / 1000;
+            const cap = length ?? trusted;
+            if (cap >= 15 ? asMs <= cap + 1.5 : asMs < 30) {
+              setCurrentTime(asMs);
+              clockGuardRef.current = { wall: now, time: asMs };
+            }
+          } else {
+            setCurrentTime(time);
+            clockGuardRef.current = { wall: now, time };
+          }
+        }
+
         if (typeof info.playerState === "number") {
+          if (
+            info.playerState === 0 &&
+            embedStartRef.current > 2 &&
+            Date.now() - playOpenedAtRef.current < 6000
+          ) {
+            embedStartRef.current = 0;
+            clockGuardRef.current = { wall: Date.now(), time: 0 };
+            setCurrentTime(0);
+            sendYoutubeCommand(youtubeRef.current, "seekTo", [0, true]);
+            sendYoutubeCommand(youtubeRef.current, "playVideo");
+            setIsPlaying(true);
+            return;
+          }
+
           setIsPlaying(info.playerState === 1);
         }
       }
@@ -589,12 +629,22 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
           controller.addListener("playback_update", (event) => {
             const clocks = normalizePlaybackClocks(event.data ?? {});
 
-            if (clocks.position != null) {
-              setCurrentTime(clocks.position);
-            }
-
             if (clocks.duration != null) {
               setDuration((current) => pickTrustedDuration(current, clocks.duration));
+            }
+
+            if (clocks.position != null) {
+              const now = Date.now();
+              const prev = clockGuardRef.current;
+              const elapsed = prev.wall ? (now - prev.wall) / 1000 : 0;
+              const jumped =
+                prev.wall > 0 &&
+                clocks.position > prev.time + Math.max(elapsed * 3, 2) + 1.25;
+
+              if (!jumped) {
+                setCurrentTime(clocks.position);
+                clockGuardRef.current = { wall: now, time: clocks.position };
+              }
             }
 
             if (typeof event.data?.isPaused === "boolean") {
@@ -755,13 +805,6 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             allowFullScreen
             onLoad={() => {
               listenToYoutube(youtubeRef.current);
-              if (embedStartRef.current > 1) {
-                sendYoutubeCommand(
-                  youtubeRef.current,
-                  "seekTo",
-                  [embedStartRef.current, true],
-                );
-              }
             }}
           />
           ) : (

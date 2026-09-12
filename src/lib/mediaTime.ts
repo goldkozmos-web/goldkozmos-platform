@@ -1,19 +1,60 @@
 /** Normalize player clocks so progress never races ahead of the real recording. */
 
 export const MIN_TRUSTED_DURATION_SECONDS = 15;
+const MS_CLOCK_THRESHOLD = 10_000;
+const MAX_EPISODE_SECONDS = 4 * 60 * 60;
 
 /**
  * Spotify IFrame API documents duration/position in milliseconds.
  * Some events (and YouTube) already send seconds. Treat large values as ms.
+ * Values just above a trusted duration are also treated as leftover ms
+ * (e.g. 4500 meaning 4.5s, not 4500s).
  */
-export function secondsFromPlayerClock(value: unknown): number | undefined {
+export function secondsFromPlayerClock(
+  value: unknown,
+  trustedDuration?: number,
+): number | undefined {
   if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
     return undefined;
   }
-  if (value > 10_000) {
+
+  if (value > MS_CLOCK_THRESHOLD) {
     return value / 1000;
   }
+
+  if (
+    trustedDuration != null &&
+    trustedDuration >= MIN_TRUSTED_DURATION_SECONDS &&
+    value > trustedDuration + 2
+  ) {
+    const asMs = value / 1000;
+    if (asMs <= trustedDuration + 1.5) {
+      return asMs;
+    }
+    return undefined;
+  }
+
+  if (value > MAX_EPISODE_SECONDS) {
+    return value / 1000;
+  }
+
   return value;
+}
+
+export function sanitizeStoredSeconds(value: unknown, trustedDuration?: number): number {
+  return secondsFromPlayerClock(value, trustedDuration) ?? 0;
+}
+
+/**
+ * Spotify `playback_update` always reports position and duration in milliseconds,
+ * including values under 10s (1500 === 1.5s, not 1500s).
+ */
+export function secondsFromSpotifyClock(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    return undefined;
+  }
+
+  return value / 1000;
 }
 
 export function normalizePlaybackClocks(data: {
@@ -21,9 +62,10 @@ export function normalizePlaybackClocks(data: {
   duration?: unknown;
   currentTime?: unknown;
 }): { position?: number; duration?: number } {
-  const position = secondsFromPlayerClock(data.position ?? data.currentTime);
-  const duration = secondsFromPlayerClock(data.duration);
-  return { position, duration };
+  return {
+    position: secondsFromSpotifyClock(data.position ?? data.currentTime),
+    duration: secondsFromSpotifyClock(data.duration),
+  };
 }
 
 /** Keep a plausible episode length; ignore tiny / preview clocks that inflate %. */

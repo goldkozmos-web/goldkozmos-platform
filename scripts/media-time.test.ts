@@ -5,14 +5,32 @@ import { resumeOffset } from "../src/data/platformFlow.ts";
 import {
   displayProgressFromItem,
   mergePlaybackFields,
+  normalizePlaybackClocks,
   progressFromPlayback,
   secondsFromPlayerClock,
+  secondsFromSpotifyClock,
 } from "../src/lib/mediaTime.ts";
 
-test("player clocks treat large values as milliseconds", () => {
-  assert.equal(secondsFromPlayerClock(1_847_000), 1847);
-  assert.equal(secondsFromPlayerClock(1847), 1847);
-  assert.equal(secondsFromPlayerClock(30_000), 30);
+test("player clocks treat leftover milliseconds against a real duration", () => {
+  assert.equal(secondsFromPlayerClock(4_500, 1_847), 4.5);
+  assert.equal(secondsFromPlayerClock(72_000, 1_800), 72);
+});
+
+test("Spotify playback_update clocks are always milliseconds", () => {
+  assert.equal(secondsFromSpotifyClock(1_500), 1.5);
+  assert.equal(secondsFromSpotifyClock(1_847_000), 1847);
+  const clocks = normalizePlaybackClocks({
+    position: 1_840,
+    duration: 1_847_000,
+  });
+  assert.equal(clocks.position, 1.84);
+  assert.equal(clocks.duration, 1847);
+  assert.equal(progressFromPlayback(clocks.position ?? 0, clocks.duration ?? 0)?.toFixed(3), "0.001");
+});
+
+test("resume converts stored millisecond clocks so play does not skip to the end", () => {
+  assert.equal(resumeOffset(72_000, 1_800_000), 72);
+  assert.equal(resumeOffset(5_000, 1_800), 5);
 });
 
 test("progress follows a trusted duration and does not hit 100% early", () => {
