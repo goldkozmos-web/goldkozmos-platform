@@ -10,10 +10,11 @@ const GOLD_CHIPS = [
 ] as const;
 
 const BROWN_CHIPS = [
-  { href: "/profilim?open=duyguRehberi", label: "Duygu Rehberim" },
-  { href: "/profilim", label: "Notlarım" },
-  { href: "/profilim", label: "Rüyalarım" },
-  { href: "/calismalar/tarot", label: "Tarot" },
+  { href: "/profilim?open=duyguRehberi", label: "Duygu rehberi" },
+  { href: "/profilim?open=journal", label: "Not al" },
+  { href: "/profilim", label: "Rüya tabiri" },
+  { href: "/calismalar/tarot", label: "Tarot bak" },
+  { href: "/calismalar/enerji", label: "Ritüeller" },
 ] as const;
 
 function ChipRow({
