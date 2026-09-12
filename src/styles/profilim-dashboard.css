@@ -612,38 +612,44 @@
     align-items: center;
     justify-content: center;
     gap: 5px;
-    border: 1px solid rgba(190, 145, 63, 0.36);
+    border: 1px solid rgba(196, 160, 86, 0.42);
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.04);
+    background:
+      linear-gradient(180deg, rgba(255, 244, 220, 0.08), transparent 42%),
+      linear-gradient(180deg, #3a281c, #22170f);
+    box-shadow:
+      0 1px 0 rgba(255, 248, 228, 0.16) inset,
+      0 6px 14px rgba(8, 4, 2, 0.22);
     visibility: visible !important;
     opacity: 1 !important;
   }
 
   .profilimPage #goldkozmosGlobalNav .siteGlobalMobileMenuButton > span {
-    width: 18px;
+    width: 16px;
     height: 1.5px;
     display: block;
-    background: #c79a45;
+    background: #e2c67c;
     border-radius: 999px;
+    box-shadow: 0 1px 0 rgba(80, 52, 16, 0.35);
   }
 
   .profilimPage #goldkozmosGlobalNav .siteGlobalMobileMenu {
     display: none;
     position: absolute;
     top: 100%;
-    left: 14px;
-    right: 14px;
+    left: 0;
+    right: 0;
     z-index: 999999;
-    padding: 12px;
+    padding: 6px 18px 16px;
     box-sizing: border-box;
-    border: 1px solid rgba(181, 138, 61, 0.22);
-    border-radius: 0 0 20px 20px;
-    background: linear-gradient(
-      180deg,
-      rgba(39, 27, 19, 0.995),
-      rgba(27, 18, 13, 0.995)
-    );
-    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.3);
+    border: 0;
+    border-bottom: 1px solid rgba(196, 160, 86, 0.28);
+    border-radius: 0 0 18px 18px;
+    background:
+      linear-gradient(180deg, #2c1e16 0%, #1a120c 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 236, 200, 0.08) inset,
+      0 24px 48px rgba(8, 4, 2, 0.42);
   }
 
   .profilimPage #goldkozmosGlobalNav .siteGlobalMobileMenu.isOpen {
@@ -664,17 +670,17 @@
     nav
     > a:not(.siteGlobalMobileTestLink) {
     width: 100%;
-    min-height: 46px;
+    min-height: 44px;
     margin: 0;
-    padding: 0 10px;
+    padding: 0 2px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     border: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(196, 160, 86, 0.14);
     border-radius: 0;
     background: transparent;
-    color: #fffaf0;
+    color: #f6edd8;
     text-decoration: none;
   }
 
@@ -694,37 +700,48 @@
     > a
     > strong {
     margin: 0;
-    color: #fffaf0;
+    color: #f6edd8;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 400;
-    line-height: 1;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
   }
 
   .profilimPage #goldkozmosGlobalNav .siteGlobalMobileTestLink {
     width: 100%;
     min-height: 44px;
-    margin-top: 10px;
-    padding: 0 14px;
+    margin-top: 12px;
+    padding: 0 16px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 0;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #9f752d, #c2953e);
+    border: 1px solid #8d6a28;
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgba(255, 248, 228, 0.42) 0%, rgba(255, 248, 228, 0) 36%),
+      linear-gradient(180deg, #e2c67c 0%, #c4a056 48%, #9e7c30 100%);
+    box-shadow:
+      0 1px 0 rgba(255, 252, 240, 0.72) inset,
+      0 -1px 0 rgba(86, 60, 16, 0.28) inset,
+      0 8px 16px rgba(92, 64, 18, 0.28);
     text-decoration: none;
   }
 
   .profilimPage #goldkozmosGlobalNav .siteGlobalMobileTestLink > strong {
-    color: #fffaf0;
+    color: #1a120c;
     font-size: 12px;
     font-weight: 700;
+    letter-spacing: 0.06em;
+    text-shadow: 0 1px 0 rgba(255, 244, 214, 0.32);
   }
 
   .profilimPage #goldkozmosGlobalNav .siteGlobalMobileTestLink::after {
     content: "→";
-    color: #fffaf0;
+    color: #1a120c;
   }
 }
 
