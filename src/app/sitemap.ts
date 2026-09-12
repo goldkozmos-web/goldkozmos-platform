@@ -1,8 +1,17 @@
 import type { MetadataRoute } from "next";
 
+import { publishedDreams } from "../data/ruya-tabirleri/catalog";
+
 const baseUrl = "https://goldkozmos.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const dreams = publishedDreams().map((dream) => ({
+    url: `${baseUrl}/ruya-tabirleri/${dream.slug}`,
+    lastModified: dream.updatedAt,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
   return [
     {
       url: `${baseUrl}/`,
@@ -101,6 +110,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/ruya-tabirleri`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+
+    {
       url: `${baseUrl}/goldfrekans`,
       changeFrequency: "monthly",
       priority: 0.7,
@@ -171,5 +186,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.2,
     },
+    ...dreams,
   ];
 }

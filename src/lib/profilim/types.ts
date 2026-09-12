@@ -155,6 +155,7 @@ export type ProfilimDrawerId =
   | "suggest"
   | "emotionJournal"
   | "duyguRehberi"
+  | "dreamJournal"
   | "activityHistory"
   | "todos";
 
