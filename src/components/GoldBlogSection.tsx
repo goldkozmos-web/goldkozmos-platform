@@ -3743,16 +3743,14 @@ const goldBlogHubStyles = `
     min-width: 0 !important;
     min-height: 0 !important;
     padding: 12px 13px 13px !important;
-    border: 1px solid rgba(255, 252, 248, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
     border-radius: 16px !important;
-    background:
-      radial-gradient(ellipse at 18% -10%, rgba(214, 176, 140, 0.55), transparent 52%),
-      linear-gradient(180deg, #e2cbb6 0%, #f0e6da 48%, #fffdf9 100%) !important;
+    background: #ffffff !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.88) inset,
-      0 1px 2px rgba(72, 46, 28, 0.06),
-      0 6px 14px rgba(72, 46, 28, 0.07),
-      0 18px 34px rgba(72, 46, 28, 0.08) !important;
+      0 1px 0 rgba(255, 255, 255, 1) inset,
+      0 1px 2px rgba(72, 46, 28, 0.05),
+      0 6px 14px rgba(72, 46, 28, 0.06),
+      0 18px 34px rgba(72, 46, 28, 0.07) !important;
     color: #1c1410 !important;
     text-align: left;
   }
