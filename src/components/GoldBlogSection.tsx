@@ -3710,6 +3710,132 @@ const goldBlogHubStyles = `
     }
   }
 
+  .goldblogPage .goldBlogHubIntro h2 {
+    display: none !important;
+  }
+
+  .goldblogPage .goldBlogHubIntro {
+    margin-bottom: 14px !important;
+  }
+
+  .goldblogPage .goldBlogNewCard,
+  .goldblogPage .goldBlogNewCard:first-child,
+  .goldblogPage .goldBlogCategoryCard,
+  .goldblogPage .goldBlogCategoryCard:hover,
+  .goldblogPage .goldBlogCategoryCard.isActive {
+    overflow: hidden !important;
+    border: 1px solid rgba(196, 160, 86, 0.28) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 248, 230, 0.12) inset,
+      0 14px 28px rgba(28, 16, 8, 0.14) !important;
+  }
+
+  .goldblogPage .goldBlogNewCard,
+  .goldblogPage .goldBlogNewCard:first-child {
+    padding: 0 14px 16px !important;
+    color: #f6edd8 !important;
+    text-align: left;
+  }
+
+  .goldblogPage .goldBlogNewCardImage {
+    position: relative;
+    width: calc(100% + 28px);
+    height: 108px;
+    margin: 0 -14px 12px;
+    overflow: hidden;
+  }
+
+  .goldblogPage .goldBlogNewCardImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .goldblogPage .goldBlogNewCardImage::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(20, 12, 8, 0.05), rgba(20, 12, 8, 0.45));
+    content: "";
+  }
+
+  .goldblogPage .goldBlogNewCard > p,
+  .goldblogPage .goldBlogNewCard:first-child > p {
+    color: #e2c67c !important;
+    font-size: 9px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  .goldblogPage .goldBlogNewCardTitle,
+  .goldblogPage .goldBlogNewCard h4,
+  .goldblogPage .goldBlogNewCard:first-child h4 {
+    color: #fff8ee !important;
+    font-size: 15px !important;
+    line-height: 1.22 !important;
+    font-weight: 500 !important;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .goldblogPage .goldBlogNewCardMeta,
+  .goldblogPage .goldBlogNewCard:first-child .goldBlogNewCardMeta {
+    color: rgba(246, 237, 216, 0.82) !important;
+  }
+
+  .goldblogPage .goldBlogNewBadge {
+    color: #1a120c !important;
+    background: #e2c67c !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard p,
+  .goldblogPage .goldBlogCategoryCard h3,
+  .goldblogPage .goldBlogCategoryCard small {
+    position: relative;
+    z-index: 1;
+  }
+
+  .goldblogPage .goldBlogCategoryCard p {
+    color: #e2c67c !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard h3 {
+    color: #fff8ee !important;
+    text-shadow: 0 1px 12px rgba(12, 8, 4, 0.35);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .goldblogPage .goldBlogCategoryCard small {
+    color: rgba(246, 237, 216, 0.88) !important;
+    line-height: 1.45 !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="spirituel-stoa"],
+  .goldblogPage .goldBlogNewCard[data-category-key="spirituel-stoa"] {
+    background: linear-gradient(180deg, #2c1c14 0%, #1a120c 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="iliski-rezonansi"],
+  .goldblogPage .goldBlogNewCard[data-category-key="iliski-rezonansi"] {
+    background: linear-gradient(180deg, #3d281c 0%, #27180f 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="kendilik-rezonansi"],
+  .goldblogPage .goldBlogNewCard[data-category-key="kendilik-rezonansi"] {
+    background: linear-gradient(180deg, #322a18 0%, #1e1a10 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="bolluk-rezonansi"],
+  .goldblogPage .goldBlogNewCard[data-category-key="bolluk-rezonansi"] {
+    background: linear-gradient(180deg, #3f3218 0%, #2a220e 100%) !important;
+  }
+
+  .goldblogPage .goldBlogCategoryCard[data-category-key="goldkozmos-gunlugu"],
+  .goldblogPage .goldBlogNewCard[data-category-key="goldkozmos-gunlugu"] {
+    background: linear-gradient(180deg, #321c18 0%, #1c100e 100%) !important;
+  }
+
 `;
 
 const canonicalGoldBlogUrl =
@@ -4225,11 +4351,24 @@ export default function GoldBlogSection() {
                   <button
                     type="button"
                     className="goldBlogNewCard"
+                    data-category-key={article.categoryKey}
                     key={article.slug}
                     onClick={() =>
                       openReader(article, true)
                     }
                   >
+                    <div className="goldBlogNewCardImage">
+                      <img
+                        src={
+                          goldBlogCategoryImages[
+                            article.categoryKey
+                          ]
+                        }
+                        alt=""
+                        aria-hidden="true"
+                      />
+                    </div>
+
                     <div className="goldBlogNewCardMeta">
                       <span className="goldBlogNewBadge">
                         YENİ
@@ -4258,12 +4397,7 @@ export default function GoldBlogSection() {
               <p className="goldBlogHubEyebrow">
                 GOLDKOZMOS® · GOLDBLOG
               </p>
-
-              <h2>
-                Keşfet
-              </h2>
             </div>
-
           </header>
 
           <div className="goldBlogHubRailShell">
