@@ -6,6 +6,7 @@ import ProfilimDashboard from "../../components/profilim/ProfilimDashboard";
 import { loadProfilimDashboard } from "../../lib/profilim/loadDashboard";
 import "../../styles/home.css";
 import "../../styles/profilim-dashboard.css";
+import "../../styles/daily-practice.css";
 
 export const dynamic = "force-dynamic";
 

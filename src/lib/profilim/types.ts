@@ -152,7 +152,10 @@ export type ProfilimDrawerId =
   | "journey"
   | "understand"
   | "inbox"
-  | "suggest";
+  | "suggest"
+  | "emotionJournal"
+  | "activityHistory"
+  | "todos";
 
 export type ProfilimDashboardSources = {
   user: ProfilimUser;

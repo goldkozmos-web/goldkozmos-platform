@@ -58,6 +58,10 @@ import {
   InboxPanel,
   SuggestPanel,
 } from "./ProfilimPanels";
+import DailyMessageCard from "../daily/DailyMessageCard";
+import EmotionJournalPanel from "../daily/EmotionJournalPanel";
+import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
+import RemindersPanel from "../daily/RemindersPanel";
 
 const TRACKS: { id: "goldmind" | "goldbook" | "rezonans"; label: string }[] = [
   { id: "goldmind", label: "GoldMind" },
@@ -83,6 +87,9 @@ const DRAWERS: Record<
   understand: { eyebrow: "FARKINDALIK", title: "Kendimi Anlamak" },
   inbox: { eyebrow: "MESAJ", title: "Gelen Mesajlar" },
   suggest: { eyebrow: "ÖNERİ", title: "Gold’a Öneri" },
+  emotionJournal: { eyebrow: "DUYGU", title: "Duygu Günlüğüm" },
+  activityHistory: { eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişi" },
+  todos: { eyebrow: "GÖREV", title: "Yapılacaklarım" },
 };
 
 export default function ProfilimDashboard({
@@ -334,11 +341,28 @@ export default function ProfilimDashboard({
               </ProfilimFeaturedCard>
             </div>
 
+            <DailyMessageCard />
+
             <div className="profilimTileGrid">
               <ProfilimCompactTile
                 eyebrow="MESAJ"
                 title="Gelen Mesajlar"
                 onOpen={() => setOpen("inbox")}
+              />
+              <ProfilimCompactTile
+                eyebrow="DUYGU"
+                title="Duygu Günlüğüm"
+                onOpen={() => setOpen("emotionJournal")}
+              />
+              <ProfilimCompactTile
+                eyebrow="GEÇMİŞ"
+                title="İlerleme Geçmişi"
+                onOpen={() => setOpen("activityHistory")}
+              />
+              <ProfilimCompactTile
+                eyebrow="GÖREV"
+                title="Yapılacaklarım"
+                onOpen={() => setOpen("todos")}
               />
               <ProfilimCompactTile
                 eyebrow="ÖNERİ"
@@ -440,6 +464,9 @@ export default function ProfilimDashboard({
           {open === "understand" ? <AwarenessPanel /> : null}
           {open === "inbox" ? <InboxPanel /> : null}
           {open === "suggest" ? <SuggestPanel /> : null}
+          {open === "emotionJournal" ? <EmotionJournalPanel /> : null}
+          {open === "activityHistory" ? <ActivityTimelinePanel /> : null}
+          {open === "todos" ? <RemindersPanel /> : null}
         </ProfilimDrawer>
       ) : null}
     </section>

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import FooterSection from "../components/FooterSection";
 import HomeNavbar from "../components/HomeNavbar";
 import PlatformRail from "../components/platform/PlatformRail";
+import DailyActionCard from "../components/daily/DailyActionCard";
 import {
   getEducationCourses,
   getEducationHubHref,
@@ -2722,6 +2723,8 @@ export default function HomePageClient() {
           </div>
         </div>
       </section>
+
+      <DailyActionCard />
 
       <PlatformRail />
 
