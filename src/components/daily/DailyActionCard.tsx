@@ -33,59 +33,74 @@ export default function DailyActionCard() {
 
   return (
     <section className="dailyActionBand">
-      <div className="dailyActionCard">
-        <p className="dailyEyebrow">BUGÜNÜN GOLDKOZMOS EYLEMİ</p>
-        {signedIn && action ? (
-          <>
-            {category ? <span className="dailyActionCategory">{category}</span> : null}
-            <h2>{action.title}</h2>
-            <p>{action.body}</p>
-            {action.completedAt ? (
-              <p className="dailyStatus">Bugün tamamlandı.</p>
+      <div className="dailyActionShell">
+        <span className="dailyActionAura" aria-hidden="true" />
+        <article className="dailyActionCard">
+          <span className="dailyActionWash" aria-hidden="true" />
+          <span className="dailyActionGlow" aria-hidden="true" />
+          <span className="dailyActionShine" aria-hidden="true" />
+          <span className="dailyActionRim" aria-hidden="true" />
+          <div className="dailyActionCopy">
+            <p className="dailyEyebrow">BUGÜNÜN GOLDKOZMOS EYLEMİ</p>
+            {signedIn && action ? (
+              <>
+                {category ? (
+                  <span className="dailyActionCategory">{category}</span>
+                ) : null}
+                <h2>{action.title}</h2>
+                <p>{action.body}</p>
+                {action.completedAt ? (
+                  <p className="dailyStatus">Bugün tamamlandı.</p>
+                ) : (
+                  <button
+                    type="button"
+                    className="dailyActionDone"
+                    disabled={pending}
+                    onClick={() => {
+                      setPending(true);
+                      void completeTodayAction().then((result) => {
+                        setPending(false);
+                        if (result.error) {
+                          setStatus(result.error);
+                          return;
+                        }
+                        setAction((current) =>
+                          current
+                            ? {
+                                ...current,
+                                completedAt:
+                                  result.completedAt ?? new Date().toISOString(),
+                              }
+                            : current,
+                        );
+                        setStatus("Bugünün eylemi kaydedildi.");
+                      });
+                    }}
+                  >
+                    {pending ? "Kaydediliyor…" : "Tamamladım"}
+                  </button>
+                )}
+                {status ? <p className="dailyStatus">{status}</p> : null}
+              </>
+            ) : signedIn ? (
+              <>
+                <h2>Bugün küçük bir adım.</h2>
+                <p>Günün eylemi birazdan burada durur.</p>
+              </>
             ) : (
-              <button
-                type="button"
-                className="dailyActionDone"
-                disabled={pending}
-                onClick={() => {
-                  setPending(true);
-                  void completeTodayAction().then((result) => {
-                    setPending(false);
-                    if (result.error) {
-                      setStatus(result.error);
-                      return;
-                    }
-                    setAction((current) =>
-                      current
-                        ? {
-                            ...current,
-                            completedAt: result.completedAt ?? new Date().toISOString(),
-                          }
-                        : current,
-                    );
-                    setStatus("Bugünün eylemi kaydedildi.");
-                  });
-                }}
-              >
-                {pending ? "Kaydediliyor…" : "Tamamladım"}
-              </button>
+              <>
+                <h2>Bugün küçük bir adım.</h2>
+                <p>
+                  Günün eylemini görmek ve tamamlamak için Profilim’den giriş
+                  yap.
+                </p>
+                <a className="dailyActionDone" href="/profilim">
+                  Profilim
+                </a>
+              </>
             )}
-            {status ? <p className="dailyStatus">{status}</p> : null}
-          </>
-        ) : signedIn ? (
-          <>
-            <h2>Bugün küçük bir adım.</h2>
-            <p>Günün eylemi birazdan burada durur.</p>
-          </>
-        ) : (
-          <>
-            <h2>Bugün küçük bir adım.</h2>
-            <p>Günün eylemini görmek ve tamamlamak için Profilim’den giriş yap.</p>
-            <a className="dailyActionDone" href="/profilim">
-              Profilim
-            </a>
-          </>
-        )}
+          </div>
+        </article>
       </div>
     </section>
   );
