@@ -73,209 +73,69 @@
 }
 
 .dailyActionBand {
-  padding: 20px 0 36px;
+  padding: 10px 16px 22px;
+  display: flex;
+  justify-content: center;
   overflow: visible;
   background: #fffdf9;
 }
 
-.dailyActionShell {
-  position: relative;
-  width: min(420px, calc(100% - 48px));
-  margin: 0 auto;
-  overflow: visible;
-}
-
-.dailyActionAura {
-  position: absolute;
-  z-index: 0;
-  inset: 18px 10px -6px;
-  border-radius: 28px;
-  background: radial-gradient(
-    ellipse at 50% 100%,
-    rgba(176, 138, 62, 0.42),
-    rgba(48, 32, 18, 0.28) 46%,
-    transparent 72%
-  );
-  filter: blur(18px);
-  pointer-events: none;
-}
-
 .dailyActionCard {
   position: relative;
-  z-index: 1;
   isolation: isolate;
   overflow: hidden;
-  border: 0;
-  border-radius: 18px;
-  background: #1c140e;
-  box-shadow:
-    0 16px 26px rgba(48, 32, 18, 0.2),
-    0 6px 12px rgba(90, 58, 18, 0.14);
-}
-
-.dailyActionWash,
-.dailyActionGlow,
-.dailyActionShine,
-.dailyActionRim {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
+  min-width: 112px;
+  max-width: 160px;
+  min-height: 72px;
+  padding: 14px 16px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(196, 160, 74, 0.55);
+  border-radius: 16px;
+  background: linear-gradient(180deg, #f6edd4 0%, #e8d08a 100%);
+  box-shadow: 0 8px 16px rgba(48, 32, 18, 0.1);
+  text-decoration: none;
 }
 
 .dailyActionWash {
+  position: absolute;
+  inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(circle at 18% 16%, rgba(255, 244, 200, 0.38), transparent 36%),
-    radial-gradient(circle at 82% 84%, rgba(176, 138, 62, 0.4), transparent 34%),
-    linear-gradient(
-      118deg,
-      #c9a24a 0%,
-      #ead087 18%,
-      #fff4cc 36%,
-      #d8b45a 52%,
-      #b8893a 70%,
-      #e2c478 86%,
-      #c9a24a 100%
-    );
-  background-size: 240% 240%;
-  animation: dailyGoldFlow 10s ease-in-out infinite;
-}
-
-.dailyActionGlow {
-  z-index: 1;
-  background:
-    radial-gradient(circle at 22% 78%, rgba(232, 196, 118, 0.42), transparent 28%),
-    radial-gradient(circle at 78% 18%, rgba(255, 248, 220, 0.28), transparent 26%);
-  background-size: 160% 160%;
-  animation: dailyGoldPulse 7s ease-in-out infinite;
-  mix-blend-mode: overlay;
-}
-
-.dailyActionShine {
-  z-index: 1;
+  pointer-events: none;
   background: linear-gradient(
-    108deg,
-    transparent 0%,
-    rgba(255, 248, 220, 0.06) 36%,
-    rgba(255, 244, 200, 0.58) 50%,
-    rgba(232, 196, 118, 0.14) 62%,
-    transparent 100%
+    110deg,
+    rgba(255, 248, 228, 0.35) 0%,
+    transparent 42%,
+    rgba(212, 176, 86, 0.28) 100%
   );
-  background-size: 240% 100%;
-  animation: dailyGoldSheen 6.8s linear infinite;
-  mix-blend-mode: screen;
-}
-
-.dailyActionRim {
-  z-index: 3;
-  padding: 2.5px;
-  background:
-    linear-gradient(
-      165deg,
-      rgba(255, 252, 236, 0.98) 0%,
-      rgba(240, 215, 138, 0.2) 28%,
-      transparent 46%,
-      rgba(72, 46, 16, 0.45) 100%
-    ),
-    linear-gradient(
-      125deg,
-      #fff8dc 0%,
-      #f3d98a 12%,
-      #d4b056 24%,
-      #9a6f28 38%,
-      #6a4a16 50%,
-      #e8c878 64%,
-      #c4a04a 78%,
-      #8d6624 90%,
-      #fff1c0 100%
-    );
-  background-size: 100% 100%, 260% 260%;
+  background-size: 180% 100%;
   animation: dailyGoldFlow 12s ease-in-out infinite;
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask-composite: exclude;
 }
 
-.dailyActionCopy {
+.dailyActionCard h2 {
   position: relative;
-  z-index: 2;
-  display: grid;
-  gap: 8px;
-  padding: 16px 18px 16px;
-}
-
-.dailyActionCopy h2 {
+  z-index: 1;
   margin: 0;
   color: #211812;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 22px;
-  font-weight: 400;
-  letter-spacing: -0.03em;
-}
-
-.dailyActionCopy p,
-.dailyActionCopy .dailyActionLead {
-  margin: 0;
-  color: #3a2a18;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 15px;
-  line-height: 1.4;
-}
-
-.dailyActionCopy .dailyActionLead {
-  font-size: 16px;
-  color: #211812;
-}
-
-.dailyActionCopy .dailyActionCategory,
-.dailyActionCopy .dailyStatus {
-  color: #5c3d14;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-align: center;
 }
 
 @keyframes dailyGoldFlow {
-  0% {
-    background-position: 0% 42%;
-  }
-  50% {
-    background-position: 100% 58%;
-  }
-  100% {
-    background-position: 0% 42%;
-  }
-}
-
-@keyframes dailyGoldSheen {
-  0% {
-    background-position: -40% 0;
-  }
-  100% {
-    background-position: 140% 0;
-  }
-}
-
-@keyframes dailyGoldPulse {
   0%,
   100% {
-    background-position: 0% 40%;
-    opacity: 0.85;
+    background-position: 0% 50%;
   }
   50% {
-    background-position: 80% 60%;
-    opacity: 1;
+    background-position: 100% 50%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dailyActionWash,
-  .dailyActionGlow,
-  .dailyActionShine,
-  .dailyActionRim {
+  .dailyActionWash {
     animation: none;
   }
 }
@@ -341,34 +201,14 @@
   justify-self: start;
 }
 
-.dailyActionCopy .dailyActionDone {
-  justify-self: start;
-  margin-top: 4px;
-  min-height: 36px;
-  padding: 0 14px;
-  background: linear-gradient(180deg, #fff8e8 0%, #efd48a 100%);
-  color: #211812;
-  box-shadow:
-    0 6px 12px rgba(32, 20, 10, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.72);
-}
-
 @media (max-width: 700px) {
   .dailyActionBand {
-    padding: 16px 0 32px;
-  }
-
-  .dailyActionShell {
-    width: min(360px, calc(100% - 48px));
+    padding: 8px 16px 18px;
   }
 
   .dailyMessageCard {
     width: calc(100% - 32px);
     margin-left: auto;
     margin-right: auto;
-  }
-
-  .dailyActionAura {
-    inset: 14px 8px -4px;
   }
 }
