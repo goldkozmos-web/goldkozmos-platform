@@ -41,13 +41,13 @@ export default function DailyActionCard() {
           <span className="dailyActionShine" aria-hidden="true" />
           <span className="dailyActionRim" aria-hidden="true" />
           <div className="dailyActionCopy">
-            <p className="dailyEyebrow">BUGÜNÜN GOLDKOZMOS EYLEMİ</p>
+            <h2>Gold Eylem</h2>
             {signedIn && action ? (
               <>
                 {category ? (
                   <span className="dailyActionCategory">{category}</span>
                 ) : null}
-                <h2>{action.title}</h2>
+                <p className="dailyActionLead">{action.title}</p>
                 <p>{action.body}</p>
                 {action.completedAt ? (
                   <p className="dailyStatus">Bugün tamamlandı.</p>
@@ -84,12 +84,12 @@ export default function DailyActionCard() {
               </>
             ) : signedIn ? (
               <>
-                <h2>Bugün küçük bir adım.</h2>
+                <p className="dailyActionLead">Bugün küçük bir adım.</p>
                 <p>Günün eylemi birazdan burada durur.</p>
               </>
             ) : (
               <>
-                <h2>Bugün küçük bir adım.</h2>
+                <p className="dailyActionLead">Bugün küçük bir adım.</p>
                 <p>
                   Günün eylemini görmek ve tamamlamak için Profilim’den giriş
                   yap.

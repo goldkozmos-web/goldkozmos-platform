@@ -73,14 +73,14 @@
 }
 
 .dailyActionBand {
-  padding: 36px 0 52px;
+  padding: 20px 0 36px;
   overflow: visible;
   background: #fffdf9;
 }
 
 .dailyActionShell {
   position: relative;
-  width: min(1180px, calc(100% - 48px));
+  width: min(420px, calc(100% - 48px));
   margin: 0 auto;
   overflow: visible;
 }
@@ -106,11 +106,11 @@
   isolation: isolate;
   overflow: hidden;
   border: 0;
-  border-radius: 22px;
+  border-radius: 18px;
   background: #1c140e;
   box-shadow:
-    0 22px 36px rgba(48, 32, 18, 0.2),
-    0 8px 16px rgba(90, 58, 18, 0.14);
+    0 16px 26px rgba(48, 32, 18, 0.2),
+    0 6px 12px rgba(90, 58, 18, 0.14);
 }
 
 .dailyActionWash,
@@ -130,13 +130,13 @@
     radial-gradient(circle at 82% 84%, rgba(176, 138, 62, 0.4), transparent 34%),
     linear-gradient(
       118deg,
-      #24160f 0%,
-      #6f4b16 16%,
-      #e8c878 32%,
-      #b8893a 46%,
-      #fff1c0 58%,
-      #8a6322 74%,
-      #1a120c 100%
+      #c9a24a 0%,
+      #ead087 18%,
+      #fff4cc 36%,
+      #d8b45a 52%,
+      #b8893a 70%,
+      #e2c478 86%,
+      #c9a24a 100%
     );
   background-size: 240% 240%;
   animation: dailyGoldFlow 10s ease-in-out infinite;
@@ -206,35 +206,36 @@
   position: relative;
   z-index: 2;
   display: grid;
-  gap: 10px;
-  padding: 24px 22px 22px;
-}
-
-.dailyActionCopy .dailyEyebrow {
-  color: #f3d98a;
+  gap: 8px;
+  padding: 16px 18px 16px;
 }
 
 .dailyActionCopy h2 {
   margin: 0;
-  color: #fff8ed;
-  text-shadow: 0 1px 0 rgba(48, 32, 18, 0.35);
+  color: #211812;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 400;
   letter-spacing: -0.03em;
 }
 
-.dailyActionCopy p {
+.dailyActionCopy p,
+.dailyActionCopy .dailyActionLead {
   margin: 0;
-  color: rgba(255, 248, 237, 0.88);
+  color: #3a2a18;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 17px;
-  line-height: 1.45;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.dailyActionCopy .dailyActionLead {
+  font-size: 16px;
+  color: #211812;
 }
 
 .dailyActionCopy .dailyActionCategory,
 .dailyActionCopy .dailyStatus {
-  color: #e8c878;
+  color: #5c3d14;
 }
 
 @keyframes dailyGoldFlow {
@@ -342,20 +343,25 @@
 
 .dailyActionCopy .dailyActionDone {
   justify-self: start;
-  margin-top: 6px;
+  margin-top: 4px;
+  min-height: 36px;
+  padding: 0 14px;
   background: linear-gradient(180deg, #fff8e8 0%, #efd48a 100%);
   color: #211812;
   box-shadow:
-    0 8px 16px rgba(32, 20, 10, 0.22),
+    0 6px 12px rgba(32, 20, 10, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 @media (max-width: 700px) {
   .dailyActionBand {
-    padding: 28px 0 46px;
+    padding: 16px 0 32px;
   }
 
-  .dailyActionShell,
+  .dailyActionShell {
+    width: min(360px, calc(100% - 48px));
+  }
+
   .dailyMessageCard {
     width: calc(100% - 32px);
     margin-left: auto;
@@ -363,6 +369,6 @@
   }
 
   .dailyActionAura {
-    inset: 16px 8px -4px;
+    inset: 14px 8px -4px;
   }
 }
