@@ -2769,10 +2769,6 @@ export default function HomePageClient() {
                   </p>
 
                   <div className="homeV3ResonanceBottom">
-                    {course.priceLabel ? (
-                      <strong>{course.priceLabel}</strong>
-                    ) : null}
-
                     <a
                       href={cta.href}
                       {...(cta.external

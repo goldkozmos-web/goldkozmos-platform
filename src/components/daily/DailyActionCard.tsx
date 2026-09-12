@@ -34,33 +34,26 @@ function ChipRow({
           <span
             className={`dailyActionCard${tone === "brown" ? " isBrown" : ""}`}
           >
-            {tone === "gold" ? (
-              <>
-                <span
-                  className="dailyActionWash"
-                  aria-hidden="true"
-                  style={{ animationDelay: `${index * 0.9}s` }}
-                />
-                <span
-                  className="dailyActionShine"
-                  aria-hidden="true"
-                  style={{ animationDelay: `${index * 0.5}s` }}
-                />
-              </>
-            ) : (
-              <>
-                <span
-                  className="dailyActionWash dailyActionWash--brown"
-                  aria-hidden="true"
-                  style={{ animationDelay: `${index * 0.9}s` }}
-                />
-                <span
-                  className="dailyActionShine dailyActionShine--brown"
-                  aria-hidden="true"
-                  style={{ animationDelay: `${index * 0.5}s` }}
-                />
-              </>
-            )}
+            <>
+              <span
+                className={
+                  tone === "brown"
+                    ? "dailyActionWash dailyActionWash--brown"
+                    : "dailyActionWash"
+                }
+                aria-hidden="true"
+                style={{ animationDelay: `${index * 0.9}s` }}
+              />
+              <span
+                className={
+                  tone === "brown"
+                    ? "dailyActionShine dailyActionShine--brown"
+                    : "dailyActionShine"
+                }
+                aria-hidden="true"
+                style={{ animationDelay: `${index * 0.5}s` }}
+              />
+            </>
             <span className="dailyActionLabel">{chip.label}</span>
           </span>
         </a>
