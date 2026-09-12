@@ -3765,14 +3765,11 @@ const goldBlogHubStyles = `
     padding: 12px 13px 13px !important;
     border: 1.5px solid transparent !important;
     border-radius: 16px !important;
-    background-image:
-      radial-gradient(ellipse at 18% -6%, rgba(255, 253, 248, 0.95) 0%, rgba(255, 253, 248, 0) 46%),
-      linear-gradient(168deg, #fff9f1 0%, #f4e4ce 22%, #e4c894 42%, #c4a056 62%, #8b5234 82%, #5a321c 100%),
-      linear-gradient(145deg, #f0dc9a 0%, #c4a056 42%, #8d6a28 78%, #e2c67c 100%) !important;
-    background-origin: padding-box, padding-box, border-box !important;
-    background-clip: padding-box, padding-box, border-box !important;
+    background:
+      linear-gradient(#ffffff, #ffffff) padding-box,
+      linear-gradient(145deg, #f0dc9a 0%, #c4a056 42%, #8d6a28 78%, #e2c67c 100%) border-box !important;
     box-shadow:
-      0 1px 0 rgba(255, 252, 244, 0.8) inset,
+      0 1px 0 rgba(255, 252, 240, 0.7) inset,
       0 1px 2px rgba(72, 46, 28, 0.05),
       0 6px 14px rgba(72, 46, 28, 0.06),
       0 18px 34px rgba(72, 46, 28, 0.07) !important;
