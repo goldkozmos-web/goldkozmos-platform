@@ -156,6 +156,9 @@ export type ProfilimDrawerId =
   | "emotionJournal"
   | "duyguRehberi"
   | "dreamJournal"
+  | "ritualSaved"
+  | "ritualDone"
+  | "ritualNotes"
   | "activityHistory"
   | "todos";
 

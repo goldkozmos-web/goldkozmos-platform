@@ -7,6 +7,7 @@ const GOLD_CHIPS = [
   { href: "/goldfrekans", label: "GoldFrekans" },
   { href: "/goldbook", label: "GoldBook" },
   { href: "/goldmind", label: "GoldMind" },
+  { href: "/goldrituel", label: "GoldRitüel" },
 ] as const;
 
 const BROWN_CHIPS = [
@@ -14,7 +15,6 @@ const BROWN_CHIPS = [
   { href: "/profilim?open=journal", label: "Not al" },
   { href: "/ruya-tabirleri", label: "Rüya tabiri" },
   { href: "/tarot-bakimi", label: "Tarot bak" },
-  { href: "/calismalar/enerji", label: "Ritüeller" },
 ] as const;
 
 function ChipRow({
