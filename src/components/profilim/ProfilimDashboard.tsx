@@ -60,6 +60,7 @@ import {
 } from "./ProfilimPanels";
 import DailyMessageCard from "../daily/DailyMessageCard";
 import EmotionJournalPanel from "../daily/EmotionJournalPanel";
+import DuyguRehberiPanel from "./DuyguRehberiPanel";
 import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
 import RemindersPanel from "../daily/RemindersPanel";
 
@@ -88,6 +89,7 @@ const DRAWERS: Record<
   inbox: { eyebrow: "MESAJ", title: "Gelen Mesajlar" },
   suggest: { eyebrow: "ÖNERİ", title: "Gold’a Öneri" },
   emotionJournal: { eyebrow: "DUYGU", title: "Duygu Günlüğüm" },
+  duyguRehberi: { eyebrow: "DUYGU REHBERİ", title: "Duygularını Tanı" },
   activityHistory: { eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişi" },
   todos: { eyebrow: "GÖREV", title: "Yapılacaklarım" },
 };
@@ -202,6 +204,14 @@ export default function ProfilimDashboard({
       }),
     );
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("open") === "duyguRehberi") {
+      setOpen("duyguRehberi");
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -355,6 +365,11 @@ export default function ProfilimDashboard({
                 onOpen={() => setOpen("emotionJournal")}
               />
               <ProfilimCompactTile
+                eyebrow="REHBER"
+                title="Duygu Rehberi"
+                onOpen={() => setOpen("duyguRehberi")}
+              />
+              <ProfilimCompactTile
                 eyebrow="GEÇMİŞ"
                 title="İlerleme Geçmişi"
                 onOpen={() => setOpen("activityHistory")}
@@ -465,6 +480,7 @@ export default function ProfilimDashboard({
           {open === "inbox" ? <InboxPanel /> : null}
           {open === "suggest" ? <SuggestPanel /> : null}
           {open === "emotionJournal" ? <EmotionJournalPanel /> : null}
+          {open === "duyguRehberi" ? <DuyguRehberiPanel /> : null}
           {open === "activityHistory" ? <ActivityTimelinePanel /> : null}
           {open === "todos" ? <RemindersPanel /> : null}
         </ProfilimDrawer>

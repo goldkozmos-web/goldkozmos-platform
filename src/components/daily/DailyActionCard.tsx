@@ -10,7 +10,7 @@ const GOLD_CHIPS = [
 ] as const;
 
 const BROWN_CHIPS = [
-  { href: "/profilim", label: "Duygu Rehberim" },
+  { href: "/profilim?open=duyguRehberi", label: "Duygu Rehberim" },
   { href: "/profilim", label: "Notlarım" },
   { href: "/profilim", label: "Rüyalarım" },
   { href: "/calismalar/tarot", label: "Tarot" },
