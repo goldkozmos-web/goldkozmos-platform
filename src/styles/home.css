@@ -35038,12 +35038,7 @@ section:has(+ .deepFinderSection) {
 /* NAVBAR */
 
 .homeV3Nav {
-  background:
-    linear-gradient(
-      180deg,
-      #211812 0%,
-      #271c15 100%
-    ) !important;
+  background: #211812 !important;
 
   border-bottom:
     1px solid rgba(210, 166, 82, 0.16) !important;
@@ -35092,17 +35087,7 @@ section:has(+ .deepFinderSection) {
 ========================================================= */
 
 .homeV3Hero {
-  background:
-    radial-gradient(
-      circle at 86% 28%,
-      rgba(203, 164, 82, 0.16),
-      transparent 28%
-    ),
-    linear-gradient(
-      180deg,
-      #fffdf9,
-      #f8f3e9
-    ) !important;
+  background: #211812 !important;
 }
 
 
@@ -35120,31 +35105,26 @@ section:has(+ .deepFinderSection) {
 /* TÜM BÖLÜM KOYU KAHVE */
 
 .homeV3Other {
-  background: linear-gradient(
-    180deg,
-    #b89a82 0%,
-    #e4d8cc 42%,
-    #ffffff 100%
-  ) !important;
+  background: #211812 !important;
 
   border-top: 0 !important;
   border-bottom: 0 !important;
 }
 
 .homeV3PersonalHeading h2 {
-  color: #1c1410 !important;
+  color: #fff8ed !important;
 }
 
 .homeV3PersonalHeading h2 span {
-  color: #9a7328 !important;
+  color: #d2a654 !important;
 }
 
 .homeV3PersonalHeading .homeV3Eyebrow {
-  color: #9a7328 !important;
+  color: #cda354 !important;
 }
 
 .homeV3PersonalDescription {
-  color: #4a382c !important;
+  color: rgba(255, 246, 230, 0.62) !important;
 }
 
 
@@ -35352,7 +35332,7 @@ section:has(+ .deepFinderSection) {
 .homeV3PersonalHeading .homeV3Eyebrow {
   margin-bottom: 8px !important;
 
-  color: #9a7328 !important;
+  color: #cda354 !important;
 
   letter-spacing: 2.4px !important;
 }
@@ -35362,7 +35342,7 @@ section:has(+ .deepFinderSection) {
 
   margin: 0 !important;
 
-  color: #1c1410 !important;
+  color: #fff8ed !important;
 
   font-size:
     clamp(
@@ -35377,7 +35357,7 @@ section:has(+ .deepFinderSection) {
 }
 
 .homeV3PersonalHeading h2 span {
-  color: #9a7328 !important;
+  color: #d2a654 !important;
 }
 
 .homeV3PersonalDescription {
@@ -35388,7 +35368,7 @@ section:has(+ .deepFinderSection) {
     0
     0 !important;
 
-  color: #4a382c !important;
+  color: rgba(255, 246, 230, 0.62) !important;
 
   font-size: 12px !important;
 
