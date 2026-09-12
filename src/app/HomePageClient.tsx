@@ -1450,9 +1450,9 @@ const homepageArchiveStyles = `
     display: flex !important;
     grid-template-columns: none !important;
     flex-wrap: nowrap !important;
-    gap: 12px !important;
+    gap: 14px !important;
     overflow-x: auto !important;
-    padding: 10px 16px 14px !important;
+    padding: 0 20px 20px !important;
     scroll-snap-type: x mandatory !important;
     scrollbar-width: none !important;
   }
@@ -1462,10 +1462,11 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3BookCard,
-  .homeV3Page .homeV3LibraryHub .homeV3BookCard {
-    flex: 0 0 min(86vw, 360px) !important;
-    width: min(86vw, 360px) !important;
-    max-width: 360px !important;
+  .homeV3Page .homeV3LibraryHub .homeV3BookCard,
+  .homeV3Page .homeV3LibraryHub .homeV3LibraryBooksGrid .homeV3BookCard {
+    flex: 0 0 min(70vw, 240px) !important;
+    width: min(70vw, 240px) !important;
+    max-width: 240px !important;
     min-height: 0 !important;
     display: flex !important;
     flex-direction: column !important;
