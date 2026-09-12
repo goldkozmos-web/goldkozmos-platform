@@ -15,7 +15,6 @@ const BROWN_CHIPS = [
   { href: "/profilim?open=journal", label: "Not al" },
   { href: "/ruya-tabirleri", label: "Rüya tabiri" },
   { href: "/tarot-bakimi", label: "Tarot bak" },
-  { href: "/goldrituel", label: "Ritüeller" },
 ] as const;
 
 function ChipRow({
