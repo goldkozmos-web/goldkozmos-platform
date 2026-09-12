@@ -1367,15 +1367,11 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergyProduct {
     min-width: 0;
     overflow: hidden;
-    border: 2px solid rgba(205, 158, 70, 0.68);
-    border-radius: 24px;
-    background:
-      radial-gradient(circle at 92% 8%, rgba(203, 157, 72, 0.11), transparent 31%),
-      linear-gradient(145deg, #2b1d13 0%, #19110c 100%);
-    box-shadow:
-      0 22px 48px rgba(0, 0, 0, 0.22),
-      0 7px 18px rgba(0, 0, 0, 0.10);
-    transition: transform 0.28s ease;
+    border: 0;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05);
+    transition: transform 180ms ease, box-shadow 180ms ease;
   }
 
   .homeV3Page .homeV3AudioEnergyProduct {
@@ -1386,7 +1382,8 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3AudioEnergyProduct:hover {
-    transform: translateY(-6px) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 18px rgba(63, 42, 20, 0.08) !important;
   }
 
   .homeV3Page .homeV3LibraryHeading {
@@ -1537,8 +1534,8 @@ const homepageArchiveStyles = `
     display: block;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background: #f6eee2;
-    border-bottom: 1px solid rgba(205, 158, 70, 0.34);
+    background: #17130f;
+    border-bottom: 0;
   }
 
   .homeV3AudioEnergyImage img {
@@ -1570,7 +1567,7 @@ const homepageArchiveStyles = `
 
   .homeV3AudioEnergyCategory {
     margin: 0 0 8px;
-    color: #c99a47;
+    color: #9e742c;
     letter-spacing: 0.14em;
     font-size: 7.5px;
     font-weight: 700;
@@ -1580,7 +1577,7 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergyProduct h3 {
     min-height: 52px;
     margin: 0;
-    color: #fffaf1;
+    color: #2b241d;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 22px;
     font-weight: 400;
@@ -1591,7 +1588,7 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergyText {
     min-height: 90px;
     margin-top: 11px;
-    color: rgba(255, 250, 241, 0.60);
+    color: #74695e;
     font-size: 10.5px;
     line-height: 1.55;
   }
@@ -1603,11 +1600,11 @@ const homepageArchiveStyles = `
     gap: 14px;
     margin-top: 16px;
     padding-top: 14px;
-    border-top: 1px solid rgba(214, 173, 97, 0.15);
+    border-top: 1px solid rgba(151, 113, 49, 0.11);
   }
 
   .homeV3AudioEnergyBottom strong {
-    color: #d7aa55;
+    color: #2d251e;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 18px;
     font-weight: 400;
@@ -1617,7 +1614,7 @@ const homepageArchiveStyles = `
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    color: #d7aa55;
+    color: #98732f;
     text-decoration: none;
     font-size: 9.5px;
     font-weight: 700;
