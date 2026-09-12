@@ -918,6 +918,75 @@
   color: #9a7630;
 }
 
+.profilimGate--entry {
+  width: min(100%, 20.5rem);
+  margin: 4px auto 0;
+  padding: 15px 16px 14px 17px;
+  border: 1px solid rgba(176, 138, 58, 0.28);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.92) inset,
+    0 10px 24px rgba(48, 30, 14, 0.08);
+}
+
+.profilimGate--entry::before {
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+}
+
+.profilimGate--entry .profilimGateEyebrow {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #b08a3c;
+}
+
+.profilimGate--entry h1 {
+  margin: 7px 0 0;
+  font-size: clamp(22px, 6vw, 26px);
+  line-height: 1.08;
+  letter-spacing: -0.4px;
+}
+
+.profilimGate--entry h1 span {
+  color: #b08a3c;
+}
+
+.profilimGate--entry .profilimGateLead {
+  max-width: 28em;
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #6f675f;
+}
+
+.profilimGate--entry .profilimGateMotto {
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.profilimGate--entry .profilimGateMotto > span {
+  width: 32px;
+}
+
+.profilimGate--entry .profilimGateMotto > small {
+  font-size: 11px;
+}
+
+.profilimGate--entry .profilimGoogleWrap {
+  margin-top: 14px;
+}
+
+.profilimGate--entry .profilimGoogleButton {
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  box-shadow: 0 8px 16px rgba(32, 20, 10, 0.14);
+}
+
 .profilimGateLead {
   max-width: 32em;
   margin: 12px 0 0;
