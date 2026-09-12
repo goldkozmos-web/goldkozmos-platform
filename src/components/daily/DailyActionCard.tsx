@@ -13,7 +13,7 @@ const BROWN_CHIPS = [
   { href: "/profilim?open=duyguRehberi", label: "Duygu rehberi" },
   { href: "/profilim?open=journal", label: "Not al" },
   { href: "/ruya-tabirleri", label: "Rüya tabiri" },
-  { href: "/calismalar/tarot", label: "Tarot bak" },
+  { href: "/tarot-bakimi", label: "Tarot bak" },
   { href: "/calismalar/enerji", label: "Ritüeller" },
 ] as const;
 
