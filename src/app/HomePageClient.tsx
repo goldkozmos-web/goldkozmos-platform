@@ -2393,7 +2393,7 @@ const homepageArchiveStyles = `
     align-items: stretch !important;
     gap: 8px !important;
     margin-top: 0 !important;
-    padding-top: 18px !important;
+    padding-top: 28px !important;
     overflow: visible !important;
   }
 
