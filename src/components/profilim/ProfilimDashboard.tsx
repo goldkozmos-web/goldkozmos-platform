@@ -62,6 +62,7 @@ import DailyMessageCard from "../daily/DailyMessageCard";
 import EmotionJournalPanel from "../daily/EmotionJournalPanel";
 import DuyguRehberiPanel from "./DuyguRehberiPanel";
 import RuyaGunluguPanel from "./RuyaGunluguPanel";
+import GoldRituelPanel from "./GoldRituelPanel";
 import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
 import RemindersPanel from "../daily/RemindersPanel";
 
@@ -92,6 +93,9 @@ const DRAWERS: Record<
   emotionJournal: { eyebrow: "DUYGU", title: "Duygu Günlüğüm" },
   duyguRehberi: { eyebrow: "DUYGU REHBERİ", title: "Duygularını Tanı" },
   dreamJournal: { eyebrow: "RÜYA", title: "Rüya Günlüğüm" },
+  ritualSaved: { eyebrow: "GOLDRİTÜEL", title: "Kaydettiğim Ritüeller" },
+  ritualDone: { eyebrow: "GOLDRİTÜEL", title: "Uyguladığım Ritüeller" },
+  ritualNotes: { eyebrow: "GOLDRİTÜEL", title: "Ritüel Notlarım" },
   activityHistory: { eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişi" },
   todos: { eyebrow: "GÖREV", title: "Yapılacaklarım" },
 };
@@ -211,7 +215,14 @@ export default function ProfilimDashboard({
     if (!user) return;
     const params = new URLSearchParams(window.location.search);
     const next = params.get("open");
-    if (next === "duyguRehberi" || next === "journal" || next === "dreamJournal") {
+    if (
+      next === "duyguRehberi" ||
+      next === "journal" ||
+      next === "dreamJournal" ||
+      next === "ritualSaved" ||
+      next === "ritualDone" ||
+      next === "ritualNotes"
+    ) {
       setOpen(next);
     }
   }, [user]);
@@ -378,6 +389,21 @@ export default function ProfilimDashboard({
                 onOpen={() => setOpen("dreamJournal")}
               />
               <ProfilimCompactTile
+                eyebrow="RİTÜEL"
+                title="Kaydettiğim Ritüeller"
+                onOpen={() => setOpen("ritualSaved")}
+              />
+              <ProfilimCompactTile
+                eyebrow="RİTÜEL"
+                title="Uyguladığım Ritüeller"
+                onOpen={() => setOpen("ritualDone")}
+              />
+              <ProfilimCompactTile
+                eyebrow="RİTÜEL"
+                title="Ritüel Notlarım"
+                onOpen={() => setOpen("ritualNotes")}
+              />
+              <ProfilimCompactTile
                 eyebrow="GEÇMİŞ"
                 title="İlerleme Geçmişi"
                 onOpen={() => setOpen("activityHistory")}
@@ -490,6 +516,9 @@ export default function ProfilimDashboard({
           {open === "emotionJournal" ? <EmotionJournalPanel /> : null}
           {open === "duyguRehberi" ? <DuyguRehberiPanel /> : null}
           {open === "dreamJournal" ? <RuyaGunluguPanel /> : null}
+          {open === "ritualSaved" ? <GoldRituelPanel tab="saved" /> : null}
+          {open === "ritualDone" ? <GoldRituelPanel tab="done" /> : null}
+          {open === "ritualNotes" ? <GoldRituelPanel tab="notes" /> : null}
           {open === "activityHistory" ? <ActivityTimelinePanel /> : null}
           {open === "todos" ? <RemindersPanel /> : null}
         </ProfilimDrawer>

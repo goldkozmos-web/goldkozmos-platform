@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#211812"/>
+      <stop offset="1" stop-color="#140e0a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="42%" r="42%">
+      <stop offset="0" stop-color="#c4a35a" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#c4a35a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect x="36" y="36" width="728" height="928" fill="none" stroke="#c4a35a" stroke-opacity=".28" stroke-width="1"/>
+  <rect x="48" y="48" width="704" height="904" fill="none" stroke="#c4a35a" stroke-opacity=".12" stroke-width="1"/>
+  <ellipse cx="400" cy="500" rx="240" ry="220" fill="url(#glow)"/>
+  <path d="M310 640V430c0-70 40-120 90-120s90 50 90 120v210" fill="none" stroke="#c4a35a" stroke-width="2.2"/>
+      <rect x="388" y="500" width="24" height="24" rx="12" fill="#c4a35a"/>
+  <text x="400" y="860" text-anchor="middle" fill="#c4a35a" font-family="Georgia, serif" font-size="13" letter-spacing="4">GOLDKOZMOS</text>
+</svg>

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { publishedDreams } from "../data/ruya-tabirleri/catalog";
+import { publishedRituals } from "../data/goldrituel/catalog";
 import { TAROT_DECK } from "../data/tarot/deck";
 
 const baseUrl = "https://goldkozmos.com";
@@ -11,6 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: dream.updatedAt,
     changeFrequency: "monthly" as const,
     priority: 0.8,
+  }));
+
+  const rituals = publishedRituals().map((ritual) => ({
+    url: `${baseUrl}/goldrituel/${ritual.slug}`,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
   }));
 
   const tarotCards = TAROT_DECK.map((card) => ({
@@ -123,6 +130,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/goldrituel`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+
+    {
       url: `${baseUrl}/tarot-bakimi`,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -206,6 +219,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.2,
     },
     ...dreams,
+    ...rituals,
     ...tarotCards,
   ];
 }
