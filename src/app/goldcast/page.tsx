@@ -898,7 +898,7 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelDash {
-    color: #a8792a !important;
+    color: #16110c !important;
   }
 
   .goldcastPage .goldcastChannelLink {
@@ -915,7 +915,7 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
-    color: #a8792a !important;
+    color: #16110c !important;
   }
 
   .goldcastPage .goldcastChannelLink:hover {
@@ -1144,7 +1144,9 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .goldcastSpotifyArchiveHeader h2,
-  .goldcastPage .goldcastSpotifyArchiveHeader h2 span {
+  .goldcastPage .goldcastSpotifyArchiveHeader h2 span,
+  .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelDash,
+  .goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
     color: #16110c !important;
   }
 `;
