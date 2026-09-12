@@ -73,38 +73,44 @@
 }
 
 .dailyActionBand {
-  padding: 2px 0 8px;
+  padding: 4px 0 8px;
   overflow: visible;
   background: #fffdf9;
 }
 
-.dailyActionRail {
-  display: flex;
-  gap: 10px;
-  width: min(1180px, 100%);
-  margin: 0 auto;
-  padding: 16px 22px 10px;
+.dailyActionScroller {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 18px 24px 22px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 
-.dailyActionRail.isBrown {
-  padding-top: 2px;
-  padding-bottom: 26px;
+.dailyActionScroller.isBrown {
+  padding-top: 10px;
+  padding-bottom: 28px;
 }
 
-.dailyActionRail::-webkit-scrollbar {
+.dailyActionScroller::-webkit-scrollbar {
   display: none;
 }
 
+.dailyActionRail {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  min-width: 100%;
+  overflow: visible;
+}
+
 .dailyActionShell {
-  flex: 0 0 calc((100% - 20px) / 3);
+  flex: 0 0 calc((100vw - 48px - 20px) / 3);
   min-width: 108px;
   max-width: 148px;
   display: block;
-  filter: drop-shadow(0 12px 14px rgba(48, 32, 18, 0.18));
+  filter: drop-shadow(0 10px 12px rgba(48, 32, 18, 0.16));
   scroll-snap-align: start;
   text-decoration: none;
 }
@@ -233,9 +239,15 @@
 }
 
 @media (min-width: 900px) {
-  .dailyActionRail {
+  .dailyActionScroller {
     overflow: visible;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .dailyActionRail {
     flex-wrap: wrap;
+    width: 100%;
   }
 
   .dailyActionShell {

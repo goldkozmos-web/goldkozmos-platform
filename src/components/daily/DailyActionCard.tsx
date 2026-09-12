@@ -24,17 +24,17 @@ function ChipRow({
   tone: "gold" | "brown";
 }) {
   return (
-    <div className={`dailyActionRail${tone === "brown" ? " isBrown" : ""}`}>
-      {chips.map((chip, index) => (
-        <a
-          key={`${tone}-${chip.label}`}
-          className="dailyActionShell"
-          href={chip.href}
-        >
-          <span
-            className={`dailyActionCard${tone === "brown" ? " isBrown" : ""}`}
+    <div className={`dailyActionScroller${tone === "brown" ? " isBrown" : ""}`}>
+      <div className="dailyActionRail">
+        {chips.map((chip, index) => (
+          <a
+            key={`${tone}-${chip.label}`}
+            className="dailyActionShell"
+            href={chip.href}
           >
-            <>
+            <span
+              className={`dailyActionCard${tone === "brown" ? " isBrown" : ""}`}
+            >
               <span
                 className={
                   tone === "brown"
@@ -53,11 +53,11 @@ function ChipRow({
                 aria-hidden="true"
                 style={{ animationDelay: `${index * 0.5}s` }}
               />
-            </>
-            <span className="dailyActionLabel">{chip.label}</span>
-          </span>
-        </a>
-      ))}
+              <span className="dailyActionLabel">{chip.label}</span>
+            </span>
+          </a>
+        ))}
+      </div>
     </div>
   );
 }
