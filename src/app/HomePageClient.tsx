@@ -2359,13 +2359,17 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Hero {
-    background: linear-gradient(
-      180deg,
-      #2c1c14 0%,
-      #5a3c2e 40%,
-      #8f6a50 78%,
-      #c4a078 100%
-    ) !important;
+    background:
+      radial-gradient(
+        circle at 86% 28%,
+        rgba(203, 164, 82, 0.16),
+        transparent 28%
+      ),
+      linear-gradient(
+        180deg,
+        #fffdf9,
+        #f8f3e9
+      ) !important;
   }
 
   .homeV3Page .homeV3HeroCard {
