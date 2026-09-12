@@ -3757,6 +3757,25 @@ const goldBlogHubStyles = `
     text-align: left;
   }
 
+  @media (hover: hover) and (pointer: fine) {
+    .goldblogPage .goldBlogNewCard:hover,
+    .goldblogPage .goldBlogNewCard:first-child:hover {
+      transform: translateY(-3px) !important;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.92) inset,
+        0 4px 10px rgba(72, 46, 28, 0.08),
+        0 16px 28px rgba(72, 46, 28, 0.1) !important;
+    }
+
+    .goldblogPage .goldBlogCategoryCard:hover {
+      transform: translateY(-3px) !important;
+      box-shadow:
+        0 1px 0 rgba(255, 240, 220, 0.12) inset,
+        0 8px 18px rgba(24, 14, 8, 0.14),
+        0 22px 40px rgba(24, 14, 8, 0.18) !important;
+    }
+  }
+
   .goldblogPage .goldBlogNewCard::after,
   .goldblogPage .goldBlogNewCard:first-child::after {
     display: none !important;
