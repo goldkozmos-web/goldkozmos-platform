@@ -327,3 +327,168 @@
     margin-right: auto;
   }
 }
+
+.dailyMessageDock,
+.homeSoftCard {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto 18px;
+  padding: 18px 18px 16px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 18px;
+  background: #fffdf8;
+  color: #211811;
+  text-align: left;
+}
+
+.dailyMessageDock {
+  display: grid;
+  gap: 4px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.dailyMessageDock span,
+.homeSoftCard .dailyEyebrow {
+  color: #a8792a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.dailyMessageDock strong,
+.homeSoftCard h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.homeSoftLead,
+.homeSoftCard p {
+  margin: 8px 0 0;
+  color: #5c534b;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.homeSoftLink {
+  display: inline-block;
+  margin-top: 12px;
+  color: #8d6728;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.dailyStoryBack {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+  background: rgba(16, 11, 8, 0.72);
+}
+
+.dailyStoryCard {
+  width: min(420px, 100%);
+  min-height: 420px;
+  padding: 28px 24px 22px;
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(196, 163, 90, 0.18), transparent 55%),
+    #140e0a;
+  color: #f4ead8;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.dailyStoryCard .dailyEyebrow {
+  color: #c4a35a;
+}
+
+.dailyStoryBody {
+  margin: 18px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  line-height: 1.35;
+}
+
+.dailyStoryCard .dailyMessageActions {
+  margin-top: 28px;
+}
+
+.dailyStoryCard .dailyMessageActions button {
+  border-color: rgba(196, 163, 90, 0.35);
+  background: transparent;
+  color: #f4ead8;
+}
+
+.gkReadGrid,
+.gkClubGrid,
+.gkWorkGrid {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 720px) {
+  .gkReadGrid,
+  .gkClubGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .gkWorkGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.gkReadCard,
+.gkClubCard,
+.gkWorkCard {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(176, 130, 48, 0.2);
+  border-radius: 16px;
+  background: #fffdf8;
+  color: inherit;
+  text-decoration: none;
+}
+
+.gkReadCard strong,
+.gkClubCard strong,
+.gkWorkCard strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.gkSoon {
+  display: inline-block;
+  color: #8d6728;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gkRouteIn {
+    animation: gkRouteIn 180ms ease both;
+  }
+}
+
+@keyframes gkRouteIn {
+  from {
+    opacity: 0.88;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gkRouteIn {
+    animation: none;
+  }
+}

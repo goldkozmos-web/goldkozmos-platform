@@ -83,8 +83,12 @@ export async function fetchTodayMessage(): Promise<DailyMessage | null> {
   const supabase = client();
   if (!supabase) return null;
 
-  const { data } = await supabase.rpc("get_today_daily_message");
-  const row = Array.isArray(data) ? data[0] : data;
+  const owned = await supabase.rpc("get_today_daily_message");
+  let row = Array.isArray(owned.data) ? owned.data[0] : owned.data;
+  if (!row) {
+    const pub = await supabase.rpc("get_public_daily_message");
+    row = Array.isArray(pub.data) ? pub.data[0] : pub.data;
+  }
   if (!row) return null;
 
   return {

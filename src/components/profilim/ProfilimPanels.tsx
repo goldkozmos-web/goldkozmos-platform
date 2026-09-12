@@ -423,6 +423,9 @@ export function JourneyPanel({
 }) {
   return (
     <div className="profilimDrawerStack">
+      <a className="homeSoftLink" href="/kendilik-yolculugu">
+        21 Günlük Kendilik Yolculuğu
+      </a>
       <div className="profilimStatRow">
         <div>
           <strong>{levelLabel}</strong>

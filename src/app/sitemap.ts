@@ -46,6 +46,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/calismalar`,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+
+    {
       url: `${baseUrl}/calismalar/kendilik`,
       changeFrequency: "monthly",
       priority: 0.9,
@@ -133,6 +139,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/goldrituel`,
       changeFrequency: "weekly",
       priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/kendilik-yolculugu`,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+
+    {
+      url: `${baseUrl}/arketip-testi`,
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
 
     {

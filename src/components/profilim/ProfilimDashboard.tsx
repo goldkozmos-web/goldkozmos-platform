@@ -63,6 +63,12 @@ import EmotionJournalPanel from "../daily/EmotionJournalPanel";
 import DuyguRehberiPanel from "./DuyguRehberiPanel";
 import RuyaGunluguPanel from "./RuyaGunluguPanel";
 import GoldRituelPanel from "./GoldRituelPanel";
+import {
+  LiveFavoritesPanel,
+  ProfilimBadgeRow,
+  ProfilimBadgesPanel,
+  ProfilimStatsCard,
+} from "./ProfilimLivePanels";
 import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
 import RemindersPanel from "../daily/RemindersPanel";
 
@@ -92,6 +98,7 @@ const DRAWERS: Record<
   suggest: { eyebrow: "ÖNERİ", title: "Gold’a Öneri" },
   emotionJournal: { eyebrow: "DUYGU", title: "Duygu Günlüğüm" },
   duyguRehberi: { eyebrow: "DUYGU REHBERİ", title: "Duygularını Tanı" },
+  badges: { eyebrow: "ROZET", title: "Rozetlerim" },
   dreamJournal: { eyebrow: "RÜYA", title: "Rüya Günlüğüm" },
   ritualSaved: { eyebrow: "GOLDRİTÜEL", title: "Kaydettiğim Ritüeller" },
   ritualDone: { eyebrow: "GOLDRİTÜEL", title: "Uyguladığım Ritüeller" },
@@ -308,7 +315,12 @@ export default function ProfilimDashboard({
       <div className="profilimDashInner">
         {showMemberTiles ? (
           <>
-            {user ? <ProfilimHero user={user} level={view.level} /> : null}
+            {user ? (
+              <>
+                <ProfilimHero user={user} level={view.level} />
+                <ProfilimBadgeRow onOpen={() => setOpen("badges")} />
+              </>
+            ) : null}
 
             <div className="profilimFeaturedStack">
               {isSiteAdminEmail(user?.email) ? (
@@ -366,6 +378,7 @@ export default function ProfilimDashboard({
             </div>
 
             <DailyMessageCard />
+            <ProfilimStatsCard />
 
             <div className="profilimTileGrid">
               <ProfilimCompactTile
@@ -484,9 +497,7 @@ export default function ProfilimDashboard({
           {open === "continue" ? (
             <ContinuePanel items={continueItems} />
           ) : null}
-          {open === "favorites" ? (
-            <FavoritesPanel items={view.favorites} />
-          ) : null}
+          {open === "favorites" ? <LiveFavoritesPanel /> : null}
           {open === "purchases" ? (
             <PurchasesPanel items={view.purchases} />
           ) : null}
@@ -521,6 +532,7 @@ export default function ProfilimDashboard({
           {open === "ritualNotes" ? <GoldRituelPanel tab="notes" /> : null}
           {open === "activityHistory" ? <ActivityTimelinePanel /> : null}
           {open === "todos" ? <RemindersPanel /> : null}
+          {open === "badges" ? <ProfilimBadgesPanel /> : null}
         </ProfilimDrawer>
       ) : null}
     </section>
