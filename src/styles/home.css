@@ -18075,7 +18075,7 @@ font-size:32px;
   display: flex;
 
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   gap: 15px;
 
@@ -21755,9 +21755,12 @@ font-size:32px;
 
   background: #ffffff;
 
-  border: 1px solid rgba(176, 130, 48, 0.28);
+  border: 0;
 
-  box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14);
+  box-shadow:
+    0 -2px 3px rgba(48, 32, 18, 0.05),
+    0 -8px 18px rgba(48, 32, 18, 0.12),
+    0 -16px 32px rgba(48, 32, 18, 0.08);
 }
 
 
@@ -35038,12 +35041,7 @@ section:has(+ .deepFinderSection) {
 /* NAVBAR */
 
 .homeV3Nav {
-  background:
-    linear-gradient(
-      180deg,
-      #211812 0%,
-      #271c15 100%
-    ) !important;
+  background: #211812 !important;
 
   border-bottom:
     1px solid rgba(210, 166, 82, 0.16) !important;
@@ -35092,13 +35090,7 @@ section:has(+ .deepFinderSection) {
 ========================================================= */
 
 .homeV3Hero {
-  background: linear-gradient(
-    180deg,
-    #2c1c14 0%,
-    #5a3c2e 40%,
-    #8f6a50 78%,
-    #c4a078 100%
-  ) !important;
+  background: #211812 !important;
 }
 
 
@@ -35116,31 +35108,26 @@ section:has(+ .deepFinderSection) {
 /* TÜM BÖLÜM KOYU KAHVE */
 
 .homeV3Other {
-  background: linear-gradient(
-    180deg,
-    #b89a82 0%,
-    #e4d8cc 42%,
-    #ffffff 100%
-  ) !important;
+  background: #211812 !important;
 
   border-top: 0 !important;
   border-bottom: 0 !important;
 }
 
 .homeV3PersonalHeading h2 {
-  color: #1c1410 !important;
+  color: #fff8ed !important;
 }
 
 .homeV3PersonalHeading h2 span {
-  color: #9a7328 !important;
+  color: #d2a654 !important;
 }
 
 .homeV3PersonalHeading .homeV3Eyebrow {
-  color: #9a7328 !important;
+  color: #cda354 !important;
 }
 
 .homeV3PersonalDescription {
-  color: #4a382c !important;
+  color: rgba(255, 246, 230, 0.62) !important;
 }
 
 
@@ -35348,7 +35335,7 @@ section:has(+ .deepFinderSection) {
 .homeV3PersonalHeading .homeV3Eyebrow {
   margin-bottom: 8px !important;
 
-  color: #9a7328 !important;
+  color: #cda354 !important;
 
   letter-spacing: 2.4px !important;
 }
@@ -35358,7 +35345,7 @@ section:has(+ .deepFinderSection) {
 
   margin: 0 !important;
 
-  color: #1c1410 !important;
+  color: #fff8ed !important;
 
   font-size:
     clamp(
@@ -35373,7 +35360,7 @@ section:has(+ .deepFinderSection) {
 }
 
 .homeV3PersonalHeading h2 span {
-  color: #9a7328 !important;
+  color: #d2a654 !important;
 }
 
 .homeV3PersonalDescription {
@@ -35384,7 +35371,7 @@ section:has(+ .deepFinderSection) {
     0
     0 !important;
 
-  color: #4a382c !important;
+  color: rgba(255, 246, 230, 0.62) !important;
 
   font-size: 12px !important;
 

@@ -33,6 +33,8 @@ function ping(body: Record<string, string>) {
     body: payload,
     keepalive: true,
     credentials: "same-origin",
+  }).catch(() => {
+    // Presence is best-effort. Failed fetch during HMR/navigation must not overlay.
   });
 }
 

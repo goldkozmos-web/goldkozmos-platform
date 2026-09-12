@@ -1,0 +1,329 @@
+.profilimHeroActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profilimBell {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(176, 130, 48, 0.28);
+  border-radius: 50%;
+  background: rgba(255, 252, 247, 0.9);
+  color: #8d6728;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+.profilimBell svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.profilimBellBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #211812;
+  color: #e3bc70;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.profilimCompose select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid rgba(168, 124, 44, 0.22);
+  border-radius: 14px;
+  background: #fffaf1;
+  color: #221812;
+  font: inherit;
+}
+
+.dailyInlineAction {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(176, 130, 48, 0.28);
+  border-radius: 999px;
+  background: #fffaf1;
+  color: #7a5720;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dailyMessageCard {
+  display: grid;
+  gap: 10px;
+  padding: 22px 20px 20px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 22px;
+  background: #fffdf9;
+  box-shadow: 0 10px 28px rgba(48, 32, 18, 0.08);
+}
+
+.dailyActionBand {
+  padding: 4px 0 8px;
+  overflow: visible;
+  background: #fffdf9;
+}
+
+.dailyActionScroller {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 18px 24px 22px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.dailyActionScroller.isBrown {
+  padding-top: 10px;
+  padding-bottom: 28px;
+}
+
+.dailyActionScroller::-webkit-scrollbar {
+  display: none;
+}
+
+.dailyActionRail {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  min-width: 100%;
+  overflow: visible;
+}
+
+.dailyActionShell {
+  flex: 0 0 calc((100vw - 48px - 20px) / 3);
+  min-width: 108px;
+  max-width: 148px;
+  display: block;
+  filter: drop-shadow(0 10px 12px rgba(48, 32, 18, 0.16));
+  scroll-snap-align: start;
+  text-decoration: none;
+}
+
+.dailyActionCard {
+  position: relative;
+  isolation: isolate;
+  min-height: 72px;
+  padding: 12px 10px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(196, 160, 74, 0.5);
+  border-radius: 16px;
+  background: #e6c878;
+}
+
+.dailyActionWash,
+.dailyActionShine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dailyActionWash {
+  z-index: 0;
+  background: linear-gradient(
+    115deg,
+    #f3e2ae 0%,
+    #e8c878 18%,
+    #fff4cc 36%,
+    #d4b056 54%,
+    #ead087 72%,
+    #f3e2ae 100%
+  );
+  background-size: 280% 280%;
+  animation: dailyGoldFlow 7.5s ease-in-out infinite;
+}
+
+.dailyActionShine {
+  z-index: 1;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 252, 236, 0.12) 38%,
+    rgba(255, 255, 255, 0.42) 50%,
+    rgba(255, 244, 200, 0.12) 62%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  animation: dailyGoldSheen 5.5s linear infinite;
+}
+
+.dailyActionLabel {
+  position: relative;
+  z-index: 2;
+  color: #211812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.dailyActionCard.isBrown {
+  background: #211812;
+  border-color: rgba(90, 62, 36, 0.85);
+}
+
+.dailyActionWash--brown {
+  background: linear-gradient(
+    115deg,
+    #3a2418 0%,
+    #211812 18%,
+    #5a3824 36%,
+    #2a1a12 54%,
+    #4a2e1c 72%,
+    #211812 100%
+  );
+  background-size: 280% 280%;
+  animation: dailyGoldFlow 7.5s ease-in-out infinite;
+}
+
+.dailyActionShine--brown {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 248, 237, 0.06) 38%,
+    rgba(255, 248, 237, 0.22) 50%,
+    rgba(90, 62, 36, 0.12) 62%,
+    transparent 100%
+  );
+  background-size: 220% 100%;
+  animation: dailyGoldSheen 5.5s linear infinite;
+}
+
+.dailyActionCard.isBrown .dailyActionLabel {
+  color: #fff8ed;
+}
+
+@keyframes dailyGoldFlow {
+  0%,
+  100% {
+    background-position: 0% 40%;
+  }
+  50% {
+    background-position: 100% 60%;
+  }
+}
+
+@keyframes dailyGoldSheen {
+  0% {
+    background-position: -30% 0;
+  }
+  100% {
+    background-position: 130% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dailyActionWash,
+  .dailyActionShine {
+    animation: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .dailyActionScroller {
+    overflow: visible;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .dailyActionRail {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .dailyActionShell {
+    flex: 0 0 132px;
+  }
+}
+
+.dailyEyebrow {
+  margin: 0;
+  color: #a8792a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.dailyMessageCard time,
+.dailyActionCategory {
+  color: #8d6728;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.dailyMessageBody {
+  margin: 0;
+  color: #3f352c;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.dailyMessageActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dailyMessageActions button,
+.dailyActionDone {
+  min-height: 42px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2c1d14, #140e0a);
+  color: #e3bc70;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dailyActionDone:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.dailyStatus {
+  margin: 0;
+  color: #7a5720;
+  font-size: 12px;
+}
+
+.dailyActionDone {
+  justify-self: start;
+}
+
+@media (max-width: 700px) {
+  .dailyActionBand {
+    padding: 8px 0 18px;
+  }
+
+  .dailyMessageCard {
+    width: calc(100% - 32px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

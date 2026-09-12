@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import FooterSection from "../components/FooterSection";
 import HomeNavbar from "../components/HomeNavbar";
 import PlatformRail from "../components/platform/PlatformRail";
+import DailyActionCard from "../components/daily/DailyActionCard";
 import {
   getEducationCourses,
   getEducationHubHref,
@@ -823,12 +824,7 @@ const homepageArchiveStyles = `
     padding-top: 36px !important;
     padding-bottom: 40px !important;
     border-top: none !important;
-    background: linear-gradient(
-      180deg,
-      #b89a82 0%,
-      #e4d8cc 42%,
-      #ffffff 100%
-    ) !important;
+    background: #211812 !important;
   }
 
   .homeV3Page .homeV3PersonalHub {
@@ -865,21 +861,21 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Other .homeV3PersonalHeading .homeV3Eyebrow {
-    color: #9a7328 !important;
+    color: #cda354 !important;
   }
 
   .homeV3Page .homeV3PersonalHeading h2 {
-    color: #1c1410 !important;
+    color: #fff8ed !important;
     font-size: clamp(34px, 3.6vw, 50px) !important;
   }
 
   .homeV3Page .homeV3PersonalHeading h2 span {
-    color: #9a7328 !important;
+    color: #d2a654 !important;
   }
 
   .homeV3Page .homeV3PersonalDescription {
     max-width: 420px !important;
-    color: #4a382c !important;
+    color: rgba(255, 246, 230, 0.62) !important;
   }
 
   .homeV3Page .homeV3Other .homeV3OtherSlider {
@@ -905,26 +901,26 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Other .homeV3OtherSlider .homeV3OtherCard {
-    flex: 0 0 min(72vw, 240px) !important;
-    min-width: min(72vw, 240px) !important;
-    width: min(72vw, 240px) !important;
-    max-width: min(72vw, 240px) !important;
+    flex: 0 0 min(70vw, 260px) !important;
+    min-width: min(70vw, 260px) !important;
+    width: min(70vw, 260px) !important;
+    max-width: min(70vw, 260px) !important;
     scroll-snap-align: start !important;
     display: flex !important;
     flex-direction: column !important;
     background: #fff !important;
     border: 1px solid rgba(151, 113, 49, 0.14) !important;
-    border-radius: 18px !important;
+    border-radius: 20px !important;
     overflow: hidden !important;
-    box-shadow:
-      0 18px 40px rgba(18, 11, 7, 0.22),
-      0 8px 18px rgba(18, 11, 7, 0.12) !important;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
   }
 
   .homeV3Page .homeV3Other .homeV3OtherVisual {
-    aspect-ratio: 4 / 3 !important;
+    aspect-ratio: 1 / 1 !important;
     height: auto !important;
     min-height: 0 !important;
+    border-radius: 0 !important;
+    background: #17130f !important;
   }
 
   .homeV3Page .homeV3Other .homeV3OtherVisual img {
@@ -946,18 +942,24 @@ const homepageArchiveStyles = `
     align-items: center !important;
     justify-content: space-between !important;
     margin-top: auto !important;
-    padding-top: 10px !important;
+    padding-top: 17px !important;
+    border-top: 1px solid rgba(151, 113, 49, 0.11) !important;
   }
 
   .homeV3Page .homeV3OtherCardBottom strong {
-    color: #251f19 !important;
+    color: #2d251e !important;
+    font-family: Georgia, "Times New Roman", serif !important;
     font-size: 20px !important;
+    font-weight: 400 !important;
   }
 
   .homeV3Page .homeV3OtherCardCta {
-    color: #9a7631 !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 9px !important;
+    color: #98732f !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
   }
 
   .homeV3Page .homeV3OtherSliderControls,
@@ -975,11 +977,27 @@ const homepageArchiveStyles = `
       box-sizing: border-box !important;
     }
 
-    .homeV3Page .homeV3ResonanceCard {
+    .homeV3Page .homeV3ResonanceCard,
+    .homeV3Page .homeV3Other .homeV3OtherSlider .homeV3OtherCard,
+    .homeV3Page .homeV3LiveArchiveGrid .homeV3LiveArchiveCard {
       flex: 0 0 min(70vw, 260px) !important;
       width: min(70vw, 260px) !important;
       max-width: 260px !important;
       box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
+      border: 1px solid rgba(151, 113, 49, 0.14) !important;
+      border-radius: 20px !important;
+      background: #fff !important;
+    }
+
+    .homeV3Page .homeV3Other .homeV3OtherVisual,
+    .homeV3Page .homeV3LiveArchiveImage {
+      aspect-ratio: 1 / 1 !important;
+    }
+
+    .homeV3Page .homeV3LibraryHub .homeV3LibraryBooksGrid .homeV3BookCard {
+      flex: 0 0 min(70vw, 240px) !important;
+      width: min(70vw, 240px) !important;
+      max-width: 240px !important;
     }
 
     .homeV3Page .homeV3Resonance .homeV3SectionHeading,
@@ -1061,6 +1079,7 @@ const homepageArchiveStyles = `
     .homeV3Page .homeV3LiveArchiveBottom {
       gap: 8px !important;
       flex-wrap: wrap !important;
+      justify-content: space-between !important;
     }
 
     .homeV3Page .homeV3OtherCardBottom strong,
@@ -1158,30 +1177,31 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3LiveArchiveCard {
-    flex: 0 0 240px !important;
-    width: 240px !important;
-    max-width: 240px !important;
-    overflow: hidden;
-    border: 1.5px solid rgba(198, 151, 67, 0.45);
-    border-radius: 20px;
-    background: #fffdf9;
+    flex: 0 0 min(70vw, 260px) !important;
+    width: min(70vw, 260px) !important;
+    max-width: 260px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(151, 113, 49, 0.14) !important;
+    border-radius: 20px !important;
+    background: #fff !important;
     scroll-snap-align: start !important;
-    box-shadow:
-      0 16px 34px rgba(55, 35, 16, 0.10),
-      0 4px 12px rgba(55, 35, 16, 0.05);
-    transition: transform 0.28s ease !important;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease !important;
   }
 
   .homeV3Page .homeV3LiveArchiveCard:hover {
-    transform: translateY(-6px) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 18px rgba(63, 42, 20, 0.08) !important;
   }
 
   .homeV3LiveArchiveImage {
     position: relative;
     display: block;
-    aspect-ratio: 4 / 3 !important;
+    aspect-ratio: 1 / 1 !important;
     overflow: hidden;
-    background: #24180f;
+    background: #17130f;
   }
 
   .homeV3LiveArchiveImage img {
@@ -1242,11 +1262,11 @@ const homepageArchiveStyles = `
     gap: 18px;
     margin-top: 18px;
     padding-top: 15px;
-    border-top: 1px solid rgba(158, 116, 44, 0.14);
+    border-top: 1px solid rgba(151, 113, 49, 0.11);
   }
 
   .homeV3LiveArchiveBottom strong {
-    color: #9b7029;
+    color: #2d251e;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 18px;
     font-weight: 400;
@@ -1286,7 +1306,7 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergy {
     padding: 78px 0 16px;
     overflow: hidden;
-    background: linear-gradient(180deg, #b89a82 0%, #e4d8cc 42%, #ffffff 100%);
+    background: #211812;
   }
 
   .homeV3AudioEnergyInner {
@@ -1312,14 +1332,14 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading .homeV3Eyebrow {
-    color: #9a7328;
+    color: #cda354;
     margin-bottom: 0 !important;
     text-align: center !important;
   }
 
   .homeV3AudioEnergyHeading h2 {
     margin: 0 auto !important;
-    color: #1c1410;
+    color: #fff8ed;
     font-family: Georgia, "Times New Roman", serif;
     font-size: clamp(32px, 3.4vw, 48px);
     font-weight: 400;
@@ -1331,13 +1351,13 @@ const homepageArchiveStyles = `
   }
 
   .homeV3AudioEnergyHeading h2 span {
-    color: #9a7328;
+    color: #d2a654;
   }
 
   .homeV3AudioEnergyHeading > p {
     margin: 0 auto !important;
     max-width: 440px;
-    color: #4a382c;
+    color: rgba(255, 246, 230, 0.62);
     font-size: 13px;
     line-height: 1.7;
     text-align: center !important;
@@ -1353,26 +1373,26 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergyProduct {
     min-width: 0;
     overflow: hidden;
-    border: 2px solid rgba(205, 158, 70, 0.68);
-    border-radius: 24px;
-    background:
-      radial-gradient(circle at 92% 8%, rgba(203, 157, 72, 0.11), transparent 31%),
-      linear-gradient(145deg, #2b1d13 0%, #19110c 100%);
-    box-shadow:
-      0 22px 48px rgba(0, 0, 0, 0.22),
-      0 7px 18px rgba(0, 0, 0, 0.10);
-    transition: transform 0.28s ease;
+    border: 0;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05);
+    transition: transform 180ms ease, box-shadow 180ms ease;
   }
 
   .homeV3Page .homeV3AudioEnergyProduct {
     flex: 0 0 min(70vw, 240px) !important;
     width: min(70vw, 240px) !important;
     max-width: 240px !important;
-    transition: transform 0.28s ease !important;
+    border: 0 !important;
+    background: #fff !important;
+    box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
+    transition: transform 180ms ease, box-shadow 180ms ease !important;
   }
 
   .homeV3Page .homeV3AudioEnergyProduct:hover {
-    transform: translateY(-6px) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 18px rgba(63, 42, 20, 0.08) !important;
   }
 
   .homeV3Page .homeV3LibraryHeading {
@@ -1436,9 +1456,9 @@ const homepageArchiveStyles = `
     display: flex !important;
     grid-template-columns: none !important;
     flex-wrap: nowrap !important;
-    gap: 12px !important;
+    gap: 14px !important;
     overflow-x: auto !important;
-    padding: 10px 16px 14px !important;
+    padding: 0 20px 20px !important;
     scroll-snap-type: x mandatory !important;
     scrollbar-width: none !important;
   }
@@ -1448,7 +1468,8 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3BookCard,
-  .homeV3Page .homeV3LibraryHub .homeV3BookCard {
+  .homeV3Page .homeV3LibraryHub .homeV3BookCard,
+  .homeV3Page .homeV3LibraryHub .homeV3LibraryBooksGrid .homeV3BookCard {
     flex: 0 0 min(70vw, 240px) !important;
     width: min(70vw, 240px) !important;
     max-width: 240px !important;
@@ -1523,8 +1544,8 @@ const homepageArchiveStyles = `
     display: block;
     aspect-ratio: 1 / 1;
     overflow: hidden;
-    background: #f6eee2;
-    border-bottom: 1px solid rgba(205, 158, 70, 0.34);
+    background: #17130f;
+    border-bottom: 0;
   }
 
   .homeV3AudioEnergyImage img {
@@ -1556,7 +1577,7 @@ const homepageArchiveStyles = `
 
   .homeV3AudioEnergyCategory {
     margin: 0 0 8px;
-    color: #c99a47;
+    color: #9e742c;
     letter-spacing: 0.14em;
     font-size: 7.5px;
     font-weight: 700;
@@ -1566,7 +1587,7 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergyProduct h3 {
     min-height: 52px;
     margin: 0;
-    color: #fffaf1;
+    color: #2b241d;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 22px;
     font-weight: 400;
@@ -1577,7 +1598,7 @@ const homepageArchiveStyles = `
   .homeV3AudioEnergyText {
     min-height: 90px;
     margin-top: 11px;
-    color: rgba(255, 250, 241, 0.60);
+    color: #74695e;
     font-size: 10.5px;
     line-height: 1.55;
   }
@@ -1589,11 +1610,11 @@ const homepageArchiveStyles = `
     gap: 14px;
     margin-top: 16px;
     padding-top: 14px;
-    border-top: 1px solid rgba(214, 173, 97, 0.15);
+    border-top: 1px solid rgba(151, 113, 49, 0.11);
   }
 
   .homeV3AudioEnergyBottom strong {
-    color: #d7aa55;
+    color: #2d251e;
     font-family: Georgia, "Times New Roman", serif;
     font-size: 18px;
     font-weight: 400;
@@ -1603,7 +1624,7 @@ const homepageArchiveStyles = `
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    color: #d7aa55;
+    color: #98732f;
     text-decoration: none;
     font-size: 9.5px;
     font-weight: 700;
@@ -1613,12 +1634,7 @@ const homepageArchiveStyles = `
 
   /* BAĞLANTIDA KAL · GOLD BOOK'TAN BAĞIMSIZ */
   .homeV3Page .homeV3Connect {
-    background: linear-gradient(
-      180deg,
-      #b89a82 0%,
-      #e4d8cc 42%,
-      #ffffff 100%
-    ) !important;
+    background: #211812 !important;
     padding: 48px 0 64px !important;
     overflow: hidden !important;
   }
@@ -1638,7 +1654,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading .homeV3Eyebrow {
-    color: #9a7328 !important;
+    color: #cda354 !important;
     font-size: 11px !important;
     letter-spacing: 0.18em !important;
     margin: 0 0 10px !important;
@@ -1647,7 +1663,7 @@ const homepageArchiveStyles = `
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 {
     max-width: none !important;
     margin: 0 !important;
-    color: #1c1410 !important;
+    color: #fff8ed !important;
     font-family: Georgia, "Times New Roman", serif !important;
     font-size: clamp(32px, 6vw, 46px) !important;
     font-weight: 400 !important;
@@ -1657,13 +1673,13 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading h2 span {
-    color: #9a7328 !important;
+    color: #d2a654 !important;
   }
 
   .homeV3Page .homeV3Connect .homeV3PhoneZoneHeading > p:last-child {
     max-width: 420px !important;
     margin: 12px auto 0 !important;
-    color: #4a382c !important;
+    color: rgba(255, 246, 230, 0.62) !important;
     font-size: 14px !important;
     line-height: 1.65 !important;
     text-align: center !important;
@@ -1972,7 +1988,7 @@ const homepageArchiveStyles = `
 
   /* SSS */
   .homeV3Page .homeV3Faq {
-    padding: 56px 0 68px !important;
+    padding: 40px 0 46px !important;
     overflow: visible !important;
     background: #fffdf8 !important;
     border-top: none !important;
@@ -2021,7 +2037,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3FaqOpen {
-    margin-top: 22px;
+    margin-top: 16px;
     min-height: 46px;
     padding: 0 22px;
     border: none;
@@ -2359,13 +2375,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Hero {
-    background: linear-gradient(
-      180deg,
-      #2c1c14 0%,
-      #5a3c2e 40%,
-      #8f6a50 78%,
-      #c4a078 100%
-    ) !important;
+    background: #211812 !important;
   }
 
   .homeV3Page .homeV3HeroCard {
@@ -2382,7 +2392,9 @@ const homepageArchiveStyles = `
     flex-wrap: nowrap !important;
     align-items: stretch !important;
     gap: 8px !important;
-    margin-top: 8px !important;
+    margin-top: 0 !important;
+    padding-top: 28px !important;
+    overflow: visible !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest {
@@ -2406,8 +2418,11 @@ const homepageArchiveStyles = `
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     background: #ffffff !important;
-    border: 1px solid rgba(176, 130, 48, 0.28) !important;
-    box-shadow: 0 8px 22px rgba(48, 32, 18, 0.14) !important;
+    border: 0 !important;
+    box-shadow:
+      0 -2px 3px rgba(48, 32, 18, 0.05),
+      0 -8px 18px rgba(48, 32, 18, 0.12),
+      0 -16px 32px rgba(48, 32, 18, 0.08) !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestIcon {
@@ -2417,16 +2432,6 @@ const homepageArchiveStyles = `
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy {
     width: 100% !important;
     min-width: 0 !important;
-  }
-
-  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy p {
-    font-size: 8px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.08em !important;
-    line-height: 1.3 !important;
-    margin: 0 0 5px !important;
-    color: #9a7328 !important;
-    -webkit-font-smoothing: antialiased !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 {
@@ -2441,7 +2446,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 span {
-    color: #9a7328 !important;
+    color: inherit !important;
   }
 
   .homeHeroActionCard {
@@ -2673,11 +2678,8 @@ export default function HomePageClient() {
                 href="#rezonans"
               >
                 <div className="homeHeroMiniTestCopy">
-                  <p>REZONANS ÇALIŞMALARI</p>
-
                   <h2>
-                    Çalışmaları
-                    <span> keşfet</span>
+                    Çalışmalarım
                   </h2>
                 </div>
 
@@ -2691,11 +2693,8 @@ export default function HomePageClient() {
                 href="/hakkimda"
               >
                 <div className="homeHeroMiniTestCopy">
-                  <p>ÖZGE BATIGÜN</p>
-
                   <h2>
                     Hakkımda
-                    <span> daha fazlası</span>
                   </h2>
                 </div>
 
@@ -2706,11 +2705,8 @@ export default function HomePageClient() {
 
               <div className="homeHeroMiniTest">
                 <div className="homeHeroMiniTestCopy">
-                  <p>ÜCRETSİZ ARKETİP TESTİ</p>
-
                   <h2>
-                    Kendine hangi
-                    <span> arketipten bakıyorsun?</span>
+                    Arketip testi
                   </h2>
                 </div>
 
@@ -2722,6 +2718,8 @@ export default function HomePageClient() {
           </div>
         </div>
       </section>
+
+      <DailyActionCard />
 
       <PlatformRail />
 
@@ -2782,10 +2780,6 @@ export default function HomePageClient() {
                   </p>
 
                   <div className="homeV3ResonanceBottom">
-                    {course.priceLabel ? (
-                      <strong>{course.priceLabel}</strong>
-                    ) : null}
-
                     <a
                       href={cta.href}
                       {...(cta.external
@@ -2861,6 +2855,7 @@ export default function HomePageClient() {
                         )}
                         <span className="homeV3OtherCardCta">
                           Detayları Gör
+                          <span>→</span>
                         </span>
                       </div>
                     </div>
