@@ -940,10 +940,17 @@ const homepageArchiveStyles = `
   .homeV3Page .homeV3OtherCardBottom {
     display: flex !important;
     align-items: center !important;
-    justify-content: flex-end !important;
+    justify-content: space-between !important;
     margin-top: auto !important;
     padding-top: 17px !important;
     border-top: 1px solid rgba(151, 113, 49, 0.11) !important;
+  }
+
+  .homeV3Page .homeV3OtherCardBottom strong {
+    color: #2d251e !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 20px !important;
+    font-weight: 400 !important;
   }
 
   .homeV3Page .homeV3OtherCardCta {
@@ -970,11 +977,21 @@ const homepageArchiveStyles = `
       box-sizing: border-box !important;
     }
 
-    .homeV3Page .homeV3ResonanceCard {
+    .homeV3Page .homeV3ResonanceCard,
+    .homeV3Page .homeV3Other .homeV3OtherSlider .homeV3OtherCard,
+    .homeV3Page .homeV3LiveArchiveGrid .homeV3LiveArchiveCard {
       flex: 0 0 min(70vw, 260px) !important;
       width: min(70vw, 260px) !important;
       max-width: 260px !important;
       box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05) !important;
+      border: 1px solid rgba(151, 113, 49, 0.14) !important;
+      border-radius: 20px !important;
+      background: #fff !important;
+    }
+
+    .homeV3Page .homeV3Other .homeV3OtherVisual,
+    .homeV3Page .homeV3LiveArchiveImage {
+      aspect-ratio: 1 / 1 !important;
     }
 
     .homeV3Page .homeV3Resonance .homeV3SectionHeading,
@@ -1056,7 +1073,12 @@ const homepageArchiveStyles = `
     .homeV3Page .homeV3LiveArchiveBottom {
       gap: 8px !important;
       flex-wrap: wrap !important;
-      justify-content: flex-end !important;
+      justify-content: space-between !important;
+    }
+
+    .homeV3Page .homeV3OtherCardBottom strong,
+    .homeV3Page .homeV3LiveArchiveBottom strong {
+      font-size: 16px !important;
     }
 
     .homeV3Page .homeV3OtherCardCta,
@@ -1230,11 +1252,18 @@ const homepageArchiveStyles = `
   .homeV3LiveArchiveBottom {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 18px;
     margin-top: 18px;
     padding-top: 15px;
     border-top: 1px solid rgba(151, 113, 49, 0.11);
+  }
+
+  .homeV3LiveArchiveBottom strong {
+    color: #2d251e;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 18px;
+    font-weight: 400;
   }
 
   .homeV3LiveArchiveBottom a {
@@ -2826,6 +2855,11 @@ export default function HomePageClient() {
                       <p>{work.text}</p>
 
                       <div className="homeV3OtherCardBottom">
+                        {"price" in work && work.price ? (
+                          <strong>{work.price}</strong>
+                        ) : (
+                          <span />
+                        )}
                         <span className="homeV3OtherCardCta">
                           Detayları Gör
                           <span>→</span>
@@ -2893,6 +2927,8 @@ export default function HomePageClient() {
                   </div>
 
                   <div className="homeV3LiveArchiveBottom">
+                    <strong>{recording.price}</strong>
+
                     <a
                       href={recording.href}
                       target={recording.href.startsWith("http") ? "_blank" : undefined}
