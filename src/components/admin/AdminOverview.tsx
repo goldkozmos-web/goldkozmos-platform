@@ -7,6 +7,7 @@ import type { AdminOverviewMetric } from "../../lib/admin/load";
 import AdminMemberList from "./AdminMemberList";
 import { AdminMetricIcon } from "./AdminIcons";
 import { useAdminLive } from "./AdminLiveProvider";
+import AdminVisitChart from "./AdminVisitChart";
 
 export default function AdminOverview({
   metrics,
@@ -117,6 +118,8 @@ export default function AdminOverview({
           </div>
         )}
       </section>
+
+      <AdminVisitChart />
 
       <AdminMemberList members={members} />
     </div>

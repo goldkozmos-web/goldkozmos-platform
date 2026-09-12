@@ -41,6 +41,28 @@ function List({ user }: { user: NonNullable<ProfilimUser> }) {
         <AyarlarLinkRow href="/ayarlar/cerez" label="Çerez Tercihleri" />
       </AyarlarGroup>
 
+      <AyarlarGroup label="Paylaş & Topluluk">
+        <AyarlarButtonRow
+          label="GoldKozmos'u Arkadaşlarınla Paylaş"
+          onClick={() => {
+            const text = "GoldKozmos — kendi kozmosunu bul. goldkozmos.com";
+            if (navigator.share) {
+              void navigator.share({
+                title: "GoldKozmos",
+                text,
+                url: "https://goldkozmos.com",
+              });
+            } else {
+              void navigator.clipboard.writeText("https://goldkozmos.com");
+            }
+          }}
+        />
+        <AyarlarLinkRow
+          href="https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq"
+          label="Instagram'da GoldKozmos'u Takip Et"
+        />
+      </AyarlarGroup>
+
       <AyarlarGroup label="Destek">
         <AyarlarLinkRow href="/ayarlar/sss" label="Sıkça Sorulan Sorular" />
         <AyarlarLinkRow href="/ayarlar/sorun" label="Sorun Bildir" />

@@ -9,6 +9,8 @@ import {
   toggleSavedSlug,
   type RitualStore,
 } from "../../lib/goldrituel/store";
+import { ritualBySlug } from "../../data/goldrituel/catalog";
+import { goldrituelPath } from "../../lib/goldrituel/urls";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 
 export function useRitualStore() {
@@ -34,7 +36,27 @@ export function useRitualStore() {
   }, []);
 
   function toggleSaved(slug: string) {
-    setStore(toggleSavedSlug(slug, userId));
+    const next = toggleSavedSlug(slug, userId);
+    setStore(next);
+    const supabase = createSupabaseBrowserClient();
+    const ritual = ritualBySlug(slug);
+    if (!supabase || !userId || !ritual) return;
+    const on = next.saved.includes(slug);
+    if (on) {
+      void supabase.from("favorites").upsert({
+        user_id: userId,
+        content_type: "ritual",
+        content_id: slug,
+        title: ritual.title,
+        href: goldrituelPath(slug),
+      });
+    } else {
+      void supabase
+        .from("favorites")
+        .delete()
+        .eq("content_type", "ritual")
+        .eq("content_id", slug);
+    }
   }
 
   function markDone(slug: string) {

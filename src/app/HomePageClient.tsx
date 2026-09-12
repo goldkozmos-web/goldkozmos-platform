@@ -5,6 +5,11 @@ import FooterSection from "../components/FooterSection";
 import HomeNavbar from "../components/HomeNavbar";
 import PlatformRail from "../components/platform/PlatformRail";
 import DailyActionCard from "../components/daily/DailyActionCard";
+import DailyMessageExperience from "../components/daily/DailyMessageExperience";
+import HomeGoldAction from "../components/daily/HomeGoldAction";
+import HomeBlogReads from "../components/home/HomeBlogReads";
+import HomeCommunities from "../components/home/HomeCommunities";
+import HomeJourneyCard from "../components/home/HomeJourneyCard";
 import {
   getEducationCourses,
   getEducationHubHref,
@@ -2710,7 +2715,7 @@ export default function HomePageClient() {
                   </h2>
                 </div>
 
-                <a href="/sana-uygun-calismayi-bul">
+                <a href="/arketip-testi">
                   Teste Başla
                 </a>
               </div>
@@ -2720,6 +2725,10 @@ export default function HomePageClient() {
       </section>
 
       <DailyActionCard />
+      <DailyMessageExperience />
+      <HomeGoldAction />
+      <HomeJourneyCard />
+      <HomeBlogReads />
 
       <PlatformRail />
 
@@ -3278,6 +3287,14 @@ export default function HomePageClient() {
           </div>
         </div>
       </section>
+
+      <HomeCommunities />
+
+      <div className="homeSoftCard" style={{ textAlign: "center" }}>
+        <a className="homeSoftLink" href="/calismalar">
+          Tüm Çalışmaları Gör
+        </a>
+      </div>
 
       {/* SSS */}
 
