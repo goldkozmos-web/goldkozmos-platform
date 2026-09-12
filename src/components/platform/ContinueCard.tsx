@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import {
   PLATFORM_CATALOG,
@@ -29,8 +30,10 @@ export default function ContinueCard({
   variant = "glance",
 }: ContinueCardProps) {
   const { startAudio, startYoutube, startSpotify } = usePlayback();
+  const [flashing, setFlashing] = useState(false);
+  const flashTimer = useRef<number>(0);
 
-  function resume() {
+  function playNow() {
     if (!item) {
       return;
     }
@@ -72,6 +75,19 @@ export default function ContinueCard({
     }
   }
 
+  function resume() {
+    if (!item || flashing) {
+      return;
+    }
+
+    setFlashing(true);
+    window.clearTimeout(flashTimer.current);
+    flashTimer.current = window.setTimeout(() => {
+      setFlashing(false);
+      playNow();
+    }, 520);
+  }
+
   const canResume = Boolean(
     item?.youtubeId || item?.spotifyEmbedUrl || item?.audioUrl,
   );
@@ -90,7 +106,7 @@ export default function ContinueCard({
       aria-label={title}
     >
       {item ? (
-        <div className="platformContinueCard">
+        <div className={`platformContinueCard${flashing ? " isFlashing" : ""}`}>
           {artwork ? (
             <img
               className="platformContinueArt"

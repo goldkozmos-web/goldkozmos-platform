@@ -559,18 +559,66 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .platformPageContinue {
+    position: relative;
     width: min(1180px, calc(100% - 32px));
     margin: 10px auto 6px;
-    padding: 12px 14px 12px;
+    padding: 12px 14px;
     box-sizing: border-box;
-    border: 1px solid rgba(90, 56, 18, 0.18);
+    overflow: hidden;
+    border: 0;
     border-radius: 18px;
-    background:
-      linear-gradient(180deg, rgba(255, 244, 214, 0.28) 0%, transparent 34%),
-      linear-gradient(155deg, #e4c06a 0%, #d4a24a 46%, #c49238 100%);
+    background: #ffffff;
     box-shadow:
-      0 1px 0 rgba(255, 244, 214, 0.45) inset,
-      0 12px 28px rgba(66, 42, 17, 0.16);
+      0 8px 18px rgba(48, 28, 12, 0.10),
+      0 18px 32px rgba(48, 28, 12, 0.12);
+  }
+
+  .goldcastPage .platformPageContinue::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-sizing: border-box;
+    border-radius: inherit;
+    padding: 2px;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 248, 220, 0.7) 0%,
+        transparent 38%,
+        rgba(72, 46, 16, 0.28) 100%
+      ),
+      linear-gradient(
+        125deg,
+        #fff4c8 0%,
+        #f0d78a 8%,
+        #d4b056 18%,
+        #b8893a 32%,
+        #7a5418 46%,
+        #e6c878 58%,
+        #c4a04a 70%,
+        #8d6624 84%,
+        #f7e7b4 100%
+      );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .goldcastPage .platformPageContinue:has(.isFlashing) {
+    animation: goldcastPlayFlash 0.55s ease;
+  }
+
+  @keyframes goldcastPlayFlash {
+    0% { background-color: #ffffff; }
+    40% { background-color: #f0d78a; }
+    100% { background-color: #ffffff; }
   }
 
   .goldcastPage .platformContinue {
@@ -602,19 +650,21 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .platformContinueCopy p {
-    color: #3a271b;
+    color: #b08a3c;
+    font-weight: 800;
+    letter-spacing: 0.14em;
   }
 
   .goldcastPage .platformContinueCopy strong {
     font-size: 15px;
-    color: #1c120b;
+    color: #16110c;
   }
 
   .goldcastPage .platformContinueDesc {
     -webkit-line-clamp: 1;
     font-size: 12px;
     line-height: 1.35;
-    color: rgba(28, 18, 11, 0.72);
+    color: #4a4038;
   }
 
   .goldcastPage .platformContinueMeter {
@@ -623,15 +673,15 @@ const goldcastPremiumStyles = `
   }
 
   .goldcastPage .platformContinuePercent {
-    color: #3a271b;
+    color: #5a4e44;
   }
 
   .goldcastPage .platformContinue .platformProgressTrack {
-    background: rgba(28, 18, 11, 0.16);
+    background: rgba(176, 138, 62, 0.2);
   }
 
   .goldcastPage .platformContinue .platformProgressTrack i {
-    background: #1c120b;
+    background: linear-gradient(90deg, #c4a056, #e2c67c);
   }
 
   .goldcastPage .platformContinueCta {
@@ -994,8 +1044,8 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTop,
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTop {
     color: #b08a3c !important;
-    font-size: 10px !important;
-    letter-spacing: 0.18em !important;
+    font-size: 9px !important;
+    letter-spacing: 0.16em !important;
   }
 
   .goldcastPage .goldcastYTImage,
