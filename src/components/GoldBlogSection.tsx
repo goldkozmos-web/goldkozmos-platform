@@ -3718,8 +3718,6 @@ const goldBlogHubStyles = `
     margin-bottom: 14px !important;
   }
 
-  .goldblogPage .goldBlogNewCard,
-  .goldblogPage .goldBlogNewCard:first-child,
   .goldblogPage .goldBlogCategoryCard,
   .goldblogPage .goldBlogCategoryCard:hover,
   .goldblogPage .goldBlogCategoryCard.isActive {
@@ -3732,59 +3730,62 @@ const goldBlogHubStyles = `
 
   .goldblogPage .goldBlogNewCard,
   .goldblogPage .goldBlogNewCard:first-child {
-    padding: 0 14px 16px !important;
+    flex: 0 0 min(46vw, 158px) !important;
+    width: min(46vw, 158px) !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 11px 12px 12px !important;
+    border: 1px solid rgba(176, 132, 52, 0.32) !important;
+    border-radius: 14px !important;
+    background:
+      linear-gradient(165deg, #6a4a38 0%, #4a3224 46%, #2a1a12 100%) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 244, 220, 0.16) inset,
+      0 -1px 0 rgba(20, 10, 6, 0.28) inset,
+      0 10px 22px rgba(28, 16, 8, 0.16) !important;
     color: #f6edd8 !important;
     text-align: left;
   }
 
   .goldblogPage .goldBlogNewCardImage {
-    position: relative;
-    width: calc(100% + 28px);
-    height: 108px;
-    margin: 0 -14px 12px;
-    overflow: hidden;
+    display: none !important;
   }
 
-  .goldblogPage .goldBlogNewCardImage img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .goldblogPage .goldBlogNewCardImage::after {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(20, 12, 8, 0.05), rgba(20, 12, 8, 0.45));
-    content: "";
+  .goldblogPage .goldBlogNewCardMeta,
+  .goldblogPage .goldBlogNewCard:first-child .goldBlogNewCardMeta {
+    margin-bottom: 8px !important;
+    color: rgba(246, 237, 216, 0.82) !important;
+    font-size: 9px !important;
   }
 
   .goldblogPage .goldBlogNewCard > p,
   .goldblogPage .goldBlogNewCard:first-child > p {
     color: #e2c67c !important;
-    font-size: 9px !important;
+    font-size: 8px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.14em !important;
+    letter-spacing: 0.12em !important;
   }
 
   .goldblogPage .goldBlogNewCardTitle,
   .goldblogPage .goldBlogNewCard h4,
   .goldblogPage .goldBlogNewCard:first-child h4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     color: #fff8ee !important;
-    font-size: 16px !important;
+    font-size: 13px !important;
     line-height: 1.22 !important;
     font-weight: 500 !important;
+    letter-spacing: -0.02em !important;
     -webkit-font-smoothing: antialiased;
   }
 
-  .goldblogPage .goldBlogNewCardMeta,
-  .goldblogPage .goldBlogNewCard:first-child .goldBlogNewCardMeta {
-    color: rgba(246, 237, 216, 0.82) !important;
-  }
-
   .goldblogPage .goldBlogNewBadge {
+    padding: 4px 7px !important;
     color: #1a120c !important;
     background: #e2c67c !important;
+    font-size: 8px !important;
   }
 
   .goldblogPage .goldBlogCategoryCard p,
@@ -3811,28 +3812,23 @@ const goldBlogHubStyles = `
     line-height: 1.45 !important;
   }
 
-  .goldblogPage .goldBlogCategoryCard[data-category-key="spirituel-stoa"],
-  .goldblogPage .goldBlogNewCard[data-category-key="spirituel-stoa"] {
+  .goldblogPage .goldBlogCategoryCard[data-category-key="spirituel-stoa"] {
     background: linear-gradient(180deg, #2c1c14 0%, #1a120c 100%) !important;
   }
 
-  .goldblogPage .goldBlogCategoryCard[data-category-key="iliski-rezonansi"],
-  .goldblogPage .goldBlogNewCard[data-category-key="iliski-rezonansi"] {
+  .goldblogPage .goldBlogCategoryCard[data-category-key="iliski-rezonansi"] {
     background: linear-gradient(180deg, #3d281c 0%, #27180f 100%) !important;
   }
 
-  .goldblogPage .goldBlogCategoryCard[data-category-key="kendilik-rezonansi"],
-  .goldblogPage .goldBlogNewCard[data-category-key="kendilik-rezonansi"] {
+  .goldblogPage .goldBlogCategoryCard[data-category-key="kendilik-rezonansi"] {
     background: linear-gradient(180deg, #322a18 0%, #1e1a10 100%) !important;
   }
 
-  .goldblogPage .goldBlogCategoryCard[data-category-key="bolluk-rezonansi"],
-  .goldblogPage .goldBlogNewCard[data-category-key="bolluk-rezonansi"] {
+  .goldblogPage .goldBlogCategoryCard[data-category-key="bolluk-rezonansi"] {
     background: linear-gradient(180deg, #3f3218 0%, #2a220e 100%) !important;
   }
 
-  .goldblogPage .goldBlogCategoryCard[data-category-key="goldkozmos-gunlugu"],
-  .goldblogPage .goldBlogNewCard[data-category-key="goldkozmos-gunlugu"] {
+  .goldblogPage .goldBlogCategoryCard[data-category-key="goldkozmos-gunlugu"] {
     background: linear-gradient(180deg, #321c18 0%, #1c100e 100%) !important;
   }
 
@@ -4357,18 +4353,6 @@ export default function GoldBlogSection() {
                       openReader(article, true)
                     }
                   >
-                    <div className="goldBlogNewCardImage">
-                      <img
-                        src={
-                          goldBlogCategoryImages[
-                            article.categoryKey
-                          ]
-                        }
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </div>
-
                     <div className="goldBlogNewCardMeta">
                       <span className="goldBlogNewBadge">
                         YENİ
