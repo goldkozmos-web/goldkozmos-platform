@@ -3771,7 +3771,7 @@ const goldBlogHubStyles = `
   .goldblogPage .goldBlogNewCard h4,
   .goldblogPage .goldBlogNewCard:first-child h4 {
     color: #fff8ee !important;
-    font-size: 15px !important;
+    font-size: 16px !important;
     line-height: 1.22 !important;
     font-weight: 500 !important;
     -webkit-font-smoothing: antialiased;
