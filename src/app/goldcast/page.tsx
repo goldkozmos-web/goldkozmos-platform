@@ -997,8 +997,8 @@ const goldcastPremiumStyles = `
     }
 
     .goldcastPage .goldcastYTTitle {
-      font-size: 15px !important;
-      letter-spacing: -0.03em !important;
+      font-size: 13px !important;
+      letter-spacing: -0.02em !important;
     }
   }
 
@@ -1089,10 +1089,10 @@ const goldcastPremiumStyles = `
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
   .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
     color: #16110c !important;
-    font-size: 20px !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.035em !important;
-    line-height: 1.12 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
   }
 
   .goldcastPage .goldcastYTDescription,
@@ -1203,12 +1203,12 @@ const goldcastPremiumStyles = `
     .goldcastPage .goldcastYTTitle,
     .goldcastPage .goldcastYTCard h3,
     .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle {
-      font-size: 15px !important;
+      font-size: 13px !important;
     }
 
     .goldcastPage .goldcastYTDescription,
     .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
-      font-size: 11px !important;
+      font-size: 10px !important;
     }
   }
 
@@ -1224,16 +1224,16 @@ const goldcastPremiumStyles = `
   main.goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelDash,
   main.goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
     color: #16110c !important;
-    font-size: 13px !important;
+    font-size: 11px !important;
     font-weight: 800 !important;
-    letter-spacing: 0.08em !important;
+    letter-spacing: 0.1em !important;
     line-height: 1.3 !important;
     opacity: 1 !important;
   }
 
   main.goldcastPage .goldcastSpotifyArchiveHeader .goldcastChannelLink {
-    font-size: 12px !important;
-    text-decoration-thickness: 1.5px !important;
+    font-size: 11px !important;
+    text-decoration-thickness: 1px !important;
   }
 
   main.goldcastPage .goldcastYTHeader h2,
@@ -1241,46 +1241,56 @@ const goldcastPremiumStyles = `
   main.goldcastPage .goldcastYTHeader .goldcastChannelDash,
   main.goldcastPage .goldcastYTHeader .goldcastChannelLink {
     color: #d4b56a !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
     font-weight: 800 !important;
-    letter-spacing: 0.16em !important;
+    letter-spacing: 0.14em !important;
     line-height: 1.3 !important;
     opacity: 1 !important;
   }
 
   main.goldcastPage .goldcastYTHeader .goldcastChannelLink {
-    font-size: 12px !important;
+    font-size: 11px !important;
   }
 
   main.goldcastPage .goldcastYTCategory,
+  main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTCategory {
+    color: #b08a3c !important;
+    font-size: 7px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.12em !important;
+    margin: 0 0 5px !important;
+  }
+
   main.goldcastPage .goldcastYTSubtitle,
-  main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTCategory,
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTSubtitle {
     color: #b08a3c !important;
     font-size: 8px !important;
-    font-weight: 800 !important;
-    letter-spacing: 0.12em !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em !important;
+    margin-top: 4px !important;
   }
 
   main.goldcastPage .goldcastYTTitle,
   main.goldcastPage .goldcastYTCard h3,
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle {
     color: #16110c !important;
-    font-size: 15px !important;
+    font-size: 13px !important;
     font-weight: 600 !important;
     line-height: 1.22 !important;
+    letter-spacing: -0.02em !important;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    min-height: 2.44em;
+    min-height: 0;
   }
 
   main.goldcastPage .goldcastYTDescription,
   main.goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
-    color: #3a322c !important;
-    font-size: 11px !important;
-    line-height: 1.42 !important;
+    color: #4a4038 !important;
+    font-size: 10px !important;
+    line-height: 1.4 !important;
+    margin-top: 6px !important;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
