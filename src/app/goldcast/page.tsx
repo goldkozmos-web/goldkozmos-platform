@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type RefObject, type SyntheticEvent } from "react";
 import Navbar from "../../components/Navbar";
 import FooterSection from "../../components/FooterSection";
 import ContinueGlance from "../../components/platform/ContinueGlance";
@@ -67,6 +67,34 @@ const spotifyEpisodes = [
 ];
 
 
+
+function youtubeCover(id: string) {
+  return {
+    src: `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`,
+    srcSet: `https://i.ytimg.com/vi/${id}/sddefault.jpg 640w, https://i.ytimg.com/vi/${id}/maxresdefault.jpg 1280w`,
+  };
+}
+
+function onCoverError(event: SyntheticEvent<HTMLImageElement>) {
+  const img = event.currentTarget;
+  const idMatch = img.src.match(/\/vi\/([\w-]{11})\//);
+  const id = idMatch?.[1];
+
+  if (!id) {
+    return;
+  }
+
+  if (img.src.includes("maxresdefault")) {
+    img.src = `https://i.ytimg.com/vi/${id}/sddefault.jpg`;
+    img.removeAttribute("srcset");
+    return;
+  }
+
+  if (img.src.includes("sddefault")) {
+    img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    img.removeAttribute("srcset");
+  }
+}
 
 const youtubeOnlyStyles = `
   @media (min-width: 901px) {
@@ -958,6 +986,117 @@ const goldcastPremiumStyles = `
       max-width: 320px !important;
     }
   }
+
+  .goldcastPage .goldcastYTCard,
+  .goldcastPage .goldcastSpotifyEpisodeCard,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard),
+  .goldcastPage .goldcastSpotifyEpisodeCard:hover,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
+    overflow: visible !important;
+    border: 1.5px solid transparent !important;
+    background:
+      linear-gradient(#fffdf9, #f3eadc) padding-box,
+      linear-gradient(145deg, #f3e0a4 0%, #c4a056 40%, #8a6624 76%, #e8cc86 100%) border-box !important;
+    box-shadow:
+      0 1px 0 rgba(255, 252, 244, 0.95) inset,
+      0 1px 2px rgba(72, 46, 28, 0.06),
+      0 10px 22px rgba(48, 28, 12, 0.10),
+      0 24px 44px rgba(48, 28, 12, 0.14) !important;
+  }
+
+  .goldcastPage .goldcastYTCard:hover,
+  .goldcastPage .goldcastSpotifyEpisodeCard:hover,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard):hover {
+    transform: translateY(-4px) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 252, 244, 0.98) inset,
+      0 14px 26px rgba(48, 28, 12, 0.12),
+      0 28px 48px rgba(48, 28, 12, 0.16) !important;
+  }
+
+  .goldcastPage .goldcastYTTop,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTop,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTop {
+    color: #b08a3c !important;
+    font-size: 10px !important;
+    letter-spacing: 0.18em !important;
+  }
+
+  .goldcastPage .goldcastYTImage,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTImage,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTImage {
+    overflow: hidden !important;
+    border: 0 !important;
+    box-shadow:
+      0 0 0 1px rgba(176, 138, 62, 0.34),
+      0 12px 24px rgba(24, 14, 8, 0.18) !important;
+    background: #16110c !important;
+  }
+
+  .goldcastPage .goldcastYTImage img,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTImage img,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTImage img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 36% !important;
+    transform: scale(1.18);
+    transform-origin: center 40%;
+    filter: contrast(1.08) saturate(1.06) !important;
+    image-rendering: auto;
+  }
+
+  .goldcastPage .goldcastYTCategory,
+  .goldcastPage .goldcastYTSubtitle,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTCategory,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTSubtitle,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTCategory,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTSubtitle {
+    color: #b08a3c !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  .goldcastPage .goldcastYTTitle,
+  .goldcastPage .goldcastYTCard h3,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle,
+  .goldcastPage .goldcastSpotifyEpisodeCard h3,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTTitle,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) h3 {
+    color: #16110c !important;
+    font-size: 20px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.12 !important;
+  }
+
+  .goldcastPage .goldcastYTDescription,
+  .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription,
+  .goldcastPage .goldcastYTCard:not(.goldcastSpotifyEpisodeCard) .goldcastYTDescription {
+    color: #5a4e44 !important;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+
+  .goldcastPage .goldcastYTScroller,
+  .goldcastPage .goldcastSpotifyScroller {
+    padding-top: 8px !important;
+    padding-bottom: 36px !important;
+  }
+
+  @media (max-width: 700px) {
+    .goldcastPage .goldcastYTTitle,
+    .goldcastPage .goldcastYTCard h3,
+    .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTTitle {
+      font-size: 17px !important;
+    }
+
+    .goldcastPage .goldcastYTDescription,
+    .goldcastPage .goldcastSpotifyEpisodeCard .goldcastYTDescription {
+      font-size: 11px !important;
+    }
+  }
 `;
 
 export default function GoldCastPage() {
@@ -988,7 +1127,7 @@ export default function GoldCastPage() {
   };
 
   const scrollSlider = (
-    ref: React.RefObject<HTMLDivElement | null>,
+    ref: RefObject<HTMLDivElement | null>,
     direction: "left" | "right",
   ) => {
     const slider = ref.current;
@@ -1045,14 +1184,15 @@ export default function GoldCastPage() {
             ref={youtubeSliderRef}
             className="goldcastYTScroller"
           >
-            {episodes.map((episode) => (
+            {episodes.map((episode) => {
+                const youtubeId = youtubeIdFromUrl(episode.youtubeUrl) ?? "";
+                const cover = youtubeCover(youtubeId);
+
+                return (
                 <button
                   type="button"
                   className={`goldcastYTCard${
-                    session?.contentId ===
-                    youtubeIdFromUrl(episode.youtubeUrl)
-                      ? " isActive"
-                      : ""
+                    session?.contentId === youtubeId ? " isActive" : ""
                   }`}
                   key={episode.youtubeUrl}
                   aria-label={`${episode.title} ekranda aç`}
@@ -1065,9 +1205,13 @@ export default function GoldCastPage() {
 
                 <span className="goldcastYTImage">
                   <img
-                    src={episode.thumbnail}
+                    src={cover.src}
+                    srcSet={cover.srcSet}
+                    sizes="(max-width: 700px) 220px, 288px"
                     alt=""
                     loading="lazy"
+                    decoding="async"
+                    onError={onCoverError}
                   />
                 </span>
 
@@ -1087,7 +1231,8 @@ export default function GoldCastPage() {
                   </span>
                 </span>
               </button>
-            ))}
+                );
+            })}
           </div>
         </div>
       </section>
@@ -1176,9 +1321,13 @@ export default function GoldCastPage() {
 
                 <span className="goldcastYTImage">
                   <img
-                    src={episode.cover}
+                    src={youtubeCover("OXWK7tGNXyc").src}
+                    srcSet={youtubeCover("OXWK7tGNXyc").srcSet}
+                    sizes="(max-width: 700px) 220px, 288px"
                     alt=""
                     loading="lazy"
+                    decoding="async"
+                    onError={onCoverError}
                   />
                 </span>
 
