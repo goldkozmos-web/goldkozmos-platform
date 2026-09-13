@@ -1,7 +1,7 @@
 import "../../styles/daily-practice.css";
 
 const GOLD_CHIPS = [
-  { href: "/profilim", label: "GoldAct" },
+  { href: "/#goldact", label: "GoldAct" },
   { href: "/goldblog", label: "GoldBlog" },
   { href: "/goldcast", label: "GoldCast" },
   { href: "/goldfrekans", label: "GoldFrekans" },

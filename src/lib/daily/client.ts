@@ -98,22 +98,43 @@ export async function fetchTodayMessage(): Promise<DailyMessage | null> {
   };
 }
 
-export async function fetchTodayAction(): Promise<DailyAction | null> {
-  const supabase = client();
-  if (!supabase) return null;
-
-  const { data } = await supabase.rpc("get_today_daily_action");
-  const row = Array.isArray(data) ? data[0] : data;
-  if (!row) return null;
-
+function mapActionRow(row: Record<string, unknown>): DailyAction {
   return {
     id: asText(row.id),
     title: asText(row.title),
     body: asText(row.body),
     category: asText(row.category) as ActionCategory,
-    assignedOn: asText(row.assigned_on),
-    completedAt: asText(row.completed_at) || null,
+    assignedOn: asText(row.assigned_on ?? row.assignedOn),
+    completedAt: asText(row.completed_at ?? row.completedAt) || null,
   };
+}
+
+export async function fetchTodayAction(): Promise<DailyAction | null> {
+  const supabase = client();
+  if (!supabase) return null;
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
+    const api = await fetch("/api/daily/action", { credentials: "same-origin" })
+      .then((res) => res.json().catch(() => null))
+      .catch(() => null);
+    if (api?.signedIn && api?.action) return mapActionRow(api.action);
+    return null;
+  }
+
+  const { data } = await supabase.rpc("get_today_daily_action");
+  const row = Array.isArray(data) ? data[0] : data;
+  if (row) return mapActionRow(row as Record<string, unknown>);
+
+  const api = await fetch("/api/daily/action", { credentials: "same-origin" })
+    .then((res) => res.json().catch(() => null))
+    .catch(() => null);
+  if (api?.action) return mapActionRow(api.action);
+
+  const { pickGoldActFallback, istanbulDay } = await import("../../data/goldAct");
+  return pickGoldActFallback(session.user.id, istanbulDay());
 }
 
 export async function completeTodayAction() {
@@ -121,16 +142,47 @@ export async function completeTodayAction() {
   if (!supabase) return { error: "Oturum yok.", already: false };
 
   const { data, error } = await supabase.rpc("complete_today_daily_action");
-  if (error) {
+  if (!error) {
+    const row = Array.isArray(data) ? data[0] : data;
+    return {
+      error: null as string | null,
+      already: Boolean(row?.completed_at),
+      completedAt: asText(row?.completed_at) || null,
+    };
+  }
+
+  const api = await fetch("/api/daily/action", {
+    method: "POST",
+    credentials: "same-origin",
+  })
+    .then((res) => res.json().catch(() => null))
+    .catch(() => null);
+  if (api?.completedAt) {
+    return {
+      error: null as string | null,
+      already: Boolean(api.already),
+      completedAt: asText(api.completedAt),
+    };
+  }
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session?.user) {
     return { error: error.message, already: false };
   }
 
-  const row = Array.isArray(data) ? data[0] : data;
-  return {
-    error: null as string | null,
-    already: Boolean(row?.completed_at),
-    completedAt: asText(row?.completed_at) || null,
-  };
+  const { goldActStorageKey, istanbulDay } = await import("../../data/goldAct");
+  const stamp = new Date().toISOString();
+  try {
+    window.localStorage.setItem(
+      goldActStorageKey(session.user.id, istanbulDay()),
+      stamp,
+    );
+  } catch {
+    return { error: error.message, already: false };
+  }
+  return { error: null as string | null, already: false, completedAt: stamp };
 }
 
 export async function fetchActivity(): Promise<UserActivityItem[]> {

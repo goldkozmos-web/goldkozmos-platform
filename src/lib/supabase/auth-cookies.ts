@@ -115,7 +115,11 @@ export function createAuthCookieClient(request: NextRequest) {
     return htmlAuthMessage(title, body, href, cta, jar);
   }
 
-  return { supabase, env, redirect, message };
+  function appendCookie(cookie: CookieToSet) {
+    jar.push(cookie);
+  }
+
+  return { supabase, env, redirect, message, appendCookie };
 }
 
 export function hasPkceVerifierCookie(request: NextRequest) {

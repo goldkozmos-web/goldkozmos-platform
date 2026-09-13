@@ -13,8 +13,14 @@ export function appOriginFromUrl(url: string) {
   return SITE_ORIGIN;
 }
 
-export function googleStartUrl(origin: string) {
-  return `${origin.replace(/\/$/, "")}/auth/google`;
+export const AUTH_NEXT_COOKIE = "gk-auth-next";
+
+export function googleStartUrl(origin: string, next = "/profilim") {
+  const url = new URL("/auth/google", `${origin.replace(/\/$/, "")}/`);
+  if (next && next !== "/profilim") {
+    url.searchParams.set("next", next);
+  }
+  return url.toString();
 }
 
 export function googleCallbackUrl(origin: string) {
