@@ -492,3 +492,110 @@
     animation: none;
   }
 }
+
+.homeSpotlight {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto 22px;
+  position: relative;
+}
+
+.homeSpotlightSlide {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+  border-radius: 22px;
+  background: #140e0a;
+  box-shadow: 0 18px 40px rgba(32, 22, 14, 0.18);
+}
+
+.homeSpotlightSlide img {
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+  display: block;
+}
+
+.homeSpotlightWash {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 14, 10, 0.18) 0%,
+    rgba(20, 14, 10, 0.55) 42%,
+    rgba(16, 11, 8, 0.88) 100%
+  );
+}
+
+.homeSpotlightCopy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 22px 18px 36px;
+  color: #f4ead8;
+}
+
+.homeSpotlightCopy p {
+  margin: 0 0 8px;
+  color: #c4a35a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.homeSpotlightCopy h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.homeSpotlightCopy span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(244, 234, 216, 0.82);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.homeSpotlightCopy a {
+  display: inline-flex;
+  margin-top: 14px;
+  min-height: 40px;
+  padding: 0 16px;
+  align-items: center;
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.94);
+  color: #1a140f;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.homeSpotlightDots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.homeSpotlightDots button {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(244, 234, 216, 0.38);
+  cursor: pointer;
+}
+
+.homeSpotlightDots button.isOn {
+  width: 18px;
+  background: #c4a35a;
+}
