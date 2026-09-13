@@ -53,25 +53,76 @@
   font-weight: 700;
 }
 
+.calismalarHub .homeV3ResonanceImage,
+.calismalarHub .homeV3OtherVisual,
+.calismalarHub .homeV3LiveArchiveImage,
+.calismalarHub .homeV3AudioEnergyImage {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  height: auto !important;
+  overflow: hidden !important;
+  background: #17130f;
+}
+
+.calismalarHub .homeV3ResonanceImage img,
+.calismalarHub .homeV3OtherVisual img,
+.calismalarHub .homeV3LiveArchiveImage img,
+.calismalarHub .homeV3AudioEnergyImage img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
 @media (max-width: 700px) {
-  .homeV3Page .homeV3AudioEnergyGrid {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 12px;
-    overflow-x: auto;
-    padding: 0 20px 16px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+  .calismalarHub .homeV3ResonanceGrid,
+  .calismalarHub .homeV3OtherSlider,
+  .calismalarHub .homeV3LiveArchiveGrid,
+  .calismalarHub .homeV3AudioEnergyGrid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 12px !important;
+    overflow-x: auto !important;
+    padding: 0 16px 16px !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
   }
 
-  .homeV3Page .homeV3AudioEnergyGrid::-webkit-scrollbar {
-    display: none;
+  .calismalarHub .homeV3ResonanceGrid::-webkit-scrollbar,
+  .calismalarHub .homeV3OtherSlider::-webkit-scrollbar,
+  .calismalarHub .homeV3LiveArchiveGrid::-webkit-scrollbar,
+  .calismalarHub .homeV3AudioEnergyGrid::-webkit-scrollbar {
+    display: none !important;
   }
 
-  .homeV3Page .homeV3AudioEnergyProduct {
-    flex: 0 0 min(70vw, 240px);
-    width: min(70vw, 240px);
-    max-width: 240px;
-    scroll-snap-align: start;
+  .calismalarHub .homeV3ResonanceCard,
+  .calismalarHub .homeV3OtherCard,
+  .calismalarHub .homeV3LiveArchiveCard,
+  .calismalarHub .homeV3AudioEnergyProduct {
+    flex: 0 0 min(68vw, 240px) !important;
+    width: min(68vw, 240px) !important;
+    max-width: 240px !important;
+    min-width: 0 !important;
+    scroll-snap-align: start !important;
+    overflow: hidden !important;
+    border-radius: 20px !important;
+    background: #fff !important;
+  }
+}
+
+@media (min-width: 701px) {
+  .calismalarHub .homeV3LiveArchiveGrid,
+  .calismalarHub .homeV3AudioEnergyGrid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 260px)) !important;
+    gap: 16px !important;
+  }
+
+  .calismalarHub .homeV3LiveArchiveCard,
+  .calismalarHub .homeV3AudioEnergyProduct {
+    width: 100% !important;
+    max-width: 260px !important;
   }
 }
