@@ -77,10 +77,7 @@
 }
 
 @media (max-width: 700px) {
-  .calismalarHub .homeV3ResonanceGrid,
-  .calismalarHub .homeV3OtherSlider,
-  .calismalarHub .homeV3LiveArchiveGrid,
-  .calismalarHub .homeV3AudioEnergyGrid {
+  .calismalarHub .homeV3ResonanceGrid {
     display: flex !important;
     flex-wrap: nowrap !important;
     gap: 12px !important;
@@ -90,17 +87,11 @@
     scrollbar-width: none !important;
   }
 
-  .calismalarHub .homeV3ResonanceGrid::-webkit-scrollbar,
-  .calismalarHub .homeV3OtherSlider::-webkit-scrollbar,
-  .calismalarHub .homeV3LiveArchiveGrid::-webkit-scrollbar,
-  .calismalarHub .homeV3AudioEnergyGrid::-webkit-scrollbar {
+  .calismalarHub .homeV3ResonanceGrid::-webkit-scrollbar {
     display: none !important;
   }
 
-  .calismalarHub .homeV3ResonanceCard,
-  .calismalarHub .homeV3OtherCard,
-  .calismalarHub .homeV3LiveArchiveCard,
-  .calismalarHub .homeV3AudioEnergyProduct {
+  .calismalarHub .homeV3ResonanceCard {
     flex: 0 0 min(68vw, 240px) !important;
     width: min(68vw, 240px) !important;
     max-width: 240px !important;
@@ -113,16 +104,11 @@
 }
 
 @media (min-width: 701px) {
-  .calismalarHub .homeV3LiveArchiveGrid,
-  .calismalarHub .homeV3AudioEnergyGrid {
+  .calismalarHub .homeV3LiveArchiveInner .homeV3ResonanceGrid,
+  .calismalarHub .homeV3AudioEnergyInner .homeV3ResonanceGrid,
+  .calismalarHub .homeV3PersonalLeft .homeV3ResonanceGrid {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(240px, 260px)) !important;
     gap: 16px !important;
-  }
-
-  .calismalarHub .homeV3LiveArchiveCard,
-  .calismalarHub .homeV3AudioEnergyProduct {
-    width: 100% !important;
-    max-width: 260px !important;
   }
 }
