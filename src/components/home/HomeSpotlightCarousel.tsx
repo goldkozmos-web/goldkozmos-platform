@@ -16,6 +16,7 @@ type Slide = {
   cta: string;
   href: string;
   image: string;
+  clubId?: "kitap" | "gelisim";
 };
 
 export default function HomeSpotlightCarousel() {
@@ -33,18 +34,26 @@ export default function HomeSpotlightCarousel() {
       text: article?.description ?? "Bugün okuman için bir yazı.",
       cta: "Oku",
       href: article ? `/goldblog#${article.slug}` : "/goldblog",
-      image: "/goldbook/icindeki-kozmosu-kucakla.webp",
+      image: "/images/home-spotlight/goldblog.jpg",
     },
     {
-      id: "journey",
-      eyebrow: "21 GÜNLÜK KENDİLİK YOLCULUĞU",
-      title: started ? `Gün ${current} / 21` : "21 Günlük Kendilik Yolculuğu",
-      text: started
-        ? "Kaldığın yerden devam et. Kaçırılan gün seriyi sıfırlamaz."
-        : "Günde 5–10 dakika. Gözlem, küçük uygulama, tek soru.",
-      cta: started ? "Devam Et" : "Yolculuğa Başla",
-      href: "/kendilik-yolculugu",
-      image: "/images/services/kendilik-rezonansi.webp",
+      id: "kitap",
+      eyebrow: "YAKINDA · TOPLULUK",
+      title: "Kitap Kulübü",
+      text: "Birlikte okuyacağımız, konuşacağımız ve uygulayacağımız kişisel gelişim kitapları.",
+      cta: "Haberdar Olmak İstiyorum",
+      href: "/profilim",
+      image: "/images/home-spotlight/kitap-kulubu.jpg",
+      clubId: "kitap",
+    },
+    {
+      id: "archetype",
+      eyebrow: "ÖZ-FARKINDALIK",
+      title: "GoldKozmos Arketip Testi",
+      text: "Kendine hangi arketipten baktığını gör. 24 soru, baskın üç sonuç.",
+      cta: "Arketip Testine Başla",
+      href: "/arketip-testi",
+      image: "/images/home-spotlight/arketip-testi.jpg",
     },
     {
       id: "energy",
@@ -55,25 +64,28 @@ export default function HomeSpotlightCarousel() {
         "Birebir enerji çalışmalarını incele, detayına geç.",
       cta: "Enerji Çalışmalarını Gör",
       href: "/calismalar/enerji-calismalari",
-      image: energy?.imageSrc ?? "/images/services/7-cakra-dengeleme-kaydi.webp",
+      image: "/images/home-spotlight/enerji-calismalari.jpg",
     },
     {
-      id: "archetype",
-      eyebrow: "ÖZ-FARKINDALIK",
-      title: "GoldKozmos Arketip Testi",
-      text: "Kendine hangi arketipten baktığını gör. 24 soru, baskın üç sonuç.",
-      cta: "Arketip Testine Başla",
-      href: "/arketip-testi",
-      image: "/images/services/tarot-farkindalik.webp",
-    },
-    {
-      id: "clubs",
+      id: "gelisim",
       eyebrow: "YAKINDA · TOPLULUK",
-      title: "Kitap Kulübü ve Kişisel Gelişim Kulübü",
-      text: "Birlikte okuma, konuşma ve ortak gelişim alanı. Şimdilik haberdar ol.",
+      title: "Kişisel Gelişim Kulübü",
+      text: "Farkındalık, alışkanlıklar ve kendilik üzerine ortak gelişim alanı.",
       cta: "Haberdar Olmak İstiyorum",
-      href: "#topluluk",
-      image: "/goldbook/ask-manifestosu.webp",
+      href: "/profilim",
+      image: "/images/home-spotlight/kisisel-gelisim-kulubu.jpg",
+      clubId: "gelisim",
+    },
+    {
+      id: "journey",
+      eyebrow: "21 GÜNLÜK KENDİLİK YOLCULUĞU",
+      title: started ? `Gün ${current} / 21` : "21 Günlük Kendilik Yolculuğu",
+      text: started
+        ? "Kaldığın yerden devam et. Kaçırılan gün seriyi sıfırlamaz."
+        : "Günde 5–10 dakika. Gözlem, küçük uygulama, tek soru.",
+      cta: started ? "Devam Et" : "Yolculuğa Başla",
+      href: "/kendilik-yolculugu",
+      image: "/images/home-spotlight/kendilik-yolculugu.jpg",
     },
   ];
 
@@ -93,7 +105,7 @@ export default function HomeSpotlightCarousel() {
   const slide = slides[index] ?? slides[0];
 
   async function onClubCta(event: MouseEvent<HTMLAnchorElement>) {
-    if (slide.id !== "clubs") return;
+    if (!slide.clubId) return;
     event.preventDefault();
     const supabase = createSupabaseBrowserClient();
     if (!supabase) {
@@ -107,11 +119,7 @@ export default function HomeSpotlightCarousel() {
     }
     await supabase.from("community_waitlist").insert({
       user_id: data.user.id,
-      club_id: "kitap",
-    });
-    await supabase.from("community_waitlist").insert({
-      user_id: data.user.id,
-      club_id: "gelisim",
+      club_id: slide.clubId,
     });
   }
 
