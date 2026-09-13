@@ -37,6 +37,22 @@
   box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05);
 }
 
+.homeV3Page .homeV3AudioEnergyBottom,
+.homeV3Page .homeV3LiveArchiveBottom,
+.homeV3Page .homeV3ResonanceBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.homeV3Page .homeV3AudioEnergyBottom a,
+.homeV3Page .homeV3LiveArchiveBottom a,
+.homeV3Page .homeV3ResonanceBottom a {
+  color: #98732f;
+  text-decoration: none;
+  font-weight: 700;
+}
+
 @media (max-width: 700px) {
   .homeV3Page .homeV3AudioEnergyGrid {
     display: flex;

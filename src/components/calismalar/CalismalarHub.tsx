@@ -21,7 +21,10 @@ function ResonanceCards({ items }: { items: WorkCard[] }) {
     <div className="homeV3ResonanceGrid">
       {items.map((item, index) => (
         <article className="homeV3ResonanceCard" key={item.title}>
-          <a className="homeV3ResonanceImage" {...linkProps(item.href)}>
+          <a
+            className="homeV3ResonanceImage"
+            {...linkProps(item.href)}
+          >
             <img src={item.image} alt={item.title} />
           </a>
           <div className="homeV3ResonanceContent">
