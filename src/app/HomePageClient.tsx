@@ -2678,7 +2678,7 @@ export default function HomePageClient() {
             <div className="homeHeroActionRow">
               <a
                 className="homeHeroMiniTest homeHeroActionCard"
-                href="#rezonans"
+                href="/calismalar"
               >
                 <div className="homeHeroMiniTestCopy">
                   <h2>
@@ -3284,12 +3284,6 @@ export default function HomePageClient() {
           </div>
         </div>
       </section>
-
-      <div className="homeSoftCard" style={{ textAlign: "center" }}>
-        <a className="homeSoftLink" href="/calismalar">
-          Tüm Çalışmaları Gör
-        </a>
-      </div>
 
       {/* SSS */}
 
