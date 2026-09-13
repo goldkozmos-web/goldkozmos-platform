@@ -1,0 +1,61 @@
+/* Works hub reuses homepage section classes; these bands live in HomePageClient
+   styles on "/", so they need to exist here too. */
+
+.homeV3Page .homeV3LiveArchive {
+  padding: 72px 0 80px;
+  background:
+    radial-gradient(circle at 90% 8%, rgba(177, 128, 43, 0.09), transparent 27%),
+    linear-gradient(180deg, #fbf8f1 0%, #f5eee3 100%);
+}
+
+.homeV3Page .homeV3AudioEnergy {
+  padding: 78px 0 48px;
+  overflow: hidden;
+  background: #211812;
+}
+
+.homeV3Page .homeV3AudioEnergyHeading .homeV3Eyebrow {
+  color: #cda354;
+}
+
+.homeV3Page .homeV3AudioEnergyHeading h2 {
+  color: #fff8ed;
+}
+
+.homeV3Page .homeV3AudioEnergyHeading h2 span {
+  color: #d2a654;
+}
+
+.homeV3Page .homeV3AudioEnergyHeading > p {
+  color: rgba(255, 246, 230, 0.62);
+}
+
+.homeV3Page .homeV3AudioEnergyProduct {
+  overflow: hidden;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05);
+}
+
+@media (max-width: 700px) {
+  .homeV3Page .homeV3AudioEnergyGrid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 0 20px 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .homeV3Page .homeV3AudioEnergyGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .homeV3Page .homeV3AudioEnergyProduct {
+    flex: 0 0 min(70vw, 240px);
+    width: min(70vw, 240px);
+    max-width: 240px;
+    scroll-snap-align: start;
+  }
+}

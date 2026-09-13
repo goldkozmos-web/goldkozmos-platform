@@ -48,7 +48,11 @@ function OtherCards({ items }: { items: WorkCard[] }) {
   return (
     <div className="homeV3OtherSlider">
       {items.map((item) => (
-        <a className="homeV3OtherCard" {...linkProps(item.href)} key={item.title}>
+        <a
+          className="homeV3OtherCard"
+          key={item.title}
+          {...linkProps(item.href)}
+        >
           <div className="homeV3OtherVisual">
             <img src={item.image} alt={item.title} />
           </div>
@@ -74,7 +78,11 @@ function ArchiveCards({ items }: { items: WorkCard[] }) {
     <div className="homeV3LiveArchiveGrid">
       {items.map((item) => (
         <article className="homeV3LiveArchiveCard" key={item.title}>
-          <a className="homeV3LiveArchiveImage" {...linkProps(item.href)}>
+            <a
+              key={`${item.title}-image`}
+              className="homeV3LiveArchiveImage"
+              {...linkProps(item.href)}
+            >
             <img src={item.image} alt={item.title} />
           </a>
           <div className="homeV3LiveArchiveBody">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import CalismalarHub from "../../components/calismalar/CalismalarHub";
 import "../../styles/home.css";
+import "../../styles/calismalar-hub.css";
 
 export const metadata: Metadata = {
   title: { absolute: "Çalışmalar | GoldKozmos" },
