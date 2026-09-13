@@ -113,3 +113,59 @@ export const WORK_GROUPS: { id: WorkCard["group"]; title: string }[] = [
   { id: "rezonans", title: "Rezonans" },
   { id: "dijital", title: "Dijital" },
 ];
+
+export const WORK_HUB_SECTIONS: {
+  id: WorkCard["group"];
+  tone: "cream" | "brown";
+  variant: "resonance" | "other" | "archive" | "energy";
+  eyebrow: string;
+  title: string;
+  accent: string;
+  lead: string;
+}[] = [
+  {
+    id: "rezonans",
+    tone: "cream",
+    variant: "resonance",
+    eyebrow: "REZONANS EĞİTİMLERİ",
+    title: "3 Ana",
+    accent: "Rezonans",
+    lead: "Üç farklı alan. Aynı amaç: kendini ve tekrar eden örüntülerini daha net görmek.",
+  },
+  {
+    id: "birebir",
+    tone: "brown",
+    variant: "other",
+    eyebrow: "BİREBİR ÇALIŞMALAR",
+    title: "Daha",
+    accent: "kişisel bir alan.",
+    lead: "Tek bir konuya odaklanmak veya farklı bir farkındalık yöntemiyle ilerlemek isteyenler için.",
+  },
+  {
+    id: "analiz",
+    tone: "cream",
+    variant: "archive",
+    eyebrow: "ANALİZLER",
+    title: "Sayılar ve kartlar",
+    accent: "üzerinden bak.",
+    lead: "Numeroloji ve tarot ile mevcut durumuna farklı bir açıdan bak.",
+  },
+  {
+    id: "enerji",
+    tone: "brown",
+    variant: "energy",
+    eyebrow: "ENERJİ ÇALIŞMALARI",
+    title: "Birebir enerji",
+    accent: "çalışmaları.",
+    lead: "Birebir enerji çalışmalarını incele, detayına geç.",
+  },
+  {
+    id: "dijital",
+    tone: "cream",
+    variant: "archive",
+    eyebrow: "DİJİTAL",
+    title: "Kendi zamanında",
+    accent: "uygula.",
+    lead: "Kayıtlı çalışmalar ve ritüeller, kendi ritminde.",
+  },
+];
