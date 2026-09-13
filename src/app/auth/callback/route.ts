@@ -1,7 +1,13 @@
 import { type NextRequest } from "next/server";
 
 import { recordMemberJoin } from "@/lib/admin/member-log";
-import { appOriginFromUrl, registerStepUrl, profilimAfterAuthUrl } from "@/lib/site";
+import {
+  AUTH_NEXT_COOKIE,
+  appOriginFromUrl,
+  registerStepUrl,
+  profilimAfterAuthUrl,
+  safeAppPath,
+} from "@/lib/site";
 import {
   createAuthCookieClient,
   hasPkceVerifierCookie,
@@ -46,5 +52,11 @@ export async function GET(request: NextRequest) {
   await auth.supabase.rpc("ensure_own_membership");
   const { data: userPack } = await auth.supabase.auth.getUser();
   await recordMemberJoin(userPack.user ?? null, undefined, auth.supabase);
-  return auth.redirect(registerStepUrl(origin));
+  const nextPath = safeAppPath(request.cookies.get(AUTH_NEXT_COOKIE)?.value);
+  auth.appendCookie({
+    name: AUTH_NEXT_COOKIE,
+    value: "",
+    options: { path: "/", maxAge: 0 },
+  });
+  return auth.redirect(registerStepUrl(origin, nextPath));
 }

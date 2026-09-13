@@ -35,7 +35,7 @@ export const ACTIVITY_KIND_LABEL: Record<string, string> = {
   goldmind_complete: "GoldMind tamamlandı",
   goldbook_chapter: "GoldBook bölümü tamamlandı",
   emotion_journal: "Duygu günlüğü kaydı",
-  daily_action: "GoldKozmos eylemi tamamlandı",
+  daily_action: "GoldAct tamamlandı",
   growth_series: "Gelişim serisi",
   reminder_complete: "Görev tamamlandı",
 };

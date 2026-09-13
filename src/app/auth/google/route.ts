@@ -1,6 +1,12 @@
 import { type NextRequest } from "next/server";
 
-import { appOriginFromUrl, googleCallbackUrl, profilimAfterAuthUrl } from "@/lib/site";
+import {
+  AUTH_NEXT_COOKIE,
+  appOriginFromUrl,
+  googleCallbackUrl,
+  profilimAfterAuthUrl,
+  safeAppPath,
+} from "@/lib/site";
 import { createAuthCookieClient, htmlRedirect } from "@/lib/supabase/auth-cookies";
 import { resolveGoogleAuthorizeUrl } from "@/lib/supabase/google-authorize";
 
@@ -14,6 +20,19 @@ export async function GET(request: NextRequest) {
   if (!auth) {
     return htmlRedirect(profilimAfterAuthUrl(origin, true));
   }
+
+  const nextPath = safeAppPath(request.nextUrl.searchParams.get("next"));
+  auth.appendCookie({
+    name: AUTH_NEXT_COOKIE,
+    value: nextPath,
+    options: {
+      path: "/",
+      maxAge: 60 * 10,
+      sameSite: "lax",
+      httpOnly: true,
+      secure: origin.startsWith("https:"),
+    },
+  });
 
   const { data, error } = await auth.supabase.auth.signInWithOAuth({
     provider: "google",

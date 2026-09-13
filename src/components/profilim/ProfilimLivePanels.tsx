@@ -144,7 +144,7 @@ export function ProfilimStatsCard() {
         ))}
       </div>
       <p>Aktif gün: {stats.active}</p>
-      <p>GoldKozmos eylemi: {stats.actions}</p>
+      <p>GoldAct: {stats.actions}</p>
       <p>Günlük: {stats.journal}</p>
       <p>Yolculuk günü: {stats.journey}</p>
       <p>GoldMind: {stats.mind}</p>
