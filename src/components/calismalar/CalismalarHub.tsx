@@ -146,7 +146,7 @@ export default function CalismalarHub() {
   const cards = allWorkCards();
 
   return (
-    <main className="homeV3Page gkRouteIn" id="top">
+    <main className="homeV3Page gkRouteIn calismalarHub" id="top">
       <HomeNavbar />
 
       {WORK_HUB_SECTIONS.map((section) => {
