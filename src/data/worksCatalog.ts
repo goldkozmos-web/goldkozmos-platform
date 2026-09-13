@@ -8,6 +8,7 @@ export type WorkCard = {
   text: string;
   image: string;
   href: string;
+  eyebrow?: string;
   price?: string;
   duration?: string;
   cta: string;
@@ -22,6 +23,7 @@ export function allWorkCards(): WorkCard[] {
       text: "Doğum tarihi ve isim üzerinden kişisel eğilimlerini sembolik olarak incele.",
       image: "/images/services/numeroloji-analizi.webp",
       href: "/calismalar/numeroloji",
+      eyebrow: "01 · NUMEROLOJİ",
       price: "350 TL",
       cta: "Detayları Gör",
     },
@@ -31,6 +33,7 @@ export function allWorkCards(): WorkCard[] {
       text: "Kartların sembolik dili üzerinden mevcut durumuna farklı bir açıdan bak.",
       image: "/images/services/tarot-farkindalik.webp",
       href: "/tarot-bakimi",
+      eyebrow: "02 · TAROT",
       price: "600 TL",
       cta: "Detayları Gör",
       buyHref: "/calismalar/tarot",
@@ -44,6 +47,7 @@ export function allWorkCards(): WorkCard[] {
       text: "Belirli bir konuya odaklanan 90 dakikalık birebir görüşme.",
       image: "/images/services/birebir-seans.webp",
       href: "/calismalar/enerji-calismalari",
+      eyebrow: "01 · SEANS",
       duration: "90 dk",
       cta: "Detayları Gör",
     },
@@ -53,18 +57,20 @@ export function allWorkCards(): WorkCard[] {
       text: "Beş gün boyunca aynı konu üzerinde birebir ilerleyen yoğun çalışma.",
       image: "/images/services/5-gunluk-yogun-paket.webp",
       href: "/calismalar/birebir-seanslar",
+      eyebrow: "02 · YOĞUN",
       price: "5.000 TL",
       duration: "5 gün",
       cta: "Detayları Gör",
     },
   ];
 
-  const enerji: WorkCard[] = energyWorks.map((work) => ({
+  const enerji: WorkCard[] = energyWorks.map((work, index) => ({
     group: "enerji" as const,
     title: work.title,
     text: work.shortDescription,
     image: work.imageSrc,
     href: `/calismalar/enerji-calismalari#${work.slug}`,
+    eyebrow: `${String(index + 1).padStart(2, "0")} · ${work.title.split(" ").slice(0, 2).join(" ").toUpperCase()}`,
     price: work.priceLabel,
     duration: work.duration,
     cta: "Detayları Gör",
@@ -77,8 +83,7 @@ export function allWorkCards(): WorkCard[] {
     text: course.homeSummary,
     image: course.coverImage,
     href: `/rezonans-egitimleri#${course.slug}`,
-    price: course.priceLabel,
-    duration: course.sessionMeta[0],
+    eyebrow: course.eyebrow,
     cta: "Detayları Gör",
   }));
 
@@ -89,6 +94,7 @@ export function allWorkCards(): WorkCard[] {
       text: "Canlı çalışmanın kayıtlı versiyonuna kendi zamanında eriş.",
       image: "/images/services/7-cakra-dengeleme-kaydi.webp",
       href: "https://www.shopier.com/goldkozmos/49768634",
+      eyebrow: "01 · KAYIT",
       price: "750 TL",
       cta: "Satın Al",
       buyHref: "https://www.shopier.com/goldkozmos/49768634",
@@ -99,6 +105,7 @@ export function allWorkCards(): WorkCard[] {
       text: "Niyet ve farkındalık odağında uygulanabilir ritüeller.",
       image: publishedRituals()[0]?.image ?? "/images/services/tarot-farkindalik.webp",
       href: "/goldrituel",
+      eyebrow: "02 · RİTÜEL",
       cta: "Detayları Gör",
     },
   ];
