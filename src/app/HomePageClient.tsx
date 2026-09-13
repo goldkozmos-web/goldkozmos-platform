@@ -7,9 +7,7 @@ import PlatformRail from "../components/platform/PlatformRail";
 import DailyActionCard from "../components/daily/DailyActionCard";
 import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeGoldAction from "../components/daily/HomeGoldAction";
-import HomeBlogReads from "../components/home/HomeBlogReads";
-import HomeCommunities from "../components/home/HomeCommunities";
-import HomeJourneyCard from "../components/home/HomeJourneyCard";
+import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
 import {
   getEducationCourses,
   getEducationHubHref,
@@ -2727,8 +2725,7 @@ export default function HomePageClient() {
       <DailyActionCard />
       <DailyMessageExperience />
       <HomeGoldAction />
-      <HomeJourneyCard />
-      <HomeBlogReads />
+      <HomeSpotlightCarousel />
 
       <PlatformRail />
 
@@ -3287,8 +3284,6 @@ export default function HomePageClient() {
           </div>
         </div>
       </section>
-
-      <HomeCommunities />
 
       <div className="homeSoftCard" style={{ textAlign: "center" }}>
         <a className="homeSoftLink" href="/calismalar">
