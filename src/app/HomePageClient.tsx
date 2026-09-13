@@ -820,11 +820,15 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Resonance {
-    padding-bottom: 24px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .homeV3Page .homeV3Resonance .homeV3ResonanceGrid {
+    padding-bottom: 0 !important;
   }
 
   .homeV3Page .homeV3Other {
-    padding-top: 36px !important;
+    padding-top: 20px !important;
     padding-bottom: 40px !important;
     border-top: none !important;
     background: #211812 !important;
@@ -971,6 +975,10 @@ const homepageArchiveStyles = `
   }
 
   @media (max-width: 700px) {
+    .homeV3Page .homeV3ResonanceGrid {
+      padding-bottom: 0 !important;
+    }
+
     .homeV3Page .homeV3OtherSlider {
       display: flex !important;
       grid-template-columns: none !important;

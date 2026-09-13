@@ -76,12 +76,17 @@
   object-position: center !important;
 }
 
-.calismalarHub .homeV3Resonance {
-  padding-bottom: 10px !important;
+.homeV3Page.calismalarHub > .homeV3Resonance {
+  padding-bottom: 0 !important;
 }
 
-.calismalarHub .homeV3Other {
-  padding-top: 36px !important;
+.homeV3Page.calismalarHub > .homeV3Resonance .homeV3ResonanceGrid {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.homeV3Page.calismalarHub > .homeV3Other {
+  padding-top: 20px !important;
 }
 
 .calismalarHub .homeV3LiveArchive {
@@ -89,12 +94,12 @@
 }
 
 @media (max-width: 700px) {
-  .calismalarHub .homeV3Resonance {
-    padding-bottom: 4px !important;
+  .homeV3Page.calismalarHub > .homeV3Resonance {
+    padding-bottom: 0 !important;
   }
 
-  .calismalarHub .homeV3Other {
-    padding-top: 28px !important;
+  .homeV3Page.calismalarHub > .homeV3Other {
+    padding-top: 16px !important;
   }
 
   .calismalarHub .homeV3ResonanceGrid {
@@ -102,7 +107,7 @@
     flex-wrap: nowrap !important;
     gap: 12px !important;
     overflow-x: auto !important;
-    padding: 0 16px 4px !important;
+    padding: 0 16px 0 !important;
     scroll-snap-type: x mandatory !important;
     scrollbar-width: none !important;
   }
