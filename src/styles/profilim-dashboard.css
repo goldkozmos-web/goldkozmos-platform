@@ -374,6 +374,11 @@
   max-width: 100%;
 }
 
+.profilimTileBand {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .profilimTileBandTop {
   display: flex !important;
   align-items: center !important;
@@ -429,32 +434,30 @@
 }
 
 .profilimTileRailWrap {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
   width: 100%;
   max-width: 100%;
   min-width: 0;
   margin: 0;
+  padding: 12px 24px 28px 8px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-x: contain;
-  touch-action: pan-x;
+  touch-action: pan-x pan-y;
   scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  contain: inline-size;
 }
 
 .profilimTileRailWrap::-webkit-scrollbar {
   display: none;
 }
 
-.profilimTileRail {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
-  width: max-content;
-  min-width: 100%;
-  padding: 0 18px 8px;
-}
-
-.profilimTileRail .profilimTile {
+.profilimTileRailWrap .profilimTile {
   box-sizing: border-box;
   flex: 0 0 158px !important;
   width: 158px !important;
@@ -462,10 +465,18 @@
   max-width: 158px !important;
   background: #fff !important;
   scroll-snap-align: start;
+  touch-action: pan-x pan-y;
 }
 
-.profilimTileRail .profilimTileTitle {
+.profilimTileRailWrap .profilimTileTitle {
   max-width: none;
+}
+
+.profilimTileRailEnd {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 1px;
+  pointer-events: none;
 }
 
 .profilimTileSheetGrid {
