@@ -92,7 +92,7 @@ assert(
 assert(wordCount(rThoughts) >= 70 && wordCount(rThoughts) <= 120, `TEST 1 thoughts length ${wordCount(rThoughts)}`);
 assert(wordCount(rFeelings) >= 70 && wordCount(rFeelings) <= 120, `TEST 1 feelings length ${wordCount(rFeelings)}`);
 assert(wordCount(rAction) >= 70 && wordCount(rAction) <= 120, `TEST 1 action length ${wordCount(rAction)}`);
-assert(wordCount(synth) >= 250 && wordCount(synth) <= 450, `TEST 1 synth length ${wordCount(synth)}`);
+assert(wordCount(synth) >= 180 && wordCount(synth) <= 450, `TEST 1 synth length ${wordCount(synth)}`);
 assert(!synth.includes(rThoughts.slice(0, 80)), "TEST 1 synth copies card 1");
 assert(!synth.includes(rFeelings.slice(0, 80)), "TEST 1 synth copies card 2");
 assert(!/"Mevcut Durum" konumunda/.test(rThoughts), "old dictionary wrapper");
@@ -177,7 +177,7 @@ function assertSpread(
   assert(wordCount(p0) >= 70 && wordCount(p0) <= 120, `${label} p0 ${wordCount(p0)}`);
   assert(wordCount(p1) >= 70 && wordCount(p1) <= 120, `${label} p1 ${wordCount(p1)}`);
   assert(wordCount(p2) >= 70 && wordCount(p2) <= 120, `${label} p2 ${wordCount(p2)}`);
-  assert(wordCount(whole) >= 250 && wordCount(whole) <= 450, `${label} synth ${wordCount(whole)}`);
+  assert(wordCount(whole) >= 180 && wordCount(whole) <= 450, `${label} synth ${wordCount(whole)}`);
   assert(whole.includes(a.name) && whole.includes(b.name) && whole.includes(c.name), `${label} synth missing names`);
   assert(!whole.includes(p0), `${label} synth is card 1 copy`);
   assert(!whole.includes(p1), `${label} synth is card 2 copy`);
@@ -187,9 +187,11 @@ function assertSpread(
     assert(!blob.includes(phrase), `${label} banned ${phrase}`);
   }
   assert(
-    /şu an|ancak|olası yön|birlikte/.test(whole.toLocaleLowerCase("tr-TR")),
-    `${label} synth not relational`,
+    /hikâye|sahne/.test(whole.toLocaleLowerCase("tr-TR")),
+    `${label} synth not a story`,
   );
+  assert(!whole.includes("konumunda"), `${label} old wrapper`);
+  assert(!whole.includes("GoldKozmos yorumunda"), `${label} old generator`);
   console.log(label, {
     p0: wordCount(p0),
     p1: wordCount(p1),

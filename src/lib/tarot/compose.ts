@@ -63,29 +63,14 @@ function sentences(text: string, count: number) {
 
 function clampWords(text: string, min: number, max: number, pad: string) {
   let clean = text.replace(/\s+/g, " ").trim();
-  const parts = clean
-    .split(/(?<=[.!?])\s+/)
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .filter((item, index, list) => item !== list[index - 1]);
-  clean = parts.join(" ");
-  const fillers = [
-    pad,
-    "Asıl mesele kartın adı değil, bu konumda neyi gösterdiğidir.",
-    "Sözlük etiketi yetmez; duruş, sürtünme ve olası yön okunur.",
-    "Bu cümle kartı tekrar etmez, konumun sorusunu tamamlar.",
-  ];
   let guard = 0;
-  while (wordCount(clean) < min && guard < fillers.length) {
-    clean = `${clean} ${fillers[guard]}`;
+  while (wordCount(clean) < min && guard < 6) {
+    clean = `${clean} ${pad}`;
     guard += 1;
   }
-  const words = clean.split(" ").filter(Boolean);
+  const words = clean.split(/\s+/).filter(Boolean);
   if (words.length <= max) return clean;
-  const cut = words.slice(0, max).join(" ");
-  const last = Math.max(cut.lastIndexOf("."), cut.lastIndexOf("?"));
-  if (last > 40) return cut.slice(0, last + 1);
-  return `${cut}.`;
+  return `${words.slice(0, max).join(" ")}.`;
 }
 
 function opener(card: TarotCard, topic: TarotTopicId, role: PositionRole) {
@@ -230,120 +215,129 @@ function speedLine(cards: TarotCard[]) {
   return "Süreç orta tempoda: ne tam durmuş ne de kaçış hızında.";
 }
 
-function nowBlock(card: TarotCard, topic: TarotTopicId) {
-  const bite = sentences(card.generalMeaning, 1);
+function openingBeat(card: TarotCard, topic: TarotTopicId) {
+  const a = card.coreThemes[0] ?? card.name;
+  const b = card.coreThemes[1] ?? a;
+  const name = card.name;
   if (topic === "thoughts") {
-    return `Şu an zihin tarafında ${card.name} duruyor. ${bite} ${sentences(card.thoughtsMeaning, 1)} Yani mevcut hâl boşluk değil; kişinin seni nasıl kurduğu ve henüz neyi netleştirebildiğidir.`;
+    if (card.polar.confusion) {
+      return `Hikâye onun zihninde başlıyor ve orası henüz kapanmış bir cümle değil. ${name} ile bakıldığında seni düşünüyor olması, ne düşündüğünün net olduğu anlamına gelmiyor; ${a} ile ${b} aynı anda dönüyor olabilir. Kafa senaryo kuruyor, karar bağlamıyor olabilir. Bu, aklından çıktığın anlamına gelmez.`;
+    }
+    if (card.polar.secrecy) {
+      return `Hikâye onun zihninde başlıyor fakat her sahne vitrine çıkmıyor. ${name} ile kişi seni aklında tutuyor, ama gösterdiği kadarını seçerek gösteriyor olabilir.`;
+    }
+    return `Hikâye onun zihninde ${a} hattından açılıyor. ${name} burada yokluk değil, aklın hangi malzemeyle meşgul olduğunu söylüyor.`;
   }
-  if (topic === "career") {
-    const work = sentences(card.careerMeaning, 2) || bite;
-    return `Şu an iş ve değer tarafında ${card.name} mevcut durumu tanımlıyor. ${bite} ${work === bite ? "" : work} Mesele yalnızca unvan veya şans değil; bugün nasıl durduğun ve işi kalpten mi hesaptan mı tuttuğundur.`;
+  if (topic === "decision") {
+    return `Yol ayrımındasın ve ilk sahne net bir tabela değil. ${name} ile kararın eşiği ${a} ve ${b} üzerinden görünüyor: acele bir “evet/hayır”dan çok, içinde durduğun hâli okumak gerekiyor. Henüz seçilmeyen yol, henüz korunmayan sınır, henüz netleşmeyen niyet aynı masada duruyor olabilir.`;
   }
-  if (topic === "love") {
-    return `Şu an bağın hâli ${card.name} ile okunuyor. ${bite} ${sentences(card.loveMeaning, 1)} Bu evlilik veya ayrılık ilanı değil; ilişkinin bugünkü duruşudur.`;
+  if (card.polar.confusion) {
+    return `Hikâyenin başı sisli. ${name} ile şu an görünene körü körüne güvenmek zor; ${a} ile ${b} birbirine karışmış olabilir. Bu, hiçbir şey olmadığı anlamına gelmez. Henüz ayırt edilmemiş olduğu anlamına gelir. İlk adım, sisin içinden acele bir karar koparmak değil, neyin gerçek neyin varsayım olduğunu ayırmaktır.`;
   }
-  return `Şu an ${card.name} mevcut durumu tanımlıyor. ${bite}`;
+  if (card.polar.warmth && !card.polar.wound) {
+    return `Hikâye soğuk açılmıyor. ${name} ile masada bir yakınlık, bir yumuşaklık veya tutulmaya değer bir şey var. Mesele yokluk değil; bu hâlin nasıl taşınacağı.`;
+  }
+  if (card.polar.wound) {
+    return `Hikâye yaradan açılıyor. ${name} ile şu anki sahne kırgın, temkinli veya ağır; yola çıkmadan önce neyin incittiği görünüyor.`;
+  }
+  if (card.polar.labor) {
+    return `Hikâye emekle başlıyor. ${name} ile şu an jest değil, yük, iş veya tekrar var; sahne kendiliğinden açılmıyor.`;
+  }
+  return `Hikâyenin ilk sahnesi ${name}. Şu an ${a} üzerinden duruyorsun; kart bir etiket değil, içinde bulunduğun hâlin adıdır.`;
 }
 
-function secondBlock(first: TarotCard, second: TarotCard, topic: TarotTopicId) {
-  const bite = sentences(second.generalMeaning, 2);
-  const extra = sentences(second.thoughtsMeaning, 1);
-
+function turningBeat(first: TarotCard, second: TarotCard, topic: TarotTopicId) {
+  const name = second.name;
+  const a = second.coreThemes[0] ?? name;
   if (conflicts(first, second)) {
-    return `Ancak ${second.name} bu hâlin önünde bir zorluk açıyor. ${bite} ${extra} Fazla düşünmek, kendini sınırlamak veya “ne yapacağını bilememek” ${first.name} ile görünen açıklığı eyleme dökmeyi geciktirebilir. İkinci kart birinciyi yalanlamaz; onu sıkıştırır.`;
+    if (topic === "thoughts") {
+      return `Ortada hikâye sıkışır. ${name} birinci sahnenin verdiğini yola dökmez; ${a} yüzünden duygu veya düşünce davranışa çevrilemez. Bu, ilk sahnenin yalan olduğu anlamına gelmez. Çevirmenin zor olduğu anlamına gelir.`;
+    }
+    return `Sonra sahne ağırlaşır. ${first.name} bir kapı aralamışken ${name} o kapının önüne ${a} koyar: fazla düşünmek, fazla yüklenmek, kendini sınırlamak veya görünene güvenememek. Hikâye burada durur; yok olduğu için değil, ilerleyemediği için. Ortadaki kart düşman ilan etmez; omuzdaki ağırlığı ve “şimdi değil” hissini gösterir.`;
   }
   if (supports(first, second)) {
-    return `${second.name} mevcut hâli güçlendiriyor. ${bite} ${extra} İki kart aynı yöne bakıyor: biri diğerini bozmuyor, temayı kalınlaştırıyor.`;
+    return `Ortadaki ${name} ilk sahneyi bozmaz, aynı hikâyeyi kalınlaştırır. ${a} tekrarı, yönün rastgele olmadığını gösterir. Destek vardır; asıl soru bu desteğin üçüncü sahnede yola dökülüp dökülmeyeceğidir.`;
   }
-  return `${second.name} mevcut hâle başka bir katman ekliyor. ${bite} ${extra} Bu, birinci kartı iptal etmez; tabloyu karmaşıklaştırır.`;
+  if (topic === "love" || topic === "thoughts") {
+    return `Ortadaki sahne karşı tarafın duruşudur. ${name} ile hikâyenin öteki ucu ${a} üzerinden görünür: senin niyetin değil, onun taşıdığı hâldir. Bu uç, ilk sahneyle aynı cümleyi söylemeyebilir.`;
+  }
+  return `Ortada ${name} hikâyeye başka bir katman ekler. ${a} birinci sahneyi iptal etmez; onu karmaşıklaştırır.`;
 }
 
-function thirdBlock(first: TarotCard, second: TarotCard, third: TarotCard, topic: TarotTopicId) {
-  const bite = sentences(third.generalMeaning, 2);
-  const act = sentences(third.actionMeaning, 1);
+function closingBeat(first: TarotCard, second: TarotCard, third: TarotCard, topic: TarotTopicId) {
+  const name = third.name;
+  const a = third.coreThemes[0] ?? name;
   const blockedThenFast =
     (first.polar.pause || second.polar.pause || second.polar.confusion) &&
     third.polar.motion;
-  const stillSlow = third.polar.pause || third.polar.wound;
-
+  const seed = third.polar.labor && third.polar.warmth;
   if (blockedThenFast) {
-    return `Olası yönde ${third.name} durağanlığın uzun sürmeyebileceğini gösteriyor. ${bite} ${act} Sıkışma kırılırsa süreç daha cesur, hızlı veya dürtüsel bir harekete açılabilir. Bu her şeyin hemen çözüleceği anlamına gelmez; yönün değişebileceği anlamına gelir.`;
+    return `Son sahne durağanlığı sonsuza kilitlemez. ${name} ile hikâye bir noktada hızlanabilir, cesurlaşabilir veya dürtüsel bir adıma açılabilir. Bu sihirli bir çözüm değil; sıkışma kırılırsa yönün değişebileceğidir.`;
   }
-  if (stillSlow) {
-    return `Olası yönde ${third.name} hız vaat etmiyor. ${bite} ${act} Üçüncü kart ilk iki karttaki yükü silmez; yön yine temkinli, yaralı veya yavaş kalabilir.`;
+  if (seed || (third.suit === "pentacles" && !third.polar.wound)) {
+    return `Son sahne daha fazla hayal veya daha fazla yük değil. ${name} ile hikâye yere inebilir: küçük, somut, tutulabilir bir başlangıç. ${a} burada vaat değil, elde tutulursa büyüyen bir tohumdur. Çıkış, her şeyi bir anda çözmek değil; elde bir şey bırakmaktır.`;
+  }
+  if (third.polar.pause || third.polar.wound) {
+    return `Son sahne acele etmez. ${name} ile yön ${a} üzerinden temkinli kalır; ilk iki sahnenin yükü bir anda silinmez. Hikâye kapanmaz, yavaş akar.`;
   }
   if (topic === "thoughts") {
-    return `Yaklaşım ve olası harekette ${third.name} duruyor. ${bite} ${act} Düşünce ve duygu ne olursa olsun, dışarıya yansıyan adım bu kartın temposunda şekillenir.`;
+    return `Son sahne yaklaşımıdır. ${name} ile kişi nasıl davranabileceğini ${a} üzerinden gösterir. Düşünce ve duygu ne olursa olsun, dışarıya yansıyan adım bu temponun içinden geçer.`;
   }
-  return `Olası yönde ${third.name} süreci başka bir hatta çekebilir. ${bite} ${act} Gelecek kilitlenmiş değildir; ilk iki kartın yükü bu yönün ne kadar rahat geçileceğini belirler.`;
+  return `Son sahne olası yöndür. ${name} ile hikâye ${a} hattına evrilebilir. Bu mühürlenmiş bir gelecek değil; ilk iki sahnenin nasıl taşındığına bağlı açık bir kapıdır.`;
 }
 
-function togetherBlock(cards: TarotCard[], topic: TarotTopicId) {
+function storyArc(cards: TarotCard[], topic: TarotTopicId) {
   const [one, two, three] = cards;
   const majors = cards.filter((card) => card.arcana === "major");
   const { minor, counts } = domain(cards);
-  const theme = [
-    ...new Set([...one.coreThemes.slice(0, 2), ...two.coreThemes.slice(0, 1), ...three.coreThemes.slice(0, 1)]),
-  ].join(", ");
+  const thread = [one.coreThemes[0], two.coreThemes[0], three.coreThemes[0]]
+    .filter(Boolean)
+    .join(" → ");
 
-  const conflictLine = conflicts(one, two) || conflicts(two, three)
-    ? `Kartlar arasında çatışma var: ${one.name} bir kapı açarken ${two.name} o kapının önüne bir eşik koyuyor. ${three.name} ise bu eşiğin ardından yönü değiştiriyor.`
+  const clash = conflicts(one, two)
+    ? `Üçlü birlikte bakıldığında mesele ${one.coreThemes[0]} yokluğu değil, onu ${two.coreThemes[0]} yüzünden yola dökememektir.`
     : supports(one, two)
-      ? `Kartlar birbirini destekliyor. ${one.name} ile ${two.name} aynı dili konuşuyor; ${three.name} bu dili yola döküyor veya yumuşatıyor.`
-      : `Kartlar birbirini körlemesine alkışlamıyor. Biri diğerinin etkisini yumuşatır, geciktirir veya başka bir kanala çeker.`;
+      ? `Üçlü aynı hikâyeyi anlatıyor: ${one.name} ve ${two.name} birbirini tutuyor, ${three.name} bu tutuşu yola çeviriyor veya yumuşatıyor.`
+      : `Üçlü tek bir slogan değil. ${one.name}, ${two.name} ve ${three.name} aynı cümleyi paylaşmadan bir hikâye kuruyor.`;
 
-  const majorLine =
+  const scale =
     majors.length > 0
-      ? `Büyük Arkana kartı (${majors.map((card) => card.name).join(", ")}) açılımın ana mesajını büyütür: mesele küçük bir ayrıntı olmaktan çıkar, duruş ve asıl konu katmanına iner.`
-      : `Bu açılımda Büyük Arkana yok. Mesele gündelik tekrarlarda, alışkanlıkta ve pratik seçimde duruyor olabilir; bu, önemsiz olduğu anlamına gelmez.`;
+      ? `${majors.map((card) => card.name).join(" ve ")} bu bakımı küçük bir kıpırtı olmaktan çıkarıyor: mesele günlük bir ayrıntı değil, duruş ve seçim katmanında.`
+      : `Bu bakımda Büyük Arkana yok. Hikâye gündelik tekrarlarda, alışkanlıkta ve atılan küçük adımda yürüyor.`;
 
-  const suitLine =
+  const grain =
     counts.major === 3
-      ? "Üç kart da Büyük Arkana; süreç kimlik ve eşik meselesine daha yakındır."
+      ? "Sahne kimlik ve eşik."
       : minor[1] >= 2
-        ? `Baskın dil ${minor[2]}: okuma bu alandan kaçmamalı.`
-        : "Tek bir alan baskın değil; duygu, zihin, emek ve eylem iç içe okunmalı.";
+        ? `Hikâyenin dokusu ${minor[2]}.`
+        : "Hikâye tek bir kanala sıkışmıyor.";
 
-  void topic;
-  return `Üç kart birlikte bakıldığında baskın tema ${theme} çevresinde toplanıyor. ${conflictLine} ${majorLine} ${suitLine} ${speedLine(cards)}`;
-}
+  const close =
+    topic === "thoughts"
+      ? `Anlaşılması gereken şey şu: kişi seni silmiş görünmüyor. Asıl düğüm düşünce, his ve davranışın aynı kapıdan çıkıp çıkmadığı. ${thread}. Soru “düşünüyor mu?” değil, düşündüğü şeyin yola dökülüp dökülmediğidir.`
+      : topic === "decision"
+        ? `Anlaşılması gereken şey şu: doğru şıkkı kart söylemez. Şu anki hâlin, ortadaki sürtünme ve açılabilecek yön bir hikâye kurar. ${thread}. Karar yine senin; kartlar yalnızca hangi sahnede durduğunu gösterir.`
+        : topic === "career"
+          ? `Anlaşılması gereken şey şu: şans cümlesi yok. Bugünkü duruş, ortadaki yük veya kilit, sonra gelebilecek somut yön. ${thread}. Emek hikâyesi jestle değil, elde tutulan adımla ilerler.`
+          : topic === "love"
+            ? `Anlaşılması gereken şey şu: bağın hikâyesi niyet okumaz. Şu anki hâl, öteki uç, olası evrilme. ${thread}. Sevgi varsa bile yük ve sis aynı masada oturabilir.`
+            : `Anlaşılması gereken şey şu: şu an ne oluyor, ne zorluyor, nereye evrilebilir. ${thread}. Üç sahne tek tek ezberlenmez; birbirine bağlanır.`;
 
-function closeBlock(cards: TarotCard[], topic: TarotTopicId) {
-  const [one, two, three] = cards;
-  const problem = conflicts(one, two)
-    ? `Sorun ${one.name} ile görünen hâlin yokluğu değil; ${two.name} ile bu hâlin eyleme, karara veya netliğe dökülememesidir.`
-    : supports(one, two)
-      ? `Destek ${one.name} ve ${two.name} tarafında: aynı yön tekrarlanır, tema güçlenir. Dikkat edilecek yer ${three.name} ile bu desteğin yola dökülüp dökülmediğidir.`
-      : `Destek ve sürtünme yan yana: ${one.name} bugünü, ${two.name} baskıyı, ${three.name} açık kalan yönü taşır.`;
-
-  if (topic === "thoughts") {
-    return `Kısaca anlaşılması gereken şudur. Şu an ne oluyor: kişi seni zihninden silmiş görünmez; ${one.name} düşünceyi, ${two.name} duyguyu adlandırır. ${problem} Süreç nereye gidebilir: ${three.name} davranışın temposunu gösterir. Üç kart birlikte, “düşünüyor mu?” sorusundan çok düşünce-duygu-hareketin aynı kapıdan çıkıp çıkmadığına cevap verir.`;
-  }
-  if (topic === "career") {
-    return `Kısaca anlaşılması gereken şudur. Şu an ne oluyor: iş ve değer sahnesi ${one.name} ile duruyor. ${problem} Süreç nereye gidebilir: ${three.name} emeğin açılabileceği yönü gösterir, unvan kehaneti yazmaz. Üç kart birlikte bakıldığında mesele şans değil; duruş, sürtünme ve olası gelişimin nasıl bağlandığıdır.`;
-  }
-  if (topic === "love") {
-    return `Kısaca anlaşılması gereken şudur. Şu an ne oluyor: bağ ${one.name} ile okunur. ${problem} Süreç nereye gidebilir: ${three.name} evrilme ihtimalini gösterir, mühür basmaz. Üç kart birlikte niyet okumaz; duruş, his ve hareketin nasıl kesiştiğini gösterir.`;
-  }
-  return `Kısaca anlaşılması gereken şudur. Şu an ne oluyor: ${one.name} bugünü adlandırır. ${problem} Süreç nereye gidebilir: ${three.name} açık kalan yönü taşır. Üç kart birlikte tek tek sözlük maddesi değil; aralarındaki ilişkidir.`;
+  return `${clash} ${scale} ${grain} ${speedLine(cards)} ${close}`;
 }
 
 export function spreadSynthesis(cards: TarotCard[], topic: TarotTopicId) {
   const [one, two, three] = cards;
   if (!one || !two || !three) return "";
-
   const text = [
-    nowBlock(one, topic),
-    secondBlock(one, two, topic),
-    thirdBlock(one, two, three, topic),
-    togetherBlock(cards, topic),
-    closeBlock(cards, topic),
+    `Bu bakımda ${one.name}, ${two.name} ve ${three.name} yan yana duruyor.`,
+    openingBeat(one, topic),
+    turningBeat(one, two, topic),
+    closingBeat(one, two, three, topic),
+    storyArc(cards, topic),
+    `Okuma kartları tek tek tanımlamaz. ${one.name} ile başlayan sahne ${two.name} ile döner, ${three.name} ile yön değiştirir. Senin sorun bu üçlünün kesişiminde durur.`,
   ].join(" ");
-
-  return clampWords(
-    text,
-    250,
-    450,
-    `Üç kart tek tek sözlük maddesi değildir. Asıl okuma duruş, sürtünme ve olası yönün nasıl bağlandığıdır.`,
-  );
+  const words = text.replace(/\s+/g, " ").trim().split(/\s+/).filter(Boolean);
+  if (words.length <= 450) return words.join(" ");
+  return `${words.slice(0, 450).join(" ")}.`;
 }
