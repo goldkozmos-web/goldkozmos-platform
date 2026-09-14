@@ -37,7 +37,6 @@ import {
 import { canShowMemberProfilim } from "../../lib/admin/profile";
 import { isSiteAdminEmail } from "../../lib/admin/access";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
-import ProfilimCompactTile from "./ProfilimCompactTile";
 import ProfilimDrawer from "./ProfilimDrawer";
 import ProfilimFeaturedCard from "./ProfilimFeaturedCard";
 import ProfilimGate from "./ProfilimGate";
@@ -68,7 +67,7 @@ import {
   LiveFavoritesPanel,
   ProfilimBadgeRow,
   ProfilimBadgesPanel,
-  ProfilimStatsCard,
+  ProfilimStatsPanel,
 } from "./ProfilimLivePanels";
 import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
 import RemindersPanel from "../daily/RemindersPanel";
@@ -106,6 +105,7 @@ const DRAWERS: Record<
   ritualNotes: { eyebrow: "GOLDRİTÜEL", title: "Ritüel Notlarım" },
   activityHistory: { eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişim" },
   todos: { eyebrow: "GÖREV", title: "Yapılacaklarım" },
+  stats: { eyebrow: "İSTATİSTİK", title: "Kişisel İstatistikler" },
 };
 
 export default function ProfilimDashboard({
@@ -366,8 +366,7 @@ export default function ProfilimDashboard({
                 ) : null}
               </ProfilimFeaturedCard>
 
-              <ProfilimCompactTile
-                className="profilimTodoUnderContinue"
+              <ProfilimFeaturedCard
                 eyebrow="GÖREV"
                 title="Yapılacaklarım"
                 onOpen={() => setOpen("todos")}
@@ -375,7 +374,12 @@ export default function ProfilimDashboard({
             </div>
 
             <DailyMessageCard />
-            <ProfilimStatsCard />
+
+            <ProfilimFeaturedCard
+              eyebrow="İSTATİSTİK"
+              title="Kişisel İstatistikler"
+              onOpen={() => setOpen("stats")}
+            />
 
             <ProfilimTileRails onOpenTile={(id) => setOpen(id)} />
           </>
@@ -438,6 +442,7 @@ export default function ProfilimDashboard({
           {open === "ritualNotes" ? <GoldRituelPanel tab="notes" /> : null}
           {open === "activityHistory" ? <ActivityTimelinePanel /> : null}
           {open === "todos" ? <RemindersPanel /> : null}
+          {open === "stats" ? <ProfilimStatsPanel /> : null}
           {open === "badges" ? <ProfilimBadgesPanel /> : null}
         </ProfilimDrawer>
       ) : null}
