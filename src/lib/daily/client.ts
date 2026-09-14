@@ -247,7 +247,7 @@ export async function fetchReminders(): Promise<ReminderItem[]> {
     .from("reminders")
     .select("id, title, note, due_on, due_time, repeat_rule, completed_at, created_at")
     .order("created_at", { ascending: false })
-    .limit(80);
+    .limit(200);
 
   return (data ?? []).map((row) => ({
     id: asText(row.id),
@@ -261,7 +261,14 @@ export async function fetchReminders(): Promise<ReminderItem[]> {
   }));
 }
 
+function toSqlTime(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.length === 5 ? `${trimmed}:00` : trimmed;
+}
+
 export async function createReminder(input: {
+  id?: string;
   title: string;
   note: string;
   dueOn: string;
@@ -272,19 +279,24 @@ export async function createReminder(input: {
   if (!supabase) return { error: "Oturum yok." };
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user;
   if (!user) return { error: "Giriş yapmalısın." };
 
-  const { error } = await supabase.from("reminders").insert({
+  const row: Record<string, string | null> = {
     user_id: user.id,
     title: input.title.trim(),
     note: input.note.trim(),
     due_on: input.dueOn || null,
-    due_time: input.dueTime || null,
+    due_time: toSqlTime(input.dueTime),
     repeat_rule: input.repeatRule || "none",
-  });
+  };
+  if (input.id) {
+    row.id = input.id;
+  }
 
+  const { error } = await supabase.from("reminders").insert(row);
   return { error: error?.message ?? null };
 }
 
@@ -296,6 +308,12 @@ export async function completeReminder(id: string) {
     .update({ completed_at: new Date().toISOString() })
     .eq("id", id)
     .is("completed_at", null);
+}
+
+export async function deleteReminder(id: string) {
+  const supabase = client();
+  if (!supabase) return;
+  await supabase.from("reminders").delete().eq("id", id);
 }
 
 export async function recordNamedActivity(kind: string, title: string, href?: string) {

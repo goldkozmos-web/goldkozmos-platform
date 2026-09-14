@@ -1,27 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { REPEAT_OPTIONS, type ReminderItem } from "../../lib/daily/types";
 import {
   completeReminder,
   createReminder,
+  deleteReminder,
   fetchReminders,
 } from "../../lib/daily/client";
+import { readTodos, writeTodos } from "../../lib/profilim/localStore";
 import ProfilimEmptyState from "../profilim/ProfilimEmptyState";
 import "../../styles/daily-practice.css";
 
-function formatWhen(item: ReminderItem) {
-  if (!item.dueOn) {
-    const date = new Date(item.createdAt);
-    return date.toLocaleString("tr-TR", { dateStyle: "medium" });
+function mergeTodos(local: ReminderItem[], remote: ReminderItem[]) {
+  const map = new Map<string, ReminderItem>();
+  for (const item of remote) {
+    if (item.id) map.set(item.id, item);
   }
-
-  const time = item.dueTime ? item.dueTime.slice(0, 5) : "";
-  return time ? `${item.dueOn} · ${time}` : item.dueOn;
+  for (const item of local) {
+    if (item.id) map.set(item.id, item);
+  }
+  return [...map.values()]
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, 200);
 }
 
-export default function RemindersPanel() {
+function formatWhen(item: ReminderItem) {
+  const bits: string[] = [];
+  if (item.dueOn) {
+    const stamp = item.dueTime
+      ? `${item.dueOn}T${item.dueTime.slice(0, 5)}`
+      : `${item.dueOn}T12:00`;
+    const date = new Date(stamp);
+    bits.push(
+      date.toLocaleDateString("tr-TR", {
+        day: "numeric",
+        month: "short",
+      }),
+    );
+    if (item.dueTime) {
+      bits.push(item.dueTime.slice(0, 5));
+    }
+  }
+  const repeat = REPEAT_OPTIONS.find((option) => option.value === item.repeatRule);
+  if (repeat && repeat.value !== "none") {
+    bits.push(repeat.label);
+  }
+  return bits.join(" · ");
+}
+
+export default function RemindersPanel({ userId }: { userId: string }) {
   const [items, setItems] = useState<ReminderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [pending, setPending] = useState(false);
@@ -31,136 +60,255 @@ export default function RemindersPanel() {
   const [dueOn, setDueOn] = useState("");
   const [dueTime, setDueTime] = useState("");
   const [repeatRule, setRepeatRule] = useState("none");
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [showDone, setShowDone] = useState(false);
 
-  async function reload() {
-    const next = await fetchReminders();
+  function persist(next: ReminderItem[]) {
     setItems(next);
-    setLoading(false);
+    writeTodos(userId, next);
   }
 
   useEffect(() => {
-    void reload();
-  }, []);
+    const local = readTodos(userId);
+    if (local.length) {
+      setItems(local);
+      setLoading(false);
+    }
 
-  const open = items.filter((item) => !item.completedAt);
-  const done = items.filter((item) => item.completedAt);
+    void fetchReminders()
+      .then((remote) => {
+        const next = mergeTodos(readTodos(userId), remote);
+        setItems(next);
+        writeTodos(userId, next);
+      })
+      .finally(() => setLoading(false));
+  }, [userId]);
+
+  const open = useMemo(
+    () => items.filter((item) => !item.completedAt),
+    [items],
+  );
+  const done = useMemo(
+    () => items.filter((item) => item.completedAt),
+    [items],
+  );
+
+  async function addTask() {
+    const trimmed = title.trim();
+    if (trimmed.length < 2) {
+      setStatus("Görev için en az iki harf yaz.");
+      return;
+    }
+
+    const item: ReminderItem = {
+      id: crypto.randomUUID(),
+      title: trimmed,
+      note: note.trim(),
+      dueOn: dueOn || null,
+      dueTime: dueTime || null,
+      repeatRule,
+      completedAt: null,
+      createdAt: new Date().toISOString(),
+    };
+
+    persist(mergeTodos([item], items));
+    setTitle("");
+    setNote("");
+    setDueOn("");
+    setDueTime("");
+    setRepeatRule("none");
+    setStatus("Kaydedildi.");
+    setPending(true);
+
+    const result = await createReminder({
+      id: item.id,
+      title: item.title,
+      note: item.note,
+      dueOn: item.dueOn ?? "",
+      dueTime: item.dueTime ?? "",
+      repeatRule: item.repeatRule,
+    });
+
+    setPending(false);
+    if (result.error) {
+      setStatus("Cihazına kaydedildi.");
+    }
+  }
+
+  function markDone(id: string) {
+    persist(
+      items.map((item) =>
+        item.id === id
+          ? { ...item, completedAt: new Date().toISOString() }
+          : item,
+      ),
+    );
+    void completeReminder(id);
+  }
+
+  function remove(id: string) {
+    persist(items.filter((item) => item.id !== id));
+    void deleteReminder(id);
+  }
 
   return (
-    <div className="profilimDrawerStack">
+    <div className="profilimTodoDesk">
+      <p className="profilimTodoCount">
+        {open.length} açık
+        {done.length ? ` · ${done.length} tamamlanan` : ""}
+        {items.length ? ` · ${items.length} kayıt` : ""}
+      </p>
+
       <form
-        className="profilimCompose"
+        className="profilimTodoComposer"
+        lang="tr"
         onSubmit={(event) => {
           event.preventDefault();
-          if (!title.trim()) return;
-          setPending(true);
-          setStatus("");
-          void createReminder({
-            title,
-            note,
-            dueOn,
-            dueTime,
-            repeatRule,
-          }).then(async (result) => {
-            setPending(false);
-            if (result.error) {
-              setStatus(result.error);
-              return;
-            }
-            setTitle("");
-            setNote("");
-            setDueOn("");
-            setDueTime("");
-            setRepeatRule("none");
-            setStatus("Görev kaydedildi. Uygulama içi hatırlatma oluşturuldu.");
-            await reload();
-          });
+          void addTask();
         }}
       >
-        <label>
-          Görev başlığı
+        <div className="profilimTodoAddRow">
           <input
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            placeholder="Bugün neyi tamamlamak istiyorsun?"
+            placeholder="Yeni görev yaz"
             maxLength={80}
-            required
+            aria-label="Görev başlığı"
           />
-        </label>
-        <label>
-          Not
-          <textarea
-            value={note}
-            onChange={(event) => setNote(event.target.value)}
-            rows={3}
-            placeholder="İsteğe bağlı not"
-            maxLength={400}
-          />
-        </label>
-        <label>
-          Tarih
-          <input
-            type="date"
-            value={dueOn}
-            onChange={(event) => setDueOn(event.target.value)}
-          />
-        </label>
-        <label>
-          Saat
-          <input
-            type="time"
-            value={dueTime}
-            onChange={(event) => setDueTime(event.target.value)}
-          />
-        </label>
-        <label>
-          Tekrar
-          <select
-            value={repeatRule}
-            onChange={(event) => setRepeatRule(event.target.value)}
-          >
-            {REPEAT_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button type="submit" disabled={pending}>
-          {pending ? "Kaydediliyor…" : "Ekle"}
+          <button type="submit" disabled={pending}>
+            {pending ? "…" : "Ekle"}
+          </button>
+        </div>
+
+        <button
+          type="button"
+          className="profilimTodoMore"
+          onClick={() => setDetailsOpen((value) => !value)}
+        >
+          {detailsOpen ? "Detayı kapat" : "Not, tarih, tekrar"}
         </button>
+
+        {detailsOpen ? (
+          <div className="profilimTodoDetails">
+            <label>
+              Not
+              <textarea
+                value={note}
+                onChange={(event) => setNote(event.target.value)}
+                rows={2}
+                placeholder="İsteğe bağlı"
+                maxLength={400}
+              />
+            </label>
+            <div className="profilimTodoWhen">
+              <label>
+                Tarih
+                <input
+                  type="date"
+                  value={dueOn}
+                  onChange={(event) => setDueOn(event.target.value)}
+                />
+              </label>
+              <label>
+                Saat
+                <input
+                  type="time"
+                  value={dueTime}
+                  onChange={(event) => setDueTime(event.target.value)}
+                />
+              </label>
+            </div>
+            <label>
+              Tekrar
+              <select
+                value={repeatRule}
+                onChange={(event) => setRepeatRule(event.target.value)}
+              >
+                {REPEAT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        ) : null}
       </form>
+
       {status ? <p className="profilimDrawerNote">{status}</p> : null}
 
-      {loading ? (
+      {loading && items.length === 0 ? (
         <ProfilimEmptyState text="Görevlerin açılıyor…" />
-      ) : items.length === 0 ? (
-        <ProfilimEmptyState text="Yapılacakların boş. İlk görevin yalnızca sana görünür." />
+      ) : open.length === 0 && done.length === 0 ? (
+        <ProfilimEmptyState text="İlk görevini yaz, Ekle’ye bas. Listeden silmeden istediğin kadar kayıt tutabilirsin." />
       ) : (
         <>
           {open.length ? (
-            <ul className="profilimDrawerList">
+            <ul className="profilimTodoList">
               {open.map((item) => (
-                <li key={item.id}>
-                  <strong>{item.title}</strong>
-                  <small>{formatWhen(item)}</small>
-                  {item.note ? <p>{item.note}</p> : null}
+                <li key={item.id} className="profilimTodoCard">
                   <button
                     type="button"
-                    className="dailyInlineAction"
-                    onClick={() => {
-                      void completeReminder(item.id).then(() => reload());
-                    }}
+                    className="profilimTodoCheck"
+                    onClick={() => markDone(item.id)}
+                    aria-label={`${item.title} tamamlandı`}
+                  />
+                  <div className="profilimTodoBody">
+                    <strong>{item.title}</strong>
+                    {formatWhen(item) ? <small>{formatWhen(item)}</small> : null}
+                    {item.note ? <p>{item.note}</p> : null}
+                  </div>
+                  <button
+                    type="button"
+                    className="profilimTodoDelete"
+                    onClick={() => remove(item.id)}
+                    aria-label="Sil"
                   >
-                    Tamamlandı
+                    Sil
                   </button>
                 </li>
               ))}
             </ul>
-          ) : null}
+          ) : (
+            <p className="profilimDrawerNote">Açık görev kalmadı.</p>
+          )}
+
           {done.length ? (
-            <p className="profilimDrawerNote">
-              Tamamlanan: {done.map((item) => item.title).join(", ")}
-            </p>
+            <div className="profilimTodoDoneBlock">
+              <button
+                type="button"
+                className="profilimTodoMore"
+                onClick={() => setShowDone((value) => !value)}
+              >
+                Tamamlananlar ({done.length})
+              </button>
+              {showDone ? (
+                <ul className="profilimTodoList">
+                  {done.map((item) => (
+                    <li
+                      key={item.id}
+                      className="profilimTodoCard isDone"
+                    >
+                      <span className="profilimTodoCheck isOn" aria-hidden="true" />
+                      <div className="profilimTodoBody">
+                        <strong>{item.title}</strong>
+                        {formatWhen(item) ? (
+                          <small>{formatWhen(item)}</small>
+                        ) : null}
+                      </div>
+                      <button
+                        type="button"
+                        className="profilimTodoDelete"
+                        onClick={() => remove(item.id)}
+                        aria-label="Sil"
+                      >
+                        Sil
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           ) : null}
         </>
       )}

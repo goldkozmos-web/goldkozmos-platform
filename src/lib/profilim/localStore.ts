@@ -1,4 +1,5 @@
 import type { ProfilimJournalEntry, ProfilimLetter } from "./types";
+import type { ReminderItem } from "../daily/types";
 
 function readList<T>(key: string): T[] {
   if (typeof window === "undefined") {
@@ -33,6 +34,10 @@ export function journalStorageKey(userId: string) {
 
 export function letterStorageKey(userId: string) {
   return `goldkozmos-profilim-letters-${userId}`;
+}
+
+export function todoStorageKey(userId: string) {
+  return `goldkozmos-profilim-todos-${userId}`;
 }
 
 export function todayNeedStorageKey(userId: string) {
@@ -80,4 +85,16 @@ export function writeTodayNeedChoice(userId: string, choiceId: string) {
   } catch {
     // Ignore private-mode storage errors.
   }
+}
+
+export function readTodos(userId: string) {
+  if (!userId) return [];
+  return readList<ReminderItem>(todoStorageKey(userId)).filter(
+    (item) => item && typeof item.id === "string" && typeof item.title === "string",
+  );
+}
+
+export function writeTodos(userId: string, items: ReminderItem[]) {
+  if (!userId) return;
+  writeList(todoStorageKey(userId), items.slice(0, 200));
 }

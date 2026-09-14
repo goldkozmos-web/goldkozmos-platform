@@ -817,6 +817,187 @@
   cursor: pointer;
 }
 
+.profilimDrawer:has(.profilimTodoDesk) {
+  max-height: min(86dvh, 820px);
+}
+
+.profilimTodoDesk {
+  display: grid;
+  gap: 14px;
+}
+
+.profilimTodoCount {
+  margin: 0;
+  color: #8d6728;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.profilimTodoComposer {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(176, 130, 48, 0.18);
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 236, 0.9), rgba(247, 236, 214, 0.55));
+}
+
+.profilimTodoAddRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+
+.profilimTodoAddRow input,
+.profilimTodoDetails input,
+.profilimTodoDetails textarea,
+.profilimTodoDetails select {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 46px;
+  padding: 12px 14px;
+  border: 1px solid rgba(168, 124, 44, 0.22);
+  border-radius: 14px;
+  background: #fffefb;
+  color: #221812;
+  font: inherit;
+}
+
+.profilimTodoDetails textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.profilimTodoAddRow button {
+  min-width: 76px;
+  min-height: 46px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #2c1d14, #140e0a);
+  color: #e3bc70;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profilimTodoMore {
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #8d6728;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.profilimTodoDetails,
+.profilimTodoWhen {
+  display: grid;
+  gap: 10px;
+}
+
+.profilimTodoWhen {
+  grid-template-columns: 1fr 1fr;
+}
+
+.profilimTodoDetails label {
+  display: grid;
+  gap: 6px;
+  color: #6b4e1f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.profilimTodoList {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.profilimTodoCard {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 14px 14px 13px;
+  border: 1px solid rgba(176, 130, 48, 0.16);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(72, 48, 18, 0.04);
+}
+
+.profilimTodoCard.isDone {
+  background: #faf7f1;
+}
+
+.profilimTodoCard.isDone strong {
+  color: #8a8176;
+  text-decoration: line-through;
+}
+
+.profilimTodoCheck {
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  padding: 0;
+  border: 1.5px solid rgba(176, 130, 48, 0.45);
+  border-radius: 50%;
+  background: #fffdf8;
+  cursor: pointer;
+}
+
+.profilimTodoCheck.isOn {
+  border-color: #b8893a;
+  background:
+    radial-gradient(circle at 50% 50%, #e3bc70 0 5px, #fffdf8 6px);
+}
+
+.profilimTodoBody {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.profilimTodoBody strong {
+  color: #221812;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.profilimTodoBody small,
+.profilimTodoBody p {
+  margin: 0;
+  color: #8a8176;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.profilimTodoDelete {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #b08a4a;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.profilimTodoDoneBlock {
+  display: grid;
+  gap: 8px;
+}
+
 .profilimInboxItem {
   display: grid;
   gap: 4px;

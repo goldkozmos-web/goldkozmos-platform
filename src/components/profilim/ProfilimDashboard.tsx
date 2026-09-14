@@ -443,7 +443,9 @@ export default function ProfilimDashboard({
           {open === "ritualDone" ? <GoldRituelPanel tab="done" /> : null}
           {open === "ritualNotes" ? <GoldRituelPanel tab="notes" /> : null}
           {open === "activityHistory" ? <ActivityTimelinePanel /> : null}
-          {open === "todos" ? <RemindersPanel /> : null}
+          {open === "todos" ? (
+            <RemindersPanel userId={user?.id ?? ""} />
+          ) : null}
           {open === "stats" ? <ProfilimStatsPanel /> : null}
           {open === "badges" ? <ProfilimBadgesPanel /> : null}
         </ProfilimDrawer>
