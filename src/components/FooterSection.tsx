@@ -26,10 +26,6 @@ const platformLinks = [
     href: "/goldmind",
   },
   {
-    label: "GoldRitüel",
-    href: "/goldrituel",
-  },
-  {
     label: "GoldBlog",
     href: "/goldblog",
   },
