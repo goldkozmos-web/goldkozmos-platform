@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import ProfilimEmptyState from "./ProfilimEmptyState";
+import ProfilimFeaturedCard from "./ProfilimFeaturedCard";
 import "../../styles/daily-practice.css";
 
 const XP: Record<string, number> = {
@@ -20,44 +21,54 @@ const XP: Record<string, number> = {
 
 type Range = "7" | "30" | "all";
 
+const BADGE_SEALS = [
+  { id: "ilk-adim", title: "İlk Adım" },
+  { id: "3-gun-aktif", title: "3 Gün Aktif" },
+  { id: "7-gunluk-seri", title: "7 Günlük Seri" },
+  { id: "ilk-duygu", title: "İlk Duygu" },
+  { id: "ilk-eylem", title: "İlk Eylem" },
+  { id: "ilk-goldmind", title: "GoldMind" },
+  { id: "10-icerik", title: "10 İçerik" },
+  { id: "21-yolculuk", title: "21 Gün" },
+];
+
 export function ProfilimBadgeRow({ onOpen }: { onOpen: () => void }) {
-  const [items, setItems] = useState<{ id: string; title: string }[]>([]);
+  const [earned, setEarned] = useState<Set<string>>(new Set());
+  const [total, setTotal] = useState(BADGE_SEALS.length);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     if (!supabase) return;
-    void supabase
-      .from("user_badges")
-      .select("badge_id, badges ( title )")
-      .then(({ data }) => {
-        setItems(
-          (data ?? []).map((row) => ({
-            id: String(row.badge_id),
-            title: String((row.badges as { title?: string } | null)?.title ?? row.badge_id),
-          })),
-        );
-      });
+    void Promise.all([
+      supabase.from("badges").select("id"),
+      supabase.from("user_badges").select("badge_id"),
+    ]).then(([all, have]) => {
+      setEarned(new Set((have.data ?? []).map((row) => String(row.badge_id))));
+      if (all.data?.length) setTotal(all.data.length);
+    });
   }, []);
 
-  if (items.length === 0) {
-    return (
-      <button type="button" className="homeSoftLink" onClick={onOpen}>
-        Rozetlerim
-      </button>
-    );
-  }
-
   return (
-    <div className="profilimBadgeRow">
-      {items.slice(0, 4).map((item) => (
-        <span key={item.id} className="gkSoon">
-          {item.title}
-        </span>
-      ))}
-      <button type="button" className="homeSoftLink" onClick={onOpen}>
-        Rozetlerim
-      </button>
-    </div>
+    <ProfilimFeaturedCard
+      className="profilimBadgeCard"
+      eyebrow="ROZET"
+      title="Rozetlerim"
+      onOpen={onOpen}
+    >
+      <span className="profilimBadgeMedals" aria-hidden="true">
+        {BADGE_SEALS.slice(0, 6).map((badge) => (
+          <span
+            key={badge.id}
+            className={`profilimMedal${earned.has(badge.id) ? " isEarned" : ""}`}
+          >
+            ★
+          </span>
+        ))}
+      </span>
+      {earned.size === 0
+        ? "Henüz rozet yok. Adımların burada birikir."
+        : `${earned.size} / ${total} rozet kazandın.`}
+    </ProfilimFeaturedCard>
   );
 }
 
@@ -83,13 +94,25 @@ export function ProfilimBadgesPanel() {
     });
   }, []);
 
+  if (items.length === 0) {
+    return <ProfilimEmptyState text="Rozetler burada birikir. İlk adımınla açılırlar." />;
+  }
+
   return (
-    <ul className="profilimDrawerList">
+    <ul className="profilimBadgeList">
       {items.map((item) => (
-        <li key={item.id}>
-          <span>{item.earned ? "Kazanıldı" : "Kilitli"}</span>
-          <strong>{item.title}</strong>
-          <small>{item.description}</small>
+        <li
+          key={item.id}
+          className={`profilimBadgeItem${item.earned ? " isEarned" : ""}`}
+        >
+          <span className="profilimMedal" aria-hidden="true">
+            ★
+          </span>
+          <span>
+            <span>{item.earned ? "Kazanıldı" : "Kilitli"}</span>
+            <strong>{item.title}</strong>
+            <small>{item.description}</small>
+          </span>
         </li>
       ))}
     </ul>

@@ -192,6 +192,77 @@
   box-sizing: border-box;
 }
 
+.profilimBadgeMedals {
+  display: flex;
+  gap: 8px;
+}
+
+.profilimMedal {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  background: linear-gradient(160deg, #f4ead8, #e6d6b6);
+  color: rgba(122, 87, 32, 0.28);
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+}
+
+.profilimMedal.isEarned,
+.profilimBadgeItem.isEarned .profilimMedal {
+  border-color: rgba(210, 166, 82, 0.7);
+  background: linear-gradient(160deg, #f4d48c, #c8963a 55%, #8d6420);
+  color: #fff8e8;
+  box-shadow:
+    0 1px 0 rgba(255, 244, 214, 0.7) inset,
+    0 6px 12px rgba(140, 96, 24, 0.2);
+}
+
+.profilimBadgeList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.profilimBadgeItem {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px 14px;
+  border: 1px solid rgba(198, 168, 112, 0.22);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.profilimBadgeItem span span {
+  display: block;
+  color: #a8792a;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.profilimBadgeItem strong {
+  display: block;
+  margin-top: 4px;
+  color: #221812;
+  font-size: 15px;
+}
+
+.profilimBadgeItem small {
+  display: block;
+  margin-top: 4px;
+  color: #8a8176;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 .profilimFeaturedTitle,
 .profilimTileTitle {
   display: block;
