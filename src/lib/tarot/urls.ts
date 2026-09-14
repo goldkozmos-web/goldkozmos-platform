@@ -1,3 +1,4 @@
+import { TAROT_PAINTED_SLUGS } from "../../data/tarot/paintedImages";
 import { SITE_ORIGIN } from "../site";
 
 export const TAROT_CARE_PATH = "/tarot-bakimi";
@@ -23,5 +24,6 @@ export function tarotCardPath(slug: string) {
 }
 
 export function tarotImagePath(slug: string) {
-  return `/images/tarot/${slug}.svg`;
+  const ext = TAROT_PAINTED_SLUGS.has(slug) ? "webp" : "svg";
+  return `/images/tarot/${slug}.${ext}`;
 }
