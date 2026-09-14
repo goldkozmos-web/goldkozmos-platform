@@ -42,6 +42,7 @@ import ProfilimDrawer from "./ProfilimDrawer";
 import ProfilimFeaturedCard from "./ProfilimFeaturedCard";
 import ProfilimGate from "./ProfilimGate";
 import ProfilimHero from "./ProfilimHero";
+import ProfilimTileRails from "./ProfilimTileRails";
 import {
   AppointmentsPanel,
   ContinuePanel,
@@ -87,7 +88,7 @@ const DRAWERS: Record<
   continue: { eyebrow: "DEVAM", title: "Kaldığın Yerden Devam Et" },
   favorites: { eyebrow: "KAYITLI", title: "Favorilerim" },
   purchases: { eyebrow: "ÇALIŞMALAR", title: "Satın Aldıklarım" },
-  pdfs: { eyebrow: "ANALİZ", title: "PDF Analizlerim" },
+  pdfs: { eyebrow: "ANALİZ", title: "Analizlerim" },
   appointments: { eyebrow: "SEANSLAR", title: "Randevularım" },
   library: { eyebrow: "ARŞİV", title: "Kütüphanem" },
   journal: { eyebrow: "YAZI", title: "Kişisel Günlüğüm" },
@@ -100,10 +101,10 @@ const DRAWERS: Record<
   duyguRehberi: { eyebrow: "DUYGU REHBERİ", title: "Duygularını Tanı" },
   badges: { eyebrow: "ROZET", title: "Rozetlerim" },
   dreamJournal: { eyebrow: "RÜYA", title: "Rüya Günlüğüm" },
-  ritualSaved: { eyebrow: "GOLDRİTÜEL", title: "Kaydettiğim Ritüeller" },
+  ritualSaved: { eyebrow: "GOLDRİTÜEL", title: "Kayıtlı Ritüeller" },
   ritualDone: { eyebrow: "GOLDRİTÜEL", title: "Uyguladığım Ritüeller" },
   ritualNotes: { eyebrow: "GOLDRİTÜEL", title: "Ritüel Notlarım" },
-  activityHistory: { eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişi" },
+  activityHistory: { eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişim" },
   todos: { eyebrow: "GÖREV", title: "Yapılacaklarım" },
 };
 
@@ -364,103 +365,19 @@ export default function ProfilimDashboard({
                   </>
                 ) : null}
               </ProfilimFeaturedCard>
+
+              <ProfilimCompactTile
+                className="profilimTodoUnderContinue"
+                eyebrow="GÖREV"
+                title="Yapılacaklarım"
+                onOpen={() => setOpen("todos")}
+              />
             </div>
 
             <DailyMessageCard />
             <ProfilimStatsCard />
 
-            <div className="profilimTileGrid">
-              <ProfilimCompactTile
-                eyebrow="MESAJ"
-                title="Gelen Mesajlar"
-                onOpen={() => setOpen("inbox")}
-              />
-              <ProfilimCompactTile
-                eyebrow="DUYGU"
-                title="Duygu Günlüğüm"
-                onOpen={() => setOpen("emotionJournal")}
-              />
-              <ProfilimCompactTile
-                eyebrow="REHBER"
-                title="Duygu Rehberi"
-                onOpen={() => setOpen("duyguRehberi")}
-              />
-              <ProfilimCompactTile
-                eyebrow="RÜYA"
-                title="Rüya Günlüğüm"
-                onOpen={() => setOpen("dreamJournal")}
-              />
-              <ProfilimCompactTile
-                eyebrow="RİTÜEL"
-                title="Kaydettiğim Ritüeller"
-                onOpen={() => setOpen("ritualSaved")}
-              />
-              <ProfilimCompactTile
-                eyebrow="RİTÜEL"
-                title="Uyguladığım Ritüeller"
-                onOpen={() => setOpen("ritualDone")}
-              />
-              <ProfilimCompactTile
-                eyebrow="RİTÜEL"
-                title="Ritüel Notlarım"
-                onOpen={() => setOpen("ritualNotes")}
-              />
-              <ProfilimCompactTile
-                eyebrow="GEÇMİŞ"
-                title="İlerleme Geçmişi"
-                onOpen={() => setOpen("activityHistory")}
-              />
-              <ProfilimCompactTile
-                eyebrow="GÖREV"
-                title="Yapılacaklarım"
-                onOpen={() => setOpen("todos")}
-              />
-              <ProfilimCompactTile
-                eyebrow="ÖNERİ"
-                title="Gold’a Öneri"
-                onOpen={() => setOpen("suggest")}
-              />
-              <ProfilimCompactTile
-                eyebrow="KAYITLI"
-                title="Favorilerim"
-                onOpen={() => setOpen("favorites")}
-              />
-              <ProfilimCompactTile
-                eyebrow="ÇALIŞMALAR"
-                title="Satın Aldıklarım"
-                onOpen={() => setOpen("purchases")}
-              />
-              <ProfilimCompactTile
-                eyebrow="ANALİZ"
-                title="PDF Analizlerim"
-                onOpen={() => setOpen("pdfs")}
-              />
-              <ProfilimCompactTile
-                eyebrow="SEANSLAR"
-                title="Randevularım"
-                onOpen={() => setOpen("appointments")}
-              />
-              <ProfilimCompactTile
-                eyebrow="ARŞİV"
-                title="Kütüphanem"
-                onOpen={() => setOpen("library")}
-              />
-              <ProfilimCompactTile
-                eyebrow="YAZI"
-                title="Kişisel Günlüğüm"
-                onOpen={() => setOpen("journal")}
-              />
-              <ProfilimCompactTile
-                eyebrow="MEKTUP"
-                title="Kendime Mektup"
-                onOpen={() => setOpen("letter")}
-              />
-              <ProfilimCompactTile
-                eyebrow="YOLCULUK"
-                title="Gelişim Yolculuğum"
-                onOpen={() => setOpen("journey")}
-              />
-            </div>
+            <ProfilimTileRails onOpenTile={(id) => setOpen(id)} />
           </>
         ) : (
           <ProfilimGate />
