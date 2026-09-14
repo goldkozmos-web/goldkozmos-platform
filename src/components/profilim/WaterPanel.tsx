@@ -39,16 +39,16 @@ export default function WaterPanel({ userId }: { userId: string }) {
   return (
     <div className="profilimWaterDesk">
       <div className="profilimWaterStage">
-        <WaterGlassArt
-          glasses={glasses}
-          goal={WATER_GOAL}
-          className="isStage"
-        />
         <p className="profilimWaterCount">
           <strong>{glasses}</strong>
           <span>/ {WATER_GOAL}</span>
         </p>
         <p className="profilimWaterHint">{fillLabel}</p>
+        <WaterGlassArt
+          glasses={glasses}
+          goal={WATER_GOAL}
+          className="isStage"
+        />
       </div>
 
       <div className="profilimWaterActions">
