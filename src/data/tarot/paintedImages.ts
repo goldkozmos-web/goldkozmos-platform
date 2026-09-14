@@ -4,6 +4,7 @@ export const TAROT_PAINTED_SLUGS = new Set([
   "kilic-beslisi",
   "kilic-dokuzlusu",
   "kilic-dortlusu",
+  "kilic-ikilisi",
   "kilic-krali",
   "kilic-kralicesi",
   "kilic-onlusu",
@@ -15,9 +16,15 @@ export const TAROT_PAINTED_SLUGS = new Set([
   "tilsim-altilisi",
   "tilsim-asi",
   "tilsim-beslisi",
+  "tilsim-dokuzlusu",
   "tilsim-dortlusu",
   "tilsim-ikilisi",
+  "tilsim-krali",
+  "tilsim-kralicesi",
+  "tilsim-onlusu",
+  "tilsim-prensi",
   "tilsim-sekizlisi",
+  "tilsim-sovalyesi",
   "tilsim-uclusu",
   "tilsim-yedilisi"
 ]);
