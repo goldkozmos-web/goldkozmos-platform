@@ -263,24 +263,58 @@
 }
 
 .profilimTileBandTop {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
   gap: 12px;
-  padding: 0 2px 8px;
+  width: 100%;
+  padding: 0 2px 10px;
+}
+
+.profilimTileBandLabel {
+  margin: 0;
+  color: #a8792a;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
 }
 
 .profilimTileSeeAll {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: #98732f;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  align-items: center;
+  gap: 6px;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  color: #98732f !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
   cursor: pointer;
-  appearance: none;
+  appearance: none !important;
+}
+
+.profilimTileSeeAll span {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.profilimTileSeeAllCard {
+  display: grid;
+  align-content: center;
+  background:
+    linear-gradient(180deg, #fff8ec 0%, #f3e6ce 100%) !important;
 }
 
 .profilimTileRail {
