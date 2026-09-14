@@ -495,6 +495,8 @@
 }
 
 .profilimWaterColumn {
+  transform-box: view-box;
+  transform-origin: 36px 108px;
   transform: translateY(var(--pw-drop, 62px));
   transition: transform 0.9s cubic-bezier(0.18, 0.82, 0.22, 1);
 }
@@ -503,68 +505,8 @@
   opacity: 0;
 }
 
-.profilimWaterSurfA {
-  animation: profilimWaterSurf 2.35s linear infinite;
-}
-
-.profilimWaterSurfB {
-  animation: profilimWaterSurfAlt 3.55s linear infinite;
-}
-
-.profilimWaterSurfWrap {
-  transform-origin: 36px 31px;
-}
-
-.profilimWaterGlass.isSplashing .profilimWaterSurfWrap {
-  animation: profilimWaterRipple 0.72s cubic-bezier(0.2, 0.7, 0.25, 1);
-}
-
 .profilimWaterGlass.isSplashing .profilimWaterColumn {
   animation: profilimWaterSettle 0.9s cubic-bezier(0.18, 0.82, 0.22, 1);
-}
-
-.profilimWaterCausticBand {
-  animation: profilimWaterCaustic 5.5s linear infinite;
-}
-
-.profilimWaterSheen {
-  animation: profilimWaterSheen 4.2s ease-in-out infinite;
-}
-
-.profilimWaterMeniscus {
-  opacity: 0.85;
-}
-
-.profilimWaterBubble {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: profilimWaterBubble 4.6s ease-in infinite;
-}
-
-.profilimWaterBubble.b2 {
-  animation-duration: 5.8s;
-  animation-delay: 0.7s;
-}
-
-.profilimWaterBubble.b3 {
-  animation-duration: 3.9s;
-  animation-delay: 1.4s;
-}
-
-.profilimWaterBubble.b4 {
-  animation-duration: 6.4s;
-  animation-delay: 0.25s;
-}
-
-.profilimWaterBubble.b5 {
-  animation-duration: 4.1s;
-  animation-delay: 2.1s;
-}
-
-.profilimWaterRippleRing {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: profilimWaterRing 0.7s ease-out forwards;
 }
 
 .profilimWaterBead {
@@ -584,42 +526,6 @@
   }
 }
 
-@keyframes profilimWaterSurf {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-36px);
-  }
-}
-
-@keyframes profilimWaterSurfAlt {
-  from {
-    transform: translateX(-18px);
-  }
-  to {
-    transform: translateX(-54px);
-  }
-}
-
-@keyframes profilimWaterRipple {
-  0% {
-    transform: scaleY(2.15);
-  }
-  28% {
-    transform: scaleY(0.72);
-  }
-  55% {
-    transform: scaleY(1.38);
-  }
-  78% {
-    transform: scaleY(0.92);
-  }
-  100% {
-    transform: scaleY(1);
-  }
-}
-
 @keyframes profilimWaterSettle {
   0% {
     transform: translateY(calc(var(--pw-drop, 62px) + 7px));
@@ -629,59 +535,6 @@
   }
   100% {
     transform: translateY(var(--pw-drop, 62px));
-  }
-}
-
-@keyframes profilimWaterCaustic {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-28px);
-  }
-}
-
-@keyframes profilimWaterSheen {
-  0%,
-  100% {
-    transform: translate(0, 0);
-    opacity: 0.22;
-  }
-  50% {
-    transform: translate(4px, 2px);
-    opacity: 0.4;
-  }
-}
-
-@keyframes profilimWaterBubble {
-  0% {
-    transform: translate(0, 8px) scale(0.55);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.75;
-  }
-  40% {
-    transform: translate(2.2px, -18px) scale(1);
-  }
-  70% {
-    transform: translate(-1.6px, -36px) scale(0.92);
-    opacity: 0.55;
-  }
-  100% {
-    transform: translate(0.8px, -52px) scale(0.35);
-    opacity: 0;
-  }
-}
-
-@keyframes profilimWaterRing {
-  0% {
-    transform: scale(0.4);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1.55);
-    opacity: 0;
   }
 }
 
@@ -840,6 +693,22 @@
   border-color: rgba(61, 158, 201, 0.55);
   background: linear-gradient(180deg, #9fe4f2, #3d9ec9);
   color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profilimWaterSurfA,
+  .profilimWaterSurfB,
+  .profilimWaterBubble,
+  .profilimWaterSheen,
+  .profilimWaterBead,
+  .profilimWaterCausticBand,
+  .profilimWaterAura {
+    animation: none;
+  }
+
+  .profilimWaterColumn {
+    transition: none;
+  }
 }
 
 .profilimTile {

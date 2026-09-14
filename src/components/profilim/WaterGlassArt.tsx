@@ -2,6 +2,36 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 
+function waveFill(
+  phase: number,
+  amp: number,
+  y: number,
+  freq: number,
+  speed: number,
+) {
+  const points: string[] = [];
+  for (let x = -48; x <= 120; x += 3) {
+    const yy =
+      y +
+      Math.sin(x * freq + phase * speed) * amp +
+      Math.sin(x * freq * 0.53 + phase * (speed * 0.62) + 1.1) * amp * 0.42;
+    points.push(`${x === -48 ? "M" : "L"}${x.toFixed(1)} ${yy.toFixed(2)}`);
+  }
+  return `${points.join(" ")} V 112 H -48 Z`;
+}
+
+function waveCrest(phase: number, amp: number, y: number, freq: number, speed: number) {
+  const points: string[] = [];
+  for (let x = 17; x <= 55; x += 2) {
+    const yy =
+      y +
+      Math.sin(x * freq + phase * speed) * amp +
+      Math.sin(x * freq * 0.53 + phase * (speed * 0.62) + 1.1) * amp * 0.42;
+    points.push(`${x === 17 ? "M" : "L"}${x.toFixed(1)} ${yy.toFixed(2)}`);
+  }
+  return points.join(" ");
+}
+
 export default function WaterGlassArt({
   glasses,
   goal,
@@ -17,6 +47,8 @@ export default function WaterGlassArt({
   const full = fill >= 0.995;
   const prev = useRef<number | null>(null);
   const [splashing, setSplashing] = useState(false);
+  const [clock, setClock] = useState({ t: 0, ms: 0 });
+  const splashUntil = useRef(0);
 
   useEffect(() => {
     if (prev.current === null) {
@@ -25,7 +57,8 @@ export default function WaterGlassArt({
     }
     if (glasses > prev.current) {
       setSplashing(true);
-      const timer = window.setTimeout(() => setSplashing(false), 780);
+      splashUntil.current = performance.now() + 820;
+      const timer = window.setTimeout(() => setSplashing(false), 820);
       prev.current = glasses;
       return () => window.clearTimeout(timer);
     }
@@ -33,13 +66,27 @@ export default function WaterGlassArt({
     return undefined;
   }, [glasses]);
 
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return undefined;
+    let frame = 0;
+    const tick = (now: number) => {
+      setClock({ t: now / 1000, ms: now });
+      frame = window.requestAnimationFrame(tick);
+    };
+    frame = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  const phase = clock.t;
+  const splashBoost = Math.max(0, (splashUntil.current - clock.ms) / 820);
+  const amp = 2.15 + splashBoost * 4.8;
+  const surfaceY = 30;
   const drop = (1 - fill) * 62;
   const body = `pwGlassBody-${uid}`;
   const water = `pwWater-${uid}`;
   const rim = `pwGoldRim-${uid}`;
   const clip = `pwWaterClip-${uid}`;
-  const caustic = `pwCaustic-${uid}`;
-  const foam = `pwFoam-${uid}`;
 
   return (
     <span
@@ -55,29 +102,16 @@ export default function WaterGlassArt({
             <stop offset="100%" stopColor="#9ec4d6" stopOpacity="0.16" />
           </linearGradient>
           <linearGradient id={water} x1="36" y1="24" x2="36" y2="100">
-            <stop offset="0%" stopColor="#b9eef8" />
-            <stop offset="18%" stopColor="#5ec6e4" />
-            <stop offset="55%" stopColor="#1f90b8" />
-            <stop offset="100%" stopColor="#0b5874" />
+            <stop offset="0%" stopColor="#c5f3fb" />
+            <stop offset="16%" stopColor="#5ec8e6" />
+            <stop offset="52%" stopColor="#1c88b0" />
+            <stop offset="100%" stopColor="#0a4e68" />
           </linearGradient>
           <linearGradient id={rim} x1="10" y1="10" x2="62" y2="18">
             <stop offset="0%" stopColor="#f6e7c2" />
             <stop offset="50%" stopColor="#d4a24a" />
             <stop offset="100%" stopColor="#8d6420" />
           </linearGradient>
-          <linearGradient id={foam} x1="36" y1="24" x2="36" y2="44">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-          </linearGradient>
-          <pattern id={caustic} patternUnits="userSpaceOnUse" width="28" height="18">
-            <path
-              className="profilimWaterCausticBand"
-              d="M0 10 C 7 4, 14 16, 21 10 S 35 4, 42 10"
-              stroke="rgba(255,255,255,0.28)"
-              strokeWidth="1.4"
-              fill="none"
-            />
-          </pattern>
           <clipPath id={clip}>
             <path d="M19.2 19.5h33.6l-5.15 73.4c-.42 5.4-4.85 9.6-10.28 9.6h-2.74c-5.43 0-9.86-4.2-10.28-9.6L19.2 19.5Z" />
           </clipPath>
@@ -91,7 +125,6 @@ export default function WaterGlassArt({
           stroke={`url(#${rim})`}
           strokeWidth="1.65"
         />
-
         <ellipse
           cx="36"
           cy="16.4"
@@ -104,63 +137,86 @@ export default function WaterGlassArt({
 
         <g clipPath={`url(#${clip})`}>
           <g className="profilimWaterColumn">
-            <rect x="10" y="26" width="52" height="82" fill={`url(#${water})`} />
-            <rect x="10" y="26" width="52" height="82" fill={`url(#${caustic})`} opacity="0.55" />
-            <rect x="10" y="26" width="52" height="18" fill={`url(#${foam})`} />
-
-            <g className="profilimWaterSurfWrap">
-              <g className="profilimWaterSurf profilimWaterSurfA">
-                <path
-                  d="M-36 30 C -24 24, -12 36, 0 30 S 24 24, 36 30 S 60 36, 72 30 S 96 24, 108 30 V 108 H -36 Z"
-                  fill="rgba(210,246,255,0.38)"
-                />
-              </g>
-              <g className="profilimWaterSurf profilimWaterSurfB">
-                <path
-                  d="M-36 32 C -27 38, -15 26, -3 32 S 21 38, 33 32 S 57 26, 69 32 S 93 38, 105 32 V 108 H -36 Z"
-                  fill="rgba(255,255,255,0.16)"
-                />
-              </g>
-            </g>
-
-            <path
-              className="profilimWaterMeniscus"
-              d="M18.8 31.2 C 24 27.4, 48 27.4, 53.2 31.2"
-              stroke="rgba(255,255,255,0.7)"
-              strokeWidth="1.15"
-              strokeLinecap="round"
-            />
-
-            <ellipse
-              className="profilimWaterSheen"
-              cx="27"
-              cy="42"
-              rx="8.5"
-              ry="3.2"
-              fill="rgba(255,255,255,0.28)"
-            />
-
             {!empty ? (
               <>
-                <ellipse className="profilimWaterBubble b1" cx="41" cy="78" rx="1.7" ry="1.9" fill="rgba(255,255,255,0.62)" />
-                <ellipse className="profilimWaterBubble b2" cx="30" cy="86" rx="1.15" ry="1.3" fill="rgba(255,255,255,0.5)" />
-                <ellipse className="profilimWaterBubble b3" cx="38" cy="70" rx="0.9" ry="1.05" fill="rgba(255,255,255,0.55)" />
-                <ellipse className="profilimWaterBubble b4" cx="44" cy="90" rx="1.35" ry="1.5" fill="rgba(255,255,255,0.45)" />
-                <ellipse className="profilimWaterBubble b5" cx="33" cy="74" rx="0.8" ry="0.9" fill="rgba(255,255,255,0.5)" />
-              </>
-            ) : null}
+                <path
+                  d={waveFill(phase, amp, surfaceY, 0.21, 2.35)}
+                  fill={`url(#${water})`}
+                />
+                <path
+                  d={waveFill(phase + 0.9, amp * 0.7, surfaceY + 1.4, 0.27, -1.7)}
+                  fill="rgba(255,255,255,0.22)"
+                />
+                <path
+                  d={waveCrest(phase, amp, surfaceY, 0.21, 2.35)}
+                  stroke="rgba(255,255,255,0.82)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d={waveCrest(phase + 0.35, amp * 0.55, surfaceY + 1.1, 0.27, -1.7)}
+                  stroke="rgba(12,70,95,0.28)"
+                  strokeWidth="0.8"
+                  strokeLinecap="round"
+                />
 
-            {splashing ? (
-              <ellipse
-                className="profilimWaterRippleRing"
-                cx="36"
-                cy="32"
-                rx="11"
-                ry="3.4"
-                stroke="rgba(255,255,255,0.55)"
-                strokeWidth="0.9"
-                fill="none"
-              />
+                <ellipse
+                  className="profilimWaterSheen"
+                  cx="27.5"
+                  cy={surfaceY + 12 + Math.sin(phase * 1.4) * 1.6}
+                  rx="8.2"
+                  ry="3"
+                  fill="rgba(255,255,255,0.3)"
+                />
+
+                <ellipse
+                  className="profilimWaterBubble"
+                  cx={41 + Math.sin(phase * 3.1) * 1.8}
+                  cy={86 - ((phase * 22) % 48)}
+                  rx="1.6"
+                  ry="1.85"
+                  fill="rgba(255,255,255,0.62)"
+                  opacity={0.25 + 0.5 * Math.abs(Math.sin(phase * 1.7))}
+                />
+                <ellipse
+                  className="profilimWaterBubble"
+                  cx={31 + Math.cos(phase * 2.4) * 1.4}
+                  cy={92 - ((phase * 17 + 12) % 52)}
+                  rx="1.1"
+                  ry="1.25"
+                  fill="rgba(255,255,255,0.5)"
+                />
+                <ellipse
+                  className="profilimWaterBubble"
+                  cx={38 + Math.sin(phase * 2.8 + 1) * 1.2}
+                  cy={80 - ((phase * 26 + 7) % 44)}
+                  rx="0.85"
+                  ry="1"
+                  fill="rgba(255,255,255,0.55)"
+                />
+                <ellipse
+                  className="profilimWaterBubble"
+                  cx={44 + Math.cos(phase * 1.9) * 1.1}
+                  cy={98 - ((phase * 14 + 20) % 50)}
+                  rx="1.3"
+                  ry="1.45"
+                  fill="rgba(255,255,255,0.42)"
+                />
+
+                {splashing ? (
+                  <ellipse
+                    cx="36"
+                    cy={surfaceY}
+                    rx={9 + splashBoost * 8}
+                    ry={2.4 + splashBoost * 2.2}
+                    stroke="rgba(255,255,255,0.55)"
+                    strokeWidth="0.9"
+                    fill="none"
+                    opacity={splashBoost}
+                  />
+                ) : null}
+              </>
             ) : null}
           </g>
         </g>
