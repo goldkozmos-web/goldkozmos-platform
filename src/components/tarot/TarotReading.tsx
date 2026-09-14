@@ -97,7 +97,12 @@ export default function TarotReading() {
 
           <div className="tarotSynthesis">
             <h2>Bu Açılım Sana Ne Söylüyor?</h2>
-            <p>{spreadSynthesis(cards, topicMeta.id)}</p>
+            {spreadSynthesis(cards, topicMeta.id)
+              .split(/\n\n+/)
+              .filter(Boolean)
+              .map((paragraph) => (
+                <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+              ))}
           </div>
 
           <div className="tarotActions">

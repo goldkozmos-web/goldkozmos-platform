@@ -250,9 +250,14 @@
 .tarotArticle p,
 .tarotSeo p,
 .tarotSynthesis p {
+  margin: 0;
   color: #3a322b;
   font-size: 17px;
   line-height: 1.75;
+}
+
+.tarotSynthesis p + p {
+  margin-top: 16px;
 }
 
 .tarotRelated {
