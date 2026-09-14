@@ -4,14 +4,14 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import { searchDreams } from "../../data/ruya-tabirleri/catalog";
-import { ruyaPath } from "../../lib/ruya-tabirleri/urls";
 
 const PLACEHOLDERS = [
   "Yılan gördüm",
-  "Deniz görmek",
-  "Eski sevgilimi gördüm",
-  "Dişim döküldü",
-  "Beyaz kedi gördüm",
+  "Kırmızı elbise",
+  "Asker görmek",
+  "Siyah kedi",
+  "Denizde yüzmek",
+  "Eski sevgiliyle konuşmak",
 ];
 
 export default function RuyaSearch({
@@ -65,24 +65,34 @@ export default function RuyaSearch({
           }
           if (event.key === "Enter") {
             const hit = results[active];
-            if (hit) {
+            if (hit?.href) {
               event.preventDefault();
-              window.location.assign(ruyaPath(hit.slug));
+              window.location.assign(hit.href);
             }
           }
         }}
       />
       {open && searched && results.length > 0 ? (
         <ul className="ruyaSuggest">
-          {results.map((dream, index) => (
-            <li key={dream.slug}>
-              <Link
-                className={index === active ? "isOn" : undefined}
-                href={ruyaPath(dream.slug)}
-                onMouseEnter={() => setActive(index)}
-              >
-                {dream.title}
-              </Link>
+          {results.map((hit, index) => (
+            <li key={`${hit.slug}-${hit.title}`}>
+              {hit.href ? (
+                <Link
+                  className={index === active ? "isOn" : undefined}
+                  href={hit.href}
+                  onMouseEnter={() => setActive(index)}
+                >
+                  {hit.title}
+                </Link>
+              ) : (
+                <span
+                  className={`ruyaQueued${index === active ? " isOn" : ""}`}
+                  onMouseEnter={() => setActive(index)}
+                >
+                  {hit.title}
+                  <small>Yorum yakında</small>
+                </span>
+              )}
             </li>
           ))}
         </ul>
