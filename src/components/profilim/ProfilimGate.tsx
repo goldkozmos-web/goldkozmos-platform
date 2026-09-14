@@ -4,7 +4,7 @@ import ProfilimSignIn from "./ProfilimSignIn";
 
 export default function ProfilimGate() {
   return (
-    <section className="profilimGate">
+    <section className="profilimGate profilimGate--entry">
       <p className="profilimGateEyebrow">GOLDKOZMOS · PROFİLİM</p>
       <h1>
         Kendi
