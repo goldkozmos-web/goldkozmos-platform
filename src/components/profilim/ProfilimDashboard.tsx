@@ -323,17 +323,6 @@ export default function ProfilimDashboard({
             ) : null}
 
             <div className="profilimFeaturedStack">
-              {isSiteAdminEmail(user?.email) ? (
-                <ProfilimFeaturedCard
-                  className="profilimAdminFeatured"
-                  eyebrow="YÖNETİM"
-                  title="Yönetim"
-                  href="/admin"
-                >
-                  Bugünün ziyareti, üyeler ve mesajlar
-                </ProfilimFeaturedCard>
-              ) : null}
-
               <ProfilimFeaturedCard
                 eyebrow="BUGÜN"
                 title="Bugün Neye İhtiyacın Var?"
