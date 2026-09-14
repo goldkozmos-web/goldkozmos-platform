@@ -896,6 +896,22 @@
   cursor: pointer;
 }
 
+.profilimTodoNotify {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b4e1f;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.profilimTodoNotify input {
+  width: 16px;
+  height: 16px;
+  accent-color: #b8893a;
+}
+
 .profilimTodoDetails,
 .profilimTodoWhen {
   display: grid;

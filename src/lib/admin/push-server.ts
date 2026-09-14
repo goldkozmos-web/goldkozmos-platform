@@ -104,3 +104,47 @@ export async function notifyPresencePush(input: {
     body: input.path || "/",
   });
 }
+
+export async function sendMemberPush(
+  userId: string,
+  alert: { title: string; body: string; url?: string },
+) {
+  const admin = createSupabaseServiceClient();
+  if (!admin || !userId) {
+    return { sent: 0 };
+  }
+
+  const { data } = await admin
+    .from("push_subscriptions")
+    .select("id, endpoint, p256dh, auth_secret")
+    .eq("user_id", userId)
+    .limit(12);
+
+  const payload = JSON.stringify({
+    title: alert.title,
+    body: alert.body,
+    url: alert.url || "/profilim",
+  });
+
+  let sent = 0;
+  for (const row of data ?? []) {
+    const endpoint = String(row.endpoint ?? "");
+    const p256dh = String(row.p256dh ?? "");
+    const auth = String(row.auth_secret ?? "");
+    if (!endpoint.startsWith("https://") || !p256dh || !auth) continue;
+    try {
+      await webpush.sendNotification(
+        { endpoint, keys: { p256dh, auth } },
+        payload,
+      );
+      sent += 1;
+    } catch {
+      const id = String(row.id ?? "");
+      if (id) {
+        await admin.from("push_subscriptions").delete().eq("id", id);
+      }
+    }
+  }
+
+  return { sent };
+}

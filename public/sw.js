@@ -1,5 +1,5 @@
 self.addEventListener("push", (event) => {
-  let payload = { title: "GoldKozmos", body: "Yeni hareket var.", url: "/admin" };
+  let payload = { title: "GoldKozmos", body: "Yeni hareket var.", url: "/profilim" };
   try {
     payload = { ...payload, ...event.data.json() };
   } catch {
@@ -17,18 +17,18 @@ self.addEventListener("push", (event) => {
       icon: "/icon.png",
       badge: "/icon.png",
       vibrate: [160, 80, 160],
-      data: { url: payload.url || "/admin" },
+      data: { url: payload.url || "/profilim" },
     }),
   );
 });
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const target = (event.notification.data && event.notification.data.url) || "/admin";
+  const target = (event.notification.data && event.notification.data.url) || "/profilim";
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
       for (const client of windows) {
-        if (String(client.url || "").includes("/admin") && "focus" in client) {
+        if ("focus" in client) {
           return client.focus();
         }
       }
