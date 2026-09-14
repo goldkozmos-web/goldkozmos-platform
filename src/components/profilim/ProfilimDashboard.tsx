@@ -128,6 +128,20 @@ export default function ProfilimDashboard({
   const [letters, setLetters] = useState(data.letters);
 
   useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      const preview = new URLSearchParams(window.location.search).get("design");
+      if (preview === "1") {
+        setUser({
+          id: "design-preview",
+          displayName: "Gold",
+          email: "design@local",
+          avatarUrl: null,
+        });
+        setChecking(false);
+        return;
+      }
+    }
+
     const supabase = createSupabaseBrowserClient();
 
     if (!supabase) {
