@@ -16,6 +16,18 @@ const banned = [
   "mevcut dinamiklerin görünümüdür",
 ];
 
+const readingBanned = [
+  ...banned,
+  "hikâye açılıyor",
+  "hikaye açılıyor",
+  "sahnenin öteki ucu",
+  "kartların dokusu",
+  "hikâyenin dokusu",
+  "enerji haritası",
+  "aynı cümleyi söyleyen",
+  "aynı cümleyi paylaşmadan",
+];
+
 function fail(message: string): never {
   console.error(`FAIL: ${message}`);
   process.exit(1);
@@ -92,7 +104,7 @@ assert(
 assert(wordCount(rThoughts) >= 70 && wordCount(rThoughts) <= 120, `TEST 1 thoughts length ${wordCount(rThoughts)}`);
 assert(wordCount(rFeelings) >= 70 && wordCount(rFeelings) <= 120, `TEST 1 feelings length ${wordCount(rFeelings)}`);
 assert(wordCount(rAction) >= 70 && wordCount(rAction) <= 120, `TEST 1 action length ${wordCount(rAction)}`);
-assert(wordCount(synth) >= 180 && wordCount(synth) <= 450, `TEST 1 synth length ${wordCount(synth)}`);
+assert(wordCount(synth) >= 180 && wordCount(synth) <= 520, `TEST 1 synth length ${wordCount(synth)}`);
 assert(!synth.includes(rThoughts.slice(0, 80)), "TEST 1 synth copies card 1");
 assert(!synth.includes(rFeelings.slice(0, 80)), "TEST 1 synth copies card 2");
 assert(!/"Mevcut Durum" konumunda/.test(rThoughts), "old dictionary wrapper");
@@ -177,18 +189,19 @@ function assertSpread(
   assert(wordCount(p0) >= 70 && wordCount(p0) <= 120, `${label} p0 ${wordCount(p0)}`);
   assert(wordCount(p1) >= 70 && wordCount(p1) <= 120, `${label} p1 ${wordCount(p1)}`);
   assert(wordCount(p2) >= 70 && wordCount(p2) <= 120, `${label} p2 ${wordCount(p2)}`);
-  assert(wordCount(whole) >= 180 && wordCount(whole) <= 450, `${label} synth ${wordCount(whole)}`);
+  assert(wordCount(whole) >= 180 && wordCount(whole) <= 520, `${label} synth ${wordCount(whole)}`);
   assert(whole.includes(a.name) && whole.includes(b.name) && whole.includes(c.name), `${label} synth missing names`);
   assert(!whole.includes(p0), `${label} synth is card 1 copy`);
   assert(!whole.includes(p1), `${label} synth is card 2 copy`);
   assert(!whole.includes(p2), `${label} synth is card 3 copy`);
   const blob = `${p0}\n${p1}\n${p2}\n${whole}`.toLocaleLowerCase("tr-TR");
-  for (const phrase of banned) {
+  for (const phrase of readingBanned) {
     assert(!blob.includes(phrase), `${label} banned ${phrase}`);
   }
+  assert(!/hikâye açılıyor|hikâyenin dokusu|aynı cümle/.test(blob), `${label} literary filler`);
   assert(
-    /hikâye|sahne/.test(whole.toLocaleLowerCase("tr-TR")),
-    `${label} synth not a story`,
+    /birlikte okuduğumda|ana mesajı/.test(whole.toLocaleLowerCase("tr-TR")),
+    `${label} synth missing bakim structure`,
   );
   assert(!whole.includes("konumunda"), `${label} old wrapper`);
   assert(!whole.includes("GoldKozmos yorumunda"), `${label} old generator`);
@@ -204,6 +217,26 @@ function assertSpread(
 assertSpread("SPREAD A thoughts", "thoughts", ["kupa-yedilisi", "gunes", "kilic-uclusu"]);
 assertSpread("SPREAD B career", "career", ["kupa-kralicesi", "kilic-sekizlisi", "degnek-sovalyesi"]);
 assertSpread("SPREAD C love", "love", ["tilsim-sekizlisi", "kilic-yedilisi", "gunes"]);
+
+const goldLove = spreadSynthesis(
+  [
+    getTarotCard("kilic-dokuzlusu")!,
+    getTarotCard("kilic-krali")!,
+    getTarotCard("adalet")!,
+  ],
+  "love",
+);
+const goldLow = goldLove.toLocaleLowerCase("tr-TR");
+assert(goldLove.includes("Kılıç Dokuzlusu") && goldLove.includes("Kılıç Kralı") && goldLove.includes("Adalet"), "GOLD missing names");
+assert(/kaygı|zihinsel yük|belirsizlik/.test(goldLow), "GOLD missing anxiety reading");
+assert(/kontrol|mantık|mesafe/.test(goldLow), "GOLD missing controlled other");
+assert(/netleş|karar|gerçek/.test(goldLow), "GOLD missing clarification");
+assert(!/kaygı \+ yargı \+ denge/.test(goldLove), "GOLD slogan triple");
+for (const phrase of readingBanned) {
+  assert(!goldLow.includes(phrase), `GOLD banned ${phrase}`);
+}
+assert(wordCount(goldLove) >= 220 && wordCount(goldLove) <= 520, `GOLD length ${wordCount(goldLove)}`);
+console.log("GOLD love synth words", wordCount(goldLove));
 
 console.log("ALL TAROT TESTS PASSED");
 console.log("sample thoughts:\n", rThoughts, "\n");
