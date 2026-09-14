@@ -122,36 +122,19 @@
 }
 
 .tarotCardFace {
-  display: grid;
-  gap: 8px;
-  padding: 10px 8px 12px;
+  padding: 10px 8px;
   border: 1px solid rgba(176, 130, 48, 0.2);
   border-radius: 18px;
   background: #fffaf1;
-  text-align: center;
   animation: tarotReveal 0.55s ease;
 }
 
 .tarotCardFace img {
+  display: block;
   width: 100%;
-  max-width: none;
-  margin: 0 auto;
-  border-radius: 14px;
-}
-
-.tarotCardFace h3 {
+  height: auto;
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(13px, 3.2vw, 20px);
-  font-weight: 400;
-}
-
-.tarotCardFace small {
-  color: #a8792a;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  border-radius: 14px;
 }
 
 @keyframes tarotReveal {
