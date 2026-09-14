@@ -500,12 +500,6 @@
   line-height: 1;
 }
 
-.profilimTileSeeAllCard {
-  display: grid;
-  align-content: center;
-  background: #fff !important;
-}
-
 .profilimTileRailWrap {
   box-sizing: border-box;
   display: flex;
