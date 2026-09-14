@@ -8,6 +8,7 @@ import {
   markAllNotificationsRead,
   markNotificationRead,
 } from "../../lib/daily/client";
+import ProfilimDrawer from "../profilim/ProfilimDrawer";
 import "../../styles/daily-practice.css";
 
 function formatWhen(value: string) {
@@ -48,7 +49,10 @@ export default function NotificationBell() {
         type="button"
         className="profilimBell"
         aria-label="Bildirimler"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setOpen(true);
+          void reload();
+        }}
       >
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path
@@ -60,69 +64,48 @@ export default function NotificationBell() {
       </button>
 
       {open ? (
-        <div className="profilimDrawerBackdrop" onClick={() => setOpen(false)}>
-          <div
-            className="profilimDrawer"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="notificationCenterTitle"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="profilimDrawerHandle" aria-hidden="true" />
-            <header className="profilimDrawerTop">
-              <div>
-                <p className="profilimDrawerEyebrow">BİLDİRİM</p>
-                <h2 id="notificationCenterTitle">Bildirim Merkezi</h2>
-              </div>
-              <button
-                type="button"
-                className="profilimDrawerClose"
-                onClick={() => setOpen(false)}
-                aria-label="Kapat"
-              >
-                ×
-              </button>
-            </header>
-            <div className="profilimDrawerScroll">
-              {unread > 0 ? (
-                <button
-                  type="button"
-                  className="dailyInlineAction"
-                  onClick={() => {
-                    void markAllNotificationsRead().then(() => reload());
-                  }}
-                >
-                  Tümünü okundu işaretle
-                </button>
-              ) : null}
-              {items.length === 0 ? (
-                <p className="profilimDrawerNote">Henüz bildirimin yok.</p>
-              ) : (
-                <ul className="profilimDrawerList">
-                  {items.map((item) => (
-                    <li key={item.id}>
-                      <button
-                        type="button"
-                        className="profilimInboxItem"
-                        onClick={() => {
-                          void markNotificationRead(item.id).then(() => reload());
-                          if (item.link) {
-                            window.location.assign(item.link);
-                          }
-                        }}
-                      >
-                        <span>{item.isRead ? "Okundu" : "Yeni"}</span>
-                        <strong>{item.title}</strong>
-                        <small>{formatWhen(item.createdAt)}</small>
-                        <p>{item.body}</p>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
+        <ProfilimDrawer
+          eyebrow="BİLDİRİM"
+          title="Bildirim Merkezi"
+          onClose={() => setOpen(false)}
+        >
+          {unread > 0 ? (
+            <button
+              type="button"
+              className="dailyInlineAction"
+              onClick={() => {
+                void markAllNotificationsRead().then(() => reload());
+              }}
+            >
+              Tümünü okundu işaretle
+            </button>
+          ) : null}
+          {items.length === 0 ? (
+            <p className="profilimDrawerNote">Henüz bildirimin yok.</p>
+          ) : (
+            <ul className="profilimDrawerList">
+              {items.map((item) => (
+                <li key={item.id}>
+                  <button
+                    type="button"
+                    className="profilimInboxItem"
+                    onClick={() => {
+                      void markNotificationRead(item.id).then(() => reload());
+                      if (item.link) {
+                        window.location.assign(item.link);
+                      }
+                    }}
+                  >
+                    <span>{item.isRead ? "Okundu" : "Yeni"}</span>
+                    <strong>{item.title}</strong>
+                    <small>{formatWhen(item.createdAt)}</small>
+                    <p>{item.body}</p>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </ProfilimDrawer>
       ) : null}
     </>
   );
