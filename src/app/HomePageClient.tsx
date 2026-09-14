@@ -820,7 +820,7 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3Resonance {
-    padding-bottom: 0 !important;
+    padding-bottom: 16px !important;
   }
 
   .homeV3Page .homeV3Resonance .homeV3ResonanceGrid {
@@ -977,6 +977,10 @@ const homepageArchiveStyles = `
   @media (max-width: 700px) {
     .homeV3Page .homeV3ResonanceGrid {
       padding-bottom: 0 !important;
+    }
+
+    .homeV3Page .homeV3Resonance {
+      padding-bottom: 16px !important;
     }
 
     .homeV3Page .homeV3OtherSlider {
