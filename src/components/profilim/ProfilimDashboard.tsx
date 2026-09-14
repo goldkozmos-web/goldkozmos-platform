@@ -373,15 +373,15 @@ export default function ProfilimDashboard({
                 title="Yapılacaklarım"
                 onOpen={() => setOpen("todos")}
               />
+
+              <ProfilimFeaturedCard
+                eyebrow="İSTATİSTİK"
+                title="Kişisel İstatistikler"
+                onOpen={() => setOpen("stats")}
+              />
             </div>
 
             <DailyMessageCard />
-
-            <ProfilimFeaturedCard
-              eyebrow="İSTATİSTİK"
-              title="Kişisel İstatistikler"
-              onOpen={() => setOpen("stats")}
-            />
 
             <ProfilimTileRails onOpenTile={(id) => setOpen(id)} />
           </>
