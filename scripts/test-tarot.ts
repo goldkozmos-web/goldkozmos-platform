@@ -26,6 +26,9 @@ const readingBanned = [
   "enerji haritası",
   "aynı cümleyi söyleyen",
   "aynı cümleyi paylaşmadan",
+  "aynı sloganı",
+  "tek tek ezberlemek",
+  "tek cümlede desteklemiyor",
 ];
 
 function fail(message: string): never {
@@ -200,9 +203,10 @@ function assertSpread(
   }
   assert(!/hikâye açılıyor|hikâyenin dokusu|aynı cümle/.test(blob), `${label} literary filler`);
   assert(
-    /birlikte okuduğumda|ana mesajı/.test(whole.toLocaleLowerCase("tr-TR")),
-    `${label} synth missing bakim structure`,
+    /ana mesajı/.test(whole.toLocaleLowerCase("tr-TR")),
+    `${label} synth missing takeaway`,
   );
+  assert(!/aynı sloganı|tek tek ezberlemek|tek cümlede desteklemiyor/.test(whole.toLocaleLowerCase("tr-TR")), `${label} meta commentary`);
   assert(!whole.includes("konumunda"), `${label} old wrapper`);
   assert(!whole.includes("GoldKozmos yorumunda"), `${label} old generator`);
   console.log(label, {
@@ -237,6 +241,22 @@ for (const phrase of readingBanned) {
 }
 assert(wordCount(goldLove) >= 220 && wordCount(goldLove) <= 520, `GOLD length ${wordCount(goldLove)}`);
 console.log("GOLD love synth words", wordCount(goldLove));
+
+const craft = spreadSynthesis(
+  [
+    getTarotCard("tilsim-sekizlisi")!,
+    getTarotCard("kader-carki")!,
+    getTarotCard("ermis")!,
+  ],
+  "love",
+);
+const craftLow = craft.toLocaleLowerCase("tr-TR");
+assert(craft.includes("Tılsım Sekizlisi") && craft.includes("Kader Çarkı") && craft.includes("Ermiş"), "CRAFT missing names");
+assert(/emek|tekrar|ustalaş/.test(craftLow), "CRAFT missing labor");
+assert(/döngü|değişim|zaman/.test(craftLow), "CRAFT missing wheel");
+assert(/içe|yalnız|sade/.test(craftLow), "CRAFT missing hermit");
+assert(!/aynı sloganı|tek tek ezberlemek/.test(craftLow), "CRAFT meta");
+console.log("CRAFT love synth words", wordCount(craft));
 
 console.log("ALL TAROT TESTS PASSED");
 console.log("sample thoughts:\n", rThoughts, "\n");
