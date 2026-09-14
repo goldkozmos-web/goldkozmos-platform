@@ -4,7 +4,6 @@ import { sendMemberPush } from "@/lib/admin/push-server";
 import { createSupabaseServiceClient } from "@/lib/supabase/service";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
 
 function isCron(request: Request) {
   const secret = process.env.CRON_SECRET?.trim();

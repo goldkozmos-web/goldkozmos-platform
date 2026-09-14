@@ -26,8 +26,16 @@ export default function NotificationBell() {
 
   useEffect(() => {
     void reload();
+    void fetch("/api/profilim/push/due", {
+      method: "POST",
+      credentials: "same-origin",
+    }).catch(() => undefined);
     const timer = window.setInterval(() => {
       void reload();
+      void fetch("/api/profilim/push/due", {
+        method: "POST",
+        credentials: "same-origin",
+      }).catch(() => undefined);
     }, 60_000);
     return () => window.clearInterval(timer);
   }, [reload]);
