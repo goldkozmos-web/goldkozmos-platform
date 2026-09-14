@@ -10,11 +10,11 @@ function waveFill(
   speed: number,
 ) {
   const points: string[] = [];
-  for (let x = -48; x <= 120; x += 3) {
+  for (let x = -48; x <= 120; x += 2) {
     const yy =
       y +
       Math.sin(x * freq + phase * speed) * amp +
-      Math.sin(x * freq * 0.53 + phase * (speed * 0.62) + 1.1) * amp * 0.42;
+      Math.sin(x * (freq * 2.15) + phase * (speed * 1.55) + 0.8) * amp * 0.28;
     points.push(`${x === -48 ? "M" : "L"}${x.toFixed(1)} ${yy.toFixed(2)}`);
   }
   return `${points.join(" ")} V 112 H -48 Z`;
@@ -22,11 +22,11 @@ function waveFill(
 
 function waveCrest(phase: number, amp: number, y: number, freq: number, speed: number) {
   const points: string[] = [];
-  for (let x = 17; x <= 55; x += 2) {
+  for (let x = 17; x <= 55; x += 1.5) {
     const yy =
       y +
       Math.sin(x * freq + phase * speed) * amp +
-      Math.sin(x * freq * 0.53 + phase * (speed * 0.62) + 1.1) * amp * 0.42;
+      Math.sin(x * (freq * 2.15) + phase * (speed * 1.55) + 0.8) * amp * 0.28;
     points.push(`${x === 17 ? "M" : "L"}${x.toFixed(1)} ${yy.toFixed(2)}`);
   }
   return points.join(" ");
@@ -78,10 +78,11 @@ export default function WaterGlassArt({
     return () => window.cancelAnimationFrame(frame);
   }, []);
 
-  const phase = clock.t;
+  const large = className.includes("isStage");
   const splashBoost = Math.max(0, (splashUntil.current - clock.ms) / 820);
-  const amp = 2.15 + splashBoost * 4.8;
+  const amp = (large ? 4.6 : 2.8) + splashBoost * (large ? 5.5 : 3.2);
   const surfaceY = 30;
+  const slosh = large ? 0.125 : 0.15;
   const drop = (1 - fill) * 62;
   const body = `pwGlassBody-${uid}`;
   const water = `pwWater-${uid}`;
@@ -140,24 +141,24 @@ export default function WaterGlassArt({
             {!empty ? (
               <>
                 <path
-                  d={waveFill(phase, amp, surfaceY, 0.21, 2.35)}
+                  d={waveFill(phase, amp, surfaceY, slosh, 2.05)}
                   fill={`url(#${water})`}
                 />
                 <path
-                  d={waveFill(phase + 0.9, amp * 0.7, surfaceY + 1.4, 0.27, -1.7)}
-                  fill="rgba(255,255,255,0.22)"
+                  d={waveFill(phase + 1.15, amp * 0.55, surfaceY + 1.6, slosh * 1.35, -1.45)}
+                  fill="rgba(255,255,255,0.26)"
                 />
                 <path
-                  d={waveCrest(phase, amp, surfaceY, 0.21, 2.35)}
-                  stroke="rgba(255,255,255,0.82)"
-                  strokeWidth="1.2"
+                  d={waveCrest(phase, amp, surfaceY, slosh, 2.05)}
+                  stroke="rgba(255,255,255,0.88)"
+                  strokeWidth={large ? 1.45 : 1.15}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
                 <path
-                  d={waveCrest(phase + 0.35, amp * 0.55, surfaceY + 1.1, 0.27, -1.7)}
-                  stroke="rgba(12,70,95,0.28)"
-                  strokeWidth="0.8"
+                  d={waveCrest(phase + 0.4, amp * 0.5, surfaceY + 1.2, slosh * 1.35, -1.45)}
+                  stroke="rgba(12,70,95,0.32)"
+                  strokeWidth={large ? 1 : 0.75}
                   strokeLinecap="round"
                 />
 
