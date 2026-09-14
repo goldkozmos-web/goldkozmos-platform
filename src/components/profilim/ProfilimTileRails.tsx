@@ -36,27 +36,26 @@ export default function ProfilimTileRails({
             </button>
           </header>
           <div className="profilimTileRailWrap">
-            <div className="profilimTileRail">
-              {group.tiles.map((tile) => (
-                <ProfilimCompactTile
-                  key={tile.id}
-                  eyebrow={tile.eyebrow}
-                  title={tile.title}
-                  onOpen={() => onOpenTile(tile.id)}
-                />
-              ))}
-              <button
-                type="button"
-                className="profilimTile profilimTileSeeAllCard"
-                onClick={() => setSheetId(group.id)}
-              >
-                <span className="profilimTileEyebrow">DAHA FAZLA</span>
-                <strong className="profilimTileTitle">Tümünü gör</strong>
-                <span className="profilimTileChevron" aria-hidden="true">
-                  ›
-                </span>
-              </button>
-            </div>
+            {group.tiles.map((tile) => (
+              <ProfilimCompactTile
+                key={tile.id}
+                eyebrow={tile.eyebrow}
+                title={tile.title}
+                onOpen={() => onOpenTile(tile.id)}
+              />
+            ))}
+            <button
+              type="button"
+              className="profilimTile profilimTileSeeAllCard"
+              onClick={() => setSheetId(group.id)}
+            >
+              <span className="profilimTileEyebrow">DAHA FAZLA</span>
+              <strong className="profilimTileTitle">Tümünü gör</strong>
+              <span className="profilimTileChevron" aria-hidden="true">
+                ›
+              </span>
+            </button>
+            <span className="profilimTileRailEnd" aria-hidden="true" />
           </div>
         </section>
       ))}
