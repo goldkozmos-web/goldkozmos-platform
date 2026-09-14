@@ -43,6 +43,16 @@ export type TarotTopicId = (typeof TAROT_TOPICS)[number]["id"];
 
 export type TarotSuit = "major" | "cups" | "swords" | "wands" | "pentacles";
 
+export type TarotPolar = {
+  warmth: boolean;
+  wound: boolean;
+  motion: boolean;
+  pause: boolean;
+  confusion: boolean;
+  labor: boolean;
+  secrecy: boolean;
+};
+
 export type TarotCard = {
   id: string;
   slug: string;
@@ -50,10 +60,30 @@ export type TarotCard = {
   h1: string;
   seoTitle: string;
   metaDescription: string;
+  arcana: "major" | "minor";
   suit: TarotSuit;
+  number: string;
   rank: string;
   searchAliases: string[];
+  coreThemes: string[];
   brief: string;
+  generalMeaning: string;
+  spiritualMeaning: string;
+  loveMeaning: string;
+  relationshipMeaning: string;
+  thoughtsMeaning: string;
+  feelingsMeaning: string;
+  actionMeaning: string;
+  careerMeaning: string;
+  moneyMeaning: string;
+  futurePotential: string;
+  adviceMeaning: string;
+  shadowMeaning: string;
+  reversedMeaning: string;
+  symbols: string;
+  polar: TarotPolar;
+  related: string[];
+  /** @deprecated dictionary alias */
   general: string;
   spiritual: string;
   energy: string;
@@ -63,8 +93,6 @@ export type TarotCard = {
   future: string;
   advice: string;
   reversed: string;
-  symbols: string;
-  related: string[];
   topics: Record<TarotTopicId, string>;
   blend: string;
 };

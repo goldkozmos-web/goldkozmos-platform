@@ -1,19 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 
 import { TAROT_DECK } from "../../data/tarot/deck";
 import { TAROT_TOPICS, type TarotCard, type TarotTopicId } from "../../data/tarot/types";
-import {
-  cardPositionReading,
-  spreadSynthesis,
-  topicById,
-} from "../../lib/tarot/reading";
-import {
-  tarotCardPath,
-  tarotImagePath,
-} from "../../lib/tarot/urls";
+import { spreadSynthesis, topicById } from "../../lib/tarot/reading";
+import { tarotImagePath } from "../../lib/tarot/urls";
 
 type Step = "topic" | "ready" | "result";
 
@@ -99,10 +91,6 @@ export default function TarotReading() {
                 <img src={tarotImagePath(card.slug)} alt={`${card.name} tarot kartı`} />
                 <small>{topicMeta.positions[index]}</small>
                 <h3>{card.name}</h3>
-                <p>{cardPositionReading(card, topicMeta.id, index)}</p>
-                <Link href={tarotCardPath(card.slug)}>
-                  {card.name} kartının tüm anlamlarını öğren
-                </Link>
               </article>
             ))}
           </div>

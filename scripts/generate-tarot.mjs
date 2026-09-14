@@ -245,7 +245,7 @@ function majorSeeds([slug, name, rank, keywords, motif, path]) {
       development: `${name} bir konunun gelişiminde ${motif} etkisini gösterir; süreç bu eşikten geçiyor olabilir.`,
       decision: `${name} yol ayrımında ${path} seçeneğini görünür kılar; kararın enerjisi bu kartın duruşundadır.`,
     },
-    blend: `${name} açılıma ${k.split(",")[0]} damgasını vurur ve yanındaki kartların ritmini bu tondan geçirir.`,
+      blend: `${name} açılımda ${k.split(",")[0]} temasını taşır.`,
   };
 }
 
@@ -267,7 +267,7 @@ function minorSeeds(suit, rank) {
       general: para(
         `${name} tarot kartı ${suit.element} unsurunun ${suit.tone} ritminde yürür.`,
         `Bu kart, Büyük Arkana’nın arketipinden çok günlük hayatın içinde işleyen bir kıpırtıyı gösterir.`,
-        `${suit.field} burada sahnenin zeminidir; ${motif} ise o zemindeki hareket.`,
+        `${suit.field} bu kartta ${motif} malzemesiyle görünür.`,
         `GoldKozmos yorumunda ${name} tek başına kader cümlesi değildir. Mevcut enerjinin, bağın veya emeğin hangi tondan aktığını anlatır.`,
         `Kart geldiğinde sorulacak dürüst soru şudur: ${suit.field} alanında ${motif} şu an nasıl görünüyor?`,
         `Yorum, abartılı müjde veya korku üretmez. Ölçü, tempo ve olası yön üzerinden okunur.`,
@@ -356,17 +356,12 @@ all.forEach((card, index) => {
   card.related = relatedFor(card, index);
 });
 
-const outDir = join(root, "src/data/tarot");
-mkdirSync(outDir, { recursive: true });
-writeFileSync(
-  join(outDir, "deck.ts"),
-  `import type { TarotCard } from "./types";\n\nexport const TAROT_DECK: TarotCard[] = ${JSON.stringify(all, null, 2)};\n`,
-);
-
+// Kart anlamları src/data/tarot/meanings + buildDeck.ts içindedir.
+// Bu betik desteyi generic şablonla ezmez; yalnızca kart görsellerini üretir.
 const imgDir = join(root, "public/images/tarot");
 mkdirSync(imgDir, { recursive: true });
 for (const card of all) {
   writeFileSync(join(imgDir, `${card.slug}.svg`), svgFor(card));
 }
 
-console.log(`wrote ${all.length} cards`);
+console.log(`wrote ${all.length} card images (meanings live in src/data/tarot/meanings)`);
