@@ -17,14 +17,10 @@ type PageProps = {
 };
 
 export function generateStaticParams() {
-  const canonical = allCanonicalPairs().map((pair) => ({ slug: pair.slug }));
-  const aliases = allCanonicalPairs()
-    .filter((pair) => pair.a.id !== pair.b.id)
-    .map((pair) => ({ slug: `${pair.b.id}-${pair.a.id}` }));
-  return [...canonical, ...aliases];
+  return allCanonicalPairs().map((pair) => ({ slug: pair.slug }));
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
