@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 export default function ProfilimDrawer({
   title,
@@ -13,7 +14,15 @@ export default function ProfilimDrawer({
   onClose: () => void;
   children: ReactNode;
 }) {
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -29,9 +38,11 @@ export default function ProfilimDrawer({
       document.body.style.overflow = previous;
       window.removeEventListener("keydown", onKey);
     };
-  }, [onClose]);
+  }, [mounted, onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div className="profilimDrawerBackdrop" onClick={onClose}>
       <div
         className="profilimDrawer"
@@ -60,6 +71,7 @@ export default function ProfilimDrawer({
 
         <div className="profilimDrawerScroll">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
