@@ -71,6 +71,8 @@ import {
 } from "./ProfilimLivePanels";
 import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
 import RemindersPanel from "../daily/RemindersPanel";
+import ProfilimWaterCard from "./ProfilimWaterCard";
+import WaterPanel from "./WaterPanel";
 
 const TRACKS: { id: "goldmind" | "goldbook" | "rezonans"; label: string }[] = [
   { id: "goldmind", label: "GoldMind" },
@@ -106,6 +108,7 @@ const DRAWERS: Record<
   activityHistory: { eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişim" },
   todos: { eyebrow: "GÖREV", title: "Yapılacaklarım" },
   stats: { eyebrow: "İSTATİSTİK", title: "Kişisel İstatistikler" },
+  water: { eyebrow: "SU", title: "Su Hatırlatıcısı" },
 };
 
 export default function ProfilimDashboard({
@@ -379,6 +382,11 @@ export default function ProfilimDashboard({
                 title="Kişisel İstatistikler"
                 onOpen={() => setOpen("stats")}
               />
+
+              <ProfilimWaterCard
+                userId={user?.id ?? ""}
+                onOpen={() => setOpen("water")}
+              />
             </div>
 
             <DailyMessageCard />
@@ -447,6 +455,7 @@ export default function ProfilimDashboard({
             <RemindersPanel userId={user?.id ?? ""} />
           ) : null}
           {open === "stats" ? <ProfilimStatsPanel /> : null}
+          {open === "water" ? <WaterPanel userId={user?.id ?? ""} /> : null}
           {open === "badges" ? <ProfilimBadgesPanel /> : null}
         </ProfilimDrawer>
       ) : null}
