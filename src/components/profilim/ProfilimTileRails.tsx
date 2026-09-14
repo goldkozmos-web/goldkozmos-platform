@@ -11,8 +11,9 @@ function TileRail({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
+    const current = ref.current;
+    if (!current) return;
+    const rail: HTMLDivElement = current;
 
     let startX = 0;
     let startY = 0;
@@ -22,7 +23,7 @@ function TileRail({ children }: { children: ReactNode }) {
     function down(event: PointerEvent) {
       startX = event.clientX;
       startY = event.clientY;
-      startLeft = node.scrollLeft;
+      startLeft = rail.scrollLeft;
       axis = null;
     }
 
@@ -33,7 +34,7 @@ function TileRail({ children }: { children: ReactNode }) {
         axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
       }
       if (axis === "x") {
-        node.scrollLeft = startLeft - dx;
+        rail.scrollLeft = startLeft - dx;
       }
     }
 
@@ -44,13 +45,13 @@ function TileRail({ children }: { children: ReactNode }) {
       }
     }
 
-    node.addEventListener("pointerdown", down);
-    node.addEventListener("pointermove", move);
-    node.addEventListener("click", click, true);
+    rail.addEventListener("pointerdown", down);
+    rail.addEventListener("pointermove", move);
+    rail.addEventListener("click", click, true);
     return () => {
-      node.removeEventListener("pointerdown", down);
-      node.removeEventListener("pointermove", move);
-      node.removeEventListener("click", click, true);
+      rail.removeEventListener("pointerdown", down);
+      rail.removeEventListener("pointermove", move);
+      rail.removeEventListener("click", click, true);
     };
   }, []);
 

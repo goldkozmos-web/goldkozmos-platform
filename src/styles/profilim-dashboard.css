@@ -42,36 +42,32 @@
 
 .profilimHero::before {
   z-index: 0;
-  inset: -35%;
-  background:
-    radial-gradient(circle at 18% 20%, rgba(255, 248, 230, 0.7), transparent 34%),
-    radial-gradient(circle at 88% 8%, rgba(212, 176, 106, 0.42), transparent 36%),
-    linear-gradient(
-      118deg,
-      #fff8ec 0%,
-      #f0dcb4 16%,
-      #e4c78a 34%,
-      #f7edd8 52%,
-      #d7b56a 70%,
-      #f3e4c4 86%,
-      #fff8ec 100%
-    );
-  background-size: 100% 100%, 100% 100%, 280% 280%;
-  animation: profilimHeroFlow 9s ease-in-out infinite;
+  inset: -40%;
+  background: linear-gradient(
+    115deg,
+    #f3e2ae 0%,
+    #e8c878 18%,
+    #fff4cc 36%,
+    #d4b056 54%,
+    #ead087 72%,
+    #f3e2ae 100%
+  );
+  background-size: 280% 280%;
+  animation: profilimHeroFlow 7.5s ease-in-out infinite;
 }
 
 .profilimHero::after {
   z-index: 1;
   background: linear-gradient(
-    108deg,
+    105deg,
     transparent 0%,
-    rgba(255, 252, 240, 0.08) 38%,
-    rgba(255, 255, 255, 0.38) 50%,
-    rgba(255, 244, 214, 0.1) 62%,
+    rgba(255, 252, 236, 0.16) 38%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 244, 200, 0.16) 62%,
     transparent 100%
   );
   background-size: 220% 100%;
-  animation: profilimHeroSheen 6.5s linear infinite;
+  animation: profilimHeroSheen 5.5s linear infinite;
 }
 
 .profilimHero > * {
@@ -82,12 +78,12 @@
 @keyframes profilimHeroFlow {
   0%,
   100% {
-    background-position: 0% 40%, 80% 0%, 0% 42%;
+    background-position: 0% 40%;
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    background-position: 20% 70%, 60% 30%, 100% 58%;
-    transform: translate3d(-2%, 1.5%, 0) scale(1.04);
+    background-position: 100% 60%;
+    transform: translate3d(-3%, 2%, 0) scale(1.06);
   }
 }
 
