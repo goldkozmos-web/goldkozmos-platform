@@ -1,4 +1,3 @@
-import { applyDreamExpansion } from "./expansions";
 import { restGuides } from "./rest-a";
 import { restGuidesB } from "./rest-b";
 import type { DreamGuide } from "./types";
@@ -9,7 +8,7 @@ export const DREAM_GUIDES: DreamGuide[] = [
   yilanGuide,
   ...restGuides,
   ...restGuidesB,
-].map(applyDreamExpansion);
+];
 
 export function publishedDreams() {
   return DREAM_GUIDES.filter((dream) => dream.published);
