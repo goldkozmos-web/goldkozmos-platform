@@ -1,12 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   WATER_EVENT,
   WATER_GOAL,
   readWaterDay,
-  writeWaterDay,
   type WaterDayState,
 } from "../../lib/profilim/waterStore";
 import WaterGlassArt from "./WaterGlassArt";
@@ -30,27 +29,22 @@ export default function ProfilimWaterCard({
     return () => window.removeEventListener(WATER_EVENT, sync);
   }, [userId]);
 
-  const sip = useCallback(() => {
-    setGlasses(writeWaterDay(userId, glasses + 1).glasses);
-  }, [glasses, userId]);
-
   const done = glasses >= WATER_GOAL;
 
   return (
-    <div className="profilimWaterWrap">
-      <button
-        type="button"
-        className="profilimFeatured profilimWaterCard"
-        onClick={onOpen}
-        aria-label={`Su hatırlatıcısı, bugün ${glasses} / ${WATER_GOAL} bardak`}
-      >
-        <span className="profilimWaterAura" aria-hidden="true" />
+    <button
+      type="button"
+      className="profilimFeatured profilimWaterCard"
+      onClick={onOpen}
+      aria-label={`Su hatırlatıcısı, bugün ${glasses} / ${WATER_GOAL} bardak`}
+    >
+      <span className="profilimWaterAura" aria-hidden="true" />
+      <span className="profilimWaterCopy">
         <span className="profilimFeaturedEyebrow">SU</span>
-        <strong className="profilimFeaturedTitle">Hatırlatıcı</strong>
+        <strong className="profilimFeaturedTitle">Su iç</strong>
         <span className="profilimWaterMeta">
           {done ? "Bugün tamam" : `${glasses} / ${WATER_GOAL} bardak`}
         </span>
-        <WaterGlassArt glasses={glasses} goal={WATER_GOAL} />
         <span className="profilimWaterPips" aria-hidden="true">
           {Array.from({ length: WATER_GOAL }, (_, index) => (
             <span
@@ -59,16 +53,8 @@ export default function ProfilimWaterCard({
             />
           ))}
         </span>
-      </button>
-      <button
-        type="button"
-        className="profilimWaterSip"
-        onClick={sip}
-        disabled={done}
-        aria-label={done ? "Günün su hedefi tamam" : "Bardak ekle"}
-      >
-        {done ? "✓" : "+"}
-      </button>
-    </div>
+      </span>
+      <WaterGlassArt glasses={glasses} goal={WATER_GOAL} />
+    </button>
   );
 }

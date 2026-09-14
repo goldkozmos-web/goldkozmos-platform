@@ -420,25 +420,26 @@
   line-height: 1;
 }
 
-.profilimWaterWrap {
-  position: relative;
-  min-width: 0;
-}
-
 .profilimFeaturedStack .profilimWaterCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 52px;
+  align-items: stretch;
+  gap: 6px;
   min-height: 118px;
-  padding: 14px 58px 28px 14px;
+  padding: 12px 10px 12px 14px;
   overflow: hidden;
   isolation: isolate;
   border-color: rgba(126, 184, 206, 0.28);
   background:
-    radial-gradient(120% 90% at 88% 18%, rgba(186, 232, 244, 0.55), transparent 46%),
+    radial-gradient(120% 90% at 92% 12%, rgba(186, 232, 244, 0.55), transparent 46%),
     radial-gradient(90% 80% at 12% 110%, rgba(232, 196, 122, 0.22), transparent 42%),
     linear-gradient(165deg, #fffef9 0%, #f6f3ea 48%, #e9f4f8 100%);
 }
 
 .profilimWaterAura {
   position: absolute;
+  grid-column: 1 / -1;
+  grid-row: 1;
   inset: -20% -10% auto auto;
   width: 120px;
   height: 120px;
@@ -448,8 +449,19 @@
   animation: profilimWaterGlow 6s ease-in-out infinite;
 }
 
+.profilimWaterCopy {
+  position: relative;
+  z-index: 1;
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  align-content: start;
+  min-width: 0;
+}
+
 .profilimWaterCard .profilimFeaturedTitle {
-  max-width: 8ch;
+  max-width: none;
+  padding-right: 0;
 }
 
 .profilimWaterMeta {
@@ -462,11 +474,15 @@
 }
 
 .profilimWaterGlass {
-  position: absolute;
-  right: 10px;
-  top: 8px;
-  width: 46px;
-  height: 70px;
+  position: relative;
+  z-index: 1;
+  grid-column: 2;
+  grid-row: 1;
+  right: auto;
+  top: auto;
+  align-self: center;
+  width: 52px;
+  height: 84px;
   pointer-events: none;
 }
 
@@ -499,12 +515,9 @@
 }
 
 .profilimWaterPips {
-  position: absolute;
-  left: 14px;
-  right: 58px;
-  bottom: 10px;
   display: flex;
   gap: 4px;
+  margin-top: 10px;
 }
 
 .profilimWaterPip {
@@ -520,32 +533,7 @@
 }
 
 .profilimWaterSip {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  z-index: 2;
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  appearance: none;
-  min-height: 0;
-  padding: 0;
-  border: 1px solid rgba(180, 140, 64, 0.35);
-  border-radius: 50%;
-  background: linear-gradient(180deg, #fff8ea, #ead7a8);
-  color: #6b4e1f;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(90, 64, 24, 0.12);
-}
-
-.profilimWaterSip:disabled {
-  background: linear-gradient(180deg, #d7f3c8, #9dcc7a);
-  color: #2f5a1e;
-  cursor: default;
+  display: none;
 }
 
 .profilimWaterDesk {
@@ -594,7 +582,6 @@
 
 .profilimWaterActions {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
 }
 

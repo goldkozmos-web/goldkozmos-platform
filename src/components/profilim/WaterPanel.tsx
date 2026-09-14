@@ -58,7 +58,7 @@ export default function WaterPanel({ userId }: { userId: string }) {
           onClick={() => setCount(glasses + 1)}
           disabled={done}
         >
-          Bardak içtim
+          Bir bardak içtim
         </button>
         <button
           type="button"
