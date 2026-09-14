@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 
-import {
-  PROFILIM_TILE_GROUPS,
-} from "../../data/profilimTileGroups";
+import { PROFILIM_TILE_GROUPS } from "../../data/profilimTileGroups";
 import type { ProfilimDrawerId } from "../../lib/profilim/types";
 import ProfilimCompactTile from "./ProfilimCompactTile";
 import ProfilimDrawer from "./ProfilimDrawer";
@@ -27,16 +25,15 @@ export default function ProfilimTileRails({
       {PROFILIM_TILE_GROUPS.map((group) => (
         <section className="profilimTileBand" key={group.id}>
           <header className="profilimTileBandTop">
-            <p className="profilimFeaturedEyebrow">{group.eyebrow}</p>
-            {group.tiles.length > 2 ? (
-              <button
-                type="button"
-                className="profilimTileSeeAll"
-                onClick={() => setSheetId(group.id)}
-              >
-                Tümünü gör
-              </button>
-            ) : null}
+            <p className="profilimTileBandLabel">{group.eyebrow}</p>
+            <button
+              type="button"
+              className="profilimTileSeeAll"
+              onClick={() => setSheetId(group.id)}
+            >
+              Tümünü gör
+              <span aria-hidden="true">→</span>
+            </button>
           </header>
           <div className="profilimTileRail">
             {group.tiles.map((tile) => (
@@ -47,6 +44,17 @@ export default function ProfilimTileRails({
                 onOpen={() => onOpenTile(tile.id)}
               />
             ))}
+            <button
+              type="button"
+              className="profilimTile profilimTileSeeAllCard"
+              onClick={() => setSheetId(group.id)}
+            >
+              <span className="profilimTileEyebrow">DAHA FAZLA</span>
+              <strong className="profilimTileTitle">Tümünü gör</strong>
+              <span className="profilimTileChevron" aria-hidden="true">
+                ›
+              </span>
+            </button>
           </div>
         </section>
       ))}
