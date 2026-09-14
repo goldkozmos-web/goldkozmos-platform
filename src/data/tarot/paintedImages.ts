@@ -4,6 +4,7 @@ export const TAROT_PAINTED_SLUGS = new Set([
   "asilan-adam",
   "ay",
   "aziz",
+  "buyucu",
   "degnek-asi",
   "degnek-beslisi",
   "degnek-dokuzlusu",
@@ -15,11 +16,14 @@ export const TAROT_PAINTED_SLUGS = new Set([
   "degnek-prensi",
   "degnek-sovalyesi",
   "degnek-uclusu",
+  "deli",
   "denge",
   "dunya",
+  "ermis",
   "guc",
   "gunes",
   "imparator",
+  "imparatorice",
   "kader-carki",
   "kilic-altilisi",
   "kilic-asi",
@@ -65,5 +69,6 @@ export const TAROT_PAINTED_SLUGS = new Set([
   "tilsim-sovalyesi",
   "tilsim-uclusu",
   "tilsim-yedilisi",
-  "yildiz"
+  "yildiz",
+  "yuksek-rahibe"
 ]);
