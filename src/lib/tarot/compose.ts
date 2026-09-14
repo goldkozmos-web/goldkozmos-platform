@@ -104,7 +104,7 @@ function opener(card: TarotCard, topic: TarotTopicId, role: PositionRole) {
     return `${name}, ilerlemeyi zorlaştıran şeyin ${a} olduğunu gösteriyor. Fazla düşünmek, kendini sınırlamak veya “ne yapacağım” sıkışması bu kartla görünür olabilir. ${name} mevcut açıklığı yok saymaz; onu zihinde kilitler ve eyleme dökmeyi geciktirir.`;
   }
   if (role === "future") {
-    return `${name}, mevcut şartlar korunursa sürecin ${a} yönüne evrilebileceğini gösteriyor. Bu kilitlenmiş bir kader cümlesi değildir. Sıkışma varsa ${name} o durağanlığın sonsuza dek sürmeyeceğini, bir noktada yönün değişebileceğini söyler.`;
+    return `${name}, mevcut şartlar korunursa sürecin ${a} yönüne evrilebileceğini gösteriyor. Sıkışma varsa ${name} o durağanlığın sonsuza dek sürmeyeceğini, bir noktada yönün değişebileceğini söyler.`;
   }
   if (role === "action") {
     if (card.polar.pause || card.polar.confusion) {
@@ -122,7 +122,7 @@ function opener(card: TarotCard, topic: TarotTopicId, role: PositionRole) {
     return `${name}, karşı tarafın duruşunda ${a} öne çıktığını gösteriyor. Bu senin niyetin değil; onun mesafesi, kontrolü veya yaklaşımı bu kartla okunur.`;
   }
   if (topic === "career") {
-    return `${name} mevcut durumda ${a} ve sezgisel / pratik hassasiyetin güçlü olduğunu gösteriyor. Bu süreçte soğuk hesaptan çok ${a} yön veriyor olabilir. İş ve değer tarafında kart, rakamı ezberlemekten önce nasıl durduğunu konuşur.`;
+    return `${name} mevcut durumda ${a} ve sezgisel / pratik hassasiyetin güçlü olduğunu gösteriyor. Bu süreçte soğuk hesaptan çok ${a} yön veriyor olabilir. İş ve değer tarafında kart, rakamı saymadan önce nasıl durduğunu konuşur.`;
   }
   if (topic === "love") {
     return `${name} mevcut durumda bağın ${a} temasından geçtiğini gösteriyor. Bu süreçte mantıktan çok kartın işaret ettiği hâlin yön verdiği bir dönem olabilir.`;
@@ -236,17 +236,20 @@ function axisPhrase(cards: TarotCard[], topic: TarotTopicId) {
     }
     if (cards.some((card) => card.suit === "pentacles" || card.polar.labor)) push("emek ve somut sonuç");
   } else {
-    if (cards.some((card) => isAnxiousMind(card) || card.suit === "swords" || card.polar.confusion)) {
+    if (cards.some((card) => isAnxiousMind(card) || card.suit === "swords")) {
       push("düşünceler, kaygılar");
     }
     if (cards.some(isClarifying)) push("netleşmesi gereken meseleler");
     else if (cards.some(isControlledMind)) push("kontrol ve mesafe");
+    if (cards.some((card) => card.suit === "pentacles" || (card.polar.labor && !isControlledMind(card)))) {
+      push("emek");
+    }
+    if (cards.some((card) => /döngü|değişim|zaman/.test(card.coreThemes.join(" ")))) {
+      push("değişim");
+    }
     if (cards.some(hasHeart)) push("duygular");
     if (cards.some((card) => card.suit === "wands" || (card.polar.motion && !card.polar.pause))) {
       push("hareket");
-    }
-    if (cards.some((card) => card.suit === "pentacles" || (card.polar.labor && !isControlledMind(card)))) {
-      push("emek ve somut sonuç");
     }
   }
   const shown = parts.slice(0, 2);
@@ -263,6 +266,7 @@ function axisPhrase(cards: TarotCard[], topic: TarotTopicId) {
 
 function forReading(text: string) {
   const clean = text
+    .replace(/Aşk ve ilişki açılımında bu kart,?\s*/g, "")
     .replace(/\bAşkta /g, "")
     .replace(/\bKarşı tarafta kişi /g, "Karşı taraf ")
     .replace(/\bKarşı tarafta /g, "")
@@ -362,7 +366,7 @@ function secondPara(card: TarotCard, topic: TarotTopicId) {
   } else if (card.polar.wound) {
     extra = "Bu duruş kırgın, temkinli veya yorgun olabilir. İlerlemeyi zorlaştıran şey çoğu zaman niyet yokluğu değil, taşınan ağırlıktır.";
   } else if (card.polar.confusion || card.polar.secrecy) {
-    extra = "Ortadaki kart her şeyi vitrine koymaz. Görünen ile tutulan aynı olmayabilir; bu da belirsizliği büyütür.";
+    extra = "Görünen ile tutulan aynı olmayabilir; zamanlama veya belirsizlik de büyüyebilir.";
   } else if (card.polar.motion) {
     extra = "Bu uç bekleyişten çok harekete yakındır. Adım, jest veya görünür bir davranış ihtimali açıktır.";
   }
@@ -390,15 +394,15 @@ function thirdPara(card: TarotCard, topic: TarotTopicId) {
         : "Belirsizliğin sürüncemede kalmasından çok, bir noktada hesabın, sözün veya kararın netleşmesi gerekir. Sonuçlar davranışlara göre tartılır.";
   } else if (card.polar.motion && !card.polar.pause) {
     extra =
-      "Yön kilitlenmiş bir kader cümlesi değildir. Sıkışma varsa bu kart o durağanlığın bir noktada kırılıp harekete, girişe veya görünür bir adıma açlabileceğini söyler.";
+      "Süreç bir noktada hızlanabilir, dönebilir veya görünür bir adıma açılabilir. Durağanlık kırılırsa yön değişebilir.";
   } else if (card.suit === "pentacles" || (card.polar.labor && card.polar.warmth)) {
     extra =
       "Olası yön daha fazla hayal değil, elde tutulursa büyüyen somut bir adımdır. Çıkış her şeyi bir anda çözmek değil; küçük, gerçek bir şey bırakmaktır.";
   } else if (card.polar.pause || card.polar.wound) {
     extra =
-      "Yön acele etmez. İlk iki kartın yükü bir anda silinmez; temkin, bekleyiş veya yavaş bir değişim daha olasıdır.";
+      "Yön acele etmez. Mevcut yük bir anda silinmez; temkin, bekleyiş veya yavaş bir değişim daha olasıdır.";
   } else {
-    extra = "Bu mühürlenmiş bir gelecek değil; ilk iki kartın nasıl taşındığına bağlı açık bir kapıdır.";
+    extra = "Bu mühürlenmiş bir gelecek değil; şu anki hâl ve ortadaki duruş nasıl taşınırsa yön de ona göre açılır.";
   }
 
   if (topic === "thoughts") {
@@ -462,46 +466,71 @@ function thirdClause(card: TarotCard) {
   return `olası yön ${card.coreThemes[0]} hattından geçer`;
 }
 
-function togetherPara(cards: TarotCard[], topic: TarotTopicId) {
-  const [one, two, three] = cards;
+function themePair(card: TarotCard) {
+  const first = card.coreThemes[0] ?? card.name;
+  const second = card.coreThemes[1];
+  return second ? `${first} ve ${second}` : first;
+}
+
+function midSlot(topic: TarotTopicId) {
+  if (topic === "love") return "karşı tarafın duruşuna";
+  if (topic === "thoughts") return "duygularına";
+  if (topic === "career" || topic === "development" || topic === "decision") {
+    return "ortadaki engel veya dikkat noktasına";
+  }
+  return "ortadaki mesaja";
+}
+
+function nowSlot(topic: TarotTopicId) {
+  if (topic === "love") return "mevcut durumda bağın";
+  if (topic === "thoughts") return "kişinin düşüncelerinde";
+  if (topic === "career") return "işin mevcut hâlinde";
+  if (topic === "decision") return "kararın eşiğinde";
+  return "şu anki durumda";
+}
+
+function thenSlot(topic: TarotTopicId) {
+  if (topic === "thoughts") return "olası yaklaşımı";
+  if (topic === "career") return "olası gelişimi";
+  return "olası yönü";
+}
+
+function consequenceLine(one: TarotCard, two: TarotCard, three: TarotCard, topic: TarotTopicId) {
   const clash = conflicts(one, two);
   const aligned = supports(one, two);
-  const heart = cards.some(hasHeart);
+  const heart = [one, two, three].some(hasHeart);
   const mindHeavy =
-    cards.filter((card) => card.suit === "swords" || isControlledMind(card) || isAnxiousMind(card)).length >= 2;
+    [one, two, three].filter((card) => card.suit === "swords" || isControlledMind(card) || isAnxiousMind(card))
+      .length >= 2;
 
-  let relation = "";
-  if (clash) {
-    relation = `Kartlar birbirini tek cümlede desteklemiyor; ${one.name} ile ${two.name} arasında bir gerilim var.`;
-  } else if (aligned) {
-    relation = `${one.name} ile ${two.name} birbirini büyük ölçüde destekliyor; ${three.name} bu hattı yola çeviriyor veya yumuşatıyor.`;
-  } else {
-    relation = `${one.name}, ${two.name} ve ${three.name} aynı sloganı tekrar etmiyor; birbirinin üzerine binen ayrı duruşlar kuruyor.`;
+  if ((topic === "love" || topic === "thoughts") && isAnxiousMind(one) && isControlledMind(two)) {
+    return `${one.name} belirsizliği fazlasıyla düşündüğünü, ${two.name} diğer tarafın kendini kontrol altında tuttuğunu, ${three.name} ise bu dengenin ancak açık ve dürüst bir netleşmeyle değişebileceğini anlatıyor.`;
   }
-
-  let feeling = "";
   if ((topic === "love" || topic === "thoughts") && mindHeavy && !heart) {
-    feeling =
-      topic === "love"
-        ? "Üç kartı birlikte okuduğumda, açılım “duygu yok” demiyor. Fakat şu anda ilişkinin önünde duygudan daha baskın iki şey var."
-        : "Üç kartı birlikte okuduğumda, kişi seni tamamen silmiş görünmüyor. Asıl düğüm his yokluğu değil; düşünce ile davranışın aynı yerde durmaması.";
-  } else if (heart && mindHeavy) {
-    feeling = "Üç kartı birlikte okuduğumda hem bir his hem de onu zorlaştıran bir zihin veya mesafe görünüyor; biri diğerini iptal etmiyor.";
-  } else if (heart && (topic === "love" || topic === "thoughts")) {
-    feeling = "Üç kartı birlikte okuduğumda duygu yok sayılmıyor; yakınlık veya tutulma masada duruyor.";
-  } else if (clash) {
-    feeling = "Üç kartı birlikte okuduğumda asıl mesele kartları tek tek ezberlemek değil, aralarındaki gerilimi görmek.";
-  } else {
-    feeling = "Üç kartı birlikte okuduğumda asıl mesele kartları tek tek ezberlemek değil, aralarındaki ilişkiyi görmek.";
+    return `Açılım duygu yok demiyor; fakat şu anda zihin, kaygı veya mesafe duygudan daha baskın. ${three.name} bu hâlin ancak ${themePair(three)} ile yer değiştirebileceğini söylüyor.`;
   }
+  if (one.polar.labor && (two.polar.motion || two.polar.confusion)) {
+    return `Emek ve tekrar duruyor, ama süreç kilitli değil; bir döngü, zamanlama veya beklenmedik kıpırtı da masada. ${three.name} bu kıpırtıyı ${themePair(three)} tarafına çekiyor.`;
+  }
+  if (three.polar.pause && (one.polar.labor || two.polar.motion || two.polar.confusion)) {
+    return `Hızlı ve gösterişli bir kırılma güçlü görünmüyor. Yön daha çok sadeleşmek, çekilip bakmak veya kendi içinde netleşmekten geçer.`;
+  }
+  if (heart && mindHeavy) {
+    return `Hem bir his hem de onu zorlaştıran bir zihin veya mesafe duruyor; biri diğerini iptal etmiyor.`;
+  }
+  if (clash) {
+    return `Mevcut hâl ile ortadaki duruş birbirini sıkıştırıyor; süreç kolay akmaz. Olası yön bu sıkışmayı yok saymadan ${themePair(three)} hattından gider.`;
+  }
+  if (aligned) {
+    return `İlk iki işaret aynı yönde tutuyor; ${three.name} bu hattı ${themePair(three)} ile ilerletiyor.`;
+  }
+  return `${firstClause(one, topic)}, ${secondClause(two, topic)} ve ${thirdClause(three)}.`;
+}
 
-  const problem = clash
-    ? `Ana problem: ${firstClause(one, topic)} ve ${secondClause(two, topic)}.`
-    : aligned
-      ? `Güçlü taraf: ilk iki kart aynı hatta duruyor; asıl soru bunun ${three.name} ile yola dökülüp dökülmeyeceği.`
-      : `Ana gerilim veya güçlü taraf, ${one.name} ile ${two.name} arasındaki ilişkide toplanıyor.`;
-
-  return `${feeling} ${relation} ${one.name} ${firstClause(one, topic)}; ${two.name} ${secondClause(two, topic)}; ${three.name} ise ${thirdClause(three)}. ${problem}`;
+function togetherPara(cards: TarotCard[], topic: TarotTopicId) {
+  const [one, two, three] = cards;
+  const weave = `Üç kartı birlikte okuduğumda ${one.name} ${nowSlot(topic)} ${themePair(one)} üzerinden durduğunu, ${two.name} ${midSlot(topic)} ${themePair(two)} getirdiğini, ${three.name} ise ${thenSlot(topic)} ${themePair(three)} tarafına çektiğini anlatıyor.`;
+  return `${weave} ${consequenceLine(one, two, three, topic)}`;
 }
 
 function pacePara(cards: TarotCard[], topic: TarotTopicId) {
