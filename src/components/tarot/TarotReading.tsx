@@ -89,8 +89,6 @@ export default function TarotReading() {
             {cards.map((card, index) => (
               <article key={`${card.slug}-${index}`} className="tarotCardFace">
                 <img src={tarotImagePath(card.slug)} alt={`${card.name} tarot kartı`} />
-                <small>{topicMeta.positions[index]}</small>
-                <h3>{card.name}</h3>
               </article>
             ))}
           </div>
