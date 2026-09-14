@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { reversedPairRedirects } from "./src/lib/burclar/pairs";
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   async headers() {
@@ -30,6 +32,7 @@ const nextConfig: NextConfig = {
         destination: "/apple-icon.png",
         permanent: false,
       },
+      ...reversedPairRedirects(),
     ];
   },
 };
