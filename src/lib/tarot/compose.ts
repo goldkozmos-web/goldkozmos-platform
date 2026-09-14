@@ -195,7 +195,7 @@ function domain(cards: TarotCard[]) {
       ["swords", counts.swords, "zihinsel"],
       ["wands", counts.wands, "eylem odaklı"],
       ["pentacles", counts.pentacles, "maddi ve emekle ilgili"],
-    ] as const
+    ] as [string, number, string][]
   ).sort((left, right) => right[1] - left[1])[0];
   return { counts, minor };
 }
