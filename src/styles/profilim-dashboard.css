@@ -532,10 +532,6 @@
   box-shadow: 0 0 8px rgba(80, 180, 210, 0.45);
 }
 
-.profilimWaterSip {
-  display: none;
-}
-
 .profilimWaterDesk {
   display: grid;
   gap: 16px;
@@ -543,8 +539,10 @@
 
 .profilimWaterStage {
   display: grid;
-  justify-items: center;
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: start;
+  gap: 4px 8px;
   padding: 22px 16px 18px;
   border: 1px solid rgba(126, 184, 206, 0.22);
   border-radius: 24px;
@@ -553,11 +551,19 @@
     linear-gradient(180deg, #fffef9, #eef6f8);
 }
 
+.profilimWaterStage .profilimWaterGlass.isStage {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  justify-self: end;
+}
+
 .profilimWaterCount {
+  grid-column: 1;
   margin: 4px 0 0;
   color: #1d4f63;
   font-family: Georgia, "Times New Roman", serif;
   letter-spacing: -0.04em;
+  text-align: left;
 }
 
 .profilimWaterCount strong {
@@ -571,6 +577,10 @@
   font-size: 18px;
 }
 
+.profilimWaterHint {
+  grid-column: 1;
+}
+
 .profilimWaterHint,
 .profilimWaterNote {
   margin: 0;
@@ -578,6 +588,10 @@
   font-size: 13px;
   line-height: 1.45;
   text-align: center;
+}
+
+.profilimWaterHint {
+  text-align: left;
 }
 
 .profilimWaterActions {
