@@ -99,17 +99,6 @@ export default function ProfilimTileRails({
                 onOpen={() => onOpenTile(tile.id)}
               />
             ))}
-            <button
-              type="button"
-              className="profilimTile profilimTileSeeAllCard"
-              onClick={() => setSheetId(group.id)}
-            >
-              <span className="profilimTileEyebrow">DAHA FAZLA</span>
-              <strong className="profilimTileTitle">Tümünü gör</strong>
-              <span className="profilimTileChevron" aria-hidden="true">
-                ›
-              </span>
-            </button>
             <span className="profilimTileRailEnd" aria-hidden="true" />
           </TileRail>
         </section>
