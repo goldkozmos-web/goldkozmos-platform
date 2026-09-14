@@ -1,6 +1,5 @@
 import { energyWorks } from "./energyWorks";
 import { getEducationCourses } from "./education";
-import { publishedRituals } from "./goldrituel/catalog";
 
 export type WorkCard = {
   group: "analiz" | "birebir" | "enerji" | "rezonans" | "dijital";
@@ -101,12 +100,14 @@ export function allWorkCards(): WorkCard[] {
     },
     {
       group: "dijital",
-      title: "GoldRitüel",
-      text: "Niyet ve farkındalık odağında uygulanabilir ritüeller.",
-      image: publishedRituals()[0]?.image ?? "/images/services/tarot-farkindalik.webp",
-      href: "/goldrituel",
-      eyebrow: "02 · RİTÜEL",
-      cta: "Detayları Gör",
+      title: "8 Frekans Yüklemesi",
+      text: "Aşk ve ilişkiden bolluğa, özdeğerden kariyere uzanan sekiz yaşam alanına odaklanan canlı kayıt.",
+      image: "/images/services/8-frekans-yuklemesi-canli-kayit.webp",
+      href: "https://www.shopier.com/goldkozmos/49930635",
+      eyebrow: "02 · KAYIT",
+      price: "300 TL",
+      cta: "Satın Al",
+      buyHref: "https://www.shopier.com/goldkozmos/49930635",
     },
   ];
 
@@ -173,6 +174,6 @@ export const WORK_HUB_SECTIONS: {
     eyebrow: "DİJİTAL",
     title: "Kendi zamanında",
     accent: "uygula.",
-    lead: "Kayıtlı çalışmalar ve ritüeller, kendi ritminde.",
+    lead: "Canlı çalışmaların kayıtlı versiyonları, kendi ritminde.",
   },
 ];
