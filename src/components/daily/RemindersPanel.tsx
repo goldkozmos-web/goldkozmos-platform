@@ -10,6 +10,7 @@ import {
   fetchReminders,
 } from "../../lib/daily/client";
 import { readTodos, writeTodos } from "../../lib/profilim/localStore";
+import { sendTodoPhoneNotice } from "../../lib/push/browser";
 import ProfilimEmptyState from "../profilim/ProfilimEmptyState";
 import "../../styles/daily-practice.css";
 
@@ -50,6 +51,13 @@ function formatWhen(item: ReminderItem) {
   return bits.join(" · ");
 }
 
+function isDueNow(dueOn: string, dueTime: string) {
+  if (!dueOn) return true;
+  const time = dueTime ? dueTime.slice(0, 5) : "00:00";
+  const stamp = Date.parse(`${dueOn}T${time}:00+03:00`);
+  return Number.isFinite(stamp) && stamp <= Date.now();
+}
+
 export default function RemindersPanel({ userId }: { userId: string }) {
   const [items, setItems] = useState<ReminderItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,8 +68,9 @@ export default function RemindersPanel({ userId }: { userId: string }) {
   const [dueOn, setDueOn] = useState("");
   const [dueTime, setDueTime] = useState("");
   const [repeatRule, setRepeatRule] = useState("none");
-  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(true);
   const [showDone, setShowDone] = useState(false);
+  const [notifyPhone, setNotifyPhone] = useState(true);
 
   function persist(next: ReminderItem[]) {
     setItems(next);
@@ -117,7 +126,6 @@ export default function RemindersPanel({ userId }: { userId: string }) {
     setDueOn("");
     setDueTime("");
     setRepeatRule("none");
-    setStatus("Kaydedildi.");
     setPending(true);
 
     const result = await createReminder({
@@ -129,10 +137,33 @@ export default function RemindersPanel({ userId }: { userId: string }) {
       repeatRule: item.repeatRule,
     });
 
-    setPending(false);
-    if (result.error) {
-      setStatus("Cihazına kaydedildi.");
+    if (notifyPhone) {
+      const dueNow = isDueNow(item.dueOn ?? "", item.dueTime ?? "");
+      if (dueNow) {
+        const ping = await sendTodoPhoneNotice("Yapılacaklarım", item.title);
+        setStatus(
+          ping.ok
+            ? "Kaydedildi. Bildirim telefona gitti."
+            : ping.reason === "denied"
+              ? "Kaydedildi. Telefon bildirimi için izin ver."
+              : "Kaydedildi. Bildirim izni bu tarayıcıda kapalı.",
+        );
+      } else {
+        const ping = await sendTodoPhoneNotice(
+          "Yapılacaklarım",
+          `${item.title} saatine bildirim kuruldu.`,
+        );
+        setStatus(
+          ping.ok
+            ? "Kaydedildi. Saat gelince telefona düşer."
+            : "Kaydedildi. Bildirim için tarayıcı iznini aç.",
+        );
+      }
+    } else {
+      setStatus(result.error ? "Cihazına kaydedildi." : "Kaydedildi.");
     }
+
+    setPending(false);
   }
 
   function markDone(id: string) {
@@ -179,6 +210,19 @@ export default function RemindersPanel({ userId }: { userId: string }) {
             {pending ? "…" : "Ekle"}
           </button>
         </div>
+
+        <label className="profilimTodoNotify">
+          <input
+            type="checkbox"
+            checked={notifyPhone}
+            onChange={(event) => {
+              const on = event.target.checked;
+              setNotifyPhone(on);
+              if (on) setDetailsOpen(true);
+            }}
+          />
+          Telefona bildir
+        </label>
 
         <button
           type="button"
