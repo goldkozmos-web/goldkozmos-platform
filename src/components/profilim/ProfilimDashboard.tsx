@@ -319,11 +319,13 @@ export default function ProfilimDashboard({
             {user ? (
               <>
                 <ProfilimHero user={user} level={view.level} />
-                <ProfilimBadgeRow onOpen={() => setOpen("badges")} />
               </>
             ) : null}
 
             <div className="profilimFeaturedStack">
+              {user ? (
+                <ProfilimBadgeRow onOpen={() => setOpen("badges")} />
+              ) : null}
               <ProfilimFeaturedCard
                 eyebrow="BUGÜN"
                 title="Bugün Neye İhtiyacın Var?"
