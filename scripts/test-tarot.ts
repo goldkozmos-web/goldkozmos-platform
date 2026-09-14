@@ -12,6 +12,8 @@ const banned = [
   "sahnenin zemini",
   "ikinci bir ritim",
   "damgasını vurur",
+  "kartın iklimi",
+  "mevcut dinamiklerin görünümüdür",
 ];
 
 function fail(message: string): never {
@@ -87,10 +89,13 @@ assert(
     rAction.toLocaleLowerCase("tr-TR").includes("adım"),
   "TEST 1 action missing behavior",
 );
-assert(wordCount(rThoughts) >= 90 && wordCount(rThoughts) <= 170, `TEST 1 thoughts length ${wordCount(rThoughts)}`);
-assert(wordCount(rFeelings) >= 90 && wordCount(rFeelings) <= 170, `TEST 1 feelings length ${wordCount(rFeelings)}`);
-assert(wordCount(rAction) >= 90 && wordCount(rAction) <= 170, `TEST 1 action length ${wordCount(rAction)}`);
+assert(wordCount(rThoughts) >= 70 && wordCount(rThoughts) <= 120, `TEST 1 thoughts length ${wordCount(rThoughts)}`);
+assert(wordCount(rFeelings) >= 70 && wordCount(rFeelings) <= 120, `TEST 1 feelings length ${wordCount(rFeelings)}`);
+assert(wordCount(rAction) >= 70 && wordCount(rAction) <= 120, `TEST 1 action length ${wordCount(rAction)}`);
 assert(wordCount(synth) >= 250 && wordCount(synth) <= 450, `TEST 1 synth length ${wordCount(synth)}`);
+assert(!synth.includes(rThoughts.slice(0, 80)), "TEST 1 synth copies card 1");
+assert(!synth.includes(rFeelings.slice(0, 80)), "TEST 1 synth copies card 2");
+assert(!/"Mevcut Durum" konumunda/.test(rThoughts), "old dictionary wrapper");
 
 const sevenFeel = cardPositionReading(seven, "thoughts", 1);
 assert(rThoughts !== sevenFeel, "TEST 2 same paragraph for seven of cups");
@@ -156,9 +161,60 @@ const prince = getTarotCard("kupa-prensi");
 const knight = getTarotCard("kupa-sovalyesi");
 assert(Boolean(prince && knight && prince.generalMeaning !== knight.generalMeaning), "court cups cloned");
 
+function assertSpread(
+  label: string,
+  topic: "thoughts" | "love" | "career" | "development",
+  slugs: [string, string, string],
+) {
+  const drawn = slugs.map((slug) => getTarotCard(slug));
+  assert(drawn.every(Boolean), `${label} missing cards`);
+  const [a, b, c] = drawn as [NonNullable<(typeof drawn)[0]>, NonNullable<(typeof drawn)[0]>, NonNullable<(typeof drawn)[0]>];
+  const p0 = cardPositionReading(a, topic, 0);
+  const p1 = cardPositionReading(b, topic, 1);
+  const p2 = cardPositionReading(c, topic, 2);
+  const whole = spreadSynthesis([a, b, c], topic);
+  assert(p0 !== p1 && p1 !== p2 && p0 !== p2, `${label} identical card blurbs`);
+  assert(wordCount(p0) >= 70 && wordCount(p0) <= 120, `${label} p0 ${wordCount(p0)}`);
+  assert(wordCount(p1) >= 70 && wordCount(p1) <= 120, `${label} p1 ${wordCount(p1)}`);
+  assert(wordCount(p2) >= 70 && wordCount(p2) <= 120, `${label} p2 ${wordCount(p2)}`);
+  assert(wordCount(whole) >= 250 && wordCount(whole) <= 450, `${label} synth ${wordCount(whole)}`);
+  assert(whole.includes(a.name) && whole.includes(b.name) && whole.includes(c.name), `${label} synth missing names`);
+  assert(!whole.includes(p0), `${label} synth is card 1 copy`);
+  assert(!whole.includes(p1), `${label} synth is card 2 copy`);
+  assert(!whole.includes(p2), `${label} synth is card 3 copy`);
+  const blob = `${p0}\n${p1}\n${p2}\n${whole}`.toLocaleLowerCase("tr-TR");
+  for (const phrase of banned) {
+    assert(!blob.includes(phrase), `${label} banned ${phrase}`);
+  }
+  assert(
+    /şu an|ancak|olası yön|birlikte/.test(whole.toLocaleLowerCase("tr-TR")),
+    `${label} synth not relational`,
+  );
+  console.log(label, {
+    p0: wordCount(p0),
+    p1: wordCount(p1),
+    p2: wordCount(p2),
+    synth: wordCount(whole),
+  });
+  return whole;
+}
+
+assertSpread("SPREAD A thoughts", "thoughts", ["kupa-yedilisi", "gunes", "kilic-uclusu"]);
+assertSpread("SPREAD B career", "career", ["kupa-kralicesi", "kilic-sekizlisi", "degnek-sovalyesi"]);
+assertSpread("SPREAD C love", "love", ["tilsim-sekizlisi", "kilic-yedilisi", "gunes"]);
+
 console.log("ALL TAROT TESTS PASSED");
 console.log("sample thoughts:\n", rThoughts, "\n");
-console.log("sample feelings seven:\n", sevenFeel, "\n");
-console.log("sample sun feelings:\n", rFeelings, "\n");
-console.log("sample action:\n", rAction, "\n");
-console.log("synth words", wordCount(synth));
+console.log("sample career queen:\n", cardPositionReading(getTarotCard("kupa-kralicesi")!, "career", 0), "\n");
+console.log(
+  "sample career synth:\n",
+  spreadSynthesis(
+    [
+      getTarotCard("kupa-kralicesi")!,
+      getTarotCard("kilic-sekizlisi")!,
+      getTarotCard("degnek-sovalyesi")!,
+    ],
+    "career",
+  ),
+  "\n",
+);
