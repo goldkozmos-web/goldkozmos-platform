@@ -79,6 +79,7 @@ export default function WaterGlassArt({
   }, []);
 
   const large = className.includes("isStage");
+  const phase = clock.t;
   const splashBoost = Math.max(0, (splashUntil.current - clock.ms) / 820);
   const amp = (large ? 4.6 : 2.8) + splashBoost * (large ? 5.5 : 3.2);
   const surfaceY = 30;
