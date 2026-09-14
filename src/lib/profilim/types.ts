@@ -162,7 +162,8 @@ export type ProfilimDrawerId =
   | "ritualNotes"
   | "activityHistory"
   | "todos"
-  | "stats";
+  | "stats"
+  | "water";
 
 export type ProfilimDashboardSources = {
   user: ProfilimUser;
