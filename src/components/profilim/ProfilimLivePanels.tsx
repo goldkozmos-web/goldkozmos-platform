@@ -96,7 +96,7 @@ export function ProfilimBadgesPanel() {
   );
 }
 
-export function ProfilimStatsCard() {
+export function ProfilimStatsPanel() {
   const [range, setRange] = useState<Range>("30");
   const [rows, setRows] = useState<{ kind: string; created_at: string }[]>([]);
 
@@ -134,8 +134,7 @@ export function ProfilimStatsCard() {
   }, [rows, range]);
 
   return (
-    <article className="profilimFeaturedCard homeSoftCard" style={{ width: "100%", margin: "0 0 16px" }}>
-      <p className="dailyEyebrow">KİŞİSEL İSTATİSTİKLER</p>
+    <div className="profilimDrawerStack">
       <div className="dailyMessageActions">
         {(["7", "30", "all"] as Range[]).map((item) => (
           <button key={item} type="button" onClick={() => setRange(item)}>
@@ -150,7 +149,7 @@ export function ProfilimStatsCard() {
       <p>GoldMind: {stats.mind}</p>
       <p>İçerik: {stats.content}</p>
       <p>XP (bu aralık): {stats.xp}</p>
-    </article>
+    </div>
   );
 }
 
