@@ -1,9 +1,13 @@
+import type { Metadata } from "next";
+
 import { Suspense } from "react";
 
 import GirisForm from "./GirisForm";
+import { noIndexFollow } from "../../lib/seo";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Giriş Yap",
+  robots: noIndexFollow,
 };
 
 export default function GirisPage() {

@@ -41,14 +41,16 @@ export async function generateMetadata({
       type: "article",
       locale: "tr_TR",
       url,
-      siteName: "Goldkozmos",
+      siteName: "GoldKozmos",
       title: card.seoTitle,
       description: card.metaDescription,
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title: card.seoTitle,
       description: card.metaDescription,
+      images: ["/opengraph-image"],
     },
     robots: { index: true, follow: true },
   };
@@ -113,10 +115,13 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
         <img
           src={tarotImagePath(card.slug)}
           alt={`${card.name} tarot kartı`}
-          style={{ width: "min(280px, 100%)", margin: "22px 0", borderRadius: 18 }}
+          width={280}
+          height={460}
+          fetchPriority="high"
+          style={{ width: "min(280px, 100%)", height: "auto", margin: "22px 0", borderRadius: 18 }}
         />
         <article className="tarotArticle">
-          <h2>Genel Anlamı</h2>
+          <h2 id="genel-anlam">Genel Anlamı</h2>
           {paras(card.generalMeaning).map((item) => (
             <p key={`g-${item.slice(0, 40)}`}>{item}</p>
           ))}
@@ -124,23 +129,23 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           {paras(card.spiritualMeaning).map((item) => (
             <p key={`sp-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Aşk ve İlişkilerde</h2>
+          <h2 id="ask">Aşk ve İlişkilerde</h2>
           {paras(card.loveMeaning).map((item) => (
             <p key={`l-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Birinin Düşüncelerinde</h2>
+          <h2 id="dusunceler">Birinin Düşüncelerinde</h2>
           {paras(card.thoughtsMeaning).map((item) => (
             <p key={`t-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Birinin Duygularında</h2>
+          <h2 id="duygular">Birinin Duygularında</h2>
           {paras(card.feelingsMeaning).map((item) => (
             <p key={`f-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Birinin Olası Hareketinde</h2>
+          <h2 id="olasi-hareket">Birinin Olası Hareketinde</h2>
           {paras(card.actionMeaning).map((item) => (
             <p key={`a-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Kariyer ve Para</h2>
+          <h2 id="kariyer">Kariyer ve Para</h2>
           {paras(`${card.careerMeaning}\n\n${card.moneyMeaning}`).map((item) => (
             <p key={`c-${item.slice(0, 40)}`}>{item}</p>
           ))}
@@ -148,7 +153,7 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           {paras(card.futurePotential).map((item) => (
             <p key={`fu-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Tavsiye Olarak</h2>
+          <h2 id="tavsiye">Tavsiye Olarak</h2>
           {paras(card.adviceMeaning).map((item) => (
             <p key={`ad-${item.slice(0, 40)}`}>{item}</p>
           ))}
@@ -156,7 +161,7 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           {paras(card.shadowMeaning).map((item) => (
             <p key={`sh-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Ters Geldiğinde</h2>
+          <h2 id="ters-anlam">Ters Geldiğinde</h2>
           {paras(card.reversedMeaning).map((item) => (
             <p key={`r-${item.slice(0, 40)}`}>{item}</p>
           ))}

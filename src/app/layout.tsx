@@ -1,7 +1,4 @@
-import type {
-  Metadata,
-  Viewport,
-} from "next";
+import type { Metadata, Viewport } from "next";
 
 import GlobalContactDock from "../components/GlobalContactDock";
 import MobileBottomBar from "../components/MobileBottomBar";
@@ -15,73 +12,45 @@ import "../styles/home.css";
 import "../styles/mobile-v2.css";
 import "../styles/platform-flow.css";
 import "../styles/mobile-bottom-bar.css";
-
-const siteUrl = "https://goldkozmos.com";
+import { organizationJsonLd, websiteJsonLd } from "../lib/jsonld";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_TITLE,
+  OG_IMAGE,
+  SITE_NAME,
+  googleSiteVerification,
+  indexFollow,
+} from "../lib/seo";
+import { SITE_ORIGIN } from "../lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-
-  applicationName: "Goldkozmos",
-
+  metadataBase: new URL(SITE_ORIGIN),
+  applicationName: SITE_NAME,
   title: {
-    default:
-      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
-    template: "%s | Goldkozmos®",
+    default: DEFAULT_TITLE,
+    template: `%s | ${SITE_NAME}`,
   },
-
-  description:
-    "Goldkozmos® Rezonans Ekolü; kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk, öz farkındalık, enerji ve spiritüel farkındalık alanlarını bir araya getiren içerik ve çalışma ekosistemidir.",
-
-  robots: {
-    index: true,
-    follow: true,
-
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
-
+  description: DEFAULT_DESCRIPTION,
+  robots: indexFollow,
+  verification: googleSiteVerification(),
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: siteUrl,
-    siteName: "Goldkozmos",
-
-    title:
-      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
-
-    description:
-      "Kendilik, ilişkiler, bolluk, kişisel gelişim, Stoa, sosyoloji, enerji ve öz farkındalık üzerine Goldkozmos® Rezonans Ekolü içerikleri ve çalışmaları.",
-
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Goldkozmos Rezonans Ekolü",
-      },
-    ],
+    url: SITE_ORIGIN,
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE],
   },
-
   twitter: {
     card: "summary_large_image",
-
-    title:
-      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
-
-    description:
-      "Kendilik, ilişkiler, bolluk, Stoa, sosyoloji, enerji ve kişisel farkındalık üzerine Goldkozmos® içerikleri.",
-
-    images: ["/opengraph-image"],
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE.url],
   },
-
   appleWebApp: {
     capable: true,
-    title: "Goldkozmos",
+    title: SITE_NAME,
     statusBarStyle: "default",
   },
 };
@@ -92,46 +61,6 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   themeColor: "#1b1009",
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${siteUrl}/#website`,
-
-  url: siteUrl,
-
-  name: "Goldkozmos",
-
-  alternateName:
-    "Goldkozmos® Rezonans Ekolü",
-
-  inLanguage: "tr-TR",
-
-  publisher: {
-    "@id": `${siteUrl}/#organization`,
-  },
-};
-
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": `${siteUrl}/#organization`,
-
-  name: "Goldkozmos",
-
-  alternateName:
-    "Goldkozmos® Rezonans Ekolü",
-
-  url: siteUrl,
-
-  logo: {
-    "@type": "ImageObject",
-    url: `${siteUrl}/icon.png`,
-  },
-
-  description:
-    "Kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk, enerji ve öz farkındalık alanlarını bir araya getiren Goldkozmos® Rezonans Ekolü.",
 };
 
 export default function RootLayout({
@@ -145,21 +74,15 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              websiteJsonLd
-            ),
+            __html: JSON.stringify(websiteJsonLd()),
           }}
         />
-
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(
-              organizationJsonLd
-            ),
+            __html: JSON.stringify(organizationJsonLd()),
           }}
         />
-
         <PlatformFlowRoot>
           <PresenceTracker />
           <ServiceWorkerRegister />

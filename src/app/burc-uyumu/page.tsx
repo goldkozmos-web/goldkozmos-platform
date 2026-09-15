@@ -7,37 +7,44 @@ import SignPicker from "../../components/burclar/SignPicker";
 import { SIGNS, signById } from "../../data/burclar/signs";
 import type { SignId } from "../../data/burclar/types";
 import { uyumUrl } from "../../lib/burclar/urls";
+import { indexFollow, noIndexFollow, SITE_NAME } from "../../lib/seo";
 import { SITE_ORIGIN } from "../../lib/site";
 import "../../styles/home.css";
 import "../../styles/burclar.css";
 
 const pageUrl = uyumUrl();
 
-export const metadata: Metadata = {
-  title: { absolute: "Burç Aşk Uyumu | GoldKozmos" },
-  description:
-    "İki burç seç, aşk uyumunu oku. Tek canonical çift sayfası; ters sıra aynı içeriğe gider.",
-  alternates: { canonical: pageUrl },
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    url: pageUrl,
-    siteName: "Goldkozmos",
-    title: "Burç Aşk Uyumu | GoldKozmos",
-    description:
-      "İki burç seç, aşk uyumunu oku. Editorial astroloji; bilimsel ölçüm değil.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Burç Aşk Uyumu | GoldKozmos",
-    description: "İki burç seç, aşk uyumunu oku.",
-  },
-  robots: { index: true, follow: true },
-};
-
 type PageProps = {
   searchParams: Promise<{ bir?: string; iki?: string }>;
 };
+
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const query = await searchParams;
+  const filtered = Boolean(query.bir || query.iki);
+  return {
+    title: { absolute: "Burç Aşk Uyumu | GoldKozmos" },
+    description:
+      "İki burç seç, aşk uyumunu oku. Tek canonical çift sayfası; ters sıra aynı içeriğe gider.",
+    alternates: { canonical: pageUrl },
+    robots: filtered ? noIndexFollow : indexFollow,
+    openGraph: {
+      type: "website",
+      locale: "tr_TR",
+      url: pageUrl,
+      siteName: SITE_NAME,
+      title: "Burç Aşk Uyumu | GoldKozmos",
+      description:
+        "İki burç seç, aşk uyumunu oku. Editorial astroloji; bilimsel ölçüm değil.",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Burç Aşk Uyumu | GoldKozmos",
+      description: "İki burç seç, aşk uyumunu oku.",
+    },
+  };
+}
 
 export default async function BurcUyumuHubPage({ searchParams }: PageProps) {
   const query = await searchParams;

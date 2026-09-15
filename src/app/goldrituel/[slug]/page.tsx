@@ -65,7 +65,32 @@ export default async function GoldRituelDetailPage({ params }: PageProps) {
   const similar = similarRituals(ritual, publishedRituals());
   const url = goldrituelUrl(ritual.slug);
 
-  const jsonLd = {
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Ana Sayfa",
+          item: SITE_ORIGIN,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "GoldRitüel",
+          item: goldrituelUrl(),
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: ritual.title,
+          item: url,
+        },
+      ],
+    },
+    {
     "@context": "https://schema.org",
     "@type": "HowTo",
     name: ritual.title,
@@ -78,7 +103,8 @@ export default async function GoldRituelDetailPage({ params }: PageProps) {
       position: index + 1,
       text,
     })),
-  };
+    },
+  ];
 
   return (
     <main className="homeV3Page grPage" id="top">
@@ -101,7 +127,7 @@ export default async function GoldRituelDetailPage({ params }: PageProps) {
         <p className="grLead">{ritual.summary}</p>
 
         <div className="grHero">
-          <img src={ritual.image} alt="" />
+          <img src={ritual.image} alt={`${ritual.title} görseli`} />
         </div>
         <div className="grMeta" style={{ marginTop: 14 }}>
           <span>{ritual.duration}</span>

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import FooterSection from "../../components/FooterSection";
 import HomeNavbar from "../../components/HomeNavbar";
 import RuyaSearch from "../../components/ruya/RuyaSearch";
-import { ruyaUrl } from "../../lib/ruya-tabirleri/urls";
+import { publishedDreams } from "../../data/ruya-tabirleri/catalog";
+import { ruyaPath, ruyaUrl } from "../../lib/ruya-tabirleri/urls";
 import "../../styles/home.css";
 import "../../styles/ruya-tabirleri.css";
 
@@ -41,6 +43,16 @@ export default function RuyaTabirleriPage() {
         <h1>Rüya Tabirleri</h1>
         <p className="ruyaLead">Rüyanda ne gördüğünü yaz, anlamını keşfet.</p>
         <RuyaSearch />
+        <h2 className="ruyaLead" style={{ marginTop: 36, fontSize: 22 }}>
+          Yayınlanan rüya tabirleri
+        </h2>
+        <ul className="ruyaRelated">
+          {publishedDreams().map((dream) => (
+            <li key={dream.slug}>
+              <Link href={ruyaPath(dream.slug)}>{dream.h1}</Link>
+            </li>
+          ))}
+        </ul>
       </div>
       <FooterSection />
     </main>

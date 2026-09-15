@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import { permanentRedirect } from "next/navigation";
 
 import Navbar from "../../components/Navbar";
 import GoldBlogSection from "../../components/GoldBlogSection";
 import FooterSection from "../../components/FooterSection";
 import ContinueGlance from "../../components/platform/ContinueGlance";
+import { isGoldBlogPostId } from "../../lib/goldblog/posts";
+import { SITE_NAME } from "../../lib/seo";
 import "../../styles/home.css";
 
 const pageUrl = "https://goldkozmos.com/goldblog";
@@ -22,7 +25,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "tr_TR",
     url: pageUrl,
-    siteName: "Goldkozmos",
+    siteName: SITE_NAME,
 
     title:
       "GoldBlog | Kişisel Gelişim, Stoa ve Öz Farkındalık",
@@ -96,7 +99,17 @@ const blogJsonLd = {
   ],
 };
 
-export default function GoldBlogPage() {
+type PageProps = {
+  searchParams: Promise<{ yazi?: string | string[] }>;
+};
+
+export default async function GoldBlogPage({ searchParams }: PageProps) {
+  const query = await searchParams;
+  const raw = Array.isArray(query.yazi) ? query.yazi[0] : query.yazi;
+  if (raw && isGoldBlogPostId(raw)) {
+    permanentRedirect(`/goldblog/${raw}`);
+  }
+
   return (
     <main
       className="homePage goldblogPage"

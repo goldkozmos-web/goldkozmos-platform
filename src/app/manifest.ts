@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Goldkozmos® Rezonans Ekolü",
+    name: "GoldKozmos",
 
-    short_name: "Goldkozmos",
+    short_name: "GoldKozmos",
 
     description:
       "Kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk ve spiritüel farkındalık ekosistemi.",

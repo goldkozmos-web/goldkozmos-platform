@@ -35,14 +35,14 @@ const STATIC_HITS: SearchHit[] = [
     title: "İçindeki Kozmosu Kucakla",
     type: "GoldBook",
     description: "Özdeğer, sınırlar ve içsel özgürlük.",
-    href: "/goldbook/icindeki-kozmosu-kucakla",
+    href: "/goldbook",
   },
   {
     id: "goldbook-ask",
     title: "Aşk Manifestosu",
     type: "GoldBook",
     description: "İlişkiler, sınırlar ve tekrar eden senaryolar.",
-    href: "/goldbook/ask-manifestosu",
+    href: "/goldbook",
   },
   {
     id: "goldmind",
@@ -136,7 +136,7 @@ function extraHits(): SearchHit[] {
     title: article.title,
     type: "GoldBlog",
     description: article.description,
-    href: `/goldblog#${article.slug}`,
+    href: `/goldblog/${article.slug}`,
   }));
 
   const dreams = publishedDreams().map((dream) => ({

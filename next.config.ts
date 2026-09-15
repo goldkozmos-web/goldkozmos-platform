@@ -18,8 +18,13 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/meditasyon-nefes-alani",
-        destination: "/goldmind",
+        source: "/goldbook/icindeki-kozmosu-kucakla",
+        destination: "/goldbook",
+        permanent: true,
+      },
+      {
+        source: "/goldbook/ask-manifestosu",
+        destination: "/goldbook",
         permanent: true,
       },
       {

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -548,6 +549,12 @@ const goldBlogHubStyles = `
     letter-spacing: -0.03em;
   }
 
+  .goldblogPage .goldBlogNewCardTitle a,
+  .goldblogPage .goldBlogDiscoverTitleRow a {
+    color: inherit;
+    text-decoration: none;
+  }
+
   .goldblogPage .goldBlogNewCard > span {
     display: block;
     margin-top: 12px;
@@ -618,6 +625,8 @@ const goldBlogHubStyles = `
     border-radius: 22px;
     background: rgba(255, 255, 255, 0.67);
     box-shadow: 0 12px 30px rgba(76, 49, 15, 0.04);
+    color: inherit;
+    text-decoration: none;
   }
 
   .goldblogPage .goldBlogArticleRowNumber {
@@ -4054,9 +4063,7 @@ export default function GoldBlogSection() {
   function getShareUrl(
     article: GoldBlogArticle,
   ) {
-    return `${canonicalGoldBlogUrl}?yazi=${encodeURIComponent(
-      article.slug,
-    )}`;
+    return `https://goldkozmos.com/goldblog/${encodeURIComponent(article.slug)}`;
   }
 
   function getShareMessage(
@@ -4245,7 +4252,14 @@ export default function GoldBlogSection() {
                     </p>
 
                     <h4 className="goldBlogNewCardTitle">
-                      {article.title}
+                      <Link
+                        href={`/goldblog/${article.slug}`}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                        }}
+                      >
+                        {article.title}
+                      </Link>
                     </h4>
                   </button>
                 ),
@@ -4328,6 +4342,34 @@ export default function GoldBlogSection() {
           </div>
         </div>
       </section>
+
+      <nav className="goldBlogArchive" aria-label="GoldBlog yazıları">
+        <div className="goldBlogArchiveHeader">
+          <h3>
+            Tüm <span>yazılar</span>
+          </h3>
+          <p>GoldBlog arşivi — her yazı kendi sayfasında.</p>
+        </div>
+        <ul className="goldBlogArticleList">
+          {goldBlogArticles.map((article) => (
+            <li key={`archive-${article.slug}`}>
+              <Link
+                className="goldBlogArticleRow"
+                href={`/goldblog/${article.slug}`}
+              >
+                <span className="goldBlogArticleRowNumber">
+                  {article.number}
+                </span>
+                <span className="goldBlogArticleRowCopy">
+                  <p>{article.category}</p>
+                  <h4>{article.title}</h4>
+                  <span>{article.readingTime} okuma</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       {newAllOpen ? (
         <div
@@ -4437,7 +4479,14 @@ export default function GoldBlogSection() {
                     >
                       <p>{article.category}</p>
                       <div className="goldBlogDiscoverTitleRow">
-                        <strong>{article.title}</strong>
+                        <strong>
+                          <Link
+                            href={`/goldblog/${article.slug}`}
+                            onClick={(event) => event.stopPropagation()}
+                          >
+                            {article.title}
+                          </Link>
+                        </strong>
                         <span className="goldBlogDiscoverMore">
                           Devamını oku
                         </span>

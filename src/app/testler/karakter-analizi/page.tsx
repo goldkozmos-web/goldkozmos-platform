@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 
 import SelfTestClient from "../SelfTestClient";
 import { CHARACTER_QUESTIONS } from "../../../data/selfTests";
+import { publicPageMetadata } from "../../../lib/seo";
 
-export const metadata: Metadata = {
-  title: "Karakter Analizi",
+export const metadata: Metadata = publicPageMetadata({
+  title: "Karakter Analizi Testi | GoldKozmos",
   description:
     "Klinik test değil. Sosyal enerji, karar, sınır ve stres eğilimlerini gören öz-farkındalık aracı.",
-};
+  path: "/testler/karakter-analizi",
+  absoluteTitle: true,
+});
 
 export default function Page() {
   return (
