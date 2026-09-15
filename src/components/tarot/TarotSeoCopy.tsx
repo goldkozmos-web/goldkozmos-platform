@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function TarotSeoCopy() {
   return (
     <section className="tarotSeo tarotArticle">
@@ -8,7 +10,10 @@ export default function TarotSeoCopy() {
         Kartlar; bağ, emek, karar ve içsel ritim gibi alanlarda şu an hangi
         dinamiklerin çalıştığını görünür kılar. Online tarot bakımı da aynı
         dilde ilerler: konunu seçer, kartlarını çeker ve yorumu o anki enerji
-        üzerinden okursun.
+        üzerinden okursun. Kartların tek tek anlamları bu sayfada tekrar
+        edilmez; sözlük{" "}
+        <Link href="/tarot-kartlari">Tarot Kartları ve Anlamları</Link>{" "}
+        merkezindedir.
       </p>
       <p>
         İnsanlar tarot bakımı, tarot baktır, tarot falı veya tarot kartı seç

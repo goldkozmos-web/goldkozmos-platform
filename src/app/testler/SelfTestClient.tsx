@@ -26,12 +26,14 @@ export default function SelfTestClient({
   lead,
   questions,
   href,
+  intro,
 }: {
   kind: "character" | "shadow" | "relationship";
   title: string;
   lead: string;
   questions: LikertQuestion[];
   href: string;
+  intro?: string[];
 }) {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -94,6 +96,16 @@ export default function SelfTestClient({
         <p className="dailyEyebrow">ÖZ-FARKINDALIK ARACI</p>
         <h1 style={{ fontFamily: "Georgia, serif", fontWeight: 400 }}>{title}</h1>
         <p>{lead}</p>
+        {intro?.length ? (
+          <div className="testSeoCopy">
+            {intro.map((paragraph) => (
+              <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+            ))}
+          </div>
+        ) : null}
+        <p className="testSeoCopy">
+          <a href="/kendini-tani">Kendini Tanı</a>
+        </p>
       </div>
       {!done && question ? (
         <div className="homeSoftCard">

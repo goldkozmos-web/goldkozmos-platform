@@ -91,7 +91,7 @@ const STATIC_HITS: SearchHit[] = [
     title: "Testler",
     type: "Testler",
     description: "Kendini tanı testleri.",
-    href: "/#kendini-tani",
+    href: "/kendini-tani",
   },
   {
     id: "arketip",

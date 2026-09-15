@@ -6,44 +6,20 @@ import GoldBlogSection from "../../components/GoldBlogSection";
 import FooterSection from "../../components/FooterSection";
 import ContinueGlance from "../../components/platform/ContinueGlance";
 import { isGoldBlogPostId } from "../../lib/goldblog/posts";
-import { SITE_NAME } from "../../lib/seo";
+import { publicPageMetadata } from "../../lib/seo";
+import { breadcrumbJsonLd } from "../../lib/jsonld";
 import "../../styles/home.css";
+import "../../styles/hub-seo.css";
 
 const pageUrl = "https://goldkozmos.com/goldblog";
 
-export const metadata: Metadata = {
-  title: "GoldBlog | Kişisel Gelişim, Stoa ve Öz Farkındalık",
-
+export const metadata: Metadata = publicPageMetadata({
+  title: "Kişisel Gelişim, İlişkiler ve Farkındalık Yazıları | GoldBlog",
   description:
-    "GoldBlog'da kişisel gelişim, Stoa felsefesi, özdeğer, ilişkiler, insan davranışları, bolluk, sosyoloji ve spiritüel farkındalık üzerine içerikleri keşfet.",
-
-  alternates: {
-    canonical: pageUrl,
-  },
-
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    url: pageUrl,
-    siteName: SITE_NAME,
-
-    title:
-      "GoldBlog | Kişisel Gelişim, Stoa ve Öz Farkındalık",
-
-    description:
-      "Kişisel gelişim, Stoa, özdeğer, ilişkiler, sosyoloji, insan davranışları ve spiritüel farkındalık üzerine Goldkozmos® içerikleri.",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-
-    title:
-      "GoldBlog | Kişisel Gelişim, Stoa ve Öz Farkındalık",
-
-    description:
-      "Kişisel gelişim, Stoa, ilişkiler, özdeğer ve insanı anlamaya yönelik Goldkozmos® içeriklerini keşfet.",
-  },
-};
+    "GoldBlog: kendilik, ilişkiler, sınırlar, özdeğer, Stoa, farkındalık, bolluk, alışkanlıklar ve iletişim üzerine editoryal yazılar.",
+  path: "/goldblog",
+  absoluteTitle: true,
+});
 
 const blogJsonLd = {
   "@context": "https://schema.org",
@@ -118,11 +94,28 @@ export default async function GoldBlogPage({ searchParams }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(blogJsonLd),
+          __html: JSON.stringify([
+            blogJsonLd,
+            breadcrumbJsonLd([
+              { name: "Ana Sayfa", path: "/" },
+              { name: "GoldBlog", path: "/goldblog" },
+            ]),
+          ]),
         }}
       />
 
       <Navbar />
+
+      <header className="goldblogSeoIntro">
+        <h1>GoldBlog – Kişisel Gelişim Yazıları</h1>
+        <p>
+          GoldBlog, GoldKozmos’un editoryal yazı alanıdır. Meditasyon uygulaması,
+          frekans kaydı veya tarot sözlüğü değildir. Kendilik, ilişkiler,
+          sınırlar, özdeğer, Stoa, farkındalık, bolluk, alışkanlıklar ve
+          iletişim konularında uzun form metinler yayınlanır. Kümeler yazıların
+          etiketleriyle birbirine bağlanır; ayrı boş kategori sayfası yoktur.
+        </p>
+      </header>
 
       <ContinueGlance platformId="goldblog" variant="page" />
 

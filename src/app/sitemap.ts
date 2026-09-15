@@ -5,6 +5,8 @@ import { publishedRituals } from "../data/goldrituel/catalog";
 import { goldBlogArticles } from "../data/goldblogArticles";
 import { TAROT_DECK } from "../data/tarot/deck";
 import { SIGNS } from "../data/burclar/signs";
+import { GOLDFREKANS_TRACKS } from "../data/goldfrekans/tracks";
+import { GOLDBOOKS } from "../data/goldbook/books";
 import { allCanonicalPairs } from "../lib/burclar/pairs";
 import { SITE_ORIGIN } from "../lib/site";
 
@@ -47,6 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     loc("/burc-uyumu", { changeFrequency: "weekly", priority: 0.8 }),
     loc("/goldrituel", { changeFrequency: "weekly", priority: 0.9 }),
     loc("/kendilik-yolculugu", { changeFrequency: "monthly", priority: 0.7 }),
+    loc("/kendini-tani", { changeFrequency: "monthly", priority: 0.8 }),
     loc("/arketip-testi", { changeFrequency: "monthly", priority: 0.7 }),
     loc("/testler/iliski-oruntusu", { changeFrequency: "monthly", priority: 0.7 }),
     loc("/testler/karakter-analizi", { changeFrequency: "monthly", priority: 0.7 }),
@@ -118,5 +121,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  return [...hubs, ...blogs, ...dreams, ...rituals, ...tarotCards, ...signs, ...pairs];
+  const books = GOLDBOOKS.map((book) =>
+    loc(`/goldbook/${book.slug}`, {
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }),
+  );
+
+  const frequencies = GOLDFREKANS_TRACKS.map((track) =>
+    loc(`/goldfrekans/${track.slug}`, {
+      changeFrequency: "monthly",
+      priority: 0.6,
+    }),
+  );
+
+  return [
+    ...hubs,
+    ...blogs,
+    ...dreams,
+    ...rituals,
+    ...tarotCards,
+    ...signs,
+    ...pairs,
+    ...books,
+    ...frequencies,
+  ];
 }

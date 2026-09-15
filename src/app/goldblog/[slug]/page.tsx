@@ -77,6 +77,8 @@ export default async function GoldBlogArticlePage({ params }: PageProps) {
       title: article.title,
       description: article.description,
       path,
+      datePublished: article.publishedAt,
+      dateModified: article.updatedAt,
     }),
   ];
 
@@ -100,6 +102,14 @@ export default async function GoldBlogArticlePage({ params }: PageProps) {
         <p className="goldblogPostLead">{article.description}</p>
         <p className="goldblogPostMeta">
           Yazar: {AUTHOR_NAME} · {article.readingTime} okuma
+          <br />
+          <time dateTime={article.publishedAt}>
+            Yayın: {article.publishedAt}
+          </time>
+          {" · "}
+          <time dateTime={article.updatedAt}>
+            Güncelleme: {article.updatedAt}
+          </time>
         </p>
         <div className="goldblogPostBody">
           {article.content.map((paragraph) => (

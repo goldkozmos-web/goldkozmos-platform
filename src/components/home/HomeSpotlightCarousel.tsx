@@ -33,7 +33,7 @@ export default function HomeSpotlightCarousel() {
       title: article?.title ?? "GoldBlog",
       text: article?.description ?? "Bugün okuman için bir yazı.",
       cta: "Oku",
-      href: article ? `/goldblog#${article.slug}` : "/goldblog",
+      href: article ? `/goldblog/${article.slug}` : "/goldblog",
       image: "/images/home-spotlight/goldblog.jpg",
     },
     {
@@ -52,7 +52,7 @@ export default function HomeSpotlightCarousel() {
       title: "Öz-farkındalık testleri",
       text: "Arketip, karakter, gölge yan ve ilişki örüntüsü. Klinik teşhis değil.",
       cta: "Testlere bak",
-      href: "/#kendini-tani",
+      href: "/kendini-tani",
       image: "/images/home-spotlight/arketip-testi.jpg",
     },
     {

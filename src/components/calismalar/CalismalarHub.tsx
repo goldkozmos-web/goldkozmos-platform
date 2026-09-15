@@ -5,6 +5,7 @@ import {
   allWorkCards,
   type WorkCard,
 } from "../../data/worksCatalog";
+import "../../styles/hub-seo.css";
 
 function isExternal(href: string) {
   return href.startsWith("http");
@@ -51,6 +52,16 @@ export default function CalismalarHub() {
   return (
     <main className="homeV3Page gkRouteIn calismalarHub" id="top">
       <HomeNavbar />
+
+      <div className="calismalarHubIntro">
+        <h1>Çalışmalar</h1>
+        <p>
+          Çalışmalar, GoldKozmos’un hizmet hub’ıdır. Numeroloji Analizi, Online
+          Tarot Bakımı, birebir seanslar ve enerji çalışmaları buradan kendi
+          sayfalarına gider. Aynı hizmet için ikinci bir landing üretilmez.
+          7 Çakra Dengeleme Çalışması enerji katalogundadır.
+        </p>
+      </div>
 
       {WORK_HUB_SECTIONS.map((section) => {
         const items = cards.filter((item) => item.group === section.id);

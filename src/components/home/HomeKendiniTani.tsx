@@ -21,6 +21,11 @@ const TESTS = [
     text: "Yakınlık, mesafe ve tekrar eden kalıplar.",
     href: "/testler/iliski-oruntusu",
   },
+  {
+    title: "21 Günlük Kendilik Yolculuğu",
+    text: "Günde birkaç dakikalık gözlem.",
+    href: "/kendilik-yolculugu",
+  },
 ];
 
 export default function HomeKendiniTani() {

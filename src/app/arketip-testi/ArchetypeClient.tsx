@@ -73,7 +73,10 @@ export default function ArchetypeClient() {
         </h1>
         <p>
           Bu klinik bir kişilik testi değil. Kendine hangi arketipten baktığını görmek için
-          24 soruluk bir öz-farkındalık aracı.
+          24 soruluk bir öz-farkındalık aracı. Sonuç private kalır; landing public’tir.
+        </p>
+        <p>
+          <a href="/kendini-tani">Kendini Tanı</a>
         </p>
       </div>
 

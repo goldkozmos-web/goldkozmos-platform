@@ -3,56 +3,9 @@
 import FooterSection from "../../components/FooterSection";
 import Navbar from "../../components/Navbar";
 import ContinueGlance from "../../components/platform/ContinueGlance";
+import { GOLDBOOKS } from "../../data/goldbook/books";
 import "../../styles/home.css";
-
-const books = [
-  {
-    number: "01",
-    category: "KİŞİSEL DÖNÜŞÜM",
-    title: "İçindeki Kozmosu Kucakla",
-    description:
-      "Özdeğer, sınırlar, sezgi, geçmişten taşınan kalıplar ve içsel özgürlük üzerine hazırlanmış dijital GoldBook.",
-    image: "/goldbook/icindeki-kozmosu-kucakla.webp",
-    price: "300 TL",
-    shopier:
-      "https://www.shopier.com/goldkozmos/46435030",
-    focus: [
-      "Başkalarının yargılarından özgürleşmek",
-      "Kendi değerini yeniden hatırlamak",
-      "Sağlıklı sınırlar oluşturmak",
-      "Sezgi ve teslimiyet alanını keşfetmek",
-    ],
-    info: [
-      "20 bölümlük içsel yolculuk",
-      "5 ana kısım ve son söz",
-      "Dijital kitap formatı",
-      "Özge Batıgün imzalı",
-    ],
-  },
-  {
-    number: "02",
-    category: "AŞK VE İLİŞKİLER",
-    title: "Aşk Manifestosu",
-    description:
-      "Geçmiş ilişkiler, tekrar eden senaryolar, sınırlar, flört dinamikleri ve doğru ilişkiyi seçme üzerine hazırlanmış dijital GoldBook.",
-    image: "/goldbook/ask-manifestosu.webp",
-    price: "300 TL",
-    shopier:
-      "https://www.shopier.com/goldkozmos/47631093",
-    focus: [
-      "Aşk ihtiyacını seçime taşımak",
-      "Tekrarlayan ilişki döngülerini görmek",
-      "Flörtte kendi merkezini korumak",
-      "Gerçek ilgiyi ayırt etmek",
-    ],
-    info: [
-      "20 bölümlük ilişki rehberi",
-      "6 ana kısım",
-      "Dijital kitap formatı",
-      "Özge Batıgün imzalı",
-    ],
-  },
-];
+import "../../styles/hub-seo.css";
 
 const goldBookNavbarStyles = `
   /* =========================================================
@@ -369,30 +322,31 @@ export default function GoldBookPage() {
                 GOLDBOOK KÜTÜPHANESİ
               </p>
 
-              <h1>
+              <h1>GoldBook</h1>
+
+              <p className="goldbookCompactHeroLead">
                 Okudukça kendine
                 <span> biraz daha yaklaş.</span>
-              </h1>
+              </p>
             </div>
 
             <div className="goldbookCompactHeroText">
               <p>
-                GoldBook, Goldkozmos® Rezonans Ekolü
-                içerisinde kişisel farkındalık ve içsel
-                dönüşüm konularında hazırlanan dijital
-                kitap koleksiyonudur.
+                GoldBook, GoldKozmos içindeki rehber, çalışma kitabı ve dijital
+                yayın alanıdır. GoldBlog editoryal yazı, GoldMind ses pratiği,
+                GoldFrekans frekans kaydı değildir. Satın alınan PDF’ler private
+                kalır; Google yalnızca bu tanıtım sayfalarını görür.
               </p>
 
               <p>
-                Kütüphanede şu anda iki GoldBook
-                bulunuyor. Yeni çalışmalar yayımlandıkça
-                koleksiyona eklenecek.
+                Kütüphanede şu anda iki GoldBook bulunuyor. Yeni çalışmalar
+                yayımlandıkça koleksiyona eklenecek.
               </p>
             </div>
           </div>
 
           <div className="goldbookCompactGrid">
-            {books.map((book) => (
+            {GOLDBOOKS.map((book) => (
               <article
                 className="goldbookCompactCard"
                 key={book.title}
@@ -415,7 +369,9 @@ export default function GoldBookPage() {
                       {book.category}
                     </p>
 
-                    <h2>{book.title}</h2>
+                    <h2>
+                      <a href={`/goldbook/${book.slug}`}>{book.title}</a>
+                    </h2>
 
                     <p className="goldbookCompactDescription">
                       {book.description}

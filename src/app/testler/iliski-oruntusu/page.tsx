@@ -16,10 +16,14 @@ export default function Page() {
   return (
     <SelfTestClient
       kind="relationship"
-      title="İlişki Örüntüsü"
+      title="İlişki Örüntüsü Testi"
       lead="Bu bir bağlanma teşhisi değil. Yakınlık, mesafe, çatışma ve tekrar eden kalıplarını gözlemlemek için bir araç."
       questions={RELATIONSHIP_QUESTIONS}
       href="/testler/iliski-oruntusu"
+      intro={[
+        "İlişki Örüntüsü Testi yakınlık, mesafe, çatışma ve tekrar eden bağ kalıplarına bakar. Bağlanma teşhisi değildir.",
+        "Test nasıl uygulanır: her maddeye 1–5 arası yanıt verirsin. Sonuç private kalır; bu sayfa public tanıttır.",
+      ]}
     />
   );
 }

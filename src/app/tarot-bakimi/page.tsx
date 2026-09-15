@@ -7,37 +7,20 @@ import TarotConvert from "../../components/tarot/TarotConvert";
 import TarotReading from "../../components/tarot/TarotReading";
 import TarotSeoCopy from "../../components/tarot/TarotSeoCopy";
 import { SITE_ORIGIN } from "../../lib/site";
+import { publicPageMetadata } from "../../lib/seo";
 import { tarotCareUrl } from "../../lib/tarot/urls";
 import "../../styles/home.css";
 import "../../styles/tarot-bakimi.css";
 
 const pageUrl = tarotCareUrl();
 
-export const metadata: Metadata = {
-  title: {
-    absolute:
-      "Tarot Bakımı | Online Tarot Kartı Seç ve Yorumunu Gör | GoldKozmos",
-  },
+export const metadata: Metadata = publicPageMetadata({
+  title: "Online Tarot Bakımı | Kart Seç ve Yorumunu Gör | GoldKozmos",
   description:
-    "Online tarot bakımı ile konunu seç, kartlarını çek ve yorumunu keşfet. 78 tarot kartının anlamlarını incele veya kişisel tarot bakımı için randevu oluştur.",
-  alternates: { canonical: pageUrl },
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    url: pageUrl,
-    siteName: "Goldkozmos",
-    title: "Tarot Bakımı | GoldKozmos",
-    description:
-      "Konunu seç, kartlarını çek ve mevcut enerjinin sana ne anlattığını keşfet.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Tarot Bakımı | GoldKozmos",
-    description:
-      "Online tarot bakımı, ücretsiz tarot yorumu ve 78 tarot kartının anlamları.",
-  },
-  robots: { index: true, follow: true },
-};
+    "Online tarot bakımı: konunu seç, tarot kartı seç, üç kartlık açılımı oku. Aşk tarot bakımı ve tarot yorumu deneyimi; kart sözlüğü ayrı sayfadadır.",
+  path: "/tarot-bakimi",
+  absoluteTitle: true,
+});
 
 export default function TarotBakimiPage() {
   const jsonLd = [
@@ -84,10 +67,10 @@ export default function TarotBakimiPage() {
           <span>Tarot Bakımı</span>
         </nav>
         <p className="tarotEyebrow">GOLDKOZMOS®</p>
-        <h1>Tarot Bakımı</h1>
+        <h1>Online Tarot Bakımı</h1>
         <p className="tarotLead">
-          Konunu seç, kartlarını çek ve mevcut enerjinin sana ne anlattığını
-          keşfet.
+        Online tarot bakımı, tarot baktır veya tarot kartı seç arayanlar için
+        interaktif bir açılımdır. Kart sözlüğü değildir.
         </p>
         <TarotReading />
         <TarotConvert />

@@ -1,6 +1,21 @@
 import { TAROT_DECK } from "./deck";
-import type { TarotCard } from "./types";
+import type { TarotCard, TarotSuit } from "./types";
 import { foldTurkish } from "../../lib/ruya-tabirleri/search";
+
+export const TAROT_SUIT_GROUPS: { suit: TarotSuit; title: string }[] = [
+  { suit: "major", title: "Büyük Arkana" },
+  { suit: "cups", title: "Kupalar" },
+  { suit: "swords", title: "Kılıçlar" },
+  { suit: "wands", title: "Değnekler" },
+  { suit: "pentacles", title: "Tılsımlar" },
+];
+
+export function tarotGroupedBySuit() {
+  return TAROT_SUIT_GROUPS.map((group) => ({
+    ...group,
+    cards: TAROT_DECK.filter((card) => card.suit === group.suit),
+  }));
+}
 
 export function tarotBySlug(slug: string) {
   return TAROT_DECK.find((card) => card.slug === slug) ?? null;
