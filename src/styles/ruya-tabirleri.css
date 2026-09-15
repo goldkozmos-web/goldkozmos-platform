@@ -221,3 +221,19 @@
   padding-top: 8px;
   border-top: 1px solid rgba(176, 130, 48, 0.16);
 }
+
+.ruyaRelated {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ruyaRelated li {
+  margin: 0 0 10px;
+}
+
+.ruyaRelated a {
+  color: #7a5720;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(176, 130, 48, 0.28);
+}

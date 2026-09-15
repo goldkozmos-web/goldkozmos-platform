@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Randevu Al",
   description:
     "GoldKozmos randevu talebi: günü ve çalışmayı seç, uygun saati WhatsApp üzerinden netleştir.",
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
 };
 
 export default function RandevuAlPage() {

@@ -13,8 +13,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Profilim",
-  description:
-    "GoldKozmos kişisel gelişim paneli: ilerlemen, kütüphanen, randevuların ve yolculuğun tek yerde.",
+  robots: { index: false, follow: true },
 };
 
 export default async function ProfilimPage() {

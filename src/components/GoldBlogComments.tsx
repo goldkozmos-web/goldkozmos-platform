@@ -51,7 +51,7 @@ function initials(name: string) {
 }
 
 function loginHref(postId: string) {
-  return `/giris?next=${encodeURIComponent(`/goldblog?yazi=${postId}`)}`;
+  return `/giris?next=${encodeURIComponent(`/goldblog/${postId}`)}`;
 }
 
 function totalCount(comments: CommentItem[]) {

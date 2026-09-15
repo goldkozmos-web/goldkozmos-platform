@@ -44,14 +44,16 @@ export async function generateMetadata({
       type: "article",
       locale: "tr_TR",
       url,
-      siteName: "Goldkozmos",
+      siteName: "GoldKozmos",
       title: dream.seoTitle,
       description: dream.metaDescription,
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title: dream.seoTitle,
       description: dream.metaDescription,
+      images: ["/opengraph-image"],
     },
     robots: { index: true, follow: true },
   };

@@ -34,6 +34,18 @@ const platformLinks = [
     href: "/goldblog",
   },
   {
+    label: "Rüya Tabirleri",
+    href: "/ruya-tabirleri",
+  },
+  {
+    label: "Tarot Kartları",
+    href: "/tarot-kartlari",
+  },
+  {
+    label: "Burçlar",
+    href: "/burclar",
+  },
+  {
     label: "GoldFrekans",
     href: "/goldfrekans",
   },
