@@ -1,6 +1,6 @@
-import type { DreamGuide } from "./types";
+import type { DreamGuideDraft } from "./types";
 
-export const yilanGuide: DreamGuide = {
+export const yilanGuide: DreamGuideDraft = {
   id: "ruyada-yilan-gormek",
   title: "Rüyada Yılan Görmek",
   slug: "ruyada-yilan-gormek",
