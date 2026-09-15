@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 
 import SelfTestClient from "../SelfTestClient";
-import {
-  RELATIONSHIP_QUESTIONS,
-  relationshipNarratives,
-  scoreLikert,
-} from "../../../data/selfTests";
+import { RELATIONSHIP_QUESTIONS } from "../../../data/selfTests";
 
 export const metadata: Metadata = {
   title: "İlişki Örüntüsü Testi",
@@ -21,9 +17,6 @@ export default function Page() {
       lead="Bu bir bağlanma teşhisi değil. Yakınlık, mesafe, çatışma ve tekrar eden kalıplarını gözlemlemek için bir araç."
       questions={RELATIONSHIP_QUESTIONS}
       href="/testler/iliski-oruntusu"
-      buildResult={(answers) =>
-        relationshipNarratives(scoreLikert(RELATIONSHIP_QUESTIONS, answers))
-      }
     />
   );
 }
