@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { applyPlatformSchema, isMissingRelation } from "@/lib/admin/applyPlatformSchema";
 import { sendMemberPush } from "@/lib/admin/push-server";
 import { createSupabaseServiceClient } from "@/lib/supabase/service";
+import { parseWaterProgram } from "@/lib/water/store";
 
 function isCron(request: Request) {
   const secret = process.env.CRON_SECRET?.trim();
@@ -122,12 +123,29 @@ export async function runReminderTick(request: Request) {
     await applyPlatformSchema();
     times = await admin.from("water_reminder_times").select("user_id, time").limit(4000);
   }
+  const waterUsers: { user_id: string }[] = (settings.data ?? []).map((row) => ({
+    user_id: String(row.user_id),
+  }));
   const byUser = new Map<string, string[]>();
   for (const row of times.data ?? []) {
     const uid = String(row.user_id);
     const list = byUser.get(uid) ?? [];
     list.push(String(row.time).slice(0, 5));
     byUser.set(uid, list);
+  }
+  if (!waterUsers.length) {
+    const backups = await admin
+      .from("comments")
+      .select("user_id, content")
+      .like("post_id", "gk-water:%")
+      .limit(400);
+    for (const row of backups.data ?? []) {
+      const program = parseWaterProgram(String(row.content ?? ""));
+      if (!program?.enabled) continue;
+      const uid = String(row.user_id);
+      byUser.set(uid, program.times);
+      waterUsers.push({ user_id: uid });
+    }
   }
 
   const istanbul = new Intl.DateTimeFormat("en-GB", {
@@ -143,7 +161,7 @@ export async function runReminderTick(request: Request) {
   const today = `${pick("year")}-${pick("month")}-${pick("day")}`;
   const nowMin = Number(pick("hour")) * 60 + Number(pick("minute"));
 
-  for (const row of settings.data ?? []) {
+  for (const row of waterUsers) {
     const uid = String(row.user_id);
     const stamps = byUser.get(uid) ?? [];
     for (const stamp of stamps) {
