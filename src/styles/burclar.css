@@ -1,0 +1,250 @@
+.burcPage {
+  background: linear-gradient(180deg, #fffdf9 0%, #f7f1e6 100%);
+  color: #211811;
+}
+
+.burcWrap {
+  width: min(760px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+
+.burcEyebrow {
+  margin: 0 0 8px;
+  color: #a8792a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+}
+
+.burcWrap h1 {
+  margin: 0;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(32px, 6vw, 46px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.burcLead {
+  margin: 14px 0 0;
+  color: #5c534b;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.burcSearch {
+  position: relative;
+  margin-top: 28px;
+}
+
+.burcSearch input,
+.burcPick select {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 56px;
+  padding: 16px 18px;
+  border: 1px solid rgba(176, 130, 48, 0.28);
+  border-radius: 22px;
+  background: #fffdf8;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  box-shadow: 0 10px 28px rgba(48, 32, 18, 0.08);
+}
+
+.burcSearch input::placeholder {
+  color: #9a9086;
+}
+
+.burcSuggest {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 5;
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 18px;
+  background: #fffdf8;
+  box-shadow: 0 16px 32px rgba(48, 32, 18, 0.12);
+}
+
+.burcSuggest a {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: #221812;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.burcSuggest a:hover,
+.burcSuggest a.isOn {
+  background: #f7ead3;
+}
+
+.burcSuggest small {
+  display: block;
+  margin-top: 4px;
+  color: #a8792a;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.burcEmpty {
+  margin-top: 18px;
+  color: #6a635b;
+}
+
+.burcGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 36px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 720px) {
+  .burcGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.burcCard {
+  padding: 16px 14px 14px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 18px;
+  background: #fffaf1;
+}
+
+.burcCard strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.burcGlyph {
+  color: #a8792a;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.burcCard nav {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.burcCard a,
+.burcLinks a,
+.burcCrumbs a {
+  color: #8d6728;
+  text-decoration: none;
+}
+
+.burcCard a {
+  font-size: 14px;
+}
+
+.burcCrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 18px;
+  color: #8a8176;
+  font-size: 12px;
+}
+
+.burcArticle h2 {
+  margin: 36px 0 12px;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.burcArticle p,
+.burcArticle li {
+  color: #3a322b;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.burcArticle p {
+  margin: 0 0 14px;
+}
+
+.burcLinks {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.burcScores {
+  display: grid;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 16px;
+  border: 1px solid rgba(176, 130, 48, 0.22);
+  border-radius: 18px;
+  background: #fffaf1;
+}
+
+.burcScores p {
+  margin: 0;
+  font-size: 15px;
+}
+
+.burcScores span {
+  color: #8d6728;
+}
+
+.burcNote {
+  margin: 8px 0 0;
+  color: #8a8176;
+  font-size: 13px;
+}
+
+.burcPick {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.burcPick label {
+  display: grid;
+  gap: 6px;
+  color: #6b4e1f;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+
+.burcCta {
+  min-height: 56px;
+  border: 0;
+  border-radius: 22px;
+  background: #221812;
+  color: #f7ead3;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.burcMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 14px 0 0;
+  color: #8a8176;
+  font-size: 13px;
+}

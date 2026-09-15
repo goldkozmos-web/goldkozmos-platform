@@ -3,6 +3,8 @@ import type { MetadataRoute } from "next";
 import { publishedDreams } from "../data/ruya-tabirleri/catalog";
 import { publishedRituals } from "../data/goldrituel/catalog";
 import { TAROT_DECK } from "../data/tarot/deck";
+import { SIGNS } from "../data/burclar/signs";
+import { allCanonicalPairs } from "../lib/burclar/pairs";
 
 const baseUrl = "https://goldkozmos.com";
 
@@ -136,6 +138,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     {
+      url: `${baseUrl}/burclar`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+
+    {
+      url: `${baseUrl}/burc-uyumu`,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+
+    {
       url: `${baseUrl}/goldrituel`,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -239,5 +253,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...dreams,
     ...rituals,
     ...tarotCards,
+    ...SIGNS.flatMap((sign) => [
+      {
+        url: `${baseUrl}/burclar/${sign.slug}-kadini`,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      },
+      {
+        url: `${baseUrl}/burclar/${sign.slug}-erkegi`,
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      },
+    ]),
+    ...allCanonicalPairs().map((pair) => ({
+      url: `${baseUrl}/burc-uyumu/${pair.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 }
