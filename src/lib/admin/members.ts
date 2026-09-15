@@ -36,6 +36,9 @@ export type SiteMemberRow = {
   age: string | null;
   phone: string | null;
   interests: string | null;
+  lastSignInAt?: string | null;
+  lastActiveAt?: string | null;
+  avatarUrl?: string | null;
 };
 
 export const REMOVED_MEMBERS_POST = "gk-member-out";
@@ -89,6 +92,9 @@ export function mergeMemberRows(groups: SiteMemberRow[][]) {
       age: base.age || next.age,
       phone: base.phone || next.phone,
       interests: base.interests || next.interests,
+      lastSignInAt: base.lastSignInAt || next.lastSignInAt,
+      lastActiveAt: base.lastActiveAt || next.lastActiveAt,
+      avatarUrl: base.avatarUrl || next.avatarUrl,
     };
   }
 

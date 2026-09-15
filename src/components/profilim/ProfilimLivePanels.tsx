@@ -7,17 +7,7 @@ import ProfilimEmptyState from "./ProfilimEmptyState";
 import ProfilimFeaturedCard from "./ProfilimFeaturedCard";
 import "../../styles/daily-practice.css";
 
-const XP: Record<string, number> = {
-  daily_action: 15,
-  emotion_journal: 10,
-  goldmind_complete: 20,
-  goldbook_chapter: 15,
-  growth_series: 15,
-  reminder_complete: 8,
-  journey_day: 12,
-  archetype: 20,
-  favorite_add: 2,
-};
+import { ACTIVITY_XP } from "../../lib/profilim/activityXp";
 
 type Range = "7" | "30" | "all";
 
@@ -152,7 +142,7 @@ export function ProfilimStatsPanel() {
       content: sliced.filter((row) =>
         ["goldbook_chapter", "goldmind_complete", "journey_day"].includes(row.kind),
       ).length,
-      xp: sliced.reduce((sum, row) => sum + (XP[row.kind] ?? 10), 0),
+      xp: sliced.reduce((sum, row) => sum + (ACTIVITY_XP[row.kind] ?? 10), 0),
     };
   }, [rows, range]);
 

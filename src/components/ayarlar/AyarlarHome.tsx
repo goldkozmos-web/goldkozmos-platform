@@ -3,13 +3,16 @@
 import { createProfilimBrowserClient } from "../../lib/profilim/auth.client";
 import type { ProfilimUser } from "../../lib/profilim/types";
 import AyarlarFrame from "./AyarlarFrame";
+import GoldOneriDrawer from "./GoldOneriDrawer";
 import {
   AyarlarButtonRow,
   AyarlarGroup,
   AyarlarLinkRow,
 } from "./AyarlarRows";
+import { useState } from "react";
 
 function List({ user }: { user: NonNullable<ProfilimUser> }) {
+  const [suggest, setSuggest] = useState(false);
   async function signOut() {
     const supabase = createProfilimBrowserClient();
     await supabase?.auth.signOut();
@@ -63,8 +66,9 @@ function List({ user }: { user: NonNullable<ProfilimUser> }) {
         />
       </AyarlarGroup>
 
-      <AyarlarGroup label="Destek">
+      <AyarlarGroup label="Destek & Geri Bildirim">
         <AyarlarLinkRow href="/ayarlar/sss" label="Sıkça Sorulan Sorular" />
+        <AyarlarButtonRow label="Gold’a Öneri" onClick={() => setSuggest(true)} />
         <AyarlarLinkRow href="/ayarlar/sorun" label="Sorun Bildir" />
         <AyarlarLinkRow
           href="https://wa.me/905054722153?text=Merhaba%2C%20GoldKozmos%20destek"
@@ -82,6 +86,8 @@ function List({ user }: { user: NonNullable<ProfilimUser> }) {
         <AyarlarButtonRow label="Çıkış Yap" onClick={() => void signOut()} />
         <AyarlarLinkRow href="/ayarlar/sil" label="Hesabımı Sil" tone="danger" />
       </AyarlarGroup>
+
+      {suggest ? <GoldOneriDrawer onClose={() => setSuggest(false)} /> : null}
     </>
   );
 }

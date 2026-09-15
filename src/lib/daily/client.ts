@@ -132,22 +132,24 @@ export async function fetchTodayAction(): Promise<DailyAction | null> {
     .then((res) => res.json().catch(() => null))
     .catch(() => null);
   if (api?.action) return mapActionRow(api.action);
-
-  const { pickGoldActFallback, istanbulDay } = await import("../../data/goldAct");
-  return pickGoldActFallback(session.user.id, istanbulDay());
+  return null;
 }
 
 export async function completeTodayAction() {
   const supabase = client();
   if (!supabase) return { error: "Oturum yok.", already: false };
 
+  const before = await fetchTodayAction();
+  const wasDone = Boolean(before?.completedAt);
+
   const { data, error } = await supabase.rpc("complete_today_daily_action");
   if (!error) {
     const row = Array.isArray(data) ? data[0] : data;
+    const completedAt = asText(row?.completed_at) || new Date().toISOString();
     return {
       error: null as string | null,
-      already: Boolean(row?.completed_at),
-      completedAt: asText(row?.completed_at) || null,
+      already: wasDone,
+      completedAt,
     };
   }
 
@@ -160,29 +162,15 @@ export async function completeTodayAction() {
   if (api?.completedAt) {
     return {
       error: null as string | null,
-      already: Boolean(api.already),
+      already: Boolean(api.already) || wasDone,
       completedAt: asText(api.completedAt),
     };
   }
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  if (!session?.user) {
-    return { error: error.message, already: false };
-  }
-
-  const { goldActStorageKey, istanbulDay } = await import("../../data/goldAct");
-  const stamp = new Date().toISOString();
-  try {
-    window.localStorage.setItem(
-      goldActStorageKey(session.user.id, istanbulDay()),
-      stamp,
-    );
-  } catch {
-    return { error: error.message, already: false };
-  }
-  return { error: null as string | null, already: false, completedAt: stamp };
+  return {
+    error: error?.message || "Görev kaydedilemedi. Tekrar dene.",
+    already: wasDone,
+  };
 }
 
 export async function fetchActivity(): Promise<UserActivityItem[]> {

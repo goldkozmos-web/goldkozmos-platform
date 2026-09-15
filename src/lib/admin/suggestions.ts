@@ -15,15 +15,15 @@ export function parseSuggestionInput(raw: {
   const title = String(raw.title ?? "").trim();
   const body = String(raw.body ?? "").trim();
 
-  if (title.length > 80) {
-    return { error: "Başlık kısa olsun." };
+  if (title.length < 2 || title.length > 80) {
+    return { error: "Konuyu yaz." };
   }
 
-  if (body.length < 4 || body.length > 900) {
-    return { error: "Öneriyi 4–900 karakter yaz." };
+  if (body.length < 8 || body.length > 900) {
+    return { error: "Öneriyi 8–900 karakter yaz." };
   }
 
-  return { title: title || "Öneri", body };
+  return { title, body };
 }
 
 export function encodeSuggestionContent(title: string, body: string) {

@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 
-import { pickGoldActFallback, istanbulDay } from "@/data/goldAct";
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 
 export const dynamic = "force-dynamic";
@@ -46,7 +45,7 @@ export async function GET() {
 
   return NextResponse.json({
     signedIn: true,
-    action: pickGoldActFallback(user.id, istanbulDay()),
+    action: null,
   });
 }
 
@@ -70,7 +69,7 @@ export async function POST() {
 
   const row = Array.isArray(data) ? data[0] : data;
   return NextResponse.json({
-    already: Boolean(row?.completed_at),
+    already: Boolean((row as { already?: boolean } | null)?.already),
     completedAt: asText(row?.completed_at) || new Date().toISOString(),
   });
 }

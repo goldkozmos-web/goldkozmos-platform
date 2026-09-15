@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import GlobalSearch from "./GlobalSearch";
 
 export default function HomeNavbar() {
   const pathname = usePathname();
@@ -46,13 +47,21 @@ export default function HomeNavbar() {
           <a href={faqHref}>SSS</a>
         </nav>
 
-        <a
-          className="homeV3NavTest"
-          href="/sana-uygun-calismayi-bul"
-        >
-          Ücretsiz Test
-          <span>→</span>
-        </a>
+        <div className="homeV3NavEnd">
+          <div className="homeV3NavTools">
+            <GlobalSearch />
+            <a className="homeNavTool isProfilim" href="/profilim">
+              Profilim
+            </a>
+          </div>
+          <a
+            className="homeV3NavTest"
+            href="/sana-uygun-calismayi-bul"
+          >
+            Ücretsiz Test
+            <span>→</span>
+          </a>
+        </div>
 
         <button
           type="button"

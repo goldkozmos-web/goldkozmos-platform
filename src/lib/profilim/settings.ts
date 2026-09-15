@@ -12,6 +12,8 @@ export type SettingsNotify = {
   pdf: boolean;
   purchase: boolean;
   content: boolean;
+  phone: boolean;
+  water: boolean;
 };
 
 export type SettingsCookies = {
@@ -32,6 +34,8 @@ export const DEFAULT_AYARLAR: AyarlarPrefs = {
     pdf: true,
     purchase: true,
     content: false,
+    phone: false,
+    water: false,
   },
   interests: [],
   cookies: {
@@ -67,6 +71,8 @@ export function parseAyarlarPrefs(raw: unknown): AyarlarPrefs {
       pdf: notify?.pdf !== false,
       purchase: notify?.purchase !== false,
       content: notify?.content === true,
+      phone: notify?.phone === true,
+      water: notify?.water === true,
     },
     interests,
     cookies: {

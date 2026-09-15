@@ -18,13 +18,19 @@ self.addEventListener("push", (event) => {
       badge: "/icon.png",
       vibrate: [160, 80, 160],
       data: { url: payload.url || "/profilim" },
+      actions: payload.url && String(payload.url).includes("water")
+        ? [{ action: "drank", title: "İçtim" }]
+        : [],
     }),
   );
 });
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const target = (event.notification.data && event.notification.data.url) || "/profilim";
+  const target =
+    event.action === "drank"
+      ? "/profilim?open=water&drank=1"
+      : (event.notification.data && event.notification.data.url) || "/profilim";
   event.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((windows) => {
       for (const client of windows) {

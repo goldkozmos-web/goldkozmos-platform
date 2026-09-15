@@ -48,11 +48,11 @@ export default function HomeSpotlightCarousel() {
     },
     {
       id: "archetype",
-      eyebrow: "ÖZ-FARKINDALIK",
-      title: "GoldKozmos Arketip Testi",
-      text: "Kendine hangi arketipten baktığını gör. 24 soru, baskın üç sonuç.",
-      cta: "Arketip Testine Başla",
-      href: "/arketip-testi",
+      eyebrow: "KENDİNİ TANI",
+      title: "Öz-farkındalık testleri",
+      text: "Arketip, karakter, gölge yan ve ilişki örüntüsü. Klinik teşhis değil.",
+      cta: "Testlere bak",
+      href: "/#kendini-tani",
       image: "/images/home-spotlight/arketip-testi.jpg",
     },
     {

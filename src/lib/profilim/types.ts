@@ -12,7 +12,18 @@ export type ProfilimActivityKind =
   | "session"
   | "journal"
   | "letter"
-  | "analysis";
+  | "analysis"
+  | "daily_action"
+  | "emotion_journal"
+  | "goldmind_complete"
+  | "goldbook_chapter"
+  | "growth_series"
+  | "reminder_complete"
+  | "journey_day"
+  | "archetype"
+  | "test_complete"
+  | "success_journal"
+  | "favorite_add";
 
 export type ProfilimActivity = {
   id: string;
@@ -152,7 +163,6 @@ export type ProfilimDrawerId =
   | "journey"
   | "understand"
   | "inbox"
-  | "suggest"
   | "emotionJournal"
   | "duyguRehberi"
   | "badges"
@@ -163,7 +173,8 @@ export type ProfilimDrawerId =
   | "activityHistory"
   | "todos"
   | "stats"
-  | "water";
+  | "water"
+  | "successJournal";
 
 export type ProfilimDashboardSources = {
   user: ProfilimUser;

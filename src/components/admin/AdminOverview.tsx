@@ -121,6 +121,55 @@ export default function AdminOverview({
 
       <AdminVisitChart />
 
+      <section className="adminPanel" aria-label="Bugün ve 30 gün">
+        <header className="adminPanelHead">
+          <div>
+            <h2>Ziyaret özeti</h2>
+            <p className="adminSectionLabel">analytics_events</p>
+          </div>
+        </header>
+        <p>
+          Bugün: {live?.todayStats?.visits ?? 0} ziyaret · {live?.todayStats?.uniques ?? 0} benzersiz ·{" "}
+          {live?.todayStats?.members ?? 0} yeni üye · {live?.todayStats?.appointments ?? 0} randevu ·{" "}
+          {live?.todayStats?.whatsapp ?? 0} WhatsApp
+        </p>
+        <p>
+          30 gün: {live?.last30?.visits ?? 0} ziyaret · {live?.last30?.uniques ?? 0} benzersiz ·{" "}
+          {live?.last30?.members ?? 0} yeni üye · {live?.last30?.appointments ?? 0} randevu
+        </p>
+      </section>
+
+      <section className="adminPanel" aria-label="Canlı aktivite">
+        <header className="adminPanelHead">
+          <div>
+            <h2>Canlı aktivite</h2>
+            <p className="adminSectionLabel">Gerçek eventler</p>
+          </div>
+        </header>
+        {(live?.activity ?? []).length === 0 ? (
+          <div className="adminQuiet">
+            <strong>Henüz event yok</strong>
+          </div>
+        ) : (
+          <ul className="profilimDrawerList">
+            {(live?.activity ?? []).map((row) => (
+              <li key={row.id}>
+                <span>
+                  {new Date(row.at).toLocaleTimeString("tr-TR", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    timeZone: "Europe/Istanbul",
+                  })}
+                </span>
+                <strong>
+                  {row.who} · {row.text}
+                </strong>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
       <AdminMemberList members={members} />
     </div>
   );

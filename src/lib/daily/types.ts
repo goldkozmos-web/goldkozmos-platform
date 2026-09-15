@@ -41,8 +41,9 @@ export const ACTIVITY_KIND_LABEL: Record<string, string> = {
 };
 
 export const REPEAT_OPTIONS = [
-  { value: "none", label: "Tekrar yok" },
+  { value: "none", label: "Bir kez" },
   { value: "daily", label: "Her gün" },
+  { value: "weekdays", label: "Hafta içi" },
   { value: "weekly", label: "Her hafta" },
   { value: "monthly", label: "Her ay" },
 ] as const;

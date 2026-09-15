@@ -32,6 +32,7 @@ export const PROFILIM_TILE_GROUPS: ProfilimTileGroup[] = [
     title: "Gelişim",
     tiles: [
       { id: "journey", eyebrow: "YOLCULUK", title: "Gelişim Yolculuğum" },
+      { id: "understand", eyebrow: "TEST", title: "Kendimi Tanı" },
       { id: "activityHistory", eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişim" },
       { id: "pdfs", eyebrow: "ANALİZ", title: "Analizlerim" },
     ],
@@ -43,6 +44,7 @@ export const PROFILIM_TILE_GROUPS: ProfilimTileGroup[] = [
     tiles: [
       { id: "emotionJournal", eyebrow: "DUYGU", title: "Duygu Günlüğüm" },
       { id: "dreamJournal", eyebrow: "RÜYA", title: "Rüya Günlüğüm" },
+      { id: "successJournal", eyebrow: "BAŞARI", title: "Başarı Günlüğüm" },
       { id: "journal", eyebrow: "YAZI", title: "Kişisel Günlüğüm" },
       { id: "letter", eyebrow: "MEKTUP", title: "Kendime Mektup" },
       { id: "duyguRehberi", eyebrow: "REHBER", title: "Duygu Rehberi" },
