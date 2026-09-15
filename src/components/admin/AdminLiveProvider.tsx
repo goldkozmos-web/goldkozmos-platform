@@ -16,9 +16,11 @@ import {
   type AdminAlert,
 } from "../../lib/admin/alerts";
 import type {
+  AdminActivityItem,
   AdminEventRow,
   AdminMemberRow,
   AdminOverviewMetric,
+  AdminRangeStats,
   AdminVisitorRow,
 } from "../../lib/admin/load";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
@@ -30,6 +32,9 @@ export type AdminLiveSnapshot = {
   purchases: AdminEventRow[];
   appointments: AdminEventRow[];
   members: AdminMemberRow[];
+  todayStats?: AdminRangeStats;
+  last30?: AdminRangeStats;
+  activity?: AdminActivityItem[];
 };
 
 type AdminLiveContextValue = {
@@ -198,6 +203,9 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
         purchases: data.purchases ?? [],
         appointments: data.appointments ?? [],
         members: data.members ?? [],
+        todayStats: data.todayStats,
+        last30: data.last30,
+        activity: data.activity ?? [],
       };
       const alerts = diffAdminLive(cursor.current, {
         metrics: snapshot.metrics,
@@ -223,7 +231,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     void refresh();
     const timer = window.setInterval(() => {
       void refresh();
-    }, 2000);
+    }, 12000);
 
     function onFocus() {
       void refresh();
@@ -232,10 +240,37 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     window.addEventListener("focus", onFocus);
     document.addEventListener("visibilitychange", onFocus);
 
+    const supabase = createSupabaseBrowserClient();
+    const channels: ReturnType<NonNullable<typeof supabase>["channel"]>[] = [];
+    if (supabase) {
+      for (const table of ["profiles", "analytics_events", "suggestions", "appointments", "notifications", "site_events"]) {
+        const channel = supabase
+          .channel(`admin-live-${table}`)
+          .on(
+            "postgres_changes",
+            { event: "*", schema: "public", table },
+            () => {
+              void refresh();
+            },
+          )
+          .subscribe((status) => {
+            if (status === "CHANNEL_ERROR") {
+              console.warn(`Realtime ${table} bağlanamadı`);
+            }
+          });
+        channels.push(channel);
+      }
+    }
+
     return () => {
       window.clearInterval(timer);
       window.removeEventListener("focus", onFocus);
       document.removeEventListener("visibilitychange", onFocus);
+      if (supabase) {
+        for (const channel of channels) {
+          void supabase.removeChannel(channel);
+        }
+      }
     };
   }, [refresh]);
 

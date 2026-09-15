@@ -2,12 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import {
-  WATER_EVENT,
-  WATER_GOAL,
-  readWaterDay,
-  type WaterDayState,
-} from "../../lib/profilim/waterStore";
+import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import WaterGlassArt from "./WaterGlassArt";
 
 export default function ProfilimWaterCard({
@@ -18,43 +13,43 @@ export default function ProfilimWaterCard({
   onOpen: () => void;
 }) {
   const [glasses, setGlasses] = useState(0);
+  const [goal, setGoal] = useState(8);
 
   useEffect(() => {
-    setGlasses(readWaterDay(userId).glasses);
-    const sync = (event: Event) => {
-      const detail = (event as CustomEvent<WaterDayState>).detail;
-      if (detail?.glasses != null) setGlasses(detail.glasses);
-    };
-    window.addEventListener(WATER_EVENT, sync);
-    return () => window.removeEventListener(WATER_EVENT, sync);
+    const supabase = createSupabaseBrowserClient();
+    if (!supabase || !userId) return;
+    const today = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Istanbul" });
+    void Promise.all([
+      supabase.from("water_reminder_settings").select("daily_goal").eq("user_id", userId).maybeSingle(),
+      supabase
+        .from("water_logs")
+        .select("amount")
+        .eq("user_id", userId)
+        .gte("logged_at", `${today}T00:00:00+03:00`),
+    ]).then(([settings, logs]) => {
+      if (settings.data?.daily_goal) setGoal(Number(settings.data.daily_goal));
+      setGlasses((logs.data ?? []).reduce((sum, row) => sum + Number(row.amount || 1), 0));
+    });
   }, [userId]);
 
-  const done = glasses >= WATER_GOAL;
+  const done = glasses >= goal;
 
   return (
     <button
       type="button"
       className="profilimFeatured profilimWaterCard"
       onClick={onOpen}
-      aria-label={`Su hatırlatıcısı, bugün ${glasses} / ${WATER_GOAL} bardak`}
+      aria-label={`Su hatırlatıcısı, bugün ${glasses} / ${goal} bardak`}
     >
       <span className="profilimWaterAura" aria-hidden="true" />
       <span className="profilimWaterCopy">
         <span className="profilimFeaturedEyebrow">SU</span>
-        <strong className="profilimFeaturedTitle">Su iç</strong>
+        <strong className="profilimFeaturedTitle">Su hatırlatıcısı</strong>
         <span className="profilimWaterMeta">
-          {done ? "Bugün tamam" : `${glasses} / ${WATER_GOAL} bardak`}
-        </span>
-        <span className="profilimWaterPips" aria-hidden="true">
-          {Array.from({ length: WATER_GOAL }, (_, index) => (
-            <span
-              key={index}
-              className={`profilimWaterPip${index < glasses ? " isFilled" : ""}`}
-            />
-          ))}
+          {done ? "Bugün tamam" : `Bugün: ${glasses} / ${goal}`}
         </span>
       </span>
-      <WaterGlassArt glasses={glasses} goal={WATER_GOAL} />
+      <WaterGlassArt glasses={glasses} goal={goal} />
     </button>
   );
 }

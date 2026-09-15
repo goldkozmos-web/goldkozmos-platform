@@ -8,6 +8,7 @@ import MobileBottomBar from "../components/MobileBottomBar";
 import PlatformFlowRoot from "../components/platform/PlatformFlowRoot";
 import "../styles/daily-practice.css";
 import PresenceTracker from "../components/presence/PresenceTracker";
+import ServiceWorkerRegister from "../components/ServiceWorkerRegister";
 import RouteFade from "../components/RouteFade";
 
 import "../styles/home.css";
@@ -161,6 +162,7 @@ export default function RootLayout({
 
         <PlatformFlowRoot>
           <PresenceTracker />
+          <ServiceWorkerRegister />
           <RouteFade>{children}</RouteFade>
           <GlobalContactDock />
           <MobileBottomBar />

@@ -2,6 +2,14 @@
 
 import { createSupabaseBrowserClient } from "../supabase/browser";
 
+export function pushSupportState() {
+  if (typeof window === "undefined") return "unknown";
+  if (!("serviceWorker" in navigator) || !("PushManager" in window) || typeof Notification === "undefined") {
+    return "unsupported";
+  }
+  return Notification.permission;
+}
+
 function pushSupported() {
   return (
     typeof window !== "undefined" &&
@@ -97,6 +105,22 @@ export async function showLocalTodoNotice(title: string, body: string) {
   } catch {
     return false;
   }
+}
+
+export async function disableMemberPush() {
+  if (!pushSupported()) {
+    return { ok: false, reason: "unsupported" as const };
+  }
+  const registration = await navigator.serviceWorker.ready.catch(() => null);
+  const subscription = await registration?.pushManager.getSubscription();
+  await fetch("/api/profilim/push", {
+    method: "DELETE",
+    credentials: "same-origin",
+    headers: await authHeaders(),
+    body: JSON.stringify({ endpoint: subscription?.endpoint || "" }),
+  });
+  await subscription?.unsubscribe();
+  return { ok: true as const };
 }
 
 export async function sendTodoPhoneNotice(title: string, body: string) {

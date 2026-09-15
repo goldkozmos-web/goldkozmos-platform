@@ -7,6 +7,7 @@ import PlatformRail from "../components/platform/PlatformRail";
 import DailyActionCard from "../components/daily/DailyActionCard";
 import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeGoldAction from "../components/daily/HomeGoldAction";
+import HomeKendiniTani from "../components/home/HomeKendiniTani";
 import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
 import {
   getEducationCourses,
@@ -2721,12 +2722,12 @@ export default function HomePageClient() {
               <div className="homeHeroMiniTest">
                 <div className="homeHeroMiniTestCopy">
                   <h2>
-                    Arketip testi
+                    Kendini tanı
                   </h2>
                 </div>
 
-                <a href="/arketip-testi">
-                  Teste Başla
+                <a href="#kendini-tani">
+                  Testlere bak
                 </a>
               </div>
             </div>
@@ -2737,6 +2738,7 @@ export default function HomePageClient() {
       <DailyActionCard />
       <DailyMessageExperience />
       <HomeGoldAction />
+      <HomeKendiniTani />
       <HomeSpotlightCarousel />
 
       <PlatformRail />

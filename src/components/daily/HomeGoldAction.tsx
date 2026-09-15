@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import type { DailyAction } from "../../lib/daily/types";
 import { ACTION_CATEGORIES } from "../../lib/daily/types";
 import { completeTodayAction, fetchTodayAction } from "../../lib/daily/client";
+import { GOLDACT_XP_EVENT } from "../../lib/profilim/activityXp";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import "../../styles/daily-practice.css";
 
@@ -81,14 +82,31 @@ export default function HomeGoldAction() {
                     ...action,
                     completedAt: result.completedAt || new Date().toISOString(),
                   });
-                  setNote("Kaydedildi. Puanın işlendi.");
+                  setNote(
+                    result.already
+                      ? "Bugün zaten tamamlandı."
+                      : "Kaydedildi. Puanın işlendi.",
+                  );
+                  window.dispatchEvent(new Event(GOLDACT_XP_EVENT));
                 });
               }}
             >
-              {done ? "Bugün tamamlandı" : "Tamamladım"}
+              {done ? "✓ Tamamlandı" : "Tamamladım"}
             </button>
+            {done && action.completedAt ? (
+              <p className="goldActNote">
+                {new Date(action.completedAt).toLocaleString("tr-TR", {
+                  day: "numeric",
+                  month: "short",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </p>
+            ) : null}
             {note ? <p className="goldActNote">{note}</p> : null}
           </>
+        ) : signedIn ? (
+          <p className="goldActBody">Bugünün eylemi henüz hesabına bağlanmadı.</p>
         ) : (
           <>
             <p className="goldActBody">

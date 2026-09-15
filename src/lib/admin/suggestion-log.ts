@@ -1,20 +1,13 @@
 import { createSupabaseServerClient } from "../supabase/create-server-client";
 import { getAdminAccess } from "../admin/auth.server";
 import { getProfilimSessionUser } from "../profilim/auth.server";
-import {
-  encodeSuggestionContent,
-  parseSuggestionContent,
-  parseSuggestionInput,
-  SUGGESTIONS_POST,
-  type SiteSuggestion,
-} from "./suggestions";
+import { parseSuggestionInput, type SiteSuggestion } from "./suggestions";
 
 function asText(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
-function mapRow(row: Record<string, unknown>): SiteSuggestion {
-  const parsed = parseSuggestionContent(asText(row.content));
+function mapSuggestion(row: Record<string, unknown>): SiteSuggestion {
   const profiles = row.profiles as
     | { display_name?: string | null }
     | { display_name?: string | null }[]
@@ -24,8 +17,8 @@ function mapRow(row: Record<string, unknown>): SiteSuggestion {
   return {
     id: asText(row.id),
     name: asText(profile?.display_name) || "Üye",
-    title: parsed.title,
-    body: parsed.body,
+    title: asText(row.subject) || asText(row.title),
+    body: asText(row.message) || asText(row.body),
     createdAt: asText(row.created_at),
   };
 }
@@ -39,17 +32,17 @@ export async function listSiteSuggestions(): Promise<SiteSuggestion[]> {
   }
 
   const { data, error } = await supabase
-    .from("comments")
-    .select("id, content, created_at, profiles:user_id(display_name)")
-    .eq("post_id", SUGGESTIONS_POST)
+    .from("suggestions")
+    .select("id, subject, message, created_at, profiles:user_id(display_name)")
     .order("created_at", { ascending: false })
     .limit(80);
 
   if (error || !data) {
+    console.warn("suggestions list", error?.message);
     return [];
   }
 
-  return data.map((row) => mapRow(row as Record<string, unknown>));
+  return data.map((row) => mapSuggestion(row as Record<string, unknown>));
 }
 
 export async function createSiteSuggestion(raw: {
@@ -69,17 +62,18 @@ export async function createSiteSuggestion(raw: {
   }
 
   const { data, error } = await supabase
-    .from("comments")
+    .from("suggestions")
     .insert({
-      post_id: SUGGESTIONS_POST,
       user_id: user.id,
-      content: encodeSuggestionContent(parsed.title, parsed.body),
+      subject: parsed.title,
+      message: parsed.body,
+      status: "new",
     })
-    .select("id, content, created_at")
+    .select("id, subject, message, created_at")
     .single();
 
   if (error || !data) {
-    return { error: "Öneri kaydedilemedi.", status: 400 as const };
+    return { error: error?.message || "Öneri kaydedilemedi.", status: 400 as const };
   }
 
   return {

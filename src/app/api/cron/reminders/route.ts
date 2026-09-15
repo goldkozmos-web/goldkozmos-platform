@@ -24,7 +24,12 @@ function dueStamp(dueOn: string, dueTime: string | null) {
 function bumpDue(dueOn: string, rule: string) {
   const date = new Date(`${dueOn}T12:00:00+03:00`);
   if (rule === "daily") date.setDate(date.getDate() + 1);
-  else if (rule === "weekly") date.setDate(date.getDate() + 7);
+  else if (rule === "weekdays") {
+    date.setDate(date.getDate() + 1);
+    const day = date.getDay();
+    if (day === 6) date.setDate(date.getDate() + 2);
+    if (day === 0) date.setDate(date.getDate() + 1);
+  } else if (rule === "weekly") date.setDate(date.getDate() + 7);
   else if (rule === "monthly") date.setMonth(date.getMonth() + 1);
   else return dueOn;
   return date.toISOString().slice(0, 10);
@@ -100,5 +105,68 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, sent });
+  let waterSent = 0;
+  const settings = await admin
+    .from("water_reminder_settings")
+    .select("user_id, enabled, timezone, daily_goal")
+    .eq("enabled", true)
+    .limit(400);
+  const times = await admin
+    .from("water_reminder_times")
+    .select("user_id, time")
+    .limit(4000);
+  const byUser = new Map<string, string[]>();
+  for (const row of times.data ?? []) {
+    const uid = String(row.user_id);
+    const list = byUser.get(uid) ?? [];
+    list.push(String(row.time).slice(0, 5));
+    byUser.set(uid, list);
+  }
+
+  const istanbul = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Istanbul",
+    hour: "2-digit",
+    minute: "2-digit",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  const pick = (type: string) => istanbul.find((part) => part.type === type)?.value ?? "";
+  const today = `${pick("year")}-${pick("month")}-${pick("day")}`;
+  const nowMin = Number(pick("hour")) * 60 + Number(pick("minute"));
+
+  for (const row of settings.data ?? []) {
+    const uid = String(row.user_id);
+    const stamps = byUser.get(uid) ?? [];
+    for (const stamp of stamps) {
+      const [hh, mm] = stamp.split(":").map(Number);
+      const due = (hh || 0) * 60 + (mm || 0);
+      const delta = nowMin - due;
+      if (delta < 0 || delta > 16) continue;
+      const already = await admin
+        .from("water_reminder_sent")
+        .select("user_id")
+        .eq("user_id", uid)
+        .eq("sent_on", today)
+        .eq("reminder_time", `${stamp}:00`)
+        .maybeSingle();
+      if (already.data) continue;
+      const result = await sendMemberPush(uid, {
+        title: "💧 Su zamanı",
+        body: "Bugünkü hedefin için bir bardak su içmeyi unutma.",
+        url: "/profilim?open=water",
+      });
+      waterSent += result.sent;
+      if (result.sent > 0) {
+        await admin.from("water_reminder_sent").insert({
+          user_id: uid,
+          sent_on: today,
+          reminder_time: `${stamp}:00`,
+        });
+      }
+    }
+  }
+
+  return NextResponse.json({ ok: true, sent, waterSent });
 }

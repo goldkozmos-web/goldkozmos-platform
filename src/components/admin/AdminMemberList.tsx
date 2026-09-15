@@ -88,14 +88,18 @@ export default function AdminMemberList({
       </header>
       {members.map((member) => (
         <article key={member.id} className="adminMember">
+          {member.avatarUrl ? (
+            <img src={member.avatarUrl} alt="" width={36} height={36} style={{ borderRadius: "50%" }} />
+          ) : null}
           <div className="adminMemberCopy">
             <strong>{member.displayName}</strong>
             {member.email ? <em>{member.email}</em> : null}
             <small>
-              {memberSourceLabel(member.source)}
-              {" · "}
-              {memberStatus(member)}
-              {member.createdAt ? ` · ${whenLabel(member.createdAt)}` : ""}
+              {member.email ? `${member.email} · ` : ""}
+              {member.role === "admin" ? "admin" : "üye"}
+              {member.createdAt ? ` · üyelik ${whenLabel(member.createdAt)}` : ""}
+              {member.lastSignInAt ? ` · giriş ${whenLabel(member.lastSignInAt)}` : ""}
+              {member.lastActiveAt ? ` · aktif ${whenLabel(member.lastActiveAt)}` : ""}
               {memberDetails(member) ? ` · ${memberDetails(member)}` : ""}
             </small>
           </div>

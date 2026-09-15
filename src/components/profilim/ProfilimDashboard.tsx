@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { assembleDashboard } from "../../lib/profilim/dashboard";
+import { GOLDACT_XP_EVENT, xpForKind } from "../../lib/profilim/activityXp";
 import {
   readJournalEntries,
   readLetters,
@@ -19,6 +20,8 @@ import type {
   ProfilimLetter,
   ProfilimPlatformTrack,
   ProfilimTodayNeedChoiceId,
+  ProfilimActivity,
+  ProfilimActivityKind,
 } from "../../lib/profilim/types";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import { shouldClearProfilimUser } from "../../lib/profilim/sessionEvents";
@@ -56,7 +59,6 @@ import {
   TodayNeedPanel,
   AwarenessPanel,
   InboxPanel,
-  SuggestPanel,
 } from "./ProfilimPanels";
 import DailyMessageCard from "../daily/DailyMessageCard";
 import EmotionJournalPanel from "../daily/EmotionJournalPanel";
@@ -73,6 +75,7 @@ import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
 import RemindersPanel from "../daily/RemindersPanel";
 import ProfilimWaterCard from "./ProfilimWaterCard";
 import WaterPanel from "./WaterPanel";
+import SuccessJournalPanel from "./SuccessJournalPanel";
 
 const TRACKS: { id: "goldmind" | "goldbook" | "rezonans"; label: string }[] = [
   { id: "goldmind", label: "GoldMind" },
@@ -95,9 +98,8 @@ const DRAWERS: Record<
   journal: { eyebrow: "YAZI", title: "Kişisel Günlüğüm" },
   letter: { eyebrow: "MEKTUP", title: "Kendime Mektup" },
   journey: { eyebrow: "YOLCULUK", title: "Gelişim Yolculuğum" },
-  understand: { eyebrow: "FARKINDALIK", title: "Kendimi Anlamak" },
+  understand: { eyebrow: "FARKINDALIK", title: "Kendimi Tanı" },
   inbox: { eyebrow: "MESAJ", title: "Gelen Mesajlar" },
-  suggest: { eyebrow: "ÖNERİ", title: "Gold’a Öneri" },
   emotionJournal: { eyebrow: "DUYGU", title: "Duygu Günlüğüm" },
   duyguRehberi: { eyebrow: "DUYGU REHBERİ", title: "Duygularını Tanı" },
   badges: { eyebrow: "ROZET", title: "Rozetlerim" },
@@ -109,6 +111,7 @@ const DRAWERS: Record<
   todos: { eyebrow: "GÖREV", title: "Yapılacaklarım" },
   stats: { eyebrow: "İSTATİSTİK", title: "Kişisel İstatistikler" },
   water: { eyebrow: "SU", title: "Su Hatırlatıcısı" },
+  successJournal: { eyebrow: "BAŞARI", title: "Başarı Günlüğüm" },
 };
 
 export default function ProfilimDashboard({
@@ -126,6 +129,7 @@ export default function ProfilimDashboard({
   const [needId, setNeedId] = useState("");
   const [journal, setJournal] = useState(data.journalEntries);
   const [letters, setLetters] = useState(data.letters);
+  const [recentActivity, setRecentActivity] = useState(data.recentActivity);
 
   useEffect(() => {
     if (process.env.NODE_ENV === "development") {
@@ -246,7 +250,8 @@ export default function ProfilimDashboard({
       next === "dreamJournal" ||
       next === "ritualSaved" ||
       next === "ritualDone" ||
-      next === "ritualNotes"
+      next === "ritualNotes" ||
+      next === "water"
     ) {
       setOpen(next);
     }
@@ -259,6 +264,61 @@ export default function ProfilimDashboard({
     setLetters(readLetters(user.id));
   }, [user?.id]);
 
+  useEffect(() => {
+    if (!user?.id) return;
+    const supabase = createSupabaseBrowserClient();
+    if (!supabase) return;
+    const userId = user.id;
+    const client = supabase;
+
+    function mapRows(rows: Record<string, unknown>[]): ProfilimActivity[] {
+      return rows.map((row) => ({
+        id: String(row.id ?? ""),
+        kind: String(row.kind ?? "content") as ProfilimActivityKind,
+        title: String(row.title ?? ""),
+        completedAt: String(row.created_at ?? ""),
+        xp: xpForKind(String(row.kind ?? "")),
+      }));
+    }
+
+    function load() {
+      void client
+        .from("user_activity")
+        .select("id, kind, title, created_at")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: false })
+        .limit(400)
+        .then(({ data: rows }) => {
+          setRecentActivity(mapRows((rows ?? []) as Record<string, unknown>[]));
+        });
+    }
+
+    load();
+    window.addEventListener(GOLDACT_XP_EVENT, load);
+    const channel = client
+      .channel(`xp-${userId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "user_activity",
+          filter: `user_id=eq.${userId}`,
+        },
+        () => load(),
+      )
+      .subscribe((status) => {
+        if (status === "CHANNEL_ERROR") {
+          console.warn("user_activity realtime bağlanamadı");
+        }
+      });
+
+    return () => {
+      window.removeEventListener(GOLDACT_XP_EVENT, load);
+      void client.removeChannel(channel);
+    };
+  }, [user?.id]);
+
   const view = useMemo(
     () =>
       assembleDashboard({
@@ -267,8 +327,9 @@ export default function ProfilimDashboard({
         continueItems,
         journalEntries: journal,
         letters,
+        recentActivity,
       }),
-    [data, user, continueItems, journal, letters],
+    [data, user, continueItems, journal, letters, recentActivity],
   );
 
   const close = useCallback(() => setOpen(null), []);
@@ -457,10 +518,10 @@ export default function ProfilimDashboard({
           ) : null}
           {open === "understand" ? <AwarenessPanel /> : null}
           {open === "inbox" ? <InboxPanel /> : null}
-          {open === "suggest" ? <SuggestPanel /> : null}
           {open === "emotionJournal" ? <EmotionJournalPanel /> : null}
           {open === "duyguRehberi" ? <DuyguRehberiPanel /> : null}
           {open === "dreamJournal" ? <RuyaGunluguPanel /> : null}
+          {open === "successJournal" ? <SuccessJournalPanel /> : null}
           {open === "ritualSaved" ? <GoldRituelPanel tab="saved" /> : null}
           {open === "ritualDone" ? <GoldRituelPanel tab="done" /> : null}
           {open === "ritualNotes" ? <GoldRituelPanel tab="notes" /> : null}

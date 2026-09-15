@@ -54,7 +54,16 @@ export default function PresenceTracker() {
       });
     };
 
-    send("page");
+    const stampKey = `gk_pv:${pathname}`;
+    try {
+      const last = Number(window.sessionStorage.getItem(stampKey) || "0");
+      if (Date.now() - last > 4000) {
+        window.sessionStorage.setItem(stampKey, String(Date.now()));
+        send("page");
+      }
+    } catch {
+      send("page");
+    }
 
     const beat = () => {
       if (document.visibilityState === "hidden") {

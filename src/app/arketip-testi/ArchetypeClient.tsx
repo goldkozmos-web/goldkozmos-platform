@@ -40,6 +40,12 @@ export default function ArchetypeClient() {
       payload: { answers, top },
       updated_at: new Date().toISOString(),
     });
+    await supabase.from("user_test_results").upsert({
+      user_id: session.session.user.id,
+      test_kind: "archetype",
+      result: { top, answers },
+      created_at: new Date().toISOString(),
+    });
     await supabase.rpc("record_user_activity", {
       p_kind: "archetype",
       p_title: "Arketip testi tamamlandı",
