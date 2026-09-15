@@ -131,11 +131,12 @@ export default function AdminOverview({
         <p>
           Bugün: {live?.todayStats?.visits ?? 0} ziyaret · {live?.todayStats?.uniques ?? 0} benzersiz ·{" "}
           {live?.todayStats?.members ?? 0} yeni üye · {live?.todayStats?.appointments ?? 0} randevu ·{" "}
-          {live?.todayStats?.whatsapp ?? 0} WhatsApp
+          {live?.todayStats?.whatsapp ?? 0} WhatsApp · {live?.todayStats?.shopier ?? 0} Shopier
         </p>
         <p>
           30 gün: {live?.last30?.visits ?? 0} ziyaret · {live?.last30?.uniques ?? 0} benzersiz ·{" "}
-          {live?.last30?.members ?? 0} yeni üye · {live?.last30?.appointments ?? 0} randevu
+          {live?.last30?.members ?? 0} yeni üye · {live?.last30?.appointments ?? 0} randevu ·{" "}
+          {live?.last30?.shopier ?? 0} Shopier
         </p>
       </section>
 

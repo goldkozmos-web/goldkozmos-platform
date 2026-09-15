@@ -1,3 +1,18 @@
+export function parseCustomTimes(raw: string) {
+  const stamps = raw
+    .split(/[,;\n]+/)
+    .map((part) => part.trim())
+    .map((part) => {
+      const match = part.match(/^(\d{1,2}):(\d{2})$/);
+      if (!match) return "";
+      const hour = Math.min(23, Number(match[1]));
+      const minute = Math.min(59, Number(match[2]));
+      return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+    })
+    .filter(Boolean);
+  return [...new Set(stamps)].sort();
+}
+
 export function timesBetween(
   start: string,
   end: string,

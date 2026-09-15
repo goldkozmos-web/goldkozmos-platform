@@ -64,58 +64,54 @@ export function TodayNeedPanel({
 
 export function AwarenessPanel() {
   const [items, setItems] = useState<
-    { kind: string; href: string; title: string; summary: string }[]
+    { id: string; kind: string; href: string; title: string; summary: string; when: string }[]
   >([]);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     if (!supabase) return;
-    void Promise.all([
-      supabase.from("user_archetype").select("primary_id, second_id, third_id, payload").maybeSingle(),
-      supabase.from("user_test_results").select("test_kind, result, created_at"),
-    ]).then(([arch, tests]) => {
-      const next: { kind: string; href: string; title: string; summary: string }[] = [];
-      const archRow = arch.data as
-        | { primary_id?: string; payload?: { top?: { id: string }[] } }
-        | null;
-      if (archRow?.primary_id) {
-        next.push({
-          kind: "Arketip",
-          href: "/arketip-testi",
-          title: "Arketip Testi",
-          summary: `Baskın: ${archRow.primary_id}`,
-        });
-      }
-      for (const row of tests.data ?? []) {
-        const kind = String(row.test_kind);
-        if (kind === "archetype" && next.some((item) => item.kind === "Arketip")) continue;
-        const href =
-          kind === "character"
-            ? "/testler/karakter-analizi"
-            : kind === "shadow"
-              ? "/testler/golge-yan"
-              : kind === "relationship"
-                ? "/testler/iliski-oruntusu"
-                : "/arketip-testi";
-        const result = (row.result ?? {}) as Record<string, unknown>;
-        next.push({
-          kind,
-          href,
-          title:
-            kind === "character"
-              ? "Karakter Analizi"
-              : kind === "shadow"
-                ? "Gölge Yan"
-                : kind === "relationship"
-                  ? "İlişki Örüntüsü"
-                  : "Arketip",
-          summary: String(
-            result.summary || result.overall || result.transform || "Kaydedilmiş sonuç",
-          ),
-        });
-      }
-      setItems(next);
-    });
+    void supabase
+      .from("user_test_results")
+      .select("id, test_kind, result, created_at")
+      .order("created_at", { ascending: false })
+      .limit(40)
+      .then(({ data }) => {
+        setItems(
+          (data ?? []).map((row) => {
+            const kind = String(row.test_kind);
+            const href =
+              kind === "character"
+                ? "/testler/karakter-analizi"
+                : kind === "shadow"
+                  ? "/testler/golge-yan"
+                  : kind === "relationship"
+                    ? "/testler/iliski-oruntusu"
+                    : "/arketip-testi";
+            const result = (row.result ?? {}) as Record<string, unknown>;
+            const top = result.top as { id?: string }[] | undefined;
+            return {
+              id: String(row.id),
+              kind,
+              href,
+              title:
+                kind === "character"
+                  ? "Karakter Analizi"
+                  : kind === "shadow"
+                    ? "Gölge Yan"
+                    : kind === "relationship"
+                      ? "İlişki Örüntüsü"
+                      : "Arketip",
+              summary: String(
+                result.summary ||
+                  result.overall ||
+                  result.transform ||
+                  (top?.[0]?.id ? `Baskın: ${top[0].id}` : "Kaydedilmiş sonuç"),
+              ),
+              when: formatWhen(String(row.created_at ?? "")),
+            };
+          }),
+        );
+      });
   }, []);
 
   if (items.length === 0) {
@@ -125,6 +121,7 @@ export function AwarenessPanel() {
           <a href="/#kendini-tani">
             <span>Testler</span>
             <strong>Kendini Tanı</strong>
+            <small>Henüz kayıtlı sonuç yok. Testi tamamlayınca burada birikir.</small>
           </a>
         </li>
       </ul>
@@ -134,9 +131,9 @@ export function AwarenessPanel() {
   return (
     <ul className="profilimDrawerList">
       {items.map((item) => (
-        <li key={item.href + item.kind}>
+        <li key={item.id}>
           <a href={item.href}>
-            <span>{item.kind}</span>
+            <span>{item.when}</span>
             <strong>{item.title}</strong>
             <small>{item.summary}</small>
           </a>
@@ -639,7 +636,7 @@ export function SuggestPanel() {
           />
         </label>
         <label>
-          Önerim
+          Önerin
           <textarea
             value={body}
             onChange={(event) => setBody(event.target.value)}

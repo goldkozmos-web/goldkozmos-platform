@@ -142,8 +142,7 @@ export async function GET(request: Request) {
     for (const stamp of stamps) {
       const [hh, mm] = stamp.split(":").map(Number);
       const due = (hh || 0) * 60 + (mm || 0);
-      const delta = nowMin - due;
-      if (delta < 0 || delta > 16) continue;
+      if (due > nowMin) continue;
       const already = await admin
         .from("water_reminder_sent")
         .select("user_id")

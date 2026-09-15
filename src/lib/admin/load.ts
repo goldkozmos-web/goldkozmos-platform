@@ -60,6 +60,7 @@ export type AdminRangeStats = {
   members: number;
   appointments: number;
   whatsapp?: number;
+  shopier?: number;
 };
 
 export type AdminEventRow = {
@@ -170,7 +171,7 @@ async function fetchAdminMembers(
 
   const profiles = await supabase
     .from("profiles")
-    .select("id, display_name, role, created_at")
+    .select("id, display_name, role, created_at, avatar_url")
     .order("created_at", { ascending: false })
     .limit(200);
 
@@ -218,6 +219,7 @@ function describeAnalytics(name: string, path: string) {
   if (name === "daily_action_complete") return "GoldAct tamamladı";
   if (name === "test_complete") return "Test tamamladı";
   if (name === "shopier_click") return "Shopier geçişi";
+  if (name === "suggestion_submit") return "Gold’a öneri";
   if (name === "user_login") return "Giriş yaptı";
   return name;
 }
@@ -389,8 +391,13 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
       (row) => row.event_name === "booking_intent" && Date.parse(row.created_at ?? "") >= todayMs,
     );
     const book30 = analyticsRows.filter((row) => row.event_name === "booking_intent");
+    const shopToday = analyticsRows.filter(
+      (row) => row.event_name === "shopier_click" && Date.parse(row.created_at ?? "") >= todayMs,
+    );
+    const shop30 = analyticsRows.filter((row) => row.event_name === "shopier_click");
     if (waToday.length) whatsappCount = waToday.length;
     if (bookToday.length) appointmentCount = bookToday.length;
+    if (shopToday.length) purchaseCount = shopToday.length;
 
     todayStats = {
       visits: pageToday.length,
@@ -400,6 +407,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
       ).length,
       appointments: bookToday.length,
       whatsapp: waToday.length,
+      shopier: shopToday.length,
     };
     last30 = {
       visits: page30.length,
@@ -408,6 +416,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
         (row) => row.createdAt && Date.parse(row.createdAt) >= Date.parse(thirtyStart),
       ).length,
       appointments: book30.length,
+      shopier: shop30.length,
     };
     activity = analyticsRows.slice(0, 24).map((row) => ({
       id: String(row.id),

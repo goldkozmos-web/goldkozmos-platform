@@ -98,7 +98,7 @@ const DRAWERS: Record<
   journal: { eyebrow: "YAZI", title: "Kişisel Günlüğüm" },
   letter: { eyebrow: "MEKTUP", title: "Kendime Mektup" },
   journey: { eyebrow: "YOLCULUK", title: "Gelişim Yolculuğum" },
-  understand: { eyebrow: "FARKINDALIK", title: "Kendimi Tanı" },
+  understand: { eyebrow: "KENDİNİ TANI", title: "Test Sonuçlarım" },
   inbox: { eyebrow: "MESAJ", title: "Gelen Mesajlar" },
   emotionJournal: { eyebrow: "DUYGU", title: "Duygu Günlüğüm" },
   duyguRehberi: { eyebrow: "DUYGU REHBERİ", title: "Duygularını Tanı" },
