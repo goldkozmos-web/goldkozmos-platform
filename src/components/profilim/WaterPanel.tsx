@@ -2,187 +2,114 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import { enableMemberPush, pushSupportState } from "../../lib/push/browser";
-import { recoverMissingTable } from "../../lib/platform/ensureSchema";
-import { parseCustomTimes, timesBetween } from "../../lib/water/schedule";
+import { istanbulDay, type WaterProgram } from "../../lib/water/store";
 import WaterGlassArt from "./WaterGlassArt";
 
-type Settings = {
-  daily_goal: number;
-  start_time: string;
-  end_time: string;
-  reminders_per_day: number;
-  interval_minutes: number | null;
-  enabled: boolean;
-  schedule_mode?: "count" | "interval" | "custom";
+const EMPTY: WaterProgram = {
+  goal: 8,
+  start: "09:00",
+  end: "22:00",
+  mode: "count",
+  count: 6,
+  intervalHours: "2",
+  customInput: "09:00, 11:30, 14:00, 17:00, 20:00",
+  enabled: false,
+  times: [],
+  glasses: 0,
+  day: istanbulDay(),
 };
 
-function friendlyError(message: string) {
-  if (message.toLowerCase().includes("schema cache") || message.toLowerCase().includes("does not exist")) {
-    return "Kayıt alanı henüz açılmamıştı. Tekrar dene; açılmazsa Vercel’e DATABASE_URL eklenmeli.";
-  }
-  return message;
-}
-
 export default function WaterPanel({ userId }: { userId: string }) {
-  const [glasses, setGlasses] = useState(0);
-  const [goal, setGoal] = useState(8);
-  const [start, setStart] = useState("09:00");
-  const [end, setEnd] = useState("22:00");
-  const [count, setCount] = useState(6);
-  const [intervalHours, setIntervalHours] = useState("2");
-  const [enabled, setEnabled] = useState(false);
-  const [times, setTimes] = useState<string[]>([]);
-  const [mode, setMode] = useState<"count" | "interval" | "custom">("count");
-  const [customInput, setCustomInput] = useState("09:00, 11:30, 14:00, 17:00, 20:00");
+  const [program, setProgram] = useState<WaterProgram>(EMPTY);
   const [status, setStatus] = useState("");
   const [saving, setSaving] = useState(false);
   const [support, setSupport] = useState(pushSupportState());
 
   const load = useCallback(async () => {
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase || !userId) return;
-    const today = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Istanbul" });
-    const [{ data: settings, error }, { data: stamps }, { data: logs }] = await Promise.all([
-      supabase.from("water_reminder_settings").select("*").eq("user_id", userId).maybeSingle(),
-      supabase.from("water_reminder_times").select("time").eq("user_id", userId),
-      supabase
-        .from("water_logs")
-        .select("amount, logged_at")
-        .eq("user_id", userId)
-        .gte("logged_at", `${today}T00:00:00+03:00`),
-    ]);
-    if (error && (await recoverMissingTable(error.message))) {
-      void load();
-      return;
-    }
-    if (settings) {
-      const row = settings as Settings;
-      setGoal(row.daily_goal);
-      setStart(String(row.start_time).slice(0, 5));
-      setEnd(String(row.end_time).slice(0, 5));
-      setCount(row.reminders_per_day);
-      setIntervalHours(
-        row.interval_minutes ? String(Math.max(1, Math.round(row.interval_minutes / 60))) : "2",
-      );
-      setEnabled(row.enabled);
-      if (row.schedule_mode === "interval" || row.schedule_mode === "custom" || row.schedule_mode === "count") {
-        setMode(row.schedule_mode);
-      }
-    }
-    const timeList = (stamps ?? []).map((row) => String(row.time).slice(0, 5)).sort();
-    setTimes(timeList);
-    if (timeList.length) setCustomInput(timeList.join(", "));
-    setGlasses((logs ?? []).reduce((sum, row) => sum + Number(row.amount || 1), 0));
-  }, [userId]);
+    const response = await fetch("/api/profilim/water", { credentials: "same-origin" });
+    const data = (await response.json().catch(() => null)) as { program?: WaterProgram; error?: string } | null;
+    if (data?.program) setProgram(data.program);
+    if (!response.ok && data?.error) setStatus(data.error);
+  }, []);
 
   useEffect(() => {
     void load();
     setSupport(pushSupportState());
-  }, [load]);
+  }, [load, userId]);
+
+  async function persist(next: WaterProgram, drink = false) {
+    setSaving(true);
+    setProgram(next);
+    const response = await fetch("/api/profilim/water", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...next, drink }),
+    });
+    const data = (await response.json().catch(() => null)) as {
+      program?: WaterProgram;
+      error?: string;
+      stored?: string;
+    } | null;
+    if (data?.program) setProgram(data.program);
+    if (!response.ok) {
+      setStatus(data?.error || "Kaydedilemedi.");
+      setSaving(false);
+      return false;
+    }
+    setStatus(
+      data?.stored === "backup"
+        ? "Kaydedildi. Bildirim saati sunucuya bağlandı."
+        : next.enabled
+          ? `Hatırlatıcı açık · ${ (data?.program?.times || next.times).join(" · ") }`
+          : `Kaydedildi · ${(data?.program?.times || next.times).join(" · ")}`,
+    );
+    setSaving(false);
+    return true;
+  }
 
   async function drink() {
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase) return;
-    const first = await supabase.from("water_logs").insert({ user_id: userId, amount: 1 });
-    if (first.error && (await recoverMissingTable(first.error.message))) {
-      await supabase.from("water_logs").insert({ user_id: userId, amount: 1 });
-    }
-    setGlasses((value) => value + 1);
+    await persist(program, true);
   }
 
-  useEffect(() => {
-    if (!userId) return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("drank") !== "1") return;
-    const key = `gk-water-drank-${new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Istanbul" })}`;
-    if (sessionStorage.getItem(key)) return;
-    sessionStorage.setItem(key, "1");
-    void drink();
-    params.delete("drank");
-    const next = params.toString();
-    window.history.replaceState({}, "", `${window.location.pathname}${next ? `?${next}` : ""}`);
-  }, [userId]);
-
-  async function save(nextEnabled = enabled) {
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase) return;
-    setSaving(true);
-    const hours = Math.max(1, Number(intervalHours) || 2);
-    const intervalMin = mode === "interval" ? hours * 60 : null;
-    const planned =
-      mode === "custom"
-        ? parseCustomTimes(customInput)
-        : timesBetween(start, end, count, intervalMin);
-    const payload = {
-      user_id: userId,
-      daily_goal: goal,
-      start_time: `${start}:00`,
-      end_time: `${end}:00`,
-      reminders_per_day: planned.length || count,
-      interval_minutes: intervalMin,
-      schedule_mode: mode,
-      enabled: nextEnabled,
-      timezone: "Europe/Istanbul",
-      updated_at: new Date().toISOString(),
-    };
-    let { error } = await supabase.from("water_reminder_settings").upsert(payload);
-    if (error && (await recoverMissingTable(error.message))) {
-      ({ error } = await supabase.from("water_reminder_settings").upsert(payload));
-    }
-    if (error) {
-      setStatus(friendlyError(error.message));
-      setSaving(false);
-      return;
-    }
-    await supabase.from("water_reminder_times").delete().eq("user_id", userId);
-    if (planned.length) {
-      await supabase.from("water_reminder_times").insert(
-        planned.map((time) => ({ user_id: userId, time: `${time}:00` })),
+  async function save(enabled = program.enabled) {
+    const ok = await persist({ ...program, enabled });
+    if (!ok || !enabled) return;
+    const push = await enableMemberPush();
+    setSupport(pushSupportState());
+    if (!push.ok) {
+      setStatus(
+        push.reason === "unsupported"
+          ? "Program kaydedildi. Bu tarayıcı web push desteklemiyor."
+          : push.reason === "denied"
+            ? "Program kaydedildi. Telefonda bildirim iznini Aç’a bas."
+            : "Program kaydedildi. Bildirim aboneliği kurulamadı; tekrar dene.",
       );
     }
-    setTimes(planned);
-    if (nextEnabled) {
-      const push = await enableMemberPush();
-      if (!push.ok) {
-        setStatus(
-          push.reason === "unsupported"
-            ? "Program kaydedildi. Bu tarayıcı web push desteklemiyor."
-            : "Program kaydedildi. Telefon bildirimi için izin ver.",
-        );
-        setSaving(false);
-        void load();
-        return;
-      }
-      setStatus(`Hatırlatıcı açık. Saatler: ${planned.join(" · ")}`);
-    } else {
-      setStatus(`Kaydedildi: ${planned.join(" · ") || "saat yok"}`);
-    }
-    setSaving(false);
-    void load();
   }
 
-  const done = glasses >= goal;
-  const fill = Math.max(0, Math.min(100, Math.round((glasses / Math.max(1, goal)) * 100)));
+  const done = program.glasses >= program.goal;
+  const fill = Math.max(0, Math.min(100, Math.round((program.glasses / Math.max(1, program.goal)) * 100)));
 
   return (
     <div className="profilimWaterDesk isLive">
+      {status ? <p className="profilimWaterBanner">{status}</p> : null}
       <div className="profilimWaterStage">
-        <span className="profilimWaterRipple" aria-hidden="true" />
-        <span className="profilimWaterRipple isTwo" aria-hidden="true" />
-        <p className="profilimWaterEyebrow">Bugünkü ritim</p>
-        <p className="profilimWaterCount">
-          <strong>{glasses}</strong>
-          <span>/ {goal} bardak</span>
-        </p>
-        <div className="profilimWaterMeter" aria-hidden="true">
-          <i style={{ width: `${fill}%` }} />
+        <div className="profilimWaterCopyCol">
+          <p className="profilimWaterEyebrow">Bugünkü ritim</p>
+          <p className="profilimWaterCount">
+            <strong>{program.glasses}</strong>
+            <span>/ {program.goal} bardak</span>
+          </p>
+          <div className="profilimWaterMeter" aria-hidden="true">
+            <i style={{ width: `${fill}%` }} />
+          </div>
+          <p className="profilimWaterHint">
+            {done ? "Bugünkü hedef doldu." : "Küçük yudumlar da sayılır."}
+          </p>
         </div>
-        <p className="profilimWaterHint">
-          {done ? "Bugünkü hedef doldu. Bedenin teşekkür eder." : "Küçük yudumlar da sayılır."}
-        </p>
-        <WaterGlassArt glasses={glasses} goal={goal} className="isStage" />
+        <WaterGlassArt glasses={program.glasses} goal={program.goal} className="isStage" />
       </div>
       <div className="profilimWaterActions isPair">
         <button type="button" className="profilimWaterPrimary isAqua" onClick={() => void drink()}>
@@ -196,7 +123,7 @@ export default function WaterPanel({ userId }: { userId: string }) {
         className="profilimCompose profilimWaterForm"
         onSubmit={(event) => {
           event.preventDefault();
-          void save(enabled);
+          void save(program.enabled);
         }}
       >
         <label>
@@ -205,99 +132,96 @@ export default function WaterPanel({ userId }: { userId: string }) {
             type="number"
             min={1}
             max={24}
-            value={goal}
-            onChange={(event) => setGoal(Number(event.target.value))}
+            value={program.goal}
+            onChange={(event) => setProgram({ ...program, goal: Number(event.target.value) })}
           />
         </label>
         <div className="profilimWaterWhen">
           <label>
             Başlangıç
-            <input type="time" value={start} onChange={(event) => setStart(event.target.value)} />
+            <input
+              type="time"
+              value={program.start}
+              onChange={(event) => setProgram({ ...program, start: event.target.value })}
+            />
           </label>
           <label>
             Bitiş
-            <input type="time" value={end} onChange={(event) => setEnd(event.target.value)} />
+            <input
+              type="time"
+              value={program.end}
+              onChange={(event) => setProgram({ ...program, end: event.target.value })}
+            />
           </label>
         </div>
         <p className="profilimWaterModelLabel">Hatırlatma modeli</p>
         <div className="profilimWaterModes">
-          <button
-            type="button"
-            className={mode === "count" ? "isOn" : ""}
-            onClick={() => setMode("count")}
-          >
-            <small>A</small>
-            Günde X kez
-          </button>
-          <button
-            type="button"
-            className={mode === "interval" ? "isOn" : ""}
-            onClick={() => setMode("interval")}
-          >
-            <small>B</small>
-            Her X saatte
-          </button>
-          <button
-            type="button"
-            className={mode === "custom" ? "isOn" : ""}
-            onClick={() => setMode("custom")}
-          >
-            <small>C</small>
-            Özel saatler
-          </button>
+          {(
+            [
+              ["count", "A", "Günde X kez"],
+              ["interval", "B", "Her X saatte"],
+              ["custom", "C", "Özel saatler"],
+            ] as const
+          ).map(([id, mark, label]) => (
+            <button
+              key={id}
+              type="button"
+              className={`profilimWaterMode${program.mode === id ? " isOn" : ""}`}
+              onClick={() => setProgram({ ...program, mode: id })}
+            >
+              <small>{mark}</small>
+              {label}
+            </button>
+          ))}
         </div>
-        {mode === "count" ? (
+        {program.mode === "count" ? (
           <label>
             Kaç kez
             <input
               type="number"
               min={1}
               max={24}
-              value={count}
-              onChange={(event) => setCount(Number(event.target.value))}
+              value={program.count}
+              onChange={(event) => setProgram({ ...program, count: Number(event.target.value) })}
             />
           </label>
         ) : null}
-        {mode === "interval" ? (
+        {program.mode === "interval" ? (
           <label>
             Saat aralığı
             <input
               type="number"
               min={1}
               max={12}
-              value={intervalHours}
-              onChange={(event) => setIntervalHours(event.target.value)}
+              value={program.intervalHours}
+              onChange={(event) => setProgram({ ...program, intervalHours: event.target.value })}
             />
           </label>
         ) : null}
-        {mode === "custom" ? (
+        {program.mode === "custom" ? (
           <label>
             Saatler
             <input
-              value={customInput}
-              onChange={(event) => setCustomInput(event.target.value)}
+              value={program.customInput}
+              onChange={(event) => setProgram({ ...program, customInput: event.target.value })}
               placeholder="09:00, 11:30, 14:00, 17:00, 20:00"
             />
           </label>
         ) : null}
-        {times.length ? (
+        {program.times.length ? (
           <p className="profilimWaterChips">
-            {times.map((time) => (
+            {program.times.map((time) => (
               <em key={time}>{time}</em>
             ))}
           </p>
         ) : null}
         <button
           type="button"
-          className={`profilimWaterPrimary${enabled ? " isOnAqua" : " isAqua"}`}
+          className={`profilimWaterPrimary${program.enabled ? " isOnAqua" : " isAqua"}`}
           disabled={saving}
-          onClick={() => {
-            const next = !enabled;
-            setEnabled(next);
-            void save(next);
-          }}
+          onClick={() => void save(!program.enabled)}
         >
-          {enabled ? "Hatırlatıcı açık · kapat" : "Su hatırlatıcısını aç"}
+          {program.enabled ? "Hatırlatıcı açık · kapat" : "Su hatırlatıcısını aç"}
         </button>
         <button type="submit" className="profilimWaterGhost isAqua" disabled={saving}>
           {saving ? "Kaydediliyor…" : "Programı kaydet"}
@@ -305,7 +229,6 @@ export default function WaterPanel({ userId }: { userId: string }) {
         {support === "unsupported" ? (
           <p className="profilimWaterNote">Bu cihazda tarayıcı bildirimi yok. Android Chrome / PWA dene.</p>
         ) : null}
-        {status ? <p className="profilimWaterNote">{status}</p> : null}
       </form>
     </div>
   );
