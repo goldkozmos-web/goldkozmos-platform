@@ -27,6 +27,7 @@ import {
   getProgressForPlatform,
   readLivePlayback,
   readPlatformProgressMap,
+  resetProgressEntry,
   upsertProgressEntry,
   writeLivePlayback,
   writePlatformProgressMap,
@@ -109,6 +110,7 @@ type PlaybackContextValue = {
   stop: () => void;
   latest: PlatformProgress | null;
   forPlatform: (platform: PlatformId) => PlatformProgress | null;
+  dismissContinue: (item: PlatformProgress) => void;
 };
 
 const PlaybackContext = createContext<PlaybackContextValue | null>(null);
@@ -198,6 +200,14 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
     },
     [],
   );
+
+  const dismissContinue = useCallback((item: PlatformProgress) => {
+    setItems((current) => {
+      const next = resetProgressEntry(current, item);
+      writePlatformProgressMap(next);
+      return next;
+    });
+  }, []);
 
   const startAudio = useCallback((input: StartAudioInput) => {
     const now = new Date().toISOString();
@@ -653,6 +663,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       stop,
       latest: getLatestProgress(items),
       forPlatform: (platform) => getProgressForPlatform(items, platform),
+      dismissContinue,
     }),
     [
       items,
@@ -669,6 +680,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       minimize,
       expand,
       stop,
+      dismissContinue,
     ],
   );
 

@@ -146,6 +146,30 @@
   background: #fffdf8;
 }
 
+.platformContinueSwipe {
+  overflow: hidden;
+}
+
+.platformContinueSwipeInner {
+  touch-action: pan-y;
+  will-change: transform;
+}
+
+.platformContinueSwipeInner:not(.isDragging) {
+  transition: transform 220ms ease, opacity 180ms ease;
+}
+
+.platformContinueSwipeInner.isDragging {
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .platformContinueSwipeInner,
+  .platformContinueSwipeInner:not(.isDragging) {
+    transition: none;
+  }
+}
+
 .platformContinue {
   padding-top: 0;
 }
