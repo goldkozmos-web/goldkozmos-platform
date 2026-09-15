@@ -1,3 +1,4 @@
+import { applyPlatformSchema, isMissingRelation } from "./applyPlatformSchema";
 import { createSupabaseServerClient } from "../supabase/create-server-client";
 import { getAdminAccess } from "../admin/auth.server";
 import { getProfilimSessionUser } from "../profilim/auth.server";
@@ -38,6 +39,9 @@ export async function listSiteSuggestions(): Promise<SiteSuggestion[]> {
     .limit(80);
 
   if (error || !data) {
+    if (error && isMissingRelation(error.message)) {
+      await applyPlatformSchema();
+    }
     console.warn("suggestions list", error?.message);
     return [];
   }
@@ -61,7 +65,7 @@ export async function createSiteSuggestion(raw: {
     return { error: "Öneri için giriş yap.", status: 401 as const };
   }
 
-  const { data, error } = await supabase
+  let { data, error } = await supabase
     .from("suggestions")
     .insert({
       user_id: user.id,
@@ -71,6 +75,20 @@ export async function createSiteSuggestion(raw: {
     })
     .select("id, subject, message, created_at")
     .single();
+
+  if (error && isMissingRelation(error.message)) {
+    await applyPlatformSchema();
+    ({ data, error } = await supabase
+      .from("suggestions")
+      .insert({
+        user_id: user.id,
+        subject: parsed.title,
+        message: parsed.body,
+        status: "new",
+      })
+      .select("id, subject, message, created_at")
+      .single());
+  }
 
   if (error || !data) {
     return { error: error?.message || "Öneri kaydedilemedi.", status: 400 as const };
