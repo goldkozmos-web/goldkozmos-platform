@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 
 import SelfTestClient from "../SelfTestClient";
-import {
-  CHARACTER_QUESTIONS,
-  characterNarratives,
-  scoreLikert,
-} from "../../../data/selfTests";
+import { CHARACTER_QUESTIONS } from "../../../data/selfTests";
 
 export const metadata: Metadata = {
   title: "Karakter Analizi",
@@ -21,9 +17,6 @@ export default function Page() {
       lead="Bu bir klinik değerlendirme değil. Nasıl karar verdiğini, sınır koyduğunu ve stres altında nasıl durduğunu görmek için bir öz-farkındalık aracı."
       questions={CHARACTER_QUESTIONS}
       href="/testler/karakter-analizi"
-      buildResult={(answers) =>
-        characterNarratives(scoreLikert(CHARACTER_QUESTIONS, answers))
-      }
     />
   );
 }

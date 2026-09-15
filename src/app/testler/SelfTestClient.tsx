@@ -7,6 +7,15 @@ import FooterSection from "../../components/FooterSection";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import { GOLDACT_XP_EVENT } from "../../lib/profilim/activityXp";
 import type { LikertQuestion } from "../../data/selfTests";
+import {
+  CHARACTER_QUESTIONS,
+  RELATIONSHIP_QUESTIONS,
+  SHADOW_QUESTIONS,
+  characterNarratives,
+  relationshipNarratives,
+  scoreLikert,
+  shadowNarratives,
+} from "../../data/selfTests";
 import "../../styles/home.css";
 import "../../styles/daily-practice.css";
 
@@ -15,7 +24,6 @@ export default function SelfTestClient({
   title,
   lead,
   questions,
-  buildResult,
   href,
 }: {
   kind: "character" | "shadow" | "relationship";
@@ -23,14 +31,19 @@ export default function SelfTestClient({
   lead: string;
   questions: LikertQuestion[];
   href: string;
-  buildResult: (answers: Record<string, number>) => Record<string, unknown>;
 }) {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [saved, setSaved] = useState("");
   const done = Object.keys(answers).length === questions.length;
   const question = questions[index];
-  const result = done ? buildResult(answers) : null;
+  const result = done
+    ? kind === "character"
+      ? characterNarratives(scoreLikert(CHARACTER_QUESTIONS, answers))
+      : kind === "shadow"
+        ? shadowNarratives(scoreLikert(SHADOW_QUESTIONS, answers))
+        : relationshipNarratives(scoreLikert(RELATIONSHIP_QUESTIONS, answers))
+    : null;
 
   async function persist() {
     const supabase = createSupabaseBrowserClient();
