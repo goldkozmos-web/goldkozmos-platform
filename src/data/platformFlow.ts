@@ -109,8 +109,22 @@ export function formatProgressPercent(progress: number) {
 }
 
 export function resumeOffset(currentTime?: number, durationSeconds?: number) {
-  const time = Number(currentTime) || 0;
-  const duration = Number(durationSeconds) || 0;
+  let duration = Number(durationSeconds) || 0;
+  if (duration > 10_000) {
+    duration /= 1000;
+  }
+
+  let time = Number(currentTime) || 0;
+  if (time > 10_000) {
+    time /= 1000;
+  }
+
+  const trusted = duration >= 90;
+
+  if (trusted && time > duration + 2) {
+    const asMs = time / 1000;
+    time = asMs <= duration + 1.5 ? asMs : 0;
+  }
 
   if (time < 2) {
     return 0;
@@ -119,12 +133,17 @@ export function resumeOffset(currentTime?: number, durationSeconds?: number) {
   // Only treat as finished when duration looks like a real episode, not a
   // leftover / preview clock that would restart the recording at 100%.
   if (
-    duration >= 15 &&
+    trusted &&
     time >= Math.max(duration - 8, duration * 0.97) &&
     time <= duration + 1.5
   ) {
     return 0;
   }
 
-  return time;
+  if (trusted) {
+    return Math.min(time, Math.max(0, duration - 1));
+  }
+
+  // Without a real duration, do not skip minutes into the recording.
+  return time >= 90 ? 0 : time;
 }
