@@ -129,7 +129,7 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           {paras(card.spiritualMeaning).map((item) => (
             <p key={`sp-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2 id="ask">Aşk ve İlişkilerde</h2>
+          <h2 id="ask">Aşk ve İlişkiler</h2>
           {paras(card.loveMeaning).map((item) => (
             <p key={`l-${item.slice(0, 40)}`}>{item}</p>
           ))}
@@ -141,7 +141,7 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           {paras(card.feelingsMeaning).map((item) => (
             <p key={`f-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2 id="olasi-hareket">Birinin Olası Hareketinde</h2>
+          <h2 id="olasi-hareket">Olası Hareketinde</h2>
           {paras(card.actionMeaning).map((item) => (
             <p key={`a-${item.slice(0, 40)}`}>{item}</p>
           ))}
@@ -149,11 +149,11 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           {paras(`${card.careerMeaning}\n\n${card.moneyMeaning}`).map((item) => (
             <p key={`c-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Olası Gelecek</h2>
+          <h2>Gelecek Potansiyeli</h2>
           {paras(card.futurePotential).map((item) => (
             <p key={`fu-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2 id="tavsiye">Tavsiye Olarak</h2>
+          <h2 id="tavsiye">Tavsiye</h2>
           {paras(card.adviceMeaning).map((item) => (
             <p key={`ad-${item.slice(0, 40)}`}>{item}</p>
           ))}
@@ -161,11 +161,11 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           {paras(card.shadowMeaning).map((item) => (
             <p key={`sh-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2 id="ters-anlam">Ters Geldiğinde</h2>
+          <h2 id="ters-anlam">Ters Anlamı</h2>
           {paras(card.reversedMeaning).map((item) => (
             <p key={`r-${item.slice(0, 40)}`}>{item}</p>
           ))}
-          <h2>Kartın Sembolleri</h2>
+          <h2>Semboller</h2>
           {paras(card.symbols).map((item) => (
             <p key={`sy-${item.slice(0, 40)}`}>{item}</p>
           ))}
@@ -183,6 +183,8 @@ export default async function TarotKartDetayPage({ params }: PageProps) {
           ) : null}
         </article>
         <p style={{ marginTop: 28 }}>
+          <Link href="/tarot-kartlari">Tarot Kartları sözlüğüne dön</Link>
+          {" · "}
           <Link href={TAROT_CARE_PATH}>Online Tarot Bakımı Yap</Link>
         </p>
       </div>

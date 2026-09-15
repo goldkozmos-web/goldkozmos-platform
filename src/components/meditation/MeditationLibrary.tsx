@@ -25,8 +25,10 @@ import { usePlayback } from "../platform/PlaybackProvider";
 
 export default function MeditationLibrary({
   initialFocus,
+  hideWelcome = false,
 }: {
   initialFocus?: string;
+  hideWelcome?: boolean;
 }) {
   const focusFilter = meditationFilterFromFocus(initialFocus);
   const [filter, setFilter] = useState<MeditationFilter>(
@@ -84,7 +86,7 @@ export default function MeditationLibrary({
 
   return (
     <div className="goldmindApp">
-      <GoldMindWelcome />
+      {hideWelcome ? null : <GoldMindWelcome />}
 
       <ContinueGlance platformId="goldmind" variant="page" />
 

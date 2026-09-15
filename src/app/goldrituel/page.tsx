@@ -3,49 +3,56 @@ import type { Metadata } from "next";
 import FooterSection from "../../components/FooterSection";
 import HomeNavbar from "../../components/HomeNavbar";
 import RitualHub from "../../components/goldrituel/RitualHub";
-import { goldrituelUrl } from "../../lib/goldrituel/urls";
+import { publishedRituals } from "../../data/goldrituel/catalog";
+import { breadcrumbJsonLd } from "../../lib/jsonld";
+import { goldrituelPath } from "../../lib/goldrituel/urls";
+import { publicPageMetadata } from "../../lib/seo";
+import Link from "next/link";
 import "../../styles/home.css";
 import "../../styles/goldrituel.css";
+import "../../styles/hub-seo.css";
 
-const pageUrl = goldrituelUrl();
-
-export const metadata: Metadata = {
-  title: { absolute: "GoldRitüel | GoldKozmos" },
+export const metadata: Metadata = publicPageMetadata({
+  title: "GoldRitüel – Uygulanabilir Ritüeller | GoldKozmos",
   description:
-    "Niyet, farkındalık ve enerji odağında uygulanabilir ritüeller. GoldRitüel ile sade ritüelleri keşfet.",
-  alternates: { canonical: pageUrl },
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    url: pageUrl,
-    siteName: "Goldkozmos",
-    title: "GoldRitüel | GoldKozmos",
-    description:
-      "Niyet, farkındalık ve enerji odağında uygulanabilir ritüeller.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "GoldRitüel | GoldKozmos",
-    description:
-      "Niyet, farkındalık ve enerji odağında uygulanabilir ritüeller.",
-  },
-  robots: { index: true, follow: true },
-};
+    "GoldRitüel: amaç, malzeme, adımlar ve niyet cümlesi olan uygulanabilir ritüeller. Her ritüelin kendi sayfası vardır.",
+  path: "/goldrituel",
+  absoluteTitle: true,
+});
 
 export default function GoldRituelPage() {
+  const rituals = publishedRituals();
+  const jsonLd = breadcrumbJsonLd([
+    { name: "Ana Sayfa", path: "/" },
+    { name: "GoldRitüel", path: "/goldrituel" },
+  ]);
+
   return (
     <main className="homeV3Page grPage" id="top">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <HomeNavbar />
       <div className="grWrap">
         <p className="grEyebrow">GOLDKOZMOS®</p>
-        <h1>GoldRitüel</h1>
+        <h1>GoldRitüel – Uygulanabilir Ritüeller</h1>
         <p className="grLead">
           Niyet, farkındalık ve enerji odağında uygulanabilir ritüeller.
         </p>
         <p className="grIntro">
-          Kalabalık bir kategori ağacı yok. Ritüeli seç, süresine ve malzemesine bak,
-          adımları sakin uygula. Niyetin net olsun; sahne kalmasın.
+          GoldRitüel, GoldKozmos içindeki uygulama alanıdır. Tarot sözlüğü,
+          blog yazısı veya frekans kaydı değildir. Her ritüelin amacı,
+          malzemesi, adımları, zamanı, niyet cümlesi ve sonrası kendi
+          sayfasındadır; aynı metin kopyalanmaz.
         </p>
+        <ul className="tarotSuitList">
+          {rituals.map((ritual) => (
+            <li key={ritual.slug}>
+              <Link href={goldrituelPath(ritual.slug)}>{ritual.title}</Link>
+            </li>
+          ))}
+        </ul>
         <RitualHub />
       </div>
       <FooterSection />

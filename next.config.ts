@@ -18,16 +18,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/goldbook/icindeki-kozmosu-kucakla",
-        destination: "/goldbook",
-        permanent: true,
-      },
-      {
-        source: "/goldbook/ask-manifestosu",
-        destination: "/goldbook",
-        permanent: true,
-      },
-      {
         source: "/icon",
         destination: "/icon.png",
         permanent: false,

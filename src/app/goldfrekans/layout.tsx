@@ -3,10 +3,11 @@ import type { Metadata } from "next";
 import { publicPageMetadata } from "../../lib/seo";
 
 export const metadata: Metadata = publicPageMetadata({
-  title: "GoldFrekans",
+  title: "GoldFrekans | GoldKozmos",
   description:
-    "GoldFrekans: GoldKozmos frekans ve ses alanı. Günlük pratik için sade dinleme içerikleri.",
+    "Frekans, ses ve odak deneyimlerinin yer aldığı GoldKozmos alanı. Yağmur, deniz ve mevcut frekans kayıtlarını dinle. Tedavi iddiası yoktur.",
   path: "/goldfrekans",
+  absoluteTitle: true,
 });
 
 export default function GoldFrekansLayout({

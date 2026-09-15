@@ -50,11 +50,15 @@ export function blogPostingJsonLd({
   description,
   path,
   image,
+  datePublished,
+  dateModified,
 }: {
   title: string;
   description: string;
   path: string;
   image?: string;
+  datePublished?: string;
+  dateModified?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -64,6 +68,8 @@ export function blogPostingJsonLd({
     url: absoluteUrl(path),
     mainEntityOfPage: absoluteUrl(path),
     inLanguage: "tr-TR",
+    datePublished,
+    dateModified: dateModified ?? datePublished,
     author: {
       "@type": "Person",
       name: AUTHOR_NAME,

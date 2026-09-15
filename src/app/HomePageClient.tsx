@@ -9,6 +9,7 @@ import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeGoldAction from "../components/daily/HomeGoldAction";
 import HomeKendiniTani from "../components/home/HomeKendiniTani";
 import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
+import HomeTopicHubs from "../components/home/HomeTopicHubs";
 import {
   getEducationCourses,
   getEducationHubHref,
@@ -2719,17 +2720,19 @@ export default function HomePageClient() {
                 </span>
               </a>
 
-              <div className="homeHeroMiniTest">
+              <a
+                className="homeHeroMiniTest"
+                href="/kendini-tani"
+              >
                 <div className="homeHeroMiniTestCopy">
                   <h2>
                     Kendini tanı
                   </h2>
                 </div>
-
-                <a href="#kendini-tani">
+                <span className="homeHeroActionCta">
                   Testlere bak
-                </a>
-              </div>
+                </span>
+              </a>
             </div>
           </div>
         </div>
@@ -2742,6 +2745,7 @@ export default function HomePageClient() {
       <HomeSpotlightCarousel />
 
       <PlatformRail />
+      <HomeTopicHubs />
 
       {/* REZONANS */}
 

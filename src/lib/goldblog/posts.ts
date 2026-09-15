@@ -23,9 +23,15 @@ export function relatedGoldBlogArticles(slug: string, limit = 4) {
   const current = goldBlogBySlug(slug);
   if (!current) return [];
   const rest = goldBlogArticles.filter((article) => article.slug !== slug);
-  const same = rest.filter((article) => article.categoryKey === current.categoryKey);
-  const other = rest.filter((article) => article.categoryKey !== current.categoryKey);
-  return [...same, ...other].slice(0, limit);
+  const scored = rest.map((article) => {
+    const topicHit = article.topics.filter((topic) =>
+      current.topics.includes(topic),
+    ).length;
+    const sameCategory = article.categoryKey === current.categoryKey ? 2 : 0;
+    return { article, score: topicHit + sameCategory };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored.map((item) => item.article).slice(0, limit);
 }
 
 export function goldBlogRelatedPaths(article: GoldBlogArticle) {
@@ -39,6 +45,7 @@ export function goldBlogRelatedPaths(article: GoldBlogArticle) {
     return [
       { href: "/arketip-testi", label: "Arketip Testi" },
       { href: "/testler/karakter-analizi", label: "Karakter Analizi Testi" },
+      { href: "/kendini-tani", label: "Kendini Tanı" },
     ];
   }
   if (article.categoryKey === "bolluk-rezonansi") {

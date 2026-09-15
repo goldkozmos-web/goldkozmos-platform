@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import HomePageClient from "./HomePageClient";
 import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, OG_IMAGE, SITE_NAME } from "../lib/seo";
 import { SITE_ORIGIN } from "../lib/site";
+import "../styles/hub-seo.css";
 
 export function generateMetadata(): Metadata {
   return {

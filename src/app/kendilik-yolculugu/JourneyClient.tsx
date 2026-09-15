@@ -58,6 +58,13 @@ export default function JourneyClient() {
           21 Günlük Kendilik Yolculuğu
         </h1>
         <p>Günde birkaç dakika. Kaçırılan gün her şeyi sıfırlamaz.</p>
+        <p>
+          21 günlük yolculuk bir test sonucu URL’si üretmez. İlerleme hesaba
+          yazılır; bu sayfa public tanıttır.
+        </p>
+        <p>
+          <a href="/kendini-tani">Kendini Tanı</a>
+        </p>
         <p>İlerleme: {progress} / 21</p>
       </div>
       <div className="homeSoftCard">

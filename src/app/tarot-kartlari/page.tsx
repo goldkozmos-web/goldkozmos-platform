@@ -4,55 +4,28 @@ import Link from "next/link";
 import FooterSection from "../../components/FooterSection";
 import HomeNavbar from "../../components/HomeNavbar";
 import TarotCardGrid from "../../components/tarot/TarotCardGrid";
+import TarotHubIntro from "../../components/tarot/TarotHubIntro";
 import { TAROT_DECK } from "../../data/tarot/deck";
-import { SITE_ORIGIN } from "../../lib/site";
-import { TAROT_CARE_PATH, tarotCardsUrl } from "../../lib/tarot/urls";
+import { breadcrumbJsonLd } from "../../lib/jsonld";
+import { TAROT_CARE_PATH } from "../../lib/tarot/urls";
+import { publicPageMetadata } from "../../lib/seo";
 import "../../styles/home.css";
 import "../../styles/tarot-bakimi.css";
+import "../../styles/hub-seo.css";
 
-const pageUrl = tarotCardsUrl();
-
-export const metadata: Metadata = {
-  title: { absolute: "Tarot Kartları Anlamları | 78 Kart | GoldKozmos" },
+export const metadata: Metadata = publicPageMetadata({
+  title: "Tarot Kartları ve Anlamları: 78 Kartın Detaylı Yorumu | GoldKozmos",
   description:
-    "78 tarot kartının sembollerini, enerjilerini ve spiritüel anlamlarını keşfet. Büyük Arkana ve Küçük Arkana kartlarını incele.",
-  alternates: { canonical: pageUrl },
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    url: pageUrl,
-    siteName: "Goldkozmos",
-    title: "Tarot Kartları Anlamları | GoldKozmos",
-    description:
-      "78 tarot kartının spiritüel ve sembolik anlamlarını incele.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Tarot Kartları | GoldKozmos",
-    description: "Büyücü, Güneş, Kupa Prensi ve tüm deste anlamları.",
-  },
-  robots: { index: true, follow: true },
-};
+    "78 tarot kartının anlamları: Büyük Arkana ve Küçük Arkana. Aşk, duygu, düşünce, kariyer ve ters kart yorumları tek canonical sayfada.",
+  path: "/tarot-kartlari",
+  absoluteTitle: true,
+});
 
 export default function TarotKartlariPage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Ana Sayfa",
-        item: SITE_ORIGIN,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Tarot Kartları",
-        item: pageUrl,
-      },
-    ],
-  };
+  const jsonLd = breadcrumbJsonLd([
+    { name: "Ana Sayfa", path: "/" },
+    { name: "Tarot Kartları", path: "/tarot-kartlari" },
+  ]);
 
   return (
     <main className="homeV3Page tarotPage" id="top">
@@ -70,11 +43,12 @@ export default function TarotKartlariPage() {
           <span>Tarot Kartları</span>
         </nav>
         <p className="tarotEyebrow">78 KART</p>
-        <h1>Tarot Kartları</h1>
+        <h1>Tarot Kartları ve Anlamları</h1>
         <p className="tarotLead">
-          78 tarot kartının sembollerini, enerjilerini ve spiritüel anlamlarını
-          keşfet. Destede {TAROT_DECK.length} kart yer alır.
+          Destede {TAROT_DECK.length} kart yer alır. Her kart kendi sayfasına
+          gider; niyetler için ayrı kopya URL yoktur.
         </p>
+        <TarotHubIntro />
         <TarotCardGrid />
         <p style={{ marginTop: 28 }}>
           <Link href={TAROT_CARE_PATH}>Online Tarot Bakımı Yap</Link>

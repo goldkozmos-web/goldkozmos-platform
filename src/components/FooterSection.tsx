@@ -7,11 +7,15 @@ const platformLinks = [
   },
   {
     label: "Çalışmalar",
-    href: "/#diger",
+    href: "/calismalar",
   },
   {
     label: "Rezonans Eğitimleri",
     href: "/rezonans-egitimleri",
+  },
+  {
+    label: "Kendini Tanı",
+    href: "/kendini-tani",
   },
   {
     label: "GoldBook",

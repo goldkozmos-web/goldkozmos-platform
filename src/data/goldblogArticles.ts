@@ -14,6 +14,9 @@ export type GoldBlogArticle = {
   description: string;
   readingTime: string;
   isNew: boolean;
+  publishedAt: string;
+  updatedAt: string;
+  topics: string[];
   content: string[];
 };
 
@@ -73,6 +76,9 @@ export const goldBlogArticles: GoldBlogArticle[] = [
     "description": "İnsanın hayatın içinde kaybolduğunu sandığı anlarda aslında kendi sesinden, sınırlarından ve seçimlerinden nasıl uzaklaşabildiğini anlatan bir yazı.",
     "readingTime": "7 Dakika",
     "isNew": true,
+    "publishedAt": "2026-03-12",
+    "updatedAt": "2026-08-20",
+    "topics": ["stoa", "farkindalik", "kendilik"],
     "content": [
       "İnsan bazen hayatının içinde kaybolduğunu düşünür. Ne yapması gerektiğini bilmediği, hangi yolu seçerse seçsin içinde bir şeylerin eksik kalacağı hissine kapıldığı dönemler olur. Sabah aynı evde uyanır, aynı aynaya bakar, aynı insanlarla konuşur ama sanki kendi hayatına dışarıdan bakıyormuş gibi hisseder. Her şey tanıdıktır ama hiçbir şey eskisi kadar yakın değildir. Çoğu zaman böyle zamanlarda hayatı değiştirmek isteriz. Başka bir şehir, başka bir ilişki, başka bir iş, başka bir çevre… İçimizdeki huzursuzluğun dışarıdaki bir şey yüzünden oluştuğuna inanmak daha kolay gelir. Oysa bazen değiştirmek istediğimiz hayat değil, o hayatın içinde uzun zamandır susturduğumuz kendimizdir. İnsan kendisinden bir anda uzaklaşmaz. Bu mesafe yavaş yavaş oluşur. Önce istemediği bir şeye “tamam” der. Sonra kırıldığı bir yerde susar. Birinin sevgisini kaybetmemek için kendi sınırından biraz vazgeçer. Ardından herkesin ondan beklediği kişiye dönüşmeye çalışırken kendi beklentilerini erteler. Bunların hiçbiri o anda büyük görünmez. İnsan zaten çoğu zaman kendisini büyük kararlarla değil, küçük vazgeçişlerle kaybeder.",
       "Bir süre sonra neyi gerçekten istediğini ayırt etmek zorlaşır. Sevdiğin şeyleri mi yapıyorsun, yoksa sevilmek için öğrendiğin şeyleri mi? O ilişkiyi gerçekten istiyor musun, yoksa yalnız kalmaktan mı korkuyorsun? O hayat sana mı ait, yoksa yıllardır sana doğru hayatın böyle olması gerektiği mi anlatıldı? İnsan kendi cevaplarından uzaklaştığında dışarıdan gelen cevaplara daha fazla ihtiyaç duymaya başlıyor. Birileri ona ne yapması gerektiğini söylesin istiyor. Bir işaret arıyor, bir denk gelişin peşine düşüyor, gördüğü bir sayıya, duyduğu bir cümleye, karşısına çıkan bir insana gereğinden fazla anlam yükleyebiliyor. Çünkü insan kendi sesini duyamadığında dünyanın ona bir şey söylemesini bekliyor. Spiritüel düşüncede işaretlerden, enerjiden, akıştan sıkça bahsedilir ama belki de insanın en önemli işareti kendi içinde tekrar tekrar ortaya çıkan o rahatsızlıktır. Sürekli bastırdığı bir duygu, gitmek istemediği halde kaldığı bir yer, her karşılaşmada yeniden açılan aynı yara… Bunların her birini kaderin gizemli dili gibi görmek yerine, bazen kendimizi daha yakından dinlemek gerekir. Çünkü hayatın bize ne anlattığını anlamaya çalışırken kendimizin ne söylediğini kaçırabiliyoruz.",
@@ -90,6 +96,9 @@ export const goldBlogArticles: GoldBlogArticle[] = [
     "description": "Tanıdık duyguların, geçmiş ilişki örüntülerinin ve sınırlarımızın partner seçimlerimizi nasıl etkileyebildiğini inceleyen bir yazı.",
     "readingTime": "10 Dakika",
     "isNew": true,
+    "publishedAt": "2026-04-02",
+    "updatedAt": "2026-08-20",
+    "topics": ["iliskiler", "sinirlar", "iletisim"],
     "content": [
       "İnsan bazen hayatına giren kişilerin birbirinden tamamen farklı olduğunu düşünür. Biri daha sessizdir, biri daha dominant, biri daha romantik, diğeri daha mesafeli. İsimleri, yüzleri, meslekleri, hayat tarzları değişir ama ilişkinin içinde yaşanan duygular garip biçimde birbirine benzemeye başlayabilir. Başlangıçta çok değerli hissederken bir süre sonra yine bekleyen taraf olursun. İlk aylarda her şey çok yakınken sonra yine mesafe girer. Bir ilişkide kendini anlatmaya çalışmışsındır, diğerinde anlaşılmaya çalışırsın ama sonunda yine aynı yerde bulursun kendini: “Neden hep benzer şeyleri yaşıyorum?” İşte ilişki rezonansı dediğim yer tam olarak burada başlıyor. Çünkü insan yalnızca karşısındaki kişiyi seçmiyor; çoğu zaman tanıdığı bir duyguyu da seçiyor. Ve bazen o duygu sana iyi geldiği için değil, sana tanıdık geldiği için çekici oluyor.",
       "İnsan zihni tanıdığı şeyleri güvenli kabul etmeye eğilimlidir. Bu yüzden çocuklukta, aile ilişkilerinde ya da geçmiş deneyimlerde öğrendiğimiz bazı duygusal dinamikler yetişkin ilişkilerinde tekrar tekrar karşımıza çıkabilir. Sevgiye ulaşmak için çaba göstermek zorunda kaldıysan, seni kolayca seven biri sana yeterince yoğun gelmeyebilir. Sürekli eleştirildiğin bir ortamda büyüdüysen, onay almak için uğraştığın ilişkiler sana alışıldık gelebilir. Yakınlığın ardından mesafe geldiyse, sevgiyi hep kaybetme ihtimaliyle birlikte deneyimlemiş olabilirsin. Sonra hayatına biri girer ve sana yine aynı duyguyu yaşatır. Sen bunun güçlü bir çekim olduğunu düşünürsün. Kalbin hızlanır, zihnin sürekli onu düşünür, mesajını beklersin, davranışlarını anlamlandırmaya çalışırsın. Fakat bazen yoğunluk sandığımız şey sevgi değildir; eski bir duygunun yeniden harekete geçmesidir.",
@@ -114,6 +123,9 @@ export const goldBlogArticles: GoldBlogArticle[] = [
     "description": "Üretkenlik, zihinsel yük, kendine yetişme baskısı ve bazen birazını yere bırakabilmenin neden gelişimin bir parçası olduğunu anlatan kişisel bir düşünce notu.",
     "readingTime": "5 Dakika",
     "isNew": true,
+    "publishedAt": "2026-04-18",
+    "updatedAt": "2026-08-20",
+    "topics": ["aliskanliklar", "farkindalik"],
     "content": [
       "Son zamanlarda kendimde sık sık fark ettiğim bir şey var: Aynı anda çok fazla şeyi düşünmeye çalışıyorum. Bir iş yaparken diğerini düşünüyorum, birini tamamlarken aklım çoktan sıradakine geçiyor. Gün içinde aslında birçok şey yapmış olsam bile akşam olduğunda zihnim hâlâ “daha ne kaldı?” diye soruyor. Eskiden bunu üretkenlik sanıyordum. Bir şeylerle sürekli ilgilenmek, hep bir sonraki adımı düşünmek, boş durmamak bana çalışkanlık gibi geliyordu. Şimdi ise bazı günler bunun üretkenlikten çok zihinsel bir koşu hali olduğunu fark ediyorum. İnsan fiziksel olarak aynı yerde dururken bile kendi kafasının içinde saatlerce koşabiliyor.",
       "Geçenlerde yine böyle bir gün geçirdim. Yapmam gereken işler vardı ve hepsinin aynı gün tamamlanmasını istiyordum. Birine başladım, diğerini düşündüm. Öbürüne geçtim, ilkini yarım bıraktığım için huzursuz oldum. Günün sonunda aslında düşündüğümden çok daha fazla şey yapmıştım ama içimde hâlâ “yetmedi” hissi vardı. O an durup şunu düşündüm: Ben gerçekten yapılacak işlerden mi yoruluyorum, yoksa sürekli kendime yetişemediğimi söylemekten mi? Çünkü bazen insanın üzerinde baskı kuran şey dışarıdaki yoğunluk değil, kendi içinde kullandığı dil oluyor.",
@@ -134,6 +146,9 @@ export const goldBlogArticles: GoldBlogArticle[] = [
     "description": "Özdeğer, sınırlar, onay ihtiyacı ve başkalarının beklentileri arasında insanın kendi sesini nasıl kaybedebildiğini sorgulayan bir yazı.",
     "readingTime": "8 Dakika",
     "isNew": true,
+    "publishedAt": "2026-05-06",
+    "updatedAt": "2026-08-20",
+    "topics": ["kendilik", "ozdeger", "sinirlar"],
     "content": [
       "İnsan çoğu zaman kendisini tanıdığını düşünür. Neyi sevdiğini, neyi sevmediğini, nasıl biri olduğunu, neye dayanabildiğini bildiğini sanır. Fakat hayatın bazı dönemlerinde verdiğimiz kararların ne kadarının gerçekten bize ait olduğunu sorgulamaya başladığımızda işler değişir. Çünkü insan her zaman kendi istediği hayatı yaşamaz. Bazen kendisinden beklenen hayatı yaşar. Bazen ailesinin doğru bulduğu kişiye dönüşür, bazen çevresinin kabul edeceği şekilde davranır, bazen sevdiği birini kaybetmemek için kendi ihtiyaçlarını küçültür. Bunların hiçbiri bir anda olmaz. İnsan kendisinden yavaş yavaş uzaklaşır. Bir gün istemediği halde evet der, başka bir gün kırıldığı yerde sesini çıkarmaz, sonra kendisini fazla bulduklarını düşünerek daha az konuşmaya başlar. Bir süre sonra da bütün bunların kendi karakteri olduğuna inanmaya başlayabilir.",
       "Kendilik rezonansı dediğim şey tam olarak burada başlıyor. İnsanın yalnızca kendisi hakkında ne düşündüğüyle değil, kendisiyle nasıl bir ilişki kurduğu ile ilgilidir. Çünkü insanın kendi değerine dair taşıdığı düşünceler, hayatın birçok alanına sessizce sızar. Kendini yeterli görmeyen biri, yaptığı şeyi küçümseyebilir. Sevilmeye layık olduğuna inanmayan biri, sevgi gördüğünde bile bundan şüphe edebilir. Sürekli onay almaya alışmış biri, yalnızca kendi istediği için karar vermekte zorlanabilir. Kendini başkalarının gözünden görmeye başlayan biri için insanların memnuniyeti zamanla kendi huzurundan daha önemli hale gelebilir. Sonra insan neden sürekli yorulduğunu, neden hayatındaki insanlara bu kadar fazla verdiğini, neden hayır diyemediğini anlamaya çalışır. Belki de sorun yalnızca çevresindeki insanların çok şey istemesi değildir. Bazen insan kendi değerini faydalı olmakla, sevilmekle, kabul görmekle ya da birilerine yetebilmekle ölçmeyi öğrenmiştir.",
@@ -160,6 +175,9 @@ export const goldBlogArticles: GoldBlogArticle[] = [
     "description": "Para, özdeğer, alma-verme dengesi, emeğin karşılığı ve kaynaklarla kurduğumuz ilişkinin seçimlerimize nasıl yansıdığını ele alan bir yazı.",
     "readingTime": "10 Dakika",
     "isNew": true,
+    "publishedAt": "2026-05-22",
+    "updatedAt": "2026-08-20",
+    "topics": ["bolluk", "ozdeger", "aliskanliklar"],
     "content": [
       "İnsan parayla ilişkisini çoğu zaman yalnızca ne kadar kazandığı üzerinden değerlendirir. Oysa para, hayatımızdaki en görünür konulardan biri olsa da onunla kurduğumuz ilişki çoğu zaman görünmeyen yerlerde şekillenir. Çocukken evde para hakkında nasıl konuşulduğu, eksikliğin nasıl yaşandığı, başarıya hangi anlamların yüklendiği, zengin insanların nasıl anlatıldığı, çalışmanın değerle nasıl ilişkilendirildiği zamanla zihnimizde küçük cümlelere dönüşür. “Para zor kazanılır.” “Çok isteyen insan açgözlüdür.” “Bizim ailede kimse öyle büyük paralar kazanmadı.” “Elindekinin kıymetini bil, fazlasını isteme.” “Önce çok çalışmalısın, sonra belki rahat edersin.” İnsan bu cümleleri yıllarca taşıdığında, yetişkin olduğunda yalnızca para kazanmaya çalışmaz; aynı zamanda para hakkında öğrendiği bütün eski anlamlarla da yaşamaya devam eder. İşte bolluk rezonansı dediğim yer biraz burada başlar. Ne kadar paran olduğundan önce, paraya, değere, almaya, üretmeye ve sahip olmaya içeride hangi anlamları verdiğinle ilgilidir.",
       "Bolluk denildiğinde çoğu insanın aklına daha fazla para gelir. Oysa bolluk yalnızca miktar değildir. İnsanın hayatında kaynaklarla kurduğu ilişkinin tamamıdır. Zamanını nasıl kullandığın, emeğinin karşılığını nasıl belirlediğin, bir fırsat geldiğinde onu alabilecek kadar kendine güvenip güvenmediğin, bir şey istediğinde bunu istemeye hakkın olup olmadığını nasıl değerlendirdiğin, kazandığın şeyi koruyup koruyamadığın da bu ilişkinin parçalarıdır. İnsan bazen para kazanmak ister ama kazandığında onu tutamaz. Bazen daha fazlasını hak ettiğini söyler ama ücret belirlerken sürekli geri çekilir. Bazen fırsat bekler ama fırsat geldiğinde “ben yapamam” diyerek kendisini dışarıda bırakır. Sonra hayatın ona yeterince vermediğini düşünür. Oysa bazı durumlarda mesele yalnızca dışarıdan ne geldiği değildir; insanın gelen şeyi kabul edebilme kapasitesi de önemlidir.",
