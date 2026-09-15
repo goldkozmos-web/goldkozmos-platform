@@ -130,6 +130,11 @@
   font-weight: 400;
 }
 
+.burcCard > a {
+  color: inherit;
+  font-size: inherit;
+}
+
 .burcGlyph {
   color: #a8792a;
   font-size: 22px;

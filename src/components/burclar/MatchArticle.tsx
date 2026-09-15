@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import type { MatchArticle } from "../../data/burclar/types";
-import { profileHref } from "../../lib/burclar/search";
+import { overviewHref, profileHref } from "../../lib/burclar/search";
 
 function paras(text: string) {
   return text
@@ -78,6 +78,9 @@ export default function MatchArticleView({ match }: { match: MatchArticle }) {
       <h2>Burç Profilleri</h2>
       <ul className="burcLinks">
         <li>
+          <Link href={overviewHref(a)}>{a.name} Burcu Özellikleri</Link>
+        </li>
+        <li>
           <Link href={profileHref(a, "kadin")}>{a.name} Kadını Özellikleri</Link>
         </li>
         <li>
@@ -85,6 +88,9 @@ export default function MatchArticleView({ match }: { match: MatchArticle }) {
         </li>
         {self ? null : (
           <>
+            <li>
+              <Link href={overviewHref(b)}>{b.name} Burcu Özellikleri</Link>
+            </li>
             <li>
               <Link href={profileHref(b, "kadin")}>{b.name} Kadını Özellikleri</Link>
             </li>

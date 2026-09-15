@@ -97,6 +97,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   );
 
   const signs = SIGNS.flatMap((sign) => [
+    loc(`/burclar/${sign.slug}`, {
+      changeFrequency: "monthly",
+      priority: 0.85,
+    }),
     loc(`/burclar/${sign.slug}-kadini`, {
       changeFrequency: "monthly",
       priority: 0.8,
