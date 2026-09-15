@@ -182,10 +182,10 @@ function extraHits(): SearchHit[] {
   const burclar = SIGNS.flatMap((sign) => [
     {
       id: `burc-${sign.slug}`,
-      title: sign.name,
+      title: `${sign.name} Burcu Özellikleri`,
       type: "Burçlar",
       description: sign.relationshipStyle,
-      href: "/burclar",
+      href: `/burclar/${sign.slug}`,
     },
     {
       id: `burc-${sign.slug}-kadin`,

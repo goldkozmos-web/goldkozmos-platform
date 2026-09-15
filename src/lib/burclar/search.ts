@@ -1,4 +1,5 @@
 import { SIGNS, genderPageBySlug, genderPageSlug } from "../../data/burclar/signs";
+import { signOverviewCopy } from "../../data/burclar/overviews";
 import { mergeProfile, PROFILE_EXTRA } from "../../data/burclar/expansions";
 import { SCENES } from "../../data/burclar/scenes";
 import type { BurcSearchHit, Gender, Sign } from "../../data/burclar/types";
@@ -85,6 +86,19 @@ export function searchBurclar(query: string, limit = 8): BurcSearchHit[] {
   const hits: Array<BurcSearchHit & { score: number }> = [];
 
   for (const sign of SIGNS) {
+    hits.push({
+      title: `${sign.name} Burcu Özellikleri`,
+      href: `/burclar/${sign.slug}`,
+      hint: `${sign.symbol} ${sign.elementLabel}`,
+      score: score(query, [
+        sign.name,
+        `${sign.name} burcu`,
+        `${sign.name} burcu özellikleri`,
+        `${sign.name} özellikleri`,
+        sign.slug,
+        `${sign.slug} burcu`,
+      ]),
+    });
     for (const gender of ["kadin", "erkek"] as const) {
       const aliases = genderAliases(sign, gender);
       hits.push({
@@ -96,7 +110,7 @@ export function searchBurclar(query: string, limit = 8): BurcSearchHit[] {
     }
     hits.push({
       title: `${sign.name} Aşk Uyumu`,
-      href: `/burc-uyumu?bir=${sign.id}`,
+      href: `/burc-uyumu`,
       hint: "Uyumu seç",
       score: score(query, [
         `${sign.name} uyumu`,
@@ -136,8 +150,23 @@ export function searchBurclar(query: string, limit = 8): BurcSearchHit[] {
     .map(({ score: _s, ...hit }) => hit);
 }
 
+export function overviewHref(sign: Sign) {
+  return `/burclar/${sign.slug}`;
+}
+
 export function profileHref(sign: Sign, gender: Gender) {
   return `/burclar/${genderPageSlug(sign, gender)}`;
+}
+
+export function composeOverviewMeta(sign: Sign) {
+  const copy = signOverviewCopy(sign);
+  return {
+    sign,
+    slug: sign.slug,
+    h1: `${sign.name} Burcu Özellikleri`,
+    seoTitle: `${sign.name} Burcu Özellikleri: Aşk, Karakter ve İlişkiler | GoldKozmos`,
+    metaDescription: copy.metaDescription,
+  };
 }
 
 export function matchHref(a: Sign["id"], b: Sign["id"]) {

@@ -82,6 +82,9 @@ export default function ProfileArticle({
         ))}
       </ul>
       <p>
+        {sign.name} burcunun genel haritası{" "}
+        <Link href={`/burclar/${sign.slug}`}>{sign.name} Burcu Özellikleri</Link>
+        {" sayfasındadır. "}
         {sign.name} kadını ve {sign.name} erkeği profilleri ayrı yazılmıştır:{" "}
         <Link href={profileHref(sign, "kadin")}>{sign.name} Kadını Özellikleri</Link>
         {" · "}

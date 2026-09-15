@@ -5,7 +5,7 @@ import BurcSearch from "../../components/burclar/BurcSearch";
 import FooterSection from "../../components/FooterSection";
 import HomeNavbar from "../../components/HomeNavbar";
 import { SIGNS } from "../../data/burclar/signs";
-import { profileHref } from "../../lib/burclar/search";
+import { overviewHref, profileHref } from "../../lib/burclar/search";
 import { burclarUrl } from "../../lib/burclar/urls";
 import { SITE_ORIGIN } from "../../lib/site";
 import "../../styles/home.css";
@@ -76,11 +76,13 @@ export default function BurclarPage() {
               <span className="burcGlyph" aria-hidden>
                 {sign.symbol}
               </span>
-              <strong>{sign.name}</strong>
+              <Link href={overviewHref(sign)}>
+                <strong>{sign.name}</strong>
+              </Link>
               <nav>
                 <Link href={profileHref(sign, "kadin")}>Kadını</Link>
                 <Link href={profileHref(sign, "erkek")}>Erkeği</Link>
-                <Link href={`/burc-uyumu?bir=${sign.id}`}>Aşk Uyumu</Link>
+                <Link href="/burc-uyumu">Aşk Uyumu</Link>
               </nav>
             </li>
           ))}
