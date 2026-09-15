@@ -32,7 +32,7 @@ export const PROFILIM_TILE_GROUPS: ProfilimTileGroup[] = [
     title: "Gelişim",
     tiles: [
       { id: "journey", eyebrow: "YOLCULUK", title: "Gelişim Yolculuğum" },
-      { id: "understand", eyebrow: "TEST", title: "Kendimi Tanı" },
+      { id: "understand", eyebrow: "TEST", title: "Kendini Tanı / Test Sonuçlarım" },
       { id: "activityHistory", eyebrow: "GEÇMİŞ", title: "İlerleme Geçmişim" },
       { id: "pdfs", eyebrow: "ANALİZ", title: "Analizlerim" },
     ],

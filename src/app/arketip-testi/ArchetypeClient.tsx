@@ -10,6 +10,7 @@ import {
   type ArchetypeId,
 } from "../../data/archetypes";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
+import { GOLDACT_XP_EVENT } from "../../lib/profilim/activityXp";
 import "../../styles/home.css";
 import "../../styles/daily-practice.css";
 
@@ -40,11 +41,10 @@ export default function ArchetypeClient() {
       payload: { answers, top },
       updated_at: new Date().toISOString(),
     });
-    await supabase.from("user_test_results").upsert({
+    await supabase.from("user_test_results").insert({
       user_id: session.session.user.id,
       test_kind: "archetype",
       result: { top, answers },
-      created_at: new Date().toISOString(),
     });
     await supabase.rpc("record_user_activity", {
       p_kind: "archetype",
@@ -52,7 +52,15 @@ export default function ArchetypeClient() {
       p_href: "/arketip-testi",
       p_payload: {},
     });
+    await supabase.rpc("record_analytics_event", {
+      p_event_name: "test_complete",
+      p_path: "/arketip-testi",
+      p_user_id: session.session.user.id,
+      p_anonymous_session_id: null,
+      p_metadata: { kind: "archetype" },
+    });
     setSaved(error ? error.message : "Profiline kaydedildi.");
+    window.dispatchEvent(new Event(GOLDACT_XP_EVENT));
   }
 
   return (

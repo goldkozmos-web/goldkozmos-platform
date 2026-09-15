@@ -792,10 +792,17 @@
   gap: 10px;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .homeV3NavTools {
     display: flex;
   }
+}
+
+.profilimWaterRadio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
 }
 
 .homeNavTool {

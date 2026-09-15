@@ -4,6 +4,7 @@ import { TAROT_DECK } from "../../data/tarot/deck";
 import { publishedRituals } from "../../data/goldrituel/catalog";
 import { energyWorks } from "../../data/energyWorks";
 import { GOLDMIND_COLLECTIONS } from "../../data/meditation";
+import { SIGNS, genderPageSlug } from "../../data/burclar/signs";
 import { foldTurkish, scoreDreamQuery } from "../ruya-tabirleri/search";
 
 export type SearchHit = {
@@ -178,7 +179,31 @@ function extraHits(): SearchHit[] {
     href: "/goldmind",
   }));
 
-  return [...blogs, ...dreams, ...cards, ...rituals, ...works, ...mind];
+  const burclar = SIGNS.flatMap((sign) => [
+    {
+      id: `burc-${sign.slug}`,
+      title: sign.name,
+      type: "Burçlar",
+      description: sign.relationshipStyle,
+      href: "/burclar",
+    },
+    {
+      id: `burc-${sign.slug}-kadin`,
+      title: `${sign.name} Kadını`,
+      type: "Burçlar",
+      description: sign.woman.summary,
+      href: `/burclar/${genderPageSlug(sign, "kadin")}`,
+    },
+    {
+      id: `burc-${sign.slug}-erkek`,
+      title: `${sign.name} Erkeği`,
+      type: "Burçlar",
+      description: sign.man.summary,
+      href: `/burclar/${genderPageSlug(sign, "erkek")}`,
+    },
+  ]);
+
+  return [...blogs, ...dreams, ...cards, ...rituals, ...works, ...mind, ...burclar];
 }
 
 let cache: SearchHit[] | null = null;

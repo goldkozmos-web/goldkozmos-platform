@@ -10,7 +10,7 @@ import {
   fetchReminders,
 } from "../../lib/daily/client";
 import { readTodos, writeTodos } from "../../lib/profilim/localStore";
-import { sendTodoPhoneNotice } from "../../lib/push/browser";
+import { enableMemberPush, sendTodoPhoneNotice } from "../../lib/push/browser";
 import ProfilimEmptyState from "../profilim/ProfilimEmptyState";
 import "../../styles/daily-practice.css";
 
@@ -138,6 +138,7 @@ export default function RemindersPanel({ userId }: { userId: string }) {
     });
 
     if (notifyPhone) {
+      const push = await enableMemberPush();
       const dueNow = isDueNow(item.dueOn ?? "", item.dueTime ?? "");
       if (dueNow) {
         const ping = await sendTodoPhoneNotice("Yapılacaklarım", item.title);
@@ -149,14 +150,10 @@ export default function RemindersPanel({ userId }: { userId: string }) {
               : "Kaydedildi. Bildirim izni bu tarayıcıda kapalı.",
         );
       } else {
-        const ping = await sendTodoPhoneNotice(
-          "Yapılacaklarım",
-          `${item.title} saatine bildirim kuruldu.`,
-        );
         setStatus(
-          ping.ok
-            ? "Kaydedildi. Saat gelince telefona düşer."
-            : "Kaydedildi. Bildirim için tarayıcı iznini aç.",
+          push.ok
+            ? "Kaydedildi. Saat gelince sunucu bildirimi gönderir."
+            : "Kaydedildi. Telefon bildirimi için izin ve abonelik gerekli.",
         );
       }
     } else {

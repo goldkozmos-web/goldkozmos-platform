@@ -44,11 +44,10 @@ export default function SelfTestClient({
       setSaved("Giriş yapmalısın.");
       return;
     }
-    const { error } = await supabase.from("user_test_results").upsert({
+    const { error } = await supabase.from("user_test_results").insert({
       user_id: userId,
       test_kind: kind,
       result,
-      created_at: new Date().toISOString(),
     });
     await supabase.rpc("record_user_activity", {
       p_kind: "test_complete",
@@ -149,7 +148,7 @@ function heading(key: string) {
     highlights: "Öne Çıkan Gölge Eğilimleri",
     when: "Hangi Durumlarda Ortaya Çıkabilir?",
     transform: "Güçlü Tarafa Nasıl Dönüşebilir?",
-    tips: "Küçük Gelişim Önerileri",
+    tips: "Gelişim İçin Küçük Adımlar",
     overall: "İlişkide Genel Eğilimin",
     closeness: "Yakınlık ve Mesafe",
     bounds: "Sınırların",

@@ -76,6 +76,14 @@ export async function createSiteSuggestion(raw: {
     return { error: error?.message || "Öneri kaydedilemedi.", status: 400 as const };
   }
 
+  await supabase.rpc("record_analytics_event", {
+    p_event_name: "suggestion_submit",
+    p_path: "/ayarlar",
+    p_user_id: user.id,
+    p_anonymous_session_id: null,
+    p_metadata: { id: asText((data as { id?: string }).id) },
+  });
+
   return {
     suggestion: {
       id: asText((data as { id?: string }).id),
