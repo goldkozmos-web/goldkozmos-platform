@@ -1,6 +1,7 @@
 "use client";
 
 import { createSupabaseBrowserClient } from "../supabase/browser";
+import { recoverMissingTable } from "../platform/ensureSchema";
 import type {
   ActionCategory,
   AppNotification,
@@ -284,7 +285,10 @@ export async function createReminder(input: {
     row.id = input.id;
   }
 
-  const { error } = await supabase.from("reminders").insert(row);
+  let { error } = await supabase.from("reminders").insert(row);
+  if (error && (await recoverMissingTable(error.message))) {
+    ({ error } = await supabase.from("reminders").insert(row));
+  }
   return { error: error?.message ?? null };
 }
 

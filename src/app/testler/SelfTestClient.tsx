@@ -6,6 +6,7 @@ import HomeNavbar from "../../components/HomeNavbar";
 import FooterSection from "../../components/FooterSection";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import { GOLDACT_XP_EVENT } from "../../lib/profilim/activityXp";
+import { recoverMissingTable } from "../../lib/platform/ensureSchema";
 import type { LikertQuestion } from "../../data/selfTests";
 import {
   CHARACTER_QUESTIONS,
@@ -57,11 +58,18 @@ export default function SelfTestClient({
       setSaved("Giriş yapmalısın.");
       return;
     }
-    const { error } = await supabase.from("user_test_results").insert({
+    let { error } = await supabase.from("user_test_results").insert({
       user_id: userId,
       test_kind: kind,
       result,
     });
+    if (error && (await recoverMissingTable(error.message))) {
+      ({ error } = await supabase.from("user_test_results").insert({
+        user_id: userId,
+        test_kind: kind,
+        result,
+      }));
+    }
     await supabase.rpc("record_user_activity", {
       p_kind: "test_complete",
       p_title: title,

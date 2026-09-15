@@ -575,9 +575,186 @@
   box-shadow: 0 0 8px rgba(80, 180, 210, 0.45);
 }
 
-.profilimWaterDesk {
+.profilimWaterDesk.isLive {
+  gap: 14px;
+}
+
+.profilimWaterDesk.isLive .profilimWaterStage {
+  position: relative;
+  overflow: hidden;
+  padding: 22px 16px 18px;
+  border-color: rgba(70, 180, 210, 0.35);
+  background:
+    radial-gradient(90% 80% at 12% 0%, rgba(120, 230, 255, 0.55), transparent 52%),
+    radial-gradient(80% 90% at 100% 20%, rgba(232, 176, 72, 0.28), transparent 46%),
+    linear-gradient(165deg, #e7f9ff 0%, #fffdf8 48%, #d4f1fb 100%);
+  animation: profilimWaterWash 9s ease-in-out infinite;
+}
+
+.profilimWaterRipple {
+  position: absolute;
+  right: 18%;
+  top: 18%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid rgba(70, 190, 220, 0.28);
+  animation: profilimWaterPulse 3.6s ease-out infinite;
+  pointer-events: none;
+}
+
+.profilimWaterRipple.isTwo {
+  animation-delay: 1.2s;
+  width: 130px;
+  height: 130px;
+  right: 8%;
+  top: 4%;
+}
+
+.profilimWaterEyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #1f7a96;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.profilimWaterMeter {
+  grid-column: 1;
+  position: relative;
+  z-index: 1;
+  height: 10px;
+  margin-top: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.profilimWaterMeter i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7cf0ff, #2aa4d4 55%, #e3bc70);
+  box-shadow: 0 0 12px rgba(80, 210, 240, 0.65);
+  transition: width 0.5s ease;
+}
+
+.profilimWaterActions.isPair {
   display: grid;
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.profilimWaterPrimary.isAqua {
+  background: linear-gradient(180deg, #2eb3d6, #157394);
+  color: #fffdf8;
+  box-shadow: 0 10px 18px rgba(30, 130, 160, 0.22);
+}
+
+.profilimWaterPrimary.isOnAqua {
+  background: linear-gradient(180deg, #1d8aad, #0e5068);
+  color: #e7fbff;
+}
+
+.profilimWaterGhost.isAqua {
+  border-color: rgba(46, 179, 214, 0.35);
+  background: rgba(255, 255, 255, 0.82);
+  color: #14607a;
+}
+
+.profilimWaterWhen {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.profilimWaterModelLabel {
+  margin: 4px 0 0;
+  color: #1f7a96;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.profilimWaterModes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.profilimWaterModes button {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid rgba(46, 179, 214, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #163944;
+  text-align: left;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profilimWaterModes button small {
+  color: #2eb3d6;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+}
+
+.profilimWaterModes button.isOn {
+  border-color: rgba(46, 179, 214, 0.7);
+  background: linear-gradient(180deg, #e7fbff, #fff8e8);
+  box-shadow: 0 8px 16px rgba(46, 179, 214, 0.16);
+}
+
+.profilimWaterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+
+.profilimWaterChips em {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #d9f7ff, #b8e8f6);
+  color: #0e5068;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@keyframes profilimWaterWash {
+  0%,
+  100% {
+    background-position: 0 0, 100% 0, 0 0;
+  }
+  50% {
+    filter: saturate(1.08);
+  }
+}
+
+@keyframes profilimWaterPulse {
+  0% {
+    transform: scale(0.7);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profilimWaterRipple,
+  .profilimWaterDesk.isLive .profilimWaterStage {
+    animation: none;
+  }
 }
 
 .profilimWaterStage {

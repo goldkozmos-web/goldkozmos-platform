@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import ProfilimEmptyState from "./ProfilimEmptyState";
+import { recoverMissingTable } from "../../lib/platform/ensureSchema";
 
 type Entry = {
   id: string;
@@ -54,15 +55,28 @@ export default function SuccessJournalPanel() {
               setStatus("Giriş yapmalısın.");
               return;
             }
-            const { error } = await supabase.from("success_journal").insert({
+            let { error } = await supabase.from("success_journal").insert({
               user_id: data.user.id,
               achieved: achieved.trim(),
               how: how.trim(),
               appreciate: appreciate.trim(),
               note: note.trim(),
             });
+            if (error && (await recoverMissingTable(error.message))) {
+              ({ error } = await supabase.from("success_journal").insert({
+                user_id: data.user.id,
+                achieved: achieved.trim(),
+                how: how.trim(),
+                appreciate: appreciate.trim(),
+                note: note.trim(),
+              }));
+            }
             if (error) {
-              setStatus(error.message);
+              setStatus(
+                error.message.toLowerCase().includes("schema cache")
+                  ? "Kayıt alanı henüz açılmamıştı. Tekrar dene."
+                  : error.message,
+              );
               return;
             }
             await supabase.rpc("record_user_activity", {
