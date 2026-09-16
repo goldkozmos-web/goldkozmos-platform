@@ -18,6 +18,22 @@ function pushSupported() {
   );
 }
 
+function isIosPhone() {
+  if (typeof window === "undefined") return false;
+  const ua = navigator.userAgent || "";
+  return /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function isStandaloneApp() {
+  if (typeof window === "undefined") return false;
+  const nav = window.navigator as Navigator & { standalone?: boolean };
+  return nav.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
+}
+
+export function iosNeedsHomeScreen() {
+  return isIosPhone() && !isStandaloneApp();
+}
+
 function urlBase64ToUint8Array(base64: string) {
   const padding = "=".repeat((4 - (base64.length % 4)) % 4);
   const raw = atob((base64 + padding).replace(/-/g, "+").replace(/_/g, "/"));
@@ -25,7 +41,7 @@ function urlBase64ToUint8Array(base64: string) {
   for (let i = 0; i < raw.length; i += 1) {
     output[i] = raw.charCodeAt(i);
   }
-  return output;
+  return new Uint8Array(output);
 }
 
 async function authHeaders() {
@@ -40,49 +56,61 @@ async function authHeaders() {
 
 export async function enableMemberPush() {
   if (!pushSupported()) {
-    return { ok: false, reason: "unsupported" as const };
+    return { ok: false, reason: iosNeedsHomeScreen() ? ("homescreen" as const) : ("unsupported" as const) };
   }
 
   if (typeof Notification === "undefined") {
-    return { ok: false, reason: "unsupported" as const };
+    return { ok: false, reason: iosNeedsHomeScreen() ? ("homescreen" as const) : ("unsupported" as const) };
   }
 
-  const permission =
-    Notification.permission === "granted"
-      ? "granted"
-      : await Notification.requestPermission();
-  if (permission !== "granted") {
-    return { ok: false, reason: "denied" as const };
+  try {
+    const permission =
+      Notification.permission === "granted"
+        ? "granted"
+        : await Notification.requestPermission();
+    if (permission !== "granted") {
+      return { ok: false, reason: "denied" as const };
+    }
+
+    const registration = await navigator.serviceWorker.register("/sw.js", {
+      scope: "/",
+    });
+    await navigator.serviceWorker.ready;
+
+    const existing = await registration.pushManager.getSubscription();
+    const keyRes = await fetch("/api/profilim/push", { credentials: "same-origin" });
+    const pack = (await keyRes.json().catch(() => null)) as { publicKey?: string } | null;
+    if (!pack?.publicKey) {
+      return { ok: false, reason: "key" as const };
+    }
+
+    const subscription =
+      existing ||
+      (await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(pack.publicKey),
+      }));
+
+    const body =
+      typeof subscription.toJSON === "function" ? subscription.toJSON() : subscription;
+    const save = await fetch("/api/profilim/push", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: await authHeaders(),
+      body: JSON.stringify({ subscription: body }),
+    });
+
+    if (!save.ok) {
+      return { ok: false, reason: "save" as const };
+    }
+
+    return { ok: true as const, registration };
+  } catch {
+    return {
+      ok: false,
+      reason: iosNeedsHomeScreen() ? ("homescreen" as const) : ("subscribe" as const),
+    };
   }
-
-  const registration = await navigator.serviceWorker.register("/sw.js", {
-    scope: "/",
-  });
-  await navigator.serviceWorker.ready;
-
-  const keyRes = await fetch("/api/profilim/push", { credentials: "same-origin" });
-  const pack = (await keyRes.json().catch(() => null)) as { publicKey?: string } | null;
-  if (!pack?.publicKey) {
-    return { ok: false, reason: "key" as const };
-  }
-
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(pack.publicKey),
-  });
-
-  const save = await fetch("/api/profilim/push", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: await authHeaders(),
-    body: JSON.stringify({ subscription }),
-  });
-
-  if (!save.ok) {
-    return { ok: false, reason: "save" as const };
-  }
-
-  return { ok: true as const, registration };
 }
 
 export async function showLocalTodoNotice(title: string, body: string) {

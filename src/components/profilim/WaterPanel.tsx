@@ -115,11 +115,13 @@ export default function WaterPanel({ userId }: { userId: string }) {
     setSupport(pushSupportState());
     if (!push.ok) {
       setStatus(
-        push.reason === "unsupported"
-          ? "Program kaydedildi. Bu tarayıcı web push desteklemiyor."
-          : push.reason === "denied"
-            ? "Program kaydedildi. Telefonda bildirim iznini Aç’a bas."
-            : "Program kaydedildi. Bildirim aboneliği kurulamadı; tekrar dene.",
+        push.reason === "homescreen"
+          ? "Program kaydedildi. iPhone bildirimi için Paylaş → Ana Ekrana Ekle, uygulamayı oradan aç, sonra hatırlatıcıyı bir kez daha aç."
+          : push.reason === "unsupported"
+            ? "Program kaydedildi. Bu tarayıcı web push desteklemiyor."
+            : push.reason === "denied"
+              ? "Program kaydedildi. Telefonda bildirim iznini Aç’a bas."
+              : "Program kaydedildi. Saatler sunucuda. Bildirim için Ana Ekran uygulamasından bir kez daha aç.",
       );
     }
   }
