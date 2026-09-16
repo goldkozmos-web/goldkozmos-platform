@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { enableMemberPush, pushSupportState } from "../../lib/push/browser";
+import { enableMemberPush, pushFailureHint, pushSupportState } from "../../lib/push/browser";
 import { istanbulDay, parseWaterProgram, type WaterProgram } from "../../lib/water/store";
 import WaterGlassArt from "./WaterGlassArt";
 
@@ -114,13 +114,7 @@ export default function WaterPanel({ userId }: { userId: string }) {
     const push = await enableMemberPush();
     setSupport(pushSupportState());
     if (!push.ok) {
-      setStatus(
-        push.reason === "unsupported"
-          ? "Program kaydedildi. Bu tarayıcı web push desteklemiyor."
-          : push.reason === "denied"
-            ? "Program kaydedildi. Telefonda bildirim iznini Aç’a bas."
-            : "Program kaydedildi. Bildirim aboneliği kurulamadı; tekrar dene.",
-      );
+      setStatus(pushFailureHint(push.reason));
     }
   }
 

@@ -4,6 +4,7 @@ import { createSupabaseAnonClient } from "../supabase/anon";
 import { createSupabaseServiceClient } from "../supabase/service";
 import { isMemberVisitorKey } from "./member-keys";
 import { shouldSkipPresencePath } from "../presence/labels";
+import { readPushMeta } from "../push/persist";
 import {
   parsePushSub,
   PUSH_SUB_POST,
@@ -120,6 +121,19 @@ export async function sendMemberPush(
     .eq("user_id", userId)
     .limit(12);
 
+  const rows = [...(data ?? [])];
+  if (!rows.length) {
+    const meta = await readPushMeta(userId);
+    if (meta) {
+      rows.push({
+        id: "",
+        endpoint: meta.endpoint,
+        p256dh: meta.keys.p256dh,
+        auth_secret: meta.keys.auth,
+      });
+    }
+  }
+
   const payload = JSON.stringify({
     title: alert.title,
     body: alert.body,
@@ -127,7 +141,7 @@ export async function sendMemberPush(
   });
 
   let sent = 0;
-  for (const row of data ?? []) {
+  for (const row of rows) {
     const endpoint = String(row.endpoint ?? "");
     const p256dh = String(row.p256dh ?? "");
     const auth = String(row.auth_secret ?? "");

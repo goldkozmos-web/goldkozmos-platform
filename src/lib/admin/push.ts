@@ -74,7 +74,7 @@ export function parsePushInput(raw: unknown): PushSub | null {
   if (!endpoint.startsWith("https://") || !p256dh || !auth) {
     return null;
   }
-  if (endpoint.length > 800 || p256dh.length > 200 || auth.length > 80) {
+  if (endpoint.length > 4096 || p256dh.length > 512 || auth.length > 256) {
     return null;
   }
   return { endpoint, keys: { p256dh, auth } };
