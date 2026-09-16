@@ -211,7 +211,7 @@ const dockStyles = `
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transition: opacity 180ms ease, visibility 180ms ease;
+      transition: opacity 280ms ease, visibility 280ms ease;
     }
 
     .goldkozmosGlobalContactBackdrop.isOpen {
@@ -228,28 +228,33 @@ const dockStyles = `
       bottom: auto;
       z-index: 100021;
       box-sizing: border-box;
-      width: 90vw;
-      max-width: 420px;
-      max-height: min(82dvh, 720px);
+      width: min(92vw, 440px);
+      max-width: 440px;
+      max-height: min(86dvh, 760px);
       padding: 0;
       display: flex;
       flex-direction: column;
-      border: 1px solid rgba(213, 168, 82, 0.38);
-      border-radius: 28px;
+      border: 1px solid rgba(232, 196, 112, 0.48);
+      border-radius: 30px;
       background:
-        radial-gradient(circle at 100% 0%, rgba(205, 158, 73, 0.13), transparent 34%),
-        linear-gradient(145deg, rgba(36, 24, 16, 0.99), rgba(20, 14, 10, 0.99));
+        radial-gradient(circle at 100% 0%, rgba(232, 196, 112, 0.2), transparent 36%),
+        radial-gradient(circle at 0% 100%, rgba(120, 82, 28, 0.22), transparent 42%),
+        linear-gradient(155deg, rgba(42, 28, 18, 0.99), rgba(18, 12, 8, 0.99));
       box-shadow:
-        0 24px 64px rgba(0, 0, 0, 0.38),
-        inset 0 1px 0 rgba(255, 255, 255, 0.035);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+        0 28px 72px rgba(0, 0, 0, 0.42),
+        0 0 0 1px rgba(255, 232, 180, 0.06) inset,
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
-      transform: translate(-50%, -46%) scale(0.96);
+      transform: translate(-50%, -44%) scale(0.94);
       transform-origin: center center;
-      transition: opacity 180ms ease, visibility 180ms ease, transform 220ms ease;
+      transition:
+        opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .goldkozmosGlobalContactPanel.isOpen {
@@ -264,7 +269,7 @@ const dockStyles = `
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      padding: 18px 18px 10px;
+      padding: 20px 20px 12px;
     }
 
     .goldkozmosGlobalContactIntro {
@@ -274,11 +279,11 @@ const dockStyles = `
 
     .goldkozmosGlobalContactIntro small {
       display: block;
-      margin-bottom: 5px;
-      color: #c99a47;
-      font-size: 7px;
+      margin-bottom: 6px;
+      color: #e0b45a;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
@@ -286,86 +291,151 @@ const dockStyles = `
       display: block;
       color: #fffaf1;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 22px;
-      line-height: 1.05;
+      font-size: 24px;
+      line-height: 1.08;
       font-weight: 400;
+      letter-spacing: -0.02em;
     }
 
     .goldkozmosGlobalContactClose {
-      flex: 0 0 36px;
-      width: 36px;
-      height: 36px;
+      flex: 0 0 40px;
+      width: 40px;
+      height: 40px;
       margin: 0;
       padding: 0;
-      border: 1px solid rgba(215, 171, 91, 0.28);
+      border: 1px solid rgba(232, 196, 112, 0.34);
       border-radius: 50%;
-      background: rgba(255, 250, 241, 0.06);
+      background: rgba(255, 250, 241, 0.07);
       color: #f3e6cc;
-      font-size: 18px;
+      font-size: 20px;
       line-height: 1;
       cursor: pointer;
+      transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background 220ms ease;
+    }
+
+    .goldkozmosGlobalContactClose:active {
+      transform: scale(0.94);
     }
 
     .goldkozmosGlobalContactBody {
       min-height: 0;
-      padding: 0 18px 18px;
+      padding: 0 20px 20px;
       overflow-y: auto;
       overscroll-behavior: contain;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .goldkozmosGlobalWhatsappActions {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 7px;
+      gap: 10px;
     }
 
     .goldkozmosGlobalWhatsappAction {
-      min-height: 56px;
-      padding: 10px;
+      position: relative;
+      isolation: isolate;
+      min-height: 76px;
+      padding: 16px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      border: 1px solid rgba(215, 171, 91, 0.16);
-      border-radius: 14px;
-      background: rgba(255, 250, 241, 0.035);
+      gap: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(232, 196, 112, 0.28);
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255, 246, 226, 0.07), rgba(255, 250, 241, 0.03)),
+        rgba(18, 12, 8, 0.35);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 236, 196, 0.14),
+        0 8px 18px rgba(0, 0, 0, 0.16);
       color: #fff8ec;
       text-decoration: none;
       cursor: pointer;
       appearance: none;
       font: inherit;
       text-align: left;
-      transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+      transition:
+        transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 220ms ease,
+        background 220ms ease,
+        box-shadow 220ms ease;
+    }
+
+    .goldkozmosGlobalContactPanel.isOpen .goldkozmosGlobalWhatsappAction {
+      animation: goldHelpCardIn 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .goldkozmosGlobalContactPanel.isOpen .goldkozmosGlobalWhatsappAction:nth-child(1) { animation-delay: 40ms; }
+    .goldkozmosGlobalContactPanel.isOpen .goldkozmosGlobalWhatsappAction:nth-child(2) { animation-delay: 90ms; }
+    .goldkozmosGlobalContactPanel.isOpen .goldkozmosGlobalWhatsappAction:nth-child(3) { animation-delay: 140ms; }
+    .goldkozmosGlobalContactPanel.isOpen .goldkozmosGlobalWhatsappAction:nth-child(4) { animation-delay: 190ms; }
+    .goldkozmosGlobalContactPanel.isOpen .goldkozmosGlobalWhatsappAction:nth-child(5) { animation-delay: 240ms; }
+
+    .goldkozmosGlobalWhatsappAction::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 20%, rgba(255, 236, 196, 0.16) 46%, transparent 72%);
+      transform: translateX(-120%);
+      pointer-events: none;
+    }
+
+    .goldkozmosGlobalContactPanel.isOpen .goldkozmosGlobalWhatsappAction::before {
+      animation: goldHelpSheen 900ms cubic-bezier(0.22, 1, 0.36, 1) 280ms both;
     }
 
     .goldkozmosGlobalWhatsappAction:first-child,
     .goldkozmosGlobalWhatsappAction.isFeatured {
-      border-color: rgba(215, 171, 91, 0.42);
-      background: linear-gradient(135deg, rgba(195, 145, 58, 0.16), rgba(255, 250, 241, 0.035));
+      border-color: rgba(232, 196, 112, 0.55);
+      background:
+        linear-gradient(145deg, rgba(232, 196, 112, 0.22), rgba(255, 250, 241, 0.04) 58%);
     }
 
     .goldkozmosGlobalWhatsappAction span:first-child {
-      max-width: 118px;
-      font-size: 9.5px;
-      line-height: 1.25;
-      font-weight: 600;
+      position: relative;
+      z-index: 1;
+      max-width: none;
+      flex: 1;
+      color: #fffaf1;
+      font-size: 13px;
+      line-height: 1.28;
+      font-weight: 700;
+      letter-spacing: -0.01em;
     }
 
     .goldkozmosGlobalWhatsappAction span:last-child {
+      position: relative;
+      z-index: 1;
       flex: 0 0 auto;
-      color: #d6a54d;
-      font-size: 12px;
+      color: #e8c470;
+      font-size: 15px;
+      transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .goldkozmosGlobalWhatsappAction:nth-child(5) {
       grid-column: 1 / -1;
+      min-height: 64px;
     }
 
     .goldkozmosGlobalWhatsappAction:nth-child(5) span:first-child {
       max-width: none;
+    }
+
+    .goldkozmosGlobalWhatsappAction:active {
+      transform: translateY(1px) scale(0.985);
+      border-color: rgba(240, 212, 138, 0.72);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 236, 196, 0.2),
+        0 4px 10px rgba(0, 0, 0, 0.18);
+    }
+
+    .goldkozmosGlobalWhatsappAction:active span:last-child {
+      transform: translateX(2px);
     }
 
     .goldkozmosGlobalContactBack {
@@ -562,43 +632,48 @@ const dockStyles = `
     }
 
     .goldkozmosGlobalChannelsHead span {
-      color: #d4a552;
-      font-size: 7.5px;
+      color: #e0b45a;
+      font-size: 8px;
       font-weight: 700;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
     }
 
     .goldkozmosGlobalChannelsHead small {
-      color: rgba(255, 250, 241, 0.48);
-      font-size: 7px;
+      color: rgba(255, 250, 241, 0.52);
+      font-size: 8px;
     }
 
     .goldkozmosGlobalChannels {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 7px;
       flex-wrap: wrap;
     }
 
     .goldkozmosGlobalChannelLink {
-      flex: 0 0 28px;
-      width: 28px;
-      height: 28px;
+      flex: 0 0 36px;
+      width: 36px;
+      height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(215, 171, 91, 0.20);
+      border: 1px solid rgba(232, 196, 112, 0.28);
       border-radius: 50%;
-      background: rgba(255, 250, 241, 0.045);
+      background: rgba(255, 250, 241, 0.055);
       text-decoration: none;
       overflow: hidden;
+      transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms ease;
+    }
+
+    .goldkozmosGlobalChannelLink:active {
+      transform: scale(0.94);
     }
 
     .goldkozmosGlobalChannelLink img {
-      width: 22px;
-      height: 22px;
+      width: 28px;
+      height: 28px;
       display: block;
       object-fit: cover;
       border-radius: 50%;
@@ -632,6 +707,43 @@ const dockStyles = `
       display: block;
       object-fit: cover;
       border-radius: 50%;
+    }
+
+    @keyframes goldHelpCardIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes goldHelpSheen {
+      from {
+        transform: translateX(-120%);
+      }
+      to {
+        transform: translateX(120%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .goldkozmosGlobalContactBackdrop,
+      .goldkozmosGlobalContactPanel,
+      .goldkozmosGlobalWhatsappAction,
+      .goldkozmosGlobalWhatsappAction::before,
+      .goldkozmosGlobalContactClose,
+      .goldkozmosGlobalChannelLink {
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .goldkozmosGlobalWhatsappAction {
+        opacity: 1;
+        transform: none;
+      }
     }
   }
 `;
