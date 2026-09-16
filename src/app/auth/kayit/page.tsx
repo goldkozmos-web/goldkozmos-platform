@@ -41,22 +41,25 @@ export default function AuthKayitPage() {
     let alive = true;
 
     async function boot() {
-      const { data } = await client.auth.getSession();
-      const user = data.session?.user;
-      if (!user) {
-        window.location.replace("/profilim");
-        return;
+      for (let attempt = 0; attempt < 8; attempt += 1) {
+        const { data } = await client.auth.getSession();
+        const user = data.session?.user;
+        if (user) {
+          if (isSiteAdminEmail(user.email) || isMemberProfileComplete(user)) {
+            window.location.replace(next);
+            return;
+          }
+          if (!alive) return;
+          void recordMemberJoin(user, undefined, client);
+          const names = prefillFromGoogle(user);
+          setFirstName((current) => current || names.firstName);
+          setLastName((current) => current || names.lastName);
+          setPending(false);
+          return;
+        }
+        await new Promise((resolve) => window.setTimeout(resolve, 300));
       }
-      if (isSiteAdminEmail(user.email) || isMemberProfileComplete(user)) {
-        window.location.replace(next);
-        return;
-      }
-      if (!alive) return;
-      void recordMemberJoin(user, undefined, client);
-      const names = prefillFromGoogle(user);
-      setFirstName((current) => current || names.firstName);
-      setLastName((current) => current || names.lastName);
-      setPending(false);
+      window.location.replace("/profilim");
     }
 
     void boot();

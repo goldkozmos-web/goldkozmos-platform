@@ -26,10 +26,22 @@ export default function AuthOturumPage() {
       }
 
       if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (error) {
-          window.location.replace("/profilim?auth=error");
-          return;
+        let lastError = null as string | null;
+        for (let attempt = 0; attempt < 4; attempt += 1) {
+          const { error } = await supabase.auth.exchangeCodeForSession(code);
+          if (!error) {
+            lastError = null;
+            break;
+          }
+          lastError = error.message;
+          await new Promise((resolve) => window.setTimeout(resolve, 400));
+        }
+        if (lastError) {
+          const { data } = await supabase.auth.getSession();
+          if (!data.session) {
+            window.location.replace("/profilim?auth=error");
+            return;
+          }
         }
       }
 

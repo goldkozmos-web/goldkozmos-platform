@@ -51,8 +51,8 @@ test("login always returns to Profilim so the public site stays reachable", () =
   assert.equal(postLoginPath(null), "/profilim");
 });
 
-test("member Profilim tiles stay visible for admin accounts", () => {
-  assert.equal(canShowMemberProfilim({ isAdmin: false }, true), false);
+test("a signed-in Profilim user stays visible while the session is checking", () => {
+  assert.equal(canShowMemberProfilim({ isAdmin: false }, true), true);
   assert.equal(canShowMemberProfilim({ isAdmin: true }, false), true);
   assert.equal(canShowMemberProfilim({ isAdmin: false }, false), true);
   assert.equal(canShowMemberProfilim(null, false), false);
