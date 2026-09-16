@@ -9,7 +9,6 @@ import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeGoldAction from "../components/daily/HomeGoldAction";
 import HomeKendiniTani from "../components/home/HomeKendiniTani";
 import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
-import HomeTopicHubs from "../components/home/HomeTopicHubs";
 import {
   getEducationCourses,
   getEducationHubHref,
@@ -2745,7 +2744,6 @@ export default function HomePageClient() {
       <HomeSpotlightCarousel />
 
       <PlatformRail />
-      <HomeTopicHubs />
 
       {/* REZONANS */}
 
