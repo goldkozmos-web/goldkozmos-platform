@@ -41,36 +41,6 @@
   text-underline-offset: 3px;
 }
 
-.homeTopicHubs {
-  width: min(1180px, calc(100% - 40px));
-  margin: 8px auto 28px;
-  padding: 18px 0 6px;
-}
-
-.homeTopicHubs p {
-  margin: 0 0 10px;
-  color: #c99b48;
-  letter-spacing: 0.18em;
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.homeTopicHubs ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 16px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.homeTopicHubs a {
-  color: #2a1f16;
-  font-size: 14px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 .goldmindSeo {
   max-width: 42rem;
   margin: 10px 0 8px;
