@@ -3,14 +3,13 @@ import { NextResponse } from "next/server";
 import { applyPlatformSchema, isMissingRelation } from "@/lib/admin/applyPlatformSchema";
 import { getProfilimSessionUser } from "@/lib/profilim/auth.server";
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
-import { createSupabaseServiceClient } from "@/lib/supabase/service";
 import { parseCustomTimes, timesBetween } from "@/lib/water/schedule";
 import {
-  istanbulDay,
-  parseWaterProgram,
-  waterCommentPost,
-  type WaterProgram,
-} from "@/lib/water/store";
+  publicWaterError,
+  readWaterProgramSql,
+  upsertWaterProgramSql,
+} from "@/lib/water/persist";
+import { istanbulDay, type WaterProgram } from "@/lib/water/store";
 
 export const dynamic = "force-dynamic";
 
@@ -41,48 +40,6 @@ function asProgram(input: Partial<WaterProgram>, current?: WaterProgram | null):
     glasses: Math.max(0, Number(input.glasses ?? current?.glasses ?? 0)),
     day: istanbulDay(),
   };
-}
-
-async function readComment(userId: string): Promise<WaterProgram | null> {
-  const supabase = (await createSupabaseServerClient()) || createSupabaseServiceClient();
-  if (!supabase) return null;
-  const { data } = await supabase
-    .from("comments")
-    .select("content")
-    .eq("post_id", waterCommentPost(userId))
-    .eq("user_id", userId)
-    .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  return parseWaterProgram((data as { content?: string } | null)?.content);
-}
-
-async function writeComment(userId: string, program: WaterProgram) {
-  const supabase = (await createSupabaseServerClient()) || createSupabaseServiceClient();
-  if (!supabase) return { error: "Bağlantı yok." };
-  const content = JSON.stringify(program).slice(0, 1000);
-  const postId = waterCommentPost(userId);
-  const existing = await supabase
-    .from("comments")
-    .select("id")
-    .eq("post_id", postId)
-    .eq("user_id", userId)
-    .order("updated_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  if (existing.data?.id) {
-    const { error } = await supabase
-      .from("comments")
-      .update({ content, updated_at: new Date().toISOString() })
-      .eq("id", existing.data.id);
-    return { error: error?.message ?? null };
-  }
-  const { error } = await supabase.from("comments").insert({
-    post_id: postId,
-    user_id: userId,
-    content,
-  });
-  return { error: error?.message ?? null };
 }
 
 async function readTables(userId: string): Promise<WaterProgram | null> {
@@ -148,8 +105,8 @@ async function writeTables(userId: string, program: WaterProgram) {
 export async function GET() {
   const user = await getProfilimSessionUser();
   if (!user) return NextResponse.json({ error: "Giriş yap." }, { status: 401 });
-  const fromTable = await readTables(user.id);
-  const program = fromTable || (await readComment(user.id)) || asProgram({});
+  const program =
+    (await readTables(user.id)) || (await readWaterProgramSql(user.id)) || asProgram({});
   return NextResponse.json({ program });
 }
 
@@ -164,8 +121,8 @@ export async function POST(request: Request) {
     raw = {};
   }
 
-  await applyPlatformSchema();
-  const current = (await readTables(user.id)) || (await readComment(user.id));
+  const schema = await applyPlatformSchema();
+  const current = (await readTables(user.id)) || (await readWaterProgramSql(user.id));
   const next = asProgram({ ...raw, glasses: current?.glasses }, current);
   if (raw.drink) next.glasses += 1;
 
@@ -174,24 +131,27 @@ export async function POST(request: Request) {
     await applyPlatformSchema();
     tableError = (await writeTables(user.id, next)).error;
   }
-  if (tableError && isMissingRelation(tableError)) {
-    const comment = await writeComment(user.id, next);
-    if (comment.error) {
-      return NextResponse.json({ error: comment.error, program: next }, { status: 400 });
-    }
-    return NextResponse.json({
-      ok: true,
-      program: next,
-      stored: "backup",
-    });
-  }
+
   if (tableError) {
-    return NextResponse.json({ error: tableError, program: next }, { status: 400 });
+    const sqlWrite = await upsertWaterProgramSql(user.id, next, Boolean(raw.drink));
+    if (!sqlWrite.ok) {
+      return NextResponse.json(
+        {
+          error: publicWaterError(sqlWrite.error || tableError || schema.error),
+          program: next,
+        },
+        { status: 400 },
+      );
+    }
+    return NextResponse.json({ ok: true, program: next, stored: "sql" });
   }
+
   if (raw.drink) {
     const supabase = await createSupabaseServerClient();
-    await supabase?.from("water_logs").insert({ user_id: user.id, amount: 1 });
+    const logged = await supabase?.from("water_logs").insert({ user_id: user.id, amount: 1 });
+    if (logged?.error && isMissingRelation(logged.error.message)) {
+      await upsertWaterProgramSql(user.id, next, true);
+    }
   }
-  await writeComment(user.id, next);
   return NextResponse.json({ ok: true, program: next, stored: "table" });
 }

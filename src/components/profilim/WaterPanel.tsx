@@ -30,7 +30,13 @@ export default function WaterPanel({ userId }: { userId: string }) {
     const response = await fetch("/api/profilim/water", { credentials: "same-origin" });
     const data = (await response.json().catch(() => null)) as { program?: WaterProgram; error?: string } | null;
     if (data?.program) setProgram(data.program);
-    if (!response.ok && data?.error) setStatus(data.error);
+    if (!response.ok && data?.error) {
+      setStatus(
+        /comments|schema cache|could not find the table/i.test(data.error)
+          ? ""
+          : data.error,
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -54,7 +60,12 @@ export default function WaterPanel({ userId }: { userId: string }) {
     } | null;
     if (data?.program) setProgram(data.program);
     if (!response.ok) {
-      setStatus(data?.error || "Kaydedilemedi.");
+      const raw = data?.error || "Kaydedilemedi.";
+      setStatus(
+        /comments|schema cache|could not find the table/i.test(raw)
+          ? "Kaydedilemedi. Bir kez daha dene."
+          : raw,
+      );
       setSaving(false);
       return false;
     }

@@ -2,7 +2,7 @@ import postgres from "postgres";
 
 import { PLATFORM_SCHEMA_SQL } from "./platformSchema";
 
-function databaseUrl() {
+export function platformDatabaseUrl() {
   return (
     process.env.POSTGRES_URL_NON_POOLING?.trim() ||
     process.env.DATABASE_URL?.trim() ||
@@ -22,34 +22,45 @@ export function isMissingRelation(message: string | undefined) {
   );
 }
 
-export async function applyPlatformSchema() {
-  const url = databaseUrl();
-  if (!url) {
-    return {
-      ok: false as const,
-      reason: "no_db_url" as const,
-      error:
-        "Supabase tabloları henüz kurulmadı. Vercel’e POSTGRES_URL_NON_POOLING veya DATABASE_URL ekle, sonra tekrar kaydet.",
-    };
-  }
+const NO_DB =
+  "Su hatırlatıcısı kaydı için veritabanı bağlantısı yok. Vercel’e POSTGRES_URL_NON_POOLING ekle.";
 
+export async function runPlatformSql<T>(
+  work: (sql: ReturnType<typeof postgres>) => Promise<T>,
+): Promise<{ ok: true; value: T } | { ok: false; error: string }> {
+  const url = platformDatabaseUrl();
+  if (!url) return { ok: false, error: NO_DB };
   const sql = postgres(url, {
     max: 1,
     ssl: "require",
-    idle_timeout: 5,
+    idle_timeout: 8,
     connect_timeout: 12,
   });
-
   try {
-    await sql.unsafe(PLATFORM_SCHEMA_SQL);
-    return { ok: true as const };
+    return { ok: true, value: await work(sql) };
   } catch (error) {
     return {
-      ok: false as const,
-      reason: "sql" as const,
-      error: error instanceof Error ? error.message : "Şema yazılamadı.",
+      ok: false,
+      error: error instanceof Error ? error.message : "Veritabanı yazılamadı.",
     };
   } finally {
     await sql.end({ timeout: 5 }).catch(() => undefined);
   }
+}
+
+export async function applyPlatformSchema() {
+  const result = await runPlatformSql(async (sql) => {
+    await sql.unsafe(PLATFORM_SCHEMA_SQL);
+  });
+  if (!result.ok) {
+    return {
+      ok: false as const,
+      reason: result.error === NO_DB ? ("no_db_url" as const) : ("sql" as const),
+      error:
+        result.error === NO_DB
+          ? "Supabase tabloları henüz kurulmadı. Vercel’e POSTGRES_URL_NON_POOLING veya DATABASE_URL ekle, sonra tekrar kaydet."
+          : result.error,
+    };
+  }
+  return { ok: true as const };
 }
