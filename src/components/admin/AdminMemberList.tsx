@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { memberSourceLabel } from "../../lib/admin/members";
 import { MEMBER_INTERESTS } from "../../lib/auth/membership";
@@ -34,10 +34,6 @@ function memberDetails(member: AdminMemberRow) {
     .filter(Boolean)
     .join(" · ");
 }
-function memberStatus(member: AdminMemberRow) {
-  if (member.authUserId) return "aktif";
-  return "kayıtlı";
-}
 
 export default function AdminMemberList({
   members,
@@ -45,6 +41,7 @@ export default function AdminMemberList({
   members: AdminMemberRow[];
 }) {
   const { refresh } = useAdminLive();
+  const [syncNote, setSyncNote] = useState("Google girişleri bu listeye yazılıyor…");
 
   useEffect(() => {
     async function syncRoster() {
@@ -55,12 +52,24 @@ export default function AdminMemberList({
         const token = data.session?.access_token;
         if (token) headers.Authorization = `Bearer ${token}`;
       }
-      await fetch("/api/admin/members", {
+      const res = await fetch("/api/admin/members", {
         method: "POST",
         headers,
         credentials: "same-origin",
         body: JSON.stringify({ sync: true }),
       });
+      const json = (await res.json().catch(() => null)) as
+        | { ok?: boolean; saved?: number; total?: number; error?: string }
+        | null;
+      if (json?.ok) {
+        setSyncNote(
+          typeof json.saved === "number"
+            ? `${json.saved} üye kaydı düştü`
+            : "Üye kaydı yenilendi",
+        );
+      } else {
+        setSyncNote(json?.error || "Kayıt senkronu atlandı");
+      }
       await refresh();
     }
 
@@ -72,7 +81,7 @@ export default function AdminMemberList({
       <AdminEmpty
         eyebrow="Üyeler"
         title="Henüz üye yok"
-        text="Google ile giren herkes bu listeye düşer. Eski girişler, kişi siteye bir kez daha girince görünür."
+        text="Google ile giren herkes bu listeye düşer. Senkron çalışınca kayıt burada kalır."
         quiet
       />
     );
@@ -85,7 +94,9 @@ export default function AdminMemberList({
           <p className="adminSectionLabel">Üyeler</p>
           <h2>Kayıtlı kişiler</h2>
         </div>
+        <span className="adminBadge">{members.length}</span>
       </header>
+      <p className="adminRosterNote">{syncNote}</p>
       {members.map((member) => (
         <article key={member.id} className="adminMember">
           {member.avatarUrl ? (
@@ -96,6 +107,7 @@ export default function AdminMemberList({
             {member.email ? <em>{member.email}</em> : null}
             <small>
               {member.role === "admin" ? "Yönetici" : "Üye"}
+              {` · ${memberSourceLabel(member.source)}`}
               {member.createdAt ? ` · üyelik ${whenLabel(member.createdAt)}` : ""}
               {member.lastSignInAt ? ` · giriş ${whenLabel(member.lastSignInAt)}` : ""}
               {member.lastActiveAt ? ` · aktif ${whenLabel(member.lastActiveAt)}` : ""}

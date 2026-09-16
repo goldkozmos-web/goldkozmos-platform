@@ -6,6 +6,7 @@ import {
   parseMemberProfile,
 } from "@/lib/auth/membership";
 import { isSiteAdminEmail } from "@/lib/admin/access";
+import { persistSiteMemberFromUser } from "@/lib/admin/persist-member";
 import { recordMemberJoin } from "@/lib/admin/member-log";
 import { toE164 } from "@/lib/auth/phone";
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
@@ -67,18 +68,16 @@ export async function POST(request: Request) {
   const displayName = memberDisplayName(parsed);
   await supabase.from("profiles").update({ display_name: displayName }).eq("id", user.id);
   await supabase.rpc("ensure_own_membership");
-  if (user.email) {
-    await supabase.from("site_members").upsert(
-      {
-        email: user.email.trim().toLowerCase(),
-        display_name: displayName,
-        auth_user_id: user.id,
-        source: "google",
-        status: "active",
-      },
-      { onConflict: "email" },
-    );
-  }
+  const saved = await persistSiteMemberFromUser(user, {
+    displayName,
+    firstName: parsed.firstName,
+    lastName: parsed.lastName,
+    city: parsed.city,
+    age: parsed.age,
+    phone: parsed.phone,
+    interests: parsed.interests.join(","),
+    profileCompleted: true,
+  });
   await supabase.rpc("save_own_membership_profile", {
     p_first_name: parsed.firstName,
     p_last_name: parsed.lastName,
@@ -87,6 +86,12 @@ export async function POST(request: Request) {
     p_interests: parsed.interests.join(","),
     p_phone: parsed.phone,
   });
+  if (!saved.ok) {
+    return NextResponse.json(
+      { ok: false, error: saved.error || "Kayıt düşmedi. Tekrar dene." },
+      { status: 400 },
+    );
+  }
   await recordMemberJoin(
     user,
     {

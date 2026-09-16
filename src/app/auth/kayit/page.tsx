@@ -29,6 +29,7 @@ export default function AuthKayitPage() {
   const [phone, setPhone] = useState("");
   const [privacy, setPrivacy] = useState(false);
   const [pending, setPending] = useState(true);
+  const [arrival, setArrival] = useState<"wait" | "saved" | "miss">("wait");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -50,10 +51,21 @@ export default function AuthKayitPage() {
             return;
           }
           if (!alive) return;
-          void recordMemberJoin(user, undefined, client);
+          await recordMemberJoin(user, undefined, client);
           const names = prefillFromGoogle(user);
           setFirstName((current) => current || names.firstName);
           setLastName((current) => current || names.lastName);
+          const check = (await fetch("/api/auth/member", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              displayName: `${names.firstName} ${names.lastName}`.trim(),
+            }),
+          })
+            .then((res) => res.json().catch(() => null))
+            .catch(() => null)) as { ok?: boolean } | null;
+          setArrival(check?.ok ? "saved" : "miss");
           setPending(false);
           return;
         }
@@ -104,45 +116,6 @@ export default function AuthKayitPage() {
     const supabase = createSupabaseBrowserClient();
     if (supabase) {
       await supabase.auth.updateUser({ data: memberProfileMetadata(parsed) });
-      const { data: sessionPack } = await supabase.auth.getUser();
-      const userId = sessionPack.user?.id;
-      if (userId) {
-        await supabase
-          .from("profiles")
-          .update({ display_name: `${parsed.firstName} ${parsed.lastName}`.trim() })
-          .eq("id", userId);
-      }
-      await supabase.rpc("ensure_own_membership");
-      const email = sessionPack.user?.email?.trim().toLowerCase();
-      if (email && userId) {
-        await supabase.from("site_members").upsert(
-          {
-            email,
-            display_name: `${parsed.firstName} ${parsed.lastName}`.trim(),
-            auth_user_id: userId,
-            source: "google",
-            status: "active",
-          },
-          { onConflict: "email" },
-        );
-      }
-      await supabase.rpc("save_own_membership_profile", {
-        p_first_name: parsed.firstName,
-        p_last_name: parsed.lastName,
-        p_city: parsed.city,
-        p_age: parsed.age,
-        p_interests: parsed.interests.join(","),
-        p_phone: parsed.phone,
-      });
-      await recordMemberJoin(
-        sessionPack.user ?? null,
-        {
-          displayName: `${parsed.firstName} ${parsed.lastName}`.trim(),
-          city: parsed.city,
-          phone: parsed.phone,
-        },
-        supabase,
-      );
     }
     const res = await fetch("/api/auth/kayit", {
       method: "POST",
@@ -162,7 +135,7 @@ export default function AuthKayitPage() {
     const json = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
     if (!json?.ok) {
       setPending(false);
-      setError(json?.error || "Kayıt tamamlanamadı. Tekrar dene.");
+      setError(json?.error || "Kayıt düşmedi. Tekrar dene.");
       return;
     }
     window.location.replace(next);
@@ -176,58 +149,73 @@ export default function AuthKayitPage() {
             <p className="profilimGateEyebrow">GOLDKOZMOS · ÜYELİK</p>
             <h1>
               Kayıt
-              <span> bilgilerin</span>
+              <span> kartın</span>
             </h1>
             <p className="profilimGateLead">
-              Google kabul edildi. Üyeliğin sisteme düşsün diye bu kartı bir kez
-              doldur. Bilgilerin gizli kalır; yalnızca senin alanın ve yönetim
-              içindir, paylaşılmaz.
+              Google kabul edildi. Bu kart Yönetim’deki üye listesine yazılır.
+              Bilgilerin gizli kalır; yalnızca senin alanın ve GoldKozmos masası
+              içindir.
+            </p>
+
+            <p
+              className={`profilimSavePulse${arrival === "saved" ? " isOn" : ""}${arrival === "miss" ? " isMiss" : ""}`}
+            >
+              {arrival === "wait"
+                ? "Google girişin alınıyor…"
+                : arrival === "saved"
+                  ? "Girişin üye kaydına düştü. Kartı tamamla, kalıcı olsun."
+                  : "Giriş görüldü. Kartı kaydet, listeye yazılsın."}
             </p>
 
             <form className="profilimPhoneForm profilimRegisterForm" onSubmit={(event) => void submit(event)}>
-              <div className="profilimRegisterRow">
+              <div className="profilimSaveCard">
+                <p className="profilimSaveEyebrow">Üye kaydı</p>
+                <strong>Yönetim listesine yaz</strong>
+                <span>Adın, şehrin ve telefonun bu kayda işlenir.</span>
+                <div className="profilimRegisterRow">
+                  <label>
+                    Adın
+                    <input
+                      autoComplete="given-name"
+                      value={firstName}
+                      onChange={(event) => setFirstName(event.target.value)}
+                      required
+                    />
+                  </label>
+                  <label>
+                    Soyadın
+                    <input
+                      autoComplete="family-name"
+                      value={lastName}
+                      onChange={(event) => setLastName(event.target.value)}
+                      required
+                    />
+                  </label>
+                </div>
+
                 <label>
-                  Adın
+                  Nerede yaşıyorsun
                   <input
-                    autoComplete="given-name"
-                    value={firstName}
-                    onChange={(event) => setFirstName(event.target.value)}
+                    autoComplete="address-level2"
+                    value={city}
+                    onChange={(event) => setCity(event.target.value)}
+                    placeholder="Şehir / ülke"
                     required
                   />
                 </label>
+
                 <label>
-                  Soyadın
+                  Yaşın
                   <input
-                    autoComplete="family-name"
-                    value={lastName}
-                    onChange={(event) => setLastName(event.target.value)}
+                    inputMode="numeric"
+                    autoComplete="bday-year"
+                    value={age}
+                    onChange={(event) => setAge(event.target.value.replace(/\D/g, "").slice(0, 2))}
+                    placeholder="18"
                     required
                   />
                 </label>
               </div>
-
-              <label>
-                Nerede yaşıyorsun
-                <input
-                  autoComplete="address-level2"
-                  value={city}
-                  onChange={(event) => setCity(event.target.value)}
-                  placeholder="Şehir / ülke"
-                  required
-                />
-              </label>
-
-              <label>
-                Yaşın
-                <input
-                  inputMode="numeric"
-                  autoComplete="bday-year"
-                  value={age}
-                  onChange={(event) => setAge(event.target.value.replace(/\D/g, "").slice(0, 2))}
-                  placeholder="18"
-                  required
-                />
-              </label>
 
               <fieldset className="profilimInterestField">
                 <legend>İlgi alanların</legend>
@@ -289,12 +277,12 @@ export default function AuthKayitPage() {
                 </span>
               </label>
 
-              <button type="submit" className="profilimPhoneButton" disabled={pending}>
-                {pending ? "Kaydediliyor…" : "Üyeliği tamamla"}
+              {error ? <p className="profilimSaveError">{error}</p> : null}
+
+              <button type="submit" className="profilimPhoneButton profilimSaveButton" disabled={pending}>
+                {pending ? "Kayıt düşüyor…" : "Kaydı düş"}
               </button>
             </form>
-
-            {error ? <p className="profilimGoogleError">{error}</p> : null}
           </section>
         </div>
       </section>

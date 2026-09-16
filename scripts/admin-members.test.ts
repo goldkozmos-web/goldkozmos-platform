@@ -16,6 +16,10 @@ import {
   memberVisitorKey,
   userIdFromMemberKey,
 } from "../src/lib/admin/member-keys.ts";
+import {
+  coreMemberWrite,
+  normalizeMemberWrite,
+} from "../src/lib/admin/member-write.ts";
 
 test("member add needs a real email and a name", () => {
   assert.equal("error" in parseMemberInput({ email: "nope", displayName: "Ayse" }), true);
@@ -146,4 +150,63 @@ test("Google auth users map onto the admin member desk", () => {
   assert.equal(row?.displayName, "Arkadas");
   assert.equal(row?.email, "arkadas@gmail.com");
   assert.equal(row?.source, "google");
+});
+
+test("admin desk keeps profiles plus later Google arrivals", () => {
+  const merged = mergeMemberRows([
+    [
+      {
+        id: "gold",
+        displayName: "Gold Kozmos",
+        role: "admin",
+        email: "goldkozmos@gmail.com",
+        createdAt: "2026-09-01T00:00:00.000Z",
+        source: "google",
+        status: "active",
+        authUserId: "gold",
+        city: null,
+        age: null,
+        phone: null,
+        interests: null,
+      },
+    ],
+    [
+      {
+        id: "u1",
+        displayName: "Ayse",
+        role: "user",
+        email: "ayse@gmail.com",
+        createdAt: "2026-09-16T08:00:00.000Z",
+        source: "google",
+        status: "active",
+        authUserId: "u1",
+        city: "Istanbul",
+        age: "32",
+        phone: "+905321112233",
+        interests: "tarot",
+      },
+    ],
+  ]);
+  assert.equal(merged.length, 2);
+  assert.equal(merged[0]?.email, "ayse@gmail.com");
+});
+
+test("member persist writes a real site_members row", () => {
+  const wide = normalizeMemberWrite({
+    authUserId: "11111111-2222-3333-4444-555555555555",
+    email: " Ayse@Gmail.com ",
+    displayName: "Ayse Yilmaz",
+    city: "Istanbul",
+    age: "32",
+    phone: "+905321112233",
+    interests: "tarot",
+    profileCompleted: true,
+  });
+  assert.equal(wide?.email, "ayse@gmail.com");
+  assert.equal(wide?.display_name, "Ayse Yilmaz");
+  assert.equal(wide?.city, "Istanbul");
+  assert.equal(wide?.age, 32);
+  assert.equal(coreMemberWrite(wide!).email, "ayse@gmail.com");
+  assert.equal("city" in coreMemberWrite(wide!), false);
+  assert.equal(normalizeMemberWrite({ authUserId: "x", email: "" }), null);
 });
