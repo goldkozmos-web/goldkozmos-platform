@@ -387,6 +387,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     const waToday = analyticsRows.filter(
       (row) => row.event_name === "whatsapp_click" && Date.parse(row.created_at ?? "") >= todayMs,
     );
+    const wa30 = analyticsRows.filter((row) => row.event_name === "whatsapp_click");
     const bookToday = analyticsRows.filter(
       (row) => row.event_name === "booking_intent" && Date.parse(row.created_at ?? "") >= todayMs,
     );
@@ -416,6 +417,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
         (row) => row.createdAt && Date.parse(row.createdAt) >= Date.parse(thirtyStart),
       ).length,
       appointments: book30.length,
+      whatsapp: wa30.length,
       shopier: shop30.length,
     };
     activity = analyticsRows.slice(0, 24).map((row) => ({

@@ -88,8 +88,8 @@ export default function AdminOverview({
       <section className="adminPanel">
         <header className="adminPanelHead">
           <div>
-            <h2>Şu an sitede</h2>
             <p className="adminSectionLabel">Açık sekmeler</p>
+            <h2>Şu an sitede</h2>
           </div>
           <span className={`adminBadge${liveNow.length ? " isLive" : ""}`}>
             {formatAdminCount(liveNow.length)}
@@ -124,32 +124,55 @@ export default function AdminOverview({
       <section className="adminPanel" aria-label="Bugün ve 30 gün">
         <header className="adminPanelHead">
           <div>
+            <p className="adminSectionLabel">Özet</p>
             <h2>Ziyaret özeti</h2>
-            <p className="adminSectionLabel">analytics_events</p>
           </div>
         </header>
-        <p>
-          Bugün: {live?.todayStats?.visits ?? 0} ziyaret · {live?.todayStats?.uniques ?? 0} benzersiz ·{" "}
-          {live?.todayStats?.members ?? 0} yeni üye · {live?.todayStats?.appointments ?? 0} randevu ·{" "}
-          {live?.todayStats?.whatsapp ?? 0} WhatsApp · {live?.todayStats?.shopier ?? 0} Shopier
-        </p>
-        <p>
-          30 gün: {live?.last30?.visits ?? 0} ziyaret · {live?.last30?.uniques ?? 0} benzersiz ·{" "}
-          {live?.last30?.members ?? 0} yeni üye · {live?.last30?.appointments ?? 0} randevu ·{" "}
-          {live?.last30?.shopier ?? 0} Shopier
-        </p>
+        <p className="adminStatCaption">Bugün</p>
+        <div className="adminStatGrid">
+          {[
+            ["Ziyaret", live?.todayStats?.visits],
+            ["Tekil", live?.todayStats?.uniques],
+            ["Yeni üye", live?.todayStats?.members],
+            ["Randevu", live?.todayStats?.appointments],
+            ["WhatsApp", live?.todayStats?.whatsapp],
+            ["Shopier", live?.todayStats?.shopier],
+          ].map(([label, value]) => (
+            <div key={String(label)} className="adminStatCell">
+              <strong>{formatAdminCount(Number(value) || 0)}</strong>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+        <p className="adminStatCaption">Son 30 gün</p>
+        <div className="adminStatGrid">
+          {[
+            ["Ziyaret", live?.last30?.visits],
+            ["Tekil", live?.last30?.uniques],
+            ["Yeni üye", live?.last30?.members],
+            ["Randevu", live?.last30?.appointments],
+            ["WhatsApp", live?.last30?.whatsapp],
+            ["Shopier", live?.last30?.shopier],
+          ].map(([label, value]) => (
+            <div key={`30-${String(label)}`} className="adminStatCell">
+              <strong>{formatAdminCount(Number(value) || 0)}</strong>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="adminPanel" aria-label="Canlı aktivite">
         <header className="adminPanelHead">
           <div>
+            <p className="adminSectionLabel">Hareket</p>
             <h2>Canlı aktivite</h2>
-            <p className="adminSectionLabel">Gerçek eventler</p>
           </div>
         </header>
         {(live?.activity ?? []).length === 0 ? (
           <div className="adminQuiet">
-            <strong>Henüz event yok</strong>
+            <strong>Henüz hareket yok</strong>
+            <span>Giriş, WhatsApp ve satın alma anlık olarak burada akar.</span>
           </div>
         ) : (
           <ul className="profilimDrawerList">
