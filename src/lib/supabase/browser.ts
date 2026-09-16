@@ -1,8 +1,11 @@
 "use client";
 
 import { createBrowserClient } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabasePublicEnv } from "./env";
 import { supabaseCookieOptions } from "./session";
+
+let browserClient: SupabaseClient | null = null;
 
 export function createSupabaseBrowserClient() {
   const env = getSupabasePublicEnv();
@@ -11,19 +14,35 @@ export function createSupabaseBrowserClient() {
     return null;
   }
 
-  const host = typeof window !== "undefined" ? window.location.hostname : "";
-  const secure =
-    typeof window !== "undefined" && window.location.protocol === "https:";
+  if (typeof window === "undefined") {
+    return createBrowserClient(env.url, env.publishableKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
+  }
 
-  return createBrowserClient(env.url, env.publishableKey, {
+  if (browserClient) {
+    return browserClient;
+  }
+
+  const host = window.location.hostname;
+  const secure = window.location.protocol === "https:";
+
+  browserClient = createBrowserClient(env.url, env.publishableKey, {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
       detectSessionInUrl: true,
+      flowType: "pkce",
     },
     cookieOptions: {
       ...supabaseCookieOptions(host),
       secure,
     },
   });
+
+  return browserClient;
 }

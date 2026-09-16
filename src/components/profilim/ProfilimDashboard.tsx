@@ -120,7 +120,7 @@ export default function ProfilimDashboard({
   data: ProfilimDashboardData;
 }) {
   const [user, setUser] = useState(data.user);
-  const [checking, setChecking] = useState(false);
+  const [checking, setChecking] = useState(!data.user);
   const [open, setOpen] = useState<ProfilimDrawerId | null>(null);
   const [continueItems, setContinueItems] = useState(data.continueItems);
   const [tracks, setTracks] = useState<ProfilimPlatformTrack[]>(
@@ -170,10 +170,6 @@ export default function ProfilimDashboard({
       }
 
       if (!cancelled) {
-        if (!isSiteAdminEmail(next.email) && !isMemberProfileComplete(sessionUser)) {
-          window.location.replace("/auth/kayit");
-          return;
-        }
         setUser({
           ...next,
           isAdmin: isSiteAdminEmail(next.email),
@@ -181,33 +177,53 @@ export default function ProfilimDashboard({
         setChecking(false);
         void client.rpc("ensure_own_membership");
         void recordMemberJoin(sessionUser, undefined, client);
+        if (
+          event === "SIGNED_IN" &&
+          !isSiteAdminEmail(next.email) &&
+          !isMemberProfileComplete(sessionUser)
+        ) {
+          window.location.replace("/auth/kayit");
+        }
       }
     }
 
-    void Promise.race([
-      client.auth.getSession(),
-      new Promise<{ data: { session: null } }>((resolve) => {
-        setTimeout(() => resolve({ data: { session: null } }), 3000);
-      }),
-    ]).then(({ data: { session } }) => {
-      void resolveUser(session?.user ?? null, "GET_SESSION");
+    void client.auth.getSession().then(({ data: { session } }) => {
+      void resolveUser(session?.user ?? null, session ? "GET_SESSION" : "GET_SESSION_EMPTY");
+      if (!session) {
+        setChecking(false);
+      }
     });
 
     const {
       data: { subscription },
     } = client.auth.onAuthStateChange((event, session) => {
       void resolveUser(session?.user ?? null, event);
+      if (event === "INITIAL_SESSION" && !session) {
+        setChecking(false);
+      }
     });
+
+    const wake = () => {
+      void client.auth.getSession().then(({ data: { session } }) => {
+        if (session?.user) {
+          void resolveUser(session.user, "TOKEN_REFRESHED");
+        }
+      });
+    };
+    window.addEventListener("focus", wake);
+    document.addEventListener("visibilitychange", wake);
 
     const timeout = window.setTimeout(() => {
       if (!cancelled) {
         setChecking(false);
       }
-    }, 4000);
+    }, 8000);
 
     return () => {
       cancelled = true;
       window.clearTimeout(timeout);
+      window.removeEventListener("focus", wake);
+      document.removeEventListener("visibilitychange", wake);
       subscription.unsubscribe();
     };
   }, []);
@@ -468,6 +484,11 @@ export default function ProfilimDashboard({
 
             <ProfilimTileRails onOpenTile={(id) => setOpen(id)} />
           </>
+        ) : checking ? (
+          <section className="profilimGate">
+            <p className="profilimGateEyebrow">GOLDKOZMOS · PROFİLİM</p>
+            <h1>Oturum açılıyor…</h1>
+          </section>
         ) : (
           <ProfilimGate />
         )}

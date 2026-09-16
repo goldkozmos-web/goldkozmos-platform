@@ -22,9 +22,9 @@ export function isAdminProfile(
 
 export function canShowMemberProfilim(
   user: { isAdmin?: boolean } | null | undefined,
-  checking: boolean,
+  _checking?: boolean,
 ) {
-  return Boolean(user) && !checking;
+  return Boolean(user);
 }
 
 export function postLoginPath(

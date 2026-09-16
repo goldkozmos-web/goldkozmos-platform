@@ -37,11 +37,11 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  // Refresh cookies if auth is fast; never stall HTML if Supabase hangs.
+  // Refresh auth cookies; give mobile Google sessions time to rotate.
   await Promise.race([
     supabase.auth.getUser(),
     new Promise<void>((resolve) => {
-      setTimeout(resolve, 600);
+      setTimeout(resolve, 4000);
     }),
   ]);
 
@@ -49,5 +49,13 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profilim", "/profilim/:path*", "/auth/telefon", "/auth/kayit"],
+  matcher: [
+    "/profilim",
+    "/profilim/:path*",
+    "/ayarlar",
+    "/ayarlar/:path*",
+    "/admin",
+    "/admin/:path*",
+    "/auth/:path*",
+  ],
 };
