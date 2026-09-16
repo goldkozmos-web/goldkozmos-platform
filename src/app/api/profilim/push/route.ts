@@ -22,7 +22,10 @@ async function actor(request: Request) {
 }
 
 export async function GET() {
-  return NextResponse.json({ publicKey: VAPID_PUBLIC_KEY });
+  return NextResponse.json(
+    { publicKey: VAPID_PUBLIC_KEY },
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }
 
 export async function POST(request: Request) {

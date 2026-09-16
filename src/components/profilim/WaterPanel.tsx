@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { enableMemberPush, pushSupportState } from "../../lib/push/browser";
+import { enableMemberPush, pushFailureHint, pushSupportState } from "../../lib/push/browser";
 import { istanbulDay, parseWaterProgram, type WaterProgram } from "../../lib/water/store";
 import WaterGlassArt from "./WaterGlassArt";
 
@@ -114,15 +114,7 @@ export default function WaterPanel({ userId }: { userId: string }) {
     const push = await enableMemberPush();
     setSupport(pushSupportState());
     if (!push.ok) {
-      setStatus(
-        push.reason === "homescreen"
-          ? "Program kaydedildi. iPhone bildirimi için Paylaş → Ana Ekrana Ekle, uygulamayı oradan aç, sonra hatırlatıcıyı bir kez daha aç."
-          : push.reason === "unsupported"
-            ? "Program kaydedildi. Bu tarayıcı web push desteklemiyor."
-            : push.reason === "denied"
-              ? "Program kaydedildi. Telefonda bildirim iznini Aç’a bas."
-              : "Program kaydedildi. Saatler sunucuda. Bildirim için Ana Ekran uygulamasından bir kez daha aç.",
-      );
+      setStatus(pushFailureHint(push.reason));
     }
   }
 

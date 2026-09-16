@@ -16,13 +16,18 @@ async function client() {
 
 async function writePushMeta(userId: string, sub: PushSub) {
   const admin = createSupabaseServiceClient();
-  if (!admin) return { error: "Bağlantı yok." };
-  const current = await admin.auth.admin.getUserById(userId);
-  if (current.error) return { error: current.error.message };
-  const meta = (current.data.user?.user_metadata ?? {}) as Record<string, unknown>;
-  const { error } = await admin.auth.admin.updateUserById(userId, {
-    user_metadata: { ...meta, push_subscription: sub },
-  });
+  if (admin) {
+    const current = await admin.auth.admin.getUserById(userId);
+    if (current.error) return { error: current.error.message };
+    const meta = (current.data.user?.user_metadata ?? {}) as Record<string, unknown>;
+    const { error } = await admin.auth.admin.updateUserById(userId, {
+      user_metadata: { ...meta, push_subscription: sub },
+    });
+    return { error: error?.message ?? null };
+  }
+  const supabase = await createSupabaseServerClient();
+  if (!supabase) return { error: "Bağlantı yok." };
+  const { error } = await supabase.auth.updateUser({ data: { push_subscription: sub } });
   return { error: error?.message ?? null };
 }
 
