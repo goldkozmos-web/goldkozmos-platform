@@ -68,17 +68,37 @@ export async function recordMemberJoin(
   }
 
   if (typeof window !== "undefined") {
-    await fetch("/api/presence", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "same-origin",
-      body: JSON.stringify({
-        kind: "page",
-        path: "/uyelik",
-        referrer: email,
-        href: payload.phone || email,
-        visitorKey: key,
-      }),
-    }).catch(() => undefined);
+    await Promise.all([
+      fetch("/api/auth/member", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          displayName,
+          city: payload.city,
+          phone: payload.phone,
+        }),
+      }).catch(() => undefined),
+      fetch("/api/presence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          kind: "page",
+          path: "/uyelik",
+          referrer: email,
+          href: payload.phone || email,
+          visitorKey: key,
+        }),
+      }).catch(() => undefined),
+    ]);
+    return;
   }
+
+  const { persistSiteMemberFromUser } = await import("./persist-member");
+  await persistSiteMemberFromUser(user, {
+    displayName,
+    city: payload.city,
+    phone: payload.phone,
+  });
 }

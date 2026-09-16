@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 
 import { isSiteAdminEmail } from "@/lib/admin/access";
 import { resolveAdminRequest } from "@/lib/admin/auth.server";
+import { persistSiteMember } from "@/lib/admin/persist-member";
 import { REMOVED_MEMBERS_POST, removedMemberContent } from "@/lib/admin/members";
+import { listGoogleAuthMembers } from "@/lib/supabase/service";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +28,23 @@ export async function POST(request: Request) {
   if (raw.sync === true) {
     await client.rpc("ensure_own_membership");
     await client.rpc("sync_site_members");
-    return NextResponse.json({ ok: true });
+    const authUsers = await listGoogleAuthMembers();
+    let saved = 0;
+    for (const row of authUsers) {
+      if (!row.email) continue;
+      const result = await persistSiteMember({
+        authUserId: row.authUserId || row.id,
+        email: row.email,
+        displayName: row.displayName,
+        city: row.city,
+        age: row.age,
+        phone: row.phone,
+        interests: row.interests,
+        avatarUrl: row.avatarUrl,
+      });
+      if (result.ok) saved += 1;
+    }
+    return NextResponse.json({ ok: true, saved, total: authUsers.length });
   }
 
   const email = String(raw.remove?.email ?? "").trim().toLowerCase();

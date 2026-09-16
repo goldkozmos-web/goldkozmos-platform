@@ -1,5 +1,6 @@
 import { type NextRequest } from "next/server";
 
+import { persistSiteMemberFromUser } from "@/lib/admin/persist-member";
 import { recordMemberJoin } from "@/lib/admin/member-log";
 import {
   AUTH_NEXT_COOKIE,
@@ -51,6 +52,7 @@ export async function GET(request: NextRequest) {
 
   await auth.supabase.rpc("ensure_own_membership");
   const { data: userPack } = await auth.supabase.auth.getUser();
+  await persistSiteMemberFromUser(userPack.user ?? null);
   await recordMemberJoin(userPack.user ?? null, undefined, auth.supabase);
   const nextPath = safeAppPath(request.cookies.get(AUTH_NEXT_COOKIE)?.value);
   auth.appendCookie({

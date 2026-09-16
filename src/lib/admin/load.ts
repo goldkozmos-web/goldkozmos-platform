@@ -132,19 +132,19 @@ async function fetchAdminMembers(
   supabase: SupabaseClient,
 ): Promise<AdminMemberRow[]> {
   const listed = await supabase.rpc("admin_list_members");
-  if (!listed.error && Array.isArray(listed.data) && listed.data.length > 0) {
-    return listed.data.map((row) =>
-      mapMemberRow({
-        ...(row as Record<string, unknown>),
-        auth_user_id: (row as { id?: string }).id,
-        source: "google",
-        status: "active",
-      }),
-    );
-  }
   if (listed.error) {
     console.warn("admin_list_members", listed.error.message);
   }
+  const rpcListed = Array.isArray(listed.data)
+    ? listed.data.map((row) =>
+        mapMemberRow({
+          ...(row as Record<string, unknown>),
+          auth_user_id: (row as { id?: string }).id,
+          source: "google",
+          status: "active",
+        }),
+      )
+    : [];
   const [roster, classic, authUsers, loggedLive, removed] = await Promise.all([
     rpcRows(supabase, "list_admin_roster"),
     rpcRows(supabase, "list_site_members"),
@@ -186,6 +186,7 @@ async function fetchAdminMembers(
 
   return withoutRemovedMembers(
     mergeMemberRows([
+      rpcListed,
       authUsers,
       roster,
       classic,

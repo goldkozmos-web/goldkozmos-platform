@@ -38,15 +38,30 @@ export async function listGoogleAuthMembers(): Promise<SiteMemberRow[]> {
     }
 
     if (rows.length > 0) {
-      await admin.from("site_members").upsert(
-        rows.map((row) => ({
+      const stamped = rows
+        .filter((row) => row.email)
+        .map((row) => ({
           email: row.email,
           display_name: row.displayName,
           auth_user_id: row.authUserId,
           source: "google",
           status: "active",
+          updated_at: new Date().toISOString(),
+        }));
+      const upserted = await admin.from("site_members").upsert(stamped, { onConflict: "email" });
+      if (upserted.error) {
+        console.warn("site_members upsert", upserted.error.message);
+      }
+      await admin.from("profiles").upsert(
+        rows.map((row) => ({
+          id: row.authUserId || row.id,
+          display_name: row.displayName,
+          avatar_url: row.avatarUrl ?? null,
+          role: row.role,
+          is_admin: row.role === "admin",
+          updated_at: new Date().toISOString(),
         })),
-        { onConflict: "email" },
+        { onConflict: "id" },
       );
     }
 
