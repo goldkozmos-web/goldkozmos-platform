@@ -138,10 +138,10 @@
 .profilimFeaturedEyebrow,
 .profilimTileEyebrow {
   margin: 0;
-  color: #a8792a;
-  font-size: 8px;
+  color: #8d6420;
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
 }
 
 .profilimHeroCopy h1 {
@@ -240,7 +240,7 @@
 
 .profilimFeaturedStack {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 
 .profilimFeaturedStack > * {
@@ -274,21 +274,57 @@
 .profilimFeatured,
 .profilimTile {
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 18px 40px 16px 18px;
-  border: 1px solid rgba(198, 168, 112, 0.28);
-  border-radius: 20px;
-  background: #fff;
+  border: 1px solid rgba(196, 154, 72, 0.46);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 228, 0.92) 0%, transparent 34%),
+    linear-gradient(155deg, #fffdf7 0%, #f7edd8 52%, #efe2c8 100%);
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.95) inset,
-    0 10px 24px rgba(72, 48, 18, 0.045),
-    0 1px 2px rgba(72, 48, 18, 0.04);
+    0 1px 0 rgba(255, 255, 255, 0.88) inset,
+    0 10px 22px rgba(92, 62, 18, 0.1),
+    0 1px 0 rgba(176, 130, 48, 0.08);
   text-align: left;
   cursor: pointer;
   appearance: none;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.profilimFeatured::before,
+.profilimTile::before {
+  content: "";
+  position: absolute;
+  top: 14px;
+  bottom: 14px;
+  left: 0;
+  z-index: 1;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, #f3d592 0%, #c8953d 52%, #8d6320 100%);
+  pointer-events: none;
+}
+
+.profilimFeatured:hover,
+.profilimTile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(210, 166, 82, 0.72);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.95) inset,
+    0 14px 28px rgba(92, 62, 18, 0.14);
+}
+
+.profilimFeatured:active,
+.profilimTile:active {
+  transform: translateY(0);
 }
 
 .profilimFeatured {
@@ -380,6 +416,7 @@
 }
 
 .profilimFeaturedTitle {
+  color: #1c140e;
   font-size: 19px;
   line-height: 1.18;
 }
@@ -413,11 +450,20 @@
 .profilimFeaturedChevron,
 .profilimTileChevron {
   position: absolute;
-  top: 18px;
-  right: 14px;
-  color: #b8893a;
-  font-size: 20px;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(210, 166, 82, 0.38);
+  border-radius: 50%;
+  background: linear-gradient(180deg, #fff8e8, #f0d59a 70%, #d4a24a);
+  color: #5c3d12;
+  font-size: 15px;
   line-height: 1;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
 }
 
 .profilimFeaturedStack .profilimWaterCard {
@@ -884,6 +930,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .profilimFeatured,
+  .profilimTile {
+    transition: none;
+  }
+
+  .profilimFeatured:hover,
+  .profilimTile:hover {
+    transform: none;
+  }
+
   .profilimWaterBead,
   .profilimWaterAura {
     animation: none;
@@ -895,14 +951,15 @@
 }
 
 .profilimTile {
-  min-height: 92px;
-  padding: 14px 36px 14px 14px;
+  min-height: 108px;
+  padding: 16px 40px 16px 16px;
 }
 
 .profilimTileTitle {
-  max-width: 11ch;
-  font-size: 14px;
-  line-height: 1.22;
+  max-width: 12ch;
+  color: #1c140e;
+  font-size: 15px;
+  line-height: 1.2;
 }
 
 .profilimTileGrid {
@@ -937,10 +994,10 @@
 
 .profilimTileBandLabel {
   margin: 0;
-  color: #a8792a;
-  font-size: 8px;
+  color: #8d6420;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
 }
 
 .profilimTileSeeAll {
@@ -952,17 +1009,17 @@
   min-width: 0 !important;
   max-width: none !important;
   height: auto !important;
-  min-height: 0 !important;
+  min-height: 28px !important;
   margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: none !important;
-  box-shadow: none !important;
-  color: #98732f !important;
-  font-size: 12px !important;
+  padding: 0 10px !important;
+  border: 1px solid rgba(196, 154, 72, 0.38) !important;
+  border-radius: 999px !important;
+  background: linear-gradient(180deg, #fffaf0, #f4e6c8) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset !important;
+  color: #7a5720 !important;
+  font-size: 11px !important;
   font-weight: 700 !important;
-  letter-spacing: 0.03em !important;
+  letter-spacing: 0.04em !important;
   line-height: 1 !important;
   white-space: nowrap !important;
   cursor: pointer;
@@ -978,7 +1035,7 @@
   box-sizing: border-box;
   display: flex;
   flex-wrap: nowrap;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -1000,11 +1057,14 @@
 
 .profilimTileRailWrap .profilimTile {
   box-sizing: border-box;
-  flex: 0 0 158px !important;
-  width: 158px !important;
-  min-width: 158px !important;
-  max-width: 158px !important;
-  background: #fff !important;
+  flex: 0 0 168px !important;
+  width: 168px !important;
+  min-width: 168px !important;
+  max-width: 168px !important;
+  min-height: 112px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 228, 0.95) 0%, transparent 36%),
+    linear-gradient(155deg, #fffdf7 0%, #f6ebd6 54%, #eedfc6 100%) !important;
   scroll-snap-align: start;
   touch-action: pan-x pan-y;
 }
@@ -1028,7 +1088,9 @@
 
 .profilimTileSheetGrid .profilimTile {
   width: 100%;
-  background: #fff !important;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 228, 0.95) 0%, transparent 36%),
+    linear-gradient(155deg, #fffdf7 0%, #f6ebd6 54%, #eedfc6 100%) !important;
 }
 
 .profilimTileSheetGrid .profilimTileTitle {
