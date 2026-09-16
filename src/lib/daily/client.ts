@@ -2,6 +2,8 @@
 
 import { createSupabaseBrowserClient } from "../supabase/browser";
 import { recoverMissingTable } from "../platform/ensureSchema";
+import { istanbulDay, goldActStorageKey, pickGoldActFallback } from "../../data/goldAct";
+import { goldActFromApi, mapGoldActRow } from "./goldact-state";
 import type {
   ActionCategory,
   AppNotification,
@@ -100,58 +102,75 @@ export async function fetchTodayMessage(): Promise<DailyMessage | null> {
 }
 
 function mapActionRow(row: Record<string, unknown>): DailyAction {
+  return (
+    mapGoldActRow(row) ?? {
+      id: asText(row.id),
+      title: asText(row.title),
+      body: asText(row.body),
+      category: asText(row.category) as ActionCategory,
+      assignedOn: asText(row.assigned_on ?? row.assignedOn),
+      completedAt: asText(row.completed_at ?? row.completedAt) || null,
+    }
+  );
+}
+
+export async function fetchGoldActState(): Promise<{
+  signedIn: boolean;
+  action: DailyAction | null;
+}> {
+  const supabase = client();
+  let userId = "";
+  if (supabase) {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    userId = session?.user?.id ?? "";
+  }
+
+  const api = goldActFromApi(
+    await fetch("/api/daily/action", { credentials: "same-origin" })
+      .then((res) => res.json().catch(() => null))
+      .catch(() => null),
+  );
+  if (api.userId) userId = api.userId;
+
+  const signedIn = Boolean(userId) || api.signedIn;
+  if (!signedIn) return { signedIn: false, action: null };
+
+  if (supabase && userId) {
+    const { data } = await supabase.rpc("get_today_daily_action");
+    const row = Array.isArray(data) ? data[0] : data;
+    if (row) return { signedIn: true, action: mapActionRow(row as Record<string, unknown>) };
+  }
+
+  if (api.action) return { signedIn: true, action: api.action };
   return {
-    id: asText(row.id),
-    title: asText(row.title),
-    body: asText(row.body),
-    category: asText(row.category) as ActionCategory,
-    assignedOn: asText(row.assigned_on ?? row.assignedOn),
-    completedAt: asText(row.completed_at ?? row.completedAt) || null,
+    signedIn: true,
+    action: userId ? pickGoldActFallback(userId, istanbulDay()) : null,
   };
 }
 
 export async function fetchTodayAction(): Promise<DailyAction | null> {
-  const supabase = client();
-  if (!supabase) return null;
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  if (!session?.user) {
-    const api = await fetch("/api/daily/action", { credentials: "same-origin" })
-      .then((res) => res.json().catch(() => null))
-      .catch(() => null);
-    if (api?.signedIn && api?.action) return mapActionRow(api.action);
-    return null;
-  }
-
-  const { data } = await supabase.rpc("get_today_daily_action");
-  const row = Array.isArray(data) ? data[0] : data;
-  if (row) return mapActionRow(row as Record<string, unknown>);
-
-  const api = await fetch("/api/daily/action", { credentials: "same-origin" })
-    .then((res) => res.json().catch(() => null))
-    .catch(() => null);
-  if (api?.action) return mapActionRow(api.action);
-  return null;
+  const state = await fetchGoldActState();
+  return state.action;
 }
 
 export async function completeTodayAction() {
-  const supabase = client();
-  if (!supabase) return { error: "Oturum yok.", already: false };
-
   const before = await fetchTodayAction();
   const wasDone = Boolean(before?.completedAt);
+  const supabase = client();
 
-  const { data, error } = await supabase.rpc("complete_today_daily_action");
-  if (!error) {
-    const row = Array.isArray(data) ? data[0] : data;
-    const completedAt = asText(row?.completed_at) || new Date().toISOString();
-    return {
-      error: null as string | null,
-      already: wasDone,
-      completedAt,
-    };
+  if (supabase) {
+    const { data, error } = await supabase.rpc("complete_today_daily_action");
+    if (!error) {
+      const row = Array.isArray(data) ? data[0] : data;
+      const completedAt = asText(row?.completed_at) || new Date().toISOString();
+      return {
+        error: null as string | null,
+        already: wasDone,
+        completedAt,
+      };
+    }
   }
 
   const api = await fetch("/api/daily/action", {
@@ -168,8 +187,26 @@ export async function completeTodayAction() {
     };
   }
 
+  if (before?.id?.startsWith("local-") && typeof window !== "undefined") {
+    const {
+      data: { session },
+    } = supabase
+      ? await supabase.auth.getSession()
+      : { data: { session: null } };
+    const userId = session?.user?.id;
+    if (userId) {
+      const completedAt = new Date().toISOString();
+      try {
+        window.localStorage.setItem(goldActStorageKey(userId, istanbulDay()), completedAt);
+      } catch {
+        /* ignore */
+      }
+      return { error: null as string | null, already: wasDone, completedAt };
+    }
+  }
+
   return {
-    error: error?.message || "Görev kaydedilemedi. Tekrar dene.",
+    error: api?.error || "Görev kaydedilemedi. Tekrar dene.",
     already: wasDone,
   };
 }
