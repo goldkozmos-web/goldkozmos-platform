@@ -155,29 +155,32 @@ export default function WaterPanel({ userId }: { userId: string }) {
           void save(program.enabled);
         }}
       >
-        <label>
+        <label className="profilimWaterField">
           Günlük hedef
           <input
             type="number"
             min={1}
             max={24}
+            inputMode="numeric"
             value={program.goal}
             onChange={(event) => setProgram({ ...program, goal: Number(event.target.value) })}
           />
         </label>
         <div className="profilimWaterWhen">
-          <label>
+          <label className="profilimWaterField">
             Başlangıç
             <input
               type="time"
+              lang="tr"
               value={program.start}
               onChange={(event) => setProgram({ ...program, start: event.target.value })}
             />
           </label>
-          <label>
+          <label className="profilimWaterField">
             Bitiş
             <input
               type="time"
+              lang="tr"
               value={program.end}
               onChange={(event) => setProgram({ ...program, end: event.target.value })}
             />
@@ -204,31 +207,33 @@ export default function WaterPanel({ userId }: { userId: string }) {
           ))}
         </div>
         {program.mode === "count" ? (
-          <label>
+          <label className="profilimWaterField">
             Kaç kez
             <input
               type="number"
               min={1}
               max={24}
+              inputMode="numeric"
               value={program.count}
               onChange={(event) => setProgram({ ...program, count: Number(event.target.value) })}
             />
           </label>
         ) : null}
         {program.mode === "interval" ? (
-          <label>
+          <label className="profilimWaterField">
             Saat aralığı
             <input
               type="number"
               min={1}
               max={12}
+              inputMode="numeric"
               value={program.intervalHours}
               onChange={(event) => setProgram({ ...program, intervalHours: event.target.value })}
             />
           </label>
         ) : null}
         {program.mode === "custom" ? (
-          <label>
+          <label className="profilimWaterField">
             Saatler
             <input
               value={program.customInput}
