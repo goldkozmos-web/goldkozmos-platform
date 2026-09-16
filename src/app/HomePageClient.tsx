@@ -7,7 +7,6 @@ import PlatformRail from "../components/platform/PlatformRail";
 import DailyActionCard from "../components/daily/DailyActionCard";
 import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeGoldAction from "../components/daily/HomeGoldAction";
-import HomeKendiniTani from "../components/home/HomeKendiniTani";
 import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
 import {
   getEducationCourses,
@@ -2740,7 +2739,6 @@ export default function HomePageClient() {
       <DailyActionCard />
       <DailyMessageExperience />
       <HomeGoldAction />
-      <HomeKendiniTani />
       <HomeSpotlightCarousel />
 
       <PlatformRail />

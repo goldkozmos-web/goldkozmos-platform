@@ -118,7 +118,7 @@ export function AwarenessPanel() {
     return (
       <ul className="profilimDrawerList">
         <li>
-          <a href="/#kendini-tani">
+          <a href="/kendini-tani">
             <span>Testler</span>
             <strong>Kendini Tanı</strong>
             <small>Henüz kayıtlı sonuç yok. Testi tamamlayınca burada birikir.</small>
