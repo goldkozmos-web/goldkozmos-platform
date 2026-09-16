@@ -95,8 +95,7 @@ export default function AdminMemberList({
             <strong>{member.displayName}</strong>
             {member.email ? <em>{member.email}</em> : null}
             <small>
-              {member.email ? `${member.email} · ` : ""}
-              {member.role === "admin" ? "admin" : "üye"}
+              {member.role === "admin" ? "Yönetici" : "Üye"}
               {member.createdAt ? ` · üyelik ${whenLabel(member.createdAt)}` : ""}
               {member.lastSignInAt ? ` · giriş ${whenLabel(member.lastSignInAt)}` : ""}
               {member.lastActiveAt ? ` · aktif ${whenLabel(member.lastActiveAt)}` : ""}

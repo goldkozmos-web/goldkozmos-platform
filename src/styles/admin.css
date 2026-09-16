@@ -657,6 +657,126 @@
   font-size: 15px;
 }
 
+.adminRangeRail {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.adminRangeRail::-webkit-scrollbar {
+  display: none;
+}
+
+.adminRangeRail button {
+  flex: 1 0 auto;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(28, 20, 16, 0.06);
+  color: var(--admin-ink);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.adminRangeRail button.isOn {
+  background: #1c1410;
+  color: #e8c470;
+}
+
+.adminRangeDates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.adminRangeDates label {
+  display: grid;
+  gap: 6px;
+  color: var(--admin-brown);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.adminRangeDates input {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 14px;
+  background: #f6efe1;
+  color: var(--admin-ink);
+  font: inherit;
+}
+
+.adminStatCaption {
+  margin: 4px 0 0;
+  color: var(--admin-gold-deep);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.adminStatGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.adminStatCell {
+  display: grid;
+  gap: 2px;
+  min-height: 68px;
+  padding: 10px 10px 9px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #fbf6ea, #f1e6cf);
+}
+
+.adminStatCell strong {
+  font-size: 20px;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  color: var(--admin-ink);
+  line-height: 1.1;
+}
+
+.adminStatCell span {
+  color: var(--admin-brown);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.adminVisitChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  min-height: 132px;
+  height: 132px;
+  padding: 6px 2px 0;
+}
+
+.adminVisitBar {
+  display: block;
+  flex: 1;
+  min-width: 4px;
+  border-radius: 7px 7px 3px 3px;
+  background: linear-gradient(180deg, #e8c470, #9a7328);
+}
+
+.adminVisitChart.isGhost .adminVisitBar {
+  background: rgba(28, 20, 16, 0.08);
+}
+
+.adminVisitEmpty {
+  display: grid;
+  gap: 10px;
+}
+
 @media (min-width: 760px) {
   .adminShell,
   .adminNav {
