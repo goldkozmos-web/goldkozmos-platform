@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import type { DailyAction } from "../../lib/daily/types";
 import { ACTION_CATEGORIES } from "../../lib/daily/types";
-import { completeTodayAction, fetchTodayAction } from "../../lib/daily/client";
+import { completeTodayAction, fetchGoldActState } from "../../lib/daily/client";
 import { GOLDACT_XP_EVENT } from "../../lib/profilim/activityXp";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import "../../styles/daily-practice.css";
@@ -17,29 +17,51 @@ export default function HomeGoldAction() {
   const [note, setNote] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
+
+    async function hydrate() {
+      const state = await fetchGoldActState();
+      if (cancelled) return;
+      setSignedIn(state.signedIn);
+      setAction(state.action);
+      setReady(true);
+    }
+
+    void hydrate();
+
     const supabase = createSupabaseBrowserClient();
     if (!supabase) {
-      setReady(true);
-      return;
+      return () => {
+        cancelled = true;
+      };
     }
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      const nextSignedIn = Boolean(session?.user);
-      setSignedIn(nextSignedIn);
-      if (!nextSignedIn) {
-        setAction(null);
-        setReady(true);
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        void hydrate();
         return;
       }
-      void fetchTodayAction().then((next) => {
-        setAction(next);
+      if (event === "SIGNED_OUT") {
+        setSignedIn(false);
+        setAction(null);
         setReady(true);
-      });
+      }
     });
 
-    return () => subscription.unsubscribe();
+    const wake = () => {
+      void hydrate();
+    };
+    window.addEventListener("focus", wake);
+    document.addEventListener("visibilitychange", wake);
+
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+      window.removeEventListener("focus", wake);
+      document.removeEventListener("visibilitychange", wake);
+    };
   }, []);
 
   const category = action
@@ -112,7 +134,7 @@ export default function HomeGoldAction() {
             <p className="goldActBody">
               Google ile giriş yap. Bugünün tek eylemi hesabına bağlanır.
             </p>
-            <a className="goldActGoogle" href="/auth/google?next=/">
+            <a className="goldActGoogle" href="/auth/google?next=/#goldact">
               Google ile devam et
             </a>
           </>
