@@ -1,5 +1,3 @@
-export const waterCommentPost = (userId: string) => `gk-water:${userId}`;
-
 export type WaterProgram = {
   goal: number;
   start: string;
