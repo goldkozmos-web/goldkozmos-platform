@@ -1,27 +1,39 @@
 import { NextResponse } from "next/server";
 
-import { applyPlatformSchema, isMissingRelation } from "@/lib/admin/applyPlatformSchema";
+import { isMissingRelation } from "@/lib/admin/applyPlatformSchema";
 import { getProfilimSessionUser } from "@/lib/profilim/auth.server";
-import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 import { parseCustomTimes, timesBetween } from "@/lib/water/schedule";
 import {
+  ensureWaterSchema,
+  parseClock,
   publicWaterError,
+  readWaterBackup,
+  readWaterMeta,
   readWaterProgramSql,
+  readWaterTables,
   upsertWaterProgramSql,
+  writeWaterBackup,
+  writeWaterLogs,
+  writeWaterMeta,
+  writeWaterTables,
 } from "@/lib/water/persist";
 import { istanbulDay, type WaterProgram } from "@/lib/water/store";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 30;
 
 function asProgram(input: Partial<WaterProgram>, current?: WaterProgram | null): WaterProgram {
-  const mode = input.mode === "interval" || input.mode === "custom" || input.mode === "count"
-    ? input.mode
-    : current?.mode || "count";
-  const start = String(input.start || current?.start || "09:00").slice(0, 5);
-  const end = String(input.end || current?.end || "22:00").slice(0, 5);
+  const mode =
+    input.mode === "interval" || input.mode === "custom" || input.mode === "count"
+      ? input.mode
+      : current?.mode || "count";
+  const start = parseClock(String(input.start || current?.start || "09:00"), "09:00");
+  const end = parseClock(String(input.end || current?.end || "22:00"), "22:00");
   const count = Math.min(24, Math.max(1, Number(input.count || current?.count || 6)));
   const intervalHours = String(input.intervalHours || current?.intervalHours || "2");
-  const customInput = String(input.customInput || current?.customInput || "09:00, 11:30, 14:00, 17:00, 20:00");
+  const customInput = String(
+    input.customInput || current?.customInput || "09:00, 11:30, 14:00, 17:00, 20:00",
+  );
   const hours = Math.max(1, Number(intervalHours) || 2);
   const times =
     mode === "custom"
@@ -42,71 +54,19 @@ function asProgram(input: Partial<WaterProgram>, current?: WaterProgram | null):
   };
 }
 
-async function readTables(userId: string): Promise<WaterProgram | null> {
-  const supabase = await createSupabaseServerClient();
-  if (!supabase) return null;
-  const today = istanbulDay();
-  const [{ data: settings, error }, { data: stamps }, { data: logs }] = await Promise.all([
-    supabase.from("water_reminder_settings").select("*").eq("user_id", userId).maybeSingle(),
-    supabase.from("water_reminder_times").select("time").eq("user_id", userId),
-    supabase
-      .from("water_logs")
-      .select("amount")
-      .eq("user_id", userId)
-      .gte("logged_at", `${today}T00:00:00+03:00`),
-  ]);
-  if (error && isMissingRelation(error.message)) return null;
-  if (!settings && !(stamps ?? []).length && !(logs ?? []).length) return null;
-  const row = (settings ?? {}) as Record<string, unknown>;
-  const times = (stamps ?? []).map((item) => String(item.time).slice(0, 5)).sort();
-  return {
-    goal: Number(row.daily_goal || 8),
-    start: String(row.start_time || "09:00").slice(0, 5),
-    end: String(row.end_time || "22:00").slice(0, 5),
-    mode:
-      row.schedule_mode === "interval" || row.schedule_mode === "custom" || row.schedule_mode === "count"
-        ? row.schedule_mode
-        : "count",
-    count: Number(row.reminders_per_day || times.length || 6),
-    intervalHours: row.interval_minutes ? String(Math.max(1, Math.round(Number(row.interval_minutes) / 60))) : "2",
-    customInput: times.join(", ") || "09:00, 11:30, 14:00, 17:00, 20:00",
-    enabled: Boolean(row.enabled),
-    times,
-    glasses: (logs ?? []).reduce((sum, item) => sum + Number(item.amount || 1), 0),
-    day: today,
-  };
-}
-
-async function writeTables(userId: string, program: WaterProgram) {
-  const supabase = await createSupabaseServerClient();
-  if (!supabase) return { error: "Bağlantı yok." };
-  const { error } = await supabase.from("water_reminder_settings").upsert({
-    user_id: userId,
-    daily_goal: program.goal,
-    start_time: `${program.start}:00`,
-    end_time: `${program.end}:00`,
-    reminders_per_day: program.times.length || program.count,
-    interval_minutes: program.mode === "interval" ? Math.max(1, Number(program.intervalHours) || 2) * 60 : null,
-    schedule_mode: program.mode,
-    enabled: program.enabled,
-    timezone: "Europe/Istanbul",
-    updated_at: new Date().toISOString(),
-  });
-  if (error) return { error: error.message };
-  await supabase.from("water_reminder_times").delete().eq("user_id", userId);
-  if (program.times.length) {
-    await supabase.from("water_reminder_times").insert(
-      program.times.map((time) => ({ user_id: userId, time: `${time}:00` })),
-    );
-  }
-  return { error: null as string | null };
+async function loadProgram(userId: string) {
+  return (
+    (await readWaterTables(userId)) ||
+    (await readWaterProgramSql(userId)) ||
+    (await readWaterBackup(userId)) ||
+    (await readWaterMeta(userId))
+  );
 }
 
 export async function GET() {
   const user = await getProfilimSessionUser();
   if (!user) return NextResponse.json({ error: "Giriş yap." }, { status: 401 });
-  const program =
-    (await readTables(user.id)) || (await readWaterProgramSql(user.id)) || asProgram({});
+  const program = (await loadProgram(user.id)) || asProgram({});
   return NextResponse.json({ program });
 }
 
@@ -121,37 +81,34 @@ export async function POST(request: Request) {
     raw = {};
   }
 
-  const schema = await applyPlatformSchema();
-  const current = (await readTables(user.id)) || (await readWaterProgramSql(user.id));
-  const next = asProgram({ ...raw, glasses: current?.glasses }, current);
-  if (raw.drink) next.glasses += 1;
+  const current = await loadProgram(user.id);
+  const glasses = Math.max(Number(raw.glasses ?? 0), Number(current?.glasses ?? 0));
+  const next = asProgram({ ...raw, glasses: raw.drink ? glasses + 1 : glasses }, current);
 
-  let tableError = (await writeTables(user.id, next)).error;
+  let tableError = (await writeWaterTables(user.id, next)).error;
   if (tableError && isMissingRelation(tableError)) {
-    await applyPlatformSchema();
-    tableError = (await writeTables(user.id, next)).error;
+    await ensureWaterSchema();
+    tableError = (await writeWaterTables(user.id, next)).error;
   }
 
+  let stored: "table" | "sql" | "backup" | "meta" | null = tableError ? null : "table";
   if (tableError) {
     const sqlWrite = await upsertWaterProgramSql(user.id, next, Boolean(raw.drink));
-    if (!sqlWrite.ok) {
-      return NextResponse.json(
-        {
-          error: publicWaterError(sqlWrite.error || tableError || schema.error),
-          program: next,
-        },
-        { status: 400 },
-      );
-    }
-    return NextResponse.json({ ok: true, program: next, stored: "sql" });
+    if (sqlWrite.ok) stored = "sql";
   }
 
-  if (raw.drink) {
-    const supabase = await createSupabaseServerClient();
-    const logged = await supabase?.from("water_logs").insert({ user_id: user.id, amount: 1 });
-    if (logged?.error && isMissingRelation(logged.error.message)) {
-      await upsertWaterProgramSql(user.id, next, true);
-    }
+  const backup = await writeWaterBackup(user.id, next);
+  if (!stored && !backup.error) stored = "backup";
+  const meta = await writeWaterMeta(user.id, next);
+  if (!stored && !meta.error) stored = "meta";
+
+  if (!stored) {
+    return NextResponse.json(
+      { error: publicWaterError(backup.error || meta.error || tableError || undefined), program: next },
+      { status: 400 },
+    );
   }
-  return NextResponse.json({ ok: true, program: next, stored: "table" });
+
+  if (raw.drink && stored === "table") await writeWaterLogs(user.id, 1);
+  return NextResponse.json({ ok: true, program: next, stored });
 }
