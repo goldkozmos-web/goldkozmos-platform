@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 
-import { applyPlatformSchema, isMissingRelation } from "@/lib/admin/applyPlatformSchema";
+import { isMissingRelation } from "@/lib/admin/applyPlatformSchema";
 import { sendMemberPush } from "@/lib/admin/push-server";
 import { createSupabaseServiceClient } from "@/lib/supabase/service";
+import {
+  WATER_REMINDER_TITLE,
+  ensureWaterSchema,
+} from "@/lib/water/persist";
+import { parseWaterProgram } from "@/lib/water/store";
 
 function isCron(request: Request) {
   const secret = process.env.CRON_SECRET?.trim();
@@ -78,6 +83,7 @@ export async function runReminderTick(request: Request) {
     }
 
     const title = String(row.title ?? "Görev");
+    if (title === WATER_REMINDER_TITLE) continue;
     const note = String(row.note ?? "").trim();
     const result = await sendMemberPush(String(row.user_id), {
       title: "Yapılacaklarım",
@@ -110,7 +116,7 @@ export async function runReminderTick(request: Request) {
     .eq("enabled", true)
     .limit(400);
   if (settings.error && isMissingRelation(settings.error.message)) {
-    await applyPlatformSchema();
+    await ensureWaterSchema();
     settings = await admin
       .from("water_reminder_settings")
       .select("user_id, enabled, timezone, daily_goal")
@@ -119,7 +125,7 @@ export async function runReminderTick(request: Request) {
   }
   let times = await admin.from("water_reminder_times").select("user_id, time").limit(4000);
   if (times.error && isMissingRelation(times.error.message)) {
-    await applyPlatformSchema();
+    await ensureWaterSchema();
     times = await admin.from("water_reminder_times").select("user_id, time").limit(4000);
   }
   const waterUsers: { user_id: string }[] = (settings.data ?? []).map((row) => ({
@@ -131,6 +137,22 @@ export async function runReminderTick(request: Request) {
     const list = byUser.get(uid) ?? [];
     list.push(String(row.time).slice(0, 5));
     byUser.set(uid, list);
+  }
+
+  if (!waterUsers.length) {
+    const backups = await admin
+      .from("reminders")
+      .select("user_id, note, repeat_rule")
+      .eq("title", WATER_REMINDER_TITLE)
+      .limit(400);
+    for (const row of backups.data ?? []) {
+      const program = parseWaterProgram(String(row.note ?? ""));
+      if (!program?.enabled && row.repeat_rule !== "daily") continue;
+      if (!program) continue;
+      const uid = String(row.user_id);
+      byUser.set(uid, program.times);
+      waterUsers.push({ user_id: uid });
+    }
   }
 
   const istanbul = new Intl.DateTimeFormat("en-GB", {

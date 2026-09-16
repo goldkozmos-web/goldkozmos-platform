@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { enableMemberPush, pushSupportState } from "../../lib/push/browser";
-import { istanbulDay, type WaterProgram } from "../../lib/water/store";
+import { istanbulDay, parseWaterProgram, type WaterProgram } from "../../lib/water/store";
 import WaterGlassArt from "./WaterGlassArt";
 
 const EMPTY: WaterProgram = {
@@ -20,6 +20,28 @@ const EMPTY: WaterProgram = {
   day: istanbulDay(),
 };
 
+function localKey(userId: string) {
+  return `goldkozmos-water-program-${userId || "guest"}`;
+}
+
+function readLocal(userId: string): WaterProgram | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return parseWaterProgram(window.localStorage.getItem(localKey(userId)));
+  } catch {
+    return null;
+  }
+}
+
+function writeLocal(userId: string, program: WaterProgram) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(localKey(userId), JSON.stringify(program));
+  } catch {
+    // private mode
+  }
+}
+
 export default function WaterPanel({ userId }: { userId: string }) {
   const [program, setProgram] = useState<WaterProgram>(EMPTY);
   const [status, setStatus] = useState("");
@@ -29,15 +51,18 @@ export default function WaterPanel({ userId }: { userId: string }) {
   const load = useCallback(async () => {
     const response = await fetch("/api/profilim/water", { credentials: "same-origin" });
     const data = (await response.json().catch(() => null)) as { program?: WaterProgram; error?: string } | null;
-    if (data?.program) setProgram(data.program);
-    if (!response.ok && data?.error) {
-      setStatus(
-        /comments|schema cache|could not find the table/i.test(data.error)
-          ? ""
-          : data.error,
-      );
+    const local = readLocal(userId);
+    if (data?.program) {
+      const merged =
+        local && local.day === data.program.day && local.glasses > data.program.glasses
+          ? { ...data.program, glasses: local.glasses }
+          : data.program;
+      setProgram(merged);
+      writeLocal(userId, merged);
+    } else if (local) {
+      setProgram(local);
     }
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     void load();
@@ -47,6 +72,7 @@ export default function WaterPanel({ userId }: { userId: string }) {
   async function persist(next: WaterProgram, drink = false) {
     setSaving(true);
     setProgram(next);
+    writeLocal(userId, next);
     const response = await fetch("/api/profilim/water", {
       method: "POST",
       credentials: "same-origin",
@@ -58,19 +84,17 @@ export default function WaterPanel({ userId }: { userId: string }) {
       error?: string;
       stored?: string;
     } | null;
-    if (data?.program) setProgram(data.program);
+    if (data?.program) {
+      setProgram(data.program);
+      writeLocal(userId, data.program);
+    }
     if (!response.ok) {
-      const raw = data?.error || "Kaydedilemedi.";
-      setStatus(
-        /comments|schema cache|could not find the table/i.test(raw)
-          ? "Kaydedilemedi. Bir kez daha dene."
-          : raw,
-      );
+      setStatus("Kaydedilemedi. Bir kez daha dene.");
       setSaving(false);
       return false;
     }
     setStatus(
-      data?.stored === "backup"
+      data?.stored === "backup" || data?.stored === "meta"
         ? "Kaydedildi. Bildirim saati sunucuya bağlandı."
         : next.enabled
           ? `Hatırlatıcı açık · ${ (data?.program?.times || next.times).join(" · ") }`

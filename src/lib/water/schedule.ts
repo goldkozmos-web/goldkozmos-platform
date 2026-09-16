@@ -3,6 +3,12 @@ export function parseCustomTimes(raw: string) {
     .split(/[,;\n]+/)
     .map((part) => part.trim())
     .map((part) => {
+      const ampm = part.match(/^(\d{1,2}):(\d{2})\s*([ap]m)$/i);
+      if (ampm) {
+        let hour = Number(ampm[1]) % 12;
+        if (ampm[3].toLowerCase() === "pm") hour += 12;
+        return `${String(hour).padStart(2, "0")}:${ampm[2]}`;
+      }
       const match = part.match(/^(\d{1,2}):(\d{2})$/);
       if (!match) return "";
       const hour = Math.min(23, Number(match[1]));
