@@ -42,6 +42,7 @@ export type PlatformDefinition = {
   contentType: PlatformContentType;
   tone: "cream" | "taupe" | "cocoa" | "gold";
   mark: string;
+  invite: string;
 };
 
 export const PLATFORM_CATALOG: PlatformDefinition[] = [
@@ -53,6 +54,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     contentType: "reading",
     tone: "cream",
     mark: "✦",
+    invite: "Kitaplığa gir",
   },
   {
     id: "goldcast",
@@ -62,6 +64,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     contentType: "video",
     tone: "taupe",
     mark: "◎",
+    invite: "Yayınlara gir",
   },
   {
     id: "goldfrekans",
@@ -71,6 +74,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     contentType: "audio",
     tone: "cocoa",
     mark: "◌",
+    invite: "Sesleri aç",
   },
   {
     id: "goldmind",
@@ -80,6 +84,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     contentType: "audio",
     tone: "gold",
     mark: "✧",
+    invite: "Alana gir",
   },
   {
     id: "goldblog",
@@ -89,6 +94,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     contentType: "reading",
     tone: "cream",
     mark: "◇",
+    invite: "Yazıları oku",
   },
 ];
 
