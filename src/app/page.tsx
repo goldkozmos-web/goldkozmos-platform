@@ -4,6 +4,8 @@ import { DEFAULT_DESCRIPTION, DEFAULT_TITLE, OG_IMAGE, SITE_NAME } from "../lib/
 import { SITE_ORIGIN } from "../lib/site";
 import "../styles/hub-seo.css";
 
+export const dynamic = "force-dynamic";
+
 export function generateMetadata(): Metadata {
   return {
     title: { absolute: DEFAULT_TITLE },

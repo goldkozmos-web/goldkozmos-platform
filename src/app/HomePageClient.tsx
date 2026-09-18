@@ -486,6 +486,16 @@ function SocialIcon({
 
 
 const homepageArchiveStyles = `
+  nav.homeTopicHubs,
+  .homeTopicHubs {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+  }
+
   /* SABİT WHATSAPP BUTONU */
   .homeV3FloatingWhatsapp {
     position: fixed;
@@ -2578,6 +2588,12 @@ export default function HomePageClient() {
       document.body.style.overflow = previousOverflow;
     };
   }, [heroVideoOpen, faqOpen]);
+
+  useEffect(() => {
+    document.querySelectorAll("nav.homeTopicHubs, .homeTopicHubs").forEach((node) => {
+      node.remove();
+    });
+  }, []);
 
   useEffect(() => {
     const slider = otherWorksSliderRef.current;
