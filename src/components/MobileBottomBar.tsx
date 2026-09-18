@@ -3,9 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PLATFORM_CATALOG } from "../data/platformFlow";
+import {
+  PLATFORM_CATALOG,
+  formatProgressPercent,
+  type PlatformDefinition,
+  type PlatformProgress,
+} from "../data/platformFlow";
+import { displayProgressFromItem } from "../lib/mediaTime";
 import { usePlayback } from "./platform/PlaybackProvider";
-import PlatformProgressCard from "./platform/PlatformProgressCard";
 
 function HomeIcon() {
   return (
@@ -36,6 +41,66 @@ function ProfileIcon() {
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 4.2a4.1 4.1 0 1 1 0 8.2 4.1 4.1 0 0 1 0-8.2zm0 9.4c3.7 0 8 1.85 8 4.15V20H4v-2.25c0-2.3 4.3-4.15 8-4.15z" />
     </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function GoldsAreaCard({
+  platform,
+  progress,
+  onOpen,
+}: {
+  platform: PlatformDefinition;
+  progress: PlatformProgress | null;
+  onOpen: () => void;
+}) {
+  const percent = progress
+    ? formatProgressPercent(displayProgressFromItem(progress))
+    : null;
+
+  return (
+    <Link
+      className={`goldsPopupCard goldsPopupCard--${platform.id}${
+        progress ? " hasProgress" : ""
+      }`}
+      href={platform.href}
+      onClick={onOpen}
+    >
+      <span className="goldsPopupMedia" aria-hidden="true">
+        <img src={platform.cover} alt="" />
+        <i>{platform.mark}</i>
+      </span>
+      <span className="goldsPopupCopy">
+        <strong>{platform.name}</strong>
+        <span className="goldsPopupTagline">{platform.tagline}</span>
+        {progress ? (
+          <>
+            <span className="goldsPopupResume">
+              Sürdür · {progress.title}
+            </span>
+            <span className="goldsPopupTrack" aria-hidden="true">
+              <i style={{ width: percent ?? "0%" }} />
+            </span>
+          </>
+        ) : (
+          <span className="goldsPopupCta">{platform.invite}</span>
+        )}
+      </span>
+      <span className="goldsPopupGo" aria-hidden="true" />
+    </Link>
   );
 }
 
@@ -113,10 +178,13 @@ export default function MobileBottomBar() {
           <div className="goldkozmosMobileGoldsHandle" aria-hidden="true" />
           <div className="goldkozmosMobileGoldsTop">
             <div>
-              <p className="goldkozmosMobileGoldsEyebrow">GOLDS</p>
-              <strong id="goldkozmosGoldsTitle">GoldKozmos alanları</strong>
+              <p className="goldkozmosMobileGoldsEyebrow">
+                <i />
+                GOLDS
+              </p>
+              <strong id="goldkozmosGoldsTitle">Alanların</strong>
               <p className="goldkozmosMobileGoldsLead">
-                Kitap, yayın, ses, nefes ve yazı. Kaldığın yerden devam.
+                Beş Gold alanı. Kaldığın yerden devam.
               </p>
             </div>
             <button
@@ -125,16 +193,15 @@ export default function MobileBottomBar() {
               aria-label="Kapat"
               onClick={() => setGoldsOpen(false)}
             >
-              ×
+              <CloseIcon />
             </button>
           </div>
           <div className="goldkozmosMobileGoldsTrack">
             {PLATFORM_CATALOG.map((item) => (
-              <PlatformProgressCard
+              <GoldsAreaCard
                 key={item.id}
                 platform={item}
                 progress={forPlatform(item.id)}
-                className={`goldsPopupCard goldsPopupCard--${item.id}`}
                 onOpen={() => setGoldsOpen(false)}
               />
             ))}
