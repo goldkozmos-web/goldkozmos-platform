@@ -120,7 +120,7 @@ nav.homeTopicHubs,
 }
 
 .kendiniTaniTestsTitle {
-  margin: 18px 0 12px;
+  margin: 22px 0 12px;
   color: #221812;
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(22px, 4vw, 28px);
@@ -128,8 +128,89 @@ nav.homeTopicHubs,
 }
 
 .kendiniTaniPage .kendiniTaniAbout {
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
   margin: 0 0 8px;
-  max-width: 28rem;
+  padding: 14px 16px 14px 14px;
+  max-width: 40rem;
+  border: 1px solid rgba(184, 140, 62, 0.28);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(212, 176, 106, 0.22), transparent 46%),
+    linear-gradient(180deg, #fffdf8 0%, #f3e7d3 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 12px 28px rgba(48, 30, 14, 0.08);
+  text-decoration: none;
+  color: inherit;
+}
+
+.kendiniTaniPage .kendiniTaniAbout img {
+  width: 112px;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.kendiniTaniPage .kendiniTaniAbout p {
+  margin: 0;
+  color: #a8792a;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.kendiniTaniPage .kendiniTaniAbout strong {
+  display: block;
+  margin-top: 6px;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.kendiniTaniPage .kendiniTaniAbout span {
+  display: block;
+  margin-top: 6px;
+  color: #5c4a3a;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.kendiniTaniPage .kendiniTaniAbout em {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  margin-top: 12px;
+  padding: 0 14px;
+  border: 1px solid rgba(184, 140, 62, 0.28);
+  border-radius: 999px;
+  background: #fff;
+  color: #5c4318;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 650;
+}
+
+@media (max-width: 640px) {
+  .kendiniTaniPage .kendiniTaniAbout {
+    grid-template-columns: 84px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .kendiniTaniPage .kendiniTaniAbout img {
+    width: 84px;
+    height: 84px;
+  }
+
+  .kendiniTaniPage .kendiniTaniAbout strong {
+    font-size: 18px;
+  }
 }
 
 .kendiniTaniPage .kendiniTaniTrack {

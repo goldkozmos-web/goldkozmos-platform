@@ -67,9 +67,22 @@ export default function KendiniTaniPage() {
           Öz-farkındalık testleri burada. Arketip, karakter, gölge yan ve ilişki
           örüntüsü. Klinik teşhis değil. Sonuçların yalnızca sende kalır.
         </p>
-        <Link className="kendiniTaniCard kendiniTaniAbout" href="/hakkimda">
-          <strong>Hakkımda</strong>
-          <span>Özge Batıgün ve GoldKozmos yaklaşımını oku.</span>
+        <Link className="kendiniTaniAbout" href="/hakkimda">
+          <img
+            src="/images/services/ozge-batigun-hakkimda.webp"
+            alt=""
+            width={120}
+            height={120}
+          />
+          <div>
+            <p>Hakkımda</p>
+            <strong>Özge Batıgün</strong>
+            <span>
+              Kendi yolumu ararken Goldkozmos® doğdu. Yaklaşımı ve hikâyeyi
+              buradan oku.
+            </span>
+            <em>Oku</em>
+          </div>
         </Link>
         <h2 className="kendiniTaniTestsTitle">Öz-farkındalık testleri</h2>
         <div className="kendiniTaniTrack">
