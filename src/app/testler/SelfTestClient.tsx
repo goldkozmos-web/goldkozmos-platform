@@ -103,9 +103,6 @@ export default function SelfTestClient({
             ))}
           </div>
         ) : null}
-        <p className="testSeoCopy">
-          <a href="/kendini-tani">Kendini Tanı</a>
-        </p>
       </div>
       {!done && question ? (
         <div className="homeSoftCard">

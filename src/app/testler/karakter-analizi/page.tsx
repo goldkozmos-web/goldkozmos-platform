@@ -20,11 +20,6 @@ export default function Page() {
       lead="Bu bir klinik değerlendirme değil. Nasıl karar verdiğini, sınır koyduğunu ve stres altında nasıl durduğunu görmek için bir öz-farkındalık aracı."
       questions={CHARACTER_QUESTIONS}
       href="/testler/karakter-analizi"
-      intro={[
-        "Karakter Analizi Testi sosyal enerji, karar alma, sınır ve stres eğilimlerini tarar. Teşhis koymaz, puanı Google’a açmaz.",
-        "Sorular Likert ölçeğindedir. Bitince özet metin tarayıcıda görünür; kaydetmek için giriş gerekir. Sonuç URL’si indexlenmez.",
-        "Kendini Tanı hub’ından diğer testlere geçebilirsin. Bu sayfa yalnızca testi tanıtır ve uygular.",
-      ]}
     />
   );
 }
