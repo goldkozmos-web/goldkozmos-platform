@@ -20,12 +20,12 @@ export const metadata: Metadata = publicPageMetadata({
 const TESTS = [
   {
     title: "Arketip Testi",
-    text: "Baskın üç arketipini gör. Klinik kişilik teşhisi değildir.",
+    text: "Baskın üç arketipini gör.",
     href: "/arketip-testi",
   },
   {
-    title: "Karakter Analizi Testi",
-    text: "Karar, sınır, stres ve ilişki ritmini gözlemle.",
+    title: "Karakter Analizi",
+    text: "Karar, sınır, stres ve ilişki ritmin.",
     href: "/testler/karakter-analizi",
   },
   {
@@ -34,13 +34,13 @@ const TESTS = [
     href: "/testler/golge-yan",
   },
   {
-    title: "İlişki Örüntüsü Testi",
+    title: "İlişki Örüntüsü",
     text: "Yakınlık, mesafe ve tekrar eden kalıplar.",
     href: "/testler/iliski-oruntusu",
   },
   {
     title: "21 Günlük Kendilik Yolculuğu",
-    text: "Günde birkaç dakikalık gözlem ve uygulama.",
+    text: "Günde birkaç dakikalık gözlem.",
     href: "/kendilik-yolculugu",
   },
 ];
@@ -64,10 +64,11 @@ export default function KendiniTaniPage() {
           <h1>Kendini Tanı</h1>
         </div>
         <p className="kendiniTaniLead">
-          Kendini Tanı, GoldKozmos’un öz-farkındalık kapısıdır. Tarot bakımı
-          veya burç profili değildir. Test landing sayfaları public’tir; kayıtlı
-          sonuçlar, günlük notları ve kişisel skorlar indexlenmez.
+          Ana sayfadaki öz-farkındalık testleri burada. Arketip, karakter, gölge
+          yan ve ilişki örüntüsü. Klinik teşhis değil. Sonuçların yalnızca sende
+          kalır, Google’da açılmaz.
         </p>
+        <h2 className="kendiniTaniTestsTitle">Öz-farkındalık testleri</h2>
         <div className="kendiniTaniTrack">
           {TESTS.map((test) => (
             <Link key={test.href} className="kendiniTaniCard" href={test.href}>

@@ -108,10 +108,37 @@
 
 .kendiniTaniPage .kendiniTaniLead {
   max-width: 40rem;
-  margin: 12px 0 28px;
+  margin: 12px 0 22px;
   color: #3a322b;
   font-size: 17px;
   line-height: 1.75;
+}
+
+.kendiniTaniTestsTitle {
+  margin: 0 0 12px;
+  color: #221812;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(22px, 4vw, 28px);
+  font-weight: 400;
+}
+
+.kendiniTaniPage .kendiniTaniTrack {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  overflow: visible;
+  padding-bottom: 0;
+}
+
+.kendiniTaniPage .kendiniTaniCard {
+  min-width: 0;
+  flex: none;
+}
+
+@media (max-width: 640px) {
+  .kendiniTaniPage .kendiniTaniTrack {
+    grid-template-columns: 1fr;
+  }
 }
 
 .testSeoCopy {
