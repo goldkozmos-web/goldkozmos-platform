@@ -92,13 +92,5 @@ export async function recordMemberJoin(
         }),
       }).catch(() => undefined),
     ]);
-    return;
   }
-
-  const { persistSiteMemberFromUser } = await import("./persist-member");
-  await persistSiteMemberFromUser(user, {
-    displayName,
-    city: payload.city,
-    phone: payload.phone,
-  });
 }

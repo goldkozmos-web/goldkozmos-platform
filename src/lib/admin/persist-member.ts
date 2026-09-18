@@ -1,4 +1,5 @@
 import type { User } from "@supabase/supabase-js";
+import "server-only";
 
 import { isMissingRelation, runPlatformSql } from "./applyPlatformSchema";
 import { SITE_MEMBERS_SCHEMA_SQL } from "./member-schema";
