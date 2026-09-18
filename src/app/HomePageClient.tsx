@@ -2706,11 +2706,11 @@ export default function HomePageClient() {
             <div className="homeHeroActionRow">
               <a
                 className="homeHeroMiniTest homeHeroActionCard"
-                href="/calismalar"
+                href="/calismalar/enerji-calismalari"
               >
                 <div className="homeHeroMiniTestCopy">
                   <h2>
-                    Çalışmalarım
+                    Enerji çalışmaları
                   </h2>
                 </div>
 
@@ -2721,16 +2721,16 @@ export default function HomePageClient() {
 
               <a
                 className="homeHeroMiniTest homeHeroActionCard"
-                href="/hakkimda"
+                href="/tarot-bakimi"
               >
                 <div className="homeHeroMiniTestCopy">
                   <h2>
-                    Hakkımda
+                    Tarot bakımı
                   </h2>
                 </div>
 
                 <span className="homeHeroActionCta">
-                  Oku
+                  Bak
                 </span>
               </a>
 

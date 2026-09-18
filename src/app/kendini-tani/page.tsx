@@ -64,10 +64,13 @@ export default function KendiniTaniPage() {
           <h1>Kendini Tanı</h1>
         </div>
         <p className="kendiniTaniLead">
-          Ana sayfadaki öz-farkındalık testleri burada. Arketip, karakter, gölge
-          yan ve ilişki örüntüsü. Klinik teşhis değil. Sonuçların yalnızca sende
-          kalır, Google’da açılmaz.
+          Öz-farkındalık testleri burada. Arketip, karakter, gölge yan ve ilişki
+          örüntüsü. Klinik teşhis değil. Sonuçların yalnızca sende kalır.
         </p>
+        <Link className="kendiniTaniCard kendiniTaniAbout" href="/hakkimda">
+          <strong>Hakkımda</strong>
+          <span>Özge Batıgün ve GoldKozmos yaklaşımını oku.</span>
+        </Link>
         <h2 className="kendiniTaniTestsTitle">Öz-farkındalık testleri</h2>
         <div className="kendiniTaniTrack">
           {TESTS.map((test) => (
