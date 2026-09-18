@@ -328,14 +328,14 @@
     align-self: center;
     display: grid !important;
     place-items: center;
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
-    border: 1px solid rgba(201, 154, 71, 0.38);
+    border: 1px solid rgba(232, 196, 118, 0.52);
     background:
-      linear-gradient(180deg, #2f2118, #1a120d);
-    color: #e8c57a;
-    font-size: 16px;
+      linear-gradient(180deg, #3a2a16, #1a120d);
+    color: #f3d48a;
+    font-size: 18px;
     line-height: 1;
     box-shadow:
       0 1px 0 rgba(255, 236, 196, 0.22) inset,
