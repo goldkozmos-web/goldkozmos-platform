@@ -496,6 +496,13 @@ const homepageArchiveStyles = `
     visibility: hidden !important;
   }
 
+  .homeV3Page .homeHeroMiniTest,
+  .homeV3Page .homeHeroMiniTest:visited,
+  .homeV3Page .homeHeroMiniTest h2 {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
   /* SABİT WHATSAPP BUTONU */
   .homeV3FloatingWhatsapp {
     position: fixed;
@@ -2735,7 +2742,7 @@ export default function HomePageClient() {
               </a>
 
               <a
-                className="homeHeroMiniTest"
+                className="homeHeroMiniTest homeHeroActionCard"
                 href="/kendini-tani"
               >
                 <div className="homeHeroMiniTestCopy">
