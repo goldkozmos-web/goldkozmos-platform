@@ -50,7 +50,7 @@ export default function PlatformProgressCard({
           </span>
         </>
       ) : (
-        <span className="platformRailEmpty">Henüz başlanmadı</span>
+        <span className="platformRailEmpty">{platform.invite}</span>
       )}
     </Link>
   );

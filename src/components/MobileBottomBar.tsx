@@ -110,10 +110,14 @@ export default function MobileBottomBar() {
           aria-modal="true"
           aria-labelledby="goldkozmosGoldsTitle"
         >
+          <div className="goldkozmosMobileGoldsHandle" aria-hidden="true" />
           <div className="goldkozmosMobileGoldsTop">
             <div>
               <p className="goldkozmosMobileGoldsEyebrow">GOLDS</p>
               <strong id="goldkozmosGoldsTitle">GoldKozmos alanları</strong>
+              <p className="goldkozmosMobileGoldsLead">
+                Kitap, yayın, ses, nefes ve yazı. Kaldığın yerden devam.
+              </p>
             </div>
             <button
               type="button"
@@ -130,7 +134,7 @@ export default function MobileBottomBar() {
                 key={item.id}
                 platform={item}
                 progress={forPlatform(item.id)}
-                className="goldsPopupCard"
+                className={`goldsPopupCard goldsPopupCard--${item.id}`}
                 onOpen={() => setGoldsOpen(false)}
               />
             ))}
