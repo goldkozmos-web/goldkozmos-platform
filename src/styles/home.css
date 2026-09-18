@@ -4,6 +4,16 @@
   color: #171717;
 }
 
+nav.homeTopicHubs,
+.homeTopicHubs {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+}
+
 /* NAVBAR */
 
 .navbar {
