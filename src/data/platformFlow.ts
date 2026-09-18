@@ -89,7 +89,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     tone: "gold",
     mark: "✧",
     invite: "Alana gir",
-    cover: "/images/home-spotlight/kendilik-yolculugu.jpg",
+    cover: "/images/services/7-cakrani-dengele.webp",
   },
   {
     id: "goldblog",
