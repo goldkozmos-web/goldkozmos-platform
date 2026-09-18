@@ -142,7 +142,14 @@ export default function MobileBottomBar() {
         </div>
       ) : null}
 
-      <nav className="goldkozmosMobileBottomBar" aria-label="Mobil gezinme">
+      <nav
+        className={
+          goldsOpen
+            ? "goldkozmosMobileBottomBar isGoldsOpen"
+            : "goldkozmosMobileBottomBar"
+        }
+        aria-label="Mobil gezinme"
+      >
         <Link
           href="/"
           className={atHome ? "isActive" : undefined}

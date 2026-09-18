@@ -108,12 +108,18 @@
     fill: currentColor;
   }
 
+  .goldkozmosMobileBottomBar.isGoldsOpen {
+    background: #fffaf1;
+    box-shadow:
+      0 10px 28px rgba(48, 30, 14, 0.12),
+      0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
   .goldkozmosMobileGoldsBackdrop {
     position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    inset: 0;
     z-index: 100020;
     display: block;
     border: 0;
@@ -124,7 +130,7 @@
   }
 
   .goldkozmosMobileGoldsSheet {
-    --golds-sheet-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    --golds-sheet-bottom: calc(102px + env(safe-area-inset-bottom, 0px));
     position: fixed;
     left: 12px;
     right: 12px;
