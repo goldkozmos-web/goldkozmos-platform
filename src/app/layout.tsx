@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 
 import GlobalContactDock from "../components/GlobalContactDock";
 import MobileBottomBar from "../components/MobileBottomBar";
+import SiteDrawerHost from "../components/SiteDrawerHost";
 import PlatformFlowRoot from "../components/platform/PlatformFlowRoot";
 import "../styles/daily-practice.css";
 import PresenceTracker from "../components/presence/PresenceTracker";
@@ -89,6 +90,7 @@ export default function RootLayout({
           <RouteFade>{children}</RouteFade>
           <GlobalContactDock />
           <MobileBottomBar />
+          <SiteDrawerHost />
         </PlatformFlowRoot>
       </body>
     </html>

@@ -110,9 +110,16 @@
   min-width: 108px;
   max-width: 148px;
   display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
   filter: drop-shadow(0 10px 12px rgba(48, 32, 18, 0.16));
   scroll-snap-align: start;
   text-decoration: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: inherit;
 }
 
 .dailyActionCard {
