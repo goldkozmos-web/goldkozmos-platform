@@ -39,6 +39,7 @@ export default function ProfilimDrawer({
 
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("hasProfilimDrawer");
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -50,6 +51,7 @@ export default function ProfilimDrawer({
 
     return () => {
       document.body.style.overflow = previous;
+      document.body.classList.remove("hasProfilimDrawer");
       window.removeEventListener("keydown", onKey);
     };
   }, [mounted, onClose]);
