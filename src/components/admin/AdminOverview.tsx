@@ -27,8 +27,8 @@ export default function AdminOverview({
       <section className="adminPanel" aria-label="Bugünün özeti">
         <header className="adminPanelHead">
           <div>
-            <h2>Bugünün özeti</h2>
-            <p className="adminSectionLabel">Son hareketler</p>
+            <h2>Özet</h2>
+            <p className="adminSectionLabel">Toplam kayıt</p>
           </div>
         </header>
         <div className="adminOverview">
@@ -128,6 +128,22 @@ export default function AdminOverview({
             <h2>Ziyaret özeti</h2>
           </div>
         </header>
+        <p className="adminStatCaption">Tüm zamanlar</p>
+        <div className="adminStatGrid">
+          {[
+            ["Ziyaretçi", live?.allTime?.visits],
+            ["Tekil", live?.allTime?.uniques],
+            ["Üye", live?.allTime?.members],
+            ["Randevu", live?.allTime?.appointments],
+            ["WhatsApp", live?.allTime?.whatsapp],
+            ["Shopier", live?.allTime?.shopier],
+          ].map(([label, value]) => (
+            <div key={`all-${String(label)}`} className="adminStatCell">
+              <strong>{formatAdminCount(Number(value) || 0)}</strong>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
         <p className="adminStatCaption">Bugün</p>
         <div className="adminStatGrid">
           {[

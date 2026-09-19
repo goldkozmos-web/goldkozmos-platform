@@ -8,7 +8,7 @@ import {
   istanbulDayStartIso,
   type AdminOverviewCardId,
 } from "./access";
-import { listGoogleAuthMembers } from "../supabase/service";
+import { createSupabaseServiceClient, listGoogleAuthMembers } from "../supabase/service";
 import {
   isMemberVisitorKey,
   membersFromVisitorRows,
@@ -27,6 +27,8 @@ import {
   isLiveAt,
 } from "../presence/labels";
 import { SUGGESTIONS_POST } from "./suggestions";
+import { lifetimeEventCount, lifetimeVisitCount, rangeCount } from "./desk-counts";
+import { ensureAdminDeskSchema } from "./desk-schema";
 
 export type AdminOverviewMetric = {
   id: AdminOverviewCardId;
@@ -126,6 +128,10 @@ async function fetchLoggedMembers(supabase: SupabaseClient) {
   });
   if (live.error || !Array.isArray(live.data)) return [];
   return membersFromVisitorRows(live.data as Record<string, unknown>[]);
+}
+
+function adminDataClient(fallback?: SupabaseClient | null) {
+  return createSupabaseServiceClient() || fallback || null;
 }
 
 async function fetchAdminMembers(
@@ -228,7 +234,9 @@ function describeAnalytics(name: string, path: string) {
 export { emptyAdminMetrics };
 
 export async function loadAdminLive(client?: SupabaseClient | null) {
-  const supabase = client ?? (await createSupabaseServerClient());
+  const sessionClient = client ?? (await createSupabaseServerClient());
+  await ensureAdminDeskSchema();
+  const supabase = adminDataClient(sessionClient);
   const memberStart = istanbulDayStartIso();
 
   let memberCount = 0;
@@ -246,27 +254,64 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
   let membersList: AdminMemberRow[] = [];
   let todayStats: AdminRangeStats = { visits: 0, uniques: 0, members: 0, appointments: 0, whatsapp: 0 };
   let last30: AdminRangeStats = { visits: 0, uniques: 0, members: 0, appointments: 0 };
+  let allTime: AdminRangeStats = { visits: 0, uniques: 0, members: 0, appointments: 0, whatsapp: 0 };
   let activity: AdminActivityItem[] = [];
 
   if (supabase) {
     const thirtyStart = new Date(Date.parse(memberStart) - 29 * 24 * 60 * 60 * 1000).toISOString();
-    const [memberRows, memberHead, visits, liveRows, events, sessionPack, suggestionHead, analyticsPack, suggestionTable] =
+    const [
+      memberRows,
+      memberHead,
+      allVisitors,
+      todayVisitors,
+      visitors30,
+      liveRows,
+      events,
+      waAll,
+      purchaseAll,
+      appointmentAll,
+      pageTodayEvents,
+      page30Events,
+      waTodayEvents,
+      wa30Events,
+      bookTodayEvents,
+      book30Events,
+      shopTodayEvents,
+      shop30Events,
+      suggestionHead,
+      analyticsPack,
+      suggestionTable,
+    ] =
       await Promise.all([
         fetchAdminMembers(supabase),
         supabase.from("profiles").select("id", { count: "exact", head: true }),
+        supabase.from("site_visitors").select("visitor_key", { count: "exact", head: true }),
         supabase
-        .from("site_visitors")
-        .select("visitor_key", { count: "exact", head: true })
-        .gte("last_seen_at", memberStart),
+          .from("site_visitors")
+          .select("visitor_key", { count: "exact", head: true })
+          .gte("last_seen_at", memberStart),
+        supabase
+          .from("site_visitors")
+          .select("visitor_key", { count: "exact", head: true })
+          .gte("last_seen_at", thirtyStart),
       supabase.rpc("list_live_visitors", { p_since: memberStart }),
       supabase
         .from("site_events")
         .select("id, kind, path, source, href, country, region, city, created_at")
-        .gte("created_at", memberStart)
         .in("kind", ["whatsapp", "purchase", "appointment"])
         .order("created_at", { ascending: false })
-        .limit(120),
-      supabase.auth.getSession(),
+        .limit(200),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "whatsapp"),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "purchase"),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "appointment"),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "page").gte("created_at", memberStart),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "page").gte("created_at", thirtyStart),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "whatsapp").gte("created_at", memberStart),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "whatsapp").gte("created_at", thirtyStart),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "appointment").gte("created_at", memberStart),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "appointment").gte("created_at", thirtyStart),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "purchase").gte("created_at", memberStart),
+      supabase.from("site_events").select("id", { count: "exact", head: true }).eq("kind", "purchase").gte("created_at", thirtyStart),
       supabase
         .from("suggestions")
         .select("id", { count: "exact", head: true }),
@@ -282,7 +327,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
         .eq("post_id", SUGGESTIONS_POST),
     ]);
 
-    visitCount = visits.count ?? 0;
+    visitCount = lifetimeVisitCount(allVisitors.count ?? 0, 0);
 
     const analyticsRows = (analyticsPack.data ?? []) as {
       id?: string;
@@ -300,8 +345,8 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
       (row) => row.event_name === "page_view" && Date.parse(row.created_at ?? "") >= todayMs,
     );
     const page30 = analyticsRows.filter((row) => row.event_name === "page_view");
-    if (pageToday.length || page30.length) {
-      visitCount = pageToday.length;
+    if (!visitCount) {
+      visitCount = visitors30.count || new Set(page30.map(uniqueKey)).size;
     }
 
     let visitorRows: Record<string, unknown>[] =
@@ -369,13 +414,17 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     appointments = mapped
       .filter((row) => row.kind === "appointment")
       .map((row) => row.item);
-    whatsappCount = whatsapp.length;
-    purchaseCount = purchases.length;
-    appointmentCount = appointments.length;
+    whatsappCount = lifetimeEventCount(waAll.count ?? 0, whatsapp.length);
+    purchaseCount = lifetimeEventCount(purchaseAll.count ?? 0, purchases.length);
+    appointmentCount = lifetimeEventCount(appointmentAll.count ?? 0, appointments.length);
 
-    const userId = sessionPack.data.session?.user?.id;
+    let userId = "";
+    if (sessionClient) {
+      const { data } = await sessionClient.auth.getUser();
+      userId = data.user?.id ?? "";
+    }
     if (userId) {
-      const notes = await supabase
+      const notes = await (sessionClient ?? supabase)
         .from("comment_notifications")
         .select("id", { count: "exact", head: true })
         .eq("recipient_id", userId)
@@ -397,29 +446,47 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
       (row) => row.event_name === "shopier_click" && Date.parse(row.created_at ?? "") >= todayMs,
     );
     const shop30 = analyticsRows.filter((row) => row.event_name === "shopier_click");
-    if (waToday.length) whatsappCount = waToday.length;
-    if (bookToday.length) appointmentCount = bookToday.length;
-    if (shopToday.length) purchaseCount = shopToday.length;
+
+    whatsappCount = lifetimeEventCount(
+      waAll.count ?? 0,
+      Math.max(whatsapp.length, wa30.length),
+    );
+    purchaseCount = lifetimeEventCount(
+      purchaseAll.count ?? 0,
+      Math.max(purchases.length, shop30.length),
+    );
+    appointmentCount = lifetimeEventCount(
+      appointmentAll.count ?? 0,
+      Math.max(appointments.length, book30.length),
+    );
 
     todayStats = {
-      visits: pageToday.length,
-      uniques: new Set(pageToday.map(uniqueKey)).size,
+      visits: rangeCount(pageTodayEvents.count ?? 0, pageToday.length),
+      uniques: todayVisitors.count ?? new Set(pageToday.map(uniqueKey)).size,
       members: membersList.filter(
         (row) => row.createdAt && Date.parse(row.createdAt) >= todayMs,
       ).length,
-      appointments: bookToday.length,
-      whatsapp: waToday.length,
-      shopier: shopToday.length,
+      appointments: rangeCount(bookTodayEvents.count ?? 0, bookToday.length),
+      whatsapp: rangeCount(waTodayEvents.count ?? 0, waToday.length),
+      shopier: rangeCount(shopTodayEvents.count ?? 0, shopToday.length),
     };
     last30 = {
-      visits: page30.length,
-      uniques: new Set(page30.map(uniqueKey)).size,
+      visits: rangeCount(page30Events.count ?? 0, page30.length),
+      uniques: visitors30.count ?? new Set(page30.map(uniqueKey)).size,
       members: membersList.filter(
         (row) => row.createdAt && Date.parse(row.createdAt) >= Date.parse(thirtyStart),
       ).length,
-      appointments: book30.length,
-      whatsapp: wa30.length,
-      shopier: shop30.length,
+      appointments: rangeCount(book30Events.count ?? 0, book30.length),
+      whatsapp: rangeCount(wa30Events.count ?? 0, wa30.length),
+      shopier: rangeCount(shop30Events.count ?? 0, shop30.length),
+    };
+    allTime = {
+      visits: visitCount,
+      uniques: visitCount,
+      members: memberCount,
+      appointments: appointmentCount,
+      whatsapp: whatsappCount,
+      shopier: purchaseCount,
     };
     activity = analyticsRows.slice(0, 24).map((row) => ({
       id: String(row.id),
@@ -458,16 +525,18 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     members: membersList,
     todayStats,
     last30,
+    allTime,
     activity,
   };
 }
 
 export async function loadAdminMembers(): Promise<AdminMemberRow[]> {
-  const supabase = await createSupabaseServerClient();
+  const supabase = adminDataClient(await createSupabaseServerClient());
 
   if (!supabase) {
     return [];
   }
 
+  await ensureAdminDeskSchema();
   return fetchAdminMembers(supabase);
 }

@@ -1,5 +1,6 @@
 import postgres from "postgres";
 
+import { ADMIN_DESK_SQL } from "./desk-schema";
 import { PLATFORM_SCHEMA_SQL } from "./platformSchema";
 
 export function platformDatabaseUrl() {
@@ -51,6 +52,7 @@ export async function runPlatformSql<T>(
 export async function applyPlatformSchema() {
   const result = await runPlatformSql(async (sql) => {
     await sql.unsafe(PLATFORM_SCHEMA_SQL);
+    await sql.unsafe(ADMIN_DESK_SQL);
   });
   if (!result.ok) {
     return {

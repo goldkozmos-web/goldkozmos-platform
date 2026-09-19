@@ -34,6 +34,7 @@ export type AdminLiveSnapshot = {
   members: AdminMemberRow[];
   todayStats?: AdminRangeStats;
   last30?: AdminRangeStats;
+  allTime?: AdminRangeStats;
   activity?: AdminActivityItem[];
 };
 
@@ -205,6 +206,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
         members: data.members ?? [],
         todayStats: data.todayStats,
         last30: data.last30,
+        allTime: data.allTime,
         activity: data.activity ?? [],
       };
       const alerts = diffAdminLive(cursor.current, {
@@ -243,7 +245,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     const supabase = createSupabaseBrowserClient();
     const channels: ReturnType<NonNullable<typeof supabase>["channel"]>[] = [];
     if (supabase) {
-      for (const table of ["profiles", "analytics_events", "suggestions", "appointments", "notifications", "site_events"]) {
+      for (const table of ["profiles", "site_members", "site_visitors", "analytics_events", "suggestions", "appointments", "notifications", "site_events"]) {
         const channel = supabase
           .channel(`admin-live-${table}`)
           .on(

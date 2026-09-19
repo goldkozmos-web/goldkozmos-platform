@@ -52,7 +52,7 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
     title: "Ziyaretler",
     href: "/admin/aktivite",
     hasSource: true,
-    empty: "Bugün henüz yok",
+    empty: "Henüz ziyaret yok",
   },
   {
     id: "live",
@@ -80,7 +80,7 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
     title: "WhatsApp",
     href: "/admin/whatsapp",
     hasSource: true,
-    empty: "Bugün yazışma yok",
+    empty: "Henüz tıklama yok",
   },
   {
     id: "purchases",
@@ -167,6 +167,10 @@ export function adminMetricHint(
 
   if (id === "members") {
     return value === 1 ? "kayıtlı üye" : "kayıtlı üyeler";
+  }
+
+  if (id === "visits" || id === "whatsapp" || id === "purchases") {
+    return "toplam";
   }
 
   return "bugün";
