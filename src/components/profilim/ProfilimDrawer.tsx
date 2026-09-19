@@ -3,6 +3,20 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function ProfilimDrawer({
   title,
   eyebrow,
@@ -55,7 +69,10 @@ export default function ProfilimDrawer({
 
         <header className="profilimDrawerTop">
           <div>
-            <p className="profilimDrawerEyebrow">{eyebrow}</p>
+            <p className="profilimDrawerEyebrow">
+              <i />
+              {eyebrow}
+            </p>
             <h2 id="profilimDrawerTitle">{title}</h2>
           </div>
 
@@ -65,7 +82,7 @@ export default function ProfilimDrawer({
             onClick={onClose}
             aria-label="Kapat"
           >
-            ×
+            <CloseIcon />
           </button>
         </header>
 
