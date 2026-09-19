@@ -1,12 +1,12 @@
-import type { DreamGuide } from "./types";
+import type { DreamGuideDraft } from "./types";
 
 function guide(
-  partial: Omit<DreamGuide, "published" | "updatedAt">,
-): DreamGuide {
+  partial: Omit<DreamGuideDraft, "published" | "updatedAt">,
+): DreamGuideDraft {
   return { ...partial, published: true, updatedAt: "2026-09-14" };
 }
 
-export const restGuidesB: DreamGuide[] = [
+export const restGuidesB: DreamGuideDraft[] = [
   guide({
     id: "ruyada-deniz-gormek",
     title: "Rüyada Deniz Görmek",

@@ -73,6 +73,7 @@
 }
 
 .ruyaSuggest a,
+.ruyaSuggest .ruyaQueued,
 .ruyaEmpty {
   display: block;
   padding: 12px 14px;
@@ -83,8 +84,22 @@
 }
 
 .ruyaSuggest a:hover,
-.ruyaSuggest a.isOn {
+.ruyaSuggest a.isOn,
+.ruyaSuggest .ruyaQueued.isOn {
   background: #f7ead3;
+}
+
+.ruyaQueued {
+  color: #5c534b;
+}
+
+.ruyaQueued small {
+  display: block;
+  margin-top: 4px;
+  color: #a8792a;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .ruyaEmpty {
