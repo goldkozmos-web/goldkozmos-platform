@@ -86,12 +86,20 @@ function asText(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : "";
 }
 
+function seriesDay(value: string) {
+  const trimmed = value.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed;
+  const parsed = Date.parse(trimmed);
+  if (!Number.isNaN(parsed)) return istanbulYmd(new Date(parsed));
+  return trimmed.slice(0, 10);
+}
+
 function fillVisitDays(
   fromYmd: string,
   toYmd: string,
   rows: AdminVisitPoint[],
 ): AdminVisitPoint[] {
-  const byDay = new Map(rows.map((row) => [row.day.slice(0, 10), row]));
+  const byDay = new Map(rows.map((row) => [seriesDay(row.day), row]));
   const points: AdminVisitPoint[] = [];
   const cursor = new Date(`${fromYmd}T12:00:00+03:00`);
   const end = new Date(`${toYmd}T12:00:00+03:00`);
@@ -119,7 +127,7 @@ async function loadVisitSeries(
       fromYmd,
       toYmd,
       rpc.data.map((row) => ({
-        day: String((row as { day?: string }).day ?? "").slice(0, 10),
+        day: seriesDay(String((row as { day?: string }).day ?? "")),
         visits: Number((row as { visits?: number }).visits) || 0,
         uniques: Number((row as { uniques?: number }).uniques) || 0,
       })),
