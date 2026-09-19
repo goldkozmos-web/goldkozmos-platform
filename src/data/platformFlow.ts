@@ -43,6 +43,7 @@ export type PlatformDefinition = {
   tone: "cream" | "taupe" | "cocoa" | "gold";
   mark: string;
   invite: string;
+  cover: string;
 };
 
 export const PLATFORM_CATALOG: PlatformDefinition[] = [
@@ -55,6 +56,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     tone: "cream",
     mark: "✦",
     invite: "Kitaplığa gir",
+    cover: "/images/home-spotlight/kitap-kulubu.jpg",
   },
   {
     id: "goldcast",
@@ -65,6 +67,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     tone: "taupe",
     mark: "◎",
     invite: "Yayınlara gir",
+    cover: "/images/services/ozge-batigun-hakkimda.webp",
   },
   {
     id: "goldfrekans",
@@ -75,6 +78,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     tone: "cocoa",
     mark: "◌",
     invite: "Sesleri aç",
+    cover: "/images/services/8-frekans-yuklemesi-canli-kayit.webp",
   },
   {
     id: "goldmind",
@@ -85,6 +89,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     tone: "gold",
     mark: "✧",
     invite: "Alana gir",
+    cover: "/images/services/7-cakrani-dengele.webp",
   },
   {
     id: "goldblog",
@@ -95,6 +100,7 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     tone: "cream",
     mark: "◇",
     invite: "Yazıları oku",
+    cover: "/images/home-spotlight/goldblog.jpg",
   },
 ];
 
