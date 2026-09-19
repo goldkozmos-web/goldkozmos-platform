@@ -2416,6 +2416,15 @@ const homepageArchiveStyles = `
     box-shadow: 0 10px 28px rgba(48, 32, 18, 0.08) !important;
   }
 
+  .homeV3Page .homeV3HeroCard .homeHeroActionStack {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    display: grid !important;
+    gap: 8px !important;
+    margin-top: 0 !important;
+    padding-top: 28px !important;
+  }
+
   .homeV3Page .homeV3HeroCard .homeHeroActionRow {
     grid-column: 1 / -1 !important;
     width: 100% !important;
@@ -2425,7 +2434,7 @@ const homepageArchiveStyles = `
     align-items: stretch !important;
     gap: 8px !important;
     margin-top: 0 !important;
-    padding-top: 28px !important;
+    padding-top: 0 !important;
     overflow: visible !important;
   }
 
@@ -2710,50 +2719,70 @@ export default function HomePageClient() {
               </div>
             </div>
 
-            <div className="homeHeroActionRow">
-              <a
-                className="homeHeroMiniTest homeHeroActionCard"
-                href="/calismalar/enerji-calismalari"
-              >
-                <div className="homeHeroMiniTestCopy">
-                  <h2>
-                    Enerji çalışmaları
-                  </h2>
-                </div>
+            <div className="homeHeroActionStack">
+              <div className="homeHeroActionRow">
+                <a
+                  className="homeHeroMiniTest homeHeroActionCard"
+                  href="/calismalar/enerji-calismalari"
+                >
+                  <div className="homeHeroMiniTestCopy">
+                    <h2>Enerji çalışmaları</h2>
+                  </div>
+                  <span className="homeHeroActionCta">İncele</span>
+                </a>
 
-                <span className="homeHeroActionCta">
-                  İncele
-                </span>
-              </a>
+                <a
+                  className="homeHeroMiniTest homeHeroActionCard"
+                  href="/tarot-bakimi"
+                >
+                  <div className="homeHeroMiniTestCopy">
+                    <h2>Tarot bakımı</h2>
+                  </div>
+                  <span className="homeHeroActionCta">Bak</span>
+                </a>
 
-              <a
-                className="homeHeroMiniTest homeHeroActionCard"
-                href="/tarot-bakimi"
-              >
-                <div className="homeHeroMiniTestCopy">
-                  <h2>
-                    Tarot bakımı
-                  </h2>
-                </div>
+                <a
+                  className="homeHeroMiniTest homeHeroActionCard"
+                  href="/kendini-tani"
+                >
+                  <div className="homeHeroMiniTestCopy">
+                    <h2>Kendini tanı</h2>
+                  </div>
+                  <span className="homeHeroActionCta">Testlere bak</span>
+                </a>
+              </div>
 
-                <span className="homeHeroActionCta">
-                  Bak
-                </span>
-              </a>
+              <div className="homeHeroActionRow">
+                <a
+                  className="homeHeroMiniTest homeHeroActionCard"
+                  href="/calismalar"
+                >
+                  <div className="homeHeroMiniTestCopy">
+                    <h2>Tüm çalışmalar</h2>
+                  </div>
+                  <span className="homeHeroActionCta">İncele</span>
+                </a>
 
-              <a
-                className="homeHeroMiniTest homeHeroActionCard"
-                href="/kendini-tani"
-              >
-                <div className="homeHeroMiniTestCopy">
-                  <h2>
-                    Kendini tanı
-                  </h2>
-                </div>
-                <span className="homeHeroActionCta">
-                  Testlere bak
-                </span>
-              </a>
+                <a
+                  className="homeHeroMiniTest homeHeroActionCard"
+                  href="/calismalar/numeroloji"
+                >
+                  <div className="homeHeroMiniTestCopy">
+                    <h2>Numeroloji</h2>
+                  </div>
+                  <span className="homeHeroActionCta">Bak</span>
+                </a>
+
+                <a
+                  className="homeHeroMiniTest homeHeroActionCard"
+                  href="/hakkimda"
+                >
+                  <div className="homeHeroMiniTestCopy">
+                    <h2>Hakkımda</h2>
+                  </div>
+                  <span className="homeHeroActionCta">Oku</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
