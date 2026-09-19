@@ -2420,9 +2420,9 @@ const homepageArchiveStyles = `
     grid-column: 1 / -1 !important;
     width: 100% !important;
     display: grid !important;
-    gap: 8px !important;
+    gap: 10px !important;
     margin-top: 0 !important;
-    padding-top: 28px !important;
+    padding-top: 22px !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow {
@@ -2432,13 +2432,16 @@ const homepageArchiveStyles = `
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: stretch !important;
-    gap: 8px !important;
+    gap: 10px !important;
     margin-top: 0 !important;
     padding-top: 0 !important;
     overflow: visible !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     grid-column: auto !important;
     flex: 1 1 0 !important;
     width: auto !important;
@@ -2449,21 +2452,38 @@ const homepageArchiveStyles = `
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 8px !important;
-    min-height: 0 !important;
+    justify-content: space-between !important;
+    gap: 14px !important;
+    min-height: 108px !important;
     height: auto !important;
-    padding: 12px 11px 11px !important;
-    border-radius: 12px !important;
+    padding: 14px 13px 12px !important;
+    border-radius: 18px !important;
     box-sizing: border-box !important;
     grid-template-columns: none !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
-    background: #ffffff !important;
-    border: 0 !important;
+    -webkit-tap-highlight-color: transparent;
+    background:
+      linear-gradient(180deg, #fffdf8 0%, #f4ead6 100%) !important;
+    border: 1px solid rgba(196, 160, 74, 0.42) !important;
     box-shadow:
-      0 -2px 3px rgba(48, 32, 18, 0.05),
-      0 -8px 18px rgba(48, 32, 18, 0.12),
-      0 -16px 32px rgba(48, 32, 18, 0.08) !important;
+      0 1px 0 rgba(255, 255, 255, 0.88) inset,
+      0 10px 16px rgba(48, 32, 18, 0.12) !important;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+  }
+
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.42) 0%,
+      transparent 38%,
+      rgba(255, 244, 214, 0.18) 52%,
+      transparent 68%
+    );
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestIcon {
@@ -2471,17 +2491,20 @@ const homepageArchiveStyles = `
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy {
+    position: relative;
+    z-index: 1;
     width: 100% !important;
     min-width: 0 !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 {
     white-space: normal !important;
-    font-size: 15px !important;
+    font-family: Georgia, "Times New Roman", serif !important;
+    font-size: 13.5px !important;
     font-weight: 400 !important;
-    line-height: 1.22 !important;
-    letter-spacing: -0.02em !important;
-    color: #1c1410 !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.03em !important;
+    color: #211812 !important;
     text-rendering: geometricPrecision !important;
     -webkit-font-smoothing: antialiased !important;
   }
@@ -2495,8 +2518,17 @@ const homepageArchiveStyles = `
     color: inherit;
   }
 
+  .homeHeroActionCard:active {
+    transform: scale(0.98);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.8) inset,
+      0 6px 12px rgba(48, 32, 18, 0.1) !important;
+  }
+
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest > a,
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionCta {
+    position: relative;
+    z-index: 1;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
@@ -2504,21 +2536,24 @@ const homepageArchiveStyles = `
     margin-top: auto !important;
     margin-left: 0 !important;
     width: auto !important;
-    min-height: 0 !important;
-    padding: 6px 10px !important;
+    min-height: 26px !important;
+    padding: 0 11px !important;
+    border: 1px solid rgba(176, 130, 48, 0.32);
     border-radius: 999px;
-    background: #f4f0e4;
-    color: #1c1410;
+    background: rgba(255, 250, 241, 0.92);
+    color: #7a5720;
     text-decoration: none;
-    font-size: 9px !important;
+    font-size: 10px !important;
     font-weight: 700;
+    letter-spacing: 0.02em;
     white-space: nowrap;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
     grid-column: auto !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest > a span,
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionCta span {
-    color: #a5782d;
+    color: #7a5720;
   }
 
   .homeV3Page .homeV3HeroSocials {
