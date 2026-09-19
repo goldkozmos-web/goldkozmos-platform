@@ -36,6 +36,12 @@ export default function GoldRituelPage() {
       <HomeNavbar />
       <div className="grWrap">
         <p className="grEyebrow">GOLDKOZMOS®</p>
+        <figure className="grHero">
+          <img
+            src="/images/golds/goldrituel.jpg"
+            alt="GoldRitüel: tapınak terasında niyet ve ritüel alanı"
+          />
+        </figure>
         <h1>GoldRitüel – Uygulanabilir Ritüeller</h1>
         <p className="grLead">
           Niyet, farkındalık ve enerji odağında uygulanabilir ritüeller.

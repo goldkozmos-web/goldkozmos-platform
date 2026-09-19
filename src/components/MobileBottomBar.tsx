@@ -184,7 +184,7 @@ export default function MobileBottomBar() {
               </p>
               <strong id="goldkozmosGoldsTitle">Alanların</strong>
               <p className="goldkozmosMobileGoldsLead">
-                Beş Gold alanı. Kaldığın yerden devam.
+                Altı Gold alanı. Kaldığın yerden devam.
               </p>
             </div>
             <button
