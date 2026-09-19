@@ -4,6 +4,7 @@ export const PLATFORM_IDS = [
   "goldfrekans",
   "goldmind",
   "goldblog",
+  "goldrituel",
 ] as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[number];
@@ -101,6 +102,17 @@ export const PLATFORM_CATALOG: PlatformDefinition[] = [
     mark: "◇",
     invite: "Yazıları oku",
     cover: "/images/golds/goldblog.jpg",
+  },
+  {
+    id: "goldrituel",
+    name: "GoldRitüel",
+    tagline: "Uygulanabilir ritüeller",
+    href: "/goldrituel",
+    contentType: "reading",
+    tone: "gold",
+    mark: "☾",
+    invite: "Ritüellere gir",
+    cover: "/images/golds/goldrituel.jpg",
   },
 ];
 
