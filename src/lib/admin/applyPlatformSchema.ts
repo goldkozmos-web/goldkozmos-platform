@@ -2,6 +2,7 @@ import postgres from "postgres";
 
 import { ADMIN_DESK_SQL } from "./desk-schema";
 import { PLATFORM_SCHEMA_SQL } from "./platformSchema";
+import { DREAM_SEARCH_SQL } from "../ruya-tabirleri/query-schema";
 
 export function platformDatabaseUrl() {
   return (
@@ -53,6 +54,7 @@ export async function applyPlatformSchema() {
   const result = await runPlatformSql(async (sql) => {
     await sql.unsafe(PLATFORM_SCHEMA_SQL);
     await sql.unsafe(ADMIN_DESK_SQL);
+    await sql.unsafe(DREAM_SEARCH_SQL);
   });
   if (!result.ok) {
     return {

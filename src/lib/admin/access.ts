@@ -23,6 +23,7 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { href: "/admin/randevular", label: "Randevu" },
   { href: "/admin/satin-almalar", label: "Satış" },
   { href: "/admin/icerikler", label: "İçerik" },
+  { href: "/admin/ruya-aramalari", label: "Rüya aramaları" },
   { href: "/admin/oneriler", label: "Öneri" },
   { href: "/admin/bildirimler", label: "Bildirim" },
   { href: "/admin/cikar", label: "Çıkar" },
