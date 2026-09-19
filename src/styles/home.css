@@ -45118,15 +45118,15 @@ html:has(.goldbookCompactPage) {
 
     margin: 0 !important;
 
-    color: #e0c07a !important;
+    color: #f3e0a4 !important;
 
     font-family: inherit !important;
 
-    font-size: 11px !important;
-    line-height: 1.2 !important;
+    font-size: 13px !important;
+    line-height: 1.25 !important;
 
-    letter-spacing: 0.18em !important;
-    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    font-weight: 800 !important;
     text-transform: uppercase !important;
   }
 
@@ -45267,12 +45267,12 @@ html:has(.goldbookCompactPage) {
 
   .goldcastPage
   .goldcastYTTop {
-    min-height: 34px !important;
+    min-height: 28px !important;
 
     padding:
-      9px
-      13px
-      7px !important;
+      8px
+      12px
+      6px !important;
 
     display: flex !important;
     align-items: center !important;
@@ -45280,7 +45280,7 @@ html:has(.goldbookCompactPage) {
 
     color: #d2a552 !important;
 
-    font-size: 7px !important;
+    font-size: 9px !important;
     font-weight: 700 !important;
   }
 
@@ -45343,11 +45343,11 @@ html:has(.goldbookCompactPage) {
       0
       6px !important;
 
-    color: #c89a47 !important;
+    color: #7a5818 !important;
 
-    font-size: 6.5px !important;
-    letter-spacing: 0.13em !important;
-    font-weight: 700 !important;
+    font-size: 9px !important;
+    letter-spacing: 0.1em !important;
+    font-weight: 800 !important;
   }
 
   .goldcastPage
@@ -45357,38 +45357,37 @@ html:has(.goldbookCompactPage) {
   h3 {
     margin: 0 !important;
 
-    color: #fffaf1 !important;
+    color: #16110c !important;
 
     font-family:
       Georgia,
       "Times New Roman",
       serif !important;
 
-    font-size: 19px !important;
-    line-height: 1.03 !important;
+    font-size: 18px !important;
+    line-height: 1.15 !important;
 
-    font-weight: 400 !important;
+    font-weight: 600 !important;
   }
 
   .goldcastPage
   .goldcastYTSubtitle {
     margin-top: 7px !important;
 
-    color: #c89a47 !important;
+    color: #6f4e14 !important;
 
-    font-size: 8px !important;
-    font-weight: 700 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
   }
 
   .goldcastPage
   .goldcastYTDescription {
     margin-top: 7px !important;
 
-    color:
-      rgba(255, 250, 241, 0.62) !important;
+    color: #3f352c !important;
 
-    font-size: 8.5px !important;
-    line-height: 1.48 !important;
+    font-size: 13px !important;
+    line-height: 1.45 !important;
   }
 
   .goldcastPage
@@ -45543,15 +45542,15 @@ html:has(.goldbookCompactPage) {
 
     margin: 0 !important;
 
-    color: #a8792a !important;
+    color: #16110c !important;
 
     font-family: inherit !important;
 
-    font-size: 11px !important;
-    line-height: 1.2 !important;
+    font-size: 13px !important;
+    line-height: 1.25 !important;
 
-    letter-spacing: 0.18em !important;
-    font-weight: 700 !important;
+    letter-spacing: 0.1em !important;
+    font-weight: 800 !important;
     text-transform: uppercase !important;
   }
 
@@ -45559,7 +45558,7 @@ html:has(.goldbookCompactPage) {
   .goldcastSpotifyArchiveHeader
   h2
   span {
-    color: #a77a2d !important;
+    color: #16110c !important;
   }
 
 
@@ -45610,20 +45609,18 @@ html:has(.goldbookCompactPage) {
     flex:
       0
       0
-      min(82vw, 325px) !important;
+      min(68vw, 248px) !important;
 
     width:
-      min(82vw, 325px) !important;
+      min(68vw, 248px) !important;
 
     max-width:
-      325px !important;
+      248px !important;
 
     min-width: 0 !important;
     min-height: 0 !important;
 
-    padding:
-      17px
-      15px !important;
+    padding: 0 !important;
 
     display: block !important;
 
@@ -45634,24 +45631,12 @@ html:has(.goldbookCompactPage) {
     scroll-snap-align:
       start !important;
 
-    border:
-      1px solid
-      rgba(201, 157, 77, 0.30) !important;
+    border: 0 !important;
 
     border-radius:
-      20px !important;
+      18px !important;
 
-    background:
-      radial-gradient(
-        circle at 88% 4%,
-        rgba(199, 154, 67, 0.16),
-        transparent 30%
-      ),
-      linear-gradient(
-        145deg,
-        #2b1d13,
-        #17100c
-      ) !important;
+    background: #ffffff !important;
 
     box-shadow: none !important;
   }
