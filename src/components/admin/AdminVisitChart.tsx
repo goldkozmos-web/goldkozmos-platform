@@ -1,91 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
-import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
+import { formatAdminCount } from "../../lib/admin/access";
+import type { AdminVisitPoint } from "../../lib/admin/load";
+import { useAdminLive } from "./AdminLiveProvider";
 
-type Point = { day: string; visits: number; uniques: number };
-type Range = "1" | "7" | "30" | "90" | "custom";
+type Range = "1" | "7" | "30";
 
 const RANGES: { id: Range; label: string }[] = [
   { id: "1", label: "Bugün" },
   { id: "7", label: "7 gün" },
   { id: "30", label: "30 gün" },
-  { id: "90", label: "90 gün" },
-  { id: "custom", label: "Özel" },
 ];
 
+function sliceSeries(series: AdminVisitPoint[], range: Range) {
+  if (!series.length) return [];
+  const count = Number(range);
+  return series.slice(Math.max(0, series.length - count));
+}
+
 export default function AdminVisitChart() {
+  const { live } = useAdminLive();
   const [range, setRange] = useState<Range>("30");
-  const [customFrom, setCustomFrom] = useState("");
-  const [customTo, setCustomTo] = useState("");
-  const [points, setPoints] = useState<Point[]>([]);
-
-  useEffect(() => {
-    const to = new Date();
-    const from = new Date();
-    if (range === "1") from.setHours(0, 0, 0, 0);
-    else if (range === "custom" && customFrom && customTo) {
-      from.setTime(Date.parse(customFrom));
-      to.setTime(Date.parse(customTo));
-    } else {
-      from.setDate(to.getDate() - (Number(range) - 1));
-    }
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase) return;
-    void supabase
-      .rpc("admin_visit_series", {
-        p_from: from.toISOString().slice(0, 10),
-        p_to: to.toISOString().slice(0, 10),
-      })
-      .then(({ data, error }) => {
-        if (error) {
-          console.warn("admin_visit_series", error.message);
-          return;
-        }
-        setPoints(
-          (Array.isArray(data) ? data : []).map((row) => ({
-            day: String(row.day),
-            visits: Number(row.visits) || 0,
-            uniques: Number(row.uniques) || 0,
-          })),
-        );
-      });
-
-    const channel = supabase
-      .channel("admin-visits")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "analytics_events" },
-        () => {
-          void supabase
-            .rpc("admin_visit_series", {
-              p_from: from.toISOString().slice(0, 10),
-              p_to: to.toISOString().slice(0, 10),
-            })
-            .then(({ data }) => {
-              setPoints(
-                (Array.isArray(data) ? data : []).map((row) => ({
-                  day: String(row.day),
-                  visits: Number(row.visits) || 0,
-                  uniques: Number(row.uniques) || 0,
-                })),
-              );
-            });
-        },
-      )
-      .subscribe((status) => {
-        if (status === "CHANNEL_ERROR") console.warn("visit realtime bağlanamadı");
-      });
-    return () => {
-      void supabase.removeChannel(channel);
-    };
-  }, [range, customFrom, customTo]);
-
+  const points = useMemo(
+    () => sliceSeries(live?.visitSeries ?? [], range),
+    [live?.visitSeries, range],
+  );
+  const visits = points.reduce((sum, item) => sum + item.visits, 0);
+  const uniques = points.reduce((sum, item) => sum + item.uniques, 0);
   const max = Math.max(1, ...points.map((item) => item.visits));
   const label =
-    range === "1" ? "Bugün" : range === "custom" ? "Özel aralık" : `Son ${range} gün`;
+    range === "1" ? "Bugün" : range === "7" ? "Son 7 gün" : "Son 30 gün";
   const ghosts = [18, 34, 22, 48, 30, 56, 26];
+  const empty = visits <= 0;
 
   return (
     <section className="adminPanel" aria-label="Ziyaret grafiği">
@@ -94,6 +42,9 @@ export default function AdminVisitChart() {
           <p className="adminSectionLabel">Ziyaretler</p>
           <h2>{label}</h2>
         </div>
+        {empty ? null : (
+          <span className="adminBadge">{formatAdminCount(visits)}</span>
+        )}
       </header>
       <div className="adminRangeRail" role="tablist" aria-label="Zaman aralığı">
         {RANGES.map((item) => (
@@ -108,19 +59,7 @@ export default function AdminVisitChart() {
           </button>
         ))}
       </div>
-      {range === "custom" ? (
-        <div className="adminRangeDates">
-          <label>
-            Başlangıç
-            <input type="date" value={customFrom} onChange={(e) => setCustomFrom(e.target.value)} />
-          </label>
-          <label>
-            Bitiş
-            <input type="date" value={customTo} onChange={(e) => setCustomTo(e.target.value)} />
-          </label>
-        </div>
-      ) : null}
-      {points.length === 0 ? (
+      {empty ? (
         <div className="adminVisitEmpty">
           <div className="adminVisitChart isGhost" aria-hidden="true">
             {ghosts.map((height, index) => (
@@ -133,16 +72,23 @@ export default function AdminVisitChart() {
           </div>
         </div>
       ) : (
-        <div className="adminVisitChart">
-          {points.map((point) => (
-            <i
-              key={point.day}
-              className="adminVisitBar"
-              title={`${point.day}: ${point.visits} ziyaret / ${point.uniques} tekil`}
-              style={{ height: `${Math.max(10, (point.visits / max) * 100)}%` }}
-            />
-          ))}
-        </div>
+        <>
+          <div className="adminVisitChart">
+            {points.map((point) => (
+              <i
+                key={point.day}
+                className={`adminVisitBar${point.visits <= 0 ? " isMute" : ""}`}
+                title={`${point.day}: ${point.visits} ziyaret / ${point.uniques} tekil`}
+                style={{
+                  height: `${Math.max(6, (point.visits / max) * 100)}%`,
+                }}
+              />
+            ))}
+          </div>
+          <p className="adminCardHint">
+            {formatAdminCount(visits)} sayfa · {formatAdminCount(uniques)} tekil
+          </p>
+        </>
       )}
     </section>
   );

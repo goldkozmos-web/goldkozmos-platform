@@ -41,7 +41,7 @@ export default function AdminMemberList({
   members: AdminMemberRow[];
 }) {
   const { refresh } = useAdminLive();
-  const [syncNote, setSyncNote] = useState("Google girişleri bu listeye yazılıyor…");
+  const [syncNote, setSyncNote] = useState("");
 
   useEffect(() => {
     async function syncRoster() {
@@ -61,14 +61,10 @@ export default function AdminMemberList({
       const json = (await res.json().catch(() => null)) as
         | { ok?: boolean; saved?: number; total?: number; error?: string }
         | null;
-      if (json?.ok) {
-        setSyncNote(
-          typeof json.saved === "number"
-            ? `${json.saved} üye kaydı düştü`
-            : "Üye kaydı yenilendi",
-        );
+      if (json?.ok && typeof json.saved === "number" && json.saved > 0) {
+        setSyncNote(`${json.saved} yeni üye kaydı düştü`);
       } else {
-        setSyncNote(json?.error || "Kayıt senkronu atlandı");
+        setSyncNote("");
       }
       await refresh();
     }
@@ -96,7 +92,7 @@ export default function AdminMemberList({
         </div>
         <span className="adminBadge">{members.length}</span>
       </header>
-      <p className="adminRosterNote">{syncNote}</p>
+      {syncNote ? <p className="adminRosterNote">{syncNote}</p> : null}
       {members.map((member) => (
         <article key={member.id} className="adminMember">
           {member.avatarUrl ? (

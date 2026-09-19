@@ -74,7 +74,7 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
     title: "Randevular",
     href: "/admin/randevular",
     hasSource: true,
-    empty: "Bugün randevu yok",
+    empty: "Henüz randevu yok",
   },
   {
     id: "whatsapp",
@@ -124,19 +124,17 @@ export function canAccessAdmin(email: string | null | undefined) {
   return isSiteAdminEmail(email);
 }
 
-export function istanbulDayStartIso(now = new Date()) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
+export function istanbulYmd(now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/Istanbul",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).formatToParts(now);
+  }).format(now);
+}
 
-  const year = parts.find((part) => part.type === "year")?.value;
-  const month = parts.find((part) => part.type === "month")?.value;
-  const day = parts.find((part) => part.type === "day")?.value;
-
-  return `${year}-${month}-${day}T00:00:00+03:00`;
+export function istanbulDayStartIso(now = new Date()) {
+  return `${istanbulYmd(now)}T00:00:00+03:00`;
 }
 
 export function adminMetricValue(hasSource: boolean, count: number) {
@@ -170,7 +168,12 @@ export function adminMetricHint(
     return value === 1 ? "kayıtlı üye" : "kayıtlı üyeler";
   }
 
-  if (id === "visits" || id === "whatsapp" || id === "purchases") {
+  if (
+    id === "visits" ||
+    id === "whatsapp" ||
+    id === "purchases" ||
+    id === "appointments"
+  ) {
     return "toplam";
   }
 

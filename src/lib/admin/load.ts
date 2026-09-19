@@ -6,6 +6,7 @@ import {
   adminMetricValue,
   emptyAdminMetrics,
   istanbulDayStartIso,
+  istanbulYmd,
   type AdminOverviewCardId,
 } from "./access";
 import { createSupabaseServiceClient, listGoogleAuthMembers } from "../supabase/service";
@@ -65,6 +66,12 @@ export type AdminRangeStats = {
   shopier?: number;
 };
 
+export type AdminVisitPoint = {
+  day: string;
+  visits: number;
+  uniques: number;
+};
+
 export type AdminEventRow = {
   id: string;
   label: string;
@@ -77,6 +84,74 @@ export type AdminEventRow = {
 
 function asText(value: unknown) {
   return typeof value === "string" && value.trim() ? value.trim() : "";
+}
+
+function fillVisitDays(
+  fromYmd: string,
+  toYmd: string,
+  rows: AdminVisitPoint[],
+): AdminVisitPoint[] {
+  const byDay = new Map(rows.map((row) => [row.day.slice(0, 10), row]));
+  const points: AdminVisitPoint[] = [];
+  const cursor = new Date(`${fromYmd}T12:00:00+03:00`);
+  const end = new Date(`${toYmd}T12:00:00+03:00`);
+  while (cursor.getTime() <= end.getTime()) {
+    const day = istanbulYmd(cursor);
+    const hit = byDay.get(day);
+    points.push(hit ?? { day, visits: 0, uniques: 0 });
+    cursor.setTime(cursor.getTime() + 24 * 60 * 60 * 1000);
+  }
+  return points;
+}
+
+async function loadVisitSeries(
+  supabase: SupabaseClient,
+  fromYmd: string,
+  toYmd: string,
+  fromIso: string,
+): Promise<AdminVisitPoint[]> {
+  const rpc = await supabase.rpc("admin_visit_series", {
+    p_from: fromYmd,
+    p_to: toYmd,
+  });
+  if (!rpc.error && Array.isArray(rpc.data) && rpc.data.length) {
+    return fillVisitDays(
+      fromYmd,
+      toYmd,
+      rpc.data.map((row) => ({
+        day: String((row as { day?: string }).day ?? "").slice(0, 10),
+        visits: Number((row as { visits?: number }).visits) || 0,
+        uniques: Number((row as { uniques?: number }).uniques) || 0,
+      })),
+    );
+  }
+
+  const pages = await supabase
+    .from("site_events")
+    .select("created_at, visitor_key")
+    .eq("kind", "page")
+    .gte("created_at", fromIso)
+    .limit(20000);
+  const buckets = new Map<string, { visits: number; who: Set<string> }>();
+  for (const row of pages.data ?? []) {
+    const created = asText((row as { created_at?: string }).created_at);
+    if (!created) continue;
+    const day = istanbulYmd(new Date(created));
+    const bucket = buckets.get(day) ?? { visits: 0, who: new Set<string>() };
+    bucket.visits += 1;
+    const who = asText((row as { visitor_key?: string }).visitor_key);
+    if (who) bucket.who.add(who);
+    buckets.set(day, bucket);
+  }
+  return fillVisitDays(
+    fromYmd,
+    toYmd,
+    [...buckets.entries()].map(([day, bucket]) => ({
+      day,
+      visits: bucket.visits,
+      uniques: bucket.who.size,
+    })),
+  );
 }
 
 export type AdminMemberRow = SiteMemberRow;
@@ -256,6 +331,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
   let last30: AdminRangeStats = { visits: 0, uniques: 0, members: 0, appointments: 0 };
   let allTime: AdminRangeStats = { visits: 0, uniques: 0, members: 0, appointments: 0, whatsapp: 0 };
   let activity: AdminActivityItem[] = [];
+  let visitSeries: AdminVisitPoint[] = [];
 
   if (supabase) {
     const thirtyStart = new Date(Date.parse(memberStart) - 29 * 24 * 60 * 60 * 1000).toISOString();
@@ -494,6 +570,17 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
       who: row.user_id ? "Üye" : "Anonim",
       text: describeAnalytics(String(row.event_name ?? ""), row.path ?? "/"),
     }));
+
+    const seriesFrom = istanbulYmd(
+      new Date(Date.parse(memberStart) - 29 * 24 * 60 * 60 * 1000),
+    );
+    const seriesTo = istanbulYmd(new Date());
+    visitSeries = await loadVisitSeries(
+      supabase,
+      seriesFrom,
+      seriesTo,
+      thirtyStart,
+    );
   }
 
   const counts: Record<AdminOverviewCardId, number> = {
@@ -527,6 +614,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     last30,
     allTime,
     activity,
+    visitSeries,
   };
 }
 
