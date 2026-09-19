@@ -780,6 +780,10 @@
   background: rgba(28, 20, 16, 0.08);
 }
 
+.adminVisitBar.isMute {
+  background: rgba(28, 20, 16, 0.08);
+}
+
 .adminVisitEmpty {
   display: grid;
   gap: 10px;
