@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { publishedDreams } from "../data/ruya-tabirleri/catalog";
+import { indexableDreams } from "../data/ruya-tabirleri/catalog";
 import { publishedRituals } from "../data/goldrituel/catalog";
 import { goldBlogArticles } from "../data/goldblogArticles";
 import { TAROT_DECK } from "../data/tarot/deck";
@@ -77,7 +77,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   );
 
-  const dreams = publishedDreams().map((dream) =>
+  const dreams = indexableDreams().map((dream) =>
     loc(`/ruya-tabirleri/${dream.slug}`, {
       lastModified: dream.updatedAt,
       changeFrequency: "monthly",

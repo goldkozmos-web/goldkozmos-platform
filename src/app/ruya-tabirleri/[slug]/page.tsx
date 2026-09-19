@@ -9,7 +9,7 @@ import RuyaNoteForm from "../../../components/ruya/RuyaNoteForm";
 import RuyaSearch from "../../../components/ruya/RuyaSearch";
 import {
   dreamBySlug,
-  publishedDreams,
+  indexableDreams,
 } from "../../../data/ruya-tabirleri/catalog";
 import { SITE_ORIGIN } from "../../../lib/site";
 import { ruyaPath, ruyaUrl } from "../../../lib/ruya-tabirleri/urls";
@@ -21,10 +21,10 @@ type PageProps = {
 };
 
 export function generateStaticParams() {
-  return publishedDreams().map((dream) => ({ slug: dream.slug }));
+  return indexableDreams().map((dream) => ({ slug: dream.slug }));
 }
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export async function generateMetadata({
   params,
@@ -55,7 +55,10 @@ export async function generateMetadata({
       description: dream.metaDescription,
       images: ["/opengraph-image"],
     },
-    robots: { index: true, follow: true },
+    robots:
+      dream.indexable === false
+        ? { index: false, follow: true }
+        : { index: true, follow: true },
   };
 }
 

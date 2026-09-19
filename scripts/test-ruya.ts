@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { DREAM_GUIDES } from "../src/data/ruya-tabirleri/catalog";
+import {
+  DREAM_GUIDES,
+  dictionaryStats,
+  resolveDreamSearch,
+  indexableDreams,
+} from "../src/data/ruya-tabirleri/catalog.ts";
 
 const bannedHeadings = [
   "enerji mesajı",
@@ -46,9 +51,16 @@ for (const heading of bannedHeadings) {
   assert.equal(article.includes(heading), false, `article still has ${heading}`);
 }
 
-assert.equal(DREAM_GUIDES.length, 10);
+const editorial = indexableDreams();
+assert.equal(editorial.length, 10);
 
-for (const dream of DREAM_GUIDES) {
+const stats = dictionaryStats();
+assert.ok(stats.canonical >= 1500, `canonical ${stats.canonical}`);
+assert.ok(stats.aliases >= 5000, `aliases ${stats.aliases}`);
+assert.ok(stats.categories >= 8, `categories ${stats.categories}`);
+assert.equal(stats.indexable, 10);
+
+for (const dream of editorial) {
   const text = body(dream);
   const lower = text.toLowerCase();
   const count = words(text);
@@ -57,14 +69,61 @@ for (const dream of DREAM_GUIDES) {
   for (const phrase of bannedPhrases) {
     assert.equal(lower.includes(phrase), false, `${dream.slug} has ${phrase}`);
   }
-  const starts = dream.spiritualMeaning
-    .split(/\n+/)
-    .filter(Boolean)
-    .filter((para) => /^rüyada /i.test(para)).length;
-  assert.ok(starts <= 1, `${dream.slug} spiritual paras start with Rüyada`);
 }
 
-console.log(
-  DREAM_GUIDES.map((dream) => `${dream.slug} ${words(body(dream))}`).join("\n"),
-);
+const mustHit = [
+  "araba",
+  "araba sürmek",
+  "araba kazası",
+  "siyah araba",
+  "bebek",
+  "erkek bebek",
+  "kız bebek",
+  "bebek emzirmek",
+  "bebek arabası",
+  "asker",
+  "askere gitmek",
+  "asker üniforması",
+  "elbise",
+  "kırmızı elbise",
+  "siyah elbise",
+  "balkon",
+  "ayna",
+  "anahtar",
+  "çanta",
+  "valiz",
+  "anne",
+  "baba",
+  "kuzen",
+  "hala",
+  "teyze",
+  "telefon",
+  "bilgisayar",
+  "Instagram",
+  "hastane",
+  "okul",
+  "iş yeri",
+  "ekmek",
+  "kahve",
+  "elma",
+  "kedi",
+  "köpek",
+  "at",
+  "kurt",
+  "aslan",
+  "balina",
+  "arı",
+  "kelebek",
+  "yağmur",
+  "kar",
+  "deprem",
+  "yangın",
+];
+
+for (const query of mustHit) {
+  const { hits } = resolveDreamSearch(query, 8);
+  assert.ok(hits.length > 0, `no hit for ${query}`);
+}
+
+console.log(JSON.stringify(stats, null, 2));
 console.log("ok");

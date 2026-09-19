@@ -21,6 +21,7 @@ const NAV: Record<string, string> = {
   "/admin/randevular": "M7 4v2M17 4v2M5 9h14M6 7h12a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z",
   "/admin/satin-almalar": "M6 7h15l-1.4 8H8L6 7zM6 7 5 4H3M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2M18 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2",
   "/admin/icerikler": "M7 4h8l4 4v12H7zM15 4v4h4",
+  "/admin/ruya-aramalari": "M11 5a6 6 0 1 0 3.7 10.7L21 22",
   "/admin/oneriler": "M12 3 14.2 8.6 20 9.2 16 13.4 17.2 19 12 16.2 6.8 19 8 13.4 4 9.2 9.8 8.6z",
   "/admin/bildirimler": "M6 9a6 6 0 1 1 12 0c0 5 2 6.5 2 6.5H4S6 14 6 9zM10 19a2 2 0 0 0 4 0",
   "/admin/cikar": "M16 19v-1a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v1M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 11h-6",

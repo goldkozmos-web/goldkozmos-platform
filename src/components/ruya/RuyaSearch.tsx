@@ -3,16 +3,26 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
-import { searchDreams } from "../../data/ruya-tabirleri/catalog";
+import { resolveDreamSearch, searchDreams } from "../../data/ruya-tabirleri/catalog";
 import { ruyaPath } from "../../lib/ruya-tabirleri/urls";
 
 const PLACEHOLDERS = [
   "Yılan gördüm",
-  "Deniz görmek",
-  "Eski sevgilimi gördüm",
-  "Dişim döküldü",
-  "Beyaz kedi gördüm",
+  "Araba sürmek",
+  "Kırmızı elbise",
+  "Bebek emzirmek",
+  "Asker üniforması",
 ];
+
+function logQuery(query: string, matchedSlug: string | null, resultCount: number) {
+  void fetch("/api/ruya-tabirleri/search-log", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    keepalive: true,
+    body: JSON.stringify({ query, matchedSlug, resultCount }),
+  }).catch(() => undefined);
+}
 
 export default function RuyaSearch({
   initialQuery = "",
@@ -34,8 +44,17 @@ export default function RuyaSearch({
     return () => window.clearInterval(timer);
   }, []);
 
-  const results = useMemo(() => searchDreams(query), [query]);
+  const resolved = useMemo(() => resolveDreamSearch(query, 8), [query]);
+  const results = useMemo(() => searchDreams(query, 8), [query]);
   const searched = query.trim().length >= 2;
+
+  useEffect(() => {
+    if (!searched) return;
+    const timer = window.setTimeout(() => {
+      logQuery(query, resolved.matchedSlug, resolved.hits.length);
+    }, 700);
+    return () => window.clearTimeout(timer);
+  }, [query, searched, resolved.matchedSlug, resolved.hits.length]);
 
   return (
     <div className="ruyaSearch">
@@ -89,7 +108,7 @@ export default function RuyaSearch({
       ) : null}
       {searched && results.length === 0 ? (
         <p className="ruyaEmpty">
-          Bu rüya için henüz hazır bir yorum bulunmuyor.
+          Bu tam başlık sözlükte yok. Yakın bir sembol yazmayı dene; araman kayda düşer.
         </p>
       ) : null}
     </div>

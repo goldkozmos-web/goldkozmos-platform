@@ -74,7 +74,19 @@ export const restGuides: DreamGuide[] = [
     seoTitle: "Rüyada Bebek Görmek Ne Anlama Gelir? | GoldKozmos",
     metaDescription:
       "Rüyada bebek görmek ne anlama gelir? Yeni başlangıç ve bakım temasını rüyanın detayına göre oku.",
-    searchAliases: ["bebek", "bebek görmek", "rüyada bebek", "bebek doğurmak"],
+    searchAliases: [
+      "bebek",
+      "bebeğim",
+      "bebek görmek",
+      "rüyada bebek",
+      "bebek doğurmak",
+      "erkek bebek",
+      "kız bebek",
+      "bebek emzirmek",
+      "bebek arabası",
+      "kucağında bebek",
+      "ağlayan bebek",
+    ],
     intro:
       "Ana mesaj, henüz kırılgan bir özün alana girdiğidir. Bu her zaman çocuk arzusu değildir. Niyet, kimlik filizi, taze bir yol veya özen isteyen bir kuvvet bebek biçimini alabilir. Bebeğin hali ve senin duruşun, doğmakta olana nasıl baktığını gösterir.\n\nKucakta ağır duran bebek sorumluluğun hissedildiğini; uçup giden bebek henüz köklenmemiş bir başlangıcı; ışık içindeki bebek kutsal bir doğuşu işaret edebilir. Tempo fazla hızlıysa ağlama artar. Koruma yoksa filiz kaybolur gibi durur.",
     spiritualMeaning:
