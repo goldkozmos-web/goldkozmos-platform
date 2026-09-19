@@ -3,6 +3,20 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M7.2 7.2 16.8 16.8M16.8 7.2 7.2 16.8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export default function ProfilimDrawer({
   title,
   eyebrow,
@@ -25,6 +39,7 @@ export default function ProfilimDrawer({
 
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.body.classList.add("hasProfilimDrawer");
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -36,6 +51,7 @@ export default function ProfilimDrawer({
 
     return () => {
       document.body.style.overflow = previous;
+      document.body.classList.remove("hasProfilimDrawer");
       window.removeEventListener("keydown", onKey);
     };
   }, [mounted, onClose]);
@@ -55,7 +71,10 @@ export default function ProfilimDrawer({
 
         <header className="profilimDrawerTop">
           <div>
-            <p className="profilimDrawerEyebrow">{eyebrow}</p>
+            <p className="profilimDrawerEyebrow">
+              <i />
+              {eyebrow}
+            </p>
             <h2 id="profilimDrawerTitle">{title}</h2>
           </div>
 
@@ -65,7 +84,7 @@ export default function ProfilimDrawer({
             onClick={onClose}
             aria-label="Kapat"
           >
-            ×
+            <CloseIcon />
           </button>
         </header>
 
