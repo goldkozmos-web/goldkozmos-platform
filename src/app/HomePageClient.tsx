@@ -2486,9 +2486,9 @@ const homepageArchiveStyles = `
     align-items: flex-start !important;
     justify-content: space-between !important;
     gap: 16px !important;
-    min-height: 124px !important;
+    min-height: 116px !important;
     height: auto !important;
-    padding: 16px 13px 13px !important;
+    padding: 15px 12px 12px !important;
     border-radius: 22px !important;
     box-sizing: border-box !important;
     grid-template-columns: none !important;
@@ -2573,7 +2573,7 @@ const homepageArchiveStyles = `
     margin: 0 !important;
     white-space: normal !important;
     font-family: Georgia, "Times New Roman", serif !important;
-    font-size: 15px !important;
+    font-size: 14.5px !important;
     font-weight: 500 !important;
     line-height: 1.16 !important;
     letter-spacing: -0.03em !important;
@@ -2611,26 +2611,26 @@ const homepageArchiveStyles = `
     margin-left: 0 !important;
     width: auto !important;
     max-width: 100%;
-    min-height: 28px !important;
-    padding: 0 12px !important;
-    border: 0;
-    border-radius: 999px;
-    background: linear-gradient(180deg, #ead089 0%, #c49a3c 52%, #9a7324 100%);
-    color: #1c140c;
+    min-height: 27px !important;
+    padding: 0 11px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, #c9a24a 0%, #8d6718 100%) !important;
+    color: #fff8e8 !important;
     text-decoration: none;
     font-size: 10px !important;
-    font-weight: 750;
+    font-weight: 750 !important;
     letter-spacing: 0.04em;
     white-space: nowrap;
     box-shadow:
-      0 1px 0 rgba(255, 245, 214, 0.85) inset,
-      0 6px 12px rgba(120, 82, 18, 0.22);
+      0 1px 0 rgba(255, 236, 184, 0.55) inset,
+      0 6px 10px rgba(90, 58, 10, 0.22) !important;
     grid-column: auto !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest > a span,
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionCta span {
-    color: inherit;
+    color: inherit !important;
   }
 
   .homeV3Page .homeV3HeroSocials {
