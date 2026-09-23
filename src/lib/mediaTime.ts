@@ -1,19 +1,61 @@
 /** Normalize player clocks so progress never races ahead of the real recording. */
 
-export const MIN_TRUSTED_DURATION_SECONDS = 15;
+/** Ignore Spotify/YouTube preview clocks (~30s) that would fill the bar in seconds. */
+export const MIN_TRUSTED_DURATION_SECONDS = 90;
+const MS_CLOCK_THRESHOLD = 10_000;
+const MAX_EPISODE_SECONDS = 4 * 60 * 60;
 
 /**
  * Spotify IFrame API documents duration/position in milliseconds.
  * Some events (and YouTube) already send seconds. Treat large values as ms.
+ * Values just above a trusted duration are also treated as leftover ms
+ * (e.g. 4500 meaning 4.5s, not 4500s).
  */
-export function secondsFromPlayerClock(value: unknown): number | undefined {
+export function secondsFromPlayerClock(
+  value: unknown,
+  trustedDuration?: number,
+): number | undefined {
   if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
     return undefined;
   }
-  if (value > 10_000) {
+
+  if (value > MS_CLOCK_THRESHOLD) {
     return value / 1000;
   }
+
+  if (
+    trustedDuration != null &&
+    trustedDuration >= MIN_TRUSTED_DURATION_SECONDS &&
+    value > trustedDuration + 2
+  ) {
+    const asMs = value / 1000;
+    if (asMs <= trustedDuration + 1.5) {
+      return asMs;
+    }
+    return undefined;
+  }
+
+  if (value > MAX_EPISODE_SECONDS) {
+    return value / 1000;
+  }
+
   return value;
+}
+
+export function sanitizeStoredSeconds(value: unknown, trustedDuration?: number): number {
+  return secondsFromPlayerClock(value, trustedDuration) ?? 0;
+}
+
+/**
+ * Spotify `playback_update` always reports position and duration in milliseconds,
+ * including values under 10s (1500 === 1.5s, not 1500s).
+ */
+export function secondsFromSpotifyClock(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    return undefined;
+  }
+
+  return value / 1000;
 }
 
 export function normalizePlaybackClocks(data: {
@@ -21,20 +63,88 @@ export function normalizePlaybackClocks(data: {
   duration?: unknown;
   currentTime?: unknown;
 }): { position?: number; duration?: number } {
-  const position = secondsFromPlayerClock(data.position ?? data.currentTime);
-  const duration = secondsFromPlayerClock(data.duration);
-  return { position, duration };
+  return {
+    position: secondsFromSpotifyClock(data.position ?? data.currentTime),
+    duration: secondsFromSpotifyClock(data.duration),
+  };
+}
+
+/**
+ * Player clocks in milliseconds under ~10s look like real seconds
+ * (500 === 0.5s, not 8 minutes). Never let displayed time run ahead
+ * of wall-clock since play started.
+ */
+export function capTimeToWallClock(input: {
+  playerTime: number;
+  startAt: number;
+  openedAtMs: number;
+  nowMs: number;
+}): number | undefined {
+  const { playerTime, startAt, openedAtMs, nowMs } = input;
+
+  if (!Number.isFinite(playerTime) || playerTime < 0) {
+    return undefined;
+  }
+
+  const opened = openedAtMs > 0 ? openedAtMs : nowMs;
+  const elapsed = Math.max(0, (nowMs - opened) / 1000);
+  const start = Math.max(0, Number.isFinite(startAt) ? startAt : 0);
+
+  if (elapsed < 6 && playerTime + 2 < start) {
+    return undefined;
+  }
+
+  const cap = start + elapsed * 1.2 + 1.5;
+
+  if (playerTime > cap + 2) {
+    return undefined;
+  }
+
+  return Math.min(playerTime, cap);
+}
+
+/** YouTube IFrame API clocks are seconds, not milliseconds. */
+export function secondsFromYoutubeClock(value: unknown): number | undefined {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0) {
+    return undefined;
+  }
+
+  if (value > MAX_EPISODE_SECONDS) {
+    return value / 1000;
+  }
+
+  return value;
+}
+
+/** Only resume into a recording when we know its real length. */
+export function youtubeResumeStart(
+  startAt: number,
+  durationSeconds: number,
+): number {
+  if (!isTrustedDuration(durationSeconds) || startAt < 2) {
+    return 0;
+  }
+
+  if (startAt >= durationSeconds - 8) {
+    return 0;
+  }
+
+  return Math.min(startAt, Math.max(0, durationSeconds - 1));
 }
 
 /** Keep a plausible episode length; ignore tiny / preview clocks that inflate %. */
 export function pickTrustedDuration(current: number, incoming?: number): number {
-  if (incoming == null || !Number.isFinite(incoming) || incoming < MIN_TRUSTED_DURATION_SECONDS) {
-    return current;
+  const curr = sanitizeStoredSeconds(current);
+  const next =
+    incoming == null ? undefined : secondsFromPlayerClock(incoming, curr || undefined);
+
+  if (next == null || next < MIN_TRUSTED_DURATION_SECONDS) {
+    return curr;
   }
-  if (current >= 60 && incoming < current * 0.25) {
-    return current;
+  if (curr >= 60 && next < curr * 0.25) {
+    return curr;
   }
-  return incoming;
+  return next;
 }
 
 export function isTrustedDuration(duration: number): boolean {

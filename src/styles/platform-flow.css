@@ -511,6 +511,8 @@
   grid-template-rows: 96px;
   border: 1px solid rgba(232, 196, 118, 0.48);
   border-radius: 22px;
+  touch-action: none;
+  user-select: none;
   background:
     linear-gradient(180deg, rgba(255, 232, 186, 0.10) 0%, transparent 42%),
     linear-gradient(155deg, #2d1e14 0%, #16100c 100%);
@@ -817,4 +819,52 @@
     width: min(420px, calc(100vw - 48px));
   }
 }
+
+.platformYoutubeShell.isMini.isBubble {
+  right: auto;
+  bottom: auto;
+  width: 64px;
+  height: 64px;
+  grid-template-columns: 64px;
+  grid-template-rows: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.platformYoutubeShell.isMini.isDragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+.platformYoutubeShell.isMini.isBubble:not(.isDragging) {
+  transition:
+    left 180ms ease,
+    top 180ms ease,
+    width 180ms ease,
+    height 180ms ease,
+    border-radius 180ms ease;
+}
+
+.platformYoutubeShell.isMini.isBubble .platformYoutubeMiniBar {
+  display: none;
+}
+
+.platformYoutubeShell.isMini.isBubble .platformYoutubeMiniArt,
+.platformYoutubeShell.isMini.isBubble iframe,
+.platformYoutubeShell.isMini.isBubble .platformSpotifyHost,
+.platformYoutubeShell.isMini.isBubble .platformSpotifyHost iframe {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+}
+
+.platformYoutubeShell.isMini.isBubble.isPlaying::after {
+  top: 4px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  border-radius: 999px;
+}
+
 
