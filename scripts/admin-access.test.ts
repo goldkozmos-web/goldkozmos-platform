@@ -77,6 +77,7 @@ test("metric hints stay polite and zeros stay numeric", () => {
   assert.equal(adminMetricHint("members", 1, "Henüz üye yok"), "kayıtlı üye");
   assert.equal(adminMetricHint("visits", 5, "Henüz ziyaret yok"), "toplam");
   assert.equal(adminMetricHint("whatsapp", 3, "Henüz tıklama yok"), "toplam");
+  assert.equal(adminMetricHint("appointments", 1, "Henüz randevu yok"), "toplam");
 });
 
 test("Istanbul day start is a real timestamptz, not a fake clock", () => {

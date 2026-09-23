@@ -21,6 +21,7 @@ import type {
   AdminMemberRow,
   AdminOverviewMetric,
   AdminRangeStats,
+  AdminVisitPoint,
   AdminVisitorRow,
 } from "../../lib/admin/load";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
@@ -36,6 +37,7 @@ export type AdminLiveSnapshot = {
   last30?: AdminRangeStats;
   allTime?: AdminRangeStats;
   activity?: AdminActivityItem[];
+  visitSeries?: AdminVisitPoint[];
 };
 
 type AdminLiveContextValue = {
@@ -208,6 +210,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
         last30: data.last30,
         allTime: data.allTime,
         activity: data.activity ?? [],
+        visitSeries: data.visitSeries ?? [],
       };
       const alerts = diffAdminLive(cursor.current, {
         metrics: snapshot.metrics,
