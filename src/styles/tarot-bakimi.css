@@ -170,37 +170,96 @@
 }
 
 .tarotCta {
+  position: relative;
   overflow: hidden;
-  padding: 0 0 22px;
-  background: #221812;
-  color: #f4ead8;
+  padding: 0;
+  border: 1px solid rgba(212, 175, 55, 0.58);
+  border-radius: 28px;
+  background: #140e0a;
+  color: #f7edd8;
+  box-shadow:
+    0 1px 0 rgba(255, 236, 190, 0.22) inset,
+    0 18px 40px rgba(48, 32, 18, 0.28);
 }
 
 .tarotCtaMedia img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
   object-fit: cover;
-  object-position: 50% 14%;
+  object-position: 50% 12%;
 }
 
 .tarotCtaCopy {
-  padding: 20px 20px 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 84px 22px 22px;
+  background: linear-gradient(
+    180deg,
+    rgba(16, 10, 6, 0) 0%,
+    rgba(16, 10, 6, 0.55) 28%,
+    rgba(12, 8, 5, 0.96) 100%
+  );
+}
+
+.tarotCta .tarotEyebrow {
+  margin: 0 0 8px;
+  color: #e3bc70;
+  letter-spacing: 0.18em;
 }
 
 .tarotCta h2,
 .tarotCta p {
-  color: #f4ead8;
+  color: #fff8ea;
+}
+
+.tarotCta h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 7vw, 32px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.tarotCta p {
+  margin: 10px 0 0;
+  color: #f0e1c4;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.tarotCtaActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .tarotCta .tarotBtn {
-  display: inline-block;
-  margin: 10px 10px 0 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-height: 44px;
+  padding: 0 18px;
+}
+
+.tarotCta .tarotCtaPrimary {
+  background: linear-gradient(180deg, #ead089 0%, #c49a3c 48%, #9a7324 100%);
+  color: #1c140c;
+  box-shadow:
+    0 1px 0 rgba(255, 245, 214, 0.7) inset,
+    0 10px 18px rgba(160, 110, 24, 0.34);
 }
 
 .tarotCta a.tarotGhost {
-  background: transparent;
-  color: #e3bc70;
+  background: rgba(20, 12, 8, 0.28);
+  border: 1px solid rgba(227, 188, 112, 0.55);
+  color: #f3dfad;
 }
 
 .tarotGrid {
