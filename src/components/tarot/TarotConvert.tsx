@@ -1,10 +1,6 @@
 import Link from "next/link";
 
-import {
-  TAROT_RANDEVU_PATH,
-  TAROT_SHOP_PATH,
-  TAROT_WHATSAPP_HREF,
-} from "../../lib/tarot/urls";
+import { TAROT_SHOP_PATH } from "../../lib/tarot/urls";
 
 export default function TarotConvert() {
   return (
@@ -26,17 +22,6 @@ export default function TarotConvert() {
           <div className="tarotCtaActions">
             <a className="tarotBtn tarotCtaPrimary" href={TAROT_SHOP_PATH}>
               Online Tarot Baktır
-            </a>
-            <a className="tarotBtn tarotGhost" href={TAROT_RANDEVU_PATH}>
-              Tarot Randevusu Al
-            </a>
-            <a
-              className="tarotBtn tarotGhost"
-              href={TAROT_WHATSAPP_HREF}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Benimle İletişime Geç
             </a>
           </div>
         </div>
