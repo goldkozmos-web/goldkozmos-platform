@@ -270,6 +270,38 @@ const socials: {
   },
 ];
 
+const heroWorkTiles = [
+  {
+    href: "/calismalar/enerji-calismalari",
+    lines: ["Enerji", "çalışmaları"],
+    cta: "İncele",
+  },
+  {
+    href: "/tarot-bakimi",
+    lines: ["Tarot", "bakımı"],
+    cta: "Bak",
+  },
+  {
+    href: "/kendini-tani",
+    lines: ["Kendini", "tanı"],
+    cta: "Testlere bak",
+  },
+  {
+    href: "/calismalar",
+    lines: ["Tüm", "çalışmalar"],
+    cta: "İncele",
+  },
+  {
+    href: "/calismalar/numeroloji",
+    lines: ["Numeroloji"],
+    cta: "Bak",
+  },
+  {
+    href: "/hakkimda",
+    lines: ["Hakkımda"],
+    cta: "Oku",
+  },
+];
 
 const followChannels: {
   name: string;
@@ -2420,9 +2452,9 @@ const homepageArchiveStyles = `
     grid-column: 1 / -1 !important;
     width: 100% !important;
     display: grid !important;
-    gap: 10px !important;
+    gap: 9px !important;
     margin-top: 0 !important;
-    padding-top: 22px !important;
+    padding-top: 20px !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow {
@@ -2432,7 +2464,7 @@ const homepageArchiveStyles = `
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: stretch !important;
-    gap: 10px !important;
+    gap: 9px !important;
     margin-top: 0 !important;
     padding-top: 0 !important;
     overflow: visible !important;
@@ -2453,23 +2485,25 @@ const homepageArchiveStyles = `
     flex-direction: column !important;
     align-items: flex-start !important;
     justify-content: space-between !important;
-    gap: 14px !important;
-    min-height: 108px !important;
+    gap: 16px !important;
+    min-height: 116px !important;
     height: auto !important;
-    padding: 14px 13px 12px !important;
-    border-radius: 18px !important;
+    padding: 15px 12px 12px !important;
+    border-radius: 22px !important;
     box-sizing: border-box !important;
     grid-template-columns: none !important;
     -webkit-font-smoothing: antialiased !important;
     -moz-osx-font-smoothing: grayscale !important;
     -webkit-tap-highlight-color: transparent;
     background:
-      linear-gradient(180deg, #fffdf8 0%, #f4ead6 100%) !important;
-    border: 1px solid rgba(196, 160, 74, 0.42) !important;
+      radial-gradient(120% 80% at 0% 0%, rgba(255, 255, 255, 0.92), transparent 55%),
+      linear-gradient(165deg, #fffaf1 0%, #f3e4c6 48%, #e7d2a4 100%) !important;
+    border: 1px solid rgba(176, 132, 48, 0.48) !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.88) inset,
-      0 10px 16px rgba(48, 32, 18, 0.12) !important;
-    transition: transform 160ms ease, box-shadow 160ms ease;
+      0 1px 0 rgba(255, 255, 255, 0.95) inset,
+      0 0 0 1px rgba(255, 248, 230, 0.35) inset,
+      0 10px 22px rgba(48, 32, 18, 0.14) !important;
+    transition: transform 180ms ease, box-shadow 180ms ease;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest::before {
@@ -2478,11 +2512,27 @@ const homepageArchiveStyles = `
     inset: 0;
     pointer-events: none;
     background: linear-gradient(
-      115deg,
-      rgba(255, 255, 255, 0.42) 0%,
-      transparent 38%,
-      rgba(255, 244, 214, 0.18) 52%,
-      transparent 68%
+      118deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      transparent 36%,
+      rgba(232, 197, 111, 0.16) 58%,
+      transparent 76%
+    );
+  }
+
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(212, 175, 55, 0.9),
+      transparent
     );
   }
 
@@ -2490,26 +2540,50 @@ const homepageArchiveStyles = `
     display: none !important;
   }
 
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionMark {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    width: 16px;
+    height: 16px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #f3e0b0, #d4af55);
+    color: #4a3414;
+    font-size: 8px;
+    line-height: 1;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+  }
+
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy {
     position: relative;
     z-index: 1;
     width: 100% !important;
     min-width: 0 !important;
+    padding-right: 18px;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    min-height: 2.46em !important;
+    margin: 0 !important;
     white-space: normal !important;
     font-family: Georgia, "Times New Roman", serif !important;
-    font-size: 13.5px !important;
-    font-weight: 400 !important;
-    line-height: 1.18 !important;
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
+    line-height: 1.16 !important;
     letter-spacing: -0.03em !important;
-    color: #211812 !important;
+    color: #1a120c !important;
     text-rendering: geometricPrecision !important;
     -webkit-font-smoothing: antialiased !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTestCopy h2 span {
+    display: block !important;
     color: inherit !important;
   }
 
@@ -2519,7 +2593,7 @@ const homepageArchiveStyles = `
   }
 
   .homeHeroActionCard:active {
-    transform: scale(0.98);
+    transform: scale(0.985);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.8) inset,
       0 6px 12px rgba(48, 32, 18, 0.1) !important;
@@ -2536,24 +2610,27 @@ const homepageArchiveStyles = `
     margin-top: auto !important;
     margin-left: 0 !important;
     width: auto !important;
-    min-height: 26px !important;
+    max-width: 100%;
+    min-height: 27px !important;
     padding: 0 11px !important;
-    border: 1px solid rgba(176, 130, 48, 0.32);
-    border-radius: 999px;
-    background: rgba(255, 250, 241, 0.92);
-    color: #7a5720;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: linear-gradient(180deg, #c9a24a 0%, #8d6718 100%) !important;
+    color: #fff8e8 !important;
     text-decoration: none;
     font-size: 10px !important;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    font-weight: 750 !important;
+    letter-spacing: 0.04em;
     white-space: nowrap;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+    box-shadow:
+      0 1px 0 rgba(255, 236, 184, 0.55) inset,
+      0 6px 10px rgba(90, 58, 10, 0.22) !important;
     grid-column: auto !important;
   }
 
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroMiniTest > a span,
   .homeV3Page .homeV3HeroCard .homeHeroActionRow .homeHeroActionCta span {
-    color: #7a5720;
+    color: inherit !important;
   }
 
   .homeV3Page .homeV3HeroSocials {
@@ -2755,69 +2832,28 @@ export default function HomePageClient() {
             </div>
 
             <div className="homeHeroActionStack">
-              <div className="homeHeroActionRow">
-                <a
-                  className="homeHeroMiniTest homeHeroActionCard"
-                  href="/calismalar/enerji-calismalari"
-                >
-                  <div className="homeHeroMiniTestCopy">
-                    <h2>Enerji çalışmaları</h2>
-                  </div>
-                  <span className="homeHeroActionCta">İncele</span>
-                </a>
-
-                <a
-                  className="homeHeroMiniTest homeHeroActionCard"
-                  href="/tarot-bakimi"
-                >
-                  <div className="homeHeroMiniTestCopy">
-                    <h2>Tarot bakımı</h2>
-                  </div>
-                  <span className="homeHeroActionCta">Bak</span>
-                </a>
-
-                <a
-                  className="homeHeroMiniTest homeHeroActionCard"
-                  href="/kendini-tani"
-                >
-                  <div className="homeHeroMiniTestCopy">
-                    <h2>Kendini tanı</h2>
-                  </div>
-                  <span className="homeHeroActionCta">Testlere bak</span>
-                </a>
-              </div>
-
-              <div className="homeHeroActionRow">
-                <a
-                  className="homeHeroMiniTest homeHeroActionCard"
-                  href="/calismalar"
-                >
-                  <div className="homeHeroMiniTestCopy">
-                    <h2>Tüm çalışmalar</h2>
-                  </div>
-                  <span className="homeHeroActionCta">İncele</span>
-                </a>
-
-                <a
-                  className="homeHeroMiniTest homeHeroActionCard"
-                  href="/calismalar/numeroloji"
-                >
-                  <div className="homeHeroMiniTestCopy">
-                    <h2>Numeroloji</h2>
-                  </div>
-                  <span className="homeHeroActionCta">Bak</span>
-                </a>
-
-                <a
-                  className="homeHeroMiniTest homeHeroActionCard"
-                  href="/hakkimda"
-                >
-                  <div className="homeHeroMiniTestCopy">
-                    <h2>Hakkımda</h2>
-                  </div>
-                  <span className="homeHeroActionCta">Oku</span>
-                </a>
-              </div>
+              {[heroWorkTiles.slice(0, 3), heroWorkTiles.slice(3)].map((row, rowIndex) => (
+                <div className="homeHeroActionRow" key={rowIndex}>
+                  {row.map((tile) => (
+                    <a
+                      className="homeHeroMiniTest homeHeroActionCard"
+                      href={tile.href}
+                      key={tile.href}
+                    >
+                      <span className="homeHeroActionMark" aria-hidden="true">
+                        ✦
+                      </span>
+                      <div className="homeHeroMiniTestCopy">
+                        <h2>
+                          {tile.lines[0]}
+                          {tile.lines[1] ? <span>{tile.lines[1]}</span> : null}
+                        </h2>
+                      </div>
+                      <span className="homeHeroActionCta">{tile.cta}</span>
+                    </a>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>
