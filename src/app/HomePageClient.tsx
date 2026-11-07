@@ -2774,15 +2774,6 @@ export default function HomePageClient() {
                 </div>
               </article>
             ))}
-                    >
-                      {cta.label}
-                      <span>→</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-              );
-            })}
           </div>
         </div>
       </section>
