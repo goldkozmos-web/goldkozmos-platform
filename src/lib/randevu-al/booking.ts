@@ -92,6 +92,13 @@ export const ENERJI_SERVICE_CARDS: RandevuServiceCard[] = [
   },
 ];
 
+export const ENERJI_PACKAGE_CARDS: RandevuServiceCard[] = ENERJI_SERVICE_CARDS.map((service) => ({
+  ...service,
+  name: `${service.name} · Paket Çalışması`,
+  duration: "Paket",
+  note: "Aynı alanda birden fazla görüşme; kapsam ve ücret talep sırasında netleşir.",
+}));
+
 export const BIREBIR_SERVICES = BIREBIR_SERVICE_CARDS.map(
   (service) => service.name,
 );
@@ -112,7 +119,7 @@ export function serviceFromQuery(raw: string | null | undefined) {
   if (["tarot", "tarot-bakimi", "tarot bakımı", "tarot bakimi"].includes(value)) {
     return TAROT_SERVICE_CARD.name;
   }
-  const services = [...BIREBIR_SERVICE_CARDS, ...ENERJI_SERVICE_CARDS, TAROT_SERVICE_CARD];
+  const services = [...BIREBIR_SERVICE_CARDS, ...ENERJI_SERVICE_CARDS, ...ENERJI_PACKAGE_CARDS, TAROT_SERVICE_CARD];
   return services.find((service) => service.name.toLocaleLowerCase("tr-TR") === value)?.name ?? null;
 }
 
