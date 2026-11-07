@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import {
   BIREBIR_SERVICE_CARDS,
   ENERJI_SERVICE_CARDS,
+  ENERJI_PACKAGE_CARDS,
   TAROT_SERVICE_CARD,
   canSubmitRandevuRequest,
   formatRandevuDate,
@@ -244,9 +245,9 @@ export default function RandevuAlBooking() {
             ))}
           </div>
 
-          <p className="randevuAlGroupLabel">Enerji çalışmaları</p>
+          <p className="randevuAlGroupLabel">Kısa Enerji Çalışmaları</p>
           <div className="randevuAlServiceGrid">
-            {ENERJI_SERVICE_CARDS.map((service) => (
+            {[...ENERJI_SERVICE_CARDS, ...ENERJI_PACKAGE_CARDS].map((service) => (
               <ServiceCard
                 key={service.name}
                 service={service}
