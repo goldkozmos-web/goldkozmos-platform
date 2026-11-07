@@ -232,7 +232,7 @@ export default function RandevuAlBooking() {
             />
           </div>
 
-          <p className="randevuAlGroupLabel">Birebir</p>
+          <p className="randevuAlGroupLabel">Tek Günlük ve Paket Çalışmalar</p>
           <div className="randevuAlServiceGrid isPair">
             {BIREBIR_SERVICE_CARDS.map((service) => (
               <ServiceCard
