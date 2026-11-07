@@ -23,7 +23,7 @@ const otherWorks = [
   {
     number: "01",
     title: "Kendilik Rezonansı",
-    text: "Özdeğer, kişisel sınırlar ve onay ihtiyacı üzerine tek günlük ya da paket çalışma.",
+    text: "Özdeğer, özgüven ve sınırlar için tanışma seansı, birebir seans ve beşli paket.",
     image: "/images/services/kendilik-rezonansi.webp",
     href: "/calismalar/kendilik",
     cta: "Çalışmayı İncele",
@@ -31,7 +31,7 @@ const otherWorks = [
   {
     number: "02",
     title: "İlişki Rezonansı",
-    text: "İlişkilerde alma-verme, güven ve tekrar eden döngüler üzerine çalışma.",
+    text: "Birlikte katılan çiftler için iletişim, sevgi, güven ve enerji çalışmaları.",
     image: "/images/services/iliski-rezonansi.webp",
     href: "/calismalar/iliski",
     cta: "Çalışmayı İncele",
@@ -46,8 +46,8 @@ const otherWorks = [
   },
   {
     number: "04",
-    title: "Aşk Çalışması",
-    text: "Geçmiş kırgınlıklar, güven ve kalp alanı üzerine spiritüel çalışma.",
+    title: "Aşk Rezonansı",
+    text: "Geçmiş kırgınlıklar, ayrılık sonrası güven ve yeni ilişkilere açıklık üzerine bireysel seans.",
     image: "/energy/ask-alanini-sifalandir.webp.jpeg",
     href: "/calismalar/ask-ve-iliski",
     cta: "Çalışmayı İncele",
@@ -129,15 +129,15 @@ const books = [
 const faqs = [
   {
     question: "Hangi çalışmadan başlamalıyım?",
-    answer: "Kısa enerji çalışmasında belirli bir konu seçebilir veya Kendilik, İlişki, Bolluk Rezonansı ve Aşk Çalışması arasından ihtiyacına uygun olanı inceleyebilirsin.",
+    answer: "Daha önce GoldKozmos çalışması aldıysan Enerji Rezonansı alanından konu seçebilirsin. İlk kez geliyorsan Kendilik, Aşk, İlişki (çiftlere özel) veya Bolluk Rezonansı seçeneklerini inceleyebilirsin.",
   },
   {
-    question: "Tek günlük çalışma ile paket arasındaki fark nedir?",
-    answer: "Tek günlük çalışma, seçtiğin konuya tek görüşmede odaklanır. Paket çalışması, aynı alanda birden fazla görüşmeyle ilerlemeyi tercih edenler içindir. Kapsam ve ücret randevu öncesi netleştirilir.",
+    question: "Tanışma seansı, tek seans ve paket arasındaki fark nedir?",
+    answer: "Tanışma seansı kısa başlangıç görüşmesidir; birebir seans daha uzun çalışmadır. Kendilik, Aşk ve İlişki paketleri beş ayrı 90 dakikalık seanstır. Bolluk paketi ise beş gün üst üste 40 dakikalık çalışmalardan oluşur. Fiyatlar her hizmet sayfasında belirtilir.",
   },
   {
     question: "Çalışmalar nasıl gerçekleşiyor?",
-    answer: "Kozmik enerji çalışmaları online olarak planlanır. Seçtiğin konuyu, tek günlük ya da paket tercihini ve uygun tarihi randevu formundan iletebilirsin.",
+    answer: "Kozmik enerji çalışmaları online gerçekleşir. Çalışmanı, seans türünü ve uygun tarihi randevu formundan iletebilirsin. Seçtiğin tarih talep niteliğindedir, kesin saat daha sonra netleşir.",
   },
   {
     question: "Rezonans ses kayıtları satın alınabilir mi?",
@@ -191,11 +191,11 @@ const socials: {
 ];
 
 const heroWorkTiles = [
-  { href: "/calismalar/enerji-calismalari", lines: ["Kısa enerji", "çalışması"], cta: "Seç" },
+  { href: "/calismalar/enerji-calismalari", lines: ["Enerji", "Rezonansı"], cta: "Seç" },
   { href: "/calismalar/kendilik", lines: ["Kendilik", "Rezonansı"], cta: "İncele" },
   { href: "/calismalar/iliski", lines: ["İlişki", "Rezonansı"], cta: "İncele" },
   { href: "/calismalar/para", lines: ["Bolluk", "Rezonansı"], cta: "İncele" },
-  { href: "/calismalar/ask-ve-iliski", lines: ["Aşk", "Çalışması"], cta: "İncele" },
+  { href: "/calismalar/ask-ve-iliski", lines: ["Aşk", "Rezonansı"], cta: "İncele" },
   { href: "/calismalar", lines: ["Tüm", "çalışmalar"], cta: "İncele" },
 ];
 
@@ -2747,19 +2747,18 @@ export default function HomePageClient() {
               </p>
 
               <h2>
-                3 Ana
+                4 Ana
                 <span> Rezonans</span>
               </h2>
             </div>
 
             <p>
-              Üç farklı alan. Aynı amaç: kendini ve tekrar
-              eden örüntülerini daha net görmek.
+              Dört çalışma alanı: bireysel ve çiftlere özel seanslar, tanışma görüşmeleri ve beşli paketler.
             </p>
           </div>
 
           <div className="homeV3ResonanceGrid">
-            {WORK_THEMES.slice(0, 3).map((work) => (
+            {WORK_THEMES.map((work) => (
               <article className="homeV3ResonanceCard" key={work.slug}>
                 <a className="homeV3ResonanceImage" href={work.href}>
                   <img src={work.image} alt={work.title} />
@@ -2769,7 +2768,7 @@ export default function HomePageClient() {
                   <h3>{work.title}</h3>
                   <p className="homeV3ResonanceText">{work.description}</p>
                   <div className="homeV3ResonanceBottom">
-                    <a href={work.href}>Tek Günlük veya Paket Seç <span>→</span></a>
+                    <a href={work.href}>Seansları ve Fiyatları Gör <span>→</span></a>
                   </div>
                 </div>
               </article>
