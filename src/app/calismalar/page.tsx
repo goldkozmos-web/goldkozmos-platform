@@ -3,7 +3,7 @@ import HomeNavbar from "../../components/HomeNavbar";
 import FooterSection from "../../components/FooterSection";
 import { energyWorks } from "../../data/energyWorks";
 import "../../styles/home.css";
-import "../../styles/calismalar-only.css";
+import "../../styles/calismalar-hub.css";
 
 export const metadata: Metadata = {
   title: { absolute: "Çalışmalar | GoldKozmos" },
