@@ -2825,11 +2825,7 @@ export default function HomePageClient() {
                       <p>{work.text}</p>
 
                       <div className="homeV3OtherCardBottom">
-                        {"price" in work && work.price ? (
-                          <strong>{work.price}</strong>
-                        ) : (
-                          <span />
-                        )}
+                        <span />
                         <span className="homeV3OtherCardCta">
                           Detayları Gör
                           <span>→</span>
