@@ -1,139 +1,117 @@
-/* Works hub reuses homepage section classes; these bands live in HomePageClient
-   styles on "/", so they need to exist here too. */
-
-.homeV3Page .homeV3LiveArchive {
-  padding: 72px 0 80px;
-  background:
-    radial-gradient(circle at 90% 8%, rgba(177, 128, 43, 0.09), transparent 27%),
-    linear-gradient(180deg, #fbf8f1 0%, #f5eee3 100%);
+/* Only /calismalar. All rules are scoped under .gkWorksOnly. */
+.gkWorksOnly { background:#f7f1e8; color:#37251b; min-height:100vh; }
+.gkWorksOnly * { box-sizing:border-box; }
+.gkWorksOnly a { transition:background-color .2s ease,color .2s ease,transform .2s ease; }
+.gkWorksOnly .gkWorksHero {
+  position:relative; overflow:hidden; padding:84px 24px 78px; color:#fff7e9;
+  background:radial-gradient(ellipse at 86% 25%,rgba(188,137,65,.25),transparent 40%),linear-gradient(145deg,#211711,#39261d 68%,#221711);
 }
-
-.homeV3Page .homeV3AudioEnergy {
-  padding: 78px 0 48px;
-  overflow: hidden;
-  background: #211812;
+.gkWorksOnly .gkWorksHero::after {
+  content:"✧"; pointer-events:none; position:absolute; right:5%; top:4%;
+  font:normal 260px Georgia,serif; color:rgba(220,175,106,.11); line-height:1;
 }
-
-.homeV3Page .homeV3AudioEnergyHeading .homeV3Eyebrow {
-  color: #cda354;
+.gkWorksOnly .gkWorksHeroInner,.gkWorksOnly .gkWorksContainer { width:min(1160px,calc(100% - 40px)); margin:0 auto; }
+.gkWorksOnly .gkWorksHeroInner { position:relative; z-index:1; }
+.gkWorksOnly .gkWorksEyebrow { color:#bd9253; font-size:11px; line-height:1.5; letter-spacing:.18em; font-weight:750; text-transform:uppercase; margin:0 0 15px; }
+.gkWorksOnly .gkWorksHero .gkWorksEyebrow {color:#dfbd7f;}
+.gkWorksOnly .gkWorksHero h1 { font:normal clamp(40px,5.6vw,72px)/1.1 Georgia,"Times New Roman",serif; max-width:870px; letter-spacing:-.035em; margin:0 0 20px; }
+.gkWorksOnly .gkWorksHero h1 em { color:#e3ba70; font-style:italic; font-weight:400; }
+.gkWorksOnly .gkWorksHeroLead { max-width:660px; color:#e3d5c6; font-size:16px; line-height:1.8; margin:0 0 30px; }
+.gkWorksOnly .gkWorksQuickNav { display:flex; flex-wrap:wrap; gap:9px; max-width:930px; }
+.gkWorksOnly .gkWorksQuickNav a {
+  display:inline-flex; align-items:center; padding:10px 16px; min-height:42px;
+  color:#f3e5cf; border:1px solid rgba(225,191,127,.42);
+  border-radius:999px; background:rgba(255,255,255,.045); text-decoration:none; font-size:12px; font-weight:650;
 }
-
-.homeV3Page .homeV3AudioEnergyHeading h2 {
-  color: #fff8ed;
+.gkWorksOnly .gkWorksQuickNav a:hover { background:rgba(225,191,127,.17); }
+.gkWorksOnly .gkWorksContainer { padding:58px 0 95px; }
+.gkWorksOnly #enerji-rezonansi,.gkWorksOnly .gkWorksArea { scroll-margin-top:100px; }
+.gkWorksOnly .gkWorksEnergy {
+  padding:32px; color:#fbf1df; border:1px solid rgba(187,137,60,.5); border-radius:24px;
+  background:linear-gradient(135deg,#251912,#3a271c); box-shadow:0 15px 45px rgba(38,22,12,.11);
 }
-
-.homeV3Page .homeV3AudioEnergyHeading h2 span {
-  color: #d2a654;
+.gkWorksOnly .gkWorksEnergyHeader { display:flex; justify-content:space-between; gap:40px; }
+.gkWorksOnly .gkWorksEnergyHeader h2 { margin:0 0 16px; font:normal clamp(31px,4vw,48px)/1.12 Georgia,serif; color:#fff6e8; }
+.gkWorksOnly .gkWorksEnergyHeader h2 em {font-weight:normal;color:#dfb46d;}
+.gkWorksOnly .gkWorksEnergyHeader p:not(.gkWorksEyebrow) { max-width:770px; color:#e3d3c0; line-height:1.75; font-size:14px; margin:0 0 12px; }
+.gkWorksOnly .gkWorksEnergyHeader .gkWorksEnergyNote {color:#e4cda5!important;font-weight:650;}
+.gkWorksOnly .gkWorksEnergyMark {font:normal 110px/1 Georgia,serif; color:rgba(221,178,104,.39); align-self:flex-start;}
+.gkWorksOnly .gkWorksEnergyDetails { margin-top:25px; border-top:1px solid rgba(231,188,117,.25); padding-top:24px; }
+.gkWorksOnly .gkWorksEnergyDetails summary {
+  display:flex; align-items:center; justify-content:space-between; cursor:pointer; list-style:none;
+  padding:14px 18px; color:#2c1d13; background:#e2bd7a; font-weight:750; border-radius:10px; font-size:14px;
 }
-
-.homeV3Page .homeV3AudioEnergyHeading > p {
-  color: rgba(255, 246, 230, 0.62);
+.gkWorksOnly .gkWorksEnergyDetails summary::-webkit-details-marker {display:none;}
+.gkWorksOnly .gkWorksEnergyDetails[open] summary span {transform:rotate(180deg);}
+.gkWorksOnly .gkWorksEnergyGrid { margin-top:22px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.gkWorksOnly .gkWorksEnergyItem {display:flex; gap:15px; padding:12px; background:#fcf6ed; border-radius:14px; color:#38271c; border:1px solid #e5d5bd; min-width:0;}
+.gkWorksOnly .gkWorksEnergyItem > img {width:98px; min-height:126px; height:auto; max-height:180px; object-fit:cover; flex:0 0 98px; border-radius:10px; background:#55402d;}
+.gkWorksOnly .gkWorksEnergyItemText {display:flex; flex-direction:column; min-width:0; width:100%;}
+.gkWorksOnly .gkWorksEnergyItem h3 {font:normal 21px/1.2 Georgia,serif; margin:3px 0 6px;}
+.gkWorksOnly .gkWorksEnergyItem p {font-size:12px; line-height:1.55; color:#6f5e50; margin:0 0 12px;}
+.gkWorksOnly .gkWorksEnergyItemFoot {display:flex; gap:10px; align-items:center; justify-content:space-between; margin-top:auto; flex-wrap:wrap;}
+.gkWorksOnly .gkWorksEnergyItemFoot strong {font-size:16px; color:#302017;}
+.gkWorksOnly .gkWorksEnergyItemFoot a {padding:8px 12px; background:#39271b; border-radius:8px; color:#f5e5c4; text-decoration:none; font-size:11px;font-weight:700;}
+.gkWorksOnly .gkWorksEnergyItemFoot a:hover {background:#754f27;}
+.gkWorksOnly .gkWorksEnergyPackageLink {display:inline-flex; margin-top:20px; padding:13px 16px; border:1px solid #d9b67d; border-radius:9px; color:#f3d9a5; font-size:13px; font-weight:700;text-decoration:none;}
+.gkWorksOnly .gkWorksEnergyPackageLink:hover {background:rgba(255,255,255,.1);}
+.gkWorksOnly .gkWorksSectionIntro {text-align:center; margin:74px auto 28px; max-width:760px;}
+.gkWorksOnly .gkWorksSectionIntro h2 {font:normal clamp(32px,4.4vw,49px)/1.18 Georgia,serif; margin:0 0 15px;}
+.gkWorksOnly .gkWorksSectionIntro > p:last-child {font-size:14px;color:#6d5c50;line-height:1.75;margin:0;}
+.gkWorksOnly .gkWorksAreas {display:grid; gap:32px;}
+.gkWorksOnly .gkWorksArea {background:#fffaf3; border:1px solid #e5d6c2;border-radius:24px; overflow:hidden; box-shadow:0 12px 42px rgba(49,30,15,.06);}
+.gkWorksOnly .gkWorksAreaHero {display:grid;grid-template-columns: minmax(220px,.68fr) minmax(0,1.32fr);gap:0;align-items:stretch;}
+.gkWorksOnly .gkWorksAreaHero > img {display:block;width:100%;height:100%;max-height:355px;object-fit:cover;object-position:center;}
+.gkWorksOnly .gkWorksAreaInfo {padding:36px 38px 26px;}
+.gkWorksOnly .gkWorksAreaInfo h2 {font:normal clamp(29px,3vw,41px)/1.14 Georgia,serif;margin:0 0 16px;color:#352319;}
+.gkWorksOnly .gkWorksAreaInfo > p:not(.gkWorksEyebrow) {line-height:1.73;color:#685649;font-size:14px;margin:0 0 16px;}
+.gkWorksOnly .gkWorksFocus {padding:0;margin:0;display:flex;gap:7px;flex-wrap:wrap;list-style:none;}
+.gkWorksOnly .gkWorksFocus li {font-size:11px;font-weight:650;color:#76532c;background:#f2e7d6;border-radius:30px;padding:8px 11px;}
+.gkWorksOnly .gkWorksPlans {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:20px;background:#f1e7d9;border-top:1px solid #e1d1bc;}
+.gkWorksOnly .gkWorksPlan {padding:22px;border:1px solid #e5d7c6;border-radius:14px;background:#fffdf9;display:flex;flex-direction:column; min-width:0;}
+.gkWorksOnly .gkWorksPlanDuration {font-size:11px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:#a77d42;line-height:1.4;margin:0 0 12px;}
+.gkWorksOnly .gkWorksPlan h3 {font:normal 23px/1.2 Georgia,serif; color:#332319; margin:0 0 12px;}
+.gkWorksOnly .gkWorksPlanText {margin:0 0 22px;color:#726052;line-height:1.64;font-size:12px;flex:1;}
+.gkWorksOnly .gkWorksPlanFoot {display:flex;flex-direction:column;gap:14px;align-items:flex-start;margin-top:auto;}
+.gkWorksOnly .gkWorksPlanFoot strong {font:normal 28px/1.1 Georgia,serif;color:#342218;}
+.gkWorksOnly .gkWorksPlanFoot a {display:inline-flex; align-items:center;justify-content:center;text-align:center; min-height:43px;padding:12px 14px;border-radius:9px;background:#382519;color:#f6e3b8;text-decoration:none;font-size:12px;font-weight:700;width:100%;}
+.gkWorksOnly .gkWorksPlanFoot a:hover {background:#77522d;}
+.gkWorksOnly .gkWorksClosing {margin-top:55px;padding:32px 38px;border-top:1px solid #dccab0;text-align:center;}
+.gkWorksOnly .gkWorksClosing h2 {font:normal 34px/1.2 Georgia,serif;margin:0 0 15px;}
+.gkWorksOnly .gkWorksClosing > p:not(.gkWorksEyebrow) {max-width:790px;margin:0 auto 14px;color:#6c5b4e;font-size:14px;line-height:1.8;}
+.gkWorksOnly .gkWorksClosing .gkWorksDisclaimer {font-size:12px!important;color:#887669!important;}
+@media (max-width:900px){
+  .gkWorksOnly .gkWorksAreas {gap:20px;}
+  .gkWorksOnly .gkWorksAreaInfo {padding:24px;}
+  .gkWorksOnly .gkWorksPlans {gap:8px;padding:12px;}
+  .gkWorksOnly .gkWorksPlan {padding:16px;}
+  .gkWorksOnly .gkWorksPlan h3 {font-size:20px;}
+  .gkWorksOnly .gkWorksEnergyGrid {grid-template-columns:1fr;}
 }
-
-.homeV3Page .homeV3AudioEnergyProduct {
-  overflow: hidden;
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(63, 42, 20, 0.05);
-}
-
-.homeV3Page .homeV3AudioEnergyBottom,
-.homeV3Page .homeV3LiveArchiveBottom,
-.homeV3Page .homeV3ResonanceBottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.homeV3Page .homeV3AudioEnergyBottom a,
-.homeV3Page .homeV3LiveArchiveBottom a,
-.homeV3Page .homeV3ResonanceBottom a {
-  color: #98732f;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.calismalarHub .homeV3ResonanceImage,
-.calismalarHub .homeV3OtherVisual,
-.calismalarHub .homeV3LiveArchiveImage,
-.calismalarHub .homeV3AudioEnergyImage {
-  display: block !important;
-  width: 100% !important;
-  aspect-ratio: 1 / 1 !important;
-  height: auto !important;
-  overflow: hidden !important;
-  background: #17130f;
-}
-
-.calismalarHub .homeV3ResonanceImage img,
-.calismalarHub .homeV3OtherVisual img,
-.calismalarHub .homeV3LiveArchiveImage img,
-.calismalarHub .homeV3AudioEnergyImage img {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-}
-
-.homeV3Page.calismalarHub > .homeV3Resonance {
-  padding-bottom: 16px !important;
-}
-
-.homeV3Page.calismalarHub > .homeV3Resonance .homeV3ResonanceGrid {
-  padding-bottom: 0 !important;
-  margin-bottom: 0 !important;
-}
-
-.homeV3Page.calismalarHub > .homeV3Other {
-  padding-top: 20px !important;
-}
-
-.calismalarHub .homeV3LiveArchive {
-  padding-bottom: 28px;
-}
-
-@media (max-width: 700px) {
-  .homeV3Page.calismalarHub > .homeV3Resonance {
-    padding-bottom: 16px !important;
-  }
-
-  .homeV3Page.calismalarHub > .homeV3Other {
-    padding-top: 16px !important;
-  }
-
-  .calismalarHub .homeV3ResonanceGrid {
-    display: flex !important;
-    flex-wrap: nowrap !important;
-    gap: 12px !important;
-    overflow-x: auto !important;
-    padding: 0 16px 0 !important;
-    scroll-snap-type: x mandatory !important;
-    scrollbar-width: none !important;
-  }
-
-  .calismalarHub .homeV3ResonanceGrid::-webkit-scrollbar {
-    display: none !important;
-  }
-
-  .calismalarHub .homeV3ResonanceCard {
-    flex: 0 0 min(68vw, 240px) !important;
-    width: min(68vw, 240px) !important;
-    max-width: 240px !important;
-    min-width: 0 !important;
-    scroll-snap-align: start !important;
-    overflow: hidden !important;
-    border-radius: 20px !important;
-    background: #fff !important;
-  }
-}
-
-@media (min-width: 701px) {
-  .calismalarHub .homeV3LiveArchiveInner .homeV3ResonanceGrid,
-  .calismalarHub .homeV3AudioEnergyInner .homeV3ResonanceGrid,
-  .calismalarHub .homeV3PersonalLeft .homeV3ResonanceGrid {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 260px)) !important;
-    gap: 16px !important;
-  }
+@media (max-width:650px){
+  .gkWorksOnly .gkWorksHero {padding:55px 0 55px;}
+  .gkWorksOnly .gkWorksHeroInner,.gkWorksOnly .gkWorksContainer {width:calc(100% - 32px);}
+  .gkWorksOnly .gkWorksHero h1 {font-size:clamp(38px,9.8vw,51px);}
+  .gkWorksOnly .gkWorksHeroLead {font-size:14px;}
+  .gkWorksOnly .gkWorksQuickNav {gap:7px;}
+  .gkWorksOnly .gkWorksQuickNav a {font-size:11px;padding:8px 11px;min-height:37px;}
+  .gkWorksOnly .gkWorksContainer {padding:28px 0 65px;}
+  .gkWorksOnly .gkWorksEnergy {padding:21px 17px;border-radius:17px;}
+  .gkWorksOnly .gkWorksEnergyMark {display:none;}
+  .gkWorksOnly .gkWorksEnergyGrid {gap:9px;}
+  .gkWorksOnly .gkWorksEnergyItem {gap:10px;padding:9px;}
+  .gkWorksOnly .gkWorksEnergyItem > img {width:75px;flex-basis:75px;min-height:120px;}
+  .gkWorksOnly .gkWorksEnergyItem h3 {font-size:17px;}
+  .gkWorksOnly .gkWorksEnergyItem p {font-size:11px;}
+  .gkWorksOnly .gkWorksSectionIntro {margin:56px 6px 22px;}
+  .gkWorksOnly .gkWorksAreaHero {grid-template-columns:1fr;}
+  .gkWorksOnly .gkWorksAreaHero > img {height:205px;max-height:none;}
+  .gkWorksOnly .gkWorksAreaInfo {padding:25px 20px;}
+  .gkWorksOnly .gkWorksAreaInfo h2 {font-size:30px;}
+  .gkWorksOnly .gkWorksPlans {grid-template-columns:1fr;padding:12px;gap:10px;}
+  .gkWorksOnly .gkWorksPlan {padding:20px;}
+  .gkWorksOnly .gkWorksPlanText {margin-bottom:17px;}
+  .gkWorksOnly .gkWorksPlanFoot {gap:12px;}
+  .gkWorksOnly .gkWorksClosing {margin-top:30px;padding:26px 12px;}
+  .gkWorksOnly .gkWorksClosing h2 {font-size:28px;}
 }
