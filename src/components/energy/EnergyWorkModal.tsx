@@ -97,10 +97,10 @@ export default function EnergyWorkModal({
 
         <div className="energyWorkModalBody">
           <p className="energyWorkModalEyebrow">
-            BİREBİR ENERJİ ÇALIŞMASI
+            ENERJİ REZONANSI · MEVCUT DANIŞANLARA ÖZEL
           </p>
 
-          <h2 id={titleId}>{work.title}</h2>
+          <h2 id={titleId}>{work.title}</h2>\n          <p>Bu bölümden yalnızca daha önce GoldKozmos çalışmasına katılmış danışanlarımız yararlanabilir.</p>
 
           <p className="energyWorkModalPrice">
             {work.priceLabel}
