@@ -233,7 +233,7 @@ export default function RandevuAlBooking() {
             />
           </div>
 
-          <p className="randevuAlGroupLabel">Tek Günlük ve Paket Çalışmalar</p>
+          <p className="randevuAlGroupLabel">Rezonans Seansları ve Paketleri</p>
           <div className="randevuAlServiceGrid isPair">
             {BIREBIR_SERVICE_CARDS.map((service) => (
               <ServiceCard
@@ -245,7 +245,7 @@ export default function RandevuAlBooking() {
             ))}
           </div>
 
-          <p className="randevuAlGroupLabel">Kısa Enerji Çalışmaları</p>
+          <p className="randevuAlGroupLabel">Enerji Rezonansı · Yalnızca Önceki Danışanlar</p>
           <div className="randevuAlServiceGrid">
             {[...ENERJI_SERVICE_CARDS, ...ENERJI_PACKAGE_CARDS].map((service) => (
               <ServiceCard
