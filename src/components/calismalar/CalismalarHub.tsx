@@ -1,148 +1,41 @@
-import FooterSection from "../FooterSection";
 import HomeNavbar from "../HomeNavbar";
-import {
-  WORK_HUB_SECTIONS,
-  allWorkCards,
-  type WorkCard,
-} from "../../data/worksCatalog";
-import "../../styles/hub-seo.css";
-
-function isExternal(href: string) {
-  return href.startsWith("http");
-}
-
-function linkProps(href: string) {
-  return isExternal(href)
-    ? { href, target: "_blank" as const, rel: "noreferrer" }
-    : { href };
-}
-
-function WorkCards({ items }: { items: WorkCard[] }) {
-  return (
-    <div className="homeV3ResonanceGrid">
-      {items.map((item, index) => (
-        <article className="homeV3ResonanceCard" key={item.title}>
-          <a className="homeV3ResonanceImage" {...linkProps(item.href)}>
-            <img src={item.image} alt={item.title} />
-          </a>
-          <div className="homeV3ResonanceContent">
-            <p className="homeV3CardEyebrow">
-              {item.eyebrow ??
-                `${String(index + 1).padStart(2, "0")} · ${item.title.split(" ")[0].toUpperCase()}`}
-            </p>
-            <h3>{item.title}</h3>
-            <p className="homeV3ResonanceText">{item.text}</p>
-            <div className="homeV3ResonanceBottom">
-              {item.price ? <strong>{item.price}</strong> : <span />}
-              <a {...linkProps(item.href)}>
-                {item.cta}
-                <span>{isExternal(item.href) ? "↗" : "→"}</span>
-              </a>
-            </div>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
+import FooterSection from "../FooterSection";
+import { WORK_THEMES } from "../../data/simplifiedWorks";
+import "../../styles/home.css";
+import "../../styles/simplified-works.css";
 
 export default function CalismalarHub() {
-  const cards = allWorkCards();
-
   return (
-    <main className="homeV3Page gkRouteIn calismalarHub" id="top">
+    <main className="homeV3Page gkSimpleWorks" id="top">
       <HomeNavbar />
-
-      <div className="calismalarHubIntro">
-        <h1>Çalışmalar</h1>
-        <p>
-          Çalışmalar, GoldKozmos’un hizmet hub’ıdır. Numeroloji Analizi, Online
-          Tarot Bakımı, birebir seanslar ve enerji çalışmaları buradan kendi
-          sayfalarına gider. Aynı hizmet için ikinci bir landing üretilmez.
-          7 Çakra Dengeleme Çalışması enerji katalogundadır.
-        </p>
-      </div>
-
-      {WORK_HUB_SECTIONS.map((section) => {
-        const items = cards.filter((item) => item.group === section.id);
-        if (!items.length) return null;
-        const heading = (
-          <>
-            <p className="homeV3Eyebrow">{section.eyebrow}</p>
-            <h2>
-              {section.title}
-              <span> {section.accent}</span>
-            </h2>
-          </>
-        );
-
-        if (section.variant === "other") {
-          return (
-            <section className="homeV3Other" id={section.id} key={section.id}>
-              <div className="homeV3Container">
-                <div className="homeV3PersonalHub">
-                  <div className="homeV3PersonalLeft">
-                    <div className="homeV3PersonalHeading">
-                      {heading}
-                      <p className="homeV3PersonalDescription">{section.lead}</p>
-                    </div>
-                    <WorkCards items={items} />
-                  </div>
-                </div>
+      <section className="gkSimpleIntro">
+        <p className="gkSimpleKicker">GOLDKOZMOS · KOZMİK ENERJİ ÇALIŞMALARI</p>
+        <h1>İhtiyacına uygun rezonans alanını seç.</h1>
+        <p>Dört tematik rezonans alanı ve önceki danışanlarımıza özel Enerji Rezonansı tek yerde. Her alanın seans süresi, kapsamı ve fiyatı kendi sayfasında açıkça belirtilir.</p>
+        <div className="gkSimpleEnergy">
+          <div>
+            <p className="gkSimpleKicker">01 · MEVCUT DANIŞANLARA ÖZEL</p>
+            <h2>Enerji Rezonansı</h2>
+            <p>Yalnızca daha önce GoldKozmos’tan çalışma almış danışanlara yönelik. Çakra, karma, nazar, mekân enerjisi ve diğer konulardan ihtiyacına uygun olanı seçebilir, mevcut tekil çalışmaların yanında paket talebinde bulunabilirsin.</p>
+          </div>
+          <a href="/calismalar/enerji-calismalari">Çalışmaları Seç →</a>
+        </div>
+        <div className="gkSimpleCards">
+          {WORK_THEMES.map((work, index) => (
+            <article className="gkSimpleCard" key={work.slug}>
+              <img src={work.image} alt={work.title} loading="lazy" />
+              <div className="gkSimpleCardBody">
+                <p className="gkSimpleKicker">{String(index + 2).padStart(2, "0")} · {work.eyebrow}</p>
+                <h2>{work.title}</h2>
+                <p className="gkSimpleCardSummary">{work.description}</p>
+                <p>Tanışma Seansı · {work.options[1].title} · {work.options[2].title}</p>
+                <a href={work.href}>Seçenekleri ve fiyatları gör →</a>
               </div>
-            </section>
-          );
-        }
-
-        if (section.variant === "energy") {
-          return (
-            <section
-              className="homeV3AudioEnergy"
-              id={section.id}
-              key={section.id}
-            >
-              <div className="homeV3AudioEnergyInner">
-                <div className="homeV3AudioEnergyHeading">
-                  <div>{heading}</div>
-                  <p>{section.lead}</p>
-                </div>
-                <WorkCards items={items} />
-              </div>
-            </section>
-          );
-        }
-
-        if (section.variant === "archive") {
-          return (
-            <section
-              className="homeV3LiveArchive"
-              id={section.id}
-              key={section.id}
-            >
-              <div className="homeV3LiveArchiveInner">
-                <div className="homeV3LiveArchiveHeading">
-                  <div>{heading}</div>
-                  <p>{section.lead}</p>
-                </div>
-                <WorkCards items={items} />
-              </div>
-            </section>
-          );
-        }
-
-        return (
-          <section className="homeV3Resonance" id={section.id} key={section.id}>
-            <div className="homeV3Container">
-              <div className="homeV3SectionHeading">
-                <div>{heading}</div>
-                <p>{section.lead}</p>
-              </div>
-              <WorkCards items={items} />
-            </div>
-          </section>
-        );
-      })}
-
+            </article>
+          ))}
+        </div>
+        <p className="gkSimpleDisclaimer">Çalışmalar kişisel ve spiritüel farkındalık amaçlıdır. Henüz hazırlanmayan rezonans eğitim ses kayıtları burada satışa sunulmaz.</p>
+      </section>
       <FooterSection />
     </main>
   );

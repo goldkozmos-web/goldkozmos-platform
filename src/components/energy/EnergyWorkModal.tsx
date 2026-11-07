@@ -97,10 +97,11 @@ export default function EnergyWorkModal({
 
         <div className="energyWorkModalBody">
           <p className="energyWorkModalEyebrow">
-            BİREBİR ENERJİ ÇALIŞMASI
+            ENERJİ REZONANSI · MEVCUT DANIŞANLARA ÖZEL
           </p>
 
           <h2 id={titleId}>{work.title}</h2>
+          <p>Bu bölümden yalnızca daha önce GoldKozmos çalışmasına katılmış danışanlarımız yararlanabilir.</p>
 
           <p className="energyWorkModalPrice">
             {work.priceLabel}
@@ -139,6 +140,15 @@ export default function EnergyWorkModal({
             rel="noopener noreferrer"
           >
             Şimdi Satın Al
+            <span aria-hidden="true">→</span>
+          </a>
+
+          <a
+            className="energyWorkModalBuy"
+            style={{ marginTop: 12, background: "#f4e8d4", color: "#32231b" }}
+            href={`/randevu-al?service=${encodeURIComponent(work.title + " · Paket Çalışması")}`}
+          >
+            Bu Konuda Paket Çalışması İste
             <span aria-hidden="true">→</span>
           </a>
 

@@ -11,10 +11,8 @@ export default function HomeNavbar() {
 
   const atHome = pathname === "/";
 
-  const workshopsHref = atHome
-    ? "#rezonans"
-    : "/#rezonans";
-  const worksHref = atHome ? "#diger" : "/#diger";
+  const workshopsHref = "/calismalar";
+  const worksHref = "/calismalar";
   const faqHref = atHome ? "#sss" : "/#sss";
 
   function closeMenu() {
@@ -34,7 +32,7 @@ export default function HomeNavbar() {
         <nav className="homeV3Menu">
           <a href="/">Ana Sayfa</a>
           <a href={workshopsHref}>Atölyeler</a>
-          <a href="/rezonans-egitimleri">
+          <a href="/calismalar">
             Eğitimler
           </a>
           <a href={worksHref}>Çalışmalar</a>
@@ -100,7 +98,7 @@ export default function HomeNavbar() {
             Atölyeler
           </a>
           <a
-            href="/rezonans-egitimleri"
+            href="/calismalar"
             onClick={closeMenu}
           >
             Eğitimler

@@ -8,11 +8,7 @@ import DailyActionCard from "../components/daily/DailyActionCard";
 import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeGoldAction from "../components/daily/HomeGoldAction";
 import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
-import {
-  getEducationCourses,
-  getEducationHubHref,
-  getEducationPrimaryCta,
-} from "../data/education";
+import { WORK_THEMES } from "../data/simplifiedWorks";
 
 type SocialPlatform =
   | "instagram"
@@ -26,35 +22,35 @@ type SocialPlatform =
 const otherWorks = [
   {
     number: "01",
-    title: "Tek Birebir Seans",
-    text: "Belirli bir konuya odaklanan 90 dakikalık birebir görüşme.",
-    image: "/images/services/birebir-seans.webp",
-    href: "/calismalar/enerji-calismalari",
-    cta: "Detayları Gör",
+    title: "Kendilik Rezonansı",
+    text: "Özdeğer, özgüven ve sınırlar için tanışma seansı, birebir seans ve beşli paket.",
+    image: "/images/services/kendilik-rezonansi.webp",
+    href: "/calismalar/kendilik",
+    cta: "Çalışmayı İncele",
   },
   {
     number: "02",
-    title: "5 Günlük Yoğun Paket",
-    text: "Beş gün boyunca aynı konu üzerinde birebir ilerleyen yoğun çalışma.",
-    image: "/images/services/5-gunluk-yogun-paket.webp",
-    price: "5.000 TL",
-    href: "/calismalar/birebir-seanslar",
+    title: "İlişki Rezonansı",
+    text: "Birlikte katılan çiftler için iletişim, sevgi, güven ve enerji çalışmaları.",
+    image: "/images/services/iliski-rezonansi.webp",
+    href: "/calismalar/iliski",
+    cta: "Çalışmayı İncele",
   },
   {
     number: "03",
-    title: "Tarot Farkındalık Okuması",
-    text: "Kartların sembolik dili üzerinden mevcut durumuna farklı bir açıdan bak.",
-    image: "/images/services/tarot-farkindalik.webp",
-    price: "600 TL",
-    href: "/calismalar/tarot",
+    title: "Bolluk Rezonansı",
+    text: "Para ile kurduğun ilişki, bereket ve değer algısına odaklanan çalışma.",
+    image: "/images/services/bolluk-rezonansi.webp",
+    href: "/calismalar/para",
+    cta: "Çalışmayı İncele",
   },
   {
     number: "04",
-    title: "Numeroloji Analizi",
-    text: "Doğum tarihi ve isim üzerinden kişisel eğilimlerini sembolik olarak incele.",
-    image: "/images/services/numeroloji-analizi.webp",
-    price: "350 TL",
-    href: "/calismalar/numeroloji",
+    title: "Aşk Rezonansı",
+    text: "Geçmiş kırgınlıklar, ayrılık sonrası güven ve yeni ilişkilere açıklık üzerine bireysel seans.",
+    image: "/energy/ask-alanini-sifalandir.webp.jpeg",
+    href: "/calismalar/ask-ve-iliski",
+    cta: "Çalışmayı İncele",
   },
 ];
 
@@ -132,104 +128,28 @@ const books = [
 
 const faqs = [
   {
-    question: "Rezonans Atölyeleri online mı gerçekleşiyor?",
-    answer:
-      "Evet. Rezonans Atölyeleri Google Meet üzerinden çevrim içi olarak gerçekleştirilir.",
-  },
-  {
     question: "Hangi çalışmadan başlamalıyım?",
-    answer:
-      "Kendilik Rezonansı temel başlangıç alanıdır. Kendinle kurduğun ilişkiyi, özdeğerini, sınırlarını ve tekrar eden kişisel örüntülerini gördükten sonra İlişki veya Bolluk Rezonansı ile devam edebilirsin.",
+    answer: "Daha önce GoldKozmos çalışması aldıysan Enerji Rezonansı alanından konu seçebilirsin. İlk kez geliyorsan Kendilik, Aşk, İlişki (çiftlere özel) veya Bolluk Rezonansı seçeneklerini inceleyebilirsin.",
   },
   {
-    question: "Rezonans Atölyeleri kaç gün sürüyor?",
-    answer:
-      "Ana Rezonans Atölyeleri 5 günlük yapı üzerinden ilerler. Çalışmanın içeriğine göre oturumlar, PDF özetleri ve kişisel uygulamalar programa dahil edilebilir.",
+    question: "Tanışma seansı, tek seans ve paket arasındaki fark nedir?",
+    answer: "Tanışma seansı kısa başlangıç görüşmesidir; birebir seans daha uzun çalışmadır. Kendilik, Aşk ve İlişki paketleri beş ayrı 90 dakikalık seanstır. Bolluk paketi ise beş gün üst üste 40 dakikalık çalışmalardan oluşur. Fiyatlar her hizmet sayfasında belirtilir.",
   },
   {
-    question: "Atölyelerde kayıt veya materyal veriliyor mu?",
-    answer:
-      "Çalışmaya göre PDF özetleri, ev çalışmaları veya destekleyici materyaller paylaşılabilir. İlgili çalışmanın sayfasında dahil olan içerikler ayrıca belirtilir.",
+    question: "Çalışmalar nasıl gerçekleşiyor?",
+    answer: "Kozmik enerji çalışmaları online gerçekleşir. Çalışmanı, seans türünü ve uygun tarihi randevu formundan iletebilirsin. Seçtiğin tarih talep niteliğindedir, kesin saat daha sonra netleşir.",
   },
   {
-    question: "Birebir çalışma seçenekleri neler?",
-    answer:
-      "Belirli bir konuya odaklanan tek birebir seans veya aynı konu üzerinde birkaç gün boyunca ilerleyen yoğun birebir paket seçenekleri bulunur.",
+    question: "Rezonans ses kayıtları satın alınabilir mi?",
+    answer: "Yeni rezonans ses kayıtları henüz hazırlanıyor. Kendilik, İlişki ve Bolluk alanlarındaki kişisel çalışmalar ise ayrı çalışma sayfalarından talep edilebilir.",
   },
   {
-    question: "Tek birebir seans nasıl ilerliyor?",
-    answer:
-      "Tek birebir seans, belirlediğin bir konuya odaklanan kişisel bir görüşmedir. Seansın amacı konuyu daha net görmek, tekrar eden örüntüleri fark etmek ve üzerinde çalışacağın alanı belirlemektir.",
+    question: "GoldKozmos çalışmaları terapi yerine geçer mi?",
+    answer: "Hayır. Çalışmalar spiritüel farkındalık ve kişisel gelişim amaçlıdır; psikoterapi, tıbbi teşhis veya tedavi yerine geçmez.",
   },
   {
-    question: "5 günlük yoğun paket kimler için uygun?",
-    answer:
-      "Tek bir konuya daha yoğun şekilde odaklanmak ve birkaç gün boyunca aynı başlık üzerinde ilerlemek isteyenler için hazırlanmıştır.",
-  },
-  {
-    question: "Tarot Farkındalık Okuması nedir?",
-    answer:
-      "Tarot Farkındalık Okuması, kartların sembolik dili üzerinden mevcut durumuna farklı bir açıdan bakmana yardımcı olan kişisel farkındalık çalışmasıdır. Kesin gelecek vaadi veya garanti sunmaz.",
-  },
-  {
-    question: "Numeroloji Analizi nasıl hazırlanıyor?",
-    answer:
-      "Numeroloji Analizi doğum tarihi ve isim bilgileri üzerinden hazırlanır ve sembolik eğilimlerini inceleyen dijital bir analiz olarak sunulur.",
-  },
-  {
-    question: "Canlı yayın kayıtlarına sonradan erişebilir miyim?",
-    answer:
-      "Satışa açılan geçmiş canlı çalışmalar, kayıtlı içerik olarak kendi zamanında izleyebileceğin veya dinleyebileceğin şekilde sunulur.",
-  },
-  {
-    question: "Canlı kayıt ile ses kaydı arasındaki fark nedir?",
-    answer:
-      "Canlı kayıtlar daha önce grup halinde gerçekleştirilen çalışmaların kayıtlı versiyonlarıdır. Ses kayıtları ise baştan dijital dinleme deneyimi için hazırlanmış yönlendirmeli içeriklerdir.",
-  },
-  {
-    question: "Ses kayıtlarını ne zaman dinleyebilirim?",
-    answer:
-      "Satın aldıktan ve erişim bilgilerini aldıktan sonra kaydı kendi zamanında dinleyebilirsin. Uygulama için sakin ve bölünmeyeceğin bir zaman seçmen önerilir.",
-  },
-  {
-    question: "Ses kayıtları kaç kez dinlenebilir?",
-    answer:
-      "İlgili ürünün erişim koşulları izin verdiği sürece kaydı kendi ihtiyacına göre tekrar dinleyebilirsin. Ürüne özel farklı bir koşul varsa ürün açıklamasında ayrıca belirtilir.",
-  },
-  {
-    question: "GoldFrekans nedir?",
-    answer:
-      "GoldFrekans, Goldkozmos’un ücretsiz doğa sesleri, meditasyon müzikleri ve frekans içeriklerini bir araya getiren YouTube dinleme kütüphanesidir.",
-  },
-  {
-    question: "GoldCast içeriklerini nereden dinleyebilirim?",
-    answer:
-      "GoldCast bölümlerine web sitesindeki GoldCast sayfasından ulaşabilir; ilgili içeriği YouTube veya Spotify üzerinden açabilirsin.",
-  },
-  {
-    question: "GoldBook içerikleri nasıl satın alınır?",
-    answer:
-      "GoldBook çalışmalarını ilgili ürün kartındaki Shopier bağlantısı üzerinden satın alabilirsin. Satın alım sonrası dijital ürün erişimi ürün koşullarına göre iletilir.",
-  },
-  {
-    question: "Dijital ürünlerde teslimat nasıl gerçekleşiyor?",
-    answer:
-      "Dijital ürünlerde fiziksel kargo bulunmaz. Ürünün türüne göre dosya, kayıt veya erişim bilgileri dijital olarak iletilir.",
-  },
-  {
-    question: "Satın almadan önce bana uygun çalışmayı nasıl seçebilirim?",
-    answer:
-      "Sitedeki ücretsiz test ve çalışma açıklamalarından yararlanabilirsin. Kararsız kaldığında içeriklerin kapsamını karşılaştırarak ihtiyacına en yakın alanı seçebilirsin.",
-  },
-  {
-    question: "Goldkozmos çalışmaları terapi yerine geçer mi?",
-    answer:
-      "Hayır. Goldkozmos içerikleri ve çalışmaları kişisel farkındalık ve bireysel gelişim amacıyla hazırlanır; psikoterapi, psikolojik danışmanlık, tıbbi teşhis veya tedavi yerine geçmez.",
-  },
-  {
-    question: "Yeni çalışmalar ve duyurulardan nasıl haberdar olabilirim?",
-    answer:
-      "Yeni çalışmalar, kayıtlar ve yayınlar için Goldkozmos’un Instagram, WhatsApp Kanalı, TikTok, X, Threads ve YouTube hesaplarını takip edebilirsin.",
+    question: "Yeni içeriklerden nasıl haberdar olabilirim?",
+    answer: "Duyurular ve kolektif çalışmalar için GoldKozmos Instagram ve GoldÇember kanalını takip edebilirsin.",
   },
 ];
 
@@ -271,36 +191,12 @@ const socials: {
 ];
 
 const heroWorkTiles = [
-  {
-    href: "/calismalar/enerji-calismalari",
-    lines: ["Enerji", "çalışmaları"],
-    cta: "İncele",
-  },
-  {
-    href: "/tarot-bakimi",
-    lines: ["Tarot", "bakımı"],
-    cta: "Bak",
-  },
-  {
-    href: "/kendini-tani",
-    lines: ["Kendini", "tanı"],
-    cta: "Testlere bak",
-  },
-  {
-    href: "/calismalar",
-    lines: ["Tüm", "çalışmalar"],
-    cta: "İncele",
-  },
-  {
-    href: "/calismalar/numeroloji",
-    lines: ["Numeroloji"],
-    cta: "Bak",
-  },
-  {
-    href: "/hakkimda",
-    lines: ["Hakkımda"],
-    cta: "Oku",
-  },
+  { href: "/calismalar/enerji-calismalari", lines: ["Enerji", "Rezonansı"], cta: "Seç" },
+  { href: "/calismalar/kendilik", lines: ["Kendilik", "Rezonansı"], cta: "İncele" },
+  { href: "/calismalar/iliski", lines: ["İlişki", "Rezonansı"], cta: "İncele" },
+  { href: "/calismalar/para", lines: ["Bolluk", "Rezonansı"], cta: "İncele" },
+  { href: "/calismalar/ask-ve-iliski", lines: ["Aşk", "Rezonansı"], cta: "İncele" },
+  { href: "/calismalar", lines: ["Tüm", "çalışmalar"], cta: "İncele" },
 ];
 
 const followChannels: {
@@ -2847,70 +2743,36 @@ export default function HomePageClient() {
           <div className="homeV3SectionHeading">
             <div>
               <p className="homeV3Eyebrow">
-                REZONANS EĞİTİMLERİ
+                REZONANS ÇALIŞMALARI
               </p>
 
               <h2>
-                3 Ana
+                4 Ana
                 <span> Rezonans</span>
               </h2>
             </div>
 
             <p>
-              Üç farklı alan. Aynı amaç: kendini ve tekrar
-              eden örüntülerini daha net görmek.
+              Dört çalışma alanı: bireysel ve çiftlere özel seanslar, tanışma görüşmeleri ve beşli paketler.
             </p>
           </div>
 
           <div className="homeV3ResonanceGrid">
-            {getEducationCourses().map((course) => {
-              const cta = getEducationPrimaryCta(course);
-              const hubHref = getEducationHubHref(course);
-
-              return (
-              <article
-                className="homeV3ResonanceCard"
-                key={course.id}
-              >
-                <a
-                  className="homeV3ResonanceImage"
-                  href={hubHref}
-                >
-                  <img
-                    src={course.coverImage}
-                    alt={course.title}
-                  />
+            {WORK_THEMES.map((work) => (
+              <article className="homeV3ResonanceCard" key={work.slug}>
+                <a className="homeV3ResonanceImage" href={work.href}>
+                  <img src={work.image} alt={work.title} />
                 </a>
-
                 <div className="homeV3ResonanceContent">
-                  <p className="homeV3CardEyebrow">
-                    {course.eyebrow}
-                  </p>
-
-                  <h3>{course.title}</h3>
-
-                  <p className="homeV3ResonanceText">
-                    {course.homeSummary}
-                  </p>
-
+                  <p className="homeV3CardEyebrow">{work.eyebrow}</p>
+                  <h3>{work.title}</h3>
+                  <p className="homeV3ResonanceText">{work.description}</p>
                   <div className="homeV3ResonanceBottom">
-                    <a
-                      href={cta.href}
-                      {...(cta.external
-                        ? {
-                            target: "_blank",
-                            rel: "noreferrer",
-                          }
-                        : {})}
-                    >
-                      {cta.label}
-                      <span>→</span>
-                    </a>
+                    <a href={work.href}>Seansları ve Fiyatları Gör <span>→</span></a>
                   </div>
                 </div>
               </article>
-              );
-            })}
+            ))}
           </div>
         </div>
       </section>
@@ -2926,12 +2788,12 @@ export default function HomePageClient() {
             <div className="homeV3PersonalLeft">
               <div className="homeV3PersonalHeading">
                 <p className="homeV3Eyebrow">
-                  BİREBİR ÇALIŞMALAR
+                  KİŞİSEL ENERJİ ÇALIŞMALARI
                 </p>
 
                 <h2>
-                  Daha
-                  <span> kişisel bir alan.</span>
+                  İhtiyacına
+                  <span> uygun bir alan.</span>
                 </h2>
 
                 <p className="homeV3PersonalDescription">
@@ -2962,11 +2824,7 @@ export default function HomePageClient() {
                       <p>{work.text}</p>
 
                       <div className="homeV3OtherCardBottom">
-                        {"price" in work && work.price ? (
-                          <strong>{work.price}</strong>
-                        ) : (
-                          <span />
-                        )}
+                        <span />
                         <span className="homeV3OtherCardCta">
                           Detayları Gör
                           <span>→</span>

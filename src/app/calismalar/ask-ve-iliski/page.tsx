@@ -1,61 +1,12 @@
-import Navbar from "../../../components/Navbar";
-import LoveRelationshipChoiceSection from "../../../components/LoveRelationshipChoiceSection";
-import FAQSection from "../../../components/FAQSection";
-import FooterSection from "../../../components/FooterSection";
-import "../../../styles/home.css";
+import type { Metadata } from "next";
+import SimplifiedWorkDetail from "../../../components/calismalar/SimplifiedWorkDetail";
 
-export default function LoveRelationshipChoicePage() {
-  return (
-    <main className="homePage" id="top">
-      <Navbar />
+export const metadata: Metadata = {
+  title: "Aşk Rezonansı | Geçmiş İlişkiler ve Güven | GoldKozmos",
+  description: "Geçmiş kırgınlıklar ve güven üzerine bireysel Aşk Rezonansı: 60 dk tanışma 1.800 TL, 90 dk seans 2.500 TL, 5 seans 7.500 TL.",
+  alternates: { canonical: "https://goldkozmos.com/calismalar/ask-ve-iliski" },
+};
 
-      <section className="innerPageHero">
-        <div className="innerPageHeroContainer">
-          <p className="sectionEyebrow">
-            <span>
-              GOLDKOZMOS
-              <sup className="registeredSymbol">®</sup>
-            </span>
-
-            <br />
-
-            <span>ENERJİ EKOLÜ</span>
-
-            <br />
-
-            <span>AŞK VE İLİŞKİ ÇALIŞMALARI</span>
-          </p>
-
-          <h1>
-            Bulunduğun yere göre
-            <span> doğru çalışmayı seç.</span>
-          </h1>
-
-          <p>
-            Yeni bir ilişkiye hazırlanmak için Aşkı Hayatına Çağır
-            çalışmasını, mevcut romantik ilişkini dönüştürmek için ise
-            İlişkini Şifalandır programını incele.
-          </p>
-
-          <div className="innerPageHeroActions">
-            <a href="#ask-ve-iliski-secimi">
-              Çalışmaları Karşılaştır
-              <span aria-hidden="true">↓</span>
-            </a>
-
-            <a href="/sana-uygun-calismayi-bul">
-              Sana Uygun Çalışmayı Bul
-              <span aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <LoveRelationshipChoiceSection />
-
-      <FAQSection />
-
-      <FooterSection />
-    </main>
-  );
+export default function WorkDetailPage() {
+  return <SimplifiedWorkDetail slug="ask" />;
 }
