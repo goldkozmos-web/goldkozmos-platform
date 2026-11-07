@@ -11,7 +11,7 @@ export default function CalismalarHub() {
       <section className="gkSimpleIntro">
         <p className="gkSimpleKicker">GOLDKOZMOS · KOZMİK ENERJİ ÇALIŞMALARI</p>
         <h1>İhtiyacına uygun rezonans alanını seç.</h1>
-        <p>Dört kişisel çalışma alanı ve önceki danışanlarımıza özel Enerji Rezonansı tek yerde. Her alanın seans süresi, kapsamı ve fiyatı kendi sayfasında açıkça belirtilir.</p>
+        <p>Dört tematik rezonans alanı ve önceki danışanlarımıza özel Enerji Rezonansı tek yerde. Her alanın seans süresi, kapsamı ve fiyatı kendi sayfasında açıkça belirtilir.</p>
         <div className="gkSimpleEnergy">
           <div>
             <p className="gkSimpleKicker">01 · MEVCUT DANIŞANLARA ÖZEL</p>
