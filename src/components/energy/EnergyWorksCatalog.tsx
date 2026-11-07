@@ -209,8 +209,7 @@ export default function EnergyWorksCatalog() {
           <h1>Enerji Rezonansı</h1>
 
           <p>
-            Kısa bilgi alın, size uygun çalışmayı seçin ve
-            doğrudan satın almaya geçin.
+            Bu alan yalnızca daha önce GoldKozmos’tan çalışma almış danışanlara yöneliktir. İhtiyacına uygun enerji konusunu seçerek tekil çalışma satın alabilir veya paket talep edebilirsin.
           </p>
         </header>
 
