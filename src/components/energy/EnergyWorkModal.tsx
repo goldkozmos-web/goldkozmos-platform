@@ -101,7 +101,7 @@ export default function EnergyWorkModal({
           </p>
 
           <h2 id={titleId}>{work.title}</h2>
-          <p>Bu bölümden yalnızca daha önce GoldKozmos çalışmasına katılmış danışanlarımız yararlanabilir.</p>\n          <p>Bu bölümden yalnızca daha önce GoldKozmos çalışmasına katılmış danışanlarımız yararlanabilir.</p>
+          <p>Bu bölümden yalnızca daha önce GoldKozmos çalışmasına katılmış danışanlarımız yararlanabilir.</p>
 
           <p className="energyWorkModalPrice">
             {work.priceLabel}
