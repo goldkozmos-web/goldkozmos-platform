@@ -8,11 +8,7 @@ import DailyActionCard from "../components/daily/DailyActionCard";
 import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeGoldAction from "../components/daily/HomeGoldAction";
 import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
-import {
-  getEducationCourses,
-  getEducationHubHref,
-  getEducationPrimaryCta,
-} from "../data/education";
+import { WORK_THEMES } from "../data/simplifiedWorks";
 
 type SocialPlatform =
   | "instagram"
@@ -2823,7 +2819,7 @@ export default function HomePageClient() {
           <div className="homeV3SectionHeading">
             <div>
               <p className="homeV3Eyebrow">
-                REZONANS EĞİTİMLERİ
+                REZONANS ÇALIŞMALARI
               </p>
 
               <h2>
@@ -2839,45 +2835,21 @@ export default function HomePageClient() {
           </div>
 
           <div className="homeV3ResonanceGrid">
-            {getEducationCourses().map((course) => {
-              const cta = getEducationPrimaryCta(course);
-              const hubHref = getEducationHubHref(course);
-
-              return (
-              <article
-                className="homeV3ResonanceCard"
-                key={course.id}
-              >
-                <a
-                  className="homeV3ResonanceImage"
-                  href={hubHref}
-                >
-                  <img
-                    src={course.coverImage}
-                    alt={course.title}
-                  />
+            {WORK_THEMES.slice(0, 3).map((work) => (
+              <article className="homeV3ResonanceCard" key={work.slug}>
+                <a className="homeV3ResonanceImage" href={work.href}>
+                  <img src={work.image} alt={work.title} />
                 </a>
-
                 <div className="homeV3ResonanceContent">
-                  <p className="homeV3CardEyebrow">
-                    {course.eyebrow}
-                  </p>
-
-                  <h3>{course.title}</h3>
-
-                  <p className="homeV3ResonanceText">
-                    {course.homeSummary}
-                  </p>
-
+                  <p className="homeV3CardEyebrow">{work.eyebrow}</p>
+                  <h3>{work.title}</h3>
+                  <p className="homeV3ResonanceText">{work.description}</p>
                   <div className="homeV3ResonanceBottom">
-                    <a
-                      href={cta.href}
-                      {...(cta.external
-                        ? {
-                            target: "_blank",
-                            rel: "noreferrer",
-                          }
-                        : {})}
+                    <a href={work.href}>Tek Günlük veya Paket Seç <span>→</span></a>
+                  </div>
+                </div>
+              </article>
+            ))}
                     >
                       {cta.label}
                       <span>→</span>
@@ -2906,8 +2878,8 @@ export default function HomePageClient() {
                 </p>
 
                 <h2>
-                  Daha
-                  <span> kişisel bir alan.</span>
+                  İhtiyacına
+                  <span> uygun bir alan.</span>
                 </h2>
 
                 <p className="homeV3PersonalDescription">
