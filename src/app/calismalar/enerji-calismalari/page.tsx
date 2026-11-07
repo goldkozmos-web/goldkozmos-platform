@@ -8,10 +8,10 @@ import "../../../styles/home.css";
 const pageUrl =
   "https://goldkozmos.com/calismalar/enerji-calismalari";
 
-const pageTitle = "Birebir Enerji Çalışmaları | GoldKozmos";
+const pageTitle = "Enerji Rezonansı | GoldKozmos";
 
 const pageDescription =
-  "GoldKozmos birebir enerji çalışmaları: çakra dengeleme, arınma, bolluk, ilişki ve sezgi alanına yönelik online seansları inceleyin.";
+  "Enerji Rezonansı: daha önce GoldKozmos çalışmasına katılmış danışanlara özel çakra, nazar, karma ve diğer enerji konuları.";
 
 export const metadata: Metadata = {
   title: {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "GoldKozmos Birebir Enerji Çalışmaları",
+        alt: "GoldKozmos Enerji Rezonansı",
       },
     ],
   },
