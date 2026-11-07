@@ -8,20 +8,14 @@ export type RandevuServiceCard = {
   note: string;
 };
 
-export const BIREBIR_SERVICE_CARDS: RandevuServiceCard[] = WORK_THEMES.flatMap((theme) => [
-  {
-    name: bookingServiceName(theme, "single"),
-    duration: "Tek günlük",
-    format: "Online çalışma",
-    note: "Bu alana bir görüşmede odaklan.",
-  },
-  {
-    name: bookingServiceName(theme, "package"),
-    duration: "Paket",
-    format: "Online çalışma",
-    note: "Çalışma kapsamını ve görüşme sayısını birlikte netleştir.",
-  },
-]);
+export const BIREBIR_SERVICE_CARDS: RandevuServiceCard[] = WORK_THEMES.flatMap((theme) =>
+  theme.options.map((option) => ({
+    name: bookingServiceName(theme, option.id),
+    duration: `${option.duration} · ${option.price}`,
+    format: theme.slug === "iliski" ? "Online · iki kişi birlikte" : "Online · birebir",
+    note: option.description,
+  })),
+);
 
 export const ENERJI_SERVICE_CARDS: RandevuServiceCard[] = [
   {
