@@ -203,10 +203,10 @@ export default function EnergyWorksCatalog() {
       <div className="energyWorksHeadingRow">
         <header className="energyWorksHeader">
           <p className="energyWorksEyebrow">
-            BİREBİR ENERJİ ÇALIŞMALARI
+            ÖNCEKİ DANIŞANLARA ÖZEL
           </p>
 
-          <h1>11 Enerji Çalışması</h1>
+          <h1>Enerji Rezonansı</h1>
 
           <p>
             Kısa bilgi alın, size uygun çalışmayı seçin ve
