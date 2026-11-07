@@ -3,7 +3,7 @@ import SimplifiedWorkDetail from "../../../components/calismalar/SimplifiedWorkD
 
 export const metadata: Metadata = {
   title: "İlişki Rezonansı | Alma-Verme ve Güven | GoldKozmos",
-  description: "İlişkilerde alma-verme dengesi, güven, sınırlar ve tekrar eden döngüler için İlişki Rezonansı. Tek günlük veya paket çalışma.",
+  description: "İki kişinin birlikte katıldığı İlişki Rezonansı: 60 dk 2.500 TL, 90 dk 3.500 TL, 5 seanslık çift paketi 10.000 TL.",
   alternates: { canonical: "https://goldkozmos.com/calismalar/iliski" },
 };
 
