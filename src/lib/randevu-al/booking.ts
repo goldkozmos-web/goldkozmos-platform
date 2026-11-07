@@ -1,3 +1,4 @@
+import { WORK_THEMES, bookingServiceName } from "../../data/simplifiedWorks";
 export const RANDEVU_WHATSAPP_NUMBER = "905054722153";
 
 export type RandevuServiceCard = {
@@ -7,20 +8,20 @@ export type RandevuServiceCard = {
   note: string;
 };
 
-export const BIREBIR_SERVICE_CARDS: RandevuServiceCard[] = [
+export const BIREBIR_SERVICE_CARDS: RandevuServiceCard[] = WORK_THEMES.flatMap((theme) => [
   {
-    name: "Tek Birebir Seans",
-    duration: "90 dk",
-    format: "Online birebir",
-    note: "Tek bir konuya odaklanan görüşme.",
+    name: bookingServiceName(theme, "single"),
+    duration: "Tek günlük",
+    format: "Online çalışma",
+    note: "Bu alana bir görüşmede odaklan.",
   },
   {
-    name: "5 Günlük Yoğun Çalışma",
-    duration: "5 gün",
-    format: "Online birebir",
-    note: "Aynı niyet üzerinde beş gün boyunca ilerleyen yoğun paket.",
+    name: bookingServiceName(theme, "package"),
+    duration: "Paket",
+    format: "Online çalışma",
+    note: "Çalışma kapsamını ve görüşme sayısını birlikte netleştir.",
   },
-];
+]);
 
 export const ENERJI_SERVICE_CARDS: RandevuServiceCard[] = [
   {
@@ -106,19 +107,13 @@ export const TAROT_SERVICE_CARD: RandevuServiceCard = {
 };
 
 export function serviceFromQuery(raw: string | null | undefined) {
-  const value = String(raw ?? "")
-    .trim()
-    .toLowerCase();
+  const value = String(raw ?? "").trim().toLocaleLowerCase("tr-TR");
   if (!value) return null;
-  if (
-    value === "tarot" ||
-    value === "tarot-bakimi" ||
-    value === "tarot bakımı" ||
-    value === "tarot bakimi"
-  ) {
+  if (["tarot", "tarot-bakimi", "tarot bakımı", "tarot bakimi"].includes(value)) {
     return TAROT_SERVICE_CARD.name;
   }
-  return null;
+  const services = [...BIREBIR_SERVICE_CARDS, ...ENERJI_SERVICE_CARDS, TAROT_SERVICE_CARD];
+  return services.find((service) => service.name.toLocaleLowerCase("tr-TR") === value)?.name ?? null;
 }
 
 function pad(value: number) {
