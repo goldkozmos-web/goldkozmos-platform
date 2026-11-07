@@ -128,104 +128,28 @@ const books = [
 
 const faqs = [
   {
-    question: "Rezonans Atölyeleri online mı gerçekleşiyor?",
-    answer:
-      "Evet. Rezonans Atölyeleri Google Meet üzerinden çevrim içi olarak gerçekleştirilir.",
-  },
-  {
     question: "Hangi çalışmadan başlamalıyım?",
-    answer:
-      "Kendilik Rezonansı temel başlangıç alanıdır. Kendinle kurduğun ilişkiyi, özdeğerini, sınırlarını ve tekrar eden kişisel örüntülerini gördükten sonra İlişki veya Bolluk Rezonansı ile devam edebilirsin.",
+    answer: "Kısa enerji çalışmasında belirli bir konu seçebilir veya Kendilik, İlişki, Bolluk Rezonansı ve Aşk Çalışması arasından ihtiyacına uygun olanı inceleyebilirsin.",
   },
   {
-    question: "Rezonans Atölyeleri kaç gün sürüyor?",
-    answer:
-      "Ana Rezonans Atölyeleri 5 günlük yapı üzerinden ilerler. Çalışmanın içeriğine göre oturumlar, PDF özetleri ve kişisel uygulamalar programa dahil edilebilir.",
+    question: "Tek günlük çalışma ile paket arasındaki fark nedir?",
+    answer: "Tek günlük çalışma, seçtiğin konuya tek görüşmede odaklanır. Paket çalışması, aynı alanda birden fazla görüşmeyle ilerlemeyi tercih edenler içindir. Kapsam ve ücret randevu öncesi netleştirilir.",
   },
   {
-    question: "Atölyelerde kayıt veya materyal veriliyor mu?",
-    answer:
-      "Çalışmaya göre PDF özetleri, ev çalışmaları veya destekleyici materyaller paylaşılabilir. İlgili çalışmanın sayfasında dahil olan içerikler ayrıca belirtilir.",
+    question: "Çalışmalar nasıl gerçekleşiyor?",
+    answer: "Kozmik enerji çalışmaları online olarak planlanır. Seçtiğin konuyu, tek günlük ya da paket tercihini ve uygun tarihi randevu formundan iletebilirsin.",
   },
   {
-    question: "Birebir çalışma seçenekleri neler?",
-    answer:
-      "Belirli bir konuya odaklanan tek birebir seans veya aynı konu üzerinde birkaç gün boyunca ilerleyen yoğun birebir paket seçenekleri bulunur.",
+    question: "Rezonans ses kayıtları satın alınabilir mi?",
+    answer: "Yeni rezonans ses kayıtları henüz hazırlanıyor. Kendilik, İlişki ve Bolluk alanlarındaki kişisel çalışmalar ise ayrı çalışma sayfalarından talep edilebilir.",
   },
   {
-    question: "Tek birebir seans nasıl ilerliyor?",
-    answer:
-      "Tek birebir seans, belirlediğin bir konuya odaklanan kişisel bir görüşmedir. Seansın amacı konuyu daha net görmek, tekrar eden örüntüleri fark etmek ve üzerinde çalışacağın alanı belirlemektir.",
+    question: "GoldKozmos çalışmaları terapi yerine geçer mi?",
+    answer: "Hayır. Çalışmalar spiritüel farkındalık ve kişisel gelişim amaçlıdır; psikoterapi, tıbbi teşhis veya tedavi yerine geçmez.",
   },
   {
-    question: "5 günlük yoğun paket kimler için uygun?",
-    answer:
-      "Tek bir konuya daha yoğun şekilde odaklanmak ve birkaç gün boyunca aynı başlık üzerinde ilerlemek isteyenler için hazırlanmıştır.",
-  },
-  {
-    question: "Tarot Farkındalık Okuması nedir?",
-    answer:
-      "Tarot Farkındalık Okuması, kartların sembolik dili üzerinden mevcut durumuna farklı bir açıdan bakmana yardımcı olan kişisel farkındalık çalışmasıdır. Kesin gelecek vaadi veya garanti sunmaz.",
-  },
-  {
-    question: "Numeroloji Analizi nasıl hazırlanıyor?",
-    answer:
-      "Numeroloji Analizi doğum tarihi ve isim bilgileri üzerinden hazırlanır ve sembolik eğilimlerini inceleyen dijital bir analiz olarak sunulur.",
-  },
-  {
-    question: "Canlı yayın kayıtlarına sonradan erişebilir miyim?",
-    answer:
-      "Satışa açılan geçmiş canlı çalışmalar, kayıtlı içerik olarak kendi zamanında izleyebileceğin veya dinleyebileceğin şekilde sunulur.",
-  },
-  {
-    question: "Canlı kayıt ile ses kaydı arasındaki fark nedir?",
-    answer:
-      "Canlı kayıtlar daha önce grup halinde gerçekleştirilen çalışmaların kayıtlı versiyonlarıdır. Ses kayıtları ise baştan dijital dinleme deneyimi için hazırlanmış yönlendirmeli içeriklerdir.",
-  },
-  {
-    question: "Ses kayıtlarını ne zaman dinleyebilirim?",
-    answer:
-      "Satın aldıktan ve erişim bilgilerini aldıktan sonra kaydı kendi zamanında dinleyebilirsin. Uygulama için sakin ve bölünmeyeceğin bir zaman seçmen önerilir.",
-  },
-  {
-    question: "Ses kayıtları kaç kez dinlenebilir?",
-    answer:
-      "İlgili ürünün erişim koşulları izin verdiği sürece kaydı kendi ihtiyacına göre tekrar dinleyebilirsin. Ürüne özel farklı bir koşul varsa ürün açıklamasında ayrıca belirtilir.",
-  },
-  {
-    question: "GoldFrekans nedir?",
-    answer:
-      "GoldFrekans, Goldkozmos’un ücretsiz doğa sesleri, meditasyon müzikleri ve frekans içeriklerini bir araya getiren YouTube dinleme kütüphanesidir.",
-  },
-  {
-    question: "GoldCast içeriklerini nereden dinleyebilirim?",
-    answer:
-      "GoldCast bölümlerine web sitesindeki GoldCast sayfasından ulaşabilir; ilgili içeriği YouTube veya Spotify üzerinden açabilirsin.",
-  },
-  {
-    question: "GoldBook içerikleri nasıl satın alınır?",
-    answer:
-      "GoldBook çalışmalarını ilgili ürün kartındaki Shopier bağlantısı üzerinden satın alabilirsin. Satın alım sonrası dijital ürün erişimi ürün koşullarına göre iletilir.",
-  },
-  {
-    question: "Dijital ürünlerde teslimat nasıl gerçekleşiyor?",
-    answer:
-      "Dijital ürünlerde fiziksel kargo bulunmaz. Ürünün türüne göre dosya, kayıt veya erişim bilgileri dijital olarak iletilir.",
-  },
-  {
-    question: "Satın almadan önce bana uygun çalışmayı nasıl seçebilirim?",
-    answer:
-      "Sitedeki ücretsiz test ve çalışma açıklamalarından yararlanabilirsin. Kararsız kaldığında içeriklerin kapsamını karşılaştırarak ihtiyacına en yakın alanı seçebilirsin.",
-  },
-  {
-    question: "Goldkozmos çalışmaları terapi yerine geçer mi?",
-    answer:
-      "Hayır. Goldkozmos içerikleri ve çalışmaları kişisel farkındalık ve bireysel gelişim amacıyla hazırlanır; psikoterapi, psikolojik danışmanlık, tıbbi teşhis veya tedavi yerine geçmez.",
-  },
-  {
-    question: "Yeni çalışmalar ve duyurulardan nasıl haberdar olabilirim?",
-    answer:
-      "Yeni çalışmalar, kayıtlar ve yayınlar için Goldkozmos’un Instagram, WhatsApp Kanalı, TikTok, X, Threads ve YouTube hesaplarını takip edebilirsin.",
+    question: "Yeni içeriklerden nasıl haberdar olabilirim?",
+    answer: "Duyurular ve kolektif çalışmalar için GoldKozmos Instagram ve GoldÇember kanalını takip edebilirsin.",
   },
 ];
 
