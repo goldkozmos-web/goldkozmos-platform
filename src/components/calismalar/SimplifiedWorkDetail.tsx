@@ -17,7 +17,7 @@ export default function SimplifiedWorkDetail({ slug }: { slug: WorkTheme["slug"]
             <h1>{work.title}</h1>
             <p className="gkSimpleLead">{work.lead}</p>
             <p>{work.description}</p>
-            <a className="gkSimpleTextLink" href="#secenekler">Çalışma seçeneklerini incele ↓</a>
+            <a className="gkSimpleTextLink" href="#secenekler">Seans seçeneklerini incele ↓</a>
           </div>
           <img src={work.image} alt={work.title} />
         </div>
@@ -32,24 +32,20 @@ export default function SimplifiedWorkDetail({ slug }: { slug: WorkTheme["slug"]
           </section>
         </div>
         <section id="secenekler" className="gkSimpleOptions">
-          <p className="gkSimpleKicker">ÇALIŞMA BİÇİMİNİ SEÇ</p>
-          <h2>Sana uygun ilerleme şeklini belirle.</h2>
+          <p className="gkSimpleKicker">SÜRE VE FİYAT BİLGİLERİ</p>
+          <h2>Çalışma seçeneğini belirle.</h2>
           <div className="gkSimpleOptionGrid">
-            <article>
-              <span>01 · TEK GÜNLÜK</span>
-              <h3>Tek Günlük Çalışma</h3>
-              <p>Seçtiğin konuya bir görüşmede odaklanmak ve bu alanda kişisel bir farkındalık süreci başlatmak isteyenler için.</p>
-              <p className="gkSimplePriceNote">Ücret ve görüşme ayrıntıları randevu öncesinde paylaşılır.</p>
-              <a href={bookingHref(work, "single")}>Tek Günlük Çalışmayı Seç →</a>
-            </article>
-            <article>
-              <span>02 · PAKET</span>
-              <h3>Paket Çalışması</h3>
-              <p>Aynı konuya birden fazla görüşmede daha kapsamlı odaklanmak isteyenler için. İçerik ve görüşme sayısı talep üzerine netleştirilir.</p>
-              <p className="gkSimplePriceNote">Paket kapsamı ve ücreti randevu öncesinde paylaşılır.</p>
-              <a href={bookingHref(work, "package")}>Paket Çalışmasını Seç →</a>
-            </article>
+            {work.options.map((option, index) => (
+              <article key={option.id}>
+                <span>{String(index + 1).padStart(2, "0")} · {option.duration}</span>
+                <h3>{option.title}</h3>
+                <strong className="gkSimpleOptionPrice">{option.price}</strong>
+                <p>{option.description}</p>
+                <a href={bookingHref(work, option.id)}>{option.title} için randevu talep et →</a>
+              </article>
+            ))}
           </div>
+          <p className="gkSimpleDisclaimer">Tarih seçimi randevu talebidir; kesin saat ve katılım bilgileri görüşme sırasında netleşir.</p>
         </section>
         <p className="gkSimpleDisclaimer">GoldKozmos çalışmaları spiritüel farkındalık ve kişisel gelişim amaçlıdır; tıbbi tedavi veya psikoterapi yerine geçmez. Belirli bir sonuç vaat edilmez.</p>
       </div>
