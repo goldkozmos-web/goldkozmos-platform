@@ -142,6 +142,15 @@ export default function EnergyWorkModal({
             <span aria-hidden="true">→</span>
           </a>
 
+          <a
+            className="energyWorkModalBuy"
+            style={{ marginTop: 12, background: "#f4e8d4", color: "#32231b" }}
+            href={`/randevu-al?service=${encodeURIComponent(work.title + " · Paket Çalışması")}`}
+          >
+            Bu Konuda Paket Çalışması İste
+            <span aria-hidden="true">→</span>
+          </a>
+
           <p className="energyWorkModalCheckoutNote">
             Satın alma işlemi Shopier üzerinden güvenli şekilde tamamlanır.
           </p>
