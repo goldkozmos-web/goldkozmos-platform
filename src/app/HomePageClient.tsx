@@ -26,35 +26,35 @@ type SocialPlatform =
 const otherWorks = [
   {
     number: "01",
-    title: "Tek Birebir Seans",
-    text: "Belirli bir konuya odaklanan 90 dakikalık birebir görüşme.",
-    image: "/images/services/birebir-seans.webp",
-    href: "/calismalar/enerji-calismalari",
-    cta: "Detayları Gör",
+    title: "Kendilik Rezonansı",
+    text: "Özdeğer, kişisel sınırlar ve onay ihtiyacı üzerine tek günlük ya da paket çalışma.",
+    image: "/images/services/kendilik-rezonansi.webp",
+    href: "/calismalar/kendilik",
+    cta: "Çalışmayı İncele",
   },
   {
     number: "02",
-    title: "5 Günlük Yoğun Paket",
-    text: "Beş gün boyunca aynı konu üzerinde birebir ilerleyen yoğun çalışma.",
-    image: "/images/services/5-gunluk-yogun-paket.webp",
-    price: "5.000 TL",
-    href: "/calismalar/birebir-seanslar",
+    title: "İlişki Rezonansı",
+    text: "İlişkilerde alma-verme, güven ve tekrar eden döngüler üzerine çalışma.",
+    image: "/images/services/iliski-rezonansi.webp",
+    href: "/calismalar/iliski",
+    cta: "Çalışmayı İncele",
   },
   {
     number: "03",
-    title: "Tarot Farkındalık Okuması",
-    text: "Kartların sembolik dili üzerinden mevcut durumuna farklı bir açıdan bak.",
-    image: "/images/services/tarot-farkindalik.webp",
-    price: "600 TL",
-    href: "/calismalar/tarot",
+    title: "Bolluk Rezonansı",
+    text: "Para ile kurduğun ilişki, bereket ve değer algısına odaklanan çalışma.",
+    image: "/images/services/bolluk-rezonansi.webp",
+    href: "/calismalar/para",
+    cta: "Çalışmayı İncele",
   },
   {
     number: "04",
-    title: "Numeroloji Analizi",
-    text: "Doğum tarihi ve isim üzerinden kişisel eğilimlerini sembolik olarak incele.",
-    image: "/images/services/numeroloji-analizi.webp",
-    price: "350 TL",
-    href: "/calismalar/numeroloji",
+    title: "Aşk Çalışması",
+    text: "Geçmiş kırgınlıklar, güven ve kalp alanı üzerine spiritüel çalışma.",
+    image: "/energy/ask-alanini-sifalandir.webp.jpeg",
+    href: "/calismalar/ask-ve-iliski",
+    cta: "Çalışmayı İncele",
   },
 ];
 
@@ -271,36 +271,12 @@ const socials: {
 ];
 
 const heroWorkTiles = [
-  {
-    href: "/calismalar/enerji-calismalari",
-    lines: ["Enerji", "çalışmaları"],
-    cta: "İncele",
-  },
-  {
-    href: "/tarot-bakimi",
-    lines: ["Tarot", "bakımı"],
-    cta: "Bak",
-  },
-  {
-    href: "/kendini-tani",
-    lines: ["Kendini", "tanı"],
-    cta: "Testlere bak",
-  },
-  {
-    href: "/calismalar",
-    lines: ["Tüm", "çalışmalar"],
-    cta: "İncele",
-  },
-  {
-    href: "/calismalar/numeroloji",
-    lines: ["Numeroloji"],
-    cta: "Bak",
-  },
-  {
-    href: "/hakkimda",
-    lines: ["Hakkımda"],
-    cta: "Oku",
-  },
+  { href: "/calismalar/enerji-calismalari", lines: ["Kısa enerji", "çalışması"], cta: "Seç" },
+  { href: "/calismalar/kendilik", lines: ["Kendilik", "Rezonansı"], cta: "İncele" },
+  { href: "/calismalar/iliski", lines: ["İlişki", "Rezonansı"], cta: "İncele" },
+  { href: "/calismalar/para", lines: ["Bolluk", "Rezonansı"], cta: "İncele" },
+  { href: "/calismalar/ask-ve-iliski", lines: ["Aşk", "Çalışması"], cta: "İncele" },
+  { href: "/calismalar", lines: ["Tüm", "çalışmalar"], cta: "İncele" },
 ];
 
 const followChannels: {
@@ -2926,7 +2902,7 @@ export default function HomePageClient() {
             <div className="homeV3PersonalLeft">
               <div className="homeV3PersonalHeading">
                 <p className="homeV3Eyebrow">
-                  BİREBİR ÇALIŞMALAR
+                  KİŞİSEL ENERJİ ÇALIŞMALARI
                 </p>
 
                 <h2>
