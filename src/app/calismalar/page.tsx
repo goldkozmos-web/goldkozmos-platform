@@ -25,7 +25,7 @@ export default function CalismalarPage() {
             serviceJsonLd({
               name: "GoldKozmos Çalışmaları",
               description:
-                "Beş ana çalışma alanı: kısa enerji çalışması, kendilik, ilişki, bolluk ve aşk. Tek günlük ve paket seçenekleri.",
+                "Beş ana çalışma alanı: Enerji Rezonansı, Kendilik, İlişki, Bolluk ve Aşk Rezonansı. Tanışma seansı, birebir seans ve beşli paket seçenekleri.",
               path: "/calismalar",
             }),
             breadcrumbJsonLd([
