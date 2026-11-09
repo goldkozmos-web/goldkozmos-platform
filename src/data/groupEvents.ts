@@ -1,5 +1,5 @@
 export const GROUP_EVENT_PRICE_KURUS = 60_000;
-export const GROUP_EVENT_CONSENT_VERSION = "2026-11-09-v2-packages";
+export const GROUP_EVENT_CONSENT_VERSION = "2026-11-10-v3-bank-whatsapp";
 
 export type GroupEvent = {
   id: string;

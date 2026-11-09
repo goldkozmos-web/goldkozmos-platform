@@ -1,4 +1,5 @@
 import { groupEventSelection } from "../../data/groupEvents.ts";
+import { whatsappPhone } from "./bank.ts";
 
 export function parseGroupRegistration(raw: unknown, now = Date.now()) {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Form bilgilerini kontrol et.");
@@ -14,7 +15,11 @@ export function parseGroupRegistration(raw: unknown, now = Date.now()) {
   if (!/^\+?[0-9]{10,15}$/.test(phone)) throw new Error("Telefon numaranı ülke koduyla birlikte kontrol et.");
   if (data.privacyAcknowledged !== true || data.termsAccepted !== true) throw new Error("Aydınlatma metnini ve katılım koşullarını inceleyip gerekli alanları işaretle.");
   if (data.website) throw new Error("Form gönderilemedi.");
-  return { event, selection, fullName, email, phone };
+  const paymentMethod = data.paymentMethod ?? "shopier";
+  if (paymentMethod !== "bank_transfer" && paymentMethod !== "shopier") throw new Error("Ödeme yöntemini kontrol et.");
+  if (data.whatsappOptIn !== undefined && typeof data.whatsappOptIn !== "boolean") throw new Error("WhatsApp tercihini kontrol et.");
+  if (data.whatsappOptIn === true && !whatsappPhone(phone)) throw new Error("WhatsApp numaranı ülke koduyla birlikte kontrol et.");
+  return { event, selection, fullName, email, phone, paymentMethod, whatsappOptIn: data.whatsappOptIn === true };
 }
 
 export function isGoogleMeetUrl(value: unknown): value is string {

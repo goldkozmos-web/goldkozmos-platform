@@ -6,14 +6,16 @@ import { isGoogleMeetUrl } from "./validation";
 export async function sendGroupConfirmation(registrationId: string) {
   if (!process.env.RESEND_API_KEY || !process.env.GROUP_EVENT_EMAIL_FROM) throw new Error("E-posta gönderimi henüz yapılandırılmadı.");
   const client = groupService();
-  const { data: row, error } = await client.from("group_event_registrations").select("id,event_id,event_ids,email,full_name,created_at,payment_status,provider_order_id,confirmation_sent_at").eq("id", registrationId).maybeSingle();
+  const { data: row, error } = await client.from("group_event_registrations").select("id,event_id,event_ids,email,full_name,created_at,payment_method,payment_status,approved_at,provider_order_id,confirmation_sent_at").eq("id", registrationId).maybeSingle();
   if (error || !row) throw new Error("Kayıt bulunamadı.");
-  if (row.payment_status !== "paid" || !row.provider_order_id) throw new Error("Yalnızca ödemesi doğrulanmış kayıt için onay gönderilebilir.");
+  if (row.payment_status !== "paid" || !row.provider_order_id || !row.approved_at) throw new Error("Yalnızca ödeme ve yönetici onayı tamamlanmış kayıt için bağlantı gönderilebilir.");
   if (row.confirmation_sent_at) return { alreadySent: true };
   const selection = groupEventSelection(row.event_ids), productId = selectionProductId(selection.events.map(event => event.id));
-  if (!productId) throw new Error("Etkinlik yapılandırması eksik.");
-  const order = await getShopierOrder(row.provider_order_id);
-  if (!verifyEventOrder(order, selection.events, productId, row.email, row.created_at)) throw new Error("Ödeme artık doğrulanamıyor. Siparişin iade ve ödeme durumunu kontrol et.");
+  if (row.payment_method === "shopier") {
+    if (!productId) throw new Error("Etkinlik yapılandırması eksik.");
+    const order = await getShopierOrder(row.provider_order_id);
+    if (!verifyEventOrder(order, selection.events, productId, row.email, row.created_at)) throw new Error("Ödeme artık doğrulanamıyor. Siparişin iade ve ödeme durumunu kontrol et.");
+  }
   const { data: meetings, error: meetingError } = await client.from("group_event_private").select("event_id,meet_url").in("event_id", selection.events.map(event => event.id));
   if (meetingError || selection.events.some(event => !isGoogleMeetUrl(meetings?.find(meeting => meeting.event_id === event.id)?.meet_url))) throw new Error("Önce seçilen tüm etkinliklerin Google Meet bağlantılarını kaydet.");
   const eventDetails = selection.events.map(event => `${event.title}\nTarih: ${formatGroupEventDate(event.startsAt)} 2026\nSaat: 20.30 (Türkiye saati)\nKatılım bağlantın: ${meetings!.find(meeting => meeting.event_id === event.id)!.meet_url}`).join("\n\n");

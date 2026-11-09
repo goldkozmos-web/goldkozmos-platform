@@ -7,6 +7,8 @@ import { groupEvents, formatGroupEventDate, groupEventOffers, groupEventSelectio
 import { parseGroupRegistration, isGoogleMeetUrl } from "../src/lib/group-events/validation.ts";
 import { moneyToKurus, verifyEventOrder, verifyShopierSignature, type ShopierOrder } from "../src/lib/group-events/payment.ts";
 import { groupSetupReport } from "../src/lib/group-events/setup.ts";
+import { normalizeTurkishIban, bankPaymentDetails, whatsappPhone, APPROVAL_WHATSAPP_TEXT } from "../src/lib/group-events/bank.ts";
+import { approvalTemplatePayload } from "../src/lib/group-events/whatsapp-config.ts";
 
 const event = groupEvents[0], registeredAt = "2026-11-09T18:00:00Z", now = Date.parse(registeredAt);
 const valid = { eventId: event.id, fullName: "Örnek Katılımcı", email: " TEST@example.com ", phone: "+90 (555) 000-00-00", privacyAcknowledged: true, termsAccepted: true };
@@ -17,6 +19,7 @@ test("setup check reports missing or duplicated products without exposing creden
   assert(!empty.enabled && !empty.allConfigured);
   assert(empty.products.every(product => !product.ready));
   const env: Record<string,string> = { NEXT_PUBLIC_SUPABASE_URL:"https://test.supabase.co", NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:"public-test", SUPABASE_SERVICE_ROLE_KEY:"private-test-key", SHOPIER_PAT:"private-test-pat", SHOPIER_WEBHOOK_TOKEN:"private-test-token", GROUP_EVENT_RATE_SECRET:"a".repeat(32), RESEND_API_KEY:"private-test-email", GROUP_EVENT_EMAIL_FROM:"test@example.com" };
+  Object.assign(env, { WHATSAPP_ACCESS_TOKEN:"private-test-wa", WHATSAPP_PHONE_NUMBER_ID:"12345", WHATSAPP_GRAPH_VERSION:"v24.0", WHATSAPP_APPROVAL_TEMPLATE:"test_approval", WHATSAPP_APPROVAL_TEMPLATE_READY:"true" });
   groupEventOffers.forEach((offer, index) => { env[offer.productEnv] = String(index + 100); });
   const ready = groupSetupReport(env);
   assert(ready.allConfigured && !ready.enabled);
@@ -25,6 +28,25 @@ test("setup check reports missing or duplicated products without exposing creden
   const duplicate = groupSetupReport(env);
   assert(!duplicate.allConfigured);
   assert(!duplicate.products[0].ready && !duplicate.products[1].ready);
+});
+
+test("bank details require a real checksum; WhatsApp payload uses approved template without meeting URLs", () => {
+  const iban = "TR33 0006 1005 1978 6457 8413 26";
+  assert(normalizeTurkishIban(iban));
+  assert(!normalizeTurkishIban(iban.replace("TR33","TR34")));
+  assert(!bankPaymentDetails({GROUP_EVENT_BANK_IBAN:iban}));
+  assert(bankPaymentDetails({GROUP_EVENT_BANK_IBAN:iban,GROUP_EVENT_BANK_ACCOUNT_NAME:"Test Account"}));
+  assert.equal(whatsappPhone("0555 000 00 00"),"905550000000");
+  assert.equal(whatsappPhone("+90 (555) 000-00-00"),"905550000000");
+  assert.throws(()=>approvalTemplatePayload("12","approval"));
+  const payload=approvalTemplatePayload("05550000000","gk_approval");
+  assert.equal(payload.template.language.code,"tr");
+  assert.equal(payload.type,"template");
+  assert(!JSON.stringify(payload).includes("meet.google.com"));
+  assert(APPROVAL_WHATSAPP_TEXT.includes("iletilecektir"));
+  const parsed=parseGroupRegistration({...valid,paymentMethod:"bank_transfer",whatsappOptIn:true},now);
+  assert(parsed.whatsappOptIn && parsed.paymentMethod==="bank_transfer");
+  assert.throws(()=>parseGroupRegistration({...valid,paymentMethod:"fake"},now));
 });
 
 test("four supplied event dates preserve Turkey time and weekdays", () => {
@@ -138,6 +160,40 @@ test("real SQL migration protects personal data, duplicate payment and concurren
 });
 
 const base = process.env.GROUP_EVENT_TEST_BASE_URL;
+test("bank approval requires exact money and admin, queues one consented WhatsApp message only after approval", async () => {
+  const db=new PGlite();
+  try {
+    await db.exec("create role anon; create role authenticated; create role service_role bypassrls;");
+    for(const file of ["20261109210000_group_event_registration.sql","20261109230000_group_event_packages.sql","20261110010000_group_bank_approval_whatsapp.sql"]) await db.exec(await readFile(new URL(`../supabase/migrations/${file}`,import.meta.url),"utf8"));
+    const insert=async(email:string,consent:boolean,method="bank_transfer")=>(await db.query<{id:string}>(`insert into public.group_event_registrations(event_id,event_title,full_name,email,phone,access_token_hash,consent_version,privacy_acknowledged_at,terms_accepted_at,payment_method,whatsapp_opt_in_at) values($1,'Test','Test Katılımcı',$2,'+905550000000',$3,'v3',now(),now(),$4,case when $5 then now() else null end) returning id`,[event.id,email,"a".repeat(64),method,consent])).rows[0].id;
+    await db.exec("set role service_role;");
+    const id=await insert("bank@example.com",true), actor="00000000-0000-4000-8000-000000000001", hash="b".repeat(64);
+    assert.equal((await db.query<{n:number}>("select count(*)::integer as n from public.group_event_whatsapp_notifications")).rows[0].n,0);
+    await assert.rejects(()=>db.query("select public.group_event_approve_registration($1,null,60000,$2)",[id,hash]),/Administrator required/);
+    await assert.rejects(()=>db.query("select public.group_event_approve_registration($1,$2,1,$3)",[id,actor,hash]),/exact amount/);
+    assert(!(await db.query<{ok:boolean}>("select public.group_event_confirm_payment($1,'1234',now()) as ok",[id])).rows[0].ok);
+    assert((await db.query<{ok:boolean}>("select public.group_event_approve_registration($1,$2,60000,$3) as ok",[id,actor,hash])).rows[0].ok);
+    assert(!(await db.query<{ok:boolean}>("select public.group_event_approve_registration($1,$2,60000,$3) as ok",[id,actor,hash])).rows[0].ok);
+    const notifications=await db.query<{status:string}>("select status from public.group_event_whatsapp_notifications where registration_id=$1",[id]);
+    assert.deepEqual(notifications.rows,[{status:"pending"}]);
+    const noConsentId=await insert("other@example.com",false);
+    await assert.rejects(()=>db.query("select public.group_event_approve_registration($1,$2,60000,$3)",[noConsentId,actor,hash]),/unique/);
+    await db.query("select public.group_event_approve_registration($1,$2,60000,$3)",[noConsentId,actor,"c".repeat(64)]);
+    assert.equal((await db.query<{n:number}>("select count(*)::integer as n from public.group_event_whatsapp_notifications where registration_id=$1",[noConsentId])).rows[0].n,0);
+    const card=await insert("card@example.com",true,"shopier");
+    await assert.rejects(()=>db.query("select public.group_event_approve_registration($1,$2)",[card,actor]),/Verified payment required/);
+    await db.query("select public.group_event_confirm_payment($1,'5678',now())",[card]);
+    assert.equal((await db.query<{n:number}>("select count(*)::integer as n from public.group_event_whatsapp_notifications where registration_id=$1",[card])).rows[0].n,0);
+    await db.query("select public.group_event_approve_registration($1,$2)",[card,actor]);
+    const first=await db.query("update public.group_event_whatsapp_notifications set status='sending' where registration_id=$1 and status in ('pending','failed') returning registration_id",[card]);
+    const duplicate=await db.query("update public.group_event_whatsapp_notifications set status='sending' where registration_id=$1 and status in ('pending','failed') returning registration_id",[card]);
+    assert.equal(first.rows.length,1);assert.equal(duplicate.rows.length,0);
+    await db.exec("reset role; set role anon;");
+    await assert.rejects(()=>db.query("select public.group_event_approve_registration($1,$2,60000,$3)",[id,actor,hash]),/permission denied/);
+    await assert.rejects(()=>db.query("select * from public.group_event_whatsapp_notifications"),/permission denied/);
+  } finally { await db.close(); }
+});
+
 test("running app denies unsafe origin and unavailable payments, protects admin and private status", { skip: !base }, async () => {
   let response = await fetch(`${base}/api/group-events/registrations`, { method: "POST", headers: { "Content-Type": "application/json", Origin: "https://evil.example" }, body: JSON.stringify(valid) });
   assert.equal(response.status, 403);

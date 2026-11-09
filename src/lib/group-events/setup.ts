@@ -1,4 +1,6 @@
 import { groupEventOffers } from "../../data/groupEvents.ts";
+import { bankPaymentDetails } from "./bank.ts";
+import { whatsappConfigured } from "./whatsapp-config.ts";
 
 type Environment = Record<string, string | undefined>;
 export function groupSetupReport(env: Environment) {
@@ -23,6 +25,10 @@ export function groupSetupReport(env: Environment) {
       ready: !!id && /^[0-9]{1,30}$/.test(id) && configuredIds.filter(other => other === id).length === 1,
     };
   });
-  // This is configuration readiness only, never proof of schema, account or payment verification.
-  return { enabled: env.GROUP_EVENTS_ENABLED === "true", checks, products, allConfigured: checks.every(check => check.ready) && products.every(product => product.ready) };
+  const bankReady = !!bankPaymentDetails(env), whatsappReady = whatsappConfigured(env);
+  const cardReady = checks[3].ready && checks[4].ready && products.every(product => product.ready);
+  const coreReady = checks.slice(0,3).every(check => check.ready) && checks[5].ready;
+  checks.push({ name: "IBAN ve hesap sahibi", ready: bankReady }, { name: "WhatsApp onaylı şablon ve gönderici", ready: whatsappReady });
+  // Email and card payments are optional when bank transfer + WhatsApp is configured.
+  return { enabled: env.GROUP_EVENTS_ENABLED === "true", checks, products, bankReady, cardReady, whatsappReady, allConfigured: coreReady && (bankReady || cardReady) && whatsappReady };
 }

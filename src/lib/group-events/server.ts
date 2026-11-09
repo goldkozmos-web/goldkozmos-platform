@@ -2,6 +2,7 @@ import { createHash, createHmac } from "node:crypto";
 import { createSupabaseServiceClient } from "../supabase/service";
 import { groupEventOffers, groupEventSelection } from "../../data/groupEvents";
 import { verifyEventOrder, getShopierOrder } from "./payment";
+import { bankPaymentDetails } from "./bank";
 
 export function registrationCookie(id: string) { return `gk_group_${id}`; }
 export function tokenHash(value: string) { return createHash("sha256").update(value).digest("hex"); }
@@ -23,6 +24,10 @@ export function selectionRegistrationEnabled(eventIds: string[]) {
   return process.env.GROUP_EVENTS_ENABLED === "true" && !!product &&
     groupEventOffers.filter(offer => selectionProductId(offer.events.map(event => event.id)) === product).length === 1 &&
     !!process.env.SHOPIER_PAT && !!process.env.SHOPIER_WEBHOOK_TOKEN &&
+    (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!createSupabaseServiceClient();
+}
+export function bankRegistrationEnabled() {
+  return process.env.GROUP_EVENTS_ENABLED === "true" && !!bankPaymentDetails() &&
     (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!createSupabaseServiceClient();
 }
 export function groupService() {
@@ -71,7 +76,7 @@ export async function reconcileOrder(orderId: string, expectedRegistrationId?: s
   const client = groupService();
   const email = order.shippingInfo?.email?.trim().toLowerCase();
   if (!email) return { matched: false, reason: "Sipariş e-postası doğrulanamadı." };
-  const { data: registration, error } = await client.from("group_event_registrations").select("id,email,created_at,payment_status,provider_order_id").eq("event_ids", `{${offer.events.map(event => event.id).join(",")}}`).eq("email", email).maybeSingle();
+  const { data: registration, error } = await client.from("group_event_registrations").select("id,email,created_at,payment_status,provider_order_id").eq("payment_method", "shopier").eq("event_ids", `{${offer.events.map(event => event.id).join(",")}}`).eq("email", email).maybeSingle();
   if (error) throw new Error("Kayıt bilgileri doğrulanamadı.");
   if (!registration || (expectedRegistrationId && registration.id !== expectedRegistrationId)) return { matched: false, reason: "Sipariş ile eşleşen başvuru yok." };
   if (!verifyEventOrder(order, offer.events, productId!, registration.email, registration.created_at)) return { matched: false, reason: "Tutar, etkinlik, e-posta, tarih veya ödeme durumu eşleşmiyor." };
