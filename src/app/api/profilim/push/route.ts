@@ -2,11 +2,17 @@ import { NextResponse } from "next/server";
 
 import { parsePushInput, VAPID_PUBLIC_KEY } from "@/lib/admin/push";
 import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
+import { migrateOwnAdminDevices } from "@/lib/push/admin-device-migration";
+import { getSupabaseServiceKey } from "@/lib/supabase/env";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json({ publicKey: VAPID_PUBLIC_KEY });
+  const client=await createSupabaseServerClient();
+  const user=client ? (await client.auth.getUser()).data.user : null;
+  if(client&&user)await migrateOwnAdminDevices(client,user);
+  const devices=client&&user ? await client.from("push_subscriptions").select("id",{count:"exact",head:true}).eq("user_id",user.id) : null;
+  return NextResponse.json({ publicKey: VAPID_PUBLIC_KEY, registeredDevices: devices?.count ?? 0, backgroundConfigured: Boolean(getSupabaseServiceKey() && process.env.CRON_SECRET) });
 }
 
 export async function POST(request: Request) {
@@ -34,15 +40,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Abonelik alınamadı." }, { status: 400 });
   }
 
-  await supabase.from("push_subscriptions").delete().eq("endpoint", sub.endpoint);
-
-  const { error } = await supabase.from("push_subscriptions").insert({
+  const { error } = await supabase.from("push_subscriptions").upsert({
     user_id: user.id,
     endpoint: sub.endpoint,
     p256dh: sub.keys.p256dh,
     auth_secret: sub.keys.auth,
     user_agent: request.headers.get("user-agent") ?? "",
-  });
+  }, { onConflict: "endpoint" });
 
   if (error) {
     return NextResponse.json({ error: "Telefon kaydı yazılamadı." }, { status: 400 });

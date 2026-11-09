@@ -134,16 +134,16 @@ export default function EnergyWorkModal({
 
           <a
             className="energyWorkModalBuy"
-            href={work.shopierUrl}
+            href={`https://wa.me/905054722153?text=${encodeURIComponent(`Merhaba, ${work.title} için randevu almak istiyorum.`)}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Şimdi Satın Al
+            Randevu al
             <span aria-hidden="true">→</span>
           </a>
 
           <p className="energyWorkModalCheckoutNote">
-            Satın alma işlemi Shopier üzerinden güvenli şekilde tamamlanır.
+            Randevu ve çalışma detaylarını WhatsApp üzerinden birlikte netleştiririz.
           </p>
         </div>
       </div>

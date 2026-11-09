@@ -1,19 +1,24 @@
 "use client";
+import SocialIcon from "../components/SocialIcon";
+import CompactInstagramFollow from "../components/home/CompactInstagramFollow";
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 
-import { useEffect, useRef, useState } from "react";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { createPortal } from "react-dom";
 import FooterSection from "../components/FooterSection";
 import HomeNavbar from "../components/HomeNavbar";
-import PlatformRail from "../components/platform/PlatformRail";
 import DailyActionCard from "../components/daily/DailyActionCard";
 import DailyMessageExperience from "../components/daily/DailyMessageExperience";
-import HomeGoldAction from "../components/daily/HomeGoldAction";
-import HomeSpotlightCarousel from "../components/home/HomeSpotlightCarousel";
-import {
-  getEducationCourses,
-  getEducationHubHref,
-  getEducationPrimaryCta,
-} from "../data/education";
-
+import HomeResonanceCarousel from "../components/home/HomeResonanceCarousel";
+import HomeSpotlightCarousel, { type FeaturedBlogArticle } from "../components/home/HomeSpotlightCarousel";
+import "../styles/home-hero-actions.css";
+import "../styles/home-connect.css";
+import "../styles/energy-discovery.css";
+import "../styles/topic-hub.css";
+import "../styles/home-hero-refined.css";
+import "../styles/home-discovery-refined.css";
 type SocialPlatform =
   | "instagram"
   | "whatsapp"
@@ -23,133 +28,45 @@ type SocialPlatform =
   | "spotify"
   | "threads";
 
-const otherWorks = [
-  {
-    number: "01",
-    title: "Tek Birebir Seans",
-    text: "Belirli bir konuya odaklanan 90 dakikalık birebir görüşme.",
-    image: "/images/services/birebir-seans.webp",
-    href: "/calismalar/enerji-calismalari",
-    cta: "Detayları Gör",
-  },
-  {
-    number: "02",
-    title: "5 Günlük Yoğun Paket",
-    text: "Beş gün boyunca aynı konu üzerinde birebir ilerleyen yoğun çalışma.",
-    image: "/images/services/5-gunluk-yogun-paket.webp",
-    price: "5.000 TL",
-    href: "/calismalar/birebir-seanslar",
-  },
-  {
-    number: "03",
-    title: "Tarot Farkındalık Okuması",
-    text: "Kartların sembolik dili üzerinden mevcut durumuna farklı bir açıdan bak.",
-    image: "/images/services/tarot-farkindalik.webp",
-    price: "600 TL",
-    href: "/calismalar/tarot",
-  },
-  {
-    number: "04",
-    title: "Numeroloji Analizi",
-    text: "Doğum tarihi ve isim üzerinden kişisel eğilimlerini sembolik olarak incele.",
-    image: "/images/services/numeroloji-analizi.webp",
-    price: "350 TL",
-    href: "/calismalar/numeroloji",
-  },
-];
-
-const recordings = [
-  {
-    category: "CANLI YAYIN KAYDI",
-    title: "7 Çakra Dengeleme Çalışması",
-    text: "Daha önce canlı olarak gerçekleştirilen çalışmanın kayıtlı versiyonuna kendi zamanında eriş.",
-    image: "/images/services/7-cakra-dengeleme-kaydi.webp",
-    price: "750 TL",
-    href: "https://www.shopier.com/goldkozmos/49768634",
-  },
-  {
-    category: "KAYITLI GRUP ÇALIŞMASI",
-    title: "8 Frekans Yüklemesi",
-    text: "Aşk ve ilişkiden bolluğa, özdeğerden kariyere uzanan sekiz farklı yaşam alanına odaklanan kayıtlı grup çalışması.",
-    image: "/images/services/8-frekans-yuklemesi-canli-kayit.webp",
-    price: "300 TL",
-    href: "https://www.shopier.com/goldkozmos/49930635",
-  },
-];
-
-const audioEnergyProducts = [
-  {
-    category: "SES KAYDI · 7 ÇAKRA",
-    title: "7 Çakranı Dengele",
-    text: "Beden farkındalığını artırmak, içsel odağını toplamak ve yedi çakra sistemi üzerinden kendinle daha bilinçli bir bağ kurmak için hazırlanmış rehberli ses çalışması.",
-    image: "/images/services/7-cakrani-dengele.webp",
-    price: "450 TL",
-    href: "https://www.shopier.com/goldkozmos/49861801",
-  },
-  {
-    category: "SES KAYDI · DİŞİL & ERİL",
-    title: "Dişil Eril Enerjini Dengele",
-    text: "Alma, akış ve sezgiyle; hareket, sınır ve yön belirleme tarafların arasındaki ilişkiyi fark etmeye odaklanan yönlendirmeli ses çalışması.",
-    image: "/images/services/disil-eril-enerjini-dengele.webp",
-    price: "450 TL",
-    href: "https://www.shopier.com/goldkozmos/49861773",
-  },
-  {
-    category: "SES KAYDI · NİYET & ODAK",
-    title: "Dileğini Rezonansla",
-    text: "Niyetini netleştirmek, zihinsel dağınıklığı azaltmak ve odağını seçtiğin dilekle daha uyumlu hale getirmek için hazırlanmış rehberli ses kaydı.",
-    image: "/images/services/dilegini-rezonansla.webp",
-    price: "450 TL",
-    href: "https://www.shopier.com/goldkozmos/49861708",
-  },
-  {
-    category: "SES KAYDI · İÇSEL ÇOCUK",
-    title: "İçsel Çocuk Şifası",
-    text: "Geçmiş deneyimlerinin bugünkü duygu, ilişki ve davranışlarında bıraktığı izleri fark etmeye ve içindeki çocukla yeniden bağ kurmaya odaklanan 3 günlük çalışma.",
-    image: "/images/services/icsel-cocuk-sifasi.webp",
-    price: "450 TL",
-    href: "https://www.shopier.com/goldkozmos/49861763",
-  },
-];
-
 const books = [
   {
     title: "İçindeki Kozmosu Kucakla",
     text: "Kendini tanımak, iç dünyana dönmek ve kendi merkezini yeniden görmek üzerine.",
-    image: "/goldbook/icindeki-kozmosu-kucakla.webp",
+    image: "/goldbook/icindeki-kozmosu-kucakla-v2.webp",
     price: "300 TL",
     href: "https://www.shopier.com/goldkozmos/46435030",
   },
   {
     title: "Aşk Manifestosu",
     text: "İlişkiler, seçimler ve sevgiyle kurduğumuz bağ üzerine bir GoldBook çalışması.",
-    image: "/goldbook/ask-manifestosu.webp",
+    image: "/goldbook/ask-manifestosu-v2.webp",
     price: "300 TL",
     href: "https://www.shopier.com/goldkozmos/47631093",
   },
+  { title: "Özdeğer ve Onay Bağımlılığı", text: "Kendi değerini hatırlamak, onay ihtiyacını anlamak ve sağlıklı sınırlar oluşturmak üzerine.", image: "/goldbook/ozdeger-ve-onay-bagimliligi.webp", price: "300 TL", href: "https://www.shopier.com/goldkozmos/52057877" },
 ];
 
 
 const faqs = [
   {
-    question: "Rezonans Atölyeleri online mı gerçekleşiyor?",
+    question: "Kozmik enerji çalışmaları nasıl gerçekleşiyor?",
     answer:
-      "Evet. Rezonans Atölyeleri Google Meet üzerinden çevrim içi olarak gerçekleştirilir.",
+      "Enerji odaklı çalışmalar online ve birebir gerçekleşir. Çalışmanın odağını ve katılım bilgilerini inceleyebilir, satın alma veya randevu talebi adımıyla ilerleyebilirsin.",
   },
   {
     question: "Hangi çalışmadan başlamalıyım?",
     answer:
-      "Kendilik Rezonansı temel başlangıç alanıdır. Kendinle kurduğun ilişkiyi, özdeğerini, sınırlarını ve tekrar eden kişisel örüntülerini gördükten sonra İlişki veya Bolluk Rezonansı ile devam edebilirsin.",
+      "Belirli bir enerji alanına odaklanmak için 30 dakikalık enerji çalışmalarını inceleyebilirsin. Yaşadıklarını anlatmak, konunu konuşarak ele almak ve ardından enerji çalışması almak istiyorsan 90 dakikalık birebir görüşme uygun bir başlangıç olabilir. Daha uzun bir süreç için beş günlük veya dört haftalık paketler bulunur.",
   },
   {
-    question: "Rezonans Atölyeleri kaç gün sürüyor?",
+    question: "Rezonans eğitimleri ne zaman açılacak?",
     answer:
-      "Ana Rezonans Atölyeleri 5 günlük yapı üzerinden ilerler. Çalışmanın içeriğine göre oturumlar, PDF özetleri ve kişisel uygulamalar programa dahil edilebilir.",
+      "Rezonans eğitimleri hazırlık aşamasında; Ocak–Şubat döneminde yayına alınması planlanıyor. Her alan 15 farkındalık ses kaydı ve ihtiyaca göre hazırlanacak enerji çalışması kayıtlarıyla ilerleyecek. Her kaydın ardından enerji çalışması bulunmayacak.",
   },
   {
-    question: "Atölyelerde kayıt veya materyal veriliyor mu?",
+    question: "Rezonans eğitimleri hangi içeriklerle hazırlanıyor?",
     answer:
-      "Çalışmaya göre PDF özetleri, ev çalışmaları veya destekleyici materyaller paylaşılabilir. İlgili çalışmanın sayfasında dahil olan içerikler ayrıca belirtilir.",
+      "Her rezonans alanı için 15 farkındalık ses kaydı hazırlanıyor. İhtiyaca göre enerji çalışmaları da ses kaydı olarak yer alacak; içerik ve erişim ayrıntıları yayınlandığında ilgili sayfada açıklanacak.",
   },
   {
     question: "Birebir çalışma seçenekleri neler?",
@@ -162,9 +79,9 @@ const faqs = [
       "Tek birebir seans, belirlediğin bir konuya odaklanan kişisel bir görüşmedir. Seansın amacı konuyu daha net görmek, tekrar eden örüntüleri fark etmek ve üzerinde çalışacağın alanı belirlemektir.",
   },
   {
-    question: "5 günlük yoğun paket kimler için uygun?",
+    question: "4 haftalık çalışma paketi kimler için uygun?",
     answer:
-      "Tek bir konuya daha yoğun şekilde odaklanmak ve birkaç gün boyunca aynı başlık üzerinde ilerlemek isteyenler için hazırlanmıştır.",
+      "Haftada bir gün, 90 dakikalık dört görüşmeyle konuşma, kişisel gelişim desteği ve enerji çalışması almak isteyenler için hazırlanmıştır.",
   },
   {
     question: "Tarot Farkındalık Okuması nedir?",
@@ -244,29 +161,14 @@ const socials: {
     href: "https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq",
   },
   {
-    name: "WhatsApp",
-    platform: "whatsapp",
-    href: "https://whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s",
-  },
-  {
     name: "X",
     platform: "x",
     href: "https://x.com/GoldKozmos",
   },
   {
-    name: "TikTok",
-    platform: "tiktok",
-    href: "https://www.tiktok.com/@goldkozmos?_r=1&_t=ZS-98oDGnytEMW",
-  },
-  {
     name: "YouTube",
     platform: "youtube",
     href: "https://youtube.com/@goldkozmos?si=CoqJse_HYvVsiYEG",
-  },
-  {
-    name: "Spotify",
-    platform: "spotify",
-    href: "https://open.spotify.com/show/0343du5jxaHZOJhqDJZKYQ?si=4qrVCf4IR5aahfbJRafqFQ&utm_source=copy-link&sci=spotify%3Acard-config%3A0gITc0Z1bxNLhqcVDb3ngn",
   },
 ];
 
@@ -303,186 +205,7 @@ const followChannels: {
   },
 ];
 
-function SocialIcon({
-  platform,
-  filled = false,
-}: {
-  platform: SocialPlatform;
-  filled?: boolean;
-}) {
-  if (filled) {
-    if (platform === "instagram") {
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <defs>
-            <radialGradient id="gkIgGrad" cx="30%" cy="107%" r="150%">
-              <stop offset="0%" stopColor="#fdf497" />
-              <stop offset="45%" stopColor="#fd5949" />
-              <stop offset="60%" stopColor="#d6249f" />
-              <stop offset="90%" stopColor="#285AEB" />
-            </radialGradient>
-          </defs>
-          <rect width="24" height="24" rx="6" fill="url(#gkIgGrad)" />
-          <rect
-            x="6.2"
-            y="6.2"
-            width="11.6"
-            height="11.6"
-            rx="3.4"
-            fill="none"
-            stroke="#fff"
-            strokeWidth="1.7"
-          />
-          <circle
-            cx="12"
-            cy="12"
-            r="2.85"
-            fill="none"
-            stroke="#fff"
-            strokeWidth="1.7"
-          />
-          <circle cx="15.55" cy="8.45" r="0.95" fill="#fff" />
-        </svg>
-      );
-    }
 
-    if (platform === "whatsapp") {
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect width="24" height="24" rx="6" fill="#25D366" />
-          <path
-            fill="#fff"
-            d="M12.04 5.2A6.8 6.8 0 0 0 5.25 12a6.76 6.76 0 0 0 1.02 3.58L5.4 18.8l3.12-.82A6.8 6.8 0 1 0 12.04 5.2zm3.94 9.62c-.17.47-.98.86-1.36.92-.35.05-.8.08-1.28-.08-.3-.1-.67-.22-1.16-.43-2.04-.88-3.38-2.95-3.48-3.09-.1-.14-.83-1.1-.83-2.1 0-1 .52-1.48.7-1.69.18-.2.4-.25.53-.25h.39c.13 0 .3-.05.46.35.17.41.57 1.4.62 1.5.05.1.08.22.02.36-.07.14-.1.22-.21.35-.1.12-.22.27-.31.36-.1.1-.21.22-.09.42.12.2.53.87 1.14 1.42.78.7 1.45.92 1.65 1.02.2.1.32.09.44-.06.12-.14.51-.6.65-.8.14-.2.28-.17.46-.1.18.07 1.16.55 1.36.65.2.1.34.15.39.23.05.08.05.49-.12.97z"
-          />
-        </svg>
-      );
-    }
-
-    if (platform === "x") {
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect width="24" height="24" rx="6" fill="#000" />
-          <path
-            fill="#fff"
-            d="M16.72 6.2h1.86L13.7 11.4 19.2 17.8h-4.04l-3.16-4.13-3.62 4.13H6.52l5.22-5.96L6.2 6.2h4.12l2.86 3.76 3.54-3.76zm-.64 10.5h1.03L8.5 7.25H7.4l8.68 9.45z"
-          />
-        </svg>
-      );
-    }
-
-    if (platform === "tiktok") {
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect width="24" height="24" rx="6" fill="#000" />
-          <path
-            fill="#25F4EE"
-            d="M14.05 6.15c.14 1.02.6 1.93 1.28 2.63.68.68 1.57 1.12 2.52 1.25v1.8c-.84-.03-1.66-.23-2.4-.58-.49-.23-.94-.53-1.35-.88v5.38c0 2.07-1.68 3.75-3.75 3.75S6.6 17.82 6.6 15.75c0-2.07 1.68-3.75 3.75-3.75.22 0 .43.02.63.06v1.9c-.2-.05-.41-.08-.63-.08-1.02 0-1.85.83-1.85 1.85s.83 1.85 1.85 1.85 1.85-.83 1.85-1.85V6.15h1.85z"
-          />
-          <path
-            fill="#FE2C55"
-            d="M13.45 6.55c.14 1.02.6 1.93 1.28 2.63.68.68 1.57 1.12 2.52 1.25v1.8c-.84-.03-1.66-.23-2.4-.58-.49-.23-.94-.53-1.35-.88v5.38c0 2.07-1.68 3.75-3.75 3.75S6 18.22 6 16.15c0-2.07 1.68-3.75 3.75-3.75.22 0 .43.02.63.06v1.9c-.2-.05-.41-.08-.63-.08-1.02 0-1.85.83-1.85 1.85s.83 1.85 1.85 1.85 1.85-.83 1.85-1.85V6.55h1.85z"
-          />
-          <path
-            fill="#fff"
-            d="M13.75 6.35c.14 1.02.6 1.93 1.28 2.63.68.68 1.57 1.12 2.52 1.25v1.8c-.84-.03-1.66-.23-2.4-.58-.49-.23-.94-.53-1.35-.88v5.38c0 2.07-1.68 3.75-3.75 3.75S6.3 18.02 6.3 15.95c0-2.07 1.68-3.75 3.75-3.75.22 0 .43.02.63.06v1.9c-.2-.05-.41-.08-.63-.08-1.02 0-1.85.83-1.85 1.85s.83 1.85 1.85 1.85 1.85-.83 1.85-1.85V6.35h1.85z"
-          />
-        </svg>
-      );
-    }
-
-    if (platform === "youtube") {
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect width="24" height="24" rx="6" fill="#FF0000" />
-          <path fill="#fff" d="M9.6 8v8l7.2-4z" />
-        </svg>
-      );
-    }
-
-    if (platform === "threads") {
-      return (
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect width="24" height="24" rx="6" fill="#000" />
-          <path
-            fill="#fff"
-            d="M15.72 8.28c-.58-1.06-1.72-1.66-3.32-1.66-2.78 0-4.62 2.04-4.62 5.4 0 3.3 1.8 5.3 4.66 5.3 1.72 0 3.02-.62 3.94-1.78l-1.22-1.06c-.66.78-1.54 1.2-2.66 1.2-1.84 0-2.97-1.24-2.97-3.68 0-2.48 1.13-3.7 2.9-3.7 1.26 0 2.14.64 2.42 1.84h-2.08v1.52h3.82c.04-.3.06-.58.06-.88 0-.84-.16-1.58-.5-2.22.42.08.82.2 1.22.32V7.72c-.5-.18-1.06-.32-1.65-.44z"
-          />
-        </svg>
-      );
-    }
-
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.52 17.34c-.24.36-.66.48-1.02.24-2.82-1.74-6.36-2.1-10.56-1.14-.42.12-.78-.18-.9-.54-.12-.42.18-.78.54-.9 4.56-1.02 8.52-.6 11.64 1.32.42.18.48.66.3 1.02zm1.44-3.3c-.3.42-.84.6-1.26.3-3.24-2.04-8.16-2.58-11.94-1.44-.48.12-.96-.18-1.08-.66-.12-.48.18-.96.66-1.08 4.38-1.32 9.78-.72 13.5 1.62.36.24.54.84.12 1.26zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.3c-.6.18-1.2-.18-1.38-.72-.18-.6.18-1.2.72-1.38 4.26-1.32 11.28-1.02 15.72 1.62.54.3.72 1.02.42 1.56-.3.48-1.02.66-1.56.36z"
-        />
-      </svg>
-    );
-  }
-
-  if (platform === "instagram") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4.2" />
-        <circle
-          cx="17.4"
-          cy="6.8"
-          r="1"
-          className="socialIconFill"
-        />
-      </svg>
-    );
-  }
-
-  if (platform === "whatsapp") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20.5 11.7a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.4a8.4 8.4 0 1 1 15.5-4.4Z" />
-        <path d="M8.2 7.9c.3-.6.6-.6.9-.6h.5c.2 0 .4.1.5.4l.8 2c.1.3 0 .5-.1.7l-.6.8c-.2.2-.2.4 0 .7.6 1 1.4 1.8 2.3 2.4.3.2.5.2.7 0l.9-1c.2-.2.4-.3.7-.1l1.9.9c.3.1.4.3.4.5 0 .3-.2 1.4-.9 2-.7.6-1.6.8-2.6.5-1.1-.3-2.9-1-4.6-2.6-1.4-1.3-2.4-3-2.7-4.2-.4-1.3.1-2 .4-2.4Z" />
-      </svg>
-    );
-  }
-
-  if (platform === "x") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M5 4l14 16M19 4 5 20" />
-      </svg>
-    );
-  }
-
-  if (platform === "tiktok") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M14 4v10.2a4.4 4.4 0 1 1-3.2-4.2" />
-        <path d="M14 4c.6 2.5 2.2 4.1 4.7 4.6" />
-      </svg>
-    );
-  }
-
-  if (platform === "youtube") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3" y="6" width="18" height="12" rx="4" />
-        <path
-          d="M10 9.2 15 12l-5 2.8Z"
-          className="socialIconFill"
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M8 10.2c2.7-.8 5.5-.7 8.2.4" />
-      <path d="M8.8 13c2.2-.6 4.5-.5 6.6.3" />
-      <path d="M9.7 15.5c1.6-.4 3.3-.3 4.8.3" />
-    </svg>
-  );
-}
 
 
 const homepageArchiveStyles = `
@@ -749,7 +472,7 @@ const homepageArchiveStyles = `
   .homeV3HeroVideoModal {
     position: fixed;
     inset: 0;
-    z-index: 100000;
+    z-index: 100100;
     display: grid;
     place-items: center;
     padding: 22px;
@@ -759,13 +482,15 @@ const homepageArchiveStyles = `
 
   .homeV3HeroVideoModalInner {
     position: relative;
-    width: min(920px, 100%);
+    width: min(440px, 100%, 43.875dvh);
   }
 
   .homeV3HeroVideoModalInner video {
     display: block;
     width: 100%;
-    max-height: 78vh;
+    height: auto;
+    max-height: 78dvh;
+    object-fit: contain;
     border-radius: 16px;
     background: #000;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
@@ -2550,11 +2275,7 @@ const homepageArchiveStyles = `
 
 `;
 
-export default function HomePageClient() {
-  const otherWorksSliderRef =
-    useRef<HTMLDivElement>(null);
-  const otherWorksLoopingRef = useRef(false);
-
+export default function HomePageClient({ featuredArticles }: { featuredArticles?: FeaturedBlogArticle[] }) {
   const [heroVideoOpen, setHeroVideoOpen] =
     useState(false);
   const [faqOpen, setFaqOpen] = useState(false);
@@ -2579,28 +2300,7 @@ export default function HomePageClient() {
     };
   }, [heroVideoOpen, faqOpen]);
 
-  useEffect(() => {
-    const slider = otherWorksSliderRef.current;
-    if (!slider) return;
-
-    const loopSlider = () => {
-      if (otherWorksLoopingRef.current) return;
-
-      const half = slider.scrollWidth / 2;
-      if (half <= slider.clientWidth) return;
-
-      if (slider.scrollLeft >= half - 2) {
-        otherWorksLoopingRef.current = true;
-        slider.scrollLeft -= half;
-        otherWorksLoopingRef.current = false;
-      }
-    };
-
-    slider.addEventListener("scroll", loopSlider, { passive: true });
-    return () => slider.removeEventListener("scroll", loopSlider);
-  }, []);
-
-  return (
+return (
     <main className="homeV3Page" id="top">
       <style>{homepageArchiveStyles}</style>
       {/* NAVBAR */}
@@ -2609,7 +2309,7 @@ export default function HomePageClient() {
 
       {/* HERO */}
 
-      <section className="homeV3Hero">
+      <section className="homeV3Hero homeHeroRefined">
         <div className="homeV3Container">
           <div className="homeV3HeroCard">
             <div className="homeV3HeroCopy">
@@ -2618,20 +2318,20 @@ export default function HomePageClient() {
               </p>
 
               <h1>
-                Kendi
-                <span> kozmosunu bul.</span>
+                Kozmik enerji.
+                <span> Kendine yeni bir alan aç.</span>
               </h1>
 
               <p className="homeV3HeroLead">
-                Kendilik, ilişkiler ve bolluk alanında tekrar eden
-                örüntülerini fark et. Kendini daha net gördükçe
-                hayatındaki seçimleri de daha bilinçli kur.
+                Özge Batıgün ile kozmik enerji ve kişisel gelişim.
+                Kendine uygun online çalışmayı keşfet.
               </p>
 
-              <div className="homeV3HeroLine">
-                <span>✦</span>
-                <p>İnsan değişmeden hayat değişmez.</p>
+              <div className="energyDiscoveryActions homeEnergyActions">
+                <a href="/calismalar">Çalışmaları incele <span aria-hidden="true">→</span></a>
+                <a href={APPOINTMENT_WHATSAPP_URL}>Randevu al <span aria-hidden="true">↗</span></a>
               </div>
+              <a className="homeEnergyGuide" href="/kozmik-enerji">Yaklaşımımızı tanı <span aria-hidden="true">→</span></a>
             </div>
 
             <div className="homeV3HeroProfileWrap">
@@ -2642,26 +2342,22 @@ export default function HomePageClient() {
                   onClick={() => setHeroVideoOpen(true)}
                   aria-label="Goldkozmos tanıtım videosunu oynat"
                 >
-                  <img
-                    src="/images/services/ozge-batigun-hakkimda.webp"
+                  <Image
+                    width={900}
+                    height={900}
+                    sizes="(max-width: 700px) 88vw, 460px"
+                    loading="eager"
+                    fetchPriority="high"
+                    src="/images/ozge-batigun-home-portrait.webp"
                     alt="Özge Batıgün"
                   />
 
-                  <span
-                    className="homeV3HeroPlayButton"
-                    aria-hidden="true"
-                  >
-                    ▶
-                  </span>
-
-                  <span className="homeV3HeroPlayLabel">
-                    Tanıtım Videosunu İzle
-                  </span>
+                  <span className="homeHeroVideoAction"><span className="homeHeroVideoGlyph" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M7 4.5 15 10l-8 5.5Z" /></svg></span><span>Tanıtım filmini izle</span></span>
                 </button>
 
                 <div className="homeV3HeroIdentityBar">
                   <strong>Özge Batıgün</strong>
-                  <span>Kişisel gelişim · Stoa · Rezonans</span>
+                  <span>Kozmik enerji · Kişisel gelişim</span>
                 </div>
               </div>
 
@@ -2689,356 +2385,58 @@ export default function HomePageClient() {
 
             <div className="homeHeroActionRow">
               <a
-                className="homeHeroMiniTest homeHeroActionCard"
+                className="homeHeroGraphicCard isWorks"
                 href="/calismalar"
               >
-                <div className="homeHeroMiniTestCopy">
+                <span className="homeHeroGraphicSymbol" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12" /><path d="M16 4v24M4 16h24M7.5 7.5l17 17M7.5 24.5l17-17" /><circle cx="16" cy="16" r="5" /></svg></span>
+                <div className="homeHeroGraphicCopy">
                   <h2>
-                    Çalışmalarım
+                    Kozmik enerji çalışmaları
                   </h2>
                 </div>
 
-                <span className="homeHeroActionCta">
-                  İncele
+                <span className="homeHeroGraphicCta">
+                  Sana uygun alanı keşfet <span aria-hidden="true">↗</span>
                 </span>
               </a>
 
+              <CompactInstagramFollow />
+
               <a
-                className="homeHeroMiniTest homeHeroActionCard"
+                className="homeHeroGraphicCard isAbout"
                 href="/hakkimda"
               >
-                <div className="homeHeroMiniTestCopy">
+                <span className="homeHeroGraphicSymbol" aria-hidden="true"><svg viewBox="0 0 32 32"><circle cx="16" cy="11" r="5" /><path d="M7 27v-3a9 9 0 0 1 18 0v3M4 16a12 12 0 0 1 24 0" /></svg></span>
+                <div className="homeHeroGraphicCopy">
                   <h2>
                     Hakkımda
                   </h2>
                 </div>
 
-                <span className="homeHeroActionCta">
-                  Oku
+                <span className="homeHeroGraphicCta">
+                  Oku <span aria-hidden="true">↗</span>
                 </span>
               </a>
 
-              <div className="homeHeroMiniTest">
-                <div className="homeHeroMiniTestCopy">
+              <a className="homeHeroGraphicCard isArchetype" href="/arketip-testi">
+                <span className="homeHeroGraphicSymbol" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 4 27 16 16 28 5 16 16 4ZM16 4v24M5 16h22" /><circle cx="16" cy="16" r="5" /></svg></span>
+                <div className="homeHeroGraphicCopy">
                   <h2>
                     Arketip testi
                   </h2>
                 </div>
 
-                <a href="/arketip-testi">
-                  Teste Başla
-                </a>
-              </div>
+                <span className="homeHeroGraphicCta">Teste Başla <span aria-hidden="true">↗</span></span>
+              </a>
             </div>
           </div>
         </div>
       </section>
 
       <DailyActionCard />
+      <HomeSpotlightCarousel featuredArticles={featuredArticles} />
       <DailyMessageExperience />
-      <HomeGoldAction />
-      <HomeSpotlightCarousel />
-
-      <PlatformRail />
-
-      {/* REZONANS */}
-
-      <section
-        className="homeV3Resonance"
-        id="rezonans"
-      >
-        <div className="homeV3Container">
-          <div className="homeV3SectionHeading">
-            <div>
-              <p className="homeV3Eyebrow">
-                REZONANS EĞİTİMLERİ
-              </p>
-
-              <h2>
-                3 Ana
-                <span> Rezonans</span>
-              </h2>
-            </div>
-
-            <p>
-              Üç farklı alan. Aynı amaç: kendini ve tekrar
-              eden örüntülerini daha net görmek.
-            </p>
-          </div>
-
-          <div className="homeV3ResonanceGrid">
-            {getEducationCourses().map((course) => {
-              const cta = getEducationPrimaryCta(course);
-              const hubHref = getEducationHubHref(course);
-
-              return (
-              <article
-                className="homeV3ResonanceCard"
-                key={course.id}
-              >
-                <a
-                  className="homeV3ResonanceImage"
-                  href={hubHref}
-                >
-                  <img
-                    src={course.coverImage}
-                    alt={course.title}
-                  />
-                </a>
-
-                <div className="homeV3ResonanceContent">
-                  <p className="homeV3CardEyebrow">
-                    {course.eyebrow}
-                  </p>
-
-                  <h3>{course.title}</h3>
-
-                  <p className="homeV3ResonanceText">
-                    {course.homeSummary}
-                  </p>
-
-                  <div className="homeV3ResonanceBottom">
-                    <a
-                      href={cta.href}
-                      {...(cta.external
-                        ? {
-                            target: "_blank",
-                            rel: "noreferrer",
-                          }
-                        : {})}
-                    >
-                      {cta.label}
-                      <span>→</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* DİĞER ÇALIŞMALAR */}
-
-      <section
-        className="homeV3Other"
-        id="diger"
-      >
-        <div className="homeV3Container">
-          <div className="homeV3PersonalHub">
-            <div className="homeV3PersonalLeft">
-              <div className="homeV3PersonalHeading">
-                <p className="homeV3Eyebrow">
-                  BİREBİR ÇALIŞMALAR
-                </p>
-
-                <h2>
-                  Daha
-                  <span> kişisel bir alan.</span>
-                </h2>
-
-                <p className="homeV3PersonalDescription">
-                  Tek bir konuya odaklanmak veya farklı bir
-                  farkındalık yöntemiyle ilerlemek isteyenler için.
-                </p>
-              </div>
-
-              <div
-                className="homeV3OtherSlider"
-                ref={otherWorksSliderRef}
-              >
-                {[...otherWorks, ...otherWorks].map((work, index) => (
-                  <a
-                    className="homeV3OtherCard"
-                    href={work.href}
-                    key={`${work.title}-${index}`}
-                  >
-                    <div className="homeV3OtherVisual">
-                      <img
-                        src={work.image}
-                        alt={work.title}
-                      />
-                    </div>
-
-                    <div className="homeV3OtherContent">
-                      <h3>{work.title}</h3>
-                      <p>{work.text}</p>
-
-                      <div className="homeV3OtherCardBottom">
-                        {"price" in work && work.price ? (
-                          <strong>{work.price}</strong>
-                        ) : (
-                          <span />
-                        )}
-                        <span className="homeV3OtherCardCta">
-                          Detayları Gör
-                          <span>→</span>
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CANLI KAYITLAR */}
-
-      <section
-        className="homeV3LiveArchive"
-        id="canli-kayitlar"
-      >
-        <div className="homeV3LiveArchiveInner">
-          <div className="homeV3LiveArchiveHeading">
-            <div>
-              <p className="homeV3Eyebrow">
-                CANLI KAYITLAR
-              </p>
-
-              <h2>
-                Kaçırdığın çalışmaları
-                <span> kendi zamanında izle.</span>
-              </h2>
-            </div>
-
-            <p>
-              Daha önce canlı gerçekleştirilen ve sonradan erişime
-              açılan çalışmalar burada bir araya gelir.
-            </p>
-          </div>
-
-          <div className="homeV3LiveArchiveGrid">
-            {recordings.map((recording) => (
-              <article
-                className="homeV3LiveArchiveCard"
-                key={recording.title}
-              >
-                <a
-                  href={recording.href}
-                  className="homeV3LiveArchiveImage"
-                  target={recording.href.startsWith("http") ? "_blank" : undefined}
-                  rel={recording.href.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  <img
-                    src={recording.image}
-                    alt={recording.title}
-                  />
-                </a>
-
-                <div className="homeV3LiveArchiveBody">
-                  <p>{recording.category}</p>
-
-                  <h3>{recording.title}</h3>
-
-                  <div className="homeV3LiveArchiveText">
-                    {recording.text}
-                  </div>
-
-                  <div className="homeV3LiveArchiveBottom">
-                    <strong>{recording.price}</strong>
-
-                    <a
-                      href={recording.href}
-                      target={recording.href.startsWith("http") ? "_blank" : undefined}
-                      rel={recording.href.startsWith("http") ? "noreferrer" : undefined}
-                    >
-                      İncele
-                      <span>→</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
-
-            <div className="homeV3LiveArchiveFuture">
-              <span>✦</span>
-              <p>
-                Yeni canlı kayıtlar eklendikçe
-                <strong> burada yerini alacak.</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SES KAYDI · ENERJİ ÇALIŞMALARI */}
-
-      <section
-        className="homeV3AudioEnergy"
-        id="ses-kaydi-enerji-calismalari"
-      >
-        <div className="homeV3AudioEnergyInner">
-          <div className="homeV3AudioEnergyHeading">
-            <div>
-              <p className="homeV3Eyebrow">
-                SES KAYDI · ENERJİ ÇALIŞMALARI
-              </p>
-
-              <h2>
-                Kendi zamanında dinle,
-                <span> kendi alanında uygula.</span>
-              </h2>
-            </div>
-
-            <p>
-              Yönlendirmeli ses kayıtları ve kayıtlı enerji
-              çalışmalarını seç, kendi zamanında eriş ve kendi
-              ritminde ilerle.
-            </p>
-          </div>
-
-          <div className="homeV3AudioEnergyGrid">
-            {audioEnergyProducts.map((product) => (
-              <article
-                className="homeV3AudioEnergyProduct"
-                key={product.title}
-              >
-                <a
-                  href={product.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="homeV3AudioEnergyImage"
-                  aria-label={`${product.title} ürününü incele`}
-                >
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                  />
-                </a>
-
-                <div className="homeV3AudioEnergyBody">
-                  <p className="homeV3AudioEnergyCategory">
-                    {product.category}
-                  </p>
-
-                  <h3>{product.title}</h3>
-
-                  <div className="homeV3AudioEnergyText">
-                    {product.text}
-                  </div>
-
-                  <div className="homeV3AudioEnergyBottom">
-                    <strong>{product.price}</strong>
-
-                    <a
-                      href={product.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Shopier’de İncele
-                      <span>↗</span>
-                    </a>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      <HomeResonanceCarousel />
 
       {/* GOLDBOOK */}
 
@@ -3076,10 +2474,7 @@ export default function HomePageClient() {
                     key={book.title}
                   >
                     <div className="homeV3BookImage">
-                      <img
-                        src={book.image}
-                        alt={book.title}
-                      />
+                      <Image src={book.image} alt={book.title} width={320} height={450} sizes="(max-width:700px) 32vw, 180px" />
                     </div>
 
                     <div className="homeV3BookContent">
@@ -3113,187 +2508,40 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      <section className="homeV3Connect" id="baglanti">
-        <div className="homeV3Container">
-          <div className="homeV3PhoneZoneHeading">
-            <p className="homeV3Eyebrow">
-              BAĞLANTIDA KAL
-            </p>
 
-            <h2>
-              Goldkozmos’u
-              <span> cebinde taşı.</span>
-            </h2>
 
-            <p>
-              Instagram içerikleri ve WhatsApp kanalındaki
-              duyurular için iki doğrudan bağlantı.
-            </p>
-          </div>
+      <section className="homeTopicAuthority" aria-labelledby="home-topic-authority-title">
+        <div className="homeTopicAuthorityInner">
+          <p className="topicHubEyebrow">GOLDKOZMOS · KEŞİF ALANLARI</p>
+          <h2 id="home-topic-authority-title">Kendi alanına <em>bir adım yaklaş.</em></h2>
+          <p>Enerji çalışmalarını tanı. Merak ettiğin yerden başla, kendi ihtiyacına uygun yolu keşfet.</p>
+          <nav className="homeTopicAuthorityLinks" aria-label="GoldKozmos konu rehberleri">
+            {[
+              ["/kozmik-enerji", "01", "Kozmik enerji", "Yaklaşımımızı ve birebir çalışmaları tanı.", "/images/basla/enerji.webp"],
+              ["/kisisel-gelisim", "02", "Kişisel gelişim", "Konuşma ve enerji çalışmasını bir araya getiren görüşmeler.", "/images/basla/birebir.webp"],
+              ["/cakralar", "03", "7 çakra", "Enerji merkezlerini sade bir rehberle keşfet.", "/images/page-heroes/cakralar.webp"],
+              ["/ruhsal-arinma", "04", "Ruhsal arınma", "Kendine alan açmak için bir başlangıç.", "/images/page-heroes/ruhsal-arinma.webp"],
+              ["/enerji-temizligi", "05", "Enerji temizliği", "Günlük farkındalık pratiklerini incele.", "/images/page-heroes/enerji-temizligi.webp"],
+            ].map(([href, number, title, description, image]) => (
+              <a key={href} href={href}><span className="discoveryVisual"><Image src={image} alt="" width={104} height={104} sizes="(max-width: 650px) 84px, 104px" style={{objectPosition: href === "/cakralar" || href === "/enerji-temizligi" ? "78% center" : "center"}} /><span className="discoveryNumber" aria-hidden="true">{number}</span></span><div className="discoveryCopy"><h3>{title}</h3><p>{description}</p></div><span className="discoveryArrow" aria-hidden="true">↗</span></a>
+            ))}
+          </nav>
+          <a className="discoveryWorkLink" href="/calismalar">Birebir çalışmalarımı keşfet <span aria-hidden="true">→</span></a>
+        </div>
+      </section>
 
-          <div className="homeV3PhonePair">
-            <a
-              className="homeV3SocialPhone homeV3InstagramPhone"
-              href="https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Goldkozmos Instagram hesabını aç"
-            >
-              <div className="homeV3PhoneFrame">
-                <div
-                  className="homeV3PhoneNotch"
-                  aria-hidden="true"
-                />
 
-                <div className="homeV3PhoneScreen">
-                  <div className="homeV3PhoneAppTop">
-                    <span className="homeV3PhoneAppIcon">
-                      <SocialIcon platform="instagram" filled />
-                    </span>
+      <section className="gkConnectPremium" id="baglanti" aria-labelledby="connect-title">
+        <div className="gkConnectInner">
+          <header className="gkConnectHeading">
+            <p className="gkConnectEyebrow">GOLDKOZMOS · BAĞLANTIDA KAL</p>
+            <h2 id="connect-title">Gününe küçük bir <span>kozmos kat.</span></h2>
+            <p>İlham veren paylaşımlar, yeni çalışmalar ve duyurular. Sana yakın olan kanalı seç.</p>
+          </header>
 
-                    <strong>Instagram</strong>
-                  </div>
-
-                  <div className="homeV3InstagramPhoneProfile">
-                    <div className="homeV3InstagramPhonePhoto">
-                      <img
-                        src="/images/services/instagram-profile.webp"
-                        alt="Goldkozmos Instagram"
-                      />
-                    </div>
-
-                    <p>GOLDKOZMOS®</p>
-                    <h3>@goldkozmos</h3>
-
-                    <span>
-                      Kendilik · İlişkiler · Bolluk · Stoa
-                    </span>
-                  </div>
-
-                  <div
-                    className="homeV3InstagramPhoneGrid"
-                    aria-hidden="true"
-                  >
-                    <span />
-                    <span />
-                    <span />
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-
-                  <div className="homeV3PhoneCta">
-                    Instagram’a Git
-                    <span>↗</span>
-                  </div>
-                </div>
-              </div>
-
-              <p className="homeV3PhoneLabel">
-                Instagram
-              </p>
-            </a>
-
-            <a
-              className="homeV3SocialPhone homeV3WhatsappPhone"
-              href="https://whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Goldkozmos WhatsApp kanalını aç"
-            >
-              <div className="homeV3PhoneFrame">
-                <div
-                  className="homeV3PhoneNotch"
-                  aria-hidden="true"
-                />
-
-                <div className="homeV3PhoneScreen">
-                  <div className="homeV3PhoneAppTop">
-                    <span className="homeV3PhoneAppIcon">
-                      <SocialIcon platform="whatsapp" filled />
-                    </span>
-
-                    <strong>WhatsApp</strong>
-                  </div>
-
-                  <div className="homeV3WhatsappPhoneHero">
-                    <span>GOLDKOZMOS® REZONANS EKOLÜ</span>
-
-                    <h3>
-                      Goldkozmos’tan
-                      <strong> haberdar kal.</strong>
-                    </h3>
-
-                    <p>
-                      Yeni çalışmalar, yayınlar ve duyurular
-                      tek bir yerde.
-                    </p>
-                  </div>
-
-                  <div className="homeV3WhatsappPhoneItems">
-                    <div>
-                      <span>01</span>
-                      <p>Yeni çalışma duyuruları</p>
-                    </div>
-
-                    <div>
-                      <span>02</span>
-                      <p>GoldCast ve GoldBlog paylaşımları</p>
-                    </div>
-
-                    <div>
-                      <span>03</span>
-                      <p>Topluluk güncellemeleri</p>
-                    </div>
-                  </div>
-
-                  <div className="homeV3PhoneCta">
-                    Kanala Katıl
-                    <span>→</span>
-                  </div>
-                </div>
-              </div>
-
-              <p className="homeV3PhoneLabel">
-                WhatsApp Kanalı
-              </p>
-            </a>
-          </div>
-
-          <div className="homeV3FollowChannels">
-            <div className="homeV3FollowChannelsTitle">
-              <span>DİĞER KANALLAR</span>
-              <p>Goldkozmos’u diğer platformlarda da takip et.</p>
-            </div>
-
-            <div className="homeV3FollowChannelsGrid">
-              {followChannels.map((channel) => (
-                <a
-                  key={channel.name}
-                  className="homeV3FollowChannel"
-                  href={channel.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span className="homeV3FollowChannelIcon" aria-hidden="true">
-                    <SocialIcon platform={channel.platform} filled />
-                  </span>
-
-                  <span className="homeV3FollowChannelCopy">
-                    <strong>{channel.name}</strong>
-                    <span>{channel.handle}</span>
-                  </span>
-
-                  <span
-                    className="homeV3FollowChannelArrow"
-                    aria-hidden="true"
-                  >
-                    ↗
-                  </span>
-                </a>
-              ))}
-            </div>
-          </div>
+          <div className="gkConnectOther"><p className="gkConnectEyebrow">DİĞER KANALLARDA KEŞFET</p><div className="gkConnectOtherGrid">
+            {followChannels.map((channel) => <a key={channel.name} href={channel.href} target="_blank" rel="noopener noreferrer" className="gkConnectOtherLink"><span className="gkConnectOtherIcon" aria-hidden="true"><SocialIcon platform={channel.platform} filled /></span><span><strong>{channel.name}</strong><small>{channel.handle}</small></span><span className="gkConnectExternal" aria-hidden="true">↗</span></a>)}
+          </div></div>
         </div>
       </section>
 
@@ -3375,7 +2623,7 @@ export default function HomePageClient() {
         </svg>
       </a>
 
-      {faqOpen ? (
+      {faqOpen ? createPortal(
         <div
           className="homeV3FaqModal"
           role="dialog"
@@ -3434,10 +2682,11 @@ export default function HomePageClient() {
               ))}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       ) : null}
 
-      {heroVideoOpen ? (
+      {heroVideoOpen ? createPortal(
         <div
           className="homeV3HeroVideoModal"
           role="dialog"
@@ -3459,21 +2708,23 @@ export default function HomePageClient() {
             </button>
 
             <video
+              poster="/videos/goldkozmos-tanitim-20261011-poster.jpg"
               autoPlay
               playsInline
               controls
-              preload="auto"
+              preload="metadata"
               onEnded={() => setHeroVideoOpen(false)}
               aria-label="Özge Batıgün Goldkozmos tanıtım videosu"
             >
               <source
-                src="/videos/goldkozmos-tanitim.mp4"
+                src="/videos/goldkozmos-tanitim-20261011.mp4"
                 type="video/mp4"
               />
               Tarayıcınız video etiketini desteklemiyor.
             </video>
           </div>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </main>
   );

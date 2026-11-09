@@ -1,3 +1,7 @@
+import SiteChat from "../components/SiteChat";
+import LaunchIntro from "../components/LaunchIntro";
+import SiteAnalytics from "../components/analytics/SiteAnalytics";
+import "../styles/analytics-consent.css";
 import type {
   Metadata,
   Viewport,
@@ -9,6 +13,11 @@ import PlatformFlowRoot from "../components/platform/PlatformFlowRoot";
 import "../styles/daily-practice.css";
 import PresenceTracker from "../components/presence/PresenceTracker";
 import RouteFade from "../components/RouteFade";
+import MemberInvite from "../components/MemberInvite";
+import PublicOnly from "../components/panel/PublicOnly";
+import TelegramInvite from "../components/TelegramInvite";
+import PublicLiveActivity from "../components/PublicLiveActivity";
+import SiteZoom from "../components/SiteZoom";
 
 import "../styles/home.css";
 import "../styles/mobile-v2.css";
@@ -24,12 +33,12 @@ export const metadata: Metadata = {
 
   title: {
     default:
-      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
+      "Goldkozmos® | Kozmik Enerji ve Kişisel Gelişim",
     template: "%s | Goldkozmos®",
   },
 
   description:
-    "Goldkozmos® Rezonans Ekolü; kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk, öz farkındalık, enerji ve spiritüel farkındalık alanlarını bir araya getiren içerik ve çalışma ekosistemidir.",
+    "Özge Batıgün ile online kozmik enerji ve kişisel gelişim çalışmaları. Çakra dengeleme ve birebir seansları incele, çalışma satın al veya randevu talebi oluştur.",
 
   robots: {
     index: true,
@@ -51,10 +60,10 @@ export const metadata: Metadata = {
     siteName: "Goldkozmos",
 
     title:
-      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
+      "Goldkozmos® | Kozmik Enerji ve Kişisel Gelişim",
 
     description:
-      "Kendilik, ilişkiler, bolluk, kişisel gelişim, Stoa, sosyoloji, enerji ve öz farkındalık üzerine Goldkozmos® Rezonans Ekolü içerikleri ve çalışmaları.",
+      "Online kozmik enerji ve kişisel gelişim çalışmaları, birebir seanslar ve farkındalık içerikleri.",
 
     images: [
       {
@@ -70,10 +79,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
 
     title:
-      "Goldkozmos® | Kişisel Gelişim, Stoa ve Rezonans Ekolü",
+      "Goldkozmos® | Kozmik Enerji ve Kişisel Gelişim",
 
     description:
-      "Kendilik, ilişkiler, bolluk, Stoa, sosyoloji, enerji ve kişisel farkındalık üzerine Goldkozmos® içerikleri.",
+      "Kozmik enerji ve kişisel gelişim: online çalışmalar, seanslar ve dijital içerikler.",
 
     images: ["/opengraph-image"],
   },
@@ -88,8 +97,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+
   themeColor: "#1b1009",
 };
 
@@ -124,13 +132,16 @@ const organizationJsonLd = {
 
   url: siteUrl,
 
+  founder: { "@type": "Person", "@id": `${siteUrl}/hakkimda#ozge-batigun`, name: "Özge Batıgün", url: `${siteUrl}/hakkimda` },
+  sameAs: ["https://www.instagram.com/goldkozmos/", "https://youtube.com/@goldkozmos", "https://www.tiktok.com/@goldkozmos", "https://x.com/GoldKozmos"],
+  contactPoint: { "@type": "ContactPoint", telephone: "+90-505-472-2153", contactType: "customer service", availableLanguage: "Turkish", url: `${siteUrl}/iletisim` },
   logo: {
     "@type": "ImageObject",
     url: `${siteUrl}/icon.png`,
   },
 
   description:
-    "Kişisel gelişim, Stoa, sosyoloji, kendilik, ilişkiler, bolluk, enerji ve öz farkındalık alanlarını bir araya getiren Goldkozmos® Rezonans Ekolü.",
+    "Özge Batıgün tarafından kurulan Goldkozmos: kozmik enerji, online birebir çalışmalar ve kişisel gelişim içerikleri.",
 };
 
 export default function RootLayout({
@@ -141,6 +152,7 @@ export default function RootLayout({
   return (
     <html lang="tr">
       <body>
+        <PublicOnly><LaunchIntro /></PublicOnly>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -161,10 +173,14 @@ export default function RootLayout({
 
         <PlatformFlowRoot>
           <PresenceTracker />
+          <SiteAnalytics measurementId={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID} />
           <RouteFade>{children}</RouteFade>
-          <GlobalContactDock />
+          <PublicOnly><GlobalContactDock />
           <MobileBottomBar />
+          <MemberInvite />
+          <TelegramInvite /><PublicLiveActivity /><SiteChat /></PublicOnly>
         </PlatformFlowRoot>
+        <SiteZoom />
       </body>
     </html>
   );

@@ -14,17 +14,18 @@ import {
 
 webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
 
-export async function sendAdminPush(alert: { title: string; body: string; url?: string }) {
+export async function sendAdminPush(alert: { title: string; body: string; url?: string }, endpoint?: string) {
   const supabase = createSupabaseServiceClient() || createSupabaseAnonClient();
   if (!supabase) {
-    return;
+    return { sent: 0, failed: 0 };
   }
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("comments")
     .select("id, content")
     .eq("post_id", PUSH_SUB_POST)
-    .limit(20);
+    .limit(100);
+  if (error) { console.error("Admin push subscription lookup failed"); return { sent: 0, failed: 1 }; }
 
   const payload = JSON.stringify({
     title: alert.title,
@@ -32,35 +33,28 @@ export async function sendAdminPush(alert: { title: string; body: string; url?: 
     url: alert.url || "/admin",
   });
 
+  let sent = 0;
+  let failed = 0;
+  const seen = new Set<string>();
   for (const row of data ?? []) {
     const sub = parsePushSub(String((row as { content?: string }).content ?? ""));
-    if (!sub) continue;
+    if (!sub || (endpoint && sub.endpoint !== endpoint) || seen.has(sub.endpoint)) continue;
+    seen.add(sub.endpoint);
     try {
-      await webpush.sendNotification(sub, payload);
-    } catch {
+      await webpush.sendNotification(sub, payload, { TTL: 300, urgency: "high", timeout: 10000 });
+      sent += 1;
+    } catch (reason) {
+      failed += 1;
+      const status = typeof reason === "object" && reason !== null && "statusCode" in reason ? Number(reason.statusCode) : 0;
+      console.error("Admin push delivery failed", { status });
       const id = String((row as { id?: string }).id ?? "");
       const admin = createSupabaseServiceClient();
-      if (id && admin) {
+      if (id && admin && (status === 404 || status === 410)) {
         await admin.from("comments").delete().eq("id", id);
       }
     }
   }
-}
-
-async function isFreshVisitor(visitorKey: string) {
-  const admin = createSupabaseServiceClient();
-  if (!admin) {
-    return false;
-  }
-
-  const { data } = await admin
-    .from("site_visitors")
-    .select("created_at")
-    .eq("visitor_key", visitorKey)
-    .maybeSingle();
-
-  const created = Date.parse(String((data as { created_at?: string } | null)?.created_at ?? ""));
-  return Number.isFinite(created) && Date.now() - created < 30_000;
+  return { sent, failed };
 }
 
 export async function notifyPresencePush(input: {
@@ -68,6 +62,7 @@ export async function notifyPresencePush(input: {
   path: string;
   visitorKey: string;
   heartbeat: boolean;
+  arrival: boolean;
 }) {
   if (input.heartbeat || shouldSkipPresencePath(input.path)) {
     return;
@@ -78,19 +73,18 @@ export async function notifyPresencePush(input: {
     return;
   }
   if (input.kind === "purchase") {
-    await sendAdminPush({ title: "Satış", body: "Siteden Shopier’e geçiş oldu." });
+    await sendAdminPush({ title: "Çalışma bağlantısı", body: "Siteden Shopier’e geçiş oldu.", url: "/admin/satin-almalar" });
     return;
   }
   if (input.kind === "appointment") {
-    await sendAdminPush({ title: "Randevu", body: "Randevu Al’dan geçiş oldu." });
+    await sendAdminPush({ title: "Randevu talebi", body: "Randevu bağlantısına geçiş oldu.", url: "/admin/randevular" });
     return;
   }
   if (input.kind !== "page") {
     return;
   }
 
-  const fresh = await isFreshVisitor(input.visitorKey);
-  if (!fresh) {
+  if (!input.arrival) {
     return;
   }
 
@@ -107,23 +101,21 @@ export async function notifyPresencePush(input: {
 
 export async function sendMemberPush(
   userId: string,
-  alert: { title: string; body: string; url?: string },
+  alert: { title: string; body: string; url?: string; vibration?: boolean },
+  authorizedClient?: import("@supabase/supabase-js").SupabaseClient,
 ) {
-  const admin = createSupabaseServiceClient();
+  const admin = createSupabaseServiceClient() || authorizedClient;
   if (!admin || !userId) {
     return { sent: 0 };
   }
 
-  const { data } = await admin
-    .from("push_subscriptions")
-    .select("id, endpoint, p256dh, auth_secret")
-    .eq("user_id", userId)
-    .limit(12);
+  const { data } = await admin.rpc("get_member_push_subscriptions", { p_user: userId });
 
   const payload = JSON.stringify({
     title: alert.title,
     body: alert.body,
     url: alert.url || "/profilim",
+    ...(alert.vibration === undefined ? {} : { vibration: alert.vibration }),
   });
 
   let sent = 0;
@@ -136,11 +128,13 @@ export async function sendMemberPush(
       await webpush.sendNotification(
         { endpoint, keys: { p256dh, auth } },
         payload,
+        { TTL: 300, urgency: "high", timeout: 10000 },
       );
       sent += 1;
-    } catch {
+    } catch (error) {
       const id = String(row.id ?? "");
-      if (id) {
+      const status = (error as { statusCode?: number }).statusCode;
+      if (id && (status === 404 || status === 410)) {
         await admin.from("push_subscriptions").delete().eq("id", id);
       }
     }

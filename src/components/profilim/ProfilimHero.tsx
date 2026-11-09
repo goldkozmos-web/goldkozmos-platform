@@ -50,7 +50,7 @@ export default function ProfilimHero({
 
       {isSiteAdminEmail(user.email) ? (
         <a className="profilimAdminJump" href="/admin">
-          Yönetim Paneline Git
+          Yönetim paneli ↗
         </a>
       ) : null}
 
@@ -63,7 +63,7 @@ export default function ProfilimHero({
         </strong>
       </div>
 
-      <div className="profilimLevelBar" aria-label="Gelişim seviyesi">
+      <div className="profilimLevelBar" role="progressbar" aria-label="Gelişim seviyesi" aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent}>
         <span
           className="profilimLevelBarFill"
           style={{ width: `${percent}%` }}

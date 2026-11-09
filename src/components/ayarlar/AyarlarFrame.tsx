@@ -1,15 +1,9 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
-import { createProfilimBrowserClient } from "../../lib/profilim/auth.client";
-import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
-import { isSiteAdminEmail } from "../../lib/admin/access";
-import {
-  fetchOwnProfileFlags,
-  isAdminProfile,
-} from "../../lib/admin/profile";
+import { useSettingsSession } from "./AyarlarSessionProvider";
 import type { ProfilimUser } from "../../lib/profilim/types";
 import ProfilimGate from "../profilim/ProfilimGate";
 
@@ -23,41 +17,7 @@ export default function AyarlarFrame({
   children: (user: NonNullable<ProfilimUser>) => ReactNode;
 }) {
   const router = useRouter();
-  const [user, setUser] = useState<ProfilimUser>(null);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const supabase = createProfilimBrowserClient();
-    if (!supabase) {
-      setReady(true);
-      return;
-    }
-    const client = supabase;
-
-    let cancelled = false;
-
-    async function load() {
-      const { data } = await client.auth.getUser();
-      if (cancelled) return;
-      const next = profilimUserFromAuth(data.user);
-      if (!next) {
-        setUser(null);
-        setReady(true);
-        return;
-      }
-
-      const flags = await fetchOwnProfileFlags(client, next.id);
-      const isAdmin =
-        isSiteAdminEmail(next.email) || isAdminProfile(flags);
-      setUser({ ...next, isAdmin });
-      setReady(true);
-    }
-
-    void load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const { user, ready, error, retry } = useSettingsSession();
 
   if (!ready) {
     return (
@@ -68,6 +28,7 @@ export default function AyarlarFrame({
           </a>
           <h1>{title}</h1>
         </header>
+        <p role="status">Ayarların açılıyor…</p>
       </div>
     );
   }
@@ -75,6 +36,7 @@ export default function AyarlarFrame({
   if (!user) {
     return (
       <div className="ayarlarShell">
+        {error ? <div className="adminPanel ayarlarCard ayarlarCopy" role="alert"><p>{error}</p><button type="button" onClick={retry}>Yeniden dene</button></div> : null}
         <ProfilimGate />
       </div>
     );

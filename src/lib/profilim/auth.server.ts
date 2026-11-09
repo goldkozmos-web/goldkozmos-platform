@@ -15,16 +15,7 @@ export async function getProfilimSessionUser(): Promise<ProfilimUser> {
   }
 
   try {
-    const auth = await Promise.race([
-      supabase.auth.getUser(),
-      new Promise<null>((resolve) => {
-        setTimeout(() => resolve(null), 2000);
-      }),
-    ]);
-
-    if (!auth) {
-      return null;
-    }
+    const auth = await supabase.auth.getUser();
 
     const actor = profilimUserFromAuth(auth.data.user);
 

@@ -1,65 +1,61 @@
-async function canvasPng(body: string) {
+import { istanbulMessageDay } from "./visual";
+import { monthlyDailyMessage } from "./monthly";
+
+async function canvasPng(body: string, day: string) {
   const canvas = document.createElement("canvas");
   canvas.width = 1080;
-  canvas.height = 1350;
+  canvas.height = 1920;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return null;
-
-  const grout = ctx.createLinearGradient(0, 0, 0, 1350);
-  grout.addColorStop(0, "#1a140f");
-  grout.addColorStop(1, "#120e0b");
-  ctx.fillStyle = grout;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.strokeStyle = "rgba(196,163,90,0.45)";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(48, 48, 984, 1254);
-  ctx.strokeRect(64, 64, 952, 1222);
-
-  ctx.fillStyle = "#c4a35a";
-  ctx.font = "700 22px Georgia, serif";
-  ctx.letterSpacing = "6px";
-  ctx.fillText("GOLDKOZMOS", 108, 160);
-
-  ctx.fillStyle = "rgba(244,234,216,0.55)";
-  ctx.font = "600 18px sans-serif";
+  if (!ctx) throw new Error("Görsel hazırlanamadı.");
+  const landscape = await new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    const timer = window.setTimeout(() => reject(new Error("Görsel yüklenemedi. Yeniden dene.")), 15000);
+    image.onload = () => { window.clearTimeout(timer); resolve(image); };
+    image.onerror = () => { window.clearTimeout(timer); reject(new Error("Görsel yüklenemedi. Yeniden dene.")); };
+    image.src = monthlyDailyMessage(day).image;
+  });
+  ctx.drawImage(landscape, 0, 0, 1080, 1920);
+  const shade = ctx.createLinearGradient(0, 0, 0, 1920);
+  shade.addColorStop(0, "rgba(15,24,20,.18)");
+  shade.addColorStop(.25, "rgba(15,24,20,.12)");
+  shade.addColorStop(.6, "rgba(15,24,20,.65)");
+  shade.addColorStop(1, "rgba(15,24,20,.85)");
+  ctx.fillStyle = shade;
+  ctx.fillRect(0, 0, 1080, 1920);
+  ctx.fillStyle = "#f7efdf";
+  ctx.textAlign = "center";
+  ctx.font = "500 22px Arial, sans-serif";
   ctx.letterSpacing = "4px";
-  ctx.fillText("BUGÜN", 108, 210);
-
-  ctx.fillStyle = "#f4ead8";
-  ctx.font = "400 48px Georgia, serif";
+  ctx.fillText("GÜNÜN MESAJI", 540, 145);
   ctx.letterSpacing = "0px";
-  wrapText(ctx, body, 108, 340, 860, 64);
-
-  ctx.fillStyle = "#c4a35a";
-  ctx.font = "500 22px sans-serif";
-  ctx.fillText("goldkozmos.com", 108, 1228);
-
-  return canvas;
-}
-
-function wrapText(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  x: number,
-  y: number,
-  maxWidth: number,
-  lineHeight: number,
-) {
-  const words = text.split(/\s+/);
-  let line = "";
-  let cursor = y;
-  for (const word of words) {
-    const test = line ? `${line} ${word}` : word;
-    if (ctx.measureText(test).width > maxWidth && line) {
-      ctx.fillText(line, x, cursor);
-      line = word;
-      cursor += lineHeight;
-    } else {
-      line = test;
+  const date = new Date(day + "T12:00:00Z");
+  ctx.font = "400 22px Arial, sans-serif";
+  ctx.fillText(date.toLocaleDateString("tr-TR", {timeZone:"Europe/Istanbul", day:"numeric", month:"long", year:"numeric"}), 540, 188);
+  const words = body.split(/\s+/);
+  let lines: string[] = [], size = 56;
+  do {
+    ctx.font = "400 " + size + "px Georgia, serif";
+    lines = []; let line = "";
+    for (const word of words) {
+      const test = line ? line + " " + word : word;
+      if (ctx.measureText(test).width > 860 && line) { lines.push(line); line = word; }
+      else line = test;
     }
-  }
-  if (line) ctx.fillText(line, x, cursor);
+    if(line) lines.push(line);
+    if(lines.length * size * 1.38 <= 550) break;
+    size -= 2;
+  } while(size > 34);
+  ctx.shadowColor = "rgba(0,0,0,.3)"; ctx.shadowBlur = 12;
+  const lineHeight = size * 1.38;
+  const start = 1150 - (lines.length - 1) * lineHeight / 2;
+  lines.forEach((line, index) => ctx.fillText(line, 540, start + index * lineHeight));
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = "#dfc792";
+  ctx.font = "400 32px Georgia, serif";
+  ctx.fillText("Goldkozmos", 540, 1720);
+  ctx.font = "400 20px Arial, sans-serif";
+  ctx.fillText("goldkozmos.com", 540, 1760);
+  return canvas;
 }
 
 function canvasToBlob(canvas: HTMLCanvasElement) {
@@ -68,9 +64,9 @@ function canvasToBlob(canvas: HTMLCanvasElement) {
   });
 }
 
-export async function shareDailyMessage(body: string) {
+export async function shareDailyMessage(body: string, day = istanbulMessageDay()) {
   const text = `${body}\n\nGoldKozmos · goldkozmos.com`;
-  const canvas = await canvasPng(body);
+  const canvas = await canvasPng(body, day);
   const blob = canvas ? await canvasToBlob(canvas) : null;
   const file =
     blob && typeof File !== "undefined"
@@ -121,10 +117,10 @@ export async function shareDailyMessage(body: string) {
   return "copied";
 }
 
-export async function saveDailyMessageImage(body: string, dateLabel = "bugun") {
-  const canvas = await canvasPng(body);
+export async function saveDailyMessageImage(body: string, dateLabel = istanbulMessageDay()) {
+  const canvas = await canvasPng(body, dateLabel);
   const blob = canvas ? await canvasToBlob(canvas) : null;
-  if (!blob) return;
+  if (!blob) throw new Error("Görsel kaydedilemedi. Yeniden dene.");
   await saveBlob(blob, `gunun-mesaji-${dateLabel}.png`);
 }
 

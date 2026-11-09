@@ -8,11 +8,16 @@ import "../../styles/home.css";
 import "../../styles/profilim-dashboard.css";
 import "../../styles/daily-practice.css";
 import "../../styles/ruya-tabirleri.css";
+import "../../styles/profilim-premium.css";
+import "../../styles/profilim-cards-refined.css";
+import "../../styles/water-reminder-premium.css";
+import "../../styles/profilim-welcome-refined.css";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Profilim",
+  robots: { index: false, follow: true },
   description:
     "GoldKozmos kişisel gelişim paneli: ilerlemen, kütüphanen, randevuların ve yolculuğun tek yerde.",
 };

@@ -1,4 +1,9 @@
+import { energyBlogArticles } from "./energyBlogArticles";
+import { consultationBlogArticles } from "./consultationBlogArticles";
+import { resonanceBlogArticles } from './resonanceBlogArticles';
+
 export type GoldBlogCategoryKey =
+  | "genel-rehber"
   | "spirituel-stoa"
   | "iliski-rezonansi"
   | "kendilik-rezonansi"
@@ -15,6 +20,12 @@ export type GoldBlogArticle = {
   readingTime: string;
   isNew: boolean;
   content: string[];
+  publishedAt?: string;
+  updatedAt?: string;
+  image?: string;
+  sections?: { id: string; title: string; paragraphs: string[]; color?: string; subtitle?: string }[];
+  cta?: { label: string; description: string; href: string };
+  sources?: { title: string; href: string }[];
 };
 
 export type GoldBlogCategory = {
@@ -63,7 +74,10 @@ export const goldBlogCategories: GoldBlogCategory[] = [
   }
 ] as GoldBlogCategory[];
 
-export const goldBlogArticles: GoldBlogArticle[] = [
+const articleCatalog: GoldBlogArticle[] = [
+  ...consultationBlogArticles,
+  ...resonanceBlogArticles,
+  ...energyBlogArticles.map((article): GoldBlogArticle => ({ ...article, categoryKey: 'genel-rehber' })),
   {
     "slug": "insan-bazen-kaybolmaz",
     "number": "01",
@@ -183,3 +197,8 @@ export const goldBlogArticles: GoldBlogArticle[] = [
     ]
   }
 ] as GoldBlogArticle[];
+
+export const goldBlogArticles: GoldBlogArticle[] = articleCatalog.map((article) => ({
+  ...article,
+  publishedAt: article.publishedAt ?? '2026-10-11',
+}));

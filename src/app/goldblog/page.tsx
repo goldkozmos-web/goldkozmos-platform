@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 
 import Navbar from "../../components/Navbar";
-import GoldBlogSection from "../../components/GoldBlogSection";
+import GoldBlogEditorial from "../../components/GoldBlogEditorial";
 import FooterSection from "../../components/FooterSection";
 import ContinueGlance from "../../components/platform/ContinueGlance";
 import "../../styles/home.css";
+import "../../styles/blog-article.css";
+import "../../styles/goldblog-editorial.css";
+import "../../styles/goldblog-compact-guides.css";
 
 const pageUrl = "https://goldkozmos.com/goldblog";
 
 export const metadata: Metadata = {
-  title: "GoldBlog | Kişisel Gelişim, Stoa ve Öz Farkındalık",
+  title: "GoldBlog | Çakralar, Kozmik Enerji ve Farkındalık",
 
   description:
-    "GoldBlog'da kişisel gelişim, Stoa felsefesi, özdeğer, ilişkiler, insan davranışları, bolluk, sosyoloji ve spiritüel farkındalık üzerine içerikleri keşfet.",
+    "Çakralar nedir, kozmik enerji nasıl anlatılır? Enerji çalışmaları, 7 çakra, Stoa, ilişkiler ve öz farkındalık üzerine GoldBlog rehberlerini keşfet.",
 
   alternates: {
     canonical: pageUrl,
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
     siteName: "Goldkozmos",
 
     title:
-      "GoldBlog | Kişisel Gelişim, Stoa ve Öz Farkındalık",
+      "GoldBlog | Çakralar, Kozmik Enerji ve Farkındalık",
 
     description:
       "Kişisel gelişim, Stoa, özdeğer, ilişkiler, sosyoloji, insan davranışları ve spiritüel farkındalık üzerine Goldkozmos® içerikleri.",
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
 
     title:
-      "GoldBlog | Kişisel Gelişim, Stoa ve Öz Farkındalık",
+      "GoldBlog | Çakralar, Kozmik Enerji ve Farkındalık",
 
     description:
       "Kişisel gelişim, Stoa, ilişkiler, özdeğer ve insanı anlamaya yönelik Goldkozmos® içeriklerini keşfet.",
@@ -113,7 +116,7 @@ export default function GoldBlogPage() {
 
       <ContinueGlance platformId="goldblog" variant="page" />
 
-      <GoldBlogSection />
+      <GoldBlogEditorial />
 
       <FooterSection />
     </main>

@@ -30,5 +30,5 @@ export type Ritual = {
 };
 
 export function ritualImagePath(slug: string) {
-  return `/images/goldrituel/${slug}.svg`;
+  return `/images/goldrituel/${slug}-editorial.webp`;
 }

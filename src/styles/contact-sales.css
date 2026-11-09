@@ -1,0 +1,44 @@
+.contactSalesLead{margin:0 0 18px!important;color:#cabb9f;font:13px/1.6 Arial,sans-serif!important;max-width:360px}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalWhatsappActions{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+.goldkozmosGlobalContactPanel .contactSalesAction{display:flex!important;align-items:center!important;gap:14px!important;padding:17px!important;min-height:88px!important;border-radius:17px!important;background:#fff5dd05!important;text-decoration:none}
+.goldkozmosGlobalContactPanel .contactSalesAction.isFeatured{background:linear-gradient(120deg,#eed49a,#c59a4c)!important;border-color:#e4c27c!important;color:#2b1c0d!important}
+.contactSalesMark{display:grid;place-items:center;flex:0 0 37px;width:37px;height:37px;border:1px solid #b58a3e40;border-radius:12px;font:25px/1 Georgia,serif!important;color:#dfbd7a}
+.isFeatured .contactSalesMark{color:#543615;border-color:#7d592b33}
+.contactSalesCopy{flex:1;min-width:0}.contactSalesCopy strong{display:block;font:21px/1.12 Georgia,serif!important;font-weight:400!important;color:#f0dec0}.contactSalesCopy small{display:block;margin-top:6px;color:#bcab8e;font:11px/1.5 Arial,sans-serif!important}.isFeatured .contactSalesCopy strong{color:#30200f}.isFeatured .contactSalesCopy small{color:#654a24}
+.contactSalesArrow{font-size:22px!important;color:#caa15c}.isFeatured .contactSalesArrow{color:#553712}
+.contactSalesSupport{margin-top:22px;padding-top:16px;border-top:1px solid #b58a3e25;display:grid;gap:12px}.contactSalesSupport>span{font:9px/1.4 Arial,sans-serif;letter-spacing:1.3px;text-transform:uppercase;color:#99866a}.contactSalesSupport a{display:flex;justify-content:space-between;align-items:center;min-height:28px;color:#d7c29d;text-decoration:none;font:12px/1.4 Arial,sans-serif}.contactSalesSupport b{font-weight:400;color:#b58a3e}
+@media(max-width:600px){.goldkozmosGlobalContactPanel .contactSalesAction{padding:14px!important;min-height:84px!important;gap:11px!important}.contactSalesCopy strong{font-size:19px!important}.contactSalesMark{width:32px;height:32px;flex-basis:32px}.goldkozmosGlobalContactIntro strong{font-size:26px!important;line-height:1.1!important}.contactSalesSupport{margin-top:17px}}
+.goldkozmosGlobalContactPanel .contactSalesAction,.goldkozmosGlobalContactPanel .contactSalesAction.isFeatured{position:relative;overflow:hidden;background:#fffaf1!important;color:#46321f!important;border:1px solid #e2cfad!important;border-radius:15px!important;padding:10px!important;gap:15px!important;min-height:108px!important;box-shadow:0 4px 12px #0000000a}
+.contactSalesImage{display:block;flex:0 0 76px;width:76px;height:84px;border-radius:10px;background-size:cover;background-position:center;border:1px solid #c8a7654d}
+.goldkozmosGlobalContactPanel .contactSalesCopy strong{font:400 21px/1.18 Georgia,serif!important;color:#48301d!important;letter-spacing:-.35px}
+.goldkozmosGlobalContactPanel .contactSalesCopy small{font:12px/1.55 Arial,sans-serif!important;color:#8c7152!important;margin-top:7px}
+.goldkozmosGlobalContactPanel .contactSalesArrow{display:grid;place-items:center;flex:0 0 30px;width:30px;height:30px;border:1px solid #c5a37166;border-radius:50%;margin:0 4px 0 0;font:17px Georgia!important;color:#987139!important}
+.goldkozmosGlobalContactPanel .contactSalesAction.isFeatured{background:linear-gradient(120deg,#fff8e7,#eddbb4)!important;border-color:#d9b878!important}
+.goldkozmosGlobalContactPanel .contactSalesLead{font:13px/1.7 Arial,sans-serif!important;color:#d5c2a3!important;max-width:none;margin-bottom:18px!important}
+.goldkozmosGlobalContactPanel .contactSalesSupport{margin-top:20px;gap:4px}.goldkozmosGlobalContactPanel .contactSalesSupport>span{color:#c6a97b;font-size:9px;margin-bottom:6px}.goldkozmosGlobalContactPanel .contactSalesSupport a{color:#ecdcc0;font-size:13px;min-height:40px;border-bottom:1px solid #c0a27722}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalContactIntro strong{font:400 29px/1.15 Georgia,serif!important;color:#fff0d8!important;letter-spacing:-.5px}
+@media(max-width:600px){.goldkozmosGlobalContactPanel .contactSalesAction,.goldkozmosGlobalContactPanel .contactSalesAction.isFeatured{padding:9px!important;gap:12px!important;min-height:100px!important}.contactSalesImage{width:65px;flex-basis:65px;height:79px}.goldkozmosGlobalContactPanel .contactSalesCopy strong{font-size:20px!important}.goldkozmosGlobalContactPanel .contactSalesCopy small{font-size:11px!important}.goldkozmosGlobalContactPanel .contactSalesArrow{width:26px;height:26px;flex-basis:26px;margin-right:1px}.goldkozmosGlobalContactPanel .goldkozmosGlobalContactIntro strong{font-size:27px!important}}
+@media(max-width:370px){.contactSalesImage{width:53px;flex-basis:53px;height:76px}.goldkozmosGlobalContactPanel .contactSalesCopy strong{font-size:18px!important}}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannels{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:10px!important;padding:8px 0 3px!important}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink{display:grid!important;place-items:center!important;flex:0 0 44px!important;width:44px!important;height:44px!important;min-width:44px!important;border:0!important;border-radius:50%!important;background:#10100f!important;box-shadow:0 4px 11px #0002!important;padding:11px!important;box-sizing:border-box!important}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink:before,.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink:after{display:none!important}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink svg{display:block;width:22px;height:22px;fill:currentColor;stroke:none}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink.is-instagram{background:linear-gradient(135deg,#ffcc59,#f55063 45%,#922cbb)!important;color:#fff}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink.is-whatsapp{background:#20c75a!important;color:#fff}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink.is-youtube{background:#f40000!important;color:#fff}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink.is-spotify{background:#19b650!important;color:#fff}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelsHead>span{font:500 10px Arial,sans-serif;letter-spacing:1.5px;color:#d4b77c}
+@media(max-width:380px){.goldkozmosGlobalContactPanel .goldkozmosGlobalChannels{gap:8px!important}.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink{flex-basis:40px!important;width:40px!important;height:40px!important;min-width:40px!important;padding:10px!important}}
+@media(max-width:600px){
+.goldkozmosGlobalContactPanel .contactSalesAction,.goldkozmosGlobalContactPanel .contactSalesAction.isFeatured{min-height:84px!important;padding:8px!important;gap:11px!important}
+.goldkozmosGlobalContactPanel .contactSalesImage{height:65px;width:58px;flex-basis:58px}
+.goldkozmosGlobalContactPanel .contactSalesCopy strong{font-size:19px!important}
+.goldkozmosGlobalContactPanel .contactSalesCopy small{font-size:11px!important;line-height:1.4!important;margin-top:4px}
+.goldkozmosGlobalContactPanel .contactSalesLead{font-size:12px!important;line-height:1.5!important;margin-bottom:12px!important}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalWhatsappActions{gap:8px!important}
+.goldkozmosGlobalContactPanel .contactSalesSupport{margin-top:13px;padding-top:11px;gap:2px}
+.goldkozmosGlobalContactPanel .contactSalesSupport a{min-height:33px;font-size:12px}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannels{gap:8px!important;padding:5px 0 1px!important}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalChannelLink{flex-basis:40px!important;width:40px!important;height:40px!important;min-width:40px!important;padding:10px!important}
+.goldkozmosGlobalContactPanel .goldkozmosGlobalContactDivider{margin:12px 0!important}
+}

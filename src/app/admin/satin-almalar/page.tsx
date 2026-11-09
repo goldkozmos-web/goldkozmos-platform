@@ -1,13 +1,14 @@
 import AdminEventList from "../../../components/admin/AdminEventList";
+import AdminSalesOutcomes from "../../../components/admin/AdminSalesOutcomes";
 
 export default function AdminPurchasesPage() {
   return (
-    <AdminEventList
+    <div className="adminStack"><AdminSalesOutcomes /><AdminEventList
       liveKey="purchases"
-      eyebrow="Satın Almalar"
+      eyebrow="Shopier bağlantısına geçişler"
       emptyTitle="Bugün tıklama yok"
-      emptyText="Shopier’e giden ziyaretçiler burada görünür."
+      emptyText="Shopier bağlantısına tıklamalar burada görünür. Bunlar doğrulanmış satış değildir."
       items={[]}
-    />
+    /></div>
   );
 }

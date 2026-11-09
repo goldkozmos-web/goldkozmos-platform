@@ -52,6 +52,8 @@ export default function RuyaArticle({ dream }: { dream: DreamGuide }) {
       <Block title="Renk, Mekân ve Kişiler" text={combinedContext(dream)} />
       <Block title="Rüyanın Özeti" text={dream.summary} />
 
+      {dream.faqs.length ? <section className="dreamFaq"><h2>Sık sorulanlar</h2>{dream.faqs.map(item => <details key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</section> : null}
+
       {related.length > 0 ? (
         <>
           <h2>Benzer Rüyalar</h2>

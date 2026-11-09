@@ -673,3 +673,48 @@
     font-size: 9px;
   }
 }
+
+.adminConnectionError { padding: 18px; background: #fff8ef; border: 1px solid #dfcba7; border-radius: 16px; font-size: 13px; line-height: 1.6; }
+.adminNotificationItem { color: inherit; text-decoration: none; }
+.adminNotificationItem time { font-size: 11px; color: #897866; }
+.adminQuietButton {
+  border: 1px solid #d7c9ae;
+  border-radius: 12px;
+  background: #fffaf1;
+  color: #4a3523;
+  padding: 10px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+.adminQuietButton:disabled { opacity: .6; cursor: wait; }
+.adminQuietButton:focus-visible { outline: 2px solid #b68b44; outline-offset: 3px; }
+
+.adminPresenceKind { display: inline-block; margin-left: 6px; padding: 3px 7px; border-radius: 6px; background: #f3ece0; color: #6e5333; font-size: 11px; font-weight: 500; }
+.adminChartRanges { display: flex; gap: 6px; flex-wrap: wrap; }
+.adminChartRanges button { border: 1px solid #e1d5bf; border-radius: 10px; padding: 9px 11px; background: #faf7f0; color: #6b5133; font: inherit; font-size: 12px; cursor: pointer; }
+.adminChartRanges button[aria-pressed="true"] { background: #302216; color: #f8df9b; border-color: #302216; }
+.adminChartSummary { display: flex; gap: 24px; flex-wrap: wrap; color: #76644e; font-size: 13px; margin: 12px 0 22px; }
+.adminChartSummary strong { color: #302216; font-size: 23px; margin-right: 5px; }
+.adminVisitBars { height: 150px; display: flex; gap: 3px; align-items: stretch; border-bottom: 1px solid #e7dece; background: repeating-linear-gradient(to top, transparent 0, transparent 49px, #f0ebe3 49px, #f0ebe3 50px); }
+.adminVisitBars button { flex: 1; min-width: 0; padding: 0; border: 0; background: transparent; display: flex; align-items: flex-end; cursor: pointer; }
+.adminVisitBars button span { display: block; width: 100%; background: #c6a15c; border-radius: 4px 4px 0 0; min-height: 2px; }
+.adminVisitBars button.isSelected span { background: #6e4720; }
+.adminVisitBars button:focus-visible, .adminChartRanges button:focus-visible { outline: 2px solid #a9782d; outline-offset: 2px; }
+.adminChartAxis { display: flex; justify-content: space-between; font-size: 11px; color: #8a775e; margin-top: 8px; }
+.adminChartDetail { color: #6a553c; font-size: 13px; margin: 18px 0 0; }
+@media(max-width: 600px) { .adminVisitPanel .adminPanelHead { flex-wrap: wrap; gap: 12px; } .adminChartRanges { width: 100%; } .adminChartRanges button { flex: 1; } .adminVisitBars { gap: 2px; } }
+
+.adminVisitBars.isToday { justify-content: center; }
+.adminVisitBars.isToday button { flex: 0 1 52px; }
+.adminChartFreshness { margin: 14px 0 0; color: #786951; font-size: 11px; line-height: 1.6; }
+.adminChartRanges button { min-height: 44px; white-space: nowrap; }
+
+
+.adminPushHelp { max-width: 580px; color: #58452d; font-size: 12px; line-height: 1.65; padding: 12px 14px; border: 1px solid #c7aa7966; border-radius: 14px; background: #fff9eb; }
+.adminNotifyBtn:disabled { opacity: .6; cursor: wait; }
+
+
+.adminAnnouncementPreview{padding:22px;border:1px solid #e5d6b9;border-radius:18px;background:#faf6ed}.adminAnnouncementPreview strong{font:25px/1.3 Georgia,serif}.adminAnnouncementPreview p:last-child{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.75;color:#5b4731}
+
+
+.adminOutcomeSummary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.adminOutcomeSummary span{font-size:12px;line-height:1.6}.adminOutcomeSummary strong{display:block;font-size:26px}.adminOutcomeRow{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:end;border-top:1px solid #ded5c8;padding:18px 0}.adminOutcomeRow small{display:block;font-size:11px;line-height:1.7;overflow-wrap:anywhere}.adminOutcomeRow label{font-size:11px}.adminOutcomeRow select{display:block;padding:10px 8px;border:1px solid #c9b797;border-radius:8px;background:#fff;max-width:100%;margin-top:5px}.adminOutcomeRow button{padding:11px 16px;border:0;border-radius:8px;background:#3b2b1e;color:#fff}.adminOutcomeRow button:disabled{opacity:.5}.adminSalesOutcomes header p{font-size:13px;line-height:1.8}.adminSalesOutcomes details{margin-top:18px}.adminSalesOutcomes summary{cursor:pointer}@media(max-width:650px){.adminOutcomeSummary{grid-template-columns:1fr;gap:10px}.adminOutcomeSummary strong{display:inline;margin-right:8px}.adminOutcomeRow{grid-template-columns:1fr auto}.adminOutcomeRow>div{grid-column:1/-1}.adminOutcomeRow select{width:100%}}

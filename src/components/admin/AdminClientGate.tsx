@@ -3,13 +3,14 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 import {
-  SITE_ADMIN_EMAIL,
   canAccessAdmin,
   isSiteAdminEmail,
   type AdminActor,
 } from "../../lib/admin/access";
 import { profilimUserFromAuth } from "../../lib/profilim/userFromAuth";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
+import type { AdminAccess } from "../../lib/admin/auth.server";
+import { shouldClearProfilimUser } from "../../lib/profilim/sessionEvents";
 import AdminLocked from "./AdminLocked";
 import AdminShell from "./AdminShell";
 
@@ -27,32 +28,31 @@ function actorFromSessionUser(
   };
 }
 
-const BOOT_ACTOR: AdminActor = {
-  id: "boot",
-  displayName: "Gold Kozmos",
-  email: SITE_ADMIN_EMAIL,
-  avatarUrl: null,
-  role: "admin",
-};
-
-export default function AdminClientGate({ children }: { children: ReactNode }) {
-  const [actor, setActor] = useState<AdminActor | null>(BOOT_ACTOR);
-  const [denied, setDenied] = useState<"forbidden" | "unconfigured" | null>(null);
+export default function AdminClientGate({ children, initialAccess }: { children: ReactNode; initialAccess: AdminAccess }) {
+  const [actor, setActor] = useState<AdminActor | null>(initialAccess.status === "ok" ? initialAccess.actor : null);
+  const [checking, setChecking] = useState(initialAccess.status === "signed-out");
+  const [denied, setDenied] = useState<"forbidden" | "unconfigured" | null>(initialAccess.status === "forbidden" || initialAccess.status === "unconfigured" ? initialAccess.status : null);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     if (!supabase) {
       setDenied("unconfigured");
       setActor(null);
+      setChecking(false);
       return;
     }
 
     let cancelled = false;
+    const timer = setTimeout(() => { if (!cancelled) setChecking(false); }, 12000);
 
-    function applyUser(sessionUser: Parameters<typeof profilimUserFromAuth>[0]) {
+    function applyUser(sessionUser: Parameters<typeof profilimUserFromAuth>[0], event?: string) {
       if (cancelled) return;
+      clearTimeout(timer);
       const next = actorFromSessionUser(sessionUser);
+      setChecking(false);
       if (!next) {
+        // INITIAL_SESSION can be empty while the server has a verified cookie session.
+        if (shouldClearProfilimUser(event)) setActor(null);
         return;
       }
       if (!canAccessAdmin(next.email)) {
@@ -64,29 +64,21 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
       setActor(next);
     }
 
-    void Promise.race([
-      supabase.auth.getSession(),
-      new Promise<null>((resolve) => {
-        setTimeout(() => resolve(null), 800);
-      }),
-    ]).then(async (pack) => {
-      const user = pack && "data" in pack ? pack.data.session?.user ?? null : null;
-      if (user) {
-        applyUser(user);
-      }
+    void supabase.auth.getSession().then((pack) => {
+      applyUser(pack.data.session?.user ?? null, "GET_SESSION");
+    }).catch(() => {
+      if (!cancelled) setChecking(false);
     });
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (!session?.user) {
-        return;
-      }
-      applyUser(session.user);
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      applyUser(session?.user ?? null, event);
     });
 
     return () => {
       cancelled = true;
+      clearTimeout(timer);
       subscription.unsubscribe();
     };
   }, []);
@@ -109,11 +101,8 @@ export default function AdminClientGate({ children }: { children: ReactNode }) {
     );
   }
 
-  if (!actor) {
-    return (
-      <AdminShell actor={BOOT_ACTOR}>{children}</AdminShell>
-    );
-  }
+  if (checking) return <section className="adminLocked" role="status"><p>Yönetim oturumu kontrol ediliyor…</p></section>;
+  if (!actor) return <AdminLocked title="Yönetim için giriş yap" text="Üyeleri ve bildirimleri görmek için yönetici hesabınla devam et." />;
 
   return <AdminShell actor={actor}>{children}</AdminShell>;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import type { MeditationPractice } from "../../data/meditation";
 import { isMeditationPlayable } from "../../data/meditation";
 
@@ -45,6 +46,13 @@ export default function GoldMindFeatured({
       left: direction === "right" ? amount : -amount,
       behavior: "smooth",
     });
+  }
+
+  if (practices.length === 0) {
+    return <section className="goldmindPreparing" aria-labelledby="goldmind-preparing-title">
+      <div className="goldmindPreparingArtwork" aria-hidden="true"><Image src="/images/platform/goldcast-premium.webp" alt="" fill sizes="(max-width: 700px) 40vw, 240px" /><span className="goldmindStudioSeal">GOLDMIND<br />SES ATÖLYESİ</span></div>
+      <div className="goldmindPreparingCopy"><p>YENİ BİR DİNLEME ALANI</p><h2 id="goldmind-preparing-title">Sesli pratikler hazırlanıyor.</h2><span>Meditasyon, nefes ve gevşeme kayıtları hazır olduğunda burada yer alacak.</span><div className="goldmindPreparingTopics">Meditasyon <i /> Nefes <i /> Gevşeme</div></div>
+    </section>;
   }
 
   return (

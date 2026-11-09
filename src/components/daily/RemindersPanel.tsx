@@ -10,7 +10,7 @@ import {
   fetchReminders,
 } from "../../lib/daily/client";
 import { readTodos, writeTodos } from "../../lib/profilim/localStore";
-import { sendTodoPhoneNotice } from "../../lib/push/browser";
+import { enableMemberPush, sendTodoPhoneNotice } from "../../lib/push/browser";
 import ProfilimEmptyState from "../profilim/ProfilimEmptyState";
 import "../../styles/daily-practice.css";
 
@@ -90,6 +90,7 @@ export default function RemindersPanel({ userId }: { userId: string }) {
         setItems(next);
         writeTodos(userId, next);
       })
+      .catch(() => setStatus("Görevlerin yüklenemedi. Yeniden açarak deneyebilirsin."))
       .finally(() => setLoading(false));
   }, [userId]);
 
@@ -120,50 +121,19 @@ export default function RemindersPanel({ userId }: { userId: string }) {
       createdAt: new Date().toISOString(),
     };
 
-    persist(mergeTodos([item], items));
-    setTitle("");
-    setNote("");
-    setDueOn("");
-    setDueTime("");
-    setRepeatRule("none");
-    setPending(true);
-
-    const result = await createReminder({
-      id: item.id,
-      title: item.title,
-      note: item.note,
-      dueOn: item.dueOn ?? "",
-      dueTime: item.dueTime ?? "",
-      repeatRule: item.repeatRule,
-    });
-
-    if (notifyPhone) {
-      const dueNow = isDueNow(item.dueOn ?? "", item.dueTime ?? "");
-      if (dueNow) {
-        const ping = await sendTodoPhoneNotice("Yapılacaklarım", item.title);
-        setStatus(
-          ping.ok
-            ? "Kaydedildi. Bildirim telefona gitti."
-            : ping.reason === "denied"
-              ? "Kaydedildi. Telefon bildirimi için izin ver."
-              : "Kaydedildi. Bildirim izni bu tarayıcıda kapalı.",
-        );
-      } else {
-        const ping = await sendTodoPhoneNotice(
-          "Yapılacaklarım",
-          `${item.title} saatine bildirim kuruldu.`,
-        );
-        setStatus(
-          ping.ok
-            ? "Kaydedildi. Saat gelince telefona düşer."
-            : "Kaydedildi. Bildirim için tarayıcı iznini aç.",
-        );
-      }
-    } else {
-      setStatus(result.error ? "Cihazına kaydedildi." : "Kaydedildi.");
-    }
-
-    setPending(false);
+    setPending(true); setStatus('');
+    const phone = notifyPhone ? enableMemberPush() : null;
+    try {
+      const result = await createReminder({id:item.id,title:item.title,note:item.note,dueOn:item.dueOn??'',dueTime:item.dueTime??'',repeatRule:item.repeatRule});
+      if(result.error) throw Error('Görev hesabına kaydedilemedi. Yeniden dene.');
+      persist(mergeTodos([item],items));setTitle('');setNote('');setDueOn('');setDueTime('');setRepeatRule('none');
+      const permission=await phone;
+      if(notifyPhone && permission?.ok && isDueNow(item.dueOn??'',item.dueTime??'')) {
+        const ping=await sendTodoPhoneNotice('Yapılacaklarım',item.title);
+        setStatus(ping.ok?'Görev kaydedildi ve telefon bildirimi gönderildi.':'Görev kaydedildi. Telefon bildirimi gönderilemedi.');
+      } else setStatus(notifyPhone ? permission?.ok ? 'Görev ve hatırlatma zamanı kaydedildi. Telefon bildirim iznin açık.' : 'Görev kaydedildi. Telefon izni kapalı; bildirim merkezinden takip edebilirsin.' : 'Görev hesabına kaydedildi.');
+    } catch(error) {setStatus(error instanceof Error?error.message:'Görev kaydedilemedi. Yeniden dene.');}
+    finally {setPending(false);}
   }
 
   function markDone(id: string) {
@@ -174,12 +144,12 @@ export default function RemindersPanel({ userId }: { userId: string }) {
           : item,
       ),
     );
-    void completeReminder(id);
+    void completeReminder(id).catch(() => setStatus("Tamamlama hesabına kaydedilemedi. Yeniden açarak dene."));
   }
 
   function remove(id: string) {
     persist(items.filter((item) => item.id !== id));
-    void deleteReminder(id);
+    void deleteReminder(id).catch(() => setStatus("Görev silinemedi. Yeniden açarak dene."));
   }
 
   return (

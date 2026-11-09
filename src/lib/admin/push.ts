@@ -36,7 +36,7 @@ export function packPushSub(sub: PushSub) {
   const cipher = createCipheriv("aes-256-gcm", keyBytes(), iv);
   const enc = Buffer.concat([cipher.update(plain, "utf8"), cipher.final()]);
   const tag = cipher.getAuthTag();
-  return Buffer.concat([iv, tag, enc]).toString("base64url").slice(0, 1000);
+  return Buffer.concat([iv, tag, enc]).toString("base64url");
 }
 
 export function parsePushSub(content: string): PushSub | null {

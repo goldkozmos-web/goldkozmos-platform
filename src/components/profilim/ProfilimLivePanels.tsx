@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 import ProfilimEmptyState from "./ProfilimEmptyState";
-import ProfilimFeaturedCard from "./ProfilimFeaturedCard";
+import BadgeSeal, { PROFILE_BADGES } from "./BadgeSeal";
 import "../../styles/daily-practice.css";
 
 const XP: Record<string, number> = {
@@ -17,106 +17,31 @@ const XP: Record<string, number> = {
   journey_day: 12,
   archetype: 20,
   favorite_add: 2,
+  water_goal: 8,
 };
 
 type Range = "7" | "30" | "all";
 
-const BADGE_SEALS = [
-  { id: "ilk-adim", title: "İlk Adım" },
-  { id: "3-gun-aktif", title: "3 Gün Aktif" },
-  { id: "7-gunluk-seri", title: "7 Günlük Seri" },
-  { id: "ilk-duygu", title: "İlk Duygu" },
-  { id: "ilk-eylem", title: "İlk Eylem" },
-  { id: "ilk-goldmind", title: "GoldMind" },
-  { id: "10-icerik", title: "10 İçerik" },
-  { id: "21-yolculuk", title: "21 Gün" },
-];
-
-export function ProfilimBadgeRow({ onOpen }: { onOpen: () => void }) {
-  const [earned, setEarned] = useState<Set<string>>(new Set());
-  const [total, setTotal] = useState(BADGE_SEALS.length);
-
-  useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase) return;
-    void Promise.all([
-      supabase.from("badges").select("id"),
-      supabase.from("user_badges").select("badge_id"),
-    ]).then(([all, have]) => {
-      setEarned(new Set((have.data ?? []).map((row) => String(row.badge_id))));
-      if (all.data?.length) setTotal(all.data.length);
-    });
-  }, []);
-
-  return (
-    <ProfilimFeaturedCard
-      className="profilimBadgeCard"
-      eyebrow="ROZET"
-      title="Rozetlerim"
-      onOpen={onOpen}
-    >
-      <span className="profilimBadgeMedals" aria-hidden="true">
-        {BADGE_SEALS.slice(0, 6).map((badge) => (
-          <span
-            key={badge.id}
-            className={`profilimMedal${earned.has(badge.id) ? " isEarned" : ""}`}
-          >
-            ★
-          </span>
-        ))}
-      </span>
-      {earned.size === 0
-        ? "Henüz rozet yok. Adımların burada birikir."
-        : `${earned.size} / ${total} rozet kazandın.`}
-    </ProfilimFeaturedCard>
-  );
+function useProfileBadges() {
+ const [earned,setEarned]=useState<Set<string>>(new Set());
+ const [error,setError]=useState('');
+ useEffect(()=>{
+  const client=createSupabaseBrowserClient();if(!client)return;
+  let active=true;
+  async function load(){try{await client!.rpc('refresh_user_badges');const result=await client!.from('user_badges').select('badge_id');if(result.error)throw Error();if(active){setEarned(new Set((result.data??[]).map(row=>String(row.badge_id))));setError('');}}catch{if(active)setError('Rozetlerin şu an yüklenemedi. Yeniden açarak deneyebilirsin.');}}
+  void load();const timer=setInterval(()=>{if(document.visibilityState==='visible')void load();},20000);
+  const focus=()=>void load();window.addEventListener('focus',focus);
+  return()=>{active=false;clearInterval(timer);window.removeEventListener('focus',focus);};
+ },[]);
+ return {earned,error};
 }
-
-export function ProfilimBadgesPanel() {
-  const [items, setItems] = useState<{ id: string; title: string; description: string; earned: boolean }[]>([]);
-
-  useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
-    if (!supabase) return;
-    void Promise.all([
-      supabase.from("badges").select("id, title, description"),
-      supabase.from("user_badges").select("badge_id"),
-    ]).then(([all, earned]) => {
-      const have = new Set((earned.data ?? []).map((row) => String(row.badge_id)));
-      setItems(
-        (all.data ?? []).map((row) => ({
-          id: String(row.id),
-          title: String(row.title),
-          description: String(row.description ?? ""),
-          earned: have.has(String(row.id)),
-        })),
-      );
-    });
-  }, []);
-
-  if (items.length === 0) {
-    return <ProfilimEmptyState text="Rozetler burada birikir. İlk adımınla açılırlar." />;
-  }
-
-  return (
-    <ul className="profilimBadgeList">
-      {items.map((item) => (
-        <li
-          key={item.id}
-          className={`profilimBadgeItem${item.earned ? " isEarned" : ""}`}
-        >
-          <span className="profilimMedal" aria-hidden="true">
-            ★
-          </span>
-          <span>
-            <span>{item.earned ? "Kazanıldı" : "Kilitli"}</span>
-            <strong>{item.title}</strong>
-            <small>{item.description}</small>
-          </span>
-        </li>
-      ))}
-    </ul>
-  );
+export function ProfilimBadgeRow({onOpen}:{onOpen:()=>void}){
+ const {earned,error}=useProfileBadges();
+ return <button type="button" className="profilimIdentityBadges" onClick={onOpen} aria-label="Rozetlerim, tüm rozetleri görüntüle"><span className="profilimIdentityBadgesHeading"><span>Rozetlerim</span><span className="profilimIdentityBadgesLink">Keşfet <span aria-hidden="true">↗</span></span></span><span className="profilimIdentityBadgeSeals">{PROFILE_BADGES.map(badge=><span key={badge.id} title={badge.title+(earned.has(badge.id)?' · Kazanıldı':' · Henüz kazanılmadı')}><BadgeSeal id={badge.id} earned={earned.has(badge.id)}/></span>)}</span><span className="profilimIdentityBadgesNote">{error||(earned.size===0?'Küçük adımların burada iz bırakır.':earned.size+' / '+PROFILE_BADGES.length+' rozet kazandın.')}</span></button>;
+}
+export function ProfilimBadgesPanel(){
+ const {earned,error}=useProfileBadges();
+ return <div><div className="profilimExperienceLead"><strong>Her küçük adım iz bırakır.</strong><p>Rozetlerin tamamladığın gerçek aktivitelerle açılır. Yeni bir rozet kazandığında bildirim merkezinde haberin olur.</p></div>{error?<p role="alert">{error}</p>:null}<ul className="profilimBadgeList">{PROFILE_BADGES.map(item=><li key={item.id} className={'profilimBadgeItem'+(earned.has(item.id)?' isEarned':'')}><BadgeSeal id={item.id} earned={earned.has(item.id)}/><span><span>{earned.has(item.id)?'Kazanıldı':'Sıradaki keşfin'}</span><strong>{item.title}</strong><small>{item.description}</small></span></li>)}</ul></div>;
 }
 
 export function ProfilimStatsPanel() {
@@ -160,18 +85,12 @@ export function ProfilimStatsPanel() {
     <div className="profilimDrawerStack">
       <div className="dailyMessageActions">
         {(["7", "30", "all"] as Range[]).map((item) => (
-          <button key={item} type="button" onClick={() => setRange(item)}>
+          <button key={item} type="button" aria-pressed={range === item} onClick={() => setRange(item)}>
             {item === "all" ? "Toplam" : `${item} gün`}
           </button>
         ))}
       </div>
-      <p>Aktif gün: {stats.active}</p>
-      <p>GoldAct: {stats.actions}</p>
-      <p>Günlük: {stats.journal}</p>
-      <p>Yolculuk günü: {stats.journey}</p>
-      <p>GoldMind: {stats.mind}</p>
-      <p>İçerik: {stats.content}</p>
-      <p>XP (bu aralık): {stats.xp}</p>
+      <div className="profilimStatCards">{[{label:'Aktif gün',value:stats.active},{label:'Günlük eylem',value:stats.actions},{label:'Günlük kaydı',value:stats.journal},{label:'Yolculuk günü',value:stats.journey},{label:'GoldMind',value:stats.mind},{label:'Tamamlanan içerik',value:stats.content},{label:'Kazanılan XP',value:stats.xp}].map(item=><article key={item.label}><span>{item.label}</span><strong>{item.value}</strong></article>)}</div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "forbidden" }, { status: 401 });
   }
 
-  const data = await loadAdminLive(client);
+  const data = await loadAdminLive(client, access.actor.id);
   return NextResponse.json(data, {
     headers: {
       "Cache-Control": "no-store",

@@ -1,8 +1,10 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { sendAdminPush } from "@/lib/admin/push-server";
 
 import {
   isMemberProfileComplete,
   memberDisplayName,
+  persistMemberProfile,
   parseMemberProfile,
 } from "@/lib/auth/membership";
 import { isSiteAdminEmail } from "@/lib/admin/access";
@@ -45,48 +47,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: parsed.error }, { status: 400 });
   }
 
-  const { error: metaError } = await supabase.auth.updateUser({
-    data: {
-      first_name: parsed.firstName,
-      last_name: parsed.lastName,
-      full_name: memberDisplayName(parsed),
-      display_name: memberDisplayName(parsed),
-      city: parsed.city,
-      age: parsed.age,
-      interests: parsed.interests.join(","),
-      phone: parsed.phone,
-      gk_member_complete: true,
-      privacy_accepted_at: new Date().toISOString(),
-    },
-  });
-
-  if (metaError) {
-    return NextResponse.json({ ok: false, error: "Kayıt kaydedilemedi. Tekrar dene." }, { status: 400 });
-  }
-
   const displayName = memberDisplayName(parsed);
-  await supabase.from("profiles").update({ display_name: displayName }).eq("id", user.id);
-  await supabase.rpc("ensure_own_membership");
-  if (user.email) {
-    await supabase.from("site_members").upsert(
-      {
-        email: user.email.trim().toLowerCase(),
-        display_name: displayName,
-        auth_user_id: user.id,
-        source: "google",
-        status: "active",
-      },
-      { onConflict: "email" },
-    );
-  }
-  await supabase.rpc("save_own_membership_profile", {
-    p_first_name: parsed.firstName,
-    p_last_name: parsed.lastName,
-    p_city: parsed.city,
-    p_age: parsed.age,
-    p_interests: parsed.interests.join(","),
-    p_phone: parsed.phone,
-  });
+  const saved = await persistMemberProfile(supabase, parsed);
+  if (!saved.ok) return NextResponse.json(saved, { status: 503 });
   await recordMemberJoin(
     user,
     {
@@ -97,5 +60,6 @@ export async function POST(request: Request) {
     supabase,
   );
 
+  if (!isMemberProfileComplete(user)) after(() => sendAdminPush({ title: "Yeni üye", body: "Yeni bir üye kayıt formunu tamamladı.", url: "/admin/kullanicilar" }).then(() => undefined));
   return NextResponse.json({ ok: true });
 }

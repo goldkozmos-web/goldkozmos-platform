@@ -18,7 +18,7 @@ export function scoreDreamQuery(
   query: string,
   haystacks: string[],
 ) {
-  const needle = foldTurkish(query);
+  const needle = foldTurkish(query).replace(/\b(ruyada|ruyamda|gordum|gormek|gordugum|bir)\b/g, "").replace(/\s+/g, " ").trim();
   if (needle.length < 2) return 0;
 
   let score = 0;

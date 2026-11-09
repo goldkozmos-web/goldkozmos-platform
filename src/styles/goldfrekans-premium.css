@@ -1,0 +1,159 @@
+.goldFrekansPage{background:#f8f4ec;color:#38291c}
+.goldFrekansHero{position:relative;isolation:isolate;overflow:hidden;min-height:378px;padding:68px 0 40px;background:#241a12;border-bottom:1px solid #bda16c33}
+.goldFrekansHeroArt{position:absolute;inset:0 0 0 40%;z-index:-2}
+.goldFrekansHeroArt img{object-fit:cover;object-position:center 48%}
+.goldFrekansHero:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#241a12 14%,#241a12db 42%,#241a1200 90%),linear-gradient(0deg,#241a12,transparent 45%)}
+.goldFrekansHeroInner{width:min(1080px,calc(100% - 48px));margin:auto}
+.goldFrekansEyebrow{font:9px/1.5 Arial,sans-serif;letter-spacing:.17em;color:#ac8447;margin:0 0 14px}
+.goldFrekansHero .goldFrekansEyebrow{color:#d7b67c}
+.goldFrekansHero h1{font-size:clamp(35px,4.5vw,54px);font-weight:400;line-height:1.1;letter-spacing:-.03em;color:#fff4df;margin:0 0 22px;max-width:520px}
+.goldFrekansHero h1 span{color:#e2c58c}
+.goldFrekansHeroLead{font-size:14px;line-height:1.8;color:#d6c4a8;margin:0 0 24px}
+.goldFrekansExplore{display:inline-flex;gap:30px;align-items:center;padding:12px 18px;border:1px solid #c3a06766;border-radius:30px;color:#eed7ad;font-size:12px;text-decoration:none;background:#241a1266}
+.goldFrekansContinue{width:min(1080px,calc(100% - 40px));margin:auto}
+.goldFrekansContinue .platformPageContinue{margin:28px 0 0;padding:0;background:none}
+.goldFrekansArchive{padding:38px 0 58px;overflow:hidden;background:#f8f4ec;scroll-margin-top:24px}
+.goldFrekansArchiveInner{width:min(1080px,calc(100% - 40px));margin:auto}
+.goldFrekansArchiveHeader{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:24px}
+.goldFrekansArchiveHeader h2{font-size:30px;line-height:1.2;font-weight:400;letter-spacing:-.025em;margin:0;max-width:420px}
+.goldFrekansArchiveHeader .goldFrekansEyebrow{margin-bottom:10px}
+.goldFrekansChannelLink{font-size:12px;color:#94703b;text-decoration:none;white-space:nowrap;padding-bottom:4px;border-bottom:1px solid #bda16c55}
+.goldFrekansLibraryTools{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.goldFrekansFilters{display:flex;flex-wrap:wrap;gap:7px}
+.goldFrekansFilters button{border:1px solid #bda16c44;border-radius:25px;background:#fffdf7;color:#8e7857;padding:10px 14px;font:10px Arial,sans-serif;cursor:pointer}
+.goldFrekansFilters button[aria-selected=true]{color:#efd7aa;background:#302419;border-color:#302419}
+.goldFrekansControls{display:flex;gap:6px}
+.goldFrekansControls button{width:35px;height:35px;border:1px solid #bda16c44;border-radius:50%;background:transparent;color:#94703b;cursor:pointer}
+.goldFrekansScroller{display:flex;align-items:stretch;gap:18px;overflow:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:22px 0 24px}
+.goldFrekansScroller::-webkit-scrollbar{display:none}
+.goldFrekansCard{position:relative;flex:0 0 310px;width:310px;min-width:0;display:flex;flex-direction:column;align-items:stretch;border:1px solid #bda16c44;border-radius:23px;background:#fffdf8;padding:0;text-align:left;overflow:hidden;scroll-snap-align:start;cursor:pointer;box-shadow:0 10px 24px #513a140a;transition:border-color .2s}
+.goldFrekansCard.isActive{border-color:#b38a46;box-shadow:0 0 0 1px #b38a4633,0 10px 24px #513a140a}
+.goldFrekansTop{position:absolute;z-index:1;inset:14px 14px auto;display:flex;justify-content:space-between;align-items:center;color:#f7e8cc;font:7px Arial,sans-serif;letter-spacing:.1em;pointer-events:none}
+.goldFrekansTop>span:first-child{padding:7px 9px;background:#1d2119aa;border:1px solid #f4e1bb33;border-radius:18px;backdrop-filter:blur(6px)}
+.goldFrekansTop>span:last-child{display:grid;place-items:center;width:38px;height:38px;border:1px solid #f4e1bb77;border-radius:50%;background:#1d211966;backdrop-filter:blur(6px);font-size:11px;padding-left:2px}
+.goldFrekansCardVisual{display:block;position:relative;aspect-ratio:4/3;overflow:hidden;background:#2b241a}
+.goldFrekansCardVisual:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#14120b44,transparent 45%,#14120b22)}
+.goldFrekansCardVisual img{width:100%;height:100%;display:block;object-fit:cover}
+.goldFrekansCardBody{display:flex;flex:1;flex-direction:column;padding:23px}
+.goldFrekansCategory{font:8px/1.6 Arial,sans-serif;letter-spacing:.1em;color:#a27d43;margin:0 0 11px}
+.goldFrekansTitle{font:400 24px/1.15 Georgia,serif;letter-spacing:-.025em;color:#3b291b;min-height:83px}
+.goldFrekansDescription{font:12px/1.8 Arial,sans-serif;color:#97826a;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;margin:12px 0 24px;min-height:87px}
+.goldFrekansListen{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #bda16c33;padding-top:17px;margin-top:auto;font-size:13px;color:#8f6a32}
+.goldFrekansListen>span{font-size:18px}
+.goldFrekansCard.isActive .goldFrekansListen{color:#9b732c}
+.goldFrekansPage button:focus-visible,.goldFrekansPage a:focus-visible{outline:2px solid #bd985b;outline-offset:4px}
+@media(max-width:700px){
+ .goldFrekansHero{padding:43px 0 30px;min-height:378px;display:flex;align-items:center}
+ .goldFrekansHeroInner{width:calc(100% - 40px)}
+ .goldFrekansHeroArt{inset:0 0 0 15%}
+ .goldFrekansHero:after{background:linear-gradient(90deg,#241a12ed,#241a1266 85%),linear-gradient(0deg,#241a12,transparent 45%)}
+ .goldFrekansHero h1{font-size:35px;margin-bottom:18px;max-width:330px}
+ .goldFrekansArchiveHeader{display:block;margin-bottom:20px}
+ .goldFrekansArchiveHeader h2{font-size:27px;max-width:290px}
+ .goldFrekansChannelLink{display:inline-block;margin-top:17px;font-size:10px}
+ .goldFrekansCard{flex-basis:82vw;width:82vw;max-width:310px}
+ .goldFrekansCardBody{padding:22px}
+ .goldFrekansControls{gap:4px}
+ .goldFrekansControls button{width:29px;height:29px}
+ .goldFrekansFilters{gap:5px}
+ .goldFrekansFilters button{font-size:9px;padding:10px 11px}
+}
+@media(prefers-reduced-motion:reduce){.goldFrekansCard{transition:none}.goldFrekansScroller{scroll-behavior:auto}}
+
+/* A compact listening console and tighter editorial sound cards. */
+.goldFrekansContinue .platformPageContinue{width:100%}
+.goldFrekansContinue .platformContinueCard{position:relative;grid-template-columns:88px minmax(0,1fr);align-items:center;gap:20px;padding:24px;border-radius:22px;border-color:#b9985e66;background:radial-gradient(ellipse at 100% 0,#ae875b22,transparent 70%),linear-gradient(130deg,#382a1e,#20170f);box-shadow:0 12px 24px #3c261516}
+.goldFrekansContinue .platformContinueArt{width:88px;height:100px;border-radius:13px;border:1px solid #d2b57b44;box-shadow:0 5px 15px #120d0766}
+.goldFrekansContinue .platformContinueCopy{gap:10px;padding-right:68px}
+.goldFrekansContinue .platformContinueCopy p{font:8px/1.5 Arial,sans-serif;letter-spacing:.16em;color:#c5a46d}
+.goldFrekansContinue .platformContinueCopy strong{font-size:22px;color:#f6e7cd;line-height:1.2}
+.goldFrekansContinue .platformContinueDesc{display:none}
+.goldFrekansContinue .platformContinuePercent{font:9px/1.4 Arial,sans-serif;letter-spacing:.025em;color:#bca582}
+.goldFrekansContinue .platformContinueMeter{gap:9px;margin-top:2px}
+.goldFrekansContinue .platformProgressTrack{height:3px;border-radius:4px;background:#c9a56b22}
+.goldFrekansContinue .platformProgressTrack i{border-radius:4px;background:linear-gradient(90deg,#af8344,#edcf93)}
+.goldFrekansContinue .platformContinueCta{position:absolute;right:24px;top:50%;transform:translateY(-50%);width:50px;height:50px;min-height:50px;padding:0;margin:0;font-size:0;background:linear-gradient(130deg,#f0d99f,#b98c40);border:1px solid #f5dfb2aa;box-shadow:0 4px 14px #100c0866;color:#322313;letter-spacing:0}
+.goldFrekansContinue .platformContinueCta:after{content:'▶';font:14px Arial,sans-serif;margin-left:3px}
+.goldFrekansContinue .platformContinueCta:hover{background:#efcf8b;color:#322313}
+.goldFrekansCard{border-radius:21px;background:#fffdf8;border-color:#bda16c33}
+.goldFrekansCardVisual{aspect-ratio:16/10}
+.goldFrekansCardVisual img{transform:scale(1.34)}
+.goldFrekansTop{inset:15px 15px auto;align-items:start}
+.goldFrekansTop>span:last-child{width:43px;height:43px;background:linear-gradient(135deg,#eed8a5,#b78b43);color:#2a2015;border-color:#f0dba6aa;backdrop-filter:none;box-shadow:0 3px 14px #10100744}
+.goldFrekansTop>span:first-child{font-size:7px;letter-spacing:.08em;background:#211a12aa}
+.goldFrekansCardBody{padding:20px 22px 22px}
+.goldFrekansCategory{font-size:7px;margin-bottom:9px}
+.goldFrekansTitle{font-size:23px;line-height:1.18;min-height:54px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.goldFrekansDescription{font-size:11px;line-height:1.75;-webkit-line-clamp:3;min-height:58px;margin:10px 0 20px;color:#8e7a63}
+.goldFrekansListen{padding:13px 15px;border:1px solid #b69a6555;border-radius:12px;background:linear-gradient(120deg,#3b2c1f,#261c13);color:#e4c692;font-size:12px}
+.goldFrekansListen>span{font-size:16px}
+.goldFrekansCard.isActive{border-color:#a77d3d}
+.goldFrekansCard.isActive .goldFrekansListen{background:linear-gradient(120deg,#e8c98d,#c7a15e);color:#332518}
+@media(max-width:700px){
+ .goldFrekansContinue .platformContinueCard{grid-template-columns:72px minmax(0,1fr);gap:14px;padding:20px 16px}
+ .goldFrekansContinue .platformContinueArt{width:72px;height:88px;border-radius:11px}
+ .goldFrekansContinue .platformContinueCopy{padding-right:46px;gap:8px}
+ .goldFrekansContinue .platformContinueCopy strong{font-size:18px}
+ .goldFrekansContinue .platformContinueCopy p{font-size:7px}
+ .goldFrekansContinue .platformContinuePercent{font-size:8px}
+ .goldFrekansContinue .platformContinueCta{right:15px;width:38px;height:38px;min-height:38px}
+ .goldFrekansContinue .platformContinueCta:after{font-size:12px}
+ .goldFrekansCard{flex-basis:78vw;width:78vw;max-width:300px}
+ .goldFrekansCardBody{padding:20px}
+ .goldFrekansTitle{font-size:22px;min-height:52px}
+}
+
+/* A framed, tactile sound sleeve rather than a plain product card. */
+.goldFrekansCard{isolation:isolate;background:radial-gradient(ellipse at 100% 100%,#76552f33,transparent 55%),linear-gradient(145deg,#36271b,#211810);border:1px solid #ad8a5455;box-shadow:0 12px 28px #291a131c}
+.goldFrekansCard:after{content:'';position:absolute;inset:5px;border:1px solid #e6c38a22;border-radius:16px;pointer-events:none;z-index:2}
+.goldFrekansCardVisual{margin:10px 10px 0;border-radius:14px;aspect-ratio:16/10;flex-shrink:0}
+.goldFrekansCardVisual:after{background:linear-gradient(180deg,#15120933,transparent 45%,#271c14 100%)}
+.goldFrekansTop{inset:23px 23px auto}
+.goldFrekansTop>span:first-child{border-color:#e9c99144;font-size:6px;letter-spacing:.12em;background:#221b13bb}
+.goldFrekansTop>span:last-child{width:42px;height:42px;box-shadow:0 0 0 5px #e4c58a1a,0 4px 12px #140e0844}
+.goldFrekansCardBody{padding:8px 24px 24px}
+.goldFrekansCategory{color:#c9a970;margin:0 0 9px;font-size:7px;letter-spacing:.13em}
+.goldFrekansTitle{color:#f2e4ce;font-size:24px;line-height:1.15;min-height:56px;font-weight:400}
+.goldFrekansDescription{color:#bcaa90;font-size:11px;line-height:1.75;margin:9px 0 21px;min-height:58px}
+.goldFrekansWaveform{display:flex;gap:4px;align-items:center;height:31px;position:relative;margin:10px 0 0;width:100%;opacity:.85}
+.goldFrekansWaveform:after{content:'';height:1px;flex:1;margin-left:8px;background:linear-gradient(90deg,#be9d5e55,transparent)}
+.goldFrekansWaveform i{width:2px;border-radius:2px;flex-shrink:0;background:linear-gradient(#eed29b,#937143)}
+.goldFrekansListen{background:linear-gradient(130deg,#e7ce9a,#bd9455);border:1px solid #e8cd9955;color:#312216;padding:12px 15px;border-radius:10px;font-size:12px;box-shadow:0 4px 12px #120d0722}
+.goldFrekansCard.isActive{border-color:#e4c184;box-shadow:0 0 0 1px #d7b67833,0 12px 28px #291a131c}
+.goldFrekansCard.isActive .goldFrekansListen{background:linear-gradient(130deg,#f5dfb3,#d6b26e)}
+.goldFrekansContinue .platformContinueCard{grid-template-columns:68px minmax(0,1fr);gap:18px;padding:20px;border-radius:20px;min-height:112px}
+.goldFrekansContinue .platformContinueArt{width:68px;height:68px;border-radius:12px}
+.goldFrekansContinue .platformContinueCopy{gap:7px;padding-right:60px}
+.goldFrekansContinue .platformContinueCopy strong{font-size:20px;line-height:1.2}
+.goldFrekansContinue .platformContinueCta{width:44px;height:44px;min-height:44px;right:20px;box-shadow:0 0 0 5px #e4c58a0d,0 4px 12px #100c0844}
+.goldFrekansContinue .platformContinueMeter{gap:7px;margin-top:2px}
+@media(max-width:700px){
+ .goldFrekansContinue .platformContinueCard{grid-template-columns:60px minmax(0,1fr);gap:13px;padding:19px 17px;min-height:104px}
+ .goldFrekansContinue .platformContinueArt{width:60px;height:60px;border-radius:10px}
+ .goldFrekansContinue .platformContinueCopy{padding-right:45px;gap:7px}
+ .goldFrekansContinue .platformContinueCopy strong{font-size:17px;line-height:1.25}
+ .goldFrekansContinue .platformContinueCta{width:36px;height:36px;min-height:36px;right:17px}
+ .goldFrekansContinue .platformContinuePercent{font-size:8px;letter-spacing:0}
+ .goldFrekansCard{flex-basis:79vw;width:79vw;max-width:310px}
+ .goldFrekansCardBody{padding:8px 22px 22px}
+ .goldFrekansTitle{font-size:23px;min-height:54px}
+ .goldFrekansTop{inset:22px 22px auto}
+}
+
+/* Resonance-style image-led library cards. */
+.goldFrekansCard{background:#fffdf8;border:1px solid #c6aa7633;border-radius:22px;box-shadow:0 9px 24px #5c41220a;flex-basis:310px;width:310px}
+.goldFrekansCard:after{display:none}
+.goldFrekansCardVisual{margin:0;border-radius:0;aspect-ratio:1.12;position:relative}
+.goldFrekansCardVisual img{transform:scale(1.34);object-fit:cover}
+.goldFrekansCardVisual:after{background:linear-gradient(180deg,#16140f33,transparent 35%,#16140f44)}
+.goldFrekansTop{inset:17px 17px auto;height:230px}
+.goldFrekansTop>span:first-child{background:#1c1b17aa;border:1px solid #fff4d533;letter-spacing:.09em;font-size:7px;padding:8px 11px}
+.goldFrekansTop>span:last-child{position:absolute;bottom:0;right:0;width:47px;height:47px;background:#fff6e6f2;border:1px solid #fff8ed;color:#765325;box-shadow:0 3px 12px #19100844}
+.goldFrekansCardBody{padding:23px 24px 24px;background:#fffdf8}
+.goldFrekansCategory{color:#a27d43;font-size:7px;letter-spacing:.13em;margin:0 0 11px}
+.goldFrekansTitle{font-size:23px;line-height:1.18;min-height:55px;color:#3c2b1c;letter-spacing:-.02em}
+.goldFrekansDescription{font:12px/1.7 Georgia,serif;color:#88715a;margin:10px 0 20px;min-height:62px;-webkit-line-clamp:3}
+.goldFrekansListen{background:transparent;border:0;border-top:1px solid #b89a6333;border-radius:0;box-shadow:none;color:#976c31;padding:17px 0 0;font:12px Georgia,serif}
+.goldFrekansCard.isActive{border-color:#b48b49;box-shadow:0 0 0 1px #b48b4922}
+.goldFrekansCard.isActive .goldFrekansListen{background:transparent;color:#7c5827}
+@media(max-width:700px){.goldFrekansCard{flex-basis:78vw;width:78vw;max-width:300px}.goldFrekansCardBody{padding:22px}.goldFrekansTop{height:calc(78vw / 1.12 - 34px);max-height:234px}.goldFrekansTitle{font-size:23px;min-height:55px}}

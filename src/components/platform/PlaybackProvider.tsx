@@ -35,6 +35,8 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import { listenToYoutube, sendYoutubeCommand, youtubeEmbedSrc } from "../../lib/youtube";
 import SeekScrubber from "./SeekScrubber";
+import PlayerEdgeTile from "./PlayerEdgeTile";
+import { usePlayerDock } from "./usePlayerDock";
 import {
   loadSpotifyIframeApi,
   spotifyEmbedSrc,
@@ -68,6 +70,7 @@ type StartAudioInput = {
   title: string;
   href: string;
   audioUrl: string;
+  artworkUrl?: string;
   description?: string;
   currentTime?: number;
 };
@@ -105,6 +108,7 @@ type PlaybackContextValue = {
   toggle: () => void;
   seek: (seconds: number) => void;
   minimize: () => void;
+  playerDock: ReturnType<typeof usePlayerDock>;
   expand: () => void;
   stop: () => void;
   latest: PlatformProgress | null;
@@ -127,6 +131,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [ready, setReady] = useState(false);
+  const playerDock = usePlayerDock(Boolean(session && minimized), session?.contentId, () => setMinimized(true));
 
   useEffect(() => {
     setItems(readPlatformProgressMap());
@@ -181,12 +186,12 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const mini =
-      Boolean(session?.youtubeId || session?.spotifyEmbedUrl) && minimized;
+      Boolean(session?.youtubeId || session?.spotifyEmbedUrl) && minimized && !playerDock.compact;
     document.body.classList.toggle("hasPlatformMiniDock", mini);
     return () => {
       document.body.classList.remove("hasPlatformMiniDock");
     };
-  }, [minimized, session?.spotifyEmbedUrl, session?.youtubeId]);
+  }, [minimized, playerDock.compact, session?.spotifyEmbedUrl, session?.youtubeId]);
 
   const persist = useCallback(
     (entry: PlatformProgress) => {
@@ -235,6 +240,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       lastPlayedAt: now,
       status: "playing",
       audioUrl: input.audioUrl,
+      artworkUrl: input.artworkUrl ?? existing?.artworkUrl,
       description: input.description ?? existing?.description,
     };
 
@@ -649,6 +655,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       toggle,
       seek,
       minimize,
+      playerDock,
       expand,
       stop,
       latest: getLatestProgress(items),
@@ -667,6 +674,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
       toggle,
       seek,
       minimize,
+      playerDock,
       expand,
       stop,
     ],
@@ -692,7 +700,8 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
         <div
           className={`platformYoutubeShell${minimized ? " isMini" : " isStage"}${
             session.spotifyEmbedUrl ? " isSpotify" : ""
-          }${minimized && isPlaying ? " isPlaying" : ""}`}
+          }${minimized && isPlaying ? " isPlaying" : ""}${minimized && playerDock.compact ? " playerEdgeDock" : ""}`}
+          style={minimized ? playerDock.style : undefined}
         >
           {minimized ? null : (
             <div className="platformYoutubeChrome">
@@ -728,7 +737,7 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             </div>
           )}
 
-          {minimized ? (
+          {minimized && !playerDock.compact ? (
             <img
               className="platformYoutubeMiniArt"
               src={
@@ -768,8 +777,16 @@ export function PlaybackProvider({ children }: { children: ReactNode }) {
             <div className="platformSpotifyHost" ref={spotifyHostRef} />
           )}
 
-          {minimized ? (
+          {minimized && playerDock.compact ? <PlayerEdgeTile dock={playerDock} artwork={session.artworkUrl || (session.youtubeId ? `https://i.ytimg.com/vi/${session.youtubeId}/hqdefault.jpg` : undefined)} title={session.title} playing={isPlaying} toggle={toggle} /> : null}
+          {minimized && !playerDock.compact ? (
             <div className="platformYoutubeMiniBar">
+              <button type="button" className="playerDockHandle" {...playerDock.dragProps} onClick={(event) => { if (event.detail === 0) playerDock.collapse(); }} aria-label="Müzik kutusunu kenara küçült" title="Yukarı sürükleyerek kenara taşı"><span aria-hidden="true" /></button>
+              <button
+                type="button"
+                className="playerDockCollapse"
+                onClick={playerDock.collapse}
+                aria-label="Müzik kutusunu küçült"
+              >↖</button>
               <button
                 type="button"
                 className="platformYoutubeMiniTitle"

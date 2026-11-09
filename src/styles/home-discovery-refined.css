@@ -1,0 +1,32 @@
+.homeTopicAuthority{padding:44px 24px;background:#211812}
+.homeTopicAuthorityInner{max-width:1100px;border:0;padding:0}
+.homeTopicAuthority .topicHubEyebrow{font:10px/1.6 Arial,sans-serif;letter-spacing:2px;color:#a67d3c}
+.homeTopicAuthority h2{max-width:750px;font-size:clamp(30px,4vw,44px);line-height:1.12;letter-spacing:-.8px;margin:12px 0 14px;color:#f6ecdc}
+.homeTopicAuthority h2 em{display:block;color:#d8b675;font-weight:400}
+.homeTopicAuthorityInner>p:not(.topicHubEyebrow){font:15px/1.8 Arial,sans-serif;color:#cbbca6;max-width:540px}
+.homeTopicAuthorityLinks{display:grid;grid-template-columns:1fr 1fr;gap:0 36px;margin-top:24px}
+.homeTopicAuthorityLinks a{display:flex;gap:14px;align-items:center;padding:19px 0;border:0;border-bottom:1px solid #d8b67530;border-radius:0;background:transparent;color:#f6ecdc;box-shadow:none}
+.homeTopicAuthorityLinks a:hover{background:transparent;color:#e7c789;border-color:#b99558;transform:none}
+.discoveryNumber{font:11px Arial,sans-serif;color:#b19059;align-self:flex-start;padding-top:5px}
+.homeTopicAuthorityLinks h3{font:23px/1.2 Georgia,serif;margin:0 0 5px;font-weight:400}
+.homeTopicAuthorityLinks p{font:12px/1.65 Arial,sans-serif;color:#cbbca6;margin:0;max-width:260px}
+.discoveryArrow{margin-left:auto;color:#ad843e;font-size:22px}
+.discoveryWorkLink{display:inline-flex;gap:24px;align-items:center;margin-top:26px;padding:13px 0;color:#e0bf82;text-decoration:none;border-bottom:1px solid #c9ab76;font:13px Arial,sans-serif}
+.homeSpotlightDirectory{margin:14px 6px 0;color:#8c6d3d}
+.homeSpotlightDirectory summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;font:12px/1.6 Arial,sans-serif;list-style:none;padding:8px 0}
+.homeSpotlightDirectory summary::-webkit-details-marker{display:none}
+.homeSpotlightIndex{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px;padding:14px 0;background:transparent}
+.homeSpotlightIndex a{font:11px/1.5 Arial,sans-serif;color:#8c6d3d;text-decoration:none}
+@media(max-width:650px){.homeTopicAuthority{padding:34px 26px}.homeTopicAuthority h2{font-size:32px;letter-spacing:-.6px}.homeTopicAuthorityLinks{grid-template-columns:1fr;gap:0;margin-top:18px}.homeTopicAuthorityLinks a{padding:17px 0;border-radius:0}.homeTopicAuthorityLinks h3{font-size:22px}.homeTopicAuthorityInner>p:not(.topicHubEyebrow){font-size:12px;line-height:1.7}.discoveryWorkLink{font-size:12px;margin-top:18px}}
+
+/* Small editorial covers for the five home discovery links. */
+.homeTopicAuthority .homeTopicAuthorityLinks a{gap:18px;min-height:132px}
+.homeTopicAuthority .discoveryVisual{position:relative;display:block;flex:0 0 104px;width:104px;height:104px;border-radius:16px;overflow:hidden;border:1px solid #c6a66c66;background:#332418;box-shadow:0 5px 18px #0002}
+.homeTopicAuthority .discoveryVisual img{display:block;width:100%;height:100%;object-fit:cover}
+.homeTopicAuthority .discoveryVisual .discoveryNumber{position:absolute;top:7px;left:7px;padding:4px 5px;border:1px solid #c6a66c66;border-radius:6px;background:#211812d9;color:#e5c78c;font:9px/1 Arial,sans-serif}
+.homeTopicAuthority .discoveryCopy{min-width:0;flex:1}
+.homeTopicAuthority .homeTopicAuthorityLinks a:focus-visible{outline:2px solid #d8b675;outline-offset:5px}
+@media(max-width:650px){.homeTopicAuthority .homeTopicAuthorityLinks a{gap:14px;min-height:118px}.homeTopicAuthority .discoveryVisual{width:84px;height:84px;flex-basis:84px;border-radius:13px}.homeTopicAuthority .discoveryArrow{font-size:20px}.homeTopicAuthority .homeTopicAuthorityLinks h3{font-size:21px}.homeTopicAuthority .homeTopicAuthorityLinks p{font-size:12px;line-height:1.65}}
+@media(max-width:360px){.homeTopicAuthority .discoveryVisual{width:72px;height:80px;flex-basis:72px}.homeTopicAuthority .homeTopicAuthorityLinks a{gap:11px}}
+/* Cream discovery section, matching the light GoldKozmos palette. */
+.homeTopicAuthority{background:#faf6ed;color:#493322}.homeTopicAuthority h2{color:#493322}.homeTopicAuthority h2 em{color:#a77a34}.homeTopicAuthorityInner>p:not(.topicHubEyebrow),.homeTopicAuthorityLinks p{color:#765f45}.homeTopicAuthorityLinks a{color:#493322;border-bottom-color:#c8aa7055}.homeTopicAuthorityLinks a:hover{color:#805821}.homeTopicAuthority .topicHubEyebrow{color:#9b7135}

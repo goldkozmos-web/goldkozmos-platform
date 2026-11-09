@@ -56,3 +56,14 @@ test("same visitors do not alert again", () => {
   });
   assert.equal(alerts.length, 0);
 });
+
+test('a returning active member is named separately from a new registration', () => {
+  const alerts = diffAdminLive(nextLiveCursor([metric('members', 6)], []), {
+    metrics: [metric('members', 6)],
+    visitors: [{...visitor('member:existing', '/goldmind'),label:'Gold Kozmos',isMember:true}],
+  });
+  assert.equal(alerts.length, 1);
+  assert.equal(alerts[0].title, 'Üye sitede');
+  assert.match(alerts[0].body, /Gold Kozmos/);
+  assert.equal(alerts.some(alert => alert.kind === 'member'), false);
+});

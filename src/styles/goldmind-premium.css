@@ -1,0 +1,146 @@
+.meditationPage{background:#f7f3ea}
+.meditationPage .meditationSection{padding:26px 0 52px}
+.meditationPage .goldmindApp{display:grid;gap:28px}
+.meditationPage .goldmindWelcome{position:relative;isolation:isolate;overflow:hidden;border:1px solid #b99b6544;border-radius:26px;background:#261c13;padding:42px 36px;min-height:310px;margin:0;box-shadow:0 16px 36px #3d271012}
+.goldmindWelcomeArtwork{position:absolute;inset:0 0 0 40%;z-index:-2}
+.goldmindWelcomeArtwork img{object-fit:cover;object-position:center 45%}
+.meditationPage .goldmindWelcome:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#261c13 6%,#261c13ed 36%,#261c1322 85%)}
+.meditationPage .goldmindWelcome .goldmindBrandMark{font-family:Arial,sans-serif;font-size:9px;font-weight:500;letter-spacing:.18em;color:#d2b478;margin:0 0 23px}
+.meditationPage .goldmindWelcome h1{font-size:clamp(30px,4vw,44px);color:#fff4df;line-height:1.15;letter-spacing:-.025em;font-weight:400;margin:0 0 20px;max-width:400px}
+.meditationPage .goldmindWelcome .goldmindHello{font-size:14px;line-height:1.8;color:#d1bea0;max-width:280px;margin:0 0 23px}
+.goldmindWelcomeExplore{display:inline-flex;gap:35px;align-items:center;border:1px solid #b79a6455;border-radius:30px;padding:11px 17px;color:#efd6a6;font-size:12px;text-decoration:none;background:#241b1266}
+.goldmindWelcomeExplore:focus-visible{outline:2px solid #dfbf81;outline-offset:4px}
+.goldmindQuickHeading{margin:0 0 18px}
+.goldmindQuickHeading p{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.17em;color:#947a50;margin:0 0 10px;font-weight:500}
+.goldmindQuickHeading h2{font-size:26px;line-height:1.2;font-weight:400;letter-spacing:-.02em;margin:0;color:#423022}
+.meditationPage .goldmindQuick{margin:0;scroll-margin-top:24px}
+.meditationPage .goldmindQuickAccess{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;overflow:visible;padding:0}
+.meditationPage .goldmindQuickAccess button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;min-height:108px;min-width:0;padding:17px 10px;border-radius:18px;border:1px solid #bea26b44;background:linear-gradient(130deg,#fffdf8,#f0e8d8);color:#806035;box-shadow:0 2px 7px #68462205;font-size:12px;font-weight:400;text-align:center;transition:border-color .15s,background .15s}
+.meditationPage .goldmindQuickIcon{border:0;background:transparent;width:30px;height:30px;display:grid;place-items:center;color:inherit;border-radius:0}
+.goldmindQuickIcon svg{width:28px;height:28px}
+.meditationPage .goldmindQuickAccess button.isActive{background:linear-gradient(130deg,#433426,#281e15);color:#e4c78e;border-color:#ba965566;box-shadow:0 6px 16px #3c281016}
+.meditationPage .goldmindQuickAccess button:focus-visible{outline:2px solid #b19053;outline-offset:4px}
+.goldmindPreparing{display:flex;align-items:center;gap:18px;padding:24px;border:1px solid #bda16c44;border-radius:22px;background:radial-gradient(ellipse at 100% 0,#dbbd7f18,transparent 65%),#fffdf7}
+.goldmindPreparingIcon{width:49px;height:49px;flex-shrink:0;display:grid;place-items:center;border:1px solid #bda16c55;border-radius:50%;color:#9f8044;background:#f3ead6}
+.goldmindPreparingIcon svg{width:23px;height:23px}
+.goldmindPreparing p{font-family:Arial,sans-serif;font-size:8px;color:#a0844f;letter-spacing:.17em;margin:0 0 10px;font-weight:500}
+.goldmindPreparing h2{font-size:23px;font-weight:400;line-height:1.2;margin:0 0 10px;color:#46301f;letter-spacing:-.02em}
+.goldmindPreparing div>span{display:block;font-size:13px;line-height:1.8;color:#96816a}
+.meditationPage .goldmindContinue{margin:0;padding:0}
+.meditationPage .goldmindContinue .goldmindRailHead h2{font-size:23px;line-height:1.3;color:#59432e;font-weight:400;letter-spacing:-.02em}
+.meditationPage .goldmindContinueEmpty{display:flex;gap:22px;align-items:center;justify-content:space-between;border-block:1px solid #bda16c33;padding:19px 0;margin:0}
+.meditationPage .goldmindContinueEmpty .goldmindSoftEmpty{font-size:13px;line-height:1.8;color:#9d8b75;margin:0;max-width:320px}
+.goldmindContinueEmptyMark{flex-shrink:0;width:37px;height:37px;border-radius:50%;border:1px solid #bda16c44;color:#a48a59;display:grid;place-items:center;font-size:17px}
+.goldmindFilterNotice{margin:0;padding:18px 20px;border-left:2px solid #c4a369;background:#eee5d644;border-radius:0 12px 12px 0;color:#8a7256;font-size:13px;line-height:1.8}
+.meditationPage .liveActivity{border-radius:24px;border-color:#c4a36944;box-shadow:none}
+.meditationPage .goldmindFeaturedHead h2,.meditationPage .goldmindRailHead h2{font-size:24px;font-weight:400;letter-spacing:-.02em}
+.meditationPage .goldmindFeaturedSlide{box-shadow:0 7px 18px #50370f08;border-color:#bea26b44}
+@media(max-width:700px){.meditationPage .meditationSection{padding:20px 0 40px}.meditationPage .goldmindApp{gap:26px}.meditationPage .goldmindWelcome{padding:30px 24px;min-height:300px;border-radius:24px}.goldmindWelcomeArtwork{inset:0 0 0 25%;opacity:.77}.meditationPage .goldmindWelcome:after{background:linear-gradient(90deg,#261c13f7,#261c13a8 48%,#261c1222),linear-gradient(0deg,#261c1377,transparent 50%)}.meditationPage .goldmindWelcome h1{font-size:31px;max-width:280px}.meditationPage .goldmindWelcome .goldmindBrandMark{font-size:8px;letter-spacing:.14em;margin-bottom:22px}.meditationPage .goldmindWelcome .goldmindHello{font-size:13px;max-width:210px}.goldmindQuickHeading h2{font-size:25px}.meditationPage .goldmindQuickAccess{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.meditationPage .goldmindQuickAccess button{min-height:96px;font-size:12px;gap:11px;padding:15px 8px;border-radius:16px}.goldmindPreparing{padding:21px 18px;gap:14px;align-items:flex-start}.goldmindPreparingIcon{width:38px;height:38px}.goldmindPreparingIcon svg{width:19px;height:19px}.goldmindPreparing h2{font-size:22px}.goldmindPreparing div>span{font-size:12px}.meditationPage .goldmindContinue .goldmindRailHead h2{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.meditationPage .goldmindQuickAccess button{transition:none}}
+
+/* Engraved category medallions and a quiet broadcast console. */
+.meditationPage .goldmindQuickAccess button{position:relative;isolation:isolate;overflow:hidden;min-height:138px;gap:10px;border:1px solid #c7ad7b66;background:radial-gradient(ellipse at 0 0,#fffefb,#eae0cddd);color:#7b5d31;box-shadow:0 3px 10px #4e310f08,0 1px 0 #fff9 inset}
+.meditationPage .goldmindQuickAccess button:before{content:'';position:absolute;z-index:-1;width:130px;height:130px;right:-75px;top:-75px;border:1px solid #b99b6540;border-radius:50%;box-shadow:0 0 0 13px #b99b6508,0 0 0 14px #b99b6522}
+.meditationPage .goldmindQuickAccess button:after{content:'';position:absolute;inset:5px;border:1px solid #a98b5120;border-radius:12px;pointer-events:none}
+.meditationPage .goldmindQuickAccess button .goldmindQuickIcon{width:46px;height:46px;border:1px solid #a98b5155;border-radius:50%;background:radial-gradient(circle at 30% 20%,#fff9,#dec58b22);box-shadow:0 1px 0 #fff9 inset;color:inherit;position:relative}
+.meditationPage .goldmindQuickIcon:after{content:'';position:absolute;inset:4px;border:1px solid #a98b5122;border-radius:50%}
+.meditationPage .goldmindQuickAccess button>span:not(.goldmindQuickIcon){font-family:Georgia,serif;font-size:15px;letter-spacing:-.01em;color:inherit;font-weight:400;line-height:1.1}
+.goldmindQuickNote{font-family:Arial,sans-serif;font-size:8px;color:#a28b64;letter-spacing:.02em;font-weight:400;line-height:1.4}
+.meditationPage .goldmindQuickAccess button.isActive{background:radial-gradient(ellipse at 0 0,#51402c,#261e16);color:#f0d49d;border-color:#c4a266;box-shadow:0 5px 15px #4e310f18,0 1px 0 #f0d49d22 inset}
+.meditationPage .goldmindQuickAccess button.isActive .goldmindQuickIcon{background:#d6b5750d;border-color:#d6b57577;box-shadow:none}
+.meditationPage .goldmindQuickAccess button.isActive .goldmindQuickNote{color:#bda579}
+.meditationPage .goldmindQuickAccess button.isActive:after{border-color:#d6b57530}
+.meditationPage .goldmindQuickAccess button:focus-visible{outline:2px solid #b19053;outline-offset:3px}
+.meditationPage .goldmindBroadcast{padding:24px;border:1px solid #b798604d;border-radius:25px;background:radial-gradient(ellipse at 50% 35%,#7c623129,transparent 68%),linear-gradient(135deg,#33291d,#1d1812);color:#ebd5ab;text-align:left;box-shadow:0 12px 30px #24180712}
+.goldmindBroadcastTop{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.meditationPage .goldmindBroadcast .liveActivityTitle{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.16em;font-weight:500;color:#c5a870;margin:0}
+.goldmindBroadcastStatus{display:flex;align-items:center;gap:7px;font-family:Arial,sans-serif;font-size:8px;letter-spacing:.02em;padding:6px 9px;border:1px solid #c2a57244;border-radius:30px;color:#c7b18a;white-space:nowrap}
+.goldmindBroadcastStatus i{width:5px;height:5px;border-radius:50%;background:#c4a66e;box-shadow:0 0 0 3px #c4a66e18;animation:goldmindSignalPulse 3s ease-in-out infinite}
+.isConnected .goldmindBroadcastStatus i{background:#79b391;box-shadow:0 0 0 3px #79b39118}
+.goldmindBroadcastVisual{height:120px;display:grid;place-items:center;position:relative;margin:10px 0 4px}
+.goldmindBroadcastHalo{position:absolute;width:106px;height:106px;border-radius:50%;border:1px solid #c4a66e26;box-shadow:0 0 0 13px #c4a66e08,0 0 0 14px #c4a66e18}
+.goldmindBroadcastWaves{display:flex;align-items:center;gap:5px;position:relative;z-index:1;height:60px}
+.goldmindBroadcastWaves i{width:3px;border-radius:3px;background:linear-gradient(#f0d4a0,#9c7840);transform-origin:center;animation:goldmindWaveFloat 3.6s ease-in-out infinite;box-shadow:0 0 8px #d5b57811}
+.goldmindBroadcastWaiting{position:relative;z-index:1;text-align:center}
+.goldmindBroadcastWaiting h2{font-size:25px;font-weight:400;line-height:1.2;letter-spacing:-.025em;margin:0 0 12px;color:#f4e5cb}
+.goldmindBroadcastWaiting p{font-size:13px;line-height:1.8;color:#b7a589;max-width:270px;margin:0 auto}
+.goldmindBroadcast .liveActivityField{opacity:.15}
+.goldmindBroadcastBottom{position:relative;z-index:1;display:flex;gap:9px;align-items:center;border-top:1px solid #c4a66e26;margin-top:24px;padding-top:14px;font-size:13px;color:#bb9c65}
+.meditationPage .goldmindBroadcast .liveActivityFoot{font-size:10px;color:#9c896b;letter-spacing:.02em;margin:0;line-height:1.6}
+.goldmindBroadcastSignal{display:flex;gap:2px;align-items:end;margin-left:auto;height:11px}
+.goldmindBroadcastSignal i{width:2px;height:4px;background:#bda06a;opacity:.4}.goldmindBroadcastSignal i:nth-child(2){height:7px}.goldmindBroadcastSignal i:nth-child(3){height:10px}
+.meditationPage .goldmindBroadcast .liveActivityCount{margin-top:6px}.meditationPage .goldmindBroadcast .liveActivityCount strong{font-size:50px;color:#edcc8f}.meditationPage .goldmindBroadcast .liveActivityBadge{color:#c3aa7c;border-color:#a98b5144;font-size:8px}.meditationPage .goldmindBroadcast .liveActivityCaption{font-size:15px;text-align:center;color:#c7b79b}
+@keyframes goldmindWaveFloat{0%,100%{transform:scaleY(.55);opacity:.5}50%{transform:scaleY(1);opacity:.95}}
+@keyframes goldmindSignalPulse{0%,100%{opacity:.5}50%{opacity:1}}
+@media(max-width:700px){.meditationPage .goldmindQuickAccess button{min-height:131px;padding:18px 8px 15px;gap:9px}.meditationPage .goldmindBroadcast{padding:23px 20px}.goldmindBroadcastWaiting h2{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.goldmindBroadcastWaves i,.goldmindBroadcastStatus i{animation:none}}
+
+/* Original category artwork, with protected text contrast. */
+.meditationPage .goldmindQuickAccess button{height:186px;min-height:186px;justify-content:flex-end;gap:7px;padding:17px 9px;background:#2b2117;color:#f3e4c7;border-color:#bca16a55;box-shadow:0 5px 15px #21150910}
+.meditationPage .goldmindQuickAccess button .goldmindCategoryImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;object-position:center 38%}
+.meditationPage .goldmindQuickAccess button:before{inset:0;width:auto;height:auto;right:0;top:0;z-index:1;border:0;border-radius:inherit;box-shadow:none;background:linear-gradient(180deg,#18110900 30%,#18110966 58%,#181109f5 100%)}
+.meditationPage .goldmindQuickAccess button:after{z-index:2;inset:5px;border-color:#dfc79222}
+.meditationPage .goldmindQuickAccess button>span:not(.goldmindQuickIcon){position:relative;z-index:3;font-size:16px;color:#f5e7cc;text-shadow:0 1px 8px #120c07aa}
+.meditationPage .goldmindQuickAccess button .goldmindQuickNote{position:relative;z-index:3;color:#c5ae85;font-size:8px}
+.meditationPage .goldmindQuickAccess button.isActive{background:#2b2117;border:2px solid #d6b877;box-shadow:0 0 0 2px #d6b87722,0 5px 15px #21150915;padding:16px 8px}
+.meditationPage .goldmindQuickAccess button.isActive:after{border-color:#ead6aa55}
+.meditationPage .goldmindQuickAccess button.isActive>span:not(.goldmindQuickIcon){color:#f2d28e}
+.meditationPage .goldmindQuickAccess button.isActive .goldmindQuickNote{color:#d5b775}
+@media(max-width:700px){.meditationPage .goldmindQuickAccess button{height:173px;min-height:173px;border-radius:17px;padding:17px 8px}.meditationPage .goldmindQuickAccess button.isActive{padding:16px 7px}.meditationPage .goldmindQuickAccess button>span:not(.goldmindQuickIcon){font-size:16px}}
+
+/* Full-width cocoa landscape, with the complete sculpture in view. */
+.meditationPage>.goldmindWelcome{border:0;border-radius:0;min-height:378px;padding:68px max(24px,calc((100% - 1080px)/2)) 40px;background:#241a12;box-shadow:none}
+.meditationPage>.goldmindWelcome .goldmindWelcomeArtwork{inset:0 0 0 38%;opacity:1;mask-image:linear-gradient(90deg,transparent,#000 24%);-webkit-mask-image:linear-gradient(90deg,transparent,#000 24%)}
+.meditationPage>.goldmindWelcome .goldmindWelcomeArtwork img{object-fit:contain;object-position:center right}
+.meditationPage>.goldmindWelcome:after{background:linear-gradient(90deg,#241a12 15%,#241a1288 48%,transparent 85%),linear-gradient(0deg,#241a12,transparent 24%)}
+.goldmindWelcomeContent{position:relative;max-width:980px;margin:auto}
+.goldmindPreparing{padding:0;gap:0;overflow:hidden;background:#fffcf6;box-shadow:0 10px 30px #49321609;align-items:stretch}
+.goldmindPreparingArtwork{position:relative;width:34%;min-height:240px;flex-shrink:0;background:#2d2115;overflow:hidden}
+.goldmindPreparingArtwork img{object-fit:cover;object-position:center 40%}
+.goldmindPreparingArtwork:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#20160cdd,transparent 60%)}
+.goldmindPreparing .goldmindStudioSeal{position:absolute;z-index:1;bottom:20px;left:18px;color:#f0d3a1;font:8px/1.9 Arial,sans-serif;letter-spacing:.13em;border-left:1px solid #d1ab65;padding-left:8px;white-space:nowrap}
+.goldmindPreparingCopy{padding:30px;align-self:center}
+.goldmindPreparing h2{font-size:27px;max-width:280px;line-height:1.15}
+.goldmindPreparingTopics{display:flex;align-items:center;gap:8px;margin-top:20px;padding-top:15px;border-top:1px solid #bda16c33;font:9px/1.5 Arial,sans-serif;color:#9c7b47}
+.goldmindPreparingTopics i{width:3px;height:3px;border-radius:50%;background:#b5955c}
+.meditationPage .goldmindBroadcast{position:relative;isolation:isolate;overflow:hidden;padding:28px;min-height:380px;background:#21180f;box-shadow:0 14px 30px #24180717}
+.goldmindBroadcastBackdrop{position:absolute;inset:0;z-index:-2}
+.goldmindBroadcastBackdrop img{object-fit:cover;object-position:center 28%}
+.goldmindBroadcastBackdrop:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#1e160dc9,#1e160d66 40%,#1e160df5 78%)}
+.goldmindBroadcast .liveActivityField{display:none}
+.goldmindBroadcastVisual{height:150px;margin:10px 0 18px}
+.goldmindBroadcastHalo{width:142px;height:142px;border-color:#edd4a94d;box-shadow:0 0 0 5px #c4a66e08,0 0 0 6px #e5c58b26;background:radial-gradient(circle,#2d201666,#2d20160d)}
+.goldmindBroadcastWaves{gap:4px;padding:0 16px;border-block:1px solid #edce9126;height:80px;mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent)}
+.goldmindBroadcastWaves i{width:2px;background:linear-gradient(#ffe8b9,#c99c54);box-shadow:0 0 10px #e9bc7444}
+.goldmindBroadcastWaiting h2{font-size:28px;max-width:330px;margin:0 auto 12px}
+.goldmindBroadcastWaiting p{color:#d8c6a8;font-size:13px;max-width:300px}
+.goldmindBroadcastStatus{background:#21180f88;backdrop-filter:blur(8px)}
+.meditationPage .goldmindBroadcast .liveActivityFoot{color:#cdb58d}
+@media(max-width:700px){
+ .meditationPage>.goldmindWelcome{min-height:378px;padding:43px 20px 30px;display:flex;align-items:center}
+ .goldmindWelcomeContent{width:100%;margin:0}
+ .meditationPage>.goldmindWelcome .goldmindWelcomeArtwork{inset:0 0 0 15%;mask-image:linear-gradient(90deg,transparent,#000 30%);-webkit-mask-image:linear-gradient(90deg,transparent,#000 30%)}
+ .meditationPage>.goldmindWelcome .goldmindWelcomeArtwork img{object-position:top right;object-fit:contain}
+ .meditationPage>.goldmindWelcome:after{background:linear-gradient(90deg,#241a12bd,transparent 90%),linear-gradient(0deg,#241a12 4%,#241a12d9 32%,transparent 78%)}
+ .meditationPage>.goldmindWelcome h1{font-size:34px;max-width:300px;margin-bottom:14px}
+ .meditationPage>.goldmindWelcome .goldmindBrandMark{margin-bottom:16px}
+ .meditationPage>.goldmindWelcome .goldmindHello{margin-bottom:18px;color:#e2ccb0}
+ .goldmindPreparingArtwork{width:32%;min-height:255px}
+ .goldmindPreparingCopy{padding:24px 18px}
+ .goldmindPreparing h2{font-size:23px}
+ .goldmindPreparingCopy>span{font-size:12px;line-height:1.8}
+ .goldmindPreparingTopics{gap:6px;font-size:8px;flex-wrap:wrap;margin-top:16px;padding-top:12px}
+ .goldmindPreparing .goldmindStudioSeal{left:12px;font-size:6px}
+ .meditationPage .goldmindBroadcast{padding:24px 21px;min-height:390px}
+ .goldmindBroadcastWaiting h2{font-size:26px}
+}
+
+/* The desktop panorama fills the hero; the original portrait remains on mobile. */
+@media(min-width:901px){
+ .meditationPage>.goldmindWelcome{min-height:clamp(440px,28vw,640px);display:flex;align-items:center;padding-block:64px}
+ .meditationPage>.goldmindWelcome .goldmindWelcomeArtwork{inset:0;mask-image:none;-webkit-mask-image:none}
+ .meditationPage>.goldmindWelcome .goldmindWelcomeArtwork img{object-fit:contain;object-position:center right}
+ .meditationPage>.goldmindWelcome:after{background:linear-gradient(90deg,#241a1244,transparent 65%),linear-gradient(0deg,#241a12aa,transparent 16%)}
+ .meditationPage>.goldmindWelcome .goldmindWelcomeContent{width:100%}
+}
+

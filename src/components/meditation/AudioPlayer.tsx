@@ -22,7 +22,7 @@ export default function AudioPlayer() {
     duration,
     toggle,
     seek,
-    minimize,
+    playerDock,
   } = usePlayback();
 
   useGoldMindPresence({
@@ -39,6 +39,7 @@ export default function AudioPlayer() {
 
   return (
     <div className="meditationPlayer" role="region" aria-label="Ses oynatıcı">
+      <button type="button" className="playerDockHandle" {...playerDock.dragProps} onClick={(event) => { if (event.detail === 0) playerDock.collapse(); }} aria-label="Müzik kutusunu kenara küçült"><span aria-hidden="true" /></button>
       <div className="meditationPlayerCopy">
         <p>GoldMind</p>
         <strong>{session.title}</strong>
@@ -72,7 +73,7 @@ export default function AudioPlayer() {
         type="button"
         className="meditationPlayerClose"
         aria-label="Oynatıcıyı küçült"
-        onClick={minimize}
+        onClick={playerDock.collapse}
       >
         ×
       </button>

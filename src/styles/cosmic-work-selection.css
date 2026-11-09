@@ -1,0 +1,56 @@
+#enerji-calismalari{padding-top:48px;padding-bottom:40px}
+#enerji-calismalari>.energyDiscoveryEyebrow{font:10px/1.6 Arial,sans-serif;letter-spacing:1.8px;color:#9a7440;margin-bottom:14px}
+#enerji-calismalari>h2{max-width:650px;font:400 clamp(30px,4vw,44px)/1.14 Georgia,serif;letter-spacing:-.7px;margin-bottom:20px}
+#enerji-calismalari .energyEditorialScrollHint{font-size:11px!important;color:#8f7960!important;margin-bottom:18px!important}
+#enerji-calismalari .energyEditorialGrid{scrollbar-width:none;gap:20px;padding:0 0 20px;scroll-padding-inline:0}
+#enerji-calismalari .energyEditorialGrid::-webkit-scrollbar{display:none}
+#enerji-calismalari .energyEditorialCard{border:1px solid #b7966440;border-radius:24px;background:#faf7f0;box-shadow:0 12px 28px #46311c0a;color:#34261d}
+#enerji-calismalari .energyEditorialMedia{aspect-ratio:1.3}
+#enerji-calismalari .energyEditorialMedia:after{display:none}
+#enerji-calismalari .energyEditorialMedia:before{background:linear-gradient(0deg,#21180eef,transparent 75%)}
+#enerji-calismalari .energyEditorialTitle{left:24px;right:24px;bottom:24px}
+#enerji-calismalari .energyEditorialTitle>span{font-size:9px;letter-spacing:1.6px;color:#dfc595}
+#enerji-calismalari .energyEditorialTitle h3{font-size:29px;line-height:1.12;letter-spacing:-.6px}
+#enerji-calismalari .energyEditorialBadge{background:#20190c88;border-color:#f3e1ba40;font-size:8px;padding:9px 12px}
+#enerji-calismalari .energyEditorialNumber{border:0;background:#20190c88;color:#f5dfb0}
+#enerji-calismalari .energyEditorialBody{padding:22px 24px 24px}
+#enerji-calismalari .energyEditorialBody:before{display:none}
+#enerji-calismalari .energyEditorialBody>p{font:14px/1.75 Arial,sans-serif;color:#7a6857;margin:0 0 22px}
+#enerji-calismalari .energyEditorialMeta{padding:18px 0 22px;border-color:#b7966430}
+#enerji-calismalari .energyEditorialMeta>div>span{font-size:9px;color:#9b7d52;letter-spacing:1.4px;margin-bottom:6px}
+#enerji-calismalari .energyEditorialMeta strong{font:400 27px/1.2 Georgia,serif;color:#392a1b}
+#enerji-calismalari .energyEditorialDuration{border:0;padding:8px 0;color:#847058;font-size:12px}
+#enerji-calismalari .energyEditorialAction{background:#302319;color:#f4e5ca;border:1px solid #302319;border-radius:12px;min-height:48px;font-size:12px;padding:12px 16px;box-shadow:none}
+#enerji-calismalari .energyEditorialAction:hover{background:#493524}
+#enerji-calismalari .energyEditorialAction>span:last-child{color:#e8c688}
+#enerji-calismalari .energyAllWorksCard{background:transparent;border:0;border-top:1px solid #b7966440;border-radius:0;padding:22px 2px 0;margin:4px 0 0;box-shadow:none;grid-template-columns:1fr 36px}
+#enerji-calismalari .energyAllWorksCard:before,#enerji-calismalari .energyAllWorksCard:after,#enerji-calismalari .energyAllWorksSymbol{display:none}
+#enerji-calismalari .energyAllWorksCard h3{font-size:23px;color:#423021;margin-bottom:7px}
+#enerji-calismalari .energyAllWorksLabel{font:11px/1.5 Arial,sans-serif;color:#927b60}
+#enerji-calismalari .energyAllWorksArrow{width:36px;height:36px;background:transparent;color:#987445;border-color:#b7966450}
+#enerji-calismalari .energyEditorialCard{flex:0 0 300px;border-radius:18px}
+#enerji-calismalari .energyEditorialMedia{aspect-ratio:1.65}
+#enerji-calismalari .energyEditorialTitle{left:18px;right:18px;bottom:16px}
+#enerji-calismalari .energyEditorialTitle h3{font-size:24px;margin-top:6px}
+#enerji-calismalari .energyEditorialTitle>span{font-size:8px}
+#enerji-calismalari .energyEditorialBody{padding:16px 18px 18px}
+#enerji-calismalari .energyEditorialBody>p{flex:0;font-size:12px;line-height:1.65;margin:0 0 14px}
+#enerji-calismalari .energyEditorialMeta{margin-top:auto;padding:12px 0 14px}
+#enerji-calismalari .energyEditorialMeta strong{font-size:23px}
+#enerji-calismalari .energyEditorialMeta>div>span{font-size:8px;margin-bottom:4px}
+#enerji-calismalari .energyEditorialDuration{font-size:10px}
+#enerji-calismalari .energyEditorialAction{min-height:40px;padding:9px 12px;border-radius:9px;font-size:11px}
+#enerji-calismalari .energyEditorialBadge{top:14px;left:14px;font-size:7px;padding:7px 9px}
+#enerji-calismalari .energyEditorialNumber{top:12px;right:12px;width:26px;height:26px}
+#enerji-calismalari .energyAllWorksCard h3{font-size:21px}
+@media(max-width:700px){#enerji-calismalari .energyEditorialGrid{gap:14px;margin-right:-12px;padding-right:12px}#enerji-calismalari .energyEditorialCard{flex:0 0 min(76vw,300px)}#enerji-calismalari .energyEditorialTitle h3{font-size:23px}#enerji-calismalari .energyEditorialMedia{aspect-ratio:1.55}#enerji-calismalari>h2{font-size:29px}}
+.energyDiscovery #enerji-calismalari{position:relative;isolation:isolate;padding-top:44px;padding-bottom:36px}
+.energyDiscovery #enerji-calismalari:before{content:"";position:absolute;top:0;bottom:0;left:calc(50% - 50vw);right:calc(50% - 50vw);z-index:-1;background:linear-gradient(130deg,#392a1e,#251c15);pointer-events:none}
+.energyDiscovery #enerji-calismalari>h2{color:#f4e8d2}
+.energyDiscovery #enerji-calismalari>.energyDiscoveryEyebrow{color:#c9a76b}
+.energyDiscovery #enerji-calismalari .energyEditorialScrollHint{color:#c4af91!important}
+.energyDiscovery #enerji-calismalari .energyEditorialScrollHint>span{color:#d4b174}
+.energyDiscovery #enerji-calismalari .energyAllWorksCard{border-top-color:#c9a76b35}
+.energyDiscovery #enerji-calismalari .energyAllWorksCard h3{color:#f0e0c2}
+.energyDiscovery #enerji-calismalari .energyAllWorksLabel{color:#bca589}
+.energyDiscovery #enerji-calismalari .energyAllWorksArrow{color:#d4b174;border-color:#c9a76b50}

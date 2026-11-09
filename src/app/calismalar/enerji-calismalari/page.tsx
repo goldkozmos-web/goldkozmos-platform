@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
 
+
 import HomeNavbar from "../../../components/HomeNavbar";
 import FooterSection from "../../../components/FooterSection";
 import EnergyWorksCatalog from "../../../components/energy/EnergyWorksCatalog";
+import EnergyExampleMessages from "../../../components/energy/EnergyExampleMessages";
 import "../../../styles/home.css";
+import "../../../styles/energy-catalog.css";
+import "../../../styles/energy-discovery.css";
+import "../../../styles/energy-deeper-premium.css";
 
 const pageUrl =
   "https://goldkozmos.com/calismalar/enerji-calismalari";
 
-const pageTitle = "Birebir Enerji Çalışmaları | GoldKozmos";
+const pageTitle = "Online Enerji Çalışmaları — 30 Dakika ve Ücretler | Goldkozmos®";
 
 const pageDescription =
-  "GoldKozmos birebir enerji çalışmaları: çakra dengeleme, arınma, bolluk, ilişki ve sezgi alanına yönelik online seansları inceleyin.";
+  "30 dakikalık online enerji çalışmaları: çakra dengeleme, karma, nazar ve mekân temizliği. 1.000 TL katılım ücretini ve detayları incele, WhatsApp’tan randevu al.";
 
 export const metadata: Metadata = {
   title: {
@@ -63,7 +68,10 @@ export default function EnergyWorksCatalogPage() {
         </div>
       </section>
 
+      <EnergyExampleMessages />
       <FooterSection />
     </main>
   );
 }
+
+

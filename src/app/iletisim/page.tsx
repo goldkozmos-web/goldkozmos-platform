@@ -23,8 +23,8 @@ export default function ContactPage() {
           <div className="contactMobileMenuPanel">
             <nav>
               <a href="/">Ana Sayfa</a>
-              <a href="/#rezonans">Atölyeler</a>
-              <a href="/#diger">Çalışmalar</a>
+              <a href="/calismalar#rezonans">Atölyeler</a>
+              <a href="/calismalar">Çalışmalar</a>
               <a href="/goldbook">GoldBook</a>
               <a href="/goldcast">GoldCast</a>
               <a href="/goldblog">GoldBlog</a>
@@ -45,7 +45,7 @@ export default function ContactPage() {
 
       {/* ANA İLETİŞİM ALANI */}
 
-      <ContactSection />
+      <ContactSection standalone />
 
       {/* WHATSAPP KANALI */}
 

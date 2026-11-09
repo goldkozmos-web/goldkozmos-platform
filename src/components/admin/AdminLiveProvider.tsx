@@ -21,6 +21,7 @@ import type {
   AdminOverviewMetric,
   AdminVisitorRow,
 } from "../../lib/admin/load";
+import { useAdminPhonePush } from "../../lib/admin/phone-push";
 import { createSupabaseBrowserClient } from "../../lib/supabase/browser";
 
 export type AdminLiveSnapshot = {
@@ -30,6 +31,7 @@ export type AdminLiveSnapshot = {
   purchases: AdminEventRow[];
   appointments: AdminEventRow[];
   members: AdminMemberRow[];
+  commentNotifications?: { id: string; excerpt: string; createdAt: string; readAt: string | null }[];
 };
 
 type AdminLiveContextValue = {
@@ -37,122 +39,25 @@ type AdminLiveContextValue = {
   toast: AdminAlert | null;
   notifyReady: boolean;
   toggleNotify: () => void;
+  notifyBusy: boolean;
+  notifyMessage: string;
+  testNotify: () => void;
   refresh: () => Promise<void>;
+  loading: boolean;
+  error: string;
 };
 
 const AdminLiveContext = createContext<AdminLiveContextValue | null>(null);
 
-const ALERT_PREF_KEY = "gk-admin-alerts";
-
-function readAlertPref() {
-  try {
-    return window.localStorage.getItem(ALERT_PREF_KEY) !== "off";
-  } catch {
-    return true;
-  }
-}
-
-function writeAlertPref(on: boolean) {
-  try {
-    window.localStorage.setItem(ALERT_PREF_KEY, on ? "on" : "off");
-  } catch {
-    // Private mode can block storage.
-  }
-}
-
-function permissionGranted() {
-  return typeof Notification !== "undefined" && Notification.permission === "granted";
-}
-
-function pushSupported() {
-  return typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window;
-}
-
-function urlBase64ToUint8Array(base64: string) {
-  const padding = "=".repeat((4 - (base64.length % 4)) % 4);
-  const raw = atob((base64 + padding).replace(/-/g, "+").replace(/_/g, "/"));
-  const output = new Uint8Array(raw.length);
-  for (let i = 0; i < raw.length; i += 1) {
-    output[i] = raw.charCodeAt(i);
-  }
-  return output;
-}
-
-async function authHeaders() {
-  const headers: HeadersInit = { "Content-Type": "application/json" };
-  const supabase = createSupabaseBrowserClient();
-  if (!supabase) return headers;
-  const { data } = await supabase.auth.getSession();
-  const token = data.session?.access_token;
-  if (token) headers.Authorization = `Bearer ${token}`;
-  return headers;
-}
-
-async function enablePhonePush() {
-  if (!pushSupported()) return;
-  const registration = await navigator.serviceWorker.register("/sw.js", { scope: "/" });
-  await navigator.serviceWorker.ready;
-  const keyRes = await fetch("/api/admin/push", { credentials: "same-origin" });
-  const pack = (await keyRes.json()) as { publicKey?: string };
-  if (!pack.publicKey) return;
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(pack.publicKey),
-  });
-  await fetch("/api/admin/push", {
-    method: "POST",
-    credentials: "same-origin",
-    headers: await authHeaders(),
-    body: JSON.stringify({ subscription }),
-  });
-}
-
-async function disablePhonePush() {
-  if (!pushSupported()) return;
-  const registration = await navigator.serviceWorker.ready.catch(() => null);
-  const subscription = await registration?.pushManager.getSubscription();
-  await fetch("/api/admin/push", {
-    method: "DELETE",
-    credentials: "same-origin",
-    headers: await authHeaders(),
-    body: JSON.stringify({ endpoint: subscription?.endpoint || "" }),
-  });
-  await subscription?.unsubscribe();
-}
-
-function pushDesktopAlert(alert: AdminAlert) {
-  if (!permissionGranted()) {
-    return;
-  }
-
-  try {
-    new Notification(alert.title, {
-      body: alert.body,
-      tag: `goldkozmos-${alert.kind}-${alert.body}`,
-    });
-  } catch {
-    // Some browsers block Notification from insecure contexts.
-  }
-}
-
 export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
   const [live, setLive] = useState<AdminLiveSnapshot | null>(null);
   const [toast, setToast] = useState<AdminAlert | null>(null);
-  const [notifyReady, setNotifyReady] = useState(false);
+  const phonePush = useAdminPhonePush();
+  const notifyReady = phonePush.ready;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const cursor = useRef<ReturnType<typeof nextLiveCursor> | null>(null);
   const inFlight = useRef(false);
-  const alertsOn = useRef(false);
-
-  useEffect(() => {
-    const on = readAlertPref() && permissionGranted();
-    alertsOn.current = on;
-    setNotifyReady(on);
-    if (on) {
-      void navigator.serviceWorker?.register("/sw.js", { scope: "/" }).then(() => {
-        void enablePhonePush().catch(() => undefined);
-      });
-    }
-  }, []);
 
   const refresh = useCallback(async () => {
     if (inFlight.current) {
@@ -163,12 +68,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
       const headers: HeadersInit = {};
       const supabase = createSupabaseBrowserClient();
       if (supabase) {
-        const pack = await Promise.race([
-          supabase.auth.getSession(),
-          new Promise<null>((resolve) => {
-            setTimeout(() => resolve(null), 400);
-          }),
-        ]);
+        const pack = await supabase.auth.getSession();
         const token =
           pack && "data" in pack ? pack.data.session?.access_token : undefined;
         if (token) {
@@ -176,18 +76,14 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
         }
       }
 
-      const response = await Promise.race([
-        fetch("/api/admin/live", {
+      const response = await fetch("/api/admin/live", {
           cache: "no-store",
           credentials: "same-origin",
           headers,
-        }),
-        new Promise<null>((resolve) => {
-          setTimeout(() => resolve(null), 4000);
-        }),
-      ]);
-      if (!response || !response.ok) {
-        return;
+          signal: AbortSignal.timeout(20000),
+        });
+      if (!response.ok) {
+        throw new Error(response.status === 401 ? "Yönetim oturumu doğrulanamadı. Profilim üzerinden yeniden giriş yap." : "Üyeler ve etkinlikler yüklenemedi. Yeniden deneyebilirsin.");
       }
 
       const data = (await response.json()) as AdminLiveSnapshot;
@@ -198,6 +94,7 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
         purchases: data.purchases ?? [],
         appointments: data.appointments ?? [],
         members: data.members ?? [],
+        commentNotifications: data.commentNotifications ?? [],
       };
       const alerts = diffAdminLive(cursor.current, {
         metrics: snapshot.metrics,
@@ -205,25 +102,25 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
       });
       cursor.current = nextLiveCursor(snapshot.metrics, snapshot.visitors);
       setLive(snapshot);
+      setError("");
 
-      if (alerts[0] && alertsOn.current) {
+      if (alerts[0]) {
         setToast(alerts[0]);
-        for (const alert of alerts) {
-          pushDesktopAlert(alert);
-        }
+
       }
-    } catch {
-      // Keep the last painted desk if a poll fails.
+    } catch (reason) {
+      setError(reason instanceof Error && reason.name !== "TimeoutError" ? reason.message : "Bağlantı yavaş yanıt veriyor. Yeniden deneyebilirsin.");
     } finally {
       inFlight.current = false;
+      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
     void refresh();
     const timer = window.setInterval(() => {
-      void refresh();
-    }, 2000);
+      if (document.visibilityState === "visible") void refresh();
+    }, 1000);
 
     function onFocus() {
       void refresh();
@@ -247,41 +144,9 @@ export function AdminLiveProvider({ children }: { children: React.ReactNode }) {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
-  const toggleNotify = useCallback(() => {
-    if (alertsOn.current) {
-      writeAlertPref(false);
-      alertsOn.current = false;
-      setNotifyReady(false);
-      void disablePhonePush().catch(() => undefined);
-      return;
-    }
-
-    function turnOn() {
-      writeAlertPref(true);
-      alertsOn.current = true;
-      setNotifyReady(true);
-      void enablePhonePush().catch(() => undefined);
-    }
-
-    if (typeof Notification === "undefined") {
-      turnOn();
-      return;
-    }
-
-    void Notification.requestPermission().then((permission) => {
-      if (permission !== "granted") {
-        writeAlertPref(false);
-        alertsOn.current = false;
-        setNotifyReady(false);
-        return;
-      }
-      turnOn();
-    });
-  }, []);
-
   const value = useMemo(
-    () => ({ live, toast, notifyReady, toggleNotify, refresh }),
-    [live, toast, notifyReady, toggleNotify, refresh],
+    () => ({ live, toast, notifyReady, toggleNotify: phonePush.toggle, notifyBusy: phonePush.busy, notifyMessage: phonePush.message, testNotify: phonePush.test, refresh, loading, error }),
+    [live, toast, notifyReady, phonePush.toggle, phonePush.busy, phonePush.message, phonePush.test, refresh, loading, error],
   );
 
   return (

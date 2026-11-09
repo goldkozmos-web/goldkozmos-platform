@@ -1653,6 +1653,11 @@
   }
 }
 
+.profilimAuthLoading { display: flex; align-items: center; justify-content: center; gap: 14px; min-height: 260px; color: #78634b; font-size: 14px; }
+.profilimAuthLoading > span { width: 22px; height: 22px; border: 2px solid #eadfcf; border-top-color: #a58043; border-radius: 50%; animation: profilimLoading 1s linear infinite; }
+@keyframes profilimLoading { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .profilimAuthLoading > span { animation: none; } }
+
 .profilimGate {
   position: relative;
   overflow: hidden;
@@ -1996,4 +2001,40 @@
   .profilimRegisterRow {
     grid-template-columns: 1fr;
   }
+}
+
+/* Membership welcome and registration */
+.profilimGate.profilimWelcome { display: grid; grid-template-columns: .9fr 1.1fr; padding: 0; border: 1px solid #dfd2bd; background: #fffdf9; box-shadow: 0 16px 42px rgba(48, 30, 14, .07); border-radius: 24px; }
+.profilimWelcome::before { display: none; }
+.profilimWelcomeArt { min-width: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; background: radial-gradient(ellipse at center, #382d20, #1f1813 75%); padding: 34px 18px; color: #e4c58a; }
+.profilimWelcomeArt svg { width: 100%; max-width: 310px; height: auto; }
+.profilimWelcomeArt p { font-size: 22px; font-style: italic; margin: 8px 0 18px; }
+.profilimWelcomeArt > span { font: 9px Arial, sans-serif; letter-spacing: .19em; color: #ac9270; }
+.profilimWelcomeContent { padding: 38px 32px; }
+.profilimWelcome h1 { font-size: 34px; line-height: 1.12; letter-spacing: -.7px; margin-top: 14px; }
+.profilimWelcome .profilimGateLead { color: #786654; font: 14px/1.75 Arial, sans-serif; margin: 18px 0 24px; }
+.profilimWelcomeFeatures { list-style: none; display: grid; gap: 18px; padding: 0; margin: 0 0 28px; }
+.profilimWelcomeFeatures li { display: flex; align-items: center; gap: 12px; }
+.profilimWelcomeFeatures li > span { display: flex; justify-content: center; align-items: center; width: 34px; height: 34px; border-radius: 10px; background: #f6efe2; color: #9a773d; font-size: 23px; }
+.profilimWelcomeFeatures li > div { display: grid; gap: 5px; }
+.profilimWelcomeFeatures strong { font: 500 13px Arial, sans-serif; color: #3e3026; }
+.profilimWelcomeFeatures small { font: 12px/1.4 Arial, sans-serif; color: #907f6c; }
+.profilimWelcome .profilimGoogleButton { gap: 12px; border-radius: 12px; background: #fff; color: #30251d; border: 1px solid #d8cdbd; box-shadow: 0 3px 9px rgba(48,30,14,.04); font: 500 14px Arial, sans-serif; letter-spacing: 0; min-height: 52px; }
+.profilimWelcome .profilimGoogleButton:hover { background: #f7f2e9; border-color: #aa8a55; }
+.profilimWelcome .profilimGoogleButton:focus-visible { outline: 2px solid #a58043; outline-offset: 4px; }
+.profilimWelcomeSecure { font: 11px/1.6 Arial, sans-serif; color: #8b7c6a; text-align: center; margin: 12px 0 0; }
+.profilimWelcomePrivacy { border-top: 1px solid #eae1d3; padding-top: 18px; margin: 22px 0 0; font: 11px/1.7 Arial, sans-serif; color: #8b7c6a; }
+.profilimWelcomePrivacy a { display: inline-block; color: #8d6b35; text-underline-offset: 3px; }
+.profilimRegisterForm { margin-top: 26px; gap: 18px; }
+.profilimRegisterForm label, .profilimRegisterForm legend { font-family: Arial, sans-serif; font-size: 13px; }
+.profilimRegisterForm .profilimPhoneButton { color: #fff8ed; background: #30251d; border-radius: 12px; min-height: 52px; font-family: Arial, sans-serif; }
+.profilimRegisterForm input:focus, .profilimRegisterForm select:focus { outline: 2px solid #b28d50; outline-offset: 2px; }
+.profilimRegisterForm .profilimPrivacy { font-size: 11px; line-height: 1.7; }
+@media (max-width: 700px) {
+  .profilimGate.profilimWelcome { grid-template-columns: 1fr; }
+  .profilimWelcomeArt { padding: 12px 20px 22px; }
+  .profilimWelcomeArt svg { width: 170px; height: 148px; }
+  .profilimWelcomeArt p { margin: 0 0 10px; font-size: 21px; }
+  .profilimWelcomeContent { padding: 28px 24px; }
+  .profilimWelcome h1 { font-size: 30px; }
 }

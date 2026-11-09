@@ -1,0 +1,60 @@
+.profilimPage .profilimFeaturedStack .profilimFeatured.profilimWaterCard{display:grid;grid-column:1/-1;position:relative;grid-template-columns:minmax(0,1fr) 140px;align-items:center;min-height:218px!important;padding:25px 28px 19px!important;border-radius:24px!important;border:1px solid #bca06b70;background:radial-gradient(ellipse at 82% 30%,#78664d45,transparent 62%),linear-gradient(125deg,#392d22,#211b15)!important;box-shadow:0 12px 28px #2a1d1417,inset 0 1px 0 #fff2!important;text-align:left;gap:10px 16px!important}
+.profilimWaterCard:before,.profilimWaterCard:after{display:none}
+.profilimPage .profilimFeaturedStack .profilimFeatured.profilimWaterCard .profilimFeaturedTitle{font:400 32px/1.15 Georgia,serif!important;color:#fcf3e3!important;letter-spacing:-.8px!important;max-width:none;margin:10px 0 0!important}
+.profilimPage .profilimWaterCard .profilimFeaturedEyebrow{color:#d8bb85!important;letter-spacing:1.5px!important}
+.profilimWaterSubtitle{display:block;font:12px/1.6 Arial,sans-serif;color:#c4b49e;margin-top:7px}
+.profilimWaterCard .profilimWaterMeta{display:flex;align-items:baseline;gap:8px;font:11px/1.5 Arial,sans-serif;color:#c9b9a1!important;margin-top:16px;letter-spacing:0;font-weight:400}
+.profilimWaterMeta b{font:400 27px/1 Georgia,serif;color:#f0d396}
+.waterGlassPortrait{position:relative;grid-column:2;grid-row:1;display:grid;place-items:center;width:140px;height:160px;border-radius:50%;background:radial-gradient(ellipse at 50% 60%,#b7d2cf1c,transparent 67%);isolation:isolate}
+.waterGlassPortrait:before{content:"";position:absolute;inset:8px 1px;border:1px solid #cdb17b22;border-radius:50%;z-index:-1}
+.profilimPage .profilimWaterCard .waterGlassPortrait .profilimWaterGlass{grid-column:1;grid-row:1;width:114px;height:164px;right:auto;bottom:auto!important;justify-self:center;filter:drop-shadow(0 9px 10px #0005)}
+.waterCardFooter{grid-column:1/-1;display:block;width:100%;border-top:1px solid #dbc39526;padding-top:16px}
+.waterCardProgress{display:block;height:3px;background:#e8d4ae20;border-radius:4px;overflow:hidden}
+.waterCardProgress i,.waterStageProgress i{display:block;height:100%;background:linear-gradient(90deg,#bd985b,#f0d99f);border-radius:inherit;transition:width .6s ease}
+.profilimWaterSettingsHint{display:flex;align-items:center;justify-content:space-between;font:11px/1.5 Arial,sans-serif;color:#ddc9a4;margin-top:10px}
+.profilimWaterSettingsHint>span{font:20px/1 Arial,sans-serif;color:#edcd8b}
+.waterPreferences{margin-top:28px;padding:24px;border:1px solid #bc9c6340;border-radius:20px;background:#fffaf1}
+.waterPreferences h3{font:400 24px/1.2 Georgia,serif;color:#503921;margin:0 0 22px}
+.waterPreferencesGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.waterPreferencesGrid label{display:flex;flex-direction:column;gap:8px;font:11px/1.5 Arial,sans-serif;color:#8a7256;min-width:0}
+.waterPreferencesGrid select{width:100%;box-sizing:border-box;min-height:44px;padding:10px;border:1px solid #c9b18570;border-radius:10px;color:#4c3926;background:#fffdf8;font:12px Arial,sans-serif}
+.waterPreferences .waterVibrationToggle{display:flex;align-items:center;gap:10px;font:12px/1.7 Arial,sans-serif;margin:20px 0;color:#785d40}
+.waterVibrationToggle input{width:20px;height:20px;accent-color:#a47e3e;flex-shrink:0}
+.waterPreferences .waterPreferencesActions{display:flex;gap:10px;flex-wrap:wrap}
+.waterPreferences button{min-height:44px;padding:11px 16px;border:1px solid #bda16d65;border-radius:10px;background:#fffaf3;color:#856231;font:11px/1.5 Arial,sans-serif;cursor:pointer}
+.waterPreferencesActions button:first-child{background:#36271c;color:#f0dfc0;border-color:#36271c}
+.waterPreferences button:disabled{opacity:.5;cursor:wait}
+.waterPreferences>p{font:12px/1.8 Arial,sans-serif;color:#7c6447;margin-top:16px}
+.waterWatchGuide{margin-top:24px;padding-top:20px;border-top:1px solid #c7ae7840}
+.waterWatchGuide summary{font:400 18px/1.4 Georgia,serif;color:#70532c;cursor:pointer}
+.waterWatchGuide p{font:12px/1.85 Arial,sans-serif;color:#927b5f}
+.waterPreferences button:focus-visible,.waterPreferences select:focus-visible{outline:2px solid #ab864b;outline-offset:3px}
+.waterPanelIntro{margin:0 0 20px;font:13px/1.7 Arial,sans-serif;color:#806b53}
+.profilimDrawer .profilimWaterDesk .profilimWaterStage{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 150px;align-items:center;gap:16px;min-height:220px!important;padding:25px 26px!important;box-sizing:border-box;border-radius:22px!important;border:1px solid #ad906b70!important;background:radial-gradient(ellipse at 80% 35%,#78665050,transparent 65%),linear-gradient(125deg,#392d22,#211b15)!important;box-shadow:inset 0 1px 0 #fff2,0 12px 24px #39261210}
+.profilimWaterDesk .profilimWaterStage:before{display:none}
+.waterStageCopy{position:relative;z-index:1;min-width:0}
+.waterStageEyebrow{display:block;font:9px/1.5 Arial,sans-serif;letter-spacing:1.5px;color:#c9ad7d}
+.profilimWaterDesk .profilimWaterCount{display:flex;align-items:baseline;gap:8px;margin:17px 0 0}
+.profilimWaterDesk .profilimWaterCount strong{font:400 52px/1 Georgia,serif!important;color:#fff3da!important;letter-spacing:-2px}
+.profilimWaterDesk .profilimWaterCount span{font:18px/1 Georgia,serif;color:#cbbb9e!important}
+.profilimWaterDesk .profilimWaterHint{font:11px/1.7 Arial,sans-serif;color:#cfbfa7!important;margin:12px 0 0;max-width:160px}
+.waterStageProgress{height:3px;width:120px;max-width:100%;margin-top:20px;border-radius:3px;background:#e8d4ae20;overflow:hidden}
+.waterStagePortrait{position:relative;display:grid;place-items:center;width:150px;height:180px;background:radial-gradient(ellipse,#cceae11c,transparent 65%)}
+.waterStagePortrait:before{content:"";position:absolute;inset:5px -4px;border:1px solid #dfc48b22;border-radius:50%}
+.profilimDrawer .profilimWaterDesk .profilimWaterGlass.isStage{grid-column:1;grid-row:1;width:130px!important;height:190px!important;margin:0!important;position:relative!important;right:auto!important;bottom:auto!important;filter:drop-shadow(0 10px 12px #0005)}
+.profilimWaterDesk .profilimWaterActions{display:grid;grid-template-columns:minmax(0,1fr) 100px;gap:10px;margin-top:16px}
+.profilimWaterDesk .profilimWaterPrimary{min-height:50px;border-radius:12px!important;background:linear-gradient(110deg,#e8cc92,#d0ab65)!important;color:#362719!important;border:1px solid #c4a265!important;box-shadow:inset 0 1px 0 #fff6;font:600 13px/1.5 Arial,sans-serif}
+.profilimWaterPrimary>span{font-size:20px;vertical-align:-1px;margin-right:5px}
+.profilimWaterDesk .profilimWaterGhost{border-radius:12px!important;background:#fffdf8!important;color:#8a7253!important;border:1px solid #dfcfb5!important;font:12px Arial,sans-serif}
+.profilimWaterDesk .profilimWaterMarks{gap:7px;margin-top:14px}
+.profilimWaterDesk .profilimWaterMark{min-height:34px;border-radius:8px!important;border:1px solid #dfcfb5!important;background:#fffdf8!important;color:#997e59!important;font:11px Arial,sans-serif}
+.profilimWaterDesk .profilimWaterMark.isFilled{background:#403123!important;color:#f1d59d!important;border-color:#70563b!important}
+.profilimWaterDesk .waterPreferences{padding:24px 0 0;border:0;border-top:1px solid #d8c5a5;border-radius:0;background:none;margin-top:28px}
+.waterPreferences .waterPreferencesActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.waterPreferencesActions button:first-child{grid-column:1/-1}
+.profilimWaterDesk .waterPreferences h3{font:400 22px/1.3 Georgia,serif;color:#483322;margin-bottom:20px}
+@media(max-width:500px){.profilimPage .profilimFeaturedStack .profilimFeatured.profilimWaterCard{padding:22px 22px 18px!important;grid-template-columns:minmax(0,1fr) 110px;gap:10px!important}.waterGlassPortrait{width:110px;height:145px}.profilimWaterCard .profilimWaterGlass{width:104px;height:150px}.profilimPage .profilimFeaturedStack .profilimFeatured.profilimWaterCard .profilimFeaturedTitle{font-size:29px!important}.waterPreferencesGrid{gap:12px}.profilimDrawer .profilimWaterDesk .profilimWaterStage{grid-template-columns:minmax(0,1fr) 120px;padding:22px!important;gap:10px;min-height:208px!important}.waterStagePortrait{width:120px;height:166px}.profilimDrawer .profilimWaterDesk .profilimWaterGlass.isStage{width:112px!important;height:166px!important}.profilimWaterDesk .profilimWaterCount strong{font-size:46px!important}}
+@media(max-width:360px){.profilimPage .profilimFeaturedStack .profilimFeatured.profilimWaterCard{padding:20px 17px 16px!important;grid-template-columns:minmax(0,1fr) 90px}.waterGlassPortrait{width:90px}.profilimWaterCard .profilimWaterGlass{width:92px;height:138px}.profilimWaterSubtitle{font-size:11px}.profilimDrawer .profilimWaterDesk .profilimWaterStage{padding:19px!important;grid-template-columns:minmax(0,1fr) 96px}.waterStagePortrait{width:96px}.waterStageEyebrow{font-size:8px}}
+@media(max-width:500px){.profilimPage .profilimWaterCard .waterGlassPortrait .profilimWaterGlass{width:104px;height:150px}}
+@media(max-width:360px){.profilimPage .profilimWaterCard .waterGlassPortrait .profilimWaterGlass{width:92px;height:138px}}
+@media(prefers-reduced-motion:reduce){.profilimWaterAura,.profilimWaterColumn,.profilimWaterBead,.waterCardProgress i,.waterStageProgress i{animation:none!important;transition:none!important}}

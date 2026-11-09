@@ -12,7 +12,6 @@ import {
   type MeditationFilter,
   type MeditationPractice,
 } from "../../data/meditation";
-import GoldMindWelcome from "./GoldMindWelcome";
 import ContinueGlance from "../platform/ContinueGlance";
 import GoldMindFeatured from "./GoldMindFeatured";
 import MeditationFilters from "./MeditationFilters";
@@ -78,39 +77,36 @@ export default function MeditationLibrary({
       title: practice.title,
       href: "/goldmind",
       audioUrl: practice.audioUrl,
+      artworkUrl: practice.image,
       description: practice.category,
     });
   }
 
   return (
     <div className="goldmindApp">
-      <GoldMindWelcome />
-
       <ContinueGlance platformId="goldmind" variant="page" />
 
-      <GoldMindFeatured
-        practices={featured}
-        onPlay={handlePlay}
-      />
-
-      <section className="goldmindQuick" aria-label="Hızlı erişim">
+      <section className="goldmindQuick" id="goldmind-alanlar" aria-label="Hızlı erişim">
+        <div className="goldmindQuickHeading"><p>BUGÜN NEYE İHTİYACIN VAR?</p><h2>Kendine bir alan seç.</h2></div>
         <MeditationFilters
           value={filter}
           onChange={handleFilterChange}
         />
       </section>
 
+      <GoldMindFeatured practices={featured} onPlay={handlePlay} />
+
       <GoldMindContinue
         practices={continueListening}
         onPlay={handlePlay}
       />
 
-      <GoldMindRail
+      {todaysPicks.length > 0 ? <GoldMindRail
         title="Bugün Senin İçin"
         practices={todaysPicks}
         onPlay={handlePlay}
         emptyState="Yeni pratikler hazırlanıyor."
-      />
+      /> : filter !== "Tümü" ? <p className="goldmindFilterNotice" role="status">{filter} pratikleri hazırlanıyor. Kayıtlar eklendiğinde bu alanda görünecek.</p> : null}
 
       <LiveActivity
         activeUsers={activeUsers}

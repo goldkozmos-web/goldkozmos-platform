@@ -1,0 +1,54 @@
+.searchPage .searchPremiumHero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 100% 0%,#70513155,transparent 65%),linear-gradient(130deg,#36271c,#211811);border-bottom:1px solid #b98c4b45}
+.searchPage .searchPremiumHero:after{content:"";position:absolute;width:360px;height:360px;border:1px solid #c6a36b12;border-radius:50%;top:-180px;right:-180px;pointer-events:none;box-shadow:0 0 0 45px #c6a36b05,0 0 0 90px #c6a36b03}
+.searchPage .searchPageInner{width:min(900px,calc(100% - 48px));margin:auto;padding:48px 0;position:relative;z-index:1}
+.searchPage .topicHubEyebrow{font:10px/1.5 Arial,sans-serif;letter-spacing:2px;color:#c6a56c;margin:0 0 20px}
+.searchPage .searchPageInner h1{font:400 clamp(32px,4vw,48px)/1.15 Georgia,serif;letter-spacing:-1.1px;color:#f7eddb;margin:0 0 18px}
+.searchPage .searchPageInner h1 em{font-weight:400;color:#d9b774}
+.searchPage .searchPremiumIntro{font:13px/1.85 Arial,sans-serif;color:#c9b99e;max-width:420px;margin:0 0 28px}
+.searchPage .searchPageForm label{font:10px/1.6 Arial;letter-spacing:1px;color:#c2a271;margin-bottom:10px;display:block}
+.searchPage .searchPageForm>div{display:flex;align-items:center;gap:12px;padding:7px 7px 7px 17px;border:1px solid #b99b684f;border-radius:16px;background:#fffaf1;box-shadow:0 12px 32px #0002}
+.searchPage .searchPageForm svg{width:21px;height:21px;flex-shrink:0;color:#9c7b43}
+.searchPage .searchPageForm input{flex:1;min-width:0;width:0;border:0;background:transparent;padding:13px 0;font:14px/1.5 Arial;color:#483321;border-radius:0;box-shadow:none}
+.searchPage .searchPageForm input::placeholder{color:#a4937c}
+.searchPage .searchPageForm input:focus{outline:none}
+.searchPage .searchPageForm>div:focus-within{outline:2px solid #d7b67b;outline-offset:3px}
+.searchPage .searchPageForm button{display:flex;align-items:center;gap:14px;border:1px solid #bc9550;border-radius:11px;background:linear-gradient(120deg,#e4c68b,#cba563);padding:15px 20px;min-height:48px;color:#3c2b18;font:600 12px Arial;cursor:pointer}
+.searchPage .searchPremiumSuggestions{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:22px}
+.searchPage .searchPremiumSuggestions>span{font:9px Arial;letter-spacing:1.3px;color:#af9670;margin-right:5px}
+.searchPage .searchPremiumSuggestions a{display:flex;gap:10px;align-items:center;border:1px solid #b8975f44;border-radius:24px;padding:10px 12px;color:#dfc9a3;text-decoration:none;font:11px Arial;background:#ffffff03}
+.searchPage .searchPremiumSuggestions a:hover{background:#c8a56a18;border-color:#c8a56a88}
+.searchPage .searchPremiumContent{padding:28px 0 46px}
+.searchPage .searchPageStatus{font:12px/1.8 Arial;color:#8f795b;margin:0 0 20px}
+.searchPage .searchResults{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.searchPage .searchResults>a{padding:22px;border:1px solid #d8c7a870;background:#fffdf8;border-radius:17px;text-decoration:none;box-shadow:0 5px 18px #59371604}
+.searchPage .searchResults>a>span{font:9px Arial;letter-spacing:1px;color:#aa8345}
+.searchPage .searchResults h2,.searchPage .searchEmpty h2{font:400 23px/1.4 Georgia;color:#4a3523;margin:12px 0}
+.searchPage .searchResults p,.searchPage .searchEmpty p{font:12px/1.85 Arial;color:#8e775b}
+.searchPage .searchResults b{display:block;border-top:1px solid #dbc9a84f;padding-top:14px;margin-top:18px;font:500 11px Arial;color:#a27d41}
+.searchPage .searchEmpty{padding:24px;border:1px solid #d8c7a870;border-radius:17px;background:#fffaf2}
+@media(max-width:600px){.searchPage .searchPageInner{width:calc(100% - 40px);padding:34px 0}.searchPage .searchPageInner h1{font-size:34px;letter-spacing:-.8px}.searchPage .searchPageForm>div{gap:9px;padding-left:13px}.searchPage .searchPageForm button{padding:14px 17px;gap:9px}.searchPage .searchPremiumContent{padding:24px 0 32px}.searchPage .searchResults{grid-template-columns:1fr}}
+/* Editorial search: a quiet cream inset on a deep brown canvas. */
+.searchPage .searchPremiumHero{background:radial-gradient(ellipse at 90% 20%,#73523830,transparent 50%),#241b15;isolation:isolate}
+.searchPage .searchPremiumHero:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,#ffffff01 3px 4px);pointer-events:none}
+.searchPage .searchPremiumHero:after{width:420px;height:420px;top:-240px;right:-130px;border-color:#c6a36b21;box-shadow:0 0 0 32px #c6a36b05,0 0 0 64px #c6a36b04,0 0 0 96px #c6a36b02}
+.searchPage .searchPremiumHero .searchPageInner{padding:44px 0 38px}
+.searchPage .topicHubEyebrow{font-size:9px;letter-spacing:2.5px;margin-bottom:24px}
+.searchPage .searchPageInner h1{font-size:clamp(42px,5vw,62px);line-height:1.04;letter-spacing:-1.9px;margin-bottom:20px}
+.searchPage .searchPageInner h1 em{color:#d5b786;font-weight:400}
+.searchPage .searchPremiumIntro{font-size:12px;line-height:1.9;color:#bfae96;margin-bottom:28px}
+.searchPage .searchEditorialPanel{position:relative;border:1px solid #ecdfc8;background:linear-gradient(135deg,#fffdf8,#f3ecdf);padding:25px;border-radius:23px;box-shadow:0 16px 40px #0002,inset 0 1px 0 #fff;color:#493521}
+.searchPage .searchPageForm label{color:#9b805a;font-size:9px;letter-spacing:1.8px;margin-bottom:14px}
+.searchPage .searchPageForm>div{border:0;border-bottom:1px solid #bd9a5d78;border-radius:0;background:transparent;box-shadow:none;padding:0 0 14px;gap:11px}
+.searchPage .searchPageForm input{font:400 21px/1.5 Georgia,serif;padding:8px 0;color:#453121}
+.searchPage .searchPageForm input::placeholder{color:#ae9d87;font:400 18px/1.5 Georgia,serif}
+.searchPage .searchPageForm svg{width:22px;height:22px;color:#ab8652}
+.searchPage .searchPageForm button{background:#33251b;color:#e7cfaa;border-color:#6c5135;border-radius:50%;width:46px;height:46px;min-height:46px;padding:0;justify-content:center;font-size:0;flex-shrink:0;box-shadow:0 3px 8px #50362114}
+.searchPage .searchPageForm button span{font:22px Georgia,serif}
+.searchPage .searchPremiumSuggestions{display:grid;grid-template-columns:1fr 1fr;gap:0 19px;margin-top:23px}
+.searchPage .searchPremiumSuggestions>span{grid-column:1/-1;font-size:8px;letter-spacing:1.5px;color:#a58c67;margin-bottom:8px}
+.searchPage .searchPremiumSuggestions a{display:flex;gap:10px;padding:15px 0;border:0;border-bottom:1px solid #d1bb963d;border-radius:0;background:transparent;color:#655038;font:400 16px Georgia,serif}
+.searchPage .searchPremiumSuggestions a small{font:9px Arial;color:#b39a73}
+.searchPage .searchPremiumSuggestions a>span{margin-left:auto;font:16px Arial;color:#b29463}
+.searchPage .searchPremiumSuggestions a:hover{background:transparent;color:#a77937;border-color:#c7ab74}
+.searchPage .searchPremiumContent{padding-top:23px;padding-bottom:30px}
+@media(max-width:600px){.searchPage .searchPremiumHero .searchPageInner{width:calc(100% - 40px);padding:32px 0}.searchPage .searchPageInner h1{font-size:43px;letter-spacing:-1.5px}.searchPage .searchEditorialPanel{padding:22px 19px;border-radius:21px}.searchPage .searchPageForm input::placeholder{font-size:17px}.searchPage .searchPageForm>div{padding-left:0}.searchPage .searchPremiumSuggestions{gap:0 16px}.searchPage .searchPremiumSuggestions a{font-size:15px}.searchPage .searchPremiumIntro{margin-bottom:25px}}

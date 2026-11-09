@@ -1,0 +1,5 @@
+.memberAccessLink{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:9px 14px;border:1px solid #c6a36588;border-radius:12px;color:#f1d7a4!important;background:#d5b4750c;text-decoration:none;font:13px/1.4 Georgia,serif;white-space:nowrap}
+.memberAccessLink:hover{background:#d5b4751c;border-color:#d5b475}
+.memberAccessLink:focus-visible{outline:2px solid #efd6a0;outline-offset:4px}
+.memberAccessLink>span{font-size:18px;color:#dfba72}
+@media(max-width:700px){.memberAccessLink{font-size:12px;min-height:36px;padding:7px 10px}}

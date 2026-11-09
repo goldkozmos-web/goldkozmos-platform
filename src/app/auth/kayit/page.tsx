@@ -8,7 +8,6 @@ import { recordMemberJoin } from "../../../lib/admin/member-log";
 import {
   MEMBER_INTERESTS,
   isMemberProfileComplete,
-  memberProfileMetadata,
   parseMemberProfile,
   prefillFromGoogle,
 } from "../../../lib/auth/membership";
@@ -59,7 +58,11 @@ export default function AuthKayitPage() {
       setPending(false);
     }
 
-    void boot();
+    void boot().catch(() => {
+      if (!alive) return;
+      setPending(false);
+      setError("Üyelik bilgilerin yüklenemedi. Bağlantını kontrol edip sayfayı yeniden yükleyebilirsin.");
+    });
     return () => {
       alive = false;
     };
@@ -98,49 +101,7 @@ export default function AuthKayitPage() {
 
     setPending(true);
     setError("");
-    const supabase = createSupabaseBrowserClient();
-    if (supabase) {
-      await supabase.auth.updateUser({ data: memberProfileMetadata(parsed) });
-      const { data: sessionPack } = await supabase.auth.getUser();
-      const userId = sessionPack.user?.id;
-      if (userId) {
-        await supabase
-          .from("profiles")
-          .update({ display_name: `${parsed.firstName} ${parsed.lastName}`.trim() })
-          .eq("id", userId);
-      }
-      await supabase.rpc("ensure_own_membership");
-      const email = sessionPack.user?.email?.trim().toLowerCase();
-      if (email && userId) {
-        await supabase.from("site_members").upsert(
-          {
-            email,
-            display_name: `${parsed.firstName} ${parsed.lastName}`.trim(),
-            auth_user_id: userId,
-            source: "google",
-            status: "active",
-          },
-          { onConflict: "email" },
-        );
-      }
-      await supabase.rpc("save_own_membership_profile", {
-        p_first_name: parsed.firstName,
-        p_last_name: parsed.lastName,
-        p_city: parsed.city,
-        p_age: parsed.age,
-        p_interests: parsed.interests.join(","),
-        p_phone: parsed.phone,
-      });
-      await recordMemberJoin(
-        sessionPack.user ?? null,
-        {
-          displayName: `${parsed.firstName} ${parsed.lastName}`.trim(),
-          city: parsed.city,
-          phone: parsed.phone,
-        },
-        supabase,
-      );
-    }
+    try {
     const res = await fetch("/api/auth/kayit", {
       method: "POST",
       credentials: "same-origin",
@@ -163,6 +124,10 @@ export default function AuthKayitPage() {
       return;
     }
     window.location.replace(next);
+    } catch {
+      setPending(false);
+      setError("Bağlantı kurulamadı. Bilgilerin bu ekranda duruyor; yeniden deneyebilirsin.");
+    }
   }
 
   return (
@@ -176,7 +141,7 @@ export default function AuthKayitPage() {
               <span> bilgilerin</span>
             </h1>
             <p className="profilimGateLead">
-              Google kabul edildi. Üyeliğin sisteme düşsün diye bu kartı bir kez
+              Seni tanıyalım. Kişisel alanını oluşturmak için bu formu bir kez
               doldur. Bilgilerin gizli kalır; yalnızca senin alanın ve yönetim
               içindir, paylaşılmaz.
             </p>

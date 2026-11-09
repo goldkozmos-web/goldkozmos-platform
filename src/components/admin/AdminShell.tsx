@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import { ADMIN_NAV, type AdminActor } from "../../lib/admin/access";
 import { AdminLiveProvider, useAdminLive } from "./AdminLiveProvider";
@@ -32,7 +33,7 @@ function AdminChrome({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const { toast, notifyReady, toggleNotify } = useAdminLive();
+  const { toast, notifyReady, notifyBusy, notifyMessage, testNotify, toggleNotify, loading, error, refresh } = useAdminLive();
   const [install, setInstall] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
@@ -62,17 +63,23 @@ function AdminChrome({
           GoldKozmos masa · {todayLabel()}
         </p>
         <div className="adminExitRow">
-          <a className="adminSiteJump" href="/">
+          <Link className="adminSiteJump" href="/">
             Siteye dön
-          </a>
+          </Link>
+          <Link className="adminSiteJump" href="/admin/sohbet">Canlı sohbet</Link>
+          <Link className="adminSiteJump" href="/panel">
+            Kontrol merkezi
+          </Link>
           <button
             type="button"
             className={`adminNotifyBtn${notifyReady ? " isOn" : " isOff"}`}
             aria-pressed={notifyReady}
+            disabled={notifyBusy}
             onClick={toggleNotify}
           >
-            {notifyReady ? "Bildirimler açık" : "Bildirimler kapalı"}
+            {notifyBusy ? "İşlem yapılıyor…" : notifyReady ? "Telefon bildirimleri açık" : "Telefon bildirimlerini aç"}
           </button>
+          {notifyReady ? <button type="button" className="adminNotifyBtn" disabled={notifyBusy} onClick={testNotify}>Deneme bildirimi gönder</button> : null}
           {install ? (
             <button
               type="button"
@@ -86,6 +93,7 @@ function AdminChrome({
             </button>
           ) : null}
         </div>
+        {notifyMessage ? <p className="adminPushHelp" role="status">{notifyMessage}</p> : null}
       </header>
 
       {toast ? (
@@ -95,7 +103,11 @@ function AdminChrome({
         </div>
       ) : null}
 
-      <div className="adminBody">{children}</div>
+      <div className="adminBody">
+        {loading ? <p role="status">Üyeler ve etkinlikler yükleniyor…</p> : null}
+        {error ? <div className="adminConnectionError" role="alert"><p>{error}</p><button type="button" className="adminNotifyBtn" onClick={() => void refresh()}>Yeniden dene</button></div> : null}
+        {!loading && !error ? children : null}
+      </div>
 
       <nav className="adminNav" aria-label="Yönetim">
         {ADMIN_NAV.map((item) => {

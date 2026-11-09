@@ -1,0 +1,145 @@
+.workDetailPage { background: #fbf7ef; color: #33271f; }
+.workDetailContainer { width: min(calc(100% - 48px), 1080px); margin: 0 auto; }
+.workDetailHero { background: #211812; color: #fff8ed; padding: 45px 0 72px; }
+.workDetailBack { display: inline-block; margin-bottom: 32px; color: #d9ba7b; font-size: 14px; text-decoration: none; }
+.workDetailHeroGrid { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 60px; align-items: center; }
+.workDetailImage { position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 24px; }
+.workDetailImage img { object-fit: cover; }
+.workDetailEyebrow { color: #bf9852; font-size: 11px; letter-spacing: .16em; font-weight: 700; }
+.workDetailHero h1 { margin: 18px 0; font-size: clamp(34px, 4vw, 56px); line-height: 1.12; }
+.workDetailLead { font-size: 17px; line-height: 1.8; color: #dacdbf; }
+.workDetailMeta { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+.workDetailMeta span { border: 1px solid #66503a; border-radius: 999px; padding: 7px 12px; font-size: 13px; color: #f0dfbd; }
+.workDetailPrice { color: #e6c98d; font-size: 28px; font-weight: 700; }
+.workDetailRead { display: inline-block; margin-top: 20px; color: #e6c98d; text-underline-offset: 5px; }
+.workDetailBody { padding: 64px 0 80px; scroll-margin-top: 100px; }
+.workDetailReading { width: min(calc(100% - 48px), 820px); margin: 0 auto; }
+.workDetailSection { margin-bottom: 18px; padding: 28px 32px; border: 1px solid #e7ddce; border-radius: 20px; background: #fffdf9; box-shadow: 0 4px 18px rgba(57, 41, 29, .035); }
+.workDetailSection h2 { font-size: 26px; margin: 0 0 14px; line-height: 1.3; letter-spacing: -.3px; }
+.workDetailSection h2::before { content: ""; display: block; width: 28px; height: 2px; background: #b69251; margin-bottom: 16px; }
+.workDetailSection p, .workDetailSection li { font-size: 16px; line-height: 1.8; color: #675549; }
+.workDetailSection p { margin: 0; }
+.workDetailSection ul { padding-left: 20px; margin-top: 20px; }
+.workDetailSection li { padding-left: 5px; margin: 10px 0; }
+.workDetailSection li::marker { color: #a17d3e; }
+.workDetailPurchase { margin-top: 32px; overflow: hidden; border: 1px solid #dfd2be; border-radius: 22px; background: #fffdf9; box-shadow: 0 12px 32px rgba(57, 41, 29, .07); }
+.workDetailPurchaseHeader { padding: 28px 32px; background: linear-gradient(120deg, #30251d, #211812); border-bottom: 1px solid #b08a4b; }
+.workDetailPurchaseHeader .workDetailEyebrow { margin: 0 0 14px; color: #d5b575; font-size: 10px; letter-spacing: .18em; }
+.workDetailPurchase h2 { color: #fff7e9; font-size: 29px; font-weight: 400; margin: 0 0 12px; line-height: 1.25; letter-spacing: -.3px; }
+.workDetailPurchaseMeta { margin: 0; color: #cfc0ac; font-size: 13px; line-height: 1.6; }
+.workDetailPurchaseContent { padding: 28px 32px 32px; }
+.workDetailPurchaseSummary { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-bottom: 20px; margin-bottom: 18px; border-bottom: 1px solid #ede4d7; }
+.workDetailPurchaseSummary > span { color: #786655; font-size: 13px; }
+.workDetailPurchaseSummary .workDetailPurchasePrice { font-size: 28px; font-weight: 400; color: #33271f; white-space: nowrap; }
+.workDetailPurchaseContent > p { margin: 0; font-size: 14px; line-height: 1.75; color: #786655; }
+.workDetailActions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+.workDetailActions a { display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 15px 18px; border: 1px solid transparent; border-radius: 10px; text-decoration: none; font-family: Arial, sans-serif; font-size: 13px; font-weight: 500; transition: background .2s; }
+.workDetailActions a svg { width: 19px; height: 19px; flex: 0 0 19px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.workDetailActions .workDetailActionArrow { margin-left: auto; font-size: 19px; opacity: .8; }
+.workDetailBuy { background: #694094; color: #fff; }
+.workDetailBuy:hover { background: #57327e; }
+.workDetailWhatsapp { background: #1e7350; color: #fff; }
+.workDetailWhatsapp:hover { background: #165b3e; }
+.workDetailPage a:focus-visible { outline: 3px solid #c79a4d; outline-offset: 5px; }
+@media (max-width: 700px) {
+  .workDetailHero { padding: 24px 0 40px; }
+  .workDetailHeroGrid { grid-template-columns: 1fr; gap: 28px; }
+  .workDetailContainer, .workDetailReading { width: calc(100% - 32px); }
+  .workDetailImage { max-width: 420px; width: 100%; margin: 0 auto; }
+  .workDetailBody { padding: 40px 0 48px; }
+  .workDetailSection { padding: 24px; border-radius: 18px; margin-bottom: 14px; }
+  .workDetailSection h2 { font-size: 23px; }
+  .workDetailSection p, .workDetailSection li { font-size: 15px; }
+  .workDetailPurchaseHeader { padding: 25px 24px; }
+  .workDetailPurchaseContent { padding: 24px; }
+  .workDetailPurchase h2 { font-size: 26px; }
+  .workDetailActions { grid-template-columns: 1fr; }
+}
+.workEnergyGuideLink{display:inline-block;margin-top:12px;color:#2365a8;text-decoration:underline;text-underline-offset:4px;font:14px/1.6 Arial,sans-serif}.workBirebirOptions{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}.workBirebirOptions article{display:flex;flex-direction:column;padding:30px;border:1px solid #cfb27b55;border-radius:20px;background:#fffdf8;box-shadow:0 8px 24px #462b0e06}.workBirebirOptions article:nth-child(2){background:linear-gradient(135deg,#38291d,#21180f);color:#d6c2a1;border-color:#a6824955}.workBirebirOptions small{font:9px Arial;letter-spacing:1.7px;color:#a78146}.workBirebirOptions h2{font:400 27px/1.2 Georgia;margin:14px 0;color:#51381e}.workBirebirOptions article:nth-child(2) h2{color:#f4e4c6}.workBirebirOptions p{font:13px/1.85 Arial;margin:15px 0;color:#947d60}.workBirebirOptions article:nth-child(2) p{color:#cbb696}.workBirebirOptions .workOptionMeta{font:11px Arial;margin:0 0 17px}.workOptionPrice{font:400 30px Georgia;color:#a17a3e}.workBirebirOptions a{display:flex;justify-content:space-between;align-items:center;background:#3a281b;color:#f8e7c6;border-radius:12px;padding:16px 18px;margin-top:auto;font:12px Arial}.workBirebirOptions article:nth-child(2) a{background:#d6b575;color:#392717}.workBirebirOptions .workOptionTerms{font-size:11px;border-top:1px solid #b3905640;padding-top:12px}.workOptionsContact{grid-column:1/-1;text-align:center}.workDetailHero .workDetailBuy{background:#cbaa6a;color:#302113}.workDetailWhatsapp{background:#36271d;color:#f6dfb6}@media(max-width:700px){.workBirebirOptions{grid-template-columns:1fr}.workBirebirOptions article{padding:25px}}
+/* Birebir: open editorial text and compact booking rows. */
+.workDetailBirebir .workDetailReading{max-width:760px}
+.workDetailBirebir .workDetailSection{border:0;border-radius:0;background:transparent;box-shadow:none;padding:0;margin:0 0 32px}
+.workDetailBirebir .workDetailSection h2{font:600 27px/1.3 Georgia,serif;color:#3e2a1c;margin:0 0 13px;letter-spacing:-.4px}
+.workDetailBirebir .workDetailSection h2:before{display:none}
+.workDetailBirebir .workDetailSection p{font:16px/1.85 Georgia,serif;color:#796047}
+.workDetailBirebir .workBirebirOptions{display:block;border-top:1px solid #b89a6655;margin-top:30px}
+.workDetailBirebir .workBirebirOptions article,.workDetailBirebir .workBirebirOptions article:nth-child(2){display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 16px;align-items:baseline;border:0;border-bottom:1px solid #b89a6655;border-radius:0;background:transparent;box-shadow:none;color:#715539;padding:22px 0}
+.workDetailBirebir .workBirebirOptions small{grid-column:1/-1;font-size:8px;letter-spacing:1.5px;margin-bottom:8px}
+.workDetailBirebir .workBirebirOptions h2,.workDetailBirebir .workBirebirOptions article:nth-child(2) h2{grid-column:1;grid-row:2;color:#44301e;font:500 24px/1.25 Georgia,serif;margin:0 0 8px}
+.workDetailBirebir .workOptionPrice{grid-column:2;grid-row:2;font:400 24px/1.25 Georgia,serif;white-space:nowrap;color:#9c753c}
+.workDetailBirebir .workBirebirOptions .workOptionMeta{grid-column:1/-1;margin:0;font:11px/1.5 Arial,sans-serif;color:#a18460}
+.workDetailBirebir .workBirebirOptions p,.workDetailBirebir .workBirebirOptions article:nth-child(2) p{grid-column:1/-1;margin:11px 0 12px;font:12px/1.8 Arial,sans-serif;color:#927859;max-width:590px}
+.workDetailBirebir .workBirebirOptions .workOptionTerms{border:0;padding:0;margin:0 0 12px;font:10px/1.5 Arial,sans-serif;color:#a38765}
+.workDetailBirebir .workBirebirOptions a,.workDetailBirebir .workBirebirOptions article:nth-child(2) a{grid-column:1/-1;justify-self:start;gap:27px;background:transparent;color:#8b632b;border:0;border-bottom:1px solid #b2915d88;border-radius:0;padding:8px 0;font:600 11px/1.4 Arial,sans-serif;text-decoration:none;margin:0}
+.workDetailBirebir .workOptionsContact{font:11px/1.8 Arial,sans-serif;margin:18px 0 0;color:#a08666;text-align:left}
+@media(max-width:700px){.workDetailBirebir .workDetailReading{width:calc(100% - 48px)}.workDetailBirebir .workDetailBody{padding:34px 0 42px}.workDetailBirebir .workDetailSection{margin-bottom:28px}.workDetailBirebir .workDetailSection h2{font-size:24px}.workDetailBirebir .workDetailSection p{font-size:15px;line-height:1.85}.workDetailBirebir .workBirebirOptions article{padding:20px 0;column-gap:12px}.workDetailBirebir .workBirebirOptions h2,.workDetailBirebir .workBirebirOptions article:nth-child(2) h2{font-size:22px}.workDetailBirebir .workOptionPrice{font-size:23px}}
+@media(max-width:380px){.workDetailBirebir .workBirebirOptions h2,.workDetailBirebir .workBirebirOptions article:nth-child(2) h2{font-size:20px}.workDetailBirebir .workOptionPrice{font-size:21px}}
+.workDetailBirebir .workBirebirOptions a,.workDetailBirebir .workBirebirOptions article:nth-child(2) a{min-width:158px;min-height:44px;box-sizing:border-box;padding:13px 18px;margin-top:3px;border:1px solid #695035;border-radius:10px;background:linear-gradient(120deg,#46301f,#2e2016);color:#f6e3bd;font:600 12px/1.4 Arial,sans-serif;box-shadow:0 3px 9px #3d281612,inset 0 1px 0 #d8b57320;text-decoration:none;justify-content:space-between}.workDetailBirebir .workBirebirOptions a:hover{background:#57402a;color:#fff4db}.workDetailBirebir .workBirebirOptions a:focus-visible{outline:2px solid #b18b4b;outline-offset:4px}
+
+.workDetailSimple .workDetailReading{max-width:760px}.workDetailSimple .workDetailSection{border:0;border-radius:0;background:transparent;box-shadow:none;padding:0;margin:0 0 32px}.workDetailSimple .workDetailSection h2{font:600 27px/1.3 Georgia,serif;color:#3e2a1c;margin:0 0 15px;letter-spacing:-.4px}.workDetailSimple .workDetailSection h2:before{display:none}.workDetailSimple .workDetailSection p{font:16px/1.85 Georgia,serif;color:#796047}.workDetailSimple .workDetailSection .workChakraDuration{font:12px/1.6 Arial,sans-serif;color:#947448;margin:20px 0 16px}.workDetailSimple .workChakraGuide{color:#1765b4;text-decoration:underline;text-underline-offset:4px;font:14px/1.6 Arial,sans-serif}.workDetailSimple .workChakraGuide:hover{color:#104982}@media(max-width:700px){.workDetailSimple .workDetailReading{width:calc(100% - 48px)}.workDetailSimple .workDetailBody{padding:34px 0 42px}.workDetailSimple .workDetailSection h2{font-size:24px}.workDetailSimple .workDetailSection p{font-size:15px}}
+
+.workDetailSimple .workDetailSection p + p{margin-top:16px}
+
+.energyReadingLinks{margin-top:28px;padding-top:22px;border-top:1px solid #d9c7aa;display:grid;gap:12px}.energyReadingLinks p{margin:0 0 2px;font:11px Arial,sans-serif;letter-spacing:.06em;color:#947448}.energyReadingLinks a{font:13px/1.6 Arial,sans-serif;color:#8c672e;text-underline-offset:4px}
+
+.workDetailSimple .workNazarMeta{font:13px/1.6 Arial,sans-serif;color:#947448;margin:0 0 16px}.workDetailSimple .workDetailActions .workDetailBuy{background:#cbaa6a;color:#302113}
+
+/* Visual introductions for the single and four-week consultation options. */
+.workDetailBirebir .workBirebirOptions .workVisualOption{row-gap:0;padding-block:26px}
+.workOptionArtwork{position:relative;grid-column:1/-1;grid-row:1;height:210px;margin:0 0 22px;overflow:hidden;border:1px solid #b69a6655;border-radius:18px;background:#2b2016;isolation:isolate}
+.workOptionArtwork img{object-fit:cover;object-position:center 34%}
+.workOptionArtwork.isMonthly img{object-position:center 58%}
+.workOptionArtwork:after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 55%,#21180b38)}
+.workOptionArtwork>span{position:absolute;z-index:1;right:15px;top:15px;display:flex;align-items:center;gap:6px;padding:9px 12px;border:1px solid #e0c18b77;border-radius:30px;background:#2b2016c9;color:#f4e3bf;font:17px/1 Georgia,serif}
+.workOptionArtwork i{font:10px/1.4 Arial,sans-serif;font-style:normal}
+.workDetailBirebir .workBirebirOptions .workVisualOption>small{grid-row:2}
+.workDetailBirebir .workBirebirOptions .workVisualOption>h2,.workDetailBirebir .workBirebirOptions .workVisualOption>.workOptionPrice{grid-row:3}
+@media(max-width:700px){.workOptionArtwork{height:175px;border-radius:16px;margin-bottom:20px}.workDetailBirebir .workBirebirOptions .workVisualOption{padding-block:24px}}
+@media(max-width:420px){.workDetailBirebir .workBirebirOptions .workVisualOption>h2{grid-column:1/-1;grid-row:3}.workDetailBirebir .workBirebirOptions .workVisualOption>.workOptionPrice{grid-column:1/-1;grid-row:4;margin:4px 0 10px}.workOptionArtwork{height:155px}}
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{grid-row:3}@media(max-width:420px){.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{grid-column:1/-1;grid-row:3}}
+/* Espresso panels with gold corner inlays; preserve complete cover artwork. */
+.workDetailBirebir .workBirebirOptions{border-top:0}
+.workDetailBirebir .workBirebirOptions article.workVisualOption,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2){position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:24px;margin:0 0 24px;border:1px solid #ad89504f;border-radius:22px;background:radial-gradient(ellipse at top right,#51382155,transparent 60%),#291d14;box-shadow:0 14px 32px #301e1412;color:#f5e6cb}
+.workVisualOption:before,.workVisualOption:after{content:'';position:absolute;width:30px;height:30px;pointer-events:none;border-color:#d6b574;border-style:solid}
+.workVisualOption:before{top:10px;left:10px;border-width:1px 0 0 1px;border-radius:12px 0 0}
+.workVisualOption:after{bottom:10px;right:10px;border-width:0 1px 1px 0;border-radius:0 0 12px}
+.workDetailBirebir .workVisualOption .workOptionArtwork{height:auto;aspect-ratio:1;flex:none;margin:0 0 22px;border-radius:14px}
+.workDetailBirebir .workVisualOption .workOptionArtwork img{object-fit:contain;object-position:center}
+.workVisualOption .workOptionArtwork:after,.workVisualOption .workOptionArtwork>span{display:none}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>h2,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{color:#f7e9d0;margin:0 0 8px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>small{color:#d7b273;margin-bottom:10px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>p{color:#d0bda1;margin:12px 0;max-width:none}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>.workOptionMeta{color:#ba9f79;margin:0 0 10px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>.workOptionPrice{color:#ebcc8b;margin:4px 0 10px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>a{align-self:flex-start;margin-top:8px;background:linear-gradient(120deg,#e7ca8d,#bf9856);color:#2b1d10;border-color:#e0bf7d;min-width:168px}
+@media(min-width:900px){.workDetailBirebir .workBirebirOptions article.workVisualOption{padding:32px}.workDetailBirebir .workVisualOption .workOptionArtwork{max-width:480px;width:100%;align-self:center}}
+@media(max-width:420px){.workDetailBirebir .workBirebirOptions article.workVisualOption{padding:20px}}
+/* Keep the four-week offer compact without cropping its cover. */
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2){padding:20px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2) .workOptionArtwork{width:100%;max-width:320px;align-self:center;margin-bottom:16px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{font-size:24px;line-height:1.2}
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>p{margin:10px 0}
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>.workOptionMeta{margin:0 0 8px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>.workOptionPrice{font-size:26px;margin:2px 0 6px}
+/* Compact matching offer cards */
+.workDetailBirebir .workBirebirOptions article.workVisualOption,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2){padding:22px;margin-bottom:18px;border-radius:20px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption .workOptionArtwork{width:100%;max-width:260px;align-self:center;margin-bottom:18px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>h2,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{font-size:24px;line-height:1.2;margin-bottom:7px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>p{font-size:12px;line-height:1.75;margin:10px 0}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>.workOptionPrice{font-size:25px;margin:2px 0 6px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>a{min-width:156px;padding:13px 16px}
+@media(max-width:700px){.workDetailBirebir .workBirebirOptions article.workVisualOption,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2){padding:20px}.workDetailBirebir .workBirebirOptions article.workVisualOption .workOptionArtwork{max-width:240px}.workDetailBirebir .workBirebirOptions article.workVisualOption>h2,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{font-size:23px}}
+.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2) .workOptionArtwork{max-width:260px;margin-bottom:18px}
+@media(max-width:700px){.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2) .workOptionArtwork{max-width:240px}}
+/* Horizontal compact offers: image left, all content right. */
+.workDetailBirebir .workBirebirOptions article.workVisualOption,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2){display:grid;grid-template-columns:minmax(110px,32%) minmax(0,1fr);grid-template-rows:auto auto auto auto auto auto auto;column-gap:22px;row-gap:0;padding:22px;margin-bottom:18px;align-items:start}
+.workDetailBirebir .workBirebirOptions article.workVisualOption .workOptionArtwork,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2) .workOptionArtwork{grid-column:1;grid-row:1/8;align-self:start;width:100%;max-width:none;height:auto;aspect-ratio:1;margin:0;border-radius:12px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>small{grid-column:2;grid-row:1;font-size:8px;margin:0 0 7px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>h2,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{grid-column:2;grid-row:2;font-size:23px;margin:0 0 7px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>.workOptionMeta{grid-column:2;grid-row:3;font-size:10px;margin:0 0 7px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>.workOptionPrice,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>.workOptionPrice{grid-column:2;grid-row:4;font-size:24px;margin:0 0 8px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>p:not(.workOptionMeta):not(.workOptionTerms){grid-column:2;grid-row:5;font-size:12px;line-height:1.65;margin:0 0 12px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>.workOptionTerms{grid-column:2;grid-row:6;font-size:10px;margin:0 0 10px;padding-top:8px}
+.workDetailBirebir .workBirebirOptions article.workVisualOption>a{grid-column:2;grid-row:7;justify-self:start;min-width:145px;margin:0;padding:12px 15px}
+@media(max-width:700px){.workDetailBirebir .workBirebirOptions article.workVisualOption,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2){padding:18px;grid-template-columns:30% minmax(0,1fr);column-gap:15px}.workDetailBirebir .workBirebirOptions article.workVisualOption>h2,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{font-size:21px}.workDetailBirebir .workBirebirOptions article.workVisualOption>.workOptionPrice,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>.workOptionPrice{font-size:22px}}
+@media(max-width:380px){.workDetailBirebir .workBirebirOptions article.workVisualOption,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2){padding:15px;column-gap:12px;grid-template-columns:28% minmax(0,1fr)}.workDetailBirebir .workBirebirOptions article.workVisualOption>h2,.workDetailBirebir .workBirebirOptions article.workVisualOption:nth-child(2)>h2{font-size:19px}.workDetailBirebir .workBirebirOptions article.workVisualOption>a{min-width:0;width:100%;font-size:11px}}

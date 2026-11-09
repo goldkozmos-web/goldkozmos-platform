@@ -1,3 +1,4 @@
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 import Link from "next/link";
 
 const readingAreas = [
@@ -209,7 +210,7 @@ export default function TarotDetailSection() {
               ))}
             </ul>
 
-            <Link href="/randevu">
+            <Link href={APPOINTMENT_WHATSAPP_URL}>
               Tarot Analizi İçin Bilgi Al
               <span aria-hidden="true">→</span>
             </Link>
@@ -356,7 +357,7 @@ export default function TarotDetailSection() {
         </div>
 
         <div className="serviceDetailActions">
-          <Link href="/randevu">
+          <Link href={APPOINTMENT_WHATSAPP_URL}>
             Tarot Analizi İçin Başvur
             <span aria-hidden="true">→</span>
           </Link>

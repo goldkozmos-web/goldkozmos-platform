@@ -1,0 +1,113 @@
+.goldcastLibraryPage{background:#f8f4ec;color:#38291c}
+.goldcastHero{position:relative;isolation:isolate;overflow:hidden;min-height:378px;padding:68px 0 40px;background:#241a12}
+.goldcastHeroArt{position:absolute;inset:0 0 0 40%;z-index:-2}
+.goldcastHeroArt img{object-fit:cover;object-position:center 42%}
+.goldcastHero:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#241a12 14%,#241a12df 42%,#241a1200 90%),linear-gradient(0deg,#241a12,transparent 45%)}
+.goldcastHeroInner{width:min(1080px,calc(100% - 48px));margin:auto}
+.goldcastHeroInner>p,.goldcastEyebrow{font:9px/1.5 Arial,sans-serif;letter-spacing:.17em;color:#ab8346;margin:0 0 14px}
+.goldcastHeroInner>p{color:#d7b67c}
+.goldcastHero h1{font-size:clamp(35px,4.5vw,54px);font-weight:400;line-height:1.1;letter-spacing:-.03em;color:#fff4df;margin:0 0 22px;max-width:550px}
+.goldcastHero h1 span{color:#e2c58c}
+.goldcastHeroInner>div{font-size:14px;line-height:1.8;color:#d6c4a8;margin:0 0 24px}
+.goldcastHeroInner>a{display:inline-flex;gap:30px;align-items:center;padding:12px 18px;border:1px solid #c3a06766;border-radius:30px;color:#eed7ad;font-size:12px;text-decoration:none;background:#241a1266}
+.goldcastContinue,.castEpisodeContainer,.castSpotifyArchiveInner{width:min(1080px,calc(100% - 40px));margin:auto}
+.goldcastContinue .platformPageContinue{width:100%;margin:28px 0 0;padding:0}
+.goldcastContinue .platformContinueCard{position:relative;grid-template-columns:68px minmax(0,1fr);align-items:center;gap:18px;padding:20px;border-radius:20px;border-color:#b9985e66;background:radial-gradient(ellipse at 100% 0,#ae875b22,transparent 70%),linear-gradient(130deg,#382a1e,#20170f);box-shadow:0 12px 24px #3c261516;min-height:112px}
+.goldcastContinue .platformContinueArt{width:68px;height:68px;border-radius:12px}
+.goldcastContinue .platformContinueCopy{gap:7px;padding-right:60px}
+.goldcastContinue .platformContinueCopy p{font:8px/1.5 Arial,sans-serif;letter-spacing:.16em;color:#c5a46d}
+.goldcastContinue .platformContinueCopy strong{font-size:20px;color:#f6e7cd;line-height:1.2}
+.goldcastContinue .platformContinueDesc{display:none}
+.goldcastContinue .platformContinuePercent{font:9px/1.4 Arial,sans-serif;color:#bca582}
+.goldcastContinue .platformContinueMeter{gap:7px;margin-top:2px}
+.goldcastContinue .platformProgressTrack{height:3px;border-radius:4px;background:#c9a56b22}
+.goldcastContinue .platformContinueCta{position:absolute;right:20px;top:50%;transform:translateY(-50%);width:44px;height:44px;min-height:44px;padding:0;margin:0;font-size:0;background:linear-gradient(130deg,#f0d99f,#b98c40);border:1px solid #f5dfb2aa;box-shadow:0 0 0 5px #e4c58a0d,0 4px 12px #100c0844;color:#322313;letter-spacing:0}
+.goldcastContinue .platformContinueCta:after{content:'▶';font:12px Arial,sans-serif;margin-left:3px}
+.castEpisodeSection{padding:38px 0 40px;overflow:hidden;scroll-margin-top:24px}
+.castEpisodeHeader,.castSpotifyArchiveHeader{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px}
+.castChannelHead h2{font-size:30px;line-height:1.2;font-weight:400;letter-spacing:-.025em;margin:0 0 15px}
+.castChannelLink{display:inline-block;font-size:11px;color:#94703b;text-decoration:none;border-bottom:1px solid #bda16c55;padding-bottom:3px}
+.castEpisodeScroller,.castSpotifyScroller{display:flex;align-items:stretch;gap:18px;overflow:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:0 0 24px}
+.castEpisodeScroller::-webkit-scrollbar,.castSpotifyScroller::-webkit-scrollbar{display:none}
+.castEpisodeCard{position:relative;flex:0 0 320px;width:320px;min-width:0;display:flex;flex-direction:column;align-items:stretch;border:1px solid #c6aa7633;border-radius:22px;background:#fffdf8;padding:0;text-align:left;overflow:hidden;scroll-snap-align:start;cursor:pointer;box-shadow:0 9px 24px #5c41220a}
+.castEpisodeCard.isActive{border-color:#b48b49}
+.castEpisodeTop{position:absolute;z-index:1;inset:15px 15px auto;display:flex;justify-content:space-between;align-items:center;color:#f7e8cc;pointer-events:none}
+.castEpisodeTop>span:first-child{padding:7px 9px;background:#1d2119bb;border:1px solid #f4e1bb33;border-radius:18px;backdrop-filter:blur(6px);font:7px Arial,sans-serif;letter-spacing:.1em}
+.castEpisodeTop>span:last-child{display:grid;place-items:center;width:36px;height:36px;border:1px solid #fff4db88;border-radius:50%;background:#fff6e6f2;color:#765325;font-size:11px;padding-left:2px;box-shadow:0 3px 12px #19100844}
+.castEpisodeImage{display:block;position:relative;aspect-ratio:16/9;overflow:hidden;background:#2b241a}
+.castEpisodeImage img{width:100%;height:100%;display:block;object-fit:cover}
+.castEpisodeBody{display:flex;flex:1;flex-direction:column;padding:24px}
+.castEpisodeCategory{font:7px/1.6 Arial,sans-serif;letter-spacing:.12em;color:#a27d43;margin:0 0 11px}
+.castEpisodeTitle{font:400 24px/1.18 Georgia,serif;letter-spacing:-.025em;color:#3b291b;min-height:85px}
+.castEpisodeSubtitle{font-size:11px;line-height:1.6;color:#a2804e;margin:8px 0 0}
+.castEpisodeDescription{font:12px/1.75 Georgia,serif;color:#8d775f;margin:12px 0 22px;min-height:63px}
+.goldcastListen{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #bda16c33;padding-top:17px;margin-top:auto;font-size:12px;color:#916a33}
+.goldcastListen>span{font-size:17px}
+.castSpotifyArchive{padding:32px 0 55px;border-top:1px solid #c4a36933;background:#ede4d566;overflow:hidden}
+.castSpotifyEpisodeCard{flex:0 0 100%;width:100%;max-width:680px;display:grid;grid-template-columns:220px minmax(0,1fr);background:linear-gradient(130deg,#34271b,#211810);border-color:#bda16c44}
+.castSpotifyEpisodeCard .castEpisodeImage{height:100%;aspect-ratio:auto}
+.castSpotifyEpisodeCard .castEpisodeImage img{transform:scale(1);object-fit:cover}
+.castSpotifyEpisodeCard .castEpisodeTop{width:190px}
+.castSpotifyEpisodeCard .castEpisodeTitle{color:#f3e6d0;min-height:0}
+.castSpotifyEpisodeCard .castEpisodeCategory{color:#c1a573}
+.castSpotifyEpisodeCard .castEpisodeDescription{color:#c2af92;min-height:0}
+.castSpotifyEpisodeCard .goldcastListen{color:#d1c6a6;border-color:#bda16c44}
+.castSpotifyControls{display:flex;gap:8px}
+.castSpotifyControls button{width:36px;height:36px;border:1px solid #bda16c44;border-radius:50%;background:transparent;color:#94703b;cursor:pointer}
+.goldcastLibraryPage button:focus-visible,.goldcastLibraryPage a:focus-visible{outline:2px solid #bd985b;outline-offset:4px}
+@media(max-width:700px){
+ .goldcastHero{padding:43px 0 30px;min-height:378px;display:flex;align-items:center}
+ .goldcastHeroInner{width:calc(100% - 40px)}
+ .goldcastHeroArt{inset:0 0 0 15%}
+ .goldcastHero:after{background:linear-gradient(90deg,#241a12ed,#241a1266 85%),linear-gradient(0deg,#241a12,transparent 45%)}
+ .goldcastHero h1{font-size:35px;margin-bottom:18px;max-width:330px}
+ .goldcastContinue .platformContinueCard{grid-template-columns:60px minmax(0,1fr);gap:13px;padding:19px 17px;min-height:104px}
+ .goldcastContinue .platformContinueArt{width:60px;height:60px;border-radius:10px}
+ .goldcastContinue .platformContinueCopy{padding-right:43px}
+ .goldcastContinue .platformContinueCopy strong{font-size:17px}
+ .goldcastContinue .platformContinueCopy p{font-size:7px}
+ .goldcastContinue .platformContinuePercent{font-size:8px}
+ .goldcastContinue .platformContinueCta{right:17px;width:36px;height:36px;min-height:36px}
+ .castChannelHead h2{font-size:27px;max-width:310px}
+ .castEpisodeCard{flex-basis:82vw;width:82vw;max-width:320px}
+ .castEpisodeBody{padding:22px}
+ .castEpisodeTitle{font-size:24px}
+ .castSpotifyEpisodeCard{flex-basis:100%;width:100%;max-width:none;grid-template-columns:98px minmax(0,1fr)}
+ .castSpotifyEpisodeCard .castEpisodeBody{padding:22px 18px}
+ .castSpotifyEpisodeCard .castEpisodeTitle{font-size:21px}
+ .castSpotifyEpisodeCard .castEpisodeTop{inset:12px 12px auto;width:74px}
+ .castSpotifyEpisodeCard .castEpisodeTop>span:first-child{display:none}
+ .castSpotifyEpisodeCard .castEpisodeTop>span:last-child{width:28px;height:28px}
+}
+/* Platform identities: video cards and podcast players. */
+.castEpisodeSection .castEpisodeCard{border:0;border-radius:18px;background:#fffdf9;box-shadow:0 12px 32px #3d29100d}
+.castEpisodeSection .castEpisodeBody{padding:20px}
+.castEpisodeSection .castEpisodeTitle{font:600 20px/1.3 Arial,sans-serif;min-height:52px;letter-spacing:-.035em}
+.castEpisodeSection .castEpisodeCategory{font-size:8px;margin-bottom:9px}
+.castEpisodeSection .castEpisodeSubtitle{font:12px/1.5 Arial,sans-serif;margin:12px 0 0;color:#6c5b4a}
+.castEpisodeSection .castEpisodeDescription{font:12px/1.65 Arial,sans-serif;min-height:60px;margin:10px 0 20px}
+.castEpisodeSection .castEpisodeTop .castYoutubeBrand{display:flex;gap:7px;align-items:center;font:600 11px Arial,sans-serif;padding:6px 9px;background:#ffffffed;color:#1f1f1f;border:0;border-radius:7px;letter-spacing:0}
+.castYoutubeBrand svg{width:22px;height:16px}
+.castEpisodeSection .castEpisodeTop>span:last-child{border-radius:10px;background:#ff0033;color:white;border:0;width:42px;height:30px;box-shadow:0 4px 14px #b4003344}
+.castEpisodeSection .goldcastListen{font:600 12px Arial,sans-serif;color:#c62339;padding-top:15px}
+.castSpotifyEpisodeCard{position:relative;display:flex;flex-direction:column;flex:0 0 320px;width:320px;max-width:320px;padding:62px 22px 22px;border-radius:22px;background:radial-gradient(ellipse at 10% 0,#315541,transparent 60%),#17261e;border:1px solid #64847033;box-shadow:0 15px 35px #17261e1a}
+.castSpotifyEpisodeCard .castEpisodeTop{inset:20px 22px auto;width:auto;color:#cad8cb}
+.castSpotifyEpisodeCard .castEpisodeTop .castSpotifyBrand{display:flex;align-items:center;gap:7px;background:none;border:0;padding:0;backdrop-filter:none;border-radius:0;font:600 14px Arial,sans-serif;letter-spacing:-.02em;color:#fff}
+.castSpotifyBrand svg{height:22px;width:22px}
+.castSpotifyEpisodeCard .castEpisodeTop>span:last-child{display:block;width:auto;height:auto;padding:0;background:none;border:0;border-radius:0;box-shadow:none;font:8px Arial,sans-serif;color:#a3bbab;letter-spacing:.1em}
+.castSpotifyEpisodeCard .castEpisodeImage{width:156px;height:156px;aspect-ratio:1;margin:0 auto 22px;border-radius:12px;box-shadow:0 10px 30px #0005}
+.castSpotifyEpisodeCard .castEpisodeImage img{object-fit:cover}
+.castSpotifyEpisodeCard .castEpisodeBody{padding:0}
+.castSpotifyEpisodeCard .castEpisodeCategory{font:8px/1.6 Arial,sans-serif;color:#8fccaa;letter-spacing:.09em;margin-bottom:8px}
+.castSpotifyEpisodeCard .castEpisodeTitle{font:600 21px/1.25 Arial,sans-serif;color:#f1f6ef;min-height:79px;letter-spacing:-.025em}
+.castSpotifyEpisodeCard .castEpisodeDescription{font:12px/1.6 Arial,sans-serif;color:#aebfb0;min-height:77px;margin:12px 0 18px}
+.castSpotifyEpisodeCard .goldcastListen{font:600 12px Arial,sans-serif;color:#e1ebdf;border-color:#9ab5a233;padding-top:16px;min-height:58px}
+.castSpotifyEpisodeCard .goldcastListen>span{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#1ed760;color:#11291a;font-size:13px;padding-left:2px;box-shadow:0 4px 14px #0002}
+.castSpotifyEpisodeCard.isActive{border-color:#1ed760}
+@media(max-width:700px){
+.castSpotifyEpisodeCard{flex-basis:82vw;width:82vw;max-width:320px;grid-template-columns:none}
+.castSpotifyEpisodeCard .castEpisodeBody{padding:0}
+.castSpotifyEpisodeCard .castEpisodeTop{inset:20px 22px auto;width:auto}
+.castSpotifyEpisodeCard .castEpisodeTop>span:first-child{display:flex}
+.castSpotifyEpisodeCard .castEpisodeTop>span:last-child{width:auto;height:auto}
+}

@@ -1,3 +1,4 @@
+import ProfilimIcon from "./ProfilimIcon";
 import type { ReactNode } from "react";
 
 export default function ProfilimFeaturedCard({
@@ -18,6 +19,8 @@ export default function ProfilimFeaturedCard({
   const classNames = ["profilimFeatured", className].filter(Boolean).join(" ");
   const body = (
     <>
+      <span className="profilimCardArtwork" aria-hidden="true"><i /><i /><i /><i /><i /></span>
+      <ProfilimIcon name={eyebrow} />
       <span className="profilimFeaturedEyebrow">{eyebrow}</span>
       <strong className="profilimFeaturedTitle">{title}</strong>
       {children ? (
@@ -31,14 +34,14 @@ export default function ProfilimFeaturedCard({
 
   if (href) {
     return (
-      <a className={classNames} href={href}>
+      <a data-feature={eyebrow} className={classNames} href={href}>
         {body}
       </a>
     );
   }
 
   return (
-    <button type="button" className={classNames} onClick={onOpen}>
+    <button type="button" data-feature={eyebrow} className={classNames} onClick={onOpen}>
       {body}
     </button>
   );

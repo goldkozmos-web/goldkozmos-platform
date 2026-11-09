@@ -19,7 +19,8 @@ export function createSupabaseBrowserClient() {
     auth: {
       persistSession: true,
       autoRefreshToken: true,
-      detectSessionInUrl: true,
+      // The callback route (or /auth/oturum fallback) exchanges the code once.
+      detectSessionInUrl: false,
     },
     cookieOptions: {
       ...supabaseCookieOptions(host),

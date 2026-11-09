@@ -1,6 +1,10 @@
 import { istanbulDay } from "../../data/goldAct";
+import { readWaterPreferences, type WaterPreferences } from './water-schedule';
 
 export const WATER_GOAL = 8;
+const memory = new Map<string, WaterDayState>();
+const revisions = new Map<string, number>();
+export function waterRevision(userId: string) { return revisions.get(userId) ?? 0; }
 
 export type WaterDayState = {
   day: string;
@@ -28,16 +32,24 @@ export function readWaterDay(userId: string): WaterDayState {
 
   try {
     const raw = window.localStorage.getItem(waterStorageKey(userId));
-    if (!raw) return emptyWaterDay(today);
+    if (!raw) return memory.get(waterStorageKey(userId))?.day === today ? memory.get(waterStorageKey(userId))! : emptyWaterDay(today);
     const parsed = JSON.parse(raw) as Partial<WaterDayState>;
     if (parsed.day !== today) return emptyWaterDay(today);
     return { day: today, glasses: clampGlasses(Number(parsed.glasses)) };
   } catch {
-    return emptyWaterDay(today);
+    return memory.get(waterStorageKey(userId))?.day === today ? memory.get(waterStorageKey(userId))! : emptyWaterDay(today);
   }
 }
 
 export const WATER_EVENT = "profilim-water";
+export function readWaterSettings(userId: string) {
+  try { return readWaterPreferences(JSON.parse(window.localStorage.getItem(`${waterStorageKey(userId)}-settings`) || '{}')); }
+  catch { return readWaterPreferences(null); }
+}
+export function writeWaterSettings(userId: string, preferences: WaterPreferences) {
+  try { window.localStorage.setItem(`${waterStorageKey(userId)}-settings`, JSON.stringify(preferences)); } catch { /* Current session still uses the server response. */ }
+  window.dispatchEvent(new Event(WATER_EVENT));
+}
 
 export function writeWaterDay(userId: string, glasses: number): WaterDayState {
   const next: WaterDayState = {
@@ -51,10 +63,12 @@ export function writeWaterDay(userId: string, glasses: number): WaterDayState {
 
   try {
     window.localStorage.setItem(waterStorageKey(userId), JSON.stringify(next));
-    window.dispatchEvent(new CustomEvent(WATER_EVENT, { detail: next }));
   } catch {
     // Ignore private-mode storage errors.
   }
+  memory.set(waterStorageKey(userId), next);
+  revisions.set(userId, waterRevision(userId) + 1);
+  window.dispatchEvent(new CustomEvent(WATER_EVENT, { detail: next }));
 
   return next;
 }

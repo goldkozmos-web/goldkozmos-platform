@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { sendAdminPush } from "@/lib/admin/push-server";
 
 import {
   countGoldBlogComments,
@@ -64,6 +65,7 @@ export async function POST(request: Request) {
   }
 
   const counts = await countGoldBlogComments([postId]);
+  after(() => sendAdminPush({ title: "Yeni yorum", body: "GoldBlog’a yeni bir yorum geldi.", url: "/admin/bildirimler" }).then(() => undefined));
 
   return NextResponse.json({
     comment: result.comment,

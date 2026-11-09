@@ -1,0 +1,13 @@
+import Link from "next/link";
+import Image from "next/image";
+import { consultationOptions, consultationWhatsapp } from "../../data/consultationOptions";
+import "../../styles/consultation-choices.css";
+
+export default function ConsultationChoices({ energy = false }: { energy?: boolean }) {
+  return <section className={`consultationChoices${energy ? "" : " consultationChoicesDark"}`} id="gorusme-secenekleri" aria-labelledby="consultation-choices-title">
+    <header><p className="consultationKicker">SÜRE · İÇERİK · ÜCRET</p><h2 id="consultation-choices-title">{energy ? "Enerji çalışması mı, daha uzun bir görüşme mi?" : "İhtiyacına ve ritmine uygun bir başlangıç."}</h2><p>{energy ? "Kısa çalışmalar belirli bir enerji alanına odaklanır. Yaşadıklarını anlatmak ve konunu daha uzun ele almak istiyorsan birebir görüşme seçeneklerini inceleyebilirsin." : "Bir konuya odaklanmak için tek görüşme; daha uzun bir süreç için yoğun veya haftalık çalışma seçenekleri."}</p></header>
+    {energy ? <article><div><h3>Kısa enerji çalışması</h3><p className="consultationDuration">30 dakika · Online birebir</p><p>Daha önce aldığın çalışmayı desteklemek veya enerji çalışmasını deneyimlemek için. Seçtiğin alana yönelik enerji uygulaması yapılır.</p></div><strong>1.000 TL</strong><div className="consultationChoiceActions"><Link href="/calismalar/enerji-calismalari">Çalışma alanlarını incele →</Link></div></article> : null}
+    {consultationOptions.map(option => <article key={option.slug}><div><div className="consultationOptionHeading">{!energy ? <Image className="consultationOptionImage" src={option.slug === "4-haftalik-calisma-paketi" ? "/images/services/dort-hafta-lotus-premium-v2.webp" : option.slug === "5-gunluk-yogun-calisma" ? "/images/services/bes-gun-kristal-premium-v2.webp" : "/images/services/birebir-enerji-bagi-premium-v2.webp"} alt="" width={80} height={96} sizes="80px" /> : null}<div><h3>{option.title}</h3><p className="consultationDuration">{option.duration}</p></div></div><p>{option.text}</p>{option.slug === "4-haftalik-calisma-paketi" ? <p className="consultationTerms">Paket ücreti iade edilmez.</p> : null}</div><strong>{option.price}</strong><div className="consultationChoiceActions"><a href={consultationWhatsapp(option.message)} target="_blank" rel="noopener noreferrer">Randevu al <span aria-hidden="true">↗</span></a><Link href={`/calismalar/detay/${option.slug}`}>İçeriği incele →</Link></div></article>)}
+    <p className="consultationFinePrint">WhatsApp bağlantısı bir randevu talebi başlatır. Gün, saat ve katılım ayrıntıları birlikte netleştirilir.</p>
+  </section>;
+}

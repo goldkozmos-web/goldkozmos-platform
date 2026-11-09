@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { memberSourceLabel } from "../../lib/admin/members";
 import { MEMBER_INTERESTS } from "../../lib/auth/membership";
@@ -45,9 +45,15 @@ export default function AdminMemberList({
   members: AdminMemberRow[];
 }) {
   const { refresh } = useAdminLive();
+  const [syncError, setSyncError] = useState("");
+  const [syncing, setSyncing] = useState(false);
+  const syncInFlight = useRef(false);
 
-  useEffect(() => {
-    async function syncRoster() {
+  const syncRoster = useCallback(async () => {
+    if (syncInFlight.current) return;
+    syncInFlight.current = true;
+    setSyncing(true);
+    try {
       const headers: HeadersInit = { "Content-Type": "application/json" };
       const supabase = createSupabaseBrowserClient();
       if (supabase) {
@@ -55,36 +61,51 @@ export default function AdminMemberList({
         const token = data.session?.access_token;
         if (token) headers.Authorization = `Bearer ${token}`;
       }
-      await fetch("/api/admin/members", {
+      const response = await fetch("/api/admin/members", {
         method: "POST",
         headers,
         credentials: "same-origin",
         body: JSON.stringify({ sync: true }),
       });
+      if (!response.ok) {
+        const pack = await response.json().catch(() => null) as { error?: string } | null;
+        setSyncError(pack?.error || "Üye eşitlemesi tamamlanamadı. Mevcut kayıtlar gösteriliyor; yeniden deneyebilirsin.");
+      }
+      else setSyncError("");
       await refresh();
+    } catch {
+      setSyncError("Üye eşitlemesine bağlanılamadı. Yeniden deneyebilirsin.");
+    } finally {
+      syncInFlight.current = false;
+      setSyncing(false);
     }
-
-    void syncRoster().catch(() => undefined);
   }, [refresh]);
+
+  useEffect(() => { void syncRoster(); }, [syncRoster]);
 
   if (members.length === 0) {
     return (
+      <div>
+      <button type="button" className="adminQuietButton" onClick={() => void syncRoster()} disabled={syncing}>{syncing ? "Yenileniyor…" : "Listeyi yenile"}</button>
       <AdminEmpty
         eyebrow="Üyeler"
-        title="Henüz üye yok"
-        text="Google ile giren herkes bu listeye düşer. Eski girişler, kişi siteye bir kez daha girince görünür."
+        title={syncError ? "Üyeler yüklenemedi" : "Henüz üye yok"}
+        text={syncError || "Google ile giriş yapan üyeler burada görünür."}
         quiet
       />
+      </div>
     );
   }
 
   return (
     <section className="adminPanel">
+      {syncError ? <p className="adminConnectionError" role="alert">{syncError}</p> : null}
       <header className="adminPanelHead">
         <div>
           <p className="adminSectionLabel">Üyeler</p>
           <h2>Kayıtlı kişiler</h2>
         </div>
+        <button type="button" className="adminQuietButton" onClick={() => void syncRoster()} disabled={syncing}>{syncing ? "Yenileniyor…" : "Listeyi yenile"}</button>
       </header>
       {members.map((member) => (
         <article key={member.id} className="adminMember">

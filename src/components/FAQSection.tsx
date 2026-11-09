@@ -93,7 +93,8 @@ const faqItems: FAQItem[] = [
   },
 ];
 
-export default function FAQSection() {
+export default function FAQSection({ compact = false }: { compact?: boolean }) {
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
   const [openIndex, setOpenIndex] =
     useState<number | null>(null);
 
@@ -130,6 +131,20 @@ export default function FAQSection() {
       }, 180);
     }
   }
+
+  if (compact) return (
+    <section className="finderFaqCompact" aria-labelledby="finder-faq-title">
+      <p className="sectionEyebrow">SIK SORULAN SORULAR</p>
+      <h2 id="finder-faq-title">Merak ettiklerin,<span> tek bir yerde.</span></h2>
+      <p>Çalışmalar ve görüşmeler hakkında kısa yanıtlar.</p>
+      <button type="button" onClick={() => dialogRef.current?.showModal()}>Tüm soruları gör <span aria-hidden="true">↗</span></button>
+      <dialog className="finderFaqDialog" ref={dialogRef} onClick={(event) => { if (event.target === event.currentTarget) event.currentTarget.close(); }}>
+        <header><div><p>GOLDKOZMOS · SIK SORULAN SORULAR</p><h3>Merak ettiklerin.</h3></div><button type="button" aria-label="Soruları kapat" onClick={() => dialogRef.current?.close()}>×</button></header>
+        <div className="finderFaqDialogList">{faqItems.map((item, index) => <details key={item.question}><summary><span>{String(index + 1).padStart(2, "0")}</span><strong>{item.question}</strong><i aria-hidden="true">+</i></summary><p>{item.answer}</p></details>)}</div>
+        <footer>Yanıtını bulamadın mı? <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">WhatsApp’tan sor ↗</a></footer>
+      </dialog>
+    </section>
+  );
 
   return (
     <section

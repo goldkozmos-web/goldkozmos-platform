@@ -1,10 +1,11 @@
 import { TAROT_PAINTED_SLUGS } from "../../data/tarot/paintedImages";
 import { SITE_ORIGIN } from "../site";
+import { APPOINTMENT_WHATSAPP_URL } from "../appointments";
 
 export const TAROT_CARE_PATH = "/tarot-bakimi";
 export const TAROT_CARDS_PATH = "/tarot-kartlari";
 export const TAROT_SHOP_PATH = "/calismalar/tarot";
-export const TAROT_RANDEVU_PATH = "/randevu-al?service=tarot";
+export const TAROT_RANDEVU_PATH = APPOINTMENT_WHATSAPP_URL;
 
 export const TAROT_WHATSAPP_HREF = `https://wa.me/905054722153?text=${encodeURIComponent(
   "Merhaba, kişisel Tarot bakımı hakkında bilgi almak istiyorum.",

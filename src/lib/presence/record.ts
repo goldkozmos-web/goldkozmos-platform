@@ -1,8 +1,12 @@
+import { isSiteAdminEmail } from "../admin/access";
 import type { NextRequest } from "next/server";
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
 
 import { notifyPresencePush } from "../admin/push-server";
+import { isPresenceArrival, PRESENCE_SEEN_COOKIE } from "./arrival";
 import { createSupabaseAnonClient } from "../supabase/anon";
+import { createSupabaseServerClient } from "../supabase/create-server-client";
+import { activityKey } from "./activity";
 import {
   describeReferrer,
   isPresenceBot,
@@ -45,12 +49,12 @@ export function visitorKeyFromRequest(
   hinted?: string,
 ) {
   const fromBody = hinted?.trim() || "";
-  if (fromBody.length >= 8 && fromBody.length <= 80) {
+  if (/^[a-zA-Z0-9_-]{8,80}$/.test(fromBody) && !fromBody.startsWith("gkmem_")) {
     return fromBody;
   }
 
   const existing = request.cookies.get(VISITOR_COOKIE)?.value?.trim();
-  if (existing && existing.length >= 8 && existing.length <= 80) {
+  if (existing && /^[a-zA-Z0-9_-]{8,80}$/.test(existing) && !existing.startsWith("gkmem_")) {
     return existing;
   }
 
@@ -58,6 +62,7 @@ export function visitorKeyFromRequest(
 }
 
 export function withVisitorCookie(response: NextResponse, visitorKey: string) {
+  response.cookies.set({ name: PRESENCE_SEEN_COOKIE, value: `${visitorKey}|${Date.now()}`, path: "/", maxAge: 60 * 60 * 24 * 400, sameSite: "lax", httpOnly: true, secure: process.env.NODE_ENV === "production" });
   response.cookies.set({
     name: VISITOR_COOKIE,
     value: visitorKey,
@@ -80,7 +85,7 @@ export async function recordPresence(
   const ok = () =>
     withVisitorCookie(NextResponse.json({ ok: true }), visitorKey);
 
-  if (isPresenceBot(request.headers.get("user-agent"))) {
+  if (request.cookies.get("gk_metrics_excluded")?.value === "1" || isPresenceBot(request.headers.get("user-agent"))) {
     return ok();
   }
 
@@ -97,11 +102,18 @@ export async function recordPresence(
   const supabase = createSupabaseAnonClient();
 
   if (!supabase) {
-    return ok();
+    return NextResponse.json({ ok: false }, { status: 503 });
   }
 
+  const sessionClient = await createSupabaseServerClient();
+  const claims = sessionClient ? await sessionClient.auth.getClaims() : null;
+  const userId = typeof claims?.data?.claims?.sub === "string" ? claims.data.claims.sub : null;
+  if (isSiteAdminEmail(typeof claims?.data?.claims?.email === "string" ? claims.data.claims.email : null)) return ok();
+  const recordedKey = activityKey(visitorKey, userId);
+  const arrival = payload.kind === "page" && isPresenceArrival(request.cookies.get(PRESENCE_SEEN_COOKIE)?.value, visitorKey);
+
   const { error } = await supabase.rpc("record_site_presence", {
-    p_visitor_key: visitorKey,
+    p_visitor_key: recordedKey,
     p_kind: payload.kind === "heartbeat" ? "page" : payload.kind,
     p_path: path,
     p_referrer: referrer,
@@ -114,15 +126,16 @@ export async function recordPresence(
   });
 
   if (error) {
-    return ok();
+    return withVisitorCookie(NextResponse.json({ ok: false }, { status: 503 }), visitorKey);
   }
 
-  void notifyPresencePush({
+  after(() => notifyPresencePush({
     kind: payload.kind,
     path,
-    visitorKey,
+    visitorKey: recordedKey,
     heartbeat: payload.kind === "heartbeat",
-  });
+    arrival,
+  }));
 
   return ok();
 }

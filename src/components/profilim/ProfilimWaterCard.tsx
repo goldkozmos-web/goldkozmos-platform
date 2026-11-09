@@ -1,13 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 
-import {
-  WATER_EVENT,
-  WATER_GOAL,
-  readWaterDay,
-  type WaterDayState,
-} from "../../lib/profilim/waterStore";
+
+import { useWater } from "../../lib/profilim/useWater";
 import WaterGlassArt from "./WaterGlassArt";
 
 export default function ProfilimWaterCard({
@@ -17,44 +12,27 @@ export default function ProfilimWaterCard({
   userId: string;
   onOpen: () => void;
 }) {
-  const [glasses, setGlasses] = useState(0);
-
-  useEffect(() => {
-    setGlasses(readWaterDay(userId).glasses);
-    const sync = (event: Event) => {
-      const detail = (event as CustomEvent<WaterDayState>).detail;
-      if (detail?.glasses != null) setGlasses(detail.glasses);
-    };
-    window.addEventListener(WATER_EVENT, sync);
-    return () => window.removeEventListener(WATER_EVENT, sync);
-  }, [userId]);
-
-  const done = glasses >= WATER_GOAL;
+  const { glasses, goal } = useWater(userId);
+  const done = glasses >= goal;
 
   return (
     <button
       type="button"
       className="profilimFeatured profilimWaterCard"
       onClick={onOpen}
-      aria-label={`Su hatırlatıcısı, bugün ${glasses} / ${WATER_GOAL} bardak`}
+      aria-label={`Su hatırlatıcısı, bugün ${glasses} / ${goal} bardak`}
     >
-      <span className="profilimWaterAura" aria-hidden="true" />
       <span className="profilimWaterCopy">
-        <span className="profilimFeaturedEyebrow">SU</span>
-        <strong className="profilimFeaturedTitle">Su iç</strong>
-        <span className="profilimWaterMeta">
-          {done ? "Bugün tamam" : `${glasses} / ${WATER_GOAL} bardak`}
-        </span>
-        <span className="profilimWaterPips" aria-hidden="true">
-          {Array.from({ length: WATER_GOAL }, (_, index) => (
-            <span
-              key={index}
-              className={`profilimWaterPip${index < glasses ? " isFilled" : ""}`}
-            />
-          ))}
-        </span>
+        <span className="profilimFeaturedEyebrow">GÜNLÜK SU TAKİBİ</span>
+        <strong className="profilimFeaturedTitle">Su molan</strong>
+        <span className="profilimWaterSubtitle">Gününe küçük bir mola.</span>
+        <span className="profilimWaterMeta"><b>{glasses}</b><span>/ {goal} bardak</span></span>
       </span>
-      <WaterGlassArt glasses={glasses} goal={WATER_GOAL} />
+      <span className="waterGlassPortrait"><WaterGlassArt glasses={glasses} goal={goal} /></span>
+      <span className="waterCardFooter">
+        <span className="waterCardProgress" aria-hidden="true"><i style={{width:`${Math.min(100,glasses / goal * 100)}%`}} /></span>
+        <span className="profilimWaterSettingsHint">{done ? 'Bugünkü hedefin tamamlandı' : 'Hedefini ve hatırlatmanı ayarla'}<span aria-hidden="true">↗</span></span>
+      </span>
     </button>
   );
 }

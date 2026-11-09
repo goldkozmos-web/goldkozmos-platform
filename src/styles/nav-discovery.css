@@ -1,0 +1,10 @@
+.homeV3Page .homeNavDiscovery{position:relative;color:#e6c78e}
+.homeV3Page .homeNavDiscovery summary{display:flex;align-items:center;gap:7px;cursor:pointer;list-style:none;font-size:clamp(12px,.8vw,16px);white-space:nowrap;line-height:1.4}
+.homeV3Page .homeNavDiscovery summary::-webkit-details-marker{display:none}
+.homeV3Page .homeNavDiscovery summary:focus-visible{outline:2px solid #dfbf81;outline-offset:6px;border-radius:3px}
+.homeV3Page .homeNavDiscoveryLinks{position:absolute;z-index:80;top:calc(100% + 20px);left:50%;transform:translateX(-50%);width:250px;padding:12px;border:1px solid #b99a5f77;border-radius:17px;background:#2c2017;box-shadow:0 15px 40px #120c0944}
+.homeV3Page .homeV3Menu .homeNavDiscoveryLinks a{display:block;padding:12px 14px;border-radius:9px;line-height:1.4;white-space:normal;color:#f4dfb5;font-size:15px}
+.homeV3Page .homeV3Menu .homeNavDiscoveryLinks a span{display:block;margin-top:4px;font:11px/1.5 Arial,sans-serif;color:#c3ae8a}
+.homeV3Page .homeV3Menu .homeNavDiscoveryLinks a:hover,.homeV3Page .homeV3Menu .homeNavDiscoveryLinks a:focus-visible{background:#d4b06b14}
+.homeMemberAccess{display:inline-flex}
+@media(max-width:1279px){.homeV3Page .homeV3NavActions .homeMemberAccess{display:none}}

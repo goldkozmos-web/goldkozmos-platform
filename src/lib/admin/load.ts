@@ -25,8 +25,10 @@ import {
   describeEntry,
   describeLocation,
   isLiveAt,
+  shouldSkipPresencePath,
 } from "../presence/labels";
 import { SUGGESTIONS_POST } from "./suggestions";
+import { activityIdentity, distinctActivityRows } from "../presence/activity";
 
 export type AdminOverviewMetric = {
   id: AdminOverviewCardId;
@@ -45,6 +47,8 @@ export type AdminVisitorRow = {
   path: string;
   live: boolean;
   lastSeenAt: string | null;
+  pageStartedAt?: string | null;
+  isMember?: boolean;
 };
 
 export type AdminEventRow = {
@@ -176,7 +180,7 @@ async function fetchAdminMembers(
 
 export { emptyAdminMetrics };
 
-export async function loadAdminLive(client?: SupabaseClient | null) {
+export async function loadAdminLive(client?: SupabaseClient | null, actorId?: string) {
   const supabase = client ?? (await createSupabaseServerClient());
   const memberStart = istanbulDayStartIso();
 
@@ -193,6 +197,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
   let purchases: AdminEventRow[] = [];
   let appointments: AdminEventRow[] = [];
   let membersList: AdminMemberRow[] = [];
+  let commentNotifications: { id: string; excerpt: string; createdAt: string; readAt: string | null }[] = [];
 
   if (supabase) {
     const [memberRows, memberHead, visits, liveRows, events, sessionPack, suggestionHead] =
@@ -242,14 +247,32 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     ]);
     memberCount = membersList.length || memberHead.count || 0;
 
-    visitors = visitorRows
-      .filter((row) => !isMemberVisitorKey(asText(row.visitor_key)))
+    const browsingRows: (Record<string, unknown> & { visitor_key: string; last_seen_at: string })[] = visitorRows
+      .filter((row) => !isMemberVisitorKey(asText(row.visitor_key)) && !shouldSkipPresencePath(asText(row.last_path)) && asText(row.last_path) !== "/uyelik")
+      .map((row) => ({ ...row, visitor_key: asText(row.visitor_key), last_seen_at: asText(row.last_seen_at) }));
+    const pageStarts = new Map<string, { path: string; at: string }>();
+    if (browsingRows.length) {
+      const pageEvents = await supabase.from("site_events")
+        .select("visitor_key, path, created_at")
+        .eq("kind", "page")
+        .in("visitor_key", browsingRows.map((row) => row.visitor_key))
+        .gte("created_at", memberStart)
+        .order("created_at", { ascending: false })
+        .limit(2000);
+      for (const event of pageEvents.data ?? []) {
+        if (!pageStarts.has(event.visitor_key)) pageStarts.set(event.visitor_key, { path: event.path, at: event.created_at });
+      }
+    }
+    visitors = distinctActivityRows(browsingRows)
       .map((row) => {
       const lastSeenAt = asText(row.last_seen_at) || null;
       const path = asText(row.last_path) || "/";
+      const identity = activityIdentity(asText(row.visitor_key));
+      const member = identity.userId ? membersList.find((person) => (person.authUserId || person.id) === identity.userId) : null;
       return {
-        id: asText(row.visitor_key),
-        label: VISITOR_LABEL,
+        id: identity.userId ? `member:${identity.userId}` : asText(row.visitor_key),
+        label: identity.userId ? member?.displayName || "Üye" : VISITOR_LABEL,
+        isMember: Boolean(identity.userId),
         location: describeLocation(
           asText(row.city) || null,
           asText(row.region) || null,
@@ -260,8 +283,9 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
           asText(row.first_referrer) || null,
         ),
         path,
-        live: isLiveAt(lastSeenAt) && !path.startsWith("/admin") && path !== "/uyelik",
+        live: isLiveAt(lastSeenAt) && !shouldSkipPresencePath(path) && path !== "/uyelik",
         lastSeenAt,
+        pageStartedAt: pageStarts.get(row.visitor_key)?.path === path ? pageStarts.get(row.visitor_key)!.at : null,
       };
     });
     liveCount = visitors.filter((row) => row.live).length;
@@ -292,15 +316,18 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     purchaseCount = purchases.length;
     appointmentCount = appointments.length;
 
-    const userId = sessionPack.data.session?.user?.id;
+    const userId = actorId || sessionPack.data.session?.user?.id;
     if (userId) {
       const notes = await supabase
         .from("comment_notifications")
-        .select("id", { count: "exact", head: true })
+        .select("id, excerpt, created_at, read_at")
         .eq("recipient_id", userId)
-        .is("read_at", null);
-      notificationCount = notes.count ?? 0;
+        .order("created_at", { ascending: false })
+        .limit(40);
+      commentNotifications = (notes.data ?? []).map((note) => ({ id: String(note.id), excerpt: String(note.excerpt ?? ""), createdAt: String(note.created_at), readAt: note.read_at ? String(note.read_at) : null }));
+      notificationCount = commentNotifications.filter((note) => !note.readAt).length;
     }
+    notificationCount += membersList.filter((member) => member.createdAt && member.createdAt >= memberStart).length + whatsapp.length + purchases.length + appointments.length;
 
     suggestionCount = suggestionHead.count ?? 0;
   }
@@ -332,6 +359,7 @@ export async function loadAdminLive(client?: SupabaseClient | null) {
     purchases,
     appointments,
     members: membersList,
+    commentNotifications,
   };
 }
 

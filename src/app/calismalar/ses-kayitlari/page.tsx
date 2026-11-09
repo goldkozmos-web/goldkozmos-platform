@@ -1,3 +1,4 @@
+import { APPOINTMENT_WHATSAPP_URL } from "../../../lib/appointments";
 import type { Metadata } from "next";
 
 import Navbar from "../../../components/Navbar";
@@ -175,7 +176,7 @@ export default function AudioWorksPage() {
               <span aria-hidden="true">↓</span>
             </a>
 
-            <a href="/randevu">
+            <a href={APPOINTMENT_WHATSAPP_URL}>
               Ses Kaydı İçin Bilgi Al
               <span aria-hidden="true">→</span>
             </a>

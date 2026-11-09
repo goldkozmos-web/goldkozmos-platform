@@ -104,23 +104,30 @@ export async function sendMemberMessage(raw: {
       .select("auth_user_id")
       .eq("status", "active")
       .not("auth_user_id", "is", null);
+    if (roster.error) return { error: "Üye listesi alınamadı. Yeniden dene.", status: 500 as const };
     recipientIds = (roster.data ?? [])
       .map((row) =>
         typeof row.auth_user_id === "string" ? row.auth_user_id : "",
       )
       .filter(Boolean);
 
-    if (recipientIds.length === 0) {
-      const { data } = await supabase.from("profiles").select("id");
-      recipientIds = (data ?? []).map((row) => String(row.id));
-    }
   } else {
     recipientIds = [parsed.recipientId];
   }
 
+  recipientIds = [...new Set(recipientIds)];
+
   if (recipientIds.length === 0) {
     return { error: "Gönderilecek üye yok.", status: 400 as const };
   }
+
+  // A historical roster entry can outlive its profile. It must not make the
+  // entire announcement fail its recipient foreign-key constraint.
+  const profiles = await supabase.from("profiles").select("id").in("id", recipientIds);
+  if (profiles.error) return { error: "Alıcılar doğrulanamadı. Yeniden dene.", status: 500 as const };
+  const existingIds = new Set((profiles.data ?? []).map((row) => String(row.id)));
+  recipientIds = recipientIds.filter((id) => existingIds.has(id));
+  if (recipientIds.length === 0) return { error: "Gönderilecek aktif profil bulunamadı.", status: 400 as const };
 
   const rows = recipientIds.map((recipientId) => ({
     sender_id: access.actor.id,
@@ -129,16 +136,16 @@ export async function sendMemberMessage(raw: {
     body: parsed.body,
   }));
 
-  const { error } = await supabase.from("member_messages").insert(rows);
+  const { data, error } = await supabase.from("member_messages").insert(rows).select("id, title, body, created_at, read_at");
 
   if (error) {
     return {
-      error: "Mesaj kaydedilemedi. Supabase’de üye mesaj tablosunu çalıştır.",
+      error: "Mesaj gönderilemedi. Bağlantını kontrol edip yeniden dene.",
       status: 500 as const,
     };
   }
 
-  return { ok: true as const, count: rows.length };
+  return { ok: true as const, count: data?.length ?? 0, recipientIds, sent: (data ?? []).map((row) => mapRow(row)) };
 }
 
 export async function markInboxMessageRead(id: string) {

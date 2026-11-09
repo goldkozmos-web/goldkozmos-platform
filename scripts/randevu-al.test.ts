@@ -55,7 +55,7 @@ test("energy cards keep real duration and the original WhatsApp names", () => {
     (service) => service.name === "Tek Birebir Seans",
   );
   assert.ok(cakra);
-  assert.equal(cakra?.duration, "45–60 dk");
+  assert.equal(cakra?.duration, "30 dk");
   assert.equal(mekan?.format, "Online birebir");
   assert.equal(birebir?.duration, "90 dk");
   assert.match(randevuMinIso(new Date("2026-09-10T12:00:00")), /2026-09-11/);

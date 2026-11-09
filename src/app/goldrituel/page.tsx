@@ -6,6 +6,7 @@ import RitualHub from "../../components/goldrituel/RitualHub";
 import { goldrituelUrl } from "../../lib/goldrituel/urls";
 import "../../styles/home.css";
 import "../../styles/goldrituel.css";
+import "../../styles/ritual-cards-editorial.css";
 
 const pageUrl = goldrituelUrl();
 
@@ -43,8 +44,8 @@ export default function GoldRituelPage() {
           Niyet, farkındalık ve enerji odağında uygulanabilir ritüeller.
         </p>
         <p className="grIntro">
-          Kalabalık bir kategori ağacı yok. Ritüeli seç, süresine ve malzemesine bak,
-          adımları sakin uygula. Niyetin net olsun; sahne kalmasın.
+          Burada günlük hayatımda yer açmayı sevdiğim sade uygulamaları paylaşıyorum.
+          Kendine uygun ritüeli seç; malzemelerini hazırla ve adımları kendi hızında uygula.
         </p>
         <RitualHub />
       </div>

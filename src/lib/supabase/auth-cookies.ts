@@ -122,8 +122,10 @@ export function createAuthCookieClient(request: NextRequest) {
   return { supabase, env, redirect, message, appendCookie };
 }
 
-export function hasPkceVerifierCookie(request: NextRequest) {
+export function hasPkceVerifierCookie(request: NextRequest, flowId?: string | null) {
   return request.cookies
     .getAll()
-    .some((cookie) => cookie.name.includes("code-verifier"));
+    .some((cookie) => flowId
+      ? cookie.name.endsWith(`-flow-${flowId}-code-verifier`)
+      : cookie.name.endsWith("-code-verifier"));
 }

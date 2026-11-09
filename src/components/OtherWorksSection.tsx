@@ -8,18 +8,18 @@ const works = [
     description:
       "Belirli bir konuya odaklanmak, mevcut durumunu daha net görmek ve sana özel bir yön oluşturmak için birebir çalışma.",
     meta: "90 dk · Online",
-    price: "2.500 TL",
+    price: "2.000 TL",
     href: "/calismalar/birebir-seanslar",
     button: "Seansı İncele",
   },
   {
     number: "02",
     eyebrow: "YOĞUN BİREBİR SÜREÇ",
-    title: "5 Günlük Yoğun Paket",
+    title: "4 Haftalık Çalışma Paketi",
     description:
-      "Aynı konu üzerinde ardışık 5 gün boyunca çalışmak ve süreci bölmeden ilerlemek isteyenler için yapılandırılmış birebir paket.",
-    meta: "5 Ardışık Gün · Online",
-    price: "5.000 TL",
+      "Haftada bir gün, konuşma ve enerji çalışmasıyla ilerleyen dört görüşmelik birebir paket.",
+    meta: "4 × 90 dk · Online",
+    price: "6.000 TL",
     href: "/calismalar/birebir-seanslar",
     button: "Paketi İncele",
   },
@@ -41,7 +41,7 @@ const works = [
     description:
       "Doğum tarihi ve isim verileri üzerinden kişisel eğilimleri, tekrar eden temaları ve karakter dinamiklerini sembolik bir çerçevede inceleyen farkındalık çalışması.",
     meta: "Kişisel Analiz · Dijital",
-    price: "350 TL",
+    price: "700 TL",
     href: "/calismalar/numeroloji",
     button: "Analizi İncele",
   },

@@ -73,6 +73,7 @@ export function withoutRemovedMembers(
 
 export function mergeMemberRows(groups: SiteMemberRow[][]) {
   const byKey = new Map<string, SiteMemberRow>();
+  const aliases = new Map<string, string>();
 
   function fill(base: SiteMemberRow, next: SiteMemberRow): SiteMemberRow {
     return {
@@ -94,10 +95,21 @@ export function mergeMemberRows(groups: SiteMemberRow[][]) {
 
   for (const group of groups) {
     for (const row of group) {
-      const key = (row.email || row.authUserId || row.id).trim().toLowerCase();
-      if (!key) continue;
-      const prev = byKey.get(key);
-      byKey.set(key, prev ? fill(prev, row) : row);
+      const email = (row.email ?? "").trim().toLowerCase();
+      const userId = (row.authUserId || row.id).trim().toLowerCase();
+      const identities = [email ? `email:${email}` : "", userId ? `user:${userId}` : ""].filter(Boolean);
+      if (!identities.length) continue;
+      const matches = [...new Set(identities.map((identity) => aliases.get(identity)).filter((key): key is string => Boolean(key)))];
+      const key = matches[0] || identities[0];
+      let merged = byKey.get(key);
+      for (const duplicateKey of matches.slice(1)) {
+        const duplicate = byKey.get(duplicateKey);
+        if (duplicate) merged = merged ? fill(merged, duplicate) : duplicate;
+        byKey.delete(duplicateKey);
+        for (const [identity, target] of aliases) if (target === duplicateKey) aliases.set(identity, key);
+      }
+      byKey.set(key, merged ? fill(merged, row) : row);
+      identities.forEach((identity) => aliases.set(identity, key));
     }
   }
 

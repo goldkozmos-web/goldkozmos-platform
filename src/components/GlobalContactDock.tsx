@@ -1,7 +1,11 @@
 "use client";
+import SocialIcon from "./SocialIcon";
+import "../styles/contact-sales.css";
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
+
 
 import { useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import {
   BIREBIR_SERVICE_CARDS,
@@ -16,67 +20,44 @@ const socialLinks = [
   {
     name: "Instagram",
     href: "https://www.instagram.com/goldkozmos?igsh=ODF4aWx1bndreDhq",
-    image: "/images/services/goldblog/social/instagram.webp",
+    platform: "instagram" as const,
   },
   {
     name: "WhatsApp Kanalı",
     href: "https://whatsapp.com/channel/0029Vb8BNoHHwXbBIssG2k1s",
-    image: "/images/services/goldblog/social/whatsapp.webp",
+    platform: "whatsapp" as const,
   },
   {
     name: "TikTok",
     href: "https://www.tiktok.com/@goldkozmos",
-    image: "/images/services/goldblog/social/tiktok.webp",
+    platform: "tiktok" as const,
   },
   {
     name: "X",
     href: "https://x.com/GoldKozmos",
-    image: "/images/services/goldblog/social/x.webp",
+    platform: "x" as const,
   },
   {
     name: "Threads",
     href: "https://www.threads.com/@goldkozmos",
-    image: "/images/services/goldblog/social/threads.webp",
+    platform: "threads" as const,
   },
   {
     name: "YouTube",
     href: "https://youtube.com/@goldkozmos",
-    image: "/images/services/goldblog/social/youtube.webp",
+    platform: "youtube" as const,
   },
   {
     name: "Spotify",
     href: "https://open.spotify.com/show/0343du5jxaHZOJhqDJZKYQ",
-    image: "/images/services/goldblog/social/spotify.webp",
+    platform: "spotify" as const,
   },
 ];
 
 const whatsappActions = [
-  {
-    title: "Randevu Al",
-    kind: "booking-page" as const,
-  },
-  {
-    title: "Hangi Çalışma Bana Uygun?",
-    kind: "whatsapp" as const,
-    message:
-      "Merhaba, hangi Goldkozmos çalışmasının bana uygun olduğuna karar veremedim. Kısaca bilgi almak istiyorum.",
-  },
-  {
-    title: "Atölyeler Hakkında Bilgi",
-    kind: "whatsapp" as const,
-    message:
-      "Merhaba, Goldkozmos Rezonans Atölyeleri hakkında bilgi almak istiyorum.",
-  },
-  {
-    title: "Satın Alma / Erişim Desteği",
-    kind: "whatsapp" as const,
-    message:
-      "Merhaba, satın alma veya erişim konusunda desteğe ihtiyacım var.",
-  },
-  {
-    title: "Randevu Takvimine Göz At",
-    kind: "calendar" as const,
-  },
+  { title: "Bana uygun çalışmayı bul", description: "Birkaç soruyla sana uygun seçenekleri keşfet.", href: "/sana-uygun-calismayi-bul", image: "/images/profilim/personal-cosmos.webp", featured: true },
+  { title: "Çalışmaları ve fiyatları gör", description: "İçerikleri, süreleri ve ücretleri karşılaştır.", href: "/calismalar", image: "/images/services/enerji-odakli-isik-kuresi.webp", featured: false },
+  { title: "Randevu oluştur", description: "Çalışmanı seç, uygun gün ve saat için talep gönder.", href: "/randevu-al", image: "/images/renewal-cards/birebir.webp", featured: false },
 ];
 
 const whatsappNumber = "905054722153";
@@ -639,7 +620,6 @@ const dockStyles = `
 export default function GlobalContactDock() {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<"menu" | "calendar">("menu");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -751,7 +731,7 @@ export default function GlobalContactDock() {
       >
         <div className="goldkozmosGlobalContactTop">
           <div className="goldkozmosGlobalContactIntro">
-            <small>WHATSAPP</small>
+            <small>HIZLI ERİŞİM</small>
             <strong id="goldkozmosWhatsappHelpTitle">
               {step === "calendar"
                 ? selectedService
@@ -759,7 +739,7 @@ export default function GlobalContactDock() {
                   : selectedDate
                     ? "Çalışmayı seç"
                     : "Randevu günü seç"
-                : "Nasıl yardımcı olabilirim?"}
+                : "Kendin için ilk adımı seç."}
             </strong>
           </div>
           <button
@@ -774,57 +754,16 @@ export default function GlobalContactDock() {
 
         <div className="goldkozmosGlobalContactBody">
           {step === "menu" ? (
-            <div className="goldkozmosGlobalWhatsappActions">
-              {whatsappActions.map((action) => {
-                if (action.kind === "booking-page") {
-                  return (
-                    <button
-                      key={action.title}
-                      type="button"
-                      className="goldkozmosGlobalWhatsappAction isFeatured"
-                      onClick={() => {
-                        resetPanel();
-                        router.push("/randevu-al");
-                      }}
-                    >
-                      <span>{action.title}</span>
-                      <span aria-hidden="true">↗</span>
-                    </button>
-                  );
-                }
-
-                if (action.kind === "calendar") {
-                  return (
-                    <button
-                      key={action.title}
-                      type="button"
-                      className="goldkozmosGlobalWhatsappAction"
-                      onClick={() => {
-                        setSelectedDate(null);
-                        setSelectedService(null);
-                        setStep("calendar");
-                      }}
-                    >
-                      <span>{action.title}</span>
-                      <span aria-hidden="true">↗</span>
-                    </button>
-                  );
-                }
-
-                return (
-                  <a
-                    key={action.title}
-                    className="goldkozmosGlobalWhatsappAction"
-                    href={whatsappHref(action.message)}
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={resetPanel}
-                  >
-                    <span>{action.title}</span>
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                );
-              })}
+            <div className="contactSalesMenu">
+              <p className="contactSalesLead">Çalışmanı keşfet, seçenekleri karşılaştır veya randevunu planla.</p>
+              <div className="goldkozmosGlobalWhatsappActions">
+                {whatsappActions.map((action) => <a key={action.title} className={`goldkozmosGlobalWhatsappAction contactSalesAction ${action.featured ? "isFeatured" : ""}`} href={action.href} onClick={resetPanel}>
+                  <span className="contactSalesImage" style={{backgroundImage:`url(${action.image})`}} aria-hidden="true" />
+                  <span className="contactSalesCopy"><strong>{action.title}</strong><small>{action.description}</small></span>
+                  <span className="contactSalesArrow" aria-hidden="true">→</span>
+                </a>)}
+              </div>
+              <div className="contactSalesSupport"><span>Bir sorunda destek al</span><a href={whatsappHref("Merhaba, bir çalışma seçmeden önce kısa bir sorum var.")} target="_blank" rel="noreferrer" onClick={resetPanel}>WhatsApp’tan sor <b aria-hidden="true">↗</b></a><a href={whatsappHref("Merhaba, satın aldığım içeriğe erişim konusunda desteğe ihtiyacım var.")} target="_blank" rel="noreferrer" onClick={resetPanel}>Satın aldığım içeriğe erişemiyorum <b aria-hidden="true">↗</b></a></div>
             </div>
           ) : (
             <div className="goldkozmosGlobalCalendar">
@@ -1008,7 +947,7 @@ export default function GlobalContactDock() {
             {socialLinks.map((social) => (
               <a
                 key={social.name}
-                className="goldkozmosGlobalChannelLink"
+                className={`goldkozmosGlobalChannelLink is-${social.platform}`}
                 href={social.href}
                 target="_blank"
                 rel="noreferrer"
@@ -1016,7 +955,7 @@ export default function GlobalContactDock() {
                 title={social.name}
                 onClick={resetPanel}
               >
-                <img src={social.image} alt="" aria-hidden="true" />
+                <SocialIcon platform={social.platform} filled />
               </a>
             ))}
           </div>

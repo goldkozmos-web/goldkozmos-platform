@@ -1,5 +1,6 @@
 import type { Ritual } from "./types";
 import { ritualImagePath } from "./types";
+import { ritualEditorial } from './editorial';
 
 const rituals: Ritual[] = [
   {
@@ -235,9 +236,9 @@ const rituals: Ritual[] = [
 ];
 
 export function publishedRituals() {
-  return rituals;
+  return rituals.map((ritual) => ({ ...ritual, ...ritualEditorial[ritual.slug] }));
 }
 
 export function ritualBySlug(slug: string) {
-  return rituals.find((ritual) => ritual.slug === slug) ?? null;
+  return publishedRituals().find((ritual) => ritual.slug === slug) ?? null;
 }

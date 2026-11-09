@@ -1,0 +1,94 @@
+.homeHeroGraphicCard {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  min-height: 158px;
+  box-sizing: border-box;
+  padding: 20px 17px 15px;
+  overflow: hidden;
+  border: 1px solid #bd985342;
+  border-radius: 21px;
+  background: radial-gradient(ellipse at 0% 0%, #fffdf4, transparent 80%), linear-gradient(145deg, #f9f4e7, #efe4ce);
+  color: #34251a;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 #ffffffb0, 0 7px 19px #3827140d;
+  transition: transform .2s, box-shadow .2s;
+}
+.homeHeroGraphicCard:before {content:"";position:absolute;inset:5px;border:1px solid #b6914d1a;border-radius:16px;pointer-events:none}
+.homeHeroGraphicCard:after {content:"";position:absolute;z-index:-1;top:-37px;right:-61px;width:150px;height:150px;border-radius:50%;border:1px solid #b18a4830;box-shadow:0 0 0 16px #b18a4808,0 0 0 32px #b18a4805;pointer-events:none}
+.homeHeroGraphicCard.isAbout {background:radial-gradient(ellipse at 0% 0%,#725b4150,transparent 85%),linear-gradient(140deg,#3d3024,#231b16);color:#fcf5e6;border-color:#a384504f;box-shadow:inset 0 1px 0 #d8bd8930,0 7px 19px #38271418}
+.homeHeroGraphicCard.isAbout:before {border-color:#e3c68b18}
+.homeHeroGraphicCard.isAbout:after {border-color:#d8b67a30;box-shadow:0 0 0 16px #d8b67a08,0 0 0 32px #d8b67a05}
+.homeHeroGraphicCard.isArchetype {background:radial-gradient(ellipse at 5% 0%,#fff3c3,transparent 85%),linear-gradient(140deg,#e9d49c,#c6a15a);border-color:#ba96576b}
+.homeHeroGraphicSymbol {width:40px;height:40px;display:grid;place-items:center;border-radius:50%;border:1px solid #aa854637;background:#fffcf126;color:#987337;box-shadow:inset 0 1px 0 #fff5dc66}
+.homeHeroGraphicSymbol svg {width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+.homeHeroGraphicCard.isAbout .homeHeroGraphicSymbol {color:#e3c180;border-color:#d5b37340;background:#d5b37308;box-shadow:inset 0 1px 0 #fff5dc10}
+.homeV3Page .homeHeroGraphicCopy h2 {margin:0!important;font:400 21px/1.15 Georgia,"Times New Roman",serif!important;color:inherit!important;letter-spacing:-.035em!important}
+.homeHeroGraphicCopy {flex:1;position:relative}
+.homeHeroGraphicCta {align-self:stretch;display:flex;align-items:center;justify-content:space-between;gap:4px;padding-top:10px;border-top:1px solid #97743b33;font-size:11px;line-height:1.2;font-weight:600;color:#745425}
+.homeHeroGraphicCta>span {font-size:15px;font-weight:400}
+.homeHeroGraphicCard.isAbout .homeHeroGraphicCta {color:#e3c180;border-color:#d6b57b30}
+.homeHeroGraphicCard:focus-visible {outline:2px solid #b68b3b;outline-offset:3px}
+@media (hover:hover) {.homeHeroGraphicCard:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 #ffffff40,0 12px 25px #3827141a}}
+@media(max-width:650px) {
+  .homeV3Page .homeV3HeroCard .homeHeroActionRow {gap:9px!important}
+  .homeHeroGraphicCard {min-height:143px;gap:11px;padding:16px 11px 12px;border-radius:17px}
+  .homeHeroGraphicCard:before {border-radius:12px}
+  .homeHeroGraphicSymbol {width:33px;height:33px}
+  .homeHeroGraphicSymbol svg {width:23px;height:23px}
+  .homeV3Page .homeHeroGraphicCopy h2 {font-size:clamp(14px,3.65vw,18px)!important;line-height:1.2!important}
+  .homeHeroGraphicCta {font-size:10px;padding-top:9px}
+}
+@media(prefers-reduced-motion:reduce) {.homeHeroGraphicCard {transition:none}}
+.homeV3Page .homeV3HeroCard .homeHeroActionRow{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:12px;margin-top:30px}
+.homeV3Page .homeHeroGraphicCard{min-height:156px;border-radius:18px;padding:22px;gap:14px;border:1px solid #c4a46c55;box-shadow:0 5px 17px #3e291009;transition:transform .2s,box-shadow .2s}
+.homeV3Page .homeHeroGraphicCard:before{display:none}.homeV3Page .homeHeroGraphicCard:after{width:130px;height:130px;top:-65px;right:-65px;border-color:#c3a46f22;box-shadow:0 0 0 18px #b7975904}
+.homeV3Page .homeHeroGraphicCard.isWorks{background:linear-gradient(120deg,#3b2b1f,#241a13);color:#f9ebd3;border-color:#b3956455}
+.homeV3Page .homeHeroGraphicCard.isAbout{background:linear-gradient(140deg,#fffdf7,#f3ead9);color:#50361d;border-color:#d2bc9555}
+.homeV3Page .homeHeroGraphicCard.isArchetype{background:linear-gradient(135deg,#f5e8c9,#e4cc98);color:#51391d;border-color:#cfad6f60}
+.homeV3Page .homeHeroGraphicSymbol{width:35px;height:35px;border:0;background:transparent;box-shadow:none;color:#b58c49;border-radius:0}
+.homeV3Page .homeHeroGraphicCard.isWorks .homeHeroGraphicSymbol{color:#d9b879}.homeV3Page .homeHeroGraphicCard.isAbout .homeHeroGraphicSymbol{color:#a47d40;background:transparent;border:0;box-shadow:none}
+.homeV3Page .homeHeroGraphicCopy h2{font:400 23px/1.2 Georgia,serif;letter-spacing:-.5px;margin:0;color:inherit}
+.homeV3Page .homeHeroGraphicCta,.homeV3Page .homeHeroGraphicCard.isAbout .homeHeroGraphicCta{font:10px/1.4 Arial,sans-serif;color:#a17d45;border-color:#b5996835;padding-top:11px;gap:14px}
+.homeV3Page .homeHeroGraphicCard.isWorks .homeHeroGraphicCta{color:#d4b583}
+.homeV3Page .homeHeroGraphicCta>span{display:grid;place-items:center;width:25px;height:25px;border:1px solid #c1a26855;border-radius:50%;font-size:13px}
+@media(max-width:700px){.homeV3Page .homeV3HeroCard .homeHeroActionRow{grid-template-columns:1fr 1fr;gap:10px;margin-top:25px}.homeV3Page .homeHeroGraphicCard{min-height:123px;padding:17px 18px;gap:10px;border-radius:16px}.homeV3Page .homeHeroGraphicCard.isWorks{grid-column:1/-1;display:grid;grid-template-columns:37px minmax(0,1fr);align-items:center;column-gap:14px;min-height:94px;padding:19px 20px}.homeV3Page .isWorks .homeHeroGraphicSymbol{grid-row:1/3;align-self:center}.homeV3Page .isWorks .homeHeroGraphicCopy{grid-column:2;grid-row:1}.homeV3Page .isWorks .homeHeroGraphicCta{grid-column:2;grid-row:2;border:0;padding:0;margin:0}.homeV3Page .homeHeroGraphicCopy h2{font-size:21px}.homeV3Page .isWorks .homeHeroGraphicCopy h2{font-size:22px}.homeV3Page .isWorks .homeHeroGraphicCta>span{position:absolute;right:20px;top:50%;transform:translateY(-50%)}.homeV3Page .isWorks .homeHeroGraphicCopy{padding-right:28px}.homeV3Page .isWorks .homeHeroGraphicCta{padding-right:25px}.homeV3Page .homeHeroGraphicSymbol{width:29px;height:29px}}
+.homeV3Page .homeV3HeroCard .homeHeroActionRow.homeHeroActionRow{display:grid!important;grid-template-columns:1.25fr 1fr 1fr;gap:12px!important;margin-top:0!important;padding-top:25px!important}
+.homeV3Page .homeHeroGraphicCard .homeHeroGraphicCopy h2{font:400 23px/1.2 Georgia,serif!important;letter-spacing:-.5px!important}
+@media(max-width:700px){.homeV3Page .homeV3HeroCard .homeHeroActionRow.homeHeroActionRow{grid-template-columns:1fr 1fr;gap:10px!important}.homeV3Page .homeHeroGraphicCard .homeHeroGraphicCopy h2{font-size:21px!important}.homeV3Page .homeHeroGraphicCard.isWorks .homeHeroGraphicCopy h2{font-size:22px!important}}
+
+/* Flowing espresso and gold surfaces for the two discovery cards. */
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype){
+  background:#2b1b12;
+  color:#fff0d2;
+  border-color:#caa357b3;
+  box-shadow:inset 0 1px 0 #ffe3a752,0 8px 22px #37200f26;
+}
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype)::before{
+  display:block;inset:-55%;z-index:-2;border:0;border-radius:0;
+  background:radial-gradient(ellipse at 28% 28%,#deb566a3 0,transparent 34%),radial-gradient(ellipse at 75% 75%,#b783377a 0,transparent 37%),conic-gradient(from 35deg at 52% 48%,#24160f 0deg,#704622 75deg,#d0a35d 110deg,#3b2415 145deg,#20140e 230deg,#946231 285deg,#24160f 360deg);
+  filter:blur(10px);opacity:.8;
+  animation:homeCardGoldFlow 14s ease-in-out infinite alternate;
+}
+.homeV3Page .homeHeroGraphicCard.isArchetype::before{animation-delay:-7s;transform:rotate(24deg);}
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype)::after{
+  inset:0;z-index:-1;width:auto;height:auto;border:0;border-radius:inherit;
+  background:linear-gradient(100deg,#20140e80,#21150d26),radial-gradient(ellipse at 100% 0,transparent 25%,#efca8060 25.5%,transparent 26.2%,transparent 32%,#efca802e 32.5%,transparent 33%);
+  box-shadow:inset 0 0 24px #1a100944;
+}
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype) .homeHeroGraphicSymbol{
+  width:47px;height:47px;flex-shrink:0;border-radius:14px;
+  border:1px solid #e8bf7399;background:linear-gradient(145deg,#f4d58d26,#9e692a33);
+  color:#ffdc91;box-shadow:inset 0 1px 0 #ffe8b94d,0 3px 14px #1a0e0730;
+}
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype) .homeHeroGraphicSymbol svg{width:30px;height:30px;stroke-width:1.5;filter:drop-shadow(0 1px 4px #d7a84b4d)}
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype) .homeHeroGraphicCopy h2{color:#fff0d2!important;text-shadow:0 2px 8px #170e0966}
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype) .homeHeroGraphicCta{color:#f4d493;border-color:#e6bd733d}
+.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype) .homeHeroGraphicCta>span{border-color:#e8bf7370;background:#24160e45;color:#ffdc91}
+@keyframes homeCardGoldFlow{from{transform:translate(-3%,-2%) rotate(-12deg) scale(1)}to{transform:translate(5%,4%) rotate(18deg) scale(1.12)}}
+@media(prefers-reduced-motion:reduce){.homeV3Page .homeHeroGraphicCard:is(.isAbout,.isArchetype)::before{animation:none}}

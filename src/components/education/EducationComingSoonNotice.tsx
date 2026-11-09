@@ -29,7 +29,7 @@ export default function EducationComingSoonNotice() {
 
       <div>
         <strong>Eğitim kayıtları hazırlanıyor.</strong>
-        <p>Yakında bu alan kullanıma açılacaktır.</p>
+        <p>15 farkındalık ses kaydı ve ihtiyaca göre enerji çalışması ses kayıtları. Ocak–Şubat döneminde yayına alınması planlanıyor.</p>
       </div>
     </aside>
   );

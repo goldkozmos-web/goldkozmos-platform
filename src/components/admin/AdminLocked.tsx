@@ -14,8 +14,8 @@ export default function AdminLocked({
         <a className="adminSiteJump" href="/">
           Siteye dön
         </a>
-        <a className="adminProfilimLink" href="/profilim">
-          Profilim’den gir
+        <a className="adminProfilimLink" href="/auth/google?next=%2Fadmin">
+          Google ile yönetici girişi
         </a>
       </div>
     </section>

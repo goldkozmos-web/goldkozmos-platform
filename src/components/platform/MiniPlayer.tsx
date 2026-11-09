@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { PLATFORM_CATALOG } from "../../data/platformFlow";
 import { usePlayback } from "./PlaybackProvider";
 import SeekScrubber from "./SeekScrubber";
+import PlayerEdgeTile from "./PlayerEdgeTile";
 
 export default function MiniPlayer() {
   const pathname = usePathname();
@@ -17,7 +18,9 @@ export default function MiniPlayer() {
     minimize,
     expand,
     stop,
+    playerDock: dock,
   } = usePlayback();
+  const isAudio = session?.contentType === "audio" && Boolean(session.audioUrl);
 
   if (!session || session.youtubeId || session.spotifyEmbedUrl) {
     return null;
@@ -36,24 +39,20 @@ export default function MiniPlayer() {
     PLATFORM_CATALOG.find((item) => item.id === session.platform)?.name ??
     session.platform;
 
-  const isAudio = session.contentType === "audio" && Boolean(session.audioUrl);
-
   return (
     <div
-      className={`platformMiniPlayer${minimized ? " isMinimized" : ""}`}
+      className={`platformMiniPlayer${dock.compact ? " playerEdgeDock" : minimized && !isAudio ? " isMinimized" : ""}`}
+      style={dock.style}
       role="region"
       aria-label="Devam kutusu"
     >
-      {minimized ? (
-        <button
-          type="button"
-          className="platformMiniRestore"
-          onClick={expand}
-        >
-          Devam
-        </button>
+      {dock.compact ? (
+        <PlayerEdgeTile dock={dock} artwork={session.artworkUrl} title={session.title} playing={isPlaying} toggle={toggle} restore={expand} />
+      ) : minimized && !isAudio ? (
+        <button type="button" className="platformMiniRestore" onClick={expand}>Devam</button>
       ) : (
         <>
+          {isAudio && <button type="button" className="playerDockHandle" {...dock.dragProps} onClick={(event) => { if (event.detail === 0) dock.collapse(); }} aria-label="Müzik kutusunu kenara küçült"><span aria-hidden="true" /></button>}
           <button
             type="button"
             className="platformMiniBody"
@@ -93,7 +92,7 @@ export default function MiniPlayer() {
             type="button"
             className="platformMiniIcon"
             aria-label="Küçült"
-            onClick={minimize}
+            onClick={() => { minimize(); if (isAudio) dock.collapse(); }}
           >
             –
           </button>

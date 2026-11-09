@@ -47,9 +47,11 @@ export async function generateMetadata({
       siteName: "Goldkozmos",
       title,
       description: ritual.summary,
+      images: [{ url: `${SITE_ORIGIN}${ritual.image}`, width: 1200, height: 800, alt: ritual.title }],
     },
     twitter: {
       card: "summary_large_image",
+      images: [`${SITE_ORIGIN}${ritual.image}`],
       title,
       description: ritual.summary,
     },
@@ -81,7 +83,7 @@ export default async function GoldRituelDetailPage({ params }: PageProps) {
   };
 
   return (
-    <main className="homeV3Page grPage" id="top">
+    <main className="homeV3Page grPage grArticle" id="top">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -101,7 +103,7 @@ export default async function GoldRituelDetailPage({ params }: PageProps) {
         <p className="grLead">{ritual.summary}</p>
 
         <div className="grHero">
-          <img src={ritual.image} alt="" />
+          <img src={ritual.image} alt={`${ritual.title} için hazırlanan uygulama ortamı`} width={1200} height={800} />
         </div>
         <div className="grMeta" style={{ marginTop: 14 }}>
           <span>{ritual.duration}</span>
@@ -109,7 +111,7 @@ export default async function GoldRituelDetailPage({ params }: PageProps) {
         </div>
 
         <section className="grSection">
-          <h2>Kısa tanıtım</h2>
+          <h2>Bu ritüele nasıl yaklaşıyorum?</h2>
           <p>{ritual.intro}</p>
         </section>
         <section className="grSection">
@@ -129,7 +131,7 @@ export default async function GoldRituelDetailPage({ params }: PageProps) {
           </ul>
         </section>
         <section className="grSection">
-          <h2>Uygulama adımları</h2>
+          <h2>Ben nasıl uyguluyorum?</h2>
           <ol>
             {ritual.steps.map((item) => (
               <li key={item}>{item}</li>

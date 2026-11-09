@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import CircleBell from './community/CircleBell';
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] =
@@ -35,6 +37,12 @@ export default function Navbar() {
   return (
     <>
       <style>{`
+        #goldkozmosGlobalNav .siteGlobalNavActions { display:flex; align-items:center; justify-content:flex-end; gap:8px; }
+        #goldkozmosGlobalNav .siteGlobalSearch { display:grid; place-items:center; flex-shrink:0; width:46px; height:46px; border:1px solid rgba(210,166,82,.32); border-radius:15px; color:#d4aa59; background:rgba(255,255,255,.02); }
+        #goldkozmosGlobalNav .siteGlobalSearch svg { width:24px; height:24px; }
+        #goldkozmosGlobalNav .siteGlobalSearch:focus-visible { outline:2px solid #d4aa59; outline-offset:3px; }
+        @media(min-width:901px) { #goldkozmosGlobalNav .siteGlobalNavInner { grid-template-columns:auto minmax(0,1fr) auto auto !important; gap:16px !important; } }
+        @media(max-width:600px) { #goldkozmosGlobalNav .siteGlobalNavActions { gap:6px; } #goldkozmosGlobalNav .siteGlobalSearch { width:42px; height:46px; } }
         /* =====================================================
            GOLDKOZMOS ORTAK NAVBAR
            ANA SAYFA MASAÜSTÜ ÖLÇÜLERİ
@@ -84,13 +92,14 @@ export default function Navbar() {
             display: grid !important;
 
             grid-template-columns:
-              1fr
               auto
-              1fr !important;
+              minmax(0,1fr)
+              auto
+              auto !important;
 
             align-items: center !important;
 
-            gap: 35px !important;
+            gap: 16px !important;
           }
 
           #goldkozmosGlobalNav .siteGlobalBrand {
@@ -274,15 +283,15 @@ export default function Navbar() {
           <nav className="siteGlobalMenu">
             <Link href="/">Ana Sayfa</Link>
 
-            <a href="/#rezonans">
-              Atölyeler
+            <a href="/kozmik-enerji">
+              Kozmik Enerji
             </a>
 
             <Link href="/rezonans-egitimleri">
               Eğitimler
             </Link>
 
-            <a href="/#diger">
+            <a href="/calismalar">
               Çalışmalar
             </a>
 
@@ -316,14 +325,19 @@ export default function Navbar() {
           </nav>
 
           <Link
-            href="/sana-uygun-calismayi-bul"
+            href={APPOINTMENT_WHATSAPP_URL}
             className="siteGlobalTest"
             onClick={closeMenu}
           >
-            Ücretsiz Test
+            Randevu Al
             <span aria-hidden="true">→</span>
           </Link>
 
+          <div className="siteGlobalNavActions">
+          <CircleBell />
+          <Link href="/arama" prefetch={false} className="siteGlobalSearch" aria-label="Sitede ara" onClick={closeMenu}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7" stroke="currentColor" strokeWidth="1.2"/><path d="m16 16 5 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+          </Link>
           <button
             type="button"
             className={`siteGlobalMobileMenuButton ${
@@ -342,6 +356,7 @@ export default function Navbar() {
             <span />
             <span />
           </button>
+          </div>
         </div>
 
         <div
@@ -352,17 +367,19 @@ export default function Navbar() {
           aria-hidden={!mobileMenuOpen}
         >
           <nav>
+            <Link href="/paylasim-cemberi" onClick={closeMenu}><span>＋</span><strong>Paylaşım Çemberi</strong></Link>
+            <Link href="/bildirimler" onClick={closeMenu}><span>＋</span><strong>Bildirimler</strong></Link>
             <Link href="/" onClick={closeMenu}>
               <span>01</span>
               <strong>Ana Sayfa</strong>
             </Link>
 
             <a
-              href="/#rezonans"
+              href="/kozmik-enerji"
               onClick={closeMenu}
             >
               <span>02</span>
-              <strong>Atölyeler</strong>
+              <strong>Kozmik Enerji</strong>
             </a>
 
             <Link
@@ -374,7 +391,7 @@ export default function Navbar() {
             </Link>
 
             <a
-              href="/#diger"
+              href="/calismalar"
               onClick={closeMenu}
             >
               <span>04</span>
@@ -438,12 +455,12 @@ export default function Navbar() {
             </a>
 
             <Link
-              href="/sana-uygun-calismayi-bul"
+              href={APPOINTMENT_WHATSAPP_URL}
               onClick={closeMenu}
               className="siteGlobalMobileTestLink"
             >
               <span>12</span>
-              <strong>Ücretsiz Test</strong>
+              <strong>Randevu Al</strong>
             </Link>
           </nav>
         </div>

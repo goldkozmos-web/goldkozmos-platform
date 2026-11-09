@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     title: title || "Yapılacaklarım",
     body,
     url: url || "/profilim",
-  });
+  }, supabase);
 
   return NextResponse.json({ ok: true, sent: result.sent });
 }

@@ -1,6 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { energyWorks } from "../data/energyWorks";
+import { createSupabaseBrowserClient } from "../lib/supabase/browser";
 
 type NeedKey = "ask" | "iliski" | "para" | "birebir";
 type FormatKey = "birebir" | "analiz" | "digital";
@@ -1788,7 +1792,7 @@ function buildVisibleQuestions(answers: Answers): Question[] {
     return firstQuestion ? [firstQuestion] : [];
   }
 
-  return questionPaths[selectedArea]
+  const visible = questionPaths[selectedArea]
     .map((questionId) => questions.find((question) => question.id === questionId))
     .filter((question): question is Question => Boolean(question))
     .map((question) => {
@@ -1813,6 +1817,10 @@ function buildVisibleQuestions(answers: Answers): Question[] {
         options,
       };
     });
+
+  return visible.filter((question, index, list) =>
+    list.findIndex((item) => item.id === question.id) === index
+  ).filter((_, index, list) => index < 6 || index >= list.length - 2);
 }
 
 
@@ -2459,10 +2467,15 @@ function calculateFormatScores(answers: Answers) {
   return totals;
 }
 
-export default function WorkFinderSection() {
+export default function WorkFinderSection({ standalone = false }: { standalone?: boolean }) {
+  const [saveStatus, setSaveStatus] = useState("");
+  const Heading = standalone ? "h1" : "h2";
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [isComplete, setIsComplete] = useState(false);
+  const questionHeadingRef = useRef<HTMLHeadingElement>(null);
+  const resultHeadingRef = useRef<HTMLHeadingElement>(null);
+  const didNavigate = useRef(false);
 
   const selectedArea = getSelectedArea(answers);
 
@@ -2484,14 +2497,14 @@ export default function WorkFinderSection() {
   const progress = isComplete
     ? 100
     : Math.round(
-        ((safeCurrentStep + 1) /
+        (safeCurrentStep /
           Math.max(visibleQuestions.length, 1)) *
           100
       );
 
   const questionCountLabel = selectedArea
     ? `${visibleQuestions.length} soru`
-    : "Seçimine göre 15–17 soru";
+    : "8 kısa soru";
 
   const rankedFormats = useMemo(() => {
     const totals = calculateFormatScores(answers);
@@ -2515,6 +2528,34 @@ export default function WorkFinderSection() {
 
   const preferredFormat =
     rankedFormats.find((item) => item.score > 0) ?? rankedFormats[0];
+
+  const recommendedWorks = useMemo(() => {
+    if (!selectedArea) return [];
+    const energySlug = selectedArea === "para" ? "bolluk-servet-calismasi"
+      : selectedArea === "ask" || selectedArea === "iliski" ? "ask-alanini-sifalandir"
+      : "7-cakra-dengeleme";
+    const energy = energyWorks.find((work) => work.slug === energySlug);
+    const options = energy ? [{
+      title: energy.title, href: `/calismalar/detay/${energy.slug}`,
+      price: energy.priceLabel, duration: energy.duration,
+      reason: selectedArea === "para" ? "Para ve bolluk konusuna odaklanan enerji çalışması."
+        : selectedArea === "ask" || selectedArea === "iliski" ? "İlişki alanına odaklanan enerji çalışması."
+        : "Enerji merkezlerine odaklanan bir başlangıç.",
+    }] : [];
+    const personal = { title: "Tek Birebir Çalışma", href: "/calismalar/detay/tek-birebir-seans", price: "2.000 TL", duration: "90 dk · Online", reason: "Önce sen anlatırsın; ardından konuna özel enerji çalışması yaparız." };
+    if (preferredFormat.key === "birebir" || selectedArea === "birebir") options.unshift(personal);
+    else options.push(personal);
+    if (preferredFormat.key === "analiz") options.push({title: "Tarot ve numeroloji analizleri", href: "/calismalar/analizler", price: "600 TL’den", duration: "İki analiz seçeneği", reason: "Analiz tercihin için içerikleri ve ücretleri karşılaştır."});
+    if (preferredFormat.key === "digital") options.push({title: "Ses kayıtları", href: "/calismalar/ses-kayitlari", price: "", duration: "Kendi zamanında", reason: "Kayıtlı çalışma tercihin için mevcut içerikleri incele."});
+    return options;
+  }, [selectedArea, preferredFormat.key]);
+
+  useEffect(() => {
+    if (!didNavigate.current) return;
+    const heading = isComplete ? resultHeadingRef.current : questionHeadingRef.current;
+    heading?.focus({ preventScroll: true });
+    heading?.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+  }, [safeCurrentStep, isComplete]);
 
   const insightScores = useMemo(
     () => calculateInsightScores(answers),
@@ -2655,6 +2696,7 @@ export default function WorkFinderSection() {
       return;
     }
 
+    didNavigate.current = true;
     if (safeCurrentStep === visibleQuestions.length - 1) {
       setIsComplete(true);
       return;
@@ -2664,6 +2706,7 @@ export default function WorkFinderSection() {
   }
 
   function goBack() {
+    didNavigate.current = true;
     if (currentStep === 0) {
       return;
     }
@@ -2686,6 +2729,22 @@ export default function WorkFinderSection() {
     whatsappMessage
   )}`;
 
+  useEffect(() => {
+    if (!isComplete || !primaryResult || !selectedProfile) return;
+    const result = { type: "work_finder", title: selectedProfile.title, summary: selectedProfile.description, topics: rankedInsights.slice(0, 3).map(item => item.title), recommendation: primaryResult.title, href: primaryResult.href, answers };
+    try { localStorage.setItem("goldkozmos-work-finder-pending", JSON.stringify(result)); } catch {}
+    async function save() {
+      const client = createSupabaseBrowserClient();
+      if (!client) { setSaveStatus("Kaydetmek için giriş yap."); return; }
+      const { data } = await client.auth.getSession();
+      if (!data.session) { setSaveStatus("Sonucun bu cihazda saklandı. Analizlerim’e eklemek için giriş yap."); return; }
+      const { error } = await client.rpc("record_user_activity", { p_kind: "archetype", p_title: result.title, p_href: result.href, p_payload: result });
+      setSaveStatus(error ? "Kaydedilemedi; Analizlerim’den tekrar deneyebilirsin." : "Analizlerim’e kaydedildi.");
+      if (!error) { try { localStorage.removeItem("goldkozmos-work-finder-pending"); } catch {} }
+    }
+    void save();
+  }, [isComplete]);
+
   return (
     <section className="deepFinderSection" id="calisma-bul">
       <div className="deepFinderContainer">
@@ -2705,18 +2764,18 @@ export default function WorkFinderSection() {
             <span>SANA UYGUN ÇALIŞMAYI BUL</span>
           </p>
 
-          <h2>
-            Yalnızca alanını değil,
-            <span> ihtiyacının altındaki döngüyü de keşfet.</span>
-          </h2>
+          <Heading>
+            Sana uygun çalışmayı
+            <span> birlikte bulalım.</span>
+          </Heading>
 
           <p>
-            İlk seçimine göre yalnızca senin alanınla ilgili derin sorular açılır. Sorular ilerledikçe çekim, güven, sınırlar, geçmiş, aidiyet, görünürlük ve otomatik tepkilerin arasındaki bağ görünür hâle gelir.
+            Kendine küçük bir mola ver. Sana yakın gelen yanıtları seç; sonunda ihtiyacını ve sana uygun çalışmaları birlikte netleştirelim.
           </p>
 
           <div className="deepFinderMeta">
             <span>{questionCountLabel}</span>
-            <span>Yaklaşık 8–12 dakika</span>
+            <span>Yaklaşık 3–4 dakika</span>
             <span>Kişisel yönlendirme sonucu</span>
           </div>
 
@@ -2732,7 +2791,7 @@ export default function WorkFinderSection() {
                       ? " Para ve Bolluk"
                       : " Kişisel Dönüşüm"}
               </strong>
-              . Bundan sonraki sorular yalnızca bu yolculuğa göre açılacak.
+              . Sorular sana göre ilerliyor.
             </p>
           ) : null}
         </header>
@@ -2743,7 +2802,7 @@ export default function WorkFinderSection() {
               <span>
                 {isComplete
                   ? "DEĞERLENDİRME TAMAMLANDI"
-                  : `ADIM ${safeCurrentStep + 1} / ${visibleQuestions.length}`}
+                  : !selectedArea ? "BAŞLANGIÇ · ALANINI SEÇ" : `ADIM ${safeCurrentStep + 1} / ${visibleQuestions.length}`}
               </span>
 
               <span>%{progress}</span>
@@ -2755,22 +2814,22 @@ export default function WorkFinderSection() {
           </div>
 
           {!isComplete ? (
-            <div className="deepFinderQuestionView">
+            <div className="deepFinderQuestionView" key={currentQuestion.id}>
               <div className="deepFinderQuestion">
                 <div className="deepFinderQuestionChapter">
                   <span>
-                    {currentQuestion.chapter ?? "DERİNLEŞEN YOLCULUK"}
+                    {progress < 35 ? "SENİ TANIYALIM" : progress < 75 ? "BİRAZ DAHA YAKINDAN" : "SON ADIMLAR"}
                   </span>
                   <small>
-                    SORU {safeCurrentStep + 1} / {visibleQuestions.length}
+                    {progress < 35 ? "01 / 03" : progress < 75 ? "02 / 03" : "03 / 03"}
                   </small>
                 </div>
 
                 <p>{currentQuestion.eyebrow}</p>
-                <h3>{currentQuestion.title}</h3>
+                <h3 ref={questionHeadingRef} tabIndex={-1}>{currentQuestion.title}</h3>
 
                 {currentQuestion.helper ? (
-                  <span>{currentQuestion.helper}</span>
+                  <span>{currentQuestion.id === "main-area" ? "Şu an sana en yakın gelen alanı seç." : currentQuestion.mode === "multiple" ? `Birden fazla yanıt seçebilirsin${currentQuestion.maxSelections ? ` (en fazla ${currentQuestion.maxSelections})` : ""}.` : "Sana en yakın gelen yanıtı seç. Doğru ya da yanlış yok."}</span>
                 ) : null}
 
                 <details className="deepFinderQuestionWhy">
@@ -2812,7 +2871,7 @@ export default function WorkFinderSection() {
                             ? "deepFinderOptionMarkerMultiple"
                             : ""
                         }`}
-                      />
+                      >{isSelected ? "✓" : String.fromCharCode(65 + currentQuestion.options.indexOf(option))}</span>
 
                       <span className="deepFinderOptionText">
                         <strong>{option.label}</strong>
@@ -2852,7 +2911,7 @@ export default function WorkFinderSection() {
                   onClick={goForward}
                   disabled={selectedOptions.length === 0}
                 >
-                  {safeCurrentStep === visibleQuestions.length - 1
+                  {selectedArea && safeCurrentStep === visibleQuestions.length - 1
                     ? "Sonucumu Gör"
                     : "Devam Et"}
                   <span aria-hidden="true">→</span>
@@ -2860,192 +2919,13 @@ export default function WorkFinderSection() {
               </div>
             </div>
           ) : primaryResult && selectedProfile ? (
-            <div className="deepFinderResult">
-              <div className="deepFinderResultTop deepFinderResultTopRich">
-                <div>
-                  <p className="deepFinderResultEyebrow">
-                    {primaryResult.eyebrow}
-                  </p>
-
-                  <span className="deepFinderResultProgram">
-                    {primaryResult.title}
-                  </span>
-
-                  <h3>{selectedProfile.title}</h3>
-
-                  <strong className="deepFinderResultSubtitle">
-                    {selectedProfile.subtitle}
-                  </strong>
-
-                  <p className="deepFinderResultDescription">
-                    {selectedProfile.description}
-                  </p>
-                </div>
-
-                <div className="deepFinderResultScore">
-                  <span>DEĞERLENDİRME</span>
-                  <strong>{visibleQuestions.length - 1}</strong>
-                  <small>kişisel yanıta göre oluşturuldu</small>
-                </div>
-              </div>
-
-              <div className="deepFinderResultReading">
-                <p>SONUCUNUN DERİN OKUMASI</p>
-
-                <div>
-                  <p>
-                    Yanıtlarında özellikle{" "}
-                    <strong>
-                      {rankedInsights
-                        .slice(0, 3)
-                        .map((item) =>
-                          item.title.toLocaleLowerCase("tr")
-                        )
-                        .join(", ")}
-                    </strong>{" "}
-                    alanları öne çıktı.
-                  </p>
-
-                  <p>
-                    Bu, sende bir eksiklik olduğu anlamına gelmez. Daha çok,
-                    bugün verdiğin kararların ve otomatik tepkilerin hangi
-                    duygusal zeminden beslendiğini gösterir.
-                  </p>
-
-                  <p>
-                    Sana önerilen ilk odak:{" "}
-                    <strong>{selectedProfile.focus}</strong>
-                  </p>
-                </div>
-              </div>
-
-              <div className="deepFinderInsightSection">
-                <div className="deepFinderRichTitle">
-                  <span>01</span>
-
-                  <div>
-                    <p>SENDE ÖNE ÇIKAN DİNAMİKLER</p>
-                    <h4>Yanıtlarının işaret ettiği temel katmanlar</h4>
-                  </div>
-                </div>
-
-                <div className="deepFinderInsightGrid">
-                  {rankedInsights.slice(0, 4).map((insight, index) => (
-                    <article key={insight.key}>
-                      <span>{String(index + 1).padStart(2, "0")}</span>
-                      <h5>{insight.title}</h5>
-                      <p>{insight.description}</p>
-                      <blockquote>{insight.reflection}</blockquote>
-                    </article>
-                  ))}
-                </div>
-              </div>
-
-              {influentialAnswers.length > 0 ? (
-                <div className="deepFinderEvidenceSection">
-                  <div className="deepFinderRichTitle">
-                    <span>02</span>
-
-                    <div>
-                      <p>BU YÖNLENDİRME NEDEN OLUŞTU?</p>
-                      <h4>Sonucu en çok etkileyen seçtiklerin</h4>
-                    </div>
-                  </div>
-
-                  <div className="deepFinderEvidenceList">
-                    {influentialAnswers.map((item, index) => (
-                      <div key={`${item.question}-${item.answer}`}>
-                        <span>{String(index + 1).padStart(2, "0")}</span>
-                        <p>{item.answer}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-
-              <div className="deepFinderPlanSection">
-                <div className="deepFinderRichTitle">
-                  <span>03</span>
-
-                  <div>
-                    <p>SANA ÖZEL BAŞLANGIÇ PLANI</p>
-                    <h4>İlk üç odak noktan</h4>
-                  </div>
-                </div>
-
-                <div className="deepFinderPlanGrid">
-                  {selectedProfile.steps.map((step, index) => (
-                    <article key={step}>
-                      <span>{String(index + 1).padStart(2, "0")}</span>
-                      <p>{step}</p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-
-              <div className="deepFinderRecommendationRich">
-                <div>
-                  <p>ANA ÇALIŞMA ÖNERİN</p>
-                  <h4>{primaryResult.title}</h4>
-                  <span>{primaryResult.description}</span>
-                </div>
-
-                <a href={primaryResult.href}>
-                  Çalışmayı İncele
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </div>
-
-              <div className="deepFinderFormatResult">
-                <div>
-                  <p>SANA UYGUN ÇALIŞMA BİÇİMİ</p>
-                  <h4>{preferredFormat.title}</h4>
-                  <span>{preferredFormat.description}</span>
-                </div>
-
-                <a href={preferredFormat.href}>
-                  Çalışma biçimini incele
-                  <span aria-hidden="true">↗</span>
-                </a>
-              </div>
-
-              {hasBodyStress ? (
-                <div className="deepFinderMedicalNote">
-                  <strong>Bedensel belirtiler hakkında önemli not:</strong>
-                  <span>
-                    Bu test tıbbi değerlendirme veya tanı yerine geçmez.
-                    Devam eden, şiddetlenen veya seni endişelendiren fiziksel
-                    belirtiler için bir sağlık uzmanına başvurman önemlidir.
-                  </span>
-                </div>
-              ) : null}
-
-              <div className="deepFinderResultActions">
-                <a href={primaryResult.href}>
-                  Önerilen Çalışmayı İncele
-                  <span aria-hidden="true">↗</span>
-                </a>
-
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Sonucumla İlgili Bilgi Al
-                  <span aria-hidden="true">↗</span>
-                </a>
-
-                <button type="button" onClick={restart}>
-                  Testi Yeniden Çöz
-                </button>
-              </div>
-
-              <p className="deepFinderResultNote">
-                Bu test bir tanı, terapi, tıbbi değerlendirme veya kesin
-                kişilik analizi değildir. Verdiğin yanıtlara göre Goldkozmos®
-                Enerji Ekolü içindeki en yakın başlangıç alanını ve öne çıkan
-                farkındalık başlıklarını gösterir.
-              </p>
+            <div className="finderCompactResult">
+              <div className="finderResultHero"><span className="finderResultEmblem" aria-hidden="true">✦</span><span className="finderResultLabel">KENDİN İÇİN BİR ADIM ATTIN</span><h2 ref={resultHeadingRef} tabIndex={-1}>{selectedProfile.title.replace(/ profili?$/, "")}</h2><p>{selectedProfile.description}</p></div>
+              <div className="finderResultFocus"><span className="finderFocusSymbol" aria-hidden="true">◎</span><div><span>ŞİMDİ NEYE ODAKLANABİLİRSİN?</span><p>{selectedProfile.focus}</p></div></div>
+              <p className="finderSaveStatus" role="status">{saveStatus || "Analizin kaydediliyor…"}</p>
+              <div className="finderResultLinks"><a href="/profilim">Analizlerim’i aç ↗</a><button type="button" onClick={restart}>Yeniden çöz</button></div>
+              <small className="finderResultNote">Bu sonuç kişisel farkındalık içindir; tıbbi değerlendirme veya tanı yerine geçmez.</small>
+              <section className="finderMatchedWorks" aria-label="Sana uygun çalışmalar"><span className="finderResultLabel">SIRADAKİ ADIMIN</span><h3>Sana uygun çalışmalar</h3><p>Yanıtların ve çalışma tercihin için bu seçenekleri inceleyebilirsin.</p><div>{recommendedWorks.map((work, index) => <Link href={work.href} key={work.href} className="finderMatchedWork"><div className="finderMatchArt"><Image src={work.href.endsWith("tek-birebir-seans") ? "/images/services/birebir-enerji-bagi-premium-v2.webp" : energyWorks.find(item => work.href.endsWith(item.slug))?.imageSrc ?? "/images/home/premium-galaxy.webp"} alt="" fill sizes="(max-width:650px) 90vw, 340px" /><span className="finderMatchIndex">{String(index + 1).padStart(2, "0")}</span></div><div className="finderMatchCopy"><h4>{work.title}</h4><small>{work.duration}</small><p>{work.reason}</p><strong>{work.price}</strong></div><span className="finderMatchArrow" aria-hidden="true">↗</span></Link>)}</div></section>
             </div>
           ) : null}
         </div>
@@ -3053,3 +2933,4 @@ export default function WorkFinderSection() {
     </section>
   );
 }
+

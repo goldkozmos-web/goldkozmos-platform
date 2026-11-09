@@ -15,12 +15,16 @@ function TileRail({ children }: { children: ReactNode }) {
     if (!current) return;
     const rail: HTMLDivElement = current;
 
+    let active = false;
+    let dragged = false;
     let startX = 0;
     let startY = 0;
     let startLeft = 0;
     let axis: "x" | "y" | null = null;
 
     function down(event: PointerEvent) {
+      dragged = false;
+      active = event.pointerType === "mouse" && event.button === 0;
       startX = event.clientX;
       startY = event.clientY;
       startLeft = rail.scrollLeft;
@@ -28,27 +32,37 @@ function TileRail({ children }: { children: ReactNode }) {
     }
 
     function move(event: PointerEvent) {
+      if (!active || !event.buttons) return;
       const dx = event.clientX - startX;
       const dy = event.clientY - startY;
       if (!axis && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
         axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
       }
       if (axis === "x") {
+        dragged = true;
+        event.preventDefault();
         rail.scrollLeft = startLeft - dx;
       }
     }
 
+    function up() { active = false; }
+
     function click(event: Event) {
-      if (axis === "x") {
+      if (dragged) {
+        dragged = false;
         event.preventDefault();
         event.stopPropagation();
       }
     }
 
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
     rail.addEventListener("pointerdown", down);
     rail.addEventListener("pointermove", move);
     rail.addEventListener("click", click, true);
     return () => {
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
       rail.removeEventListener("pointerdown", down);
       rail.removeEventListener("pointermove", move);
       rail.removeEventListener("click", click, true);
@@ -78,21 +92,14 @@ export default function ProfilimTileRails({
   return (
     <div className="profilimTileBands">
       {PROFILIM_TILE_GROUPS.map((group) => (
-        <section className="profilimTileBand" key={group.id}>
+        <section className="profilimTileBand" data-group={group.id} key={group.id}>
           <header className="profilimTileBandTop">
             <p className="profilimTileBandLabel">{group.eyebrow}</p>
-            <button
-              type="button"
-              className="profilimTileSeeAll"
-              onClick={() => setSheetId(group.id)}
-            >
-              Tümünü gör
-              <span aria-hidden="true">→</span>
-            </button>
           </header>
           <TileRail>
             {group.tiles.map((tile) => (
               <ProfilimCompactTile
+                icon={tile.id}
                 key={tile.id}
                 eyebrow={tile.eyebrow}
                 title={tile.title}
@@ -113,6 +120,7 @@ export default function ProfilimTileRails({
           <div className="profilimTileSheetGrid">
             {sheet.tiles.map((tile) => (
               <ProfilimCompactTile
+                icon={tile.id}
                 key={tile.id}
                 eyebrow={tile.eyebrow}
                 title={tile.title}

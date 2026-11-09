@@ -22,12 +22,12 @@ function waveFill(
 
 function waveCrest(phase: number, amp: number, y: number, freq: number, speed: number) {
   const points: string[] = [];
-  for (let x = 17; x <= 55; x += 1.5) {
+  for (let x = 14; x <= 58; x += 1.5) {
     const yy =
       y +
       Math.sin(x * freq + phase * speed) * amp +
       Math.sin(x * (freq * 2.15) + phase * (speed * 1.55) + 0.8) * amp * 0.28;
-    points.push(`${x === 17 ? "M" : "L"}${x.toFixed(1)} ${yy.toFixed(2)}`);
+    points.push(`${x === 14 ? "M" : "L"}${x.toFixed(1)} ${yy.toFixed(2)}`);
   }
   return points.join(" ");
 }
@@ -68,20 +68,24 @@ export default function WaterGlassArt({
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return undefined;
+    if (reduce || empty) return undefined;
     let frame = 0;
+    let lastTick = 0;
     const tick = (now: number) => {
-      setClock({ t: now / 1000, ms: now });
+      if (document.visibilityState === 'visible' && now - lastTick >= 32) {
+        setClock({ t: now / 1000, ms: now });
+        lastTick = now;
+      }
       frame = window.requestAnimationFrame(tick);
     };
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [empty]);
 
   const large = className.includes("isStage");
   const phase = clock.t;
-  const splashBoost = Math.max(0, (splashUntil.current - clock.ms) / 820);
-  const amp = (large ? 4.6 : 2.8) + splashBoost * (large ? 5.5 : 3.2);
+  const splashBoost = Math.min(1, Math.max(0, (splashUntil.current - clock.ms) / 820));
+  const amp = (large ? 2.4 : 1.5) + splashBoost * (large ? 3.8 : 2.4);
   const surfaceY = 30;
   const slosh = large ? 0.125 : 0.15;
   const drop = (1 - fill) * 62;
@@ -98,43 +102,47 @@ export default function WaterGlassArt({
     >
       <svg viewBox="0 0 72 108" fill="none">
         <defs>
-          <linearGradient id={body} x1="14" y1="10" x2="62" y2="102">
-            <stop offset="0%" stopColor="#fffdf8" stopOpacity="0.42" />
-            <stop offset="45%" stopColor="#d7eaf3" stopOpacity="0.12" />
-            <stop offset="100%" stopColor="#9ec4d6" stopOpacity="0.16" />
+          <linearGradient id={body} x1="12" y1="60" x2="60" y2="60" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.7" />
+            <stop offset="10%" stopColor="#e9f5fa" stopOpacity="0.3" />
+            <stop offset="23%" stopColor="#ffffff" stopOpacity="0.04" />
+            <stop offset="64%" stopColor="#dceff5" stopOpacity="0.07" />
+            <stop offset="88%" stopColor="#ffffff" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#c3e1eb" stopOpacity="0.75" />
           </linearGradient>
-          <linearGradient id={water} x1="36" y1="24" x2="36" y2="100">
-            <stop offset="0%" stopColor="#c5f3fb" />
-            <stop offset="16%" stopColor="#5ec8e6" />
-            <stop offset="52%" stopColor="#1c88b0" />
-            <stop offset="100%" stopColor="#0a4e68" />
+          <linearGradient id={water} x1="36" y1="24" x2="36" y2="100" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#ceeff0" />
+            <stop offset="20%" stopColor="#8acbd3" />
+            <stop offset="65%" stopColor="#378da0" />
+            <stop offset="100%" stopColor="#195c73" />
           </linearGradient>
-          <linearGradient id={rim} x1="10" y1="10" x2="62" y2="18">
-            <stop offset="0%" stopColor="#f6e7c2" />
-            <stop offset="50%" stopColor="#d4a24a" />
-            <stop offset="100%" stopColor="#8d6420" />
+          <linearGradient id={rim} x1="10" y1="10" x2="62" y2="18" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#f9ffff" stopOpacity="0.9" />
+            <stop offset="50%" stopColor="#ddecef" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.85" />
           </linearGradient>
           <clipPath id={clip}>
-            <path d="M19.2 19.5h33.6l-5.15 73.4c-.42 5.4-4.85 9.6-10.28 9.6h-2.74c-5.43 0-9.86-4.2-10.28-9.6L19.2 19.5Z" />
+            <path d="M15 19h42l-4.5 76q-.5 7-7.5 7H27q-7 0-7.5-7L15 19Z" />
           </clipPath>
         </defs>
 
-        <ellipse cx="36" cy="100.5" rx="21" ry="4.2" fill="rgba(90,64,28,0.12)" />
+        <ellipse cx="36" cy="104" rx="27" ry="3.5" fill="#000000" opacity="0.25" />
+        <ellipse cx="36" cy="103" rx="21" ry="1.4" fill="#ecd7ae" opacity="0.28" />
 
         <path
-          d="M16.2 16.2h39.6l-5.55 76.8c-.5 6.5-5.75 11.5-12.3 11.5h-3.9c-6.55 0-11.8-5-12.3-11.5L16.2 16.2Z"
+          d="M12 16h48l-4.7 79q-.6 9-9.5 9H26.2q-8.9 0-9.5-9L12 16Z"
           fill={`url(#${body})`}
           stroke={`url(#${rim})`}
-          strokeWidth="1.65"
+          strokeWidth="0.85"
         />
         <ellipse
           cx="36"
           cy="16.4"
-          rx="19.6"
-          ry="3.4"
-          fill="rgba(255,255,255,0.18)"
+          rx="24"
+          ry="4.2"
+          fill="rgba(255,255,255,0.08)"
           stroke={`url(#${rim})`}
-          strokeWidth="1.35"
+          strokeWidth="1.15"
         />
 
         <g clipPath={`url(#${clip})`}>
@@ -224,31 +232,33 @@ export default function WaterGlassArt({
         </g>
 
         <path
-          d="M23.5 20.5c7.5 4.6 17.5 4.6 25 0"
+          d="M16 18.5c12 4 28 4 40 0"
           stroke="rgba(255,255,255,0.78)"
-          strokeWidth="1.45"
+          strokeWidth="0.8"
           strokeLinecap="round"
         />
         <path
-          d="M21.2 34c1.35 20 1.6 40 1.05 54"
-          stroke="rgba(255,255,255,0.32)"
-          strokeWidth="1.35"
+          d="M16.8 25l3.7 65"
+          stroke="rgba(255,255,255,0.75)"
+          strokeWidth="1.2"
           strokeLinecap="round"
         />
         <path
-          d="M49.8 36c-.4 18-.2 36 .6 52"
-          stroke="rgba(30,70,90,0.12)"
-          strokeWidth="1.1"
+          d="M54.8 28l-3.2 62"
+          stroke="rgba(255,255,255,0.45)"
+          strokeWidth="0.75"
           strokeLinecap="round"
         />
 
+        <path d="M21 95q1 5 7 5h16q6 0 7-5" stroke="#effcff" strokeOpacity="0.65" strokeWidth="1.8" />
+        <path d="M24 26l1 20" stroke="#fff" strokeOpacity="0.16" strokeWidth="3" strokeLinecap="round" />
         {full ? (
           <path
             className="profilimWaterBead"
-            d="M29 7.2c2.2-5.6 12.6-5.6 14.8 0 1.1 2.8-2.2 5.8-7.4 9.4C31.2 13 27.9 10 29 7.2Z"
-            fill="#7ecfe6"
-            stroke="#d4a24a"
-            strokeWidth="0.75"
+            d="m30 6 4 4 8-8"
+            fill="none"
+            stroke="#e4c587"
+            strokeWidth="1.8"
           />
         ) : null}
       </svg>

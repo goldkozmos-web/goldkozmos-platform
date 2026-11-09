@@ -31,5 +31,5 @@ test("all members or a uuid recipient is accepted", () => {
     body: "GoldKozmos notu",
     recipientId: "11111111-1111-1111-1111-111111111111",
   });
-  assert.equal("recipientId" in one && one.recipientId.endsWith("1111"), true);
+  assert.equal("recipientId" in one && one.recipientId?.endsWith("1111"), true);
 });

@@ -40,8 +40,8 @@ export function diffAdminLive(
   for (const visitor of fresh.slice(0, 3)) {
     alerts.push({
       kind: "visitor",
-      title: "Yeni ziyaretçi",
-      body: [visitor.location, visitor.path].filter(Boolean).join(" · "),
+      title: visitor.isMember ? "Üye sitede" : "Yeni ziyaretçi",
+      body: [visitor.isMember ? visitor.label : "", visitor.location, visitor.path].filter(Boolean).join(" · "),
     });
   }
 

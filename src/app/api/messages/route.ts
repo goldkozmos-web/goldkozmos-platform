@@ -1,4 +1,6 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { sendAdminPush, sendMemberPush } from "@/lib/admin/push-server";
+import { createSupabaseServerClient } from "@/lib/supabase/create-server-client";
 
 import {
   listInboxMessages,
@@ -27,5 +29,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: result.error }, { status: result.status });
   }
 
-  return NextResponse.json({ ok: true, count: result.count });
+  const client = await createSupabaseServerClient();
+  after(async () => {
+    await sendAdminPush({ title: "Mesaj gönderildi", body: `${result.count} üyeye mesaj gönderildi.`, url: "/admin/mesajlar" });
+    if (client) for (const recipient of result.recipientIds) await sendMemberPush(recipient, { title: result.sent[0]?.title || "Goldkozmos’tan yeni mesaj", body: result.sent[0]?.body || "Kişisel mesaj kutunu kontrol et.", url: "/profilim?open=inbox" }, client);
+  });
+  return NextResponse.json({ ok: true, count: result.count, sent: result.sent });
 }

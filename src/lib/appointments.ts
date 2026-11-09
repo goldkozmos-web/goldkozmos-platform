@@ -1,0 +1,1 @@
+export const APPOINTMENT_WHATSAPP_URL = `https://wa.me/905054722153?text=${encodeURIComponent("Merhaba, Goldkozmos çalışmaları için randevu almak istiyorum. Uygun gün ve saatler hakkında bilgi alabilir miyim?")}`;

@@ -1,3 +1,4 @@
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 import Link from "next/link";
 
 const programDays = [
@@ -310,7 +311,7 @@ export default function MoneyDetailSection() {
         </div>
 
         <div className="serviceDetailActions">
-          <Link href="/randevu">
+          <Link href={APPOINTMENT_WHATSAPP_URL}>
             Kayıt ve Bilgi Al
             <span aria-hidden="true">→</span>
           </Link>

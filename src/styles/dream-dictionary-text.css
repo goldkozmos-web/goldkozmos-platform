@@ -1,0 +1,21 @@
+.symbolHero.dreamTextHero{min-height:260px;padding-top:48px;padding-bottom:48px;background:linear-gradient(120deg,#3b2c20,#231a13)}
+.dreamTextHero:before{display:none}
+.dreamTextHero h1{font-size:clamp(34px,4vw,48px);letter-spacing:-1.3px}
+.dreamTextHero .symbolHeroLinks{margin-top:20px}
+.dreamTextDictionary .symbolSectionHeading{margin-bottom:22px}
+.dreamTextDictionary .dreamAlphabet{display:grid;grid-template-columns:repeat(auto-fit,minmax(42px,1fr));gap:6px;margin:22px 0 18px}
+.dreamTextDictionary .dreamAlphabet button{display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;min-height:48px;padding:7px 4px;font-size:13px;border-radius:8px}
+.dreamAlphabet small{font:9px/1 Arial,sans-serif;opacity:.75}
+.dreamLetterIndex{display:grid;gap:30px}
+.dreamLetterGroup>header{display:flex;align-items:center;gap:12px;padding:0 0 12px;border-bottom:1px solid #cfb38480}
+.dreamLetterGroup h3{margin:0;font:400 27px/1 Georgia,serif;color:#74542d}
+.dreamLetterGroup header>span{font:10px/1.5 Arial,sans-serif;color:#927a59}
+.dreamTextLinks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:28px}
+.dreamTextLinks>a{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:46px;padding:10px 0;border-bottom:1px solid #ddceb14d;color:#4f3926;text-decoration:none;font:14px/1.55 Arial,sans-serif;box-sizing:border-box}
+.dreamTextLinks>a>span:last-child{color:#a78651;font-size:15px;flex:none}
+.dreamTextLinks>a:hover{color:#9c7038;border-bottom-color:#ad8c54}
+.dreamTextLinks>a:focus-visible{border-radius:4px}
+@media(max-width:700px){.symbolHero.dreamTextHero{min-height:230px;padding:35px 24px}.dreamTextHero h1{font-size:35px;line-height:1.15;margin:12px 0 16px}.dreamTextHero .symbolHeroContent>p:not(.symbolKicker){font:13px/1.85 Arial,sans-serif}.dreamTextHero .symbolHeroLinks{gap:16px;margin-top:18px}.dreamTextLinks{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}.dreamTextLinks>a{font-size:13px;min-height:46px}.dreamTextDictionary .dreamAlphabet{grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.dreamTextDictionary .dreamAlphabet button{min-width:0}.dreamLetterIndex{gap:26px}.dreamTextPage .symbolContainer{padding-top:30px}}
+@media(max-width:360px){.dreamTextLinks{column-gap:16px}.dreamTextLinks>a{font-size:12px}.dreamTextHero h1{font-size:32px}}
+.dreamThemes{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 24px}.dreamThemes button{min-height:42px;padding:10px 15px;border:1px solid #cbb58b77;border-radius:24px;background:#fffaf1;color:#705537;font:12px/1.5 Arial,sans-serif;cursor:pointer}.dreamThemes button[aria-pressed=true]{background:#34251a;color:#f2ddb4;border-color:#aa8247}.dreamThemes button:focus-visible{outline:3px solid #b69255;outline-offset:3px}.dreamFeatured{padding:25px;border:1px solid #c7a56866;border-radius:24px;background:linear-gradient(120deg,#f1e7d4,#fbf6ec);margin-bottom:25px}.dreamFeatured>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.dreamFeatured a{display:flex;flex-direction:column;gap:12px;padding:22px;border:1px solid #b68e4955;border-radius:17px;background:radial-gradient(ellipse at top right,#674b2c,#291e16);color:#f1dfbd;text-decoration:none}.dreamFeatured strong{font:23px/1.25 Georgia,serif}.dreamFeatured a>span{font:12px/1.8 Arial,sans-serif;color:#d2bea0}.dreamFeatured small{font:11px Arial,sans-serif;color:#d5ad64;margin-top:auto}.dreamFeatured a:hover{border-color:#b78c45;box-shadow:0 5px 17px #64451c14}
+@media(max-width:700px){.dreamFeatured{padding:18px}.dreamFeatured>div{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}.dreamFeatured a{flex:0 0 80%;scroll-snap-align:start;box-sizing:border-box}.dreamThemes{gap:6px}.dreamThemes button{font-size:11px;padding:9px 12px}}

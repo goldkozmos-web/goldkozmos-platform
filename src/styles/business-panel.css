@@ -1,0 +1,563 @@
+.businessPanel {
+  --cream: #f6f0e5;
+  --paper: #fffdf8;
+  --ink: #241813;
+  --muted: #7c6a5d;
+  --gold: #c6a365;
+  --line: #e8dccb;
+  display: flex;
+  min-height: 100dvh;
+  background: var(--cream);
+  color: var(--ink);
+  font:
+    15px/1.65 Arial,
+    sans-serif;
+}
+.businessPanel *,
+.panelDialog * {
+  box-sizing: border-box;
+}
+.businessPanel button,
+.panelDialog button,
+.panelFile {
+  cursor: pointer;
+  font: inherit;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid var(--line, #e8dccb);
+  border-radius: 12px;
+  background: var(--paper, #fffdf8);
+  color: inherit;
+}
+.businessPanel a {
+  color: inherit;
+}
+.businessPanel :is(input, select, textarea),
+.panelDialog :is(input, select, textarea) {
+  font: inherit;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px;
+  border: 1px solid var(--line, #e8dccb);
+  border-radius: 10px;
+  background: var(--paper, #fffdf8);
+  color: inherit;
+}
+.businessPanel :is(button, a, input, select, textarea):focus-visible,
+.panelDialog :is(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid #b68c43;
+  outline-offset: 3px;
+}
+.businessPanel button:disabled,
+.panelDialog button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.panelNav {
+  width: 245px;
+  flex-shrink: 0;
+  background: #241813;
+  color: #f6f0e5;
+  padding: 30px 18px;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: auto;
+}
+.panelNavClosed {
+  display: none;
+}
+.panelBrand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+  font:
+    36px Georgia,
+    serif;
+  margin-bottom: 32px;
+  color: #c6a365 !important;
+}
+.panelBrand span {
+  font:
+    15px Georgia,
+    serif;
+  letter-spacing: 1px;
+}
+.panelBrand small {
+  display: block;
+  font: 8px Arial;
+  margin-top: 8px;
+  letter-spacing: 1px;
+}
+.panelNav nav {
+  display: grid;
+  gap: 5px;
+}
+.panelNav nav button {
+  border: 0;
+  background: transparent;
+  color: #e8dccb;
+  text-align: left;
+}
+.panelNav nav button[aria-current="page"] {
+  background: #3b2920;
+  color: #f0cf8d;
+  box-shadow: inset 3px 0 #c6a365;
+}
+.panelNav > a:not(.panelBrand) {
+  display: block;
+  font-size: 12px;
+  margin: 22px 12px;
+  text-decoration: none;
+  color: #c6a365;
+}
+.panelMain {
+  min-width: 0;
+  width: 100%;
+  max-width: 1600px;
+  padding: 32px clamp(18px, 3vw, 52px);
+}
+.panelTop {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.panelTop > div {
+  flex: 1;
+}
+.panelTop span,
+.panelEyebrow {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+}
+.panelTop h1 {
+  font:
+    clamp(27px, 3vw, 38px)/1.2 Georgia,
+    serif;
+  margin: 7px 0;
+}
+.panelDate,
+.panelMuted,
+.panelFooter {
+  color: var(--muted);
+  font-size: 12px;
+}
+.panelNotice {
+  min-height: 24px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.panelAlert {
+  padding: 16px;
+  border: 1px solid #b88867;
+  border-radius: 12px;
+  background: #f9e8d5;
+  color: #593321;
+}
+.panelPrimary {
+  background: #3b2920 !important;
+  color: #f6e6c8 !important;
+  border-color: #c6a365 !important;
+}
+.panelMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.panelMetrics article {
+  padding: 22px;
+  background: var(--paper);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+}
+.panelMetrics span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+.panelMetrics strong {
+  display: block;
+  font: 30px Georgia;
+  margin-top: 10px;
+}
+.panelCharts,
+.panelColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin: 28px 0;
+}
+.panelCharts > article,
+.panelColumns > article {
+  padding: 22px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.panelCharts h2,
+.panelColumns h2,
+.panelRecords h2,
+.panelWeekly h2 {
+  font:
+    23px/1.3 Georgia,
+    serif;
+  margin: 0 0 18px;
+}
+.panelBar {
+  display: grid;
+  grid-template-columns: minmax(70px, 1fr) 2fr auto;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  margin: 12px 0;
+}
+.panelBar > div {
+  height: 8px;
+  border-radius: 5px;
+  background: var(--line);
+}
+.panelBar i {
+  display: block;
+  height: 8px;
+  border-radius: 5px;
+  background: #c6a365;
+}
+.panelTools {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 22px 0;
+}
+.panelTools input {
+  max-width: 210px;
+}
+.panelTools select {
+  max-width: 200px;
+}
+.panelFile {
+  display: inline-block;
+}
+.panelFile input {
+  max-width: 220px !important;
+  border: 0 !important;
+  padding: 5px !important;
+  font-size: 11px !important;
+}
+.panelRecords {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+}
+.panelRecords > article {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--paper);
+}
+.panelRecords h2 {
+  margin: 5px 0 10px;
+}
+.panelRecords small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.panelRecords p {
+  margin: 8px 0;
+}
+.panelActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.panelExcerpt {
+  white-space: pre-wrap;
+  max-height: 100px;
+  overflow: hidden;
+  max-width: 650px;
+}
+.panelRowButton {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  margin: 8px 0;
+}
+.panelRowButton small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.panelCalendar,
+.panelWeekDays {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  margin: 20px 0;
+}
+.panelCalendar > article,
+.panelWeekDays > article {
+  min-height: 145px;
+  min-width: 0;
+  padding: 9px;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.panelCalendar .panelDay {
+  font-size: 11px;
+  border: 0;
+  background: none;
+  padding: 5px;
+  min-height: 40px;
+  text-align: left;
+}
+.panelCalendarDay {
+  grid-template-columns: 1fr;
+}
+.panelEvent,
+.panelWeekDays article > button {
+  width: 100%;
+  display: block;
+  text-align: left;
+  font-size: 12px !important;
+  overflow-wrap: anywhere;
+  margin: 7px 0;
+  padding: 8px !important;
+  border-left: 3px solid #b6894c !important;
+}
+.panelEvent small {
+  display: block;
+  font-size: 9px;
+}
+.event-broadcasts {
+  border-left-color: #88769b !important;
+}
+.event-instagram {
+  border-left-color: #b07878 !important;
+}
+.event-youtube {
+  border-left-color: #8f5b4e !important;
+}
+.event-tasks {
+  border-left-color: #78907c !important;
+}
+.panelWeekDays h3 {
+  font-size: 12px;
+  margin: 5px;
+}
+.panelWeekDays small {
+  font-size: 10px;
+}
+.panelEmpty {
+  padding: 35px;
+  border: 1px dashed var(--gold);
+  border-radius: 16px;
+  margin: 20px 0;
+}
+.panelFooter {
+  margin-top: 50px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.panelFooter button {
+  font-size: 11px;
+  margin: 10px;
+}
+.panelDialog {
+  --line: #e8dccb;
+  --paper: #fffdf8;
+  width: min(760px, calc(100vw - 28px));
+  max-height: 90dvh;
+  border: 1px solid #c6a365;
+  border-radius: 20px;
+  padding: 28px;
+  color: #241813;
+  background: #f6f0e5;
+  font:
+    15px/1.7 Arial,
+    sans-serif;
+}
+.panelDialog::backdrop {
+  background: #24181399;
+  backdrop-filter: blur(4px);
+}
+.panelDialog > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.panelDialog h2 {
+  font: 28px/1.3 Georgia;
+  margin: 0;
+}
+.panelForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.panelForm label {
+  display: grid;
+  gap: 7px;
+  font-size: 12px;
+}
+.panelWide {
+  grid-column: 1/-1;
+}
+.panelForm textarea {
+  resize: vertical;
+}
+.panelDark {
+  --cream: #241813;
+  --paper: #3b2920;
+  --ink: #f6f0e5;
+  --muted: #c9bba7;
+  --line: #5b4436;
+}
+.panelLocked {
+  display: block;
+  padding: 15vh 10vw;
+}
+.panelLocked h1 {
+  font-family: Georgia, serif;
+}
+.businessPanel button[aria-pressed="true"] {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 1px var(--gold);
+}
+@media (max-width: 1100px) {
+  .panelNav {
+    width: 210px;
+  }
+  .panelMain {
+    padding: 25px 20px;
+  }
+  .panelMetrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .panelRecords > article {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .panelWeekDays,
+  .panelCalendar {
+    grid-template-columns: repeat(7, minmax(105px, 1fr));
+    overflow: auto;
+  }
+  .panelCalendarDay {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 700px) {
+  .businessPanel {
+    flex-direction: column;
+  }
+  .panelNav {
+    position: relative;
+    height: auto;
+    width: 100%;
+    padding: 16px;
+  }
+  .panelNav nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .panelBrand {
+    margin-bottom: 15px;
+  }
+  .panelNav > a:not(.panelBrand) {
+    display: inline-block;
+    margin: 12px;
+  }
+  .panelMain {
+    padding: 22px 16px;
+  }
+  .panelTop {
+    gap: 8px;
+  }
+  .panelTop button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  .panelTop > div {
+    min-width: 180px;
+  }
+  .panelCharts,
+  .panelColumns {
+    grid-template-columns: 1fr;
+  }
+  .panelMetrics {
+    gap: 10px;
+  }
+  .panelMetrics article {
+    padding: 16px;
+  }
+  .panelMetrics strong {
+    font-size: 25px;
+  }
+  .panelForm {
+    grid-template-columns: 1fr;
+  }
+  .panelDialog {
+    padding: 20px;
+  }
+  .panelDialog h2 {
+    font-size: 24px;
+  }
+  .panelTools input,
+  .panelTools select {
+    max-width: none;
+    flex: 1;
+    min-width: 140px;
+  }
+  .panelWeekDays {
+    display: flex;
+    overflow-x: auto;
+  }
+  .panelWeekDays > article {
+    min-width: 180px;
+  }
+  .panelCalendar:not(.panelCalendarDay) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .panelCalendar > article {
+    flex: 0 0 50%;
+    min-height: 140px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .businessPanel * {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+body:has(.panelDark) .panelDialog {
+  --paper: #3b2920;
+  --line: #5b4436;
+  background: #241813;
+  color: #f6f0e5;
+}
+.panelTools label:has(input[type="checkbox"]) {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+}
+.panelTools input[type="checkbox"] {
+  width: 20px;
+  min-height: 20px;
+  min-width: 20px;
+}

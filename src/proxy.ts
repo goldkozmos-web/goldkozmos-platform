@@ -37,17 +37,13 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  // Refresh cookies if auth is fast; never stall HTML if Supabase hangs.
-  await Promise.race([
-    supabase.auth.getUser(),
-    new Promise<void>((resolve) => {
-      setTimeout(resolve, 600);
-    }),
-  ]);
+  // Finish refresh before returning: otherwise the rotated refresh token is lost.
+  await supabase.auth.getClaims();
+  response.headers.set("Cache-Control", "private, no-store");
 
   return response;
 }
 
 export const config = {
-  matcher: ["/profilim", "/profilim/:path*", "/auth/telefon", "/auth/kayit"],
+  matcher: ["/panel/:path*", "/profilim/:path*", "/auth/kayit", "/auth/telefon", "/admin/:path*", "/api/:path*", "/ayarlar/:path*"],
 };

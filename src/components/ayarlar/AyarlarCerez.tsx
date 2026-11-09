@@ -1,5 +1,7 @@
 "use client";
 
+import { readAnalyticsConsent, setAnalyticsConsent } from "../../lib/analytics";
+import { useSyncExternalStore } from "react";
 import type { ProfilimUser } from "../../lib/profilim/types";
 import AyarlarFrame from "./AyarlarFrame";
 import { AyarlarToggle } from "./AyarlarRows";
@@ -7,6 +9,7 @@ import { useAyarlarPrefs } from "./useAyarlarPrefs";
 
 function CookieBody({ user }: { user: NonNullable<ProfilimUser> }) {
   const { prefs, save } = useAyarlarPrefs(user.id);
+  const analyticsConsent = useSyncExternalStore(callback => { window.addEventListener("gk-analytics-consent-change", callback); return () => window.removeEventListener("gk-analytics-consent-change", callback); }, readAnalyticsConsent, () => null);
 
   return (
     <div className="adminPanel ayarlarCard">
@@ -18,13 +21,12 @@ function CookieBody({ user }: { user: NonNullable<ProfilimUser> }) {
       />
       <AyarlarToggle
         label="Analiz çerezleri"
-        on={prefs.cookies.analytics}
-        onToggle={() =>
-          void save({
-            ...prefs,
-            cookies: { ...prefs.cookies, analytics: !prefs.cookies.analytics },
-          })
-        }
+        on={analyticsConsent === "granted"}
+        onToggle={() => {
+          const enabled = analyticsConsent !== "granted";
+          setAnalyticsConsent(enabled ? "granted" : "denied");
+          void save({ ...prefs, cookies: { ...prefs.cookies, analytics: enabled } });
+        }}
       />
       <AyarlarToggle
         label="Pazarlama çerezleri"

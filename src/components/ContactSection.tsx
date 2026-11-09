@@ -1,3 +1,4 @@
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 const contactOptions = [
   {
     number: "01",
@@ -24,14 +25,15 @@ const contactOptions = [
     category: "RANDEVU VE BAŞVURU",
     title: "Randevu Oluştur",
     description:
-      "Birebir seanslar, grup çalışmaları, tarot ve numeroloji hizmetleri için başvuru sayfasına ilerle.",
-    linkText: "Randevu Sayfasına Git",
-    href: "/randevu-al",
-    external: false,
+      "Birebir seanslar, tarot ve numeroloji çalışmaları için uygun gün ve saati WhatsApp üzerinden birlikte belirleyelim.",
+    linkText: "WhatsApp’tan Randevu Al",
+    href: APPOINTMENT_WHATSAPP_URL,
+    external: true,
   },
 ];
 
-export default function ContactSection() {
+export default function ContactSection({ standalone = false }: { standalone?: boolean }) {
+  const Heading = standalone ? "h1" : "h2";
   return (
     <section className="contactSection" id="iletisim-secenekleri">
       <div className="contactContainer">
@@ -52,10 +54,10 @@ export default function ContactSection() {
               <span>İLETİŞİM</span>
             </p>
 
-            <h2>
+            <Heading>
               Sana uygun kanaldan
               <span> iletişime geç.</span>
-            </h2>
+            </Heading>
           </div>
 
           <div className="contactHeadingContent">

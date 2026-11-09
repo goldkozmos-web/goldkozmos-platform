@@ -1,0 +1,53 @@
+@media(max-width:900px){
+ .goldkozmosMobileGoldsBackdrop{background:#120e0bb8;backdrop-filter:blur(7px)}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet{max-height:calc(100dvh - 32px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));border:1px solid #d1b88088;border-radius:28px;background:#eee6d7;box-shadow:0 32px 90px #08050266,0 1px 0 #fff9 inset}
+ .goldsPremiumSheet .goldkozmosMobileGoldsTop{padding:30px 22px 26px;background:radial-gradient(ellipse at 80% 20%,#b7955a20,transparent 65%),linear-gradient(140deg,#34291e,#1e1812);border-bottom:1px solid #b79c6766;align-items:center;isolation:isolate;overflow:hidden}
+ .goldsHeaderOrbit{position:absolute;right:-48px;top:-12px;width:220px;height:180px;stroke:#d5b26e;stroke-width:.65;opacity:.28;z-index:-1;pointer-events:none}
+ .goldsHeaderOrbit path{fill:#d5b26e33}
+ .goldsPremiumSheet .goldkozmosMobileGoldsEyebrow{font-family:Arial,sans-serif;font-size:8px;letter-spacing:.19em;font-weight:500;color:#c4a979;margin-bottom:12px}
+ .goldsPremiumSheet .goldkozmosMobileGoldsTop strong{font-size:29px;color:#fff8e9;line-height:1.14;font-weight:400;max-width:245px}
+ .goldsPremiumIntro{font-size:12px;font-weight:400;color:#c5b598;margin:11px 0 0;line-height:1.5}
+ .goldsPremiumSheet .goldkozmosMobileGoldsClose{width:40px;height:40px;flex-basis:40px;color:#e6d0a0;background:#ffffff08;border:1px solid #c6aa7644;font-size:23px;align-self:flex-start;margin-top:4px}
+ .goldsPremiumSheet .goldkozmosMobileGoldsTrack{padding:16px 14px 18px;gap:9px;scrollbar-width:thin;scrollbar-color:#c5ac77 transparent;background:radial-gradient(ellipse at 10% 0,#fff9,transparent 70%)}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard{position:relative;display:flex;align-items:center;gap:15px;padding:12px;background:linear-gradient(110deg,#fffdf8,#f8f2e7);color:#33281c;border:1px solid #c9af7b44;border-radius:18px;box-shadow:0 3px 8px #6d50250a,0 1px 0 #fff inset;transform:none;min-height:102px}
+ .goldsPremiumSheet .goldsAreaIcon{width:61px;height:76px;flex-shrink:0;display:grid;place-items:center;border:1px solid #b8944f66;border-radius:12px;color:#f4ddb1;background:#30261b;overflow:hidden;box-shadow:0 1px 0 #fff3 inset}
+ .goldsAreaIcon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit}
+ .goldsPremiumSheet .goldsAreaCopy{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard strong{font-size:21px;line-height:1.1;font-weight:400;letter-spacing:-.02em;color:#33281c}
+ .goldsAreaTagline{font-size:11px;line-height:1.4;color:#89755b}
+ .goldsAreaDiscover{font-size:10px;line-height:1.4;color:#a0834e;margin-top:2px}
+ .goldsAreaResume{font-size:11px;line-height:1.5;color:#65533b;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;margin-top:3px}
+ .goldsAreaArrow{font-size:15px;color:#987946;flex-shrink:0;font-weight:400;width:25px;height:25px;display:grid;place-items:center;border:1px solid #c7ad7b55;border-radius:50%;background:#ede2ca33}
+ .goldsAreaProgress{display:flex;align-items:center;gap:9px;margin-top:3px}
+ .goldsAreaTrack{height:3px;flex:1;background:#dacbaa77;overflow:hidden;border-radius:4px}
+ .goldsAreaTrack i{height:100%;display:block;border-radius:inherit;background:linear-gradient(90deg,#9c7936,#d3b877)}
+ .goldsAreaProgress small{font-size:9px;color:#987b48;font-family:Arial,sans-serif}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard:hover{transform:none;border-color:#b89b60;box-shadow:0 2px 9px #6d50250c}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard:focus-visible{outline:2px solid #aa8541;outline-offset:2px;transform:none}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard:active{transform:none;background:#eee3cd}
+}
+@media(max-width:700px){
+ .goldsPremiumSheet .goldkozmosMobileGoldsTop{padding:20px 20px 18px}
+ .goldsPremiumSheet .goldkozmosMobileGoldsTop strong{font-size:26px}
+ .goldsPremiumSheet .goldkozmosMobileGoldsEyebrow{font-size:7px;margin-bottom:8px}
+ .goldsPremiumIntro{margin-top:7px;font-size:11px}
+ .goldsPremiumSheet .goldkozmosMobileGoldsTrack{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;align-items:stretch}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;min-height:0;border-radius:16px}
+ .goldsPremiumSheet .goldsAreaIcon{width:48px;height:48px;border-radius:10px}
+ .goldsPremiumSheet .goldsAreaCopy{width:100%;gap:5px;flex:1}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard strong{font-size:19px;line-height:1.15;overflow-wrap:anywhere}
+ .goldsAreaTagline{font:10px/1.4 Arial,sans-serif}
+ .goldsAreaDiscover,.goldsAreaResume{display:none}
+ .goldsAreaArrow{position:absolute;right:12px;top:14px;width:24px;height:24px;font-size:14px}
+ .goldsAreaProgress{margin-top:3px}
+}
+@media(max-width:700px) and (max-height:650px){
+ .goldsPremiumSheet .goldkozmosMobileGoldsTop{padding:14px 18px}
+ .goldsPremiumIntro{display:none}
+ .goldsPremiumSheet .goldkozmosMobileGoldsTop strong{font-size:23px}
+ .goldsPremiumSheet .goldkozmosMobileGoldsTrack{gap:8px;padding:10px}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard{padding:10px;gap:6px}
+ .goldsPremiumSheet .goldsAreaIcon{width:34px;height:34px;border-radius:8px}
+ .goldkozmosMobileGoldsSheet.goldsPremiumSheet a.goldsPopupCard strong{font-size:16px}
+ .goldsAreaTagline{font-size:9px}
+}

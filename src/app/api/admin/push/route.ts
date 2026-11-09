@@ -34,11 +34,13 @@ export async function POST(request: Request) {
   }
 
   const packed = packPushSub(sub);
-  const { data: existingRows } = await client
+  if (packed.length > 4096) return NextResponse.json({ error: "Bu tarayıcının cihaz kaydı çok uzun. Chrome üzerinden tekrar dene." }, { status: 400 });
+  const { data: existingRows, error: readError } = await client
     .from("comments")
     .select("id, content")
     .eq("post_id", PUSH_SUB_POST)
     .eq("user_id", access.actor.id);
+  if (readError) return NextResponse.json({ error: "Bildirim kayıtlarına erişilemedi. Yeniden dene." }, { status: 503 });
 
   const already = (existingRows ?? []).some((row) => {
     const saved = parsePushSub(String((row as { content?: string }).content ?? ""));
@@ -72,6 +74,7 @@ export async function DELETE(request: Request) {
   } catch {
     endpoint = "";
   }
+  if (!endpoint.startsWith("https://")) return NextResponse.json({ error: "Cihaz belirtilmedi." }, { status: 400 });
 
   const { data } = await client
     .from("comments")
@@ -89,7 +92,8 @@ export async function DELETE(request: Request) {
     .filter(Boolean);
 
   if (ids.length) {
-    await client.from("comments").delete().in("id", ids);
+    const removed = await client.from("comments").delete().in("id", ids);
+    if (removed.error) return NextResponse.json({ error: "Cihaz kaydı kaldırılamadı." }, { status: 503 });
   }
 
   return NextResponse.json({ ok: true });

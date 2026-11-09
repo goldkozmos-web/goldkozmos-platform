@@ -37,18 +37,7 @@ export default function GoldMindContinue({
           <p className="goldmindSoftEmpty">
             Dinlemeye başladığın pratikler burada görünecek.
           </p>
-          <div
-            className="goldmindContinueGhost"
-            aria-hidden="true"
-          >
-            <span className="goldmindContinueGhostCover" />
-            <span className="goldmindContinueGhostCopy">
-              <i />
-              <i />
-              <b />
-            </span>
-            <span className="goldmindContinueGhostPlay" />
-          </div>
+          <span className="goldmindContinueEmptyMark" aria-hidden="true">↗</span>
         </div>
       )}
     </section>

@@ -1,13 +1,21 @@
+import CookiePreferencesButton from "./analytics/CookiePreferencesButton";
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 import Link from "next/link";
 
 const platformLinks = [
+  { label: "Kozmik Enerji", href: "/kozmik-enerji" },
+  { label: "Birebir Kişisel Gelişim", href: "/kisisel-gelisim" },
+  { label: "Enerji Çalışmaları", href: "/calismalar/enerji-calismalari" },
+  { label: "Tarot Kartları", href: "/tarot-kartlari" },
+  { label: "Rüya Yorumları", href: "/ruya-tabirleri" },
+  { label: "Burçlar", href: "/burclar" },
   {
     label: "Rezonans Ekolü",
     href: "/enerji-ekolu",
   },
   {
     label: "Çalışmalar",
-    href: "/#diger",
+    href: "/calismalar",
   },
   {
     label: "Rezonans Eğitimleri",
@@ -62,7 +70,7 @@ const supportLinks = [
   },
   {
     label: "Randevu Al",
-    href: "/randevu-al",
+    href: APPOINTMENT_WHATSAPP_URL,
   },
   {
     label: "İletişim",
@@ -124,9 +132,9 @@ export default function FooterSection() {
             </h2>
 
             <p>
-              Spiritüel Stoa, sosyoloji ve Goldkozmos® Rezonans
-              Ekolü’ne özgü yaklaşımın bir araya geldiği farkındalık
-              ve içsel dönüşüm ekosistemi.
+              Özge Batıgün ile kozmik enerji ve kişisel gelişim.
+              Online birebir çalışmalar, farkındalık içerikleri
+              ve kendi yolculuğuna eşlik eden dijital kitaplar.
             </p>
 
             <div className="footerBrandMotto">
@@ -175,6 +183,7 @@ export default function FooterSection() {
         </div>
 
         <div className="footerBottom">
+          <CookiePreferencesButton />
           <p>
             © {currentYear} Goldkozmos® Rezonans Ekolü. Tüm hakları
             saklıdır.

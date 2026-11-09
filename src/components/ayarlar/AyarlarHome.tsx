@@ -31,6 +31,7 @@ function List({ user }: { user: NonNullable<ProfilimUser> }) {
 
       <AyarlarGroup label="Hesap">
         <AyarlarLinkRow href="/ayarlar/hesap" label="Hesap Bilgileri" />
+        <AyarlarLinkRow href="/ayarlar/topluluk-profili" label="Topluluk profili" />
         <AyarlarLinkRow href="/ayarlar/bildirimler" label="Bildirimler" />
         <AyarlarLinkRow href="/ayarlar/icerik" label="İçerik Tercihlerim" />
       </AyarlarGroup>

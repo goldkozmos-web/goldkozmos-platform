@@ -1,0 +1,23 @@
+.profilimPage .profilimFeaturedStack{gap:12px!important}
+.profilimPage .profilimFeaturedStack .profilimFeatured:not(.profilimBadgeCard){position:relative;min-height:225px!important;padding:22px 20px 20px!important;border-radius:21px!important;gap:7px!important;text-align:left;box-shadow:0 8px 24px #3e2d1405!important;background:#fffdf8!important;isolation:isolate}
+.profilimPage .profilimFeaturedStack .profilimFeatured::after{display:none!important}
+.profilimPage .profilimFeaturedStack .profilimCardIcon{width:32px!important;height:32px!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;padding:0!important;margin-bottom:12px!important}
+.profilimPage .profilimFeaturedStack .profilimCardIcon svg{width:27px!important;height:27px!important}
+.profilimPage .profilimFeaturedStack .profilimFeaturedEyebrow{font:8px/1.4 Arial,sans-serif!important;letter-spacing:1.7px!important}
+.profilimPage .profilimFeaturedStack .profilimFeatured:not(.profilimBadgeCard) .profilimFeaturedTitle{font:23px/1.12 Georgia,serif!important;letter-spacing:-.5px!important;text-wrap:balance;max-width:210px;margin:3px 0 0!important;color:#39281c!important}
+.profilimPage .profilimFeaturedStack .profilimFeatured:not(.profilimBadgeCard) .profilimFeaturedBody{font:11px/1.55 Arial,sans-serif!important;color:#928169!important;margin-top:5px!important}
+.profilimPage .profilimFeaturedStack .profilimFeaturedChevron{top:22px!important;right:18px!important;border:0!important;background:none!important;font-size:20px!important}
+.profilimCardArtwork{position:absolute;inset:0;pointer-events:none;z-index:-1;overflow:hidden;border-radius:inherit}
+.profilimCardArtwork i{position:absolute;width:100px;height:100px;border:1px solid #b9914920;border-radius:50%;right:-30px;top:-35px}
+.profilimCardArtwork i:nth-child(2){width:135px;height:135px;right:-47px;top:-52px}.profilimCardArtwork i:nth-child(3){width:170px;height:170px;right:-65px;top:-69px}.profilimCardArtwork i:nth-child(4){width:205px;height:205px;right:-82px;top:-87px}.profilimCardArtwork i:nth-child(5){width:240px;height:240px;right:-100px;top:-104px}
+.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="BUGÜN"]{background:linear-gradient(145deg,#fff7e4,#f1e1bc)!important;border-color:#d7ba7c!important}
+.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GELİŞİM"]{background:linear-gradient(150deg,#3a2b20,#241a13)!important;border-color:#83653d!important}
+.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GELİŞİM"] .profilimFeaturedTitle{color:#f2dfb7!important}
+.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GELİŞİM"] .profilimFeaturedBody{color:#d9c29a!important}
+.profilimPage .profilimFeaturedStack .profilimMiniTracks{gap:9px!important;font-size:9px!important}.profilimPage .profilimFeaturedStack .profilimMiniTracks>span>i{height:3px!important;border-radius:4px;background:#e3c58b20!important}
+.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="DEVAM"] .profilimCardArtwork{background:linear-gradient(145deg,transparent 60%,#d9c7a51a)}
+.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GÖREV"] .profilimCardArtwork i{width:70%;height:1px;border:0;border-radius:0;background:#b9914914;right:-14px;top:34px;transform:rotate(-30deg)}
+.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GÖREV"] .profilimCardArtwork i:nth-child(2){top:49px}.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GÖREV"] .profilimCardArtwork i:nth-child(3){top:64px}.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GÖREV"] .profilimCardArtwork i:nth-child(4){top:79px}.profilimPage .profilimFeaturedStack .profilimFeatured[data-feature="GÖREV"] .profilimCardArtwork i:nth-child(5){top:94px}
+.profilimPage .profilimFeaturedStack .profilimIntentionCard{background:linear-gradient(145deg,#f8faee,#e9edda)!important;border-color:#c5ccac!important}
+@media(max-width:600px){.profilimPage .profilimFeaturedStack .profilimFeatured:not(.profilimBadgeCard){min-height:205px!important;padding:18px 16px!important}.profilimPage .profilimFeaturedStack .profilimFeatured:not(.profilimBadgeCard) .profilimFeaturedTitle{font-size:21px!important}.profilimPage .profilimFeaturedStack .profilimCardIcon{margin-bottom:9px!important}.profilimPage .profilimFeaturedStack .profilimFeaturedChevron{right:14px!important;top:18px!important}}
+@media(max-width:360px){.profilimPage .profilimFeaturedStack .profilimFeatured:not(.profilimBadgeCard) .profilimFeaturedTitle{font-size:19px!important}}

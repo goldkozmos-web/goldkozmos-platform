@@ -1,10 +1,10 @@
 "use client";
+import AdminVisitorDuration from "./AdminVisitorDuration";
 
 import { usePathname } from "next/navigation";
 
 import { adminMetricHint, formatAdminCount } from "../../lib/admin/access";
 import type { AdminOverviewMetric } from "../../lib/admin/load";
-import AdminMemberList from "./AdminMemberList";
 import { AdminMetricIcon } from "./AdminIcons";
 import { useAdminLive } from "./AdminLiveProvider";
 import AdminVisitChart from "./AdminVisitChart";
@@ -17,7 +17,6 @@ export default function AdminOverview({
   const { live } = useAdminLive();
   const pathname = usePathname();
   const rows = live?.metrics ?? metrics;
-  const members = live?.members ?? [];
   const liveNow = (live?.visitors ?? []).filter((visitor) => visitor.live);
   const primary = rows.slice(0, 4);
   const rest = rows.slice(4);
@@ -89,7 +88,7 @@ export default function AdminOverview({
         <header className="adminPanelHead">
           <div>
             <h2>Şu an sitede</h2>
-            <p className="adminSectionLabel">Açık sekmeler</p>
+            <p className="adminSectionLabel">{liveNow.filter((person) => person.isMember).length} aktif üye · {liveNow.filter((person) => !person.isMember).length} ziyaretçi</p>
           </div>
           <span className={`adminBadge${liveNow.length ? " isLive" : ""}`}>
             {formatAdminCount(liveNow.length)}
@@ -105,14 +104,15 @@ export default function AdminOverview({
             {liveNow.map((visitor) => (
               <article key={visitor.id} className="adminMember">
                 <div className="adminMemberCopy">
-                  <strong>{visitor.label}</strong>
+                  <strong>{visitor.label} <span className="adminPresenceKind">{visitor.isMember ? "Üye" : "Ziyaretçi"}</span></strong>
                   <small>
                     {visitor.location}
                     {" · "}
                     {visitor.path}
                   </small>
+                  <AdminVisitorDuration visitor={visitor} />
                 </div>
-                <span className="adminBadge isLive">Açık</span>
+                <span className="adminBadge isLive">Aktif</span>
               </article>
             ))}
           </div>
@@ -121,7 +121,6 @@ export default function AdminOverview({
 
       <AdminVisitChart />
 
-      <AdminMemberList members={members} />
     </div>
   );
 }

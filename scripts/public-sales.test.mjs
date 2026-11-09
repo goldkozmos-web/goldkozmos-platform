@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { PGlite } from '@electric-sql/pglite';
+const db=new PGlite();
+await db.exec(`create role anon; create role authenticated; create schema auth;
+create table auth.users(id uuid,email text);
+create table panel_records(owner_id uuid,kind text,deleted_at timestamptz,data jsonb);
+insert into auth.users values ('00000000-0000-0000-0000-000000000001','goldkozmos@gmail.com'),('00000000-0000-0000-0000-000000000002','other@example.test');`);
+const day=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Istanbul'}).format(new Date());
+const row={title:'4 haftalık ÖZEL İSİM',paidDate:day,paid:'6000',fee:'6000',phone:'PRIVATE',clientId:'PRIVATE'};
+async function insert(data, owner='00000000-0000-0000-0000-000000000001',deleted=null){await db.query('insert into panel_records values ($1,\'works\',$2,$3)',[owner,deleted,JSON.stringify(data)]);}
+await insert(row);
+await insert({...row,paid:'1000'});
+await insert({...row,status:'İptal'});
+await insert({...row,paid:'bad'});
+await insert({...row,paidDate:'2999-01-01'});
+await insert(row,'00000000-0000-0000-0000-000000000002');
+await insert(row,undefined,new Date().toISOString());
+await db.exec(fs.readFileSync('supabase/migrations/20261102160000_public_confirmed_sales.sql','utf8'));
+await db.exec('set role anon');
+const result=await db.query('select public_confirmed_sales() as sales');
+assert.deepEqual(result.rows[0].sales,[{day,category:'4 haftalık çalışma',count:1}]);
+assert.equal(JSON.stringify(result.rows).includes('PRIVATE'),false);
+console.log('Confirmed full payments only; cancelled, partial, future, deleted and other-owner rows excluded; no private fields.');
+await db.close();

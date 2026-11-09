@@ -2,6 +2,7 @@
 
 import type { AdminVisitorRow } from "../../lib/admin/load";
 import AdminEmpty from "./AdminEmpty";
+import AdminVisitorDuration from "./AdminVisitorDuration";
 import { useAdminLive } from "./AdminLiveProvider";
 
 function whenLabel(iso: string | null) {
@@ -56,6 +57,7 @@ export default function AdminActivity({
                   {" · giriş "}
                   {visitor.entry}
                 </small>
+                <AdminVisitorDuration visitor={visitor} />
               </div>
               <small>
                 {visitor.path}

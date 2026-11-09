@@ -1,0 +1,89 @@
+.goldbookLibraryPage{background:#f7f3ea;color:#34261a}
+.goldbookLibraryContainer{width:min(calc(100% - 48px),1080px);margin-inline:auto}
+.goldbookLibraryHero{position:relative;isolation:isolate;overflow:hidden;background:#241a12;color:#fcf4e6;padding:68px 0 40px;border-bottom:1px solid #bd9b6055}
+.goldbookLibraryHeroArt{position:absolute;inset:0 0 0 42%;z-index:-2}
+.goldbookLibraryHeroArt img{object-fit:cover;object-position:center 53%}
+.goldbookLibraryHero:after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#241a12 15%,#241a12e8 44%,#241a1222 100%)}
+.goldbookLibraryEyebrow{font-family:Arial,sans-serif;font-size:9px;letter-spacing:.17em;font-weight:500;line-height:1.6;color:#967239;margin:0 0 14px}
+.goldbookLibraryHero .goldbookLibraryEyebrow{color:#d7b67c}
+.goldbookLibraryHero h1{font-size:clamp(34px,4.5vw,54px);font-weight:400;line-height:1.1;letter-spacing:-.03em;max-width:530px;margin:0 0 24px;text-wrap:balance}
+.goldbookLibraryHero h1 span{color:#e0bf83;display:block}
+.goldbookLibraryHeroContent>p:not(.goldbookLibraryEyebrow){max-width:420px;font-size:15px;line-height:1.8;color:#d5c6b1;margin:0 0 26px}
+.goldbookLibraryExplore{display:inline-flex;align-items:center;gap:32px;padding:13px 20px;border:1px solid #bca06b66;border-radius:30px;color:#f1dbb5;text-decoration:none;font-size:13px;background:#281b1166}
+.goldbookLibraryHeroMeta{display:flex;align-items:center;gap:14px;margin-top:36px;font-size:10px;color:#bca98d;letter-spacing:.02em}
+.goldbookLibraryHeroMeta i{height:3px;width:3px;border-radius:50%;background:#c0a16b}
+.goldbookLibraryCollection{padding-top:44px;padding-bottom:54px;scroll-margin-top:30px}
+.goldbookLibraryCollectionHeader{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:26px}
+.goldbookLibraryCollectionHeader .goldbookLibraryEyebrow{margin-bottom:9px}
+.goldbookLibraryCollectionHeader h2{font-size:30px;font-weight:400;letter-spacing:-.02em;line-height:1.2;margin:0}
+.goldbookLibraryCollectionHeader h2 span{color:#9b773e}
+.goldbookLibraryCollectionHeader>p{font-size:13px;color:#907d65;margin:0 0 3px;line-height:1.6}
+.goldbookLibraryGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px;align-items:start}
+.goldbookLibraryCard{overflow:hidden;border:1px solid #c6a56c44;border-radius:24px;background:#fffdf8;box-shadow:0 14px 36px #6048220b}
+.goldbookLibraryStage{position:relative;isolation:isolate;height:324px;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 25%,#fcf9f1 5%,#e6dcc7 85%);overflow:hidden;border-bottom:1px solid #c6a56c33}
+.goldbookLibraryStage:before{content:'';position:absolute;width:270px;height:270px;border-radius:50%;border:1px solid #bca16633;z-index:-1;box-shadow:0 0 0 25px #bca16607,0 0 0 26px #bca16622}
+.goldbookLibraryStage--02{background:radial-gradient(ellipse at 50% 25%,#f9f3e9,#e8d7c2)}
+.goldbookLibraryEdition{position:absolute;top:19px;left:22px;right:22px;text-align:center;font-family:Arial,sans-serif;font-size:7px;letter-spacing:.2em;color:#99805a}
+.goldbookLibraryCover{width:174px;height:247px;position:relative;filter:drop-shadow(16px 20px 15px #68502c33);transform:rotate(-4deg);margin-top:4px}
+.goldbookLibraryStage--02 .goldbookLibraryCover{transform:rotate(4deg)}
+.goldbookLibraryCover img{display:block;width:100%;height:100%;object-fit:cover;border-radius:3px 9px 9px 3px;border-left:4px solid #a48c5c44}
+.goldbookLibrarySignature{position:absolute;bottom:13px;font-size:11px;color:#968061;font-style:italic;letter-spacing:.02em}
+.goldbookLibraryCardContent{padding:28px}
+.goldbookLibraryCardContent .goldbookLibraryEyebrow{font-size:8px;margin-bottom:11px}
+.goldbookLibraryCard h3{font-size:30px;font-weight:400;letter-spacing:-.025em;line-height:1.15;margin:0 0 15px;text-wrap:balance}
+.goldbookLibraryDescription{font-size:14px;line-height:1.8;color:#806a50;margin:0 0 20px}
+.goldbookLibraryFacts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.goldbookLibraryFacts span{padding:6px 10px;border:1px solid #c6a56c44;border-radius:25px;font-size:10px;color:#927747;background:#f6efdf66}
+.goldbookLibraryDetails{border-top:1px solid #bc9b6333}
+.goldbookLibraryDetails details{border-bottom:1px solid #bc9b6333}
+.goldbookLibraryDetails summary{display:flex;justify-content:space-between;gap:16px;align-items:center;list-style:none;cursor:pointer;font-size:14px;padding:16px 0;color:#5a432d}
+.goldbookLibraryDetails summary::-webkit-details-marker{display:none}
+.goldbookLibraryDetails summary span{font-family:Arial,sans-serif;font-size:19px;color:#a38449;transition:transform .15s}
+.goldbookLibraryDetails details[open] summary span{transform:rotate(45deg)}
+.goldbookLibraryDetails ul{padding:0 0 17px 18px;margin:0;color:#8a7256;font-size:13px;line-height:1.8}
+.goldbookLibraryDetails li+li{margin-top:5px}
+.goldbookLibraryDetails li::marker{color:#b19154;font-size:9px}
+.goldbookLibraryPurchase{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:24px}
+.goldbookLibraryPurchase small{display:block;font-family:Arial,sans-serif;font-size:8px;letter-spacing:.12em;color:#a38a65;margin-bottom:6px;text-transform:uppercase}
+.goldbookLibraryPurchase strong{font-size:25px;font-weight:400;color:#523820;white-space:nowrap}
+.goldbookLibraryPurchase a{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:15px 18px;border-radius:13px;background:linear-gradient(125deg,#403022,#241a12);color:#e9d3a8;text-decoration:none;font-size:12px;border:1px solid #a3824a66;min-height:48px}
+.goldbookLibraryPurchase a span{font-size:17px}
+.goldbookLibraryNote{text-align:center;font-size:12px;line-height:1.6;color:#9b8669;margin:27px 0 0}
+.goldbookLibraryExplore:focus-visible,.goldbookLibraryDetails summary:focus-visible,.goldbookLibraryPurchase a:focus-visible{outline:2px solid #be9651;outline-offset:5px}
+@media(max-width:700px){.goldbookLibraryContainer{width:calc(100% - 40px)}.goldbookLibraryHero{padding:43px 0 30px}.goldbookLibraryHeroArt{inset:0 0 0 15%;opacity:.46}.goldbookLibraryHero:after{background:linear-gradient(90deg,#241a12fa,#241a1288 85%),linear-gradient(0deg,#241a12,transparent 45%)}.goldbookLibraryHero h1{font-size:35px;max-width:330px;margin-bottom:18px}.goldbookLibraryHeroContent>p:not(.goldbookLibraryEyebrow){font-size:14px;max-width:310px;margin-bottom:23px}.goldbookLibraryHeroMeta{margin-top:27px}.goldbookLibraryCollection{padding-top:32px}.goldbookLibraryCollectionHeader{display:block;margin-bottom:22px}.goldbookLibraryCollectionHeader h2{font-size:27px}.goldbookLibraryCollectionHeader>p{font-size:12px;margin-top:12px}.goldbookLibraryGrid{grid-template-columns:1fr;gap:24px}.goldbookLibraryStage{height:284px}.goldbookLibraryCover{width:150px;height:213px}.goldbookLibraryStage:before{width:230px;height:230px}.goldbookLibraryCardContent{padding:24px 22px}.goldbookLibraryCard h3{font-size:27px}.goldbookLibraryDescription{font-size:14px}.goldbookLibraryPurchase a{font-size:12px;padding:14px 16px;gap:18px}.goldbookLibraryPurchase strong{font-size:25px}}
+@media(prefers-reduced-motion:reduce){.goldbookLibraryDetails summary span{transition:none}}
+/* Square book mockups: keep the complete new covers visible. */
+.goldbookLibraryPage .goldbookLibraryCover{width:260px;height:260px;transform:none;max-width:100%;filter:drop-shadow(0 10px 14px #422b1826)}
+.goldbookLibraryPage .goldbookLibraryCover img{object-fit:contain;border:0;border-radius:12px}
+.goldbookLibraryPage .goldbookLibraryStage{height:350px}
+@media(min-width:1100px){.goldbookLibraryPage .goldbookLibraryGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}}
+@media(max-width:700px){.goldbookLibraryPage .goldbookLibraryCover{width:240px;height:240px}.goldbookLibraryPage .goldbookLibraryStage{height:315px}}
+
+.goldbookAudience{margin:0 0 22px;padding:18px;border:1px solid #c6a56c50;border-radius:16px;background:linear-gradient(135deg,#f5ecd9,#fffaf1)}
+.goldbookAudience h4{margin:0 0 8px;font:20px Georgia,serif;color:#543b25}
+.goldbookAudience p{margin:0;font-size:13px;line-height:1.8;color:#735d44}
+.goldbookDelivery{display:flex;gap:12px;align-items:flex-start;margin-top:22px;padding:17px 0;border-bottom:1px solid #bc9b6333;color:#7a654c}
+.goldbookDelivery>span{font-size:26px;color:#a78040;line-height:1}
+.goldbookDelivery p{margin:0;font-size:12px;line-height:1.8}
+.goldbookDelivery strong{display:block;color:#543b25;font-weight:500;margin-bottom:3px}
+.goldbookLibraryPage .goldbookLibraryPurchase a{flex:1;max-width:210px;font-size:15px;font-weight:600;min-height:52px;box-shadow:0 6px 16px #34211418}
+.goldbookPurchaseNote{margin:10px 0 0;text-align:right;color:#8d795e;font-size:10px;line-height:1.5}
+.goldbookPreviewLink{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:22px;padding:18px;border:1px solid #b28a4e80;border-radius:14px;text-decoration:none;background:linear-gradient(130deg,#f2e4c9,#fffaf0);color:#634523}.goldbookPreviewLink strong{display:block;font:19px Georgia,serif}.goldbookPreviewLink small{display:block;font:11px Arial,sans-serif;margin-top:7px;color:#92713f}.goldbookPreviewLink>span:last-child{font-size:25px}.goldbookPreviewLink:focus-visible{outline:2px solid #a78040;outline-offset:4px}
+
+/* Mobile collection follows the horizontal work-card browsing pattern. */
+@media(max-width:700px){
+ .goldbookLibraryPage .goldbookLibraryGrid{display:flex;align-items:stretch;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:0;padding:0 0 18px;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#b18b47 #e9ddc5}
+ .goldbookLibraryPage .goldbookLibraryCard{flex:0 0 90%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always}
+ .goldbookLibraryPage .goldbookLibraryStage{height:275px}
+ .goldbookLibraryPage .goldbookLibraryCover{width:210px;height:210px}
+ .goldbookLibraryPage .goldbookLibraryCardContent{padding:22px 18px}
+ .goldbookLibraryPage .goldbookLibraryCard h3{font-size:25px}
+ .goldbookLibraryPage .goldbookLibraryPurchase{gap:10px}
+ .goldbookLibraryPage .goldbookLibraryPurchase a{padding:14px;gap:12px}
+ .goldbookLibraryPage .goldbookAudience{padding:14px}
+ .goldbookLibraryPage .goldbookLibraryGrid::-webkit-scrollbar{height:5px}
+ .goldbookLibraryPage .goldbookLibraryGrid::-webkit-scrollbar-track{background:#e9ddc5;border-radius:10px}
+ .goldbookLibraryPage .goldbookLibraryGrid::-webkit-scrollbar-thumb{background:#b18b47;border-radius:10px}
+ .goldbookMobileSwipeHint{display:block;margin:0 0 14px;font:11px Arial,sans-serif;color:#93703d;letter-spacing:.3px}
+}
+@media(min-width:701px){.goldbookMobileSwipeHint{display:none}}

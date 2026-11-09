@@ -66,6 +66,7 @@ export default function ContinueCard({
         title: item.title,
         href: item.href,
         audioUrl: item.audioUrl,
+        artworkUrl: item.artworkUrl,
         description: item.description,
         currentTime: item.currentTime,
       });

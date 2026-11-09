@@ -3,16 +3,18 @@ import type { Metadata } from "next";
 import HomeNavbar from "../../components/HomeNavbar";
 import FooterSection from "../../components/FooterSection";
 import MeditationLibrary from "../../components/meditation/MeditationLibrary";
+import GoldMindWelcome from "../../components/meditation/GoldMindWelcome";
 import "../../styles/home.css";
 import "../../styles/live-activity.css";
 import "../../styles/goldmind-flow.css";
+import "../../styles/goldmind-premium.css";
 
 const pageUrl = "https://goldkozmos.com/goldmind";
 
 const pageTitle = "GoldMind | Meditasyon & Nefes Alanı | GoldKozmos";
 
 const pageDescription =
-  "GoldKozmos meditasyon, nefes, gevşeme ve farkındalık pratiklerini keşfet.";
+  "GoldMind meditasyon ve nefes alanını tanı. Sesli pratikler hazırlanıyor; mevcut kişisel gelişim ve enerji çalışma seçeneklerini Goldkozmos’ta keşfet.";
 
 export const metadata: Metadata = {
   title: {
@@ -65,6 +67,7 @@ export default async function GoldMindPage({
       id="top"
     >
       <HomeNavbar />
+      <GoldMindWelcome />
 
       <section className="meditationSection">
         <div className="meditationInner">

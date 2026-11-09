@@ -15,6 +15,7 @@ import { SITE_ORIGIN } from "../../../lib/site";
 import { ruyaPath, ruyaUrl } from "../../../lib/ruya-tabirleri/urls";
 import "../../../styles/home.css";
 import "../../../styles/ruya-tabirleri.css";
+import "../../../styles/symbol-library.css";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -126,6 +127,7 @@ export default async function RuyaDetayPage({ params }: PageProps) {
           RÜYA TABİRİ
         </p>
         <h1>{dream.h1}</h1>
+        <aside className="dreamDetailSummary"><p className="symbolKicker">RÜYANIN ANA TEMASI</p><p>{dream.summary}</p></aside>
         <RuyaArticle dream={dream} />
         <RuyaNoteForm relatedSlug={dream.slug} />
       </div>

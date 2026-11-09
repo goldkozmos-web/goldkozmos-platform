@@ -5,7 +5,7 @@ export default function ComingSoonSection() {
       aria-labelledby="rezonans-egitimleri-yakinda"
     >
       <p className="rezonansEgitimleriComingSoonBadge">
-        Çok yakında
+        Hazırlanıyor · Ocak–Şubat
       </p>
 
       <h2 id="rezonans-egitimleri-yakinda">
@@ -13,13 +13,14 @@ export default function ComingSoonSection() {
       </h2>
 
       <p>
-        GoldKozmos Rezonans Eğitimleri için özel olarak
-        hazırlanan video içerikler çok yakında burada olacak.
+        Her rezonans alanı için 15 farkındalık ses kaydı hazırlanıyor.
+        Duruma ve ihtiyaca göre enerji çalışması ses kayıtlarıyla desteklenecek;
+        her kayıttan sonra enerji çalışması yapılmayacak.
       </p>
 
       <p className="rezonansEgitimleriComingSoonNote">
-        Eğitim alanı açıldığında kayıtlı eğitimlere kendi
-        hesabın üzerinden erişebileceksin.
+        Ocak–Şubat döneminde yayına alınması planlanıyor. Kesin tarih ve
+        erişim bilgileri hazır olduğunda duyurulacak. Şu anda satışa açık değil.
       </p>
     </section>
   );

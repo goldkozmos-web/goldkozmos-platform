@@ -242,6 +242,7 @@
 
 .grHero img {
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 10;
   object-fit: cover;
 }
@@ -249,6 +250,13 @@
 .grSection {
   margin-top: 22px;
 }
+
+.grCardCover img { height: auto; }
+.grArticle .grWrap { max-width: 780px; }
+.grArticle .grSection { margin-top: 32px; }
+.grArticle .grSection h2 { font: 400 25px/1.25 Georgia, serif; text-transform: none; letter-spacing: -.3px; color: #e1c28b; margin-bottom: 16px; }
+.grArticle .grSection p, .grArticle .grSection li { font: 17px/1.85 Georgia, serif; }
+.grArticle .grSection li + li { margin-top: 16px; }
 
 .grSection h2 {
   margin: 0 0 8px;

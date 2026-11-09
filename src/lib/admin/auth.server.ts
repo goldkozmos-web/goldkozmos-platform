@@ -80,8 +80,9 @@ export async function resolveAdminRequest(request?: Request) {
 
   const sessionPack = await supabase.auth.getSession();
   const token = sessionPack.data.session?.access_token ?? "";
+  const { data: verified } = await supabase.auth.getUser();
   const access = accessFromActor(
-    actorFromUser(sessionPack.data.session?.user ?? null),
+    actorFromUser(verified.user ?? null),
   );
 
   return {

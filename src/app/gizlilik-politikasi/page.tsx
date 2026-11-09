@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
         eyebrow="GİZLİLİK POLİTİKASI"
         title="Gizlilik Politikası"
         description="Goldkozmos® Enerji Ekolü web sitesini kullanırken paylaştığın bilgilerin nasıl ele alındığını, hangi amaçlarla kullanılabileceğini ve gizliliğinin nasıl korunduğunu incele."
-        updatedAt="28 Temmuz 2026"
+        updatedAt={process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ? "6 Ekim 2026" : "28 Temmuz 2026"}
       >
         <section className="legalDocumentBlock">
           <h2>1. Politikanın kapsamı</h2>
@@ -290,6 +290,7 @@ export default function PrivacyPolicyPage() {
             </div>
           </dl>
         </section>
+        {process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID && <section className="legalDocumentBlock"><h2>Analiz çerezleri ve tercihlerin</h2><p>Analiz izni verdiğinde Google Analytics ile ziyaret edilen herkese açık sayfalar ve çalışma, WhatsApp veya Shopier bağlantılarına tıklamalar ölçülür. Bu ölçüm, tıklamanın gerçek randevu ya da satın alma ile sonuçlandığını tek başına göstermez.</p><p>Analiz kodu iznin olmadan yüklenmez. Analiz tercihini sayfanın altındaki Çerez tercihleri düğmesinden değiştirebilirsin. Profil, ayarlar, giriş ve yönetim ekranları bu ölçümün dışındadır. Site içi mesaj içerikleri, WhatsApp mesaj metni, ad veya telefon numarası bu özel ölçüm olaylarına eklenmez. Ölçüm Google hizmetleri üzerinden işlendiği için <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google gizlilik bilgilerini</a> de inceleyebilirsin.</p></section>}
       </LegalDocumentLayout>
 
       <FooterSection />

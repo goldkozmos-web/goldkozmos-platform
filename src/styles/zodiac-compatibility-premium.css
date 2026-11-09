@@ -1,0 +1,44 @@
+.zodiacCompatibilityPremium{position:relative;padding:40px;border-radius:30px;background:radial-gradient(ellipse at 90% 0%,#73533755,transparent 48%),linear-gradient(145deg,#302317,#18130f);border-color:#b695595e;box-shadow:0 20px 55px #39281518;isolation:isolate}
+.zodiacMatchIntro{position:relative;padding-right:80px;max-width:650px}
+.zodiacMatchIntro .symbolKicker{font-size:9px;letter-spacing:2.5px;color:#c6a367}
+.zodiacCompatibilityPremium .zodiacMatchIntro h2{font-size:40px;line-height:1.12;letter-spacing:-1px;margin:18px 0;color:#fff2dc;font-weight:400}
+.zodiacMatchIntro h2 em{font-weight:400;color:#e0bc76}
+.zodiacMatchIntro>p:last-of-type{font-size:14px;line-height:1.8;color:#c9b79d;max-width:420px}
+.zodiacMatchSeal{position:absolute;right:0;top:40px;width:58px;height:58px;display:grid;place-items:center;color:#e5c383;font-size:25px;border:1px solid #c49f5a55;border-radius:50%;outline:1px solid #c49f5a25;outline-offset:7px;background:radial-gradient(circle,#d3ac5c1a,transparent)}
+.zodiacCompatibilityPremium .zodiacPairControls{gap:14px;grid-template-columns:1fr 28px 1fr;margin:28px 0 24px;max-width:630px}
+.zodiacCompatibilityPremium .zodiacPairControls label{font-size:10px;letter-spacing:.6px;color:#d7c3a2}
+.zodiacCompatibilityPremium .zodiacPairControls select{background:#ffffff07;border-color:#d0b47750;border-radius:12px;font-size:18px;padding:14px 12px;margin-top:9px;color:#fff0d4;min-height:50px}
+.zodiacCompatibilityPremium .zodiacPairControls select:focus-visible{outline:2px solid #f2d598;outline-offset:3px}
+.zodiacCompatibilityPremium .zodiacPairControls option{background:#302317;color:#fff0d4}
+.zodiacCompatibilityPremium .zodiacPairControls>span{font-size:24px;color:#dfbf83;padding-bottom:11px}
+.zodiacCompatibilityPremium .zodiacPairResult{padding:0;overflow:hidden;border-radius:22px;background:#fcf7ed;border:1px solid #dec59260;box-shadow:0 12px 35px #00000025}
+.zodiacMatchSky{position:relative;isolation:isolate;overflow:hidden;padding:34px 26px 30px;background:radial-gradient(ellipse at 50% 22%,#6c513188,transparent 65%),linear-gradient(145deg,#221b13,#34271b 60%,#211a13);text-align:center;border-bottom:1px solid #d5b7784a}
+.zodiacOrbitArt{position:absolute;width:100%;height:255px;left:0;top:0;z-index:-1;stroke:#c6a46d;stroke-width:.65;opacity:.35}
+.zodiacOrbitArt ellipse:first-child{stroke-dasharray:2 6}.zodiacOrbitArt path{opacity:.65}.zodiacOrbitArt circle{fill:#e9ce98;stroke:none}.zodiacOrbitAxis{opacity:.5}
+.zodiacCompatibilityPremium .zodiacPairEmblems{gap:24px;margin:0 0 24px;align-items:flex-start}
+.zodiacPairEmblems>div{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:85px}
+.zodiacCompatibilityPremium .zodiacPairEmblems span{height:82px;width:82px;font:43px Georgia;color:#f3d79b;border:1px solid #d5b37080;outline:1px solid #d5b37035;outline-offset:-7px;background:radial-gradient(circle at 35% 25%,#95744455,#1c1711 78%);box-shadow:0 8px 24px #0003,inset 0 0 20px #d1ad6820}
+.zodiacPairEmblems strong{font:18px Georgia;color:#f6e6c8;font-weight:400}.zodiacPairEmblems small{font:9px Arial;color:#bc9d69;letter-spacing:1px}
+.zodiacCompatibilityPremium .zodiacPairEmblems i{font-size:28px;font-style:normal;margin-top:25px;color:#edca87}
+.zodiacMatchSky>.symbolKicker{font-size:8px;letter-spacing:1.8px;color:#c5a26b;margin:0 0 11px}
+.zodiacCompatibilityPremium .zodiacMatchSky h3{font-size:29px;line-height:1.25;color:#faecd3;max-width:480px;margin:0 auto;font-weight:400;letter-spacing:-.4px}
+.zodiacMatchInsights{padding:10px 30px 25px;color:#392918}
+.zodiacMatchInsights>section{display:grid;grid-template-columns:38px 1fr;gap:16px;padding:25px 0;border-bottom:1px solid #d8c3a070}
+.zodiacInsightIcon{width:36px;height:36px;margin-top:3px;display:grid;place-items:center;font:23px Georgia;color:#a17b3e;border-radius:50%;border:1px solid #d5b77c70;background:#eeddb630}
+.zodiacMatchInsights .symbolKicker{font:8px Arial;letter-spacing:1.5px;color:#a37c42;margin:0 0 8px}
+.zodiacMatchInsights h4{font:25px Georgia;color:#392918;margin:0 0 11px;letter-spacing:-.3px}
+.zodiacMatchInsights p{font-size:14px;line-height:1.85;color:#7b6047;margin:0 0 9px}
+.zodiacMatchInsights p:last-child{margin-bottom:0}.zodiacMatchInsights p strong{font-weight:600;color:#553b22}
+.zodiacCompatibilityPremium .zodiacPairNote{border:0;padding:18px 0 0;margin:0;font:11px/1.85 Arial;color:#998061}
+.zodiacCompatibilityPremium>.symbolEditorialNote{font:10px/1.8 Arial;color:#af9777;margin:20px 2px 0}
+@media(min-width:900px){.zodiacCompatibilityPremium{display:grid;grid-template-columns:.75fr 1.25fr;grid-template-rows:max-content max-content 1fr;column-gap:40px;align-items:start}.zodiacMatchIntro{grid-column:1;grid-row:1;padding-right:45px}.zodiacMatchSeal{width:36px;height:36px;font-size:18px;top:12px}.zodiacCompatibilityPremium .zodiacPairControls{grid-column:1;grid-row:2;margin-top:20px}.zodiacCompatibilityPremium .zodiacPairResult{grid-column:2;grid-row:1/4}.zodiacCompatibilityPremium>.symbolEditorialNote{grid-column:1;grid-row:3}.zodiacCompatibilityPremium .zodiacMatchIntro h2{font-size:42px}}
+@media(max-width:600px){.zodiacCompatibilityPremium{padding:26px 17px 22px;border-radius:26px}.zodiacMatchIntro{padding:0 52px 0 5px}.zodiacCompatibilityPremium .zodiacMatchIntro h2{font-size:32px;margin:16px 0}.zodiacMatchIntro>p:last-of-type{font-size:13px;line-height:1.8}.zodiacMatchSeal{width:35px;height:35px;font-size:19px;right:6px;top:47px;outline-offset:5px}.zodiacCompatibilityPremium .zodiacPairControls{gap:7px;grid-template-columns:1fr 20px 1fr;margin:24px 3px}.zodiacCompatibilityPremium .zodiacPairControls select{font-size:17px;padding:12px 9px}.zodiacMatchSky{padding:30px 16px 26px}.zodiacOrbitArt{width:145%;left:-22.5%;height:230px}.zodiacCompatibilityPremium .zodiacPairEmblems{gap:18px;margin-bottom:22px}.zodiacCompatibilityPremium .zodiacPairEmblems span{width:70px;height:70px;font-size:38px}.zodiacPairEmblems strong{font-size:17px}.zodiacCompatibilityPremium .zodiacPairEmblems i{margin-top:20px;font-size:25px}.zodiacCompatibilityPremium .zodiacMatchSky h3{font-size:25px;line-height:1.3}.zodiacMatchInsights{padding:0 19px 23px}.zodiacMatchInsights>section{grid-template-columns:29px 1fr;gap:11px;padding:24px 0}.zodiacInsightIcon{width:28px;height:28px;font-size:19px}.zodiacMatchInsights h4{font-size:23px}.zodiacMatchInsights p{font-size:13px;line-height:1.9}}
+
+.zodiacMatchNarrative{padding:30px 34px 34px;background:linear-gradient(145deg,#fffcf5,#f4ead8)}.zodiacMatchNarrative p{font-size:15px;line-height:1.95;color:#765a3f;margin:0}.zodiacMatchNarrative p::first-letter{font-size:1.15em;color:#a07a3d}@media(max-width:600px){.zodiacMatchNarrative{padding:25px 24px 29px}.zodiacMatchNarrative p{font-size:14px;line-height:1.95}}
+
+/* Match portraits reuse the selected sign's illustrated atlas artwork. */
+.zodiacCompatibilityPremium .zodiacPairEmblems .zodiacPairPortrait{position:relative;display:block;width:126px;height:126px;overflow:hidden;border-radius:50%;outline-offset:4px;flex-shrink:0;background:#21170f}
+.zodiacPairPortrait img{object-fit:cover;object-position:center 32%;transform:scale(1.08)}
+.zodiacCompatibilityPremium .zodiacPairEmblems:has(.zodiacPairPortrait) i{margin-top:46px}
+@media(max-width:600px){.zodiacCompatibilityPremium .zodiacPairEmblems .zodiacPairPortrait{width:100px;height:100px}.zodiacCompatibilityPremium .zodiacPairEmblems:has(.zodiacPairPortrait) i{margin-top:33px}}
+@media(max-width:360px){.zodiacCompatibilityPremium .zodiacPairEmblems .zodiacPairPortrait{width:82px;height:82px}.zodiacCompatibilityPremium .zodiacPairEmblems:has(.zodiacPairPortrait) i{margin-top:24px}}

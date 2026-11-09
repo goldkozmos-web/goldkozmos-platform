@@ -13,8 +13,7 @@ export const educationCourses: EducationCourse[] = [
     description:
       "Kendilik algısı, özdeğer, içsel kalıplar ve insanın kendisiyle kurduğu ilişki.",
     coverImage: "/images/services/kendilik-rezonansi.webp",
-    sessionMeta: ["5 Gün", "75–90 dk", "Google Meet"],
-    priceLabel: "1.500 TL",
+    sessionMeta: ["15 farkındalık ses kaydı", "İhtiyaca göre enerji desteği", "Hazırlanıyor"],
     isAvailable: false,
     status: "coming_soon",
     modules: [],
@@ -33,8 +32,7 @@ export const educationCourses: EducationCourse[] = [
     description:
       "İlişki örüntüleri, bağlanma, iletişim ve tekrar eden ilişki dinamikleri.",
     coverImage: "/images/services/iliski-rezonansi.webp",
-    sessionMeta: ["5 Gün", "75–90 dk", "Google Meet"],
-    priceLabel: "1.500 TL",
+    sessionMeta: ["15 farkındalık ses kaydı", "İhtiyaca göre enerji desteği", "Hazırlanıyor"],
     isAvailable: false,
     status: "coming_soon",
     modules: [],
@@ -53,8 +51,7 @@ export const educationCourses: EducationCourse[] = [
     description:
       "Para algısı, üretkenlik, bollukla ilişki ve davranış kalıpları.",
     coverImage: "/images/services/bolluk-rezonansi.webp",
-    sessionMeta: ["5 Gün", "75–90 dk", "Google Meet"],
-    priceLabel: "1.500 TL",
+    sessionMeta: ["15 farkındalık ses kaydı", "İhtiyaca göre enerji desteği", "Hazırlanıyor"],
     isAvailable: false,
     status: "coming_soon",
     modules: [],

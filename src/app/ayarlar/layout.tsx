@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { getProfilimSessionUser } from "../../lib/profilim/auth.server";
+import AyarlarSessionProvider from "../../components/ayarlar/AyarlarSessionProvider";
 
 import "../../styles/admin.css";
 import "../../styles/ayarlar-desk.css";
@@ -10,11 +12,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function AyarlarLayout({
+export default async function AyarlarLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const initialUser = await getProfilimSessionUser();
   return (
     <main
       className="adminPage ayarlarPage"
@@ -25,7 +28,7 @@ export default function AyarlarLayout({
         color: "#1c1410",
       }}
     >
-      {children}
+      <AyarlarSessionProvider initialUser={initialUser}>{children}</AyarlarSessionProvider>
     </main>
   );
 }

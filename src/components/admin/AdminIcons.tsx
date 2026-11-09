@@ -14,8 +14,10 @@ function Icon({ path }: { path: string }) {
 }
 
 const NAV: Record<string, string> = {
+  "/admin/goldlink": "M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-2 2M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l2-2",
   "/admin": "M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z",
   "/admin/kullanicilar": "M16 19v-1a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v1M12 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M20 19v-1a3.5 3.5 0 0 0-2.6-3.4M16.5 7.2a3 3 0 0 1 0 5.6",
+  "/admin/sohbet": "M5 6h14v11H9l-4 3V6z",
   "/admin/mesajlar": "M5 6h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H9l-4 3v-3H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z",
   "/admin/aktivite": "M4 14h3l2-6 3 10 2-7 2 3h4",
   "/admin/randevular": "M7 4v2M17 4v2M5 9h14M6 7h12a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z",

@@ -207,16 +207,22 @@ export async function fetchActivity(): Promise<UserActivityItem[]> {
 export async function fetchNotifications(): Promise<AppNotification[]> {
   const supabase = client();
   if (!supabase) return [];
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return [];
 
   await supabase.rpc("materialize_due_reminder_notifications");
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("notifications")
     .select("id, title, body, type, link, is_read, created_at")
     .order("created_at", { ascending: false })
     .limit(60);
 
-  return (data ?? []).map((row) => ({
+  const inbox = await supabase.from("member_messages").select("id, title, body, created_at, read_at").eq("recipient_id", session.user.id).order("created_at", { ascending: false }).limit(80);
+  if (error && error.code !== "PGRST205" && error.code !== "42P01") throw new Error("Bildirimler yüklenemedi. Yeniden deneyebilirsin.");
+  if (inbox.error) throw new Error("Mesaj bildirimleri yüklenemedi.");
+
+  const notifications = (data ?? []).map((row) => ({
     id: asText(row.id),
     title: asText(row.title),
     body: asText(row.body),
@@ -225,29 +231,41 @@ export async function fetchNotifications(): Promise<AppNotification[]> {
     isRead: Boolean(row.is_read),
     createdAt: asText(row.created_at),
   }));
+  return [...notifications, ...(inbox.data ?? []).map((row) => ({ id: `message:${row.id}`, title: asText(row.title), body: asText(row.body), type: "member_message", link: null, isRead: Boolean(row.read_at), createdAt: asText(row.created_at) }))].sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
 }
 
 export async function markNotificationRead(id: string) {
   const supabase = client();
   if (!supabase) return;
-  await supabase.from("notifications").update({ is_read: true }).eq("id", id);
+  if (id.startsWith("message:")) {
+    const { error } = await supabase.from("member_messages").update({ read_at: new Date().toISOString() }).eq("id", id.slice(8)).is("read_at", null);
+    if (error) throw new Error("Mesaj güncellenemedi.");
+    return;
+  }
+  const { error } = await supabase.from("notifications").update({ is_read: true }).eq("id", id);
+  if (error) throw new Error("Bildirim güncellenemedi.");
 }
 
 export async function markAllNotificationsRead() {
   const supabase = client();
   if (!supabase) return;
-  await supabase.from("notifications").update({ is_read: true }).eq("is_read", false);
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return;
+  const { error } = await supabase.from("notifications").update({ is_read: true }).eq("is_read", false);
+  const inbox = await supabase.from("member_messages").update({ read_at: new Date().toISOString() }).eq("recipient_id", session.user.id).is("read_at", null);
+  if (inbox.error || (error && error.code !== "PGRST205" && error.code !== "42P01")) throw new Error("Bildirimler güncellenemedi.");
 }
 
 export async function fetchReminders(): Promise<ReminderItem[]> {
   const supabase = client();
   if (!supabase) return [];
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("reminders")
     .select("id, title, note, due_on, due_time, repeat_rule, completed_at, created_at")
     .order("created_at", { ascending: false })
     .limit(200);
+  if (error) throw new Error("Görevlerin yüklenemedi.");
 
   return (data ?? []).map((row) => ({
     id: asText(row.id),
@@ -303,17 +321,20 @@ export async function createReminder(input: {
 export async function completeReminder(id: string) {
   const supabase = client();
   if (!supabase) return;
-  await supabase
+  const result = await supabase
     .from("reminders")
     .update({ completed_at: new Date().toISOString() })
     .eq("id", id)
     .is("completed_at", null);
+  if (result.error) throw new Error("Tamamlama kaydedilemedi.");
+  window.dispatchEvent(new Event("goldkozmos-profile-activity"));
 }
 
 export async function deleteReminder(id: string) {
   const supabase = client();
   if (!supabase) return;
-  await supabase.from("reminders").delete().eq("id", id);
+  const result = await supabase.from("reminders").delete().eq("id", id);
+  if (result.error) throw new Error("Görev silinemedi.");
 }
 
 export async function recordNamedActivity(kind: string, title: string, href?: string) {
@@ -325,4 +346,5 @@ export async function recordNamedActivity(kind: string, title: string, href?: st
     p_href: href ?? null,
     p_payload: {},
   });
+  window.dispatchEvent(new Event("goldkozmos-profile-activity"));
 }

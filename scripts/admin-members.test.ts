@@ -147,3 +147,16 @@ test("Google auth users map onto the admin member desk", () => {
   assert.equal(row?.email, "arkadas@gmail.com");
   assert.equal(row?.source, "google");
 });
+
+test("one member from email roster and auth profile is counted once", () => {
+  const base = { id: "roster", displayName: "Test Üye", role: "user", email: "test@example.com", createdAt: "2026-10-04T10:00:00Z", source: "google", status: "active", authUserId: "auth-1", city: null, age: null, phone: null, interests: null };
+  const rows = mergeMemberRows([[base], [{ ...base, id: "auth-1", email: null, city: "İstanbul" }]]);
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].city, "İstanbul");
+});
+
+test("a linking row joins earlier email-only and identity-only records", () => {
+  const base = { id: "roster", displayName: "Test Üye", role: "user", email: "test@example.com", createdAt: null, source: "google", status: "active", authUserId: null, city: null, age: null, phone: null, interests: null };
+  const rows = mergeMemberRows([[base], [{ ...base, id: "auth-1", email: null }], [{ ...base, authUserId: "auth-1" }]]);
+  assert.equal(rows.length, 1);
+});

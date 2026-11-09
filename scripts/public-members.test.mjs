@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+import { PGlite } from '@electric-sql/pglite';
+const db=new PGlite();
+await db.exec(`create role anon; create role authenticated; create schema auth;
+create table auth.users(email text,email_confirmed_at timestamptz,created_at timestamptz,deleted_at timestamptz);
+insert into auth.users values ('private@example.test',now(),now(),null),('goldkozmos@gmail.com',now(),now(),null),('unconfirmed@example.test',null,now(),null),('deleted@example.test',now(),now(),now());`);
+await db.exec(fs.readFileSync('supabase/migrations/20261102180000_public_membership_summary.sql','utf8'));
+await db.exec('set role anon');
+const {rows}=await db.query('select public_membership_summary() as summary');
+assert.equal(rows[0].summary.total,1);
+assert.equal(rows[0].summary.recent[0].count,1);
+assert.equal(JSON.stringify(rows).includes('@'),false);
+console.log('Verified membership totals only; admin, unconfirmed and deleted users excluded; no identities exposed.');
+await db.close();

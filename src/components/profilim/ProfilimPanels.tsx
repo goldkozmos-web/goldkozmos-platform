@@ -1,4 +1,5 @@
 "use client";
+import SavedWorkAnalyses from "./SavedWorkAnalyses";
 
 import { useEffect, useMemo, useState } from "react";
 
@@ -194,12 +195,12 @@ export function PurchasesPanel({ items }: { items: ProfilimPurchase[] }) {
 export function PdfPanel({ items }: { items: ProfilimPdfAnalysis[] }) {
   if (items.length === 0) {
     return (
-      <ProfilimEmptyState text="Sana atanmış bir PDF analiz yok. Analizler hazır olunca Görüntüle ve İndir burada durur." />
+      <><SavedWorkAnalyses /><ProfilimEmptyState text="Sana atanmış PDF analizler de burada görünür." /></>
     );
   }
 
   return (
-    <ul className="profilimDrawerList">
+    <><SavedWorkAnalyses /><ul className="profilimDrawerList">
       {items.map((item) => (
         <li key={item.id} className="profilimPdfCard">
           <strong>{item.title}</strong>
@@ -217,7 +218,7 @@ export function PdfPanel({ items }: { items: ProfilimPdfAnalysis[] }) {
           </div>
         </li>
       ))}
-    </ul>
+    </ul></>
   );
 }
 
@@ -459,12 +460,13 @@ export function JourneyPanel({
 export function InboxPanel() {
   const [items, setItems] = useState<MemberMessage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
     void fetch("/api/messages", { cache: "no-store" })
-      .then((response) => response.json())
+      .then((response) => { if (!response.ok) throw new Error("Mesajlar alınamadı."); return response.json(); })
       .then((data: { messages?: MemberMessage[] }) => {
         if (!cancelled) {
           setItems(data.messages ?? []);
@@ -473,6 +475,7 @@ export function InboxPanel() {
       })
       .catch(() => {
         if (!cancelled) {
+          setError("Mesajlar yüklenemedi. Sayfayı yenileyerek tekrar deneyebilirsin.");
           setLoading(false);
         }
       });
@@ -482,7 +485,10 @@ export function InboxPanel() {
     };
   }, []);
 
-  function markRead(id: string) {
+  async function markRead(id: string) {
+    try {
+      const response = await fetch(`/api/messages/${id}/read`, { method: "POST" });
+      if (!response.ok) throw new Error("Mesaj güncellenemedi.");
     setItems((current) =>
       current.map((item) =>
         item.id === id
@@ -490,7 +496,8 @@ export function InboxPanel() {
           : item,
       ),
     );
-    void fetch(`/api/messages/${id}/read`, { method: "POST" });
+      setError("");
+    } catch { setError("Mesaj okundu olarak işaretlenemedi. Yeniden dene."); }
   }
 
   if (loading) {
@@ -499,27 +506,27 @@ export function InboxPanel() {
 
   if (items.length === 0) {
     return (
-      <ProfilimEmptyState text="Gelen kutun boş. GoldKozmos’tan gelen notlar burada durur." />
+      <ProfilimEmptyState text={error || "Gelen kutun boş. GoldKozmos’tan gelen notlar burada durur."} />
     );
   }
 
   return (
-    <ul className="profilimDrawerList">
+    <div>{error ? <p role="alert">{error}</p> : null}<ul className="profilimDrawerList">
       {items.map((item) => (
         <li key={item.id}>
           <button
             type="button"
             className="profilimInboxItem"
-            onClick={() => markRead(item.id)}
+            onClick={() => void markRead(item.id)}
           >
             <span>{item.readAt ? "Okundu" : "Yeni"}</span>
             <strong>{item.title}</strong>
             <small>{formatWhen(item.createdAt)}</small>
-            <p>{item.body}</p>
+            <p style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>{item.body}</p>
           </button>
         </li>
       ))}
-    </ul>
+    </ul></div>
   );
 }
 
@@ -530,14 +537,14 @@ export function SuggestPanel() {
   const [pending, setPending] = useState(false);
 
   return (
-    <div className="profilimDrawerStack">
+    <div className="profilimDrawerStack profilimSuggestionPanel"><div className="profilimExperienceLead"><span className="profilimSuggestionSpark" aria-hidden="true">✧</span><strong>Birlikte daha güzel.</strong><p>Bir fikir, bir istek ya da küçük bir iyileştirme… Seni dinliyoruz.</p></div>
       <form
         className="profilimCompose"
         onSubmit={(event) => {
           event.preventDefault();
           const nextTitle = title.trim();
           const nextBody = body.trim();
-          if (!nextBody) return;
+          if (pending || nextBody.length < 4) return;
           setPending(true);
           setStatus("");
           void fetch("/api/suggestions", {
@@ -565,6 +572,7 @@ export function SuggestPanel() {
         <label>
           Başlık
           <input
+            disabled={pending}
             value={title}
             onChange={(event) => setTitle(event.target.value)}
             placeholder="Kısa başlık"
@@ -580,13 +588,16 @@ export function SuggestPanel() {
             placeholder="Sitede neyi iyileştirelim?"
             maxLength={900}
             required
+            minLength={4}
+            disabled={pending}
           />
         </label>
         <button type="submit" disabled={pending}>
           {pending ? "Gönderiliyor…" : "Gönder"}
         </button>
       </form>
-      {status ? <p className="profilimDrawerNote">{status}</p> : null}
+      <small>{body.length} / 900 karakter</small>
+      {status ? <p role="status" className="profilimDrawerNote">{status}</p> : null}
     </div>
   );
 }

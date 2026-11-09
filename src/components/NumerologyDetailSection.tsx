@@ -1,3 +1,4 @@
+import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 import Link from "next/link";
 
 const analysisAreas = [
@@ -233,7 +234,7 @@ export default function NumerologyDetailSection() {
               ))}
             </ul>
 
-            <Link href="/randevu">
+            <Link href={APPOINTMENT_WHATSAPP_URL}>
               Numeroloji Analizi İçin Bilgi Al
               <span aria-hidden="true">→</span>
             </Link>
@@ -406,7 +407,7 @@ export default function NumerologyDetailSection() {
         </div>
 
         <div className="serviceDetailActions">
-          <Link href="/randevu">
+          <Link href={APPOINTMENT_WHATSAPP_URL}>
             Numeroloji Analizi İçin Başvur
             <span aria-hidden="true">→</span>
           </Link>

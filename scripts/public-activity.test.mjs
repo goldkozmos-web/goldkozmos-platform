@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { PGlite } from '@electric-sql/pglite';
+const db = new PGlite();
+await db.exec(`create role anon; create role authenticated;
+create table site_visitors(visitor_key text,last_seen_at timestamptz,last_path text);
+create table site_events(kind text,created_at timestamptz,path text);
+insert into site_visitors values ('anonymous',now(),'/goldbook'),('private',now(),'/admin'),('old',now()-interval '2 days','/');
+insert into site_events values ('purchase',now(),'/goldbook'),('appointment',now(),'/calismalar'),('whatsapp',now(),'/'),('purchase',now(),'/panel');`);
+await db.exec(fs.readFileSync('supabase/migrations/20261101190000_public_activity_totals.sql','utf8'));
+await db.exec('set role anon');
+const { rows } = await db.query('select public.public_activity_totals() as totals');
+assert.deepEqual(rows[0].totals, { online:1,visitors:1,whatsapp:1,appointments:1,shopier:1 });
+console.log('Anonymous counts, private-path exclusion and response fields verified.');
+await db.close();

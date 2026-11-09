@@ -45,18 +45,18 @@
     bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     z-index: 99999;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     align-items: center;
-    height: 74px;
-    padding: 0 6px;
+    height: 70px;
+    padding: 6px;
     box-sizing: border-box;
     overflow: hidden;
-    border: 1px solid rgba(184, 140, 62, 0.22);
-    border-radius: 30px;
-    background: rgba(255, 252, 247, 0.82);
+    border: 1px solid #b9955d70;
+    border-radius: 22px;
+    background: #2b211a;
     box-shadow:
-      0 10px 28px rgba(48, 30, 14, 0.10),
-      0 1px 0 rgba(255, 255, 255, 0.65) inset;
+      0 8px 30px rgba(30, 20, 12, 0.24),
+      0 1px 0 rgba(226, 196, 148, 0.12) inset;
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
   }
@@ -64,27 +64,31 @@
   .goldkozmosMobileBottomBar a,
   .goldkozmosMobileBottomBar button {
     min-width: 44px;
-    min-height: 44px;
+    min-height: 56px;
     padding: 0;
     border: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    color: #3a2c22;
+    gap: 4px;
+    color: #cdbda6;
     background: transparent;
     text-decoration: none;
     cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
     letter-spacing: 0.01em;
-    line-height: 1;
+    line-height: 1.3;
+    white-space: nowrap;
+    border-radius: 15px;
+    transition: background .18s ease, color .18s ease;
   }
 
   .goldkozmosMobileBottomBar .goldkozmosMobileBottomIcon {
-    width: 32px;
-    height: 32px;
+    width: 27px;
+    height: 27px;
     display: grid;
     place-items: center;
     border-radius: 50%;
@@ -93,19 +97,31 @@
 
   .goldkozmosMobileBottomBar a.isActive,
   .goldkozmosMobileBottomBar button.isActive {
-    color: #b8893a;
+    color: #f0d49e;
+    background: #bb955722;
+    box-shadow: inset 0 0 0 1px #c8a36525;
   }
 
   .goldkozmosMobileBottomBar a.isActive .goldkozmosMobileBottomIcon,
   .goldkozmosMobileBottomBar button.isActive .goldkozmosMobileBottomIcon {
-    background: rgba(201, 154, 71, 0.12);
+    background: transparent;
   }
 
   .goldkozmosMobileBottomBar svg {
     width: 22px;
     height: 22px;
     display: block;
-    fill: currentColor;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .goldkozmosMobileBottomBar a:focus-visible,
+  .goldkozmosMobileBottomBar button:focus-visible {
+    outline: 2px solid #f0d49e;
+    outline-offset: -2px;
   }
 
   .goldkozmosMobileGoldsBackdrop {

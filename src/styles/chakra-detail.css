@@ -1,0 +1,27 @@
+.topicDetailPage .topicDetailHeader{overflow:hidden;border:1px solid #c8a46b40;border-radius:28px;padding:40px;background:radial-gradient(ellipse at 100% 0%,#c8a46b20,transparent 65%),#fffaf2}
+.topicDetailPage .topicDetailMark{width:46px;height:46px;margin:0 0 28px;box-shadow:0 0 0 8px #fff8,0 0 0 9px #c8a46b35}
+.topicDetailPage .topicDetailHeader h1{font-size:clamp(36px,5vw,60px);letter-spacing:-1.3px}
+.topicDetailPage .topicDetailSubtitle{font-size:10px;line-height:1.8;letter-spacing:1.7px}
+.topicDetailPage .topicDetailLead{font:16px/1.8 Arial,sans-serif!important;margin-bottom:0}
+.topicDetailPage .chakraLifeGuide{padding:40px 0;border:0}
+.topicDetailPage .chakraLifeGuide h2{font-size:32px;letter-spacing:-.6px}
+.chakraBalanceGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chakraBalanceCard{padding:26px;border-radius:22px;border:1px solid #c8a46b45;background:#eee5d8}
+.chakraBalanceCard>span{display:block;font:36px Georgia,serif;color:#aa844e;margin-bottom:22px}
+.topicDetailPage .chakraBalanceCard .chakraCardLabel{font:9px/1.4 Arial,sans-serif;letter-spacing:1.6px;color:#9b7544;margin:0 0 10px}
+.topicDetailPage .chakraBalanceCard h3{font:25px/1.2 Georgia,serif;margin:0 0 12px}
+.topicDetailPage .chakraBalanceCard>p:last-child{font:14px/1.8 Arial,sans-serif;margin:0}
+.chakraBalanceCard.isBalanced{background:radial-gradient(ellipse at 100% 0%,#8e694038,transparent 70%),#2b2119;border-color:#b9915755}
+.topicDetailPage .isBalanced h3{color:#f6ebd8}.topicDetailPage .isBalanced>p:last-child{color:#ddcfbb}.topicDetailPage .isBalanced .chakraCardLabel,.isBalanced>span{color:#e1bc7b}
+.chakraLifeRows{margin-top:22px;border-top:1px solid #c8a46b40}
+.chakraLifeRows article{display:flex;gap:20px;padding:24px 4px;border-bottom:1px solid #c8a46b40}
+.chakraRowNumber{font:italic 18px Georgia,serif;color:#ac854d;padding-top:5px}
+.topicDetailPage .chakraLifeRows h3{font:23px/1.2 Georgia,serif;margin:0 0 8px}
+.topicDetailPage .chakraLifeRows p{font:14px/1.8 Arial,sans-serif;margin:0;color:#79664f}
+.topicDetailPage .chakraSymbolNote{font:11px/1.7 Arial,sans-serif;color:#96816a;margin:18px 0 0}
+.topicDetailPage .topicDetailBody{padding:28px;border:1px solid #c8a46b40;border-radius:22px;background:#fffaf3}
+.topicDetailPage .topicDetailBody h2{font-size:26px;margin-top:0}
+.topicDetailPage .topicDetailBody p{font:14px/1.8 Arial,sans-serif}
+.topicDetailPage .topicDetailBody p:last-child{font-size:11px;color:#96816a}
+@media(max-width:700px){.topicDetailPage .topicDetailBreadcrumb{font-size:10px;margin-bottom:22px}.topicDetailPage .topicDetailHeader{padding:28px 24px}.chakraBalanceGrid{grid-template-columns:1fr}.chakraBalanceCard{padding:24px}.chakraBalanceCard>span{float:right;margin:0 0 12px 12px}.topicDetailPage .topicDetailContainer{padding-bottom:100px}.topicDetailPage .topicDetailBody{padding:24px}}
+.topicDetailPage .chakraBookGuide{max-width:740px;margin:0 auto;padding:12px 0 36px;border:0}.chakraBookGuide article{padding:34px 0;border-bottom:1px solid #c8a46b40}.topicDetailPage .chakraBookGuide h2{font-size:clamp(28px,4vw,36px);line-height:1.2;letter-spacing:-.5px;margin-bottom:20px}.topicDetailPage .chakraBookGuide article>p:not(.topicHubEyebrow){font:18px/1.85 Georgia,serif;color:#6d5741;margin:0 0 18px}.chakraBookGuide article>p:last-child{margin-bottom:0}@media(max-width:700px){.topicDetailPage .chakraBookGuide article>p:not(.topicHubEyebrow){font-size:17px;line-height:1.85}}

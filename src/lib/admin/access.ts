@@ -17,14 +17,17 @@ export type AdminNavItem = {
 
 export const ADMIN_NAV: AdminNavItem[] = [
   { href: "/admin", label: "Özet" },
+  { href: "/admin/goldlink", label: "GoldLink" },
   { href: "/admin/kullanicilar", label: "Üyeler" },
+  { href: "/admin/sohbet", label: "Canlı sohbet" },
   { href: "/admin/mesajlar", label: "Mesajlar" },
-  { href: "/admin/aktivite", label: "Hareket" },
+  { href: "/admin/aktivite", label: "Ziyaretler" },
   { href: "/admin/randevular", label: "Randevu" },
   { href: "/admin/satin-almalar", label: "Satış" },
   { href: "/admin/icerikler", label: "İçerik" },
   { href: "/admin/oneriler", label: "Öneri" },
   { href: "/admin/bildirimler", label: "Bildirim" },
+  { href: "/admin/paylasim-cemberi", label: "Çember" },
   { href: "/admin/cikar", label: "Çıkar" },
 ];
 
@@ -70,10 +73,10 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
   },
   {
     id: "appointments",
-    title: "Randevular",
+    title: "Randevu geçişi",
     href: "/admin/randevular",
     hasSource: true,
-    empty: "Bugün randevu yok",
+    empty: "Bugün randevu geçişi yok",
   },
   {
     id: "whatsapp",
@@ -84,10 +87,10 @@ export const ADMIN_OVERVIEW_CARDS: AdminOverviewCard[] = [
   },
   {
     id: "purchases",
-    title: "Satışlar",
+    title: "Shopier geçişi",
     href: "/admin/satin-almalar",
     hasSource: true,
-    empty: "Bugün satış yok",
+    empty: "Bugün Shopier geçişi yok",
   },
   {
     id: "notifications",

@@ -1,0 +1,23 @@
+.homeConsultationStart{background:#faf6ee;color:#493322;padding:64px 24px}
+.homeConsultationStartInner{max-width:1120px;margin:auto}
+.homeConsultationStart header{max-width:700px;margin:0 auto 32px;text-align:center}
+.homeConsultationStart header>p:first-child{font:10px/1.6 Arial,sans-serif;letter-spacing:.16em;color:#946b2d;margin:0 0 14px}
+.homeConsultationStart h2{font-size:clamp(29px,3vw,40px);font-weight:400;line-height:1.2;margin:0 0 16px}
+.homeConsultationStart header>p:last-child{font-size:16px;line-height:1.85;color:#79624d;margin:0}
+.homeConsultationStartGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.homeConsultationStart article{display:flex;flex-direction:column;border:1px solid #c6a66e55;border-radius:24px;background:#fffdf8;padding:30px;min-width:0;box-shadow:0 12px 30px #49321607}
+.homeConsultationStartHeading{display:flex;gap:20px;align-items:center}
+.homeConsultationStartHeading img{width:76px;height:96px;object-fit:cover;border-radius:13px;flex-shrink:0}
+.homeConsultationStartHeading p{font:9px/1.6 Arial,sans-serif;letter-spacing:.13em;color:#946b2d;margin:0 0 8px}
+.homeConsultationStart h3{font-size:27px;font-weight:400;line-height:1.2;margin:0 0 9px}
+.homeConsultationStartHeading div>span{font-size:13px;color:#806547}
+.homeConsultationStart article>p{font-size:16px;line-height:1.85;color:#725b46;margin:25px 0;flex:1}
+.homeConsultationStartPrice{border-top:1px solid #c6a66e44;padding-top:20px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.homeConsultationStartPrice strong{font-size:29px;font-weight:400;color:#9a712f}
+.homeConsultationStartPrice span{font-size:13px;color:#806547}
+.homeConsultationStart .homeConsultationStartPrimary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:17px 20px;border:1px solid #493322;border-radius:13px;background:#342519;color:#fff2d7;font-size:15px;text-decoration:none;line-height:1.5}
+.homeConsultationStart .homeConsultationStartGuide{color:#906425;font-size:14px;line-height:1.7;margin-top:18px;text-underline-offset:5px}
+.homeConsultationStart footer{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:28px;font-size:14px;color:#79624d}
+.homeConsultationStart footer p{margin:0}.homeConsultationStart footer a{color:#906425;text-underline-offset:5px}
+.homeConsultationStart a:focus-visible{outline:2px solid #ae8747;outline-offset:5px}
+@media(max-width:700px){.homeConsultationStart{padding:42px 20px}.homeConsultationStartGrid{grid-template-columns:1fr;gap:20px}.homeConsultationStart article{padding:24px}.homeConsultationStartHeading{gap:15px}.homeConsultationStartHeading img{width:60px;height:80px}.homeConsultationStart h3{font-size:25px}.homeConsultationStart article>p{font-size:16px}.homeConsultationStart footer{display:grid;gap:14px}}

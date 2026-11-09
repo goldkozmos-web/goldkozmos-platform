@@ -2,7 +2,7 @@ export const SESSION_MAX_AGE = 60 * 60 * 24 * 400;
 
 export function supabaseCookieOptions(hostname?: string | null) {
   const host = String(hostname ?? "");
-  const onGold = host.endsWith("goldkozmos.com");
+  const onGold = host === "goldkozmos.com" || host.endsWith(".goldkozmos.com");
 
   return {
     path: "/",

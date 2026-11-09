@@ -1,0 +1,34 @@
+.circlePage{background:#f8f4ed}
+.circleNavigation{display:inline-flex;gap:3px;padding:4px;border:1px solid #d9c7a747;border-radius:13px;background:#eee5d770;box-shadow:inset 0 1px 2px #72532f06;margin-bottom:22px}
+.circleNavigation a{border:0;background:transparent;border-radius:9px;padding:11px 17px;font:11px/1.2 Arial;color:#947854;min-height:38px;box-sizing:border-box}
+.circleNavigation a:first-child{background:#fffdf8;color:#62462a;box-shadow:0 2px 7px #7453290d,inset 0 1px 0 #fff}
+.circleOwnProfile{border:0;background:transparent;border-radius:0;padding:0 3px 17px;margin-bottom:0;box-shadow:none}
+.circleOwnProfile .circleAvatar{width:38px;height:38px;border:2px solid #fffdf7;box-shadow:0 0 0 1px #d7be923d,0 3px 8px #65452110}
+.circleOwnProfile .circleActor strong{font:600 12px/1.5 Arial;color:#5f4329}.circleOwnProfile .circleActor small{font-size:10px;color:#ac9168}
+.circleOwnProfile>a:last-child{display:flex;align-items:center;padding:9px 12px;border:1px solid #c9ae8144;border-radius:20px;background:#fffaf080;font-size:10px;color:#a3824d}
+.circleComposeButton{position:relative;overflow:hidden;margin:0 0 22px;border-radius:19px;border:1px solid #b28b514a;background:linear-gradient(120deg,#38291e,#211811);padding:21px 18px;box-shadow:0 8px 22px #39271910,inset 0 1px 0 #d8b67a1c;gap:13px}
+.circleComposeButton:after{content:'';width:150px;height:150px;position:absolute;right:-75px;top:-76px;border:1px solid #d7b6791b;border-radius:50%;box-shadow:0 0 0 20px #c7a46805;pointer-events:none}
+.circleComposeButton .circleComposeAvatar{width:40px;height:40px;color:#e0bc78;border:1px solid #bd99574d;background:#b78b4520;font-size:25px}
+.circleComposeButton>span:nth-child(2){font:400 17px/1.35 Georgia,serif;color:#efdfc3}
+.circleComposeButton small{margin-top:7px;font:10px/1.5 Arial;color:#b8a184}
+.circleComposeButton>b{position:relative;z-index:1;font:600 10px Arial;border:1px solid #d4b57e;background:linear-gradient(120deg,#e4c78e,#c5a064);color:#45301c;padding:13px 15px;border-radius:22px;box-shadow:0 3px 10px #0002}
+.circleFilters{gap:7px;margin:0;padding:0 0 17px;scrollbar-width:none}
+.circleFilters button{font-size:10px;padding:10px 14px;min-height:36px;border:1px solid #c7ad8038;background:#fffaf4;border-radius:20px;color:#a08359;box-shadow:0 1px 3px #50371e03}
+.circleFilters button[aria-pressed=true]{background:#39291c;border-color:#89643d;color:#edd5ab;box-shadow:0 2px 8px #3b271910}
+.circleFeedToolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:14px;border:1px solid #d0b78b52;border-radius:16px;background:linear-gradient(120deg,#fffdf8,#f6efe2);padding:8px;margin:0 0 23px;box-shadow:0 4px 14px #4a331105}
+.circleFeedToolbar form{border:0;background:transparent;border-radius:10px;max-width:none;padding:0 9px;min-height:44px}
+.circleFeedToolbar input{font:12px Arial;padding:13px 0;color:#745538}.circleFeedToolbar input::placeholder{color:#ab9575}
+.circleFeedToolbar form button{font:25px Georgia;padding:7px;color:#a58148}
+.circleFeedToolbar form:focus-within{outline:1px solid #c3a16b;border-radius:10px;outline-offset:0}
+.circleFeedToolbar nav{gap:3px;padding:4px;border-left:1px solid #d7c29c48}
+.circleFeedToolbar nav button{font:10px Arial;padding:11px 13px;border-radius:8px;color:#ab8d60}
+.circleFeedToolbar nav button[aria-pressed=true]{background:#e8d7b955;color:#7b572f;box-shadow:inset 0 1px 0 #fff9}
+.circleFeedEmpty{display:flex;flex-direction:column;align-items:center;border:1px solid #d6c09a52;border-radius:22px;background:radial-gradient(ellipse at 50% 0%,#f4e6cb77,transparent 70%),linear-gradient(150deg,#fffdf8,#f5efe3);padding:31px 24px 29px;margin:0;box-shadow:0 8px 24px #6b481006,inset 0 1px 0 #fff;max-width:none}
+.circleEmptyMark{display:grid;place-items:center;width:58px;height:58px;border:1px solid #c9a76c57;border-radius:50%;background:linear-gradient(140deg,#fffcf4,#ecdfc5);box-shadow:0 4px 9px #76522106,inset 0 1px 0 #fff;color:#b08a4e;margin-bottom:20px}
+.circleEmptyMark svg{width:32px;height:32px}
+.circleEmptyEyebrow{font:8px/1.5 Arial;letter-spacing:1.8px;color:#b39463}
+.circleContainer .circleFeedEmpty h2{font:400 28px/1.25 Georgia,serif;letter-spacing:-.6px;color:#795531;margin:11px 0 12px}
+.circleFeedEmpty p{font:12px/1.9 Arial;color:#a08967;max-width:320px;margin:0}
+.circleEmptyCompose{display:inline-flex;align-items:center;gap:25px;border:0;border-bottom:1px solid #c4a16766;background:transparent;color:#a47c40;padding:13px 2px 8px;margin-top:10px;font:500 11px Arial;cursor:pointer}.circleEmptyCompose span{font-size:15px}
+.circleGuidelines{padding:22px 2px 0;margin-top:28px;border-color:#d4bd9452}.circleGuidelines strong{font:400 19px Georgia;color:#a28860}.circleGuidelines p{font:11px/1.9 Arial;color:#b19c7d}
+@media(max-width:600px){.circleContainer{width:calc(100% - 36px)}.circleNavigation{margin-bottom:19px}.circleNavigation a{padding:10px 15px;font-size:10px}.circleComposeButton{padding:19px 15px;gap:10px}.circleComposeButton>span:nth-child(2){font-size:15px;max-width:175px}.circleComposeButton>b{font-size:9px;padding:12px}.circleComposeButton .circleComposeAvatar{width:34px;height:34px;flex-shrink:0}.circleFeedToolbar{grid-template-columns:1fr;padding:7px;gap:0}.circleFeedToolbar nav{border-left:0;border-top:1px solid #d7c29c48;padding:7px 3px 2px;justify-content:flex-start}.circleFeedToolbar form{min-height:41px}.circleFeedToolbar nav button{padding:10px 13px}.circleFeedEmpty{padding:26px 22px}.circleContainer .circleFeedEmpty h2{font-size:26px}.circleEmptyMark{width:52px;height:52px;margin-bottom:16px}}

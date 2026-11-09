@@ -1,6 +1,29 @@
 /* Works hub reuses homepage section classes; these bands live in HomePageClient
    styles on "/", so they need to exist here too. */
 
+.calismalarHubDuration {
+  display: inline-block;
+  margin: 8px 0 0;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #f5eee3;
+  color: #785921;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.homeV3Page.calismalarHub > section :is(h2, h3) {
+  font-size: 28px !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em !important;
+}
+
+@media (max-width: 700px) {
+  .homeV3Page.calismalarHub > section :is(h2, h3) {
+    font-size: 24px !important;
+  }
+}
+
 .homeV3Page .homeV3LiveArchive {
   padding: 72px 0 80px;
   background:
@@ -136,4 +159,202 @@
     grid-template-columns: repeat(auto-fill, minmax(240px, 260px)) !important;
     gap: 16px !important;
   }
+}
+
+/* Explicit section tones keep the works page alternating independently of
+   the homepage styles reused by each section. */
+.homeV3Page.calismalarHub > .calismalarHubBand {
+  padding-top: 64px !important;
+  padding-bottom: 64px !important;
+}
+
+.homeV3Page.calismalarHub > .calismalarHubBand--brown {
+  background: #211812 !important;
+}
+
+.homeV3Page.calismalarHub > .calismalarHubBand--cream {
+  background: #fbf7ef !important;
+}
+
+.calismalarHubBand--brown h2 {
+  color: #fff8ed !important;
+}
+
+.calismalarHubBand--brown h2 span,
+.calismalarHubBand--brown .homeV3Eyebrow {
+  color: #d2a654 !important;
+}
+
+.calismalarHubBand--brown .homeV3SectionHeading > p,
+.calismalarHubBand--brown .homeV3LiveArchiveHeading > p,
+.calismalarHubBand--brown .homeV3AudioEnergyHeading > p {
+  color: #dacdbf !important;
+}
+
+.calismalarHubBand--cream h2 {
+  color: #33271f !important;
+}
+
+.calismalarHubBand--cream h2 span,
+.calismalarHubBand--cream .homeV3Eyebrow {
+  color: #98732f !important;
+}
+
+.calismalarHubBand--cream .homeV3PersonalDescription {
+  color: #675549 !important;
+}
+
+.calismalarHubBand--single .homeV3PersonalHub {
+  display: block;
+}
+
+.calismalarHubBand--single .homeV3PersonalLeft {
+  width: 100% !important;
+  transform: none !important;
+}
+
+.calismalarHubBand--single .homeV3PersonalHeading {
+  display: block !important;
+}
+
+.calismalarHubBand--single .homeV3PersonalLeft::before {
+  content: none;
+}
+
+.homeV3Page.calismalarHub .calismalarHubBand--single .homeV3ResonanceGrid {
+  display: block !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.homeV3Page.calismalarHub .calismalarHubBand--single .homeV3ResonanceCard {
+  display: grid;
+  grid-template-columns: minmax(0, 38%) minmax(0, 1fr);
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.calismalarHubBand--single .homeV3ResonanceContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(24px, 4vw, 48px);
+}
+
+.calismalarHubBand--single .homeV3ResonanceContent h3 {
+  font-size: clamp(26px, 3vw, 38px);
+}
+
+.calismalarHubBand--single .homeV3ResonanceText {
+  font-size: 16px;
+  line-height: 1.8;
+  margin: 20px 0;
+}
+
+.calismalarHubBand--single .homeV3ResonanceBottom {
+  width: 100%;
+  margin-top: 12px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.calismalarHubExplore {
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 24px;
+  padding: 16px 24px;
+  border: 1px solid #b69251;
+  border-radius: 12px;
+  background: #d2a654;
+  color: #211812;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.homeV3Page.calismalarHub :is(#rezonans, #birebir) .homeV3ResonanceGrid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 16px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 0 0 16px !important;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: #b69251 #eee4d3;
+}
+
+.homeV3Page.calismalarHub :is(#rezonans, #birebir) .homeV3ResonanceCard {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 0 0 300px !important;
+  width: 300px !important;
+  max-width: 300px !important;
+  min-width: 0 !important;
+  scroll-snap-align: start;
+}
+
+.calismalarHub :is(#rezonans, #birebir) .homeV3ResonanceContent {
+  flex: 1;
+}
+
+@media (max-width: 700px) {
+  .homeV3Page.calismalarHub :is(#rezonans, #birebir) .homeV3ResonanceGrid {
+    padding: 0 16px 16px !important;
+  }
+
+  .homeV3Page.calismalarHub :is(#rezonans, #birebir) .homeV3ResonanceCard {
+    flex-basis: min(68vw, 240px) !important;
+    width: min(68vw, 240px) !important;
+    max-width: 240px !important;
+  }
+
+  .homeV3Page.calismalarHub > .calismalarHubBand {
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  .homeV3Page.calismalarHub .calismalarHubBand--single .homeV3ResonanceCard {
+    grid-template-columns: 1fr;
+  }
+
+  .calismalarHubBand--single .homeV3ResonanceContent {
+    padding: 24px;
+  }
+
+  .calismalarHub #enerji .calismalarHubExplore {
+    margin-left: 20px;
+  }
+
+  .calismalarHubBand--single.homeV3Resonance .homeV3Container {
+    width: calc(100% - 32px) !important;
+    margin: 0 auto !important;
+  }
+}
+
+/* Desktop: show every consultation choice without horizontal scrolling. */
+@media(min-width:901px){
+ .homeV3Page.calismalarHub #birebir .homeV3Container{width:min(1700px,calc(100% - 80px))!important;max-width:1700px!important;margin-inline:auto!important}
+ .homeV3Page.calismalarHub #birebir .homeV3ResonanceGrid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:24px!important;overflow:visible!important;padding:0!important;scroll-snap-type:none}
+ .homeV3Page.calismalarHub #birebir .homeV3ResonanceCard{width:100%!important;max-width:none!important;min-width:0!important;flex:initial!important}
+}
+@media(min-width:901px) and (max-width:1099px){.homeV3Page.calismalarHub #birebir .homeV3ResonanceGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+
+@media(min-width:901px){
+ .homeV3Page.calismalarHub #analiz .homeV3Container{width:min(1120px,calc(100% - 80px))!important;max-width:1120px!important;margin-inline:auto!important}
+ .homeV3Page.calismalarHub #analiz .homeV3PersonalHub,.homeV3Page.calismalarHub #analiz .homeV3PersonalLeft{display:block!important;width:100%!important;max-width:none!important;margin-inline:auto!important}
+ .homeV3Page.calismalarHub #analiz .homeV3PersonalHeading{text-align:center!important;max-width:760px!important;margin:0 auto 30px!important}
+ .homeV3Page.calismalarHub #analiz .homeV3PersonalDescription{margin-inline:auto!important}
+ .homeV3Page.calismalarHub #analiz .homeV3ResonanceGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,360px))!important;justify-content:center!important;gap:24px!important;width:100%!important;overflow:visible!important}
+ .homeV3Page.calismalarHub #analiz .homeV3ResonanceCard{width:100%!important;min-width:0!important;max-width:none!important}
+}
+
+/* Desktop archive sections: keep heading, description and cards in one centered container. */
+@media(min-width:901px){
+ .homeV3Page.calismalarHub :is(#analiz,#dijital) .homeV3LiveArchiveInner{display:block!important;width:min(1120px,calc(100% - 80px))!important;max-width:1120px!important;margin-inline:auto!important}
+ .homeV3Page.calismalarHub :is(#analiz,#dijital) .homeV3LiveArchiveHeading{display:block!important;width:100%!important;max-width:760px!important;text-align:center!important;margin:0 auto 32px!important}
+ .homeV3Page.calismalarHub :is(#analiz,#dijital) .homeV3LiveArchiveHeading>p{margin-inline:auto!important;max-width:620px!important}
+ .homeV3Page.calismalarHub :is(#analiz,#dijital) .homeV3ResonanceGrid{display:grid!important;grid-template-columns:repeat(2,minmax(0,360px))!important;justify-content:center!important;gap:24px!important;width:100%!important;overflow:visible!important}
+ .homeV3Page.calismalarHub :is(#analiz,#dijital) .homeV3ResonanceCard{width:100%!important;min-width:0!important;max-width:none!important}
 }

@@ -25,7 +25,14 @@ export async function POST(request: Request) {
 
   if (raw.sync === true) {
     await client.rpc("ensure_own_membership");
-    await client.rpc("sync_site_members");
+    const { error } = await client.rpc("sync_site_members");
+    if (error) {
+      console.error("member_sync_failed", { code: error.code });
+      const message = error.code === "PGRST202" || error.code === "42883"
+        ? "Üyelik altyapısının veritabanında güncellenmesi gerekiyor. Mevcut kayıtlar gösteriliyor."
+        : "Üye listesi eşitlenemedi. Mevcut kayıtlar gösteriliyor; yeniden deneyebilirsin.";
+      return NextResponse.json({ error: message }, { status: 503 });
+    }
     return NextResponse.json({ ok: true });
   }
 

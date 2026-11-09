@@ -1,270 +1,39 @@
-"use client";
-
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type PointerEvent,
-  type MouseEvent,
-} from "react";
-import { getEnergyWorks, type EnergyWork } from "../../data/energyWorks";
-import EnergyWorkCard from "./EnergyWorkCard";
-import EnergyWorkModal from "./EnergyWorkModal";
+import { APPOINTMENT_WHATSAPP_URL } from "../../lib/appointments";
+import Link from "next/link";
+import { getEnergyWorks } from "../../data/energyWorks";
+import EnergyWorkImage from "./EnergyWorkImage";
+import EnergyCardsScroller from "./EnergyCardsScroller";
 
 export default function EnergyWorksCatalog() {
   const works = getEnergyWorks();
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef({
-    pointerId: -1,
-    startX: 0,
-    startScroll: 0,
-    moved: false,
-  });
-  const [selectedWork, setSelectedWork] =
-    useState<EnergyWork | null>(null);
-  const lastOpenerRef = useRef<HTMLElement | null>(null);
-  const [progress, setProgress] = useState(0);
-
-  const updateScrollState = useCallback(() => {
-    const slider = sliderRef.current;
-
-    if (!slider) {
-      return;
-    }
-
-    const maxScroll = Math.max(
-      0,
-      slider.scrollWidth - slider.clientWidth,
-    );
-    const left = slider.scrollLeft;
-
-    setProgress(maxScroll === 0 ? 1 : left / maxScroll);
-  }, []);
-
-  useEffect(() => {
-    const slider = sliderRef.current;
-
-    if (!slider) {
-      return;
-    }
-
-    updateScrollState();
-    slider.addEventListener("scroll", updateScrollState, {
-      passive: true,
-    });
-    window.addEventListener("resize", updateScrollState);
-
-    return () => {
-      slider.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [updateScrollState]);
-
-  function scrollByCard(direction: "left" | "right") {
-    const slider = sliderRef.current;
-
-    if (!slider) {
-      return;
-    }
-
-    const cards = slider.querySelectorAll<HTMLElement>(".energyWorkCard");
-    const firstCard = cards[0];
-    const lastCard = cards[cards.length - 1];
-    const gap = Number.parseFloat(
-      getComputedStyle(slider).columnGap || "16",
-    ) || 16;
-    const amount = firstCard
-      ? firstCard.offsetWidth + gap
-      : slider.clientWidth * 0.8;
-    const maxScroll = Math.max(
-      0,
-      slider.scrollWidth - slider.clientWidth,
-    );
-    const sliderRect = slider.getBoundingClientRect();
-    const atStart = firstCard
-      ? firstCard.getBoundingClientRect().left >= sliderRect.left - 20
-      : slider.scrollLeft <= 8;
-    const atEnd = lastCard
-      ? lastCard.getBoundingClientRect().right <= sliderRect.right + 20
-      : slider.scrollLeft >= maxScroll - 8;
-
-    if (direction === "right" && atEnd) {
-      slider.scrollTo({
-        left: 0,
-        behavior: "smooth",
-      });
-      return;
-    }
-
-    if (direction === "left" && atStart) {
-      slider.scrollTo({
-        left: maxScroll,
-        behavior: "smooth",
-      });
-      return;
-    }
-
-    slider.scrollBy({
-      left: direction === "right" ? amount : -amount,
-      behavior: "smooth",
-    });
-  }
-
-  function openWork(work: EnergyWork, opener: HTMLElement) {
-    lastOpenerRef.current = opener;
-    setSelectedWork(work);
-  }
-
-  function closeWork() {
-    setSelectedWork(null);
-    lastOpenerRef.current?.focus();
-  }
-
-  function handlePointerDown(
-    event: PointerEvent<HTMLDivElement>,
-  ) {
-    if (event.pointerType !== "mouse" || event.button !== 0) {
-      return;
-    }
-
-    const slider = sliderRef.current;
-
-    if (!slider) {
-      return;
-    }
-
-    if ((event.target as HTMLElement).closest("button")) {
-      return;
-    }
-
-    dragRef.current = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      startScroll: slider.scrollLeft,
-      moved: false,
-    };
-
-    slider.setPointerCapture(event.pointerId);
-    slider.classList.add("isDragging");
-  }
-
-  function handlePointerMove(
-    event: PointerEvent<HTMLDivElement>,
-  ) {
-    const slider = sliderRef.current;
-    const drag = dragRef.current;
-
-    if (!slider || drag.pointerId !== event.pointerId) {
-      return;
-    }
-
-    const delta = event.clientX - drag.startX;
-
-    if (Math.abs(delta) > 6) {
-      drag.moved = true;
-    }
-
-    if (drag.moved) {
-      slider.scrollLeft = drag.startScroll - delta;
-    }
-  }
-
-  function endDrag(event: PointerEvent<HTMLDivElement>) {
-    const slider = sliderRef.current;
-    const drag = dragRef.current;
-
-    if (!slider || drag.pointerId !== event.pointerId) {
-      return;
-    }
-
-    if (slider.hasPointerCapture(event.pointerId)) {
-      slider.releasePointerCapture(event.pointerId);
-    }
-
-    slider.classList.remove("isDragging");
-    drag.pointerId = -1;
-  }
-
-  function handleClickCapture(
-    event: MouseEvent<HTMLDivElement>,
-  ) {
-    if (!dragRef.current.moved) {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-    dragRef.current.moved = false;
-  }
-
   return (
     <>
-      <div className="energyWorksHeadingRow">
-        <header className="energyWorksHeader">
-          <p className="energyWorksEyebrow">
-            BİREBİR ENERJİ ÇALIŞMALARI
-          </p>
-
-          <h1>11 Enerji Çalışması</h1>
-
-          <p>
-            Kısa bilgi alın, size uygun çalışmayı seçin ve
-            doğrudan satın almaya geçin.
-          </p>
-        </header>
-
-        <div className="energyWorksCarouselControls">
-          <button
-            type="button"
-            aria-label="Önceki çalışmalar"
-            onClick={() => scrollByCard("left")}
-          >
-            ←
-          </button>
-
-          <button
-            type="button"
-            aria-label="Sonraki çalışmalar"
-            onClick={() => scrollByCard("right")}
-          >
-            →
-          </button>
+      <header className="energyWorksHeader">
+        <Link className="energyCatalogBack" href="/calismalar">← Tüm çalışmalara dön</Link>
+        <p className="energyWorksEyebrow">30 DAKİKA · BİREBİR ENERJİ ÇALIŞMALARI</p>
+        <h1>Kozmik enerji çalışmaları</h1>
+        <div className="energyWorksIntro">
+          <p>Daha önce benden enerji çalışması aldıysan bu alan sana uygun. Bu kısa çalışmalar, aldığın çalışmaya yeniden uyumlanmana, enerji alanını yükseltmene ve ruhsal olarak arınmana destek olmak için hazırlanır.</p>
+          <p>İlk kez çalışma alacaksan enerjiyi deneyimlemek ve süreci tanımak için de tercih edebilirsin. Ancak tek bir kısa çalışmada tüm blokajlarının çözülmesini beklememelisin. Daha kapsamlı bir süreç için <Link className="energyIntroDeepLink" href="/calismalar/detay/5-gunluk-yogun-calisma">birebir 5 Günlük Yoğun Çalışmayı incele →</Link></p>
         </div>
-      </div>
-
-      <div
-        className="energyWorksSlider"
-        ref={sliderRef}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        onClickCapture={handleClickCapture}
-      >
+        <div className="energyDiscoveryActions"><Link href={APPOINTMENT_WHATSAPP_URL}>Randevu al →</Link><Link href="/kozmik-enerji">Kozmik enerji yaklaşımını tanı</Link></div>
+      </header>
+      <EnergyCardsScroller>
         {works.map((work, index) => (
-          <EnergyWorkCard
-            key={work.id}
-            work={work}
-            index={index}
-            onOpen={openWork}
-          />
+          <article className="energyWorkCard" key={work.id}>
+            <Link className="energyWorkCardMedia" href={`/calismalar/detay/${work.slug}`}>
+              <EnergyWorkImage work={work} className="energyWorkCardImage" />
+              <span className="energyWorkCardNumber">{String(index + 1).padStart(2, "0")}</span>
+            </Link>
+            <div className="energyWorkCardBody">
+              <h2>{work.title}</h2>
+              <p>{work.shortDescription}</p>
+              <p className="energyWorkCardPrice">{work.priceLabel} · {work.duration}</p>
+              <Link className="energyWorkCardCta" href={`/calismalar/detay/${work.slug}`}>Detayları Gör <span aria-hidden="true">→</span></Link>
+            </div>
+          </article>
         ))}
-      </div>
-
-      <div
-        className="energyWorksProgress"
-        aria-hidden="true"
-      >
-        <span style={{ width: `${Math.max(progress, 0.08) * 100}%` }} />
-      </div>
-
-      {selectedWork ? (
-        <EnergyWorkModal
-          work={selectedWork}
-          onClose={closeWork}
-        />
-      ) : null}
+      </EnergyCardsScroller>
     </>
   );
 }

@@ -45,9 +45,12 @@ export function phoneStepUrl(origin: string, next = "/profilim") {
 
 export function safeAppPath(raw: string | null | undefined, fallback = "/profilim") {
   const path = String(raw ?? "").trim();
-  if (!path.startsWith("/") || path.startsWith("//") || path.includes("://")) {
+  if (!path.startsWith("/") || path.startsWith("//") || path.includes("://") || /[\\\u0000-\u001f\u007f]/.test(path)) {
     return fallback;
   }
+  try {
+    if (new URL(path, SITE_ORIGIN).origin !== SITE_ORIGIN) return fallback;
+  } catch { return fallback; }
   return path;
 }
 
@@ -59,7 +62,7 @@ export function htmlRedirectPage(url: string) {
     .replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;");
-  return `<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="refresh" content="0;url=${safe}"><title>Yönlendiriliyor</title><style>${AUTH_PAGE_STYLE}</style></head><body><p>Yönlendiriliyor… <a href="${safe}">Devam et</a></p><script>location.replace(${JSON.stringify(url)})</script></body></html>`;
+  return `<!DOCTYPE html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta http-equiv="refresh" content="0;url=${safe}"><title>Yönlendiriliyor</title><style>${AUTH_PAGE_STYLE}</style></head><body><p>Yönlendiriliyor… <a href="${safe}">Devam et</a></p><script>location.replace(${JSON.stringify(url).replace(/</g, "\\u003c")})</script></body></html>`;
 }
 
 export function htmlAuthMessagePage(title: string, body: string, href: string, cta: string) {

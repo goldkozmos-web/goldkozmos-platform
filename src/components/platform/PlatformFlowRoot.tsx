@@ -3,6 +3,7 @@
 import { Suspense, type ReactNode } from "react";
 import { PlaybackProvider, KeepPlayingOnNavigate } from "./PlaybackProvider";
 import MiniPlayer from "./MiniPlayer";
+import PublicOnly from "../panel/PublicOnly";
 
 export default function PlatformFlowRoot({
   children,
@@ -14,7 +15,7 @@ export default function PlatformFlowRoot({
       {children}
       <Suspense fallback={null}>
         <KeepPlayingOnNavigate />
-        <MiniPlayer />
+        <PublicOnly><MiniPlayer /></PublicOnly>
       </Suspense>
     </PlaybackProvider>
   );

@@ -5,31 +5,31 @@ const workshops = [
     number: "01",
     title: "Kendilik Rezonansı",
     description:
-      "Özdeğer, sınırlar, onay ihtiyacı ve kendilik algısı üzerine 5 günlük farkındalık atölyesi.",
+      "Özdeğer, sınırlar, onay ihtiyacı ve kendilik algısı üzerine 15 farkındalık ses kaydından oluşan çalışma.",
     themes: ["Özdeğer", "Sınırlar", "Onay Bağımlılığı", "Kendilik Algısı"],
-    meta: "5 Gün · 75–90 dk · Google Meet",
-    price: "1.500 TL",
-    href: "/calismalar",
+    meta: "15 farkındalık ses kaydı · İhtiyaca göre enerji desteği",
+    price: "Hazırlanıyor · Ocak–Şubat",
+    href: "/calismalar/detay/kendilik-rezonansi",
   },
   {
     number: "02",
     title: "İlişki Rezonansı",
     description:
-      "Partner seçimi, tekrar eden ilişki örüntüleri, iletişim ve güven alanlarını birlikte inceleyen 5 günlük atölye.",
+      "Partner seçimi, tekrar eden ilişki örüntüleri, iletişim ve güven alanlarını birlikte inceleyen ses kaydı temelli çalışma.",
     themes: ["Partner Seçimi", "İlişki Örüntüleri", "İletişim", "Güven"],
-    meta: "5 Gün · 75–90 dk · Google Meet",
-    price: "1.500 TL",
-    href: "/calismalar/iliski",
+    meta: "15 farkındalık ses kaydı · İhtiyaca göre enerji desteği",
+    price: "Hazırlanıyor · Ocak–Şubat",
+    href: "/calismalar/detay/iliski-rezonansi",
   },
   {
     number: "03",
     title: "Bolluk Rezonansı",
     description:
-      "Para algısı, değer, kıtlık düşüncesi ve üretkenlik alışkanlıklarını görünür kılmaya odaklanan 5 günlük atölye.",
+      "Para algısı, değer, kıtlık düşüncesi ve üretkenlik alışkanlıklarını görünür kılmaya odaklanan ses kaydı temelli çalışma.",
     themes: ["Para Algısı", "Değer", "Kıtlık Döngüsü", "Üretkenlik"],
-    meta: "5 Gün · 75–90 dk · Google Meet",
-    price: "1.500 TL",
-    href: "/calismalar/para",
+    meta: "15 farkındalık ses kaydı · İhtiyaca göre enerji desteği",
+    price: "Hazırlanıyor · Ocak–Şubat",
+    href: "/calismalar/detay/bolluk-rezonansi",
   },
 ];
 

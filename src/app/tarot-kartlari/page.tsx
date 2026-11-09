@@ -1,86 +1,22 @@
-import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
-
+import EnergyDiscoveryLinks from "../../components/energy/EnergyDiscoveryLinks";
 import FooterSection from "../../components/FooterSection";
 import HomeNavbar from "../../components/HomeNavbar";
 import TarotCardGrid from "../../components/tarot/TarotCardGrid";
-import { TAROT_DECK } from "../../data/tarot/deck";
-import { SITE_ORIGIN } from "../../lib/site";
-import { TAROT_CARE_PATH, tarotCardsUrl } from "../../lib/tarot/urls";
+import { pageMetadata } from "../../lib/seo";
 import "../../styles/home.css";
 import "../../styles/tarot-bakimi.css";
-
-const pageUrl = tarotCardsUrl();
-
-export const metadata: Metadata = {
-  title: { absolute: "Tarot Kartları Anlamları | 78 Kart | GoldKozmos" },
-  description:
-    "78 tarot kartının sembollerini, enerjilerini ve spiritüel anlamlarını keşfet. Büyük Arkana ve Küçük Arkana kartlarını incele.",
-  alternates: { canonical: pageUrl },
-  openGraph: {
-    type: "website",
-    locale: "tr_TR",
-    url: pageUrl,
-    siteName: "Goldkozmos",
-    title: "Tarot Kartları Anlamları | GoldKozmos",
-    description:
-      "78 tarot kartının spiritüel ve sembolik anlamlarını incele.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Tarot Kartları | GoldKozmos",
-    description: "Büyücü, Güneş, Kupa Prensi ve tüm deste anlamları.",
-  },
-  robots: { index: true, follow: true },
-};
-
+import "../../styles/energy-discovery.css";
+import "../../styles/symbol-library.css";
+import "../../styles/tarot-premium.css";
+export const metadata = pageMetadata("/tarot-kartlari", "78 Tarot Kartının Anlamı — Düz, Ters, Aşk ve Kariyer", "78 tarot kartının sembollerini, düz ve ters anlamlarını keşfet. Büyük Arkana, Kupalar, Değnekler, Kılıçlar ve Tılsımlar için aşk, kariyer ve tavsiye yorumlarını oku.", "/images/home/shortcuts/tarot.webp");
 export default function TarotKartlariPage() {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Ana Sayfa",
-        item: SITE_ORIGIN,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Tarot Kartları",
-        item: pageUrl,
-      },
-    ],
-  };
-
-  return (
-    <main className="homeV3Page tarotPage" id="top">
-      <HomeNavbar />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <div className="tarotWrap">
-        <nav className="tarotCrumbs" aria-label="Sayfa yolu">
-          <Link href="/">Ana Sayfa</Link>
-          <span>/</span>
-          <Link href="/tarot-bakimi">Tarot Bakımı</Link>
-          <span>/</span>
-          <span>Tarot Kartları</span>
-        </nav>
-        <p className="tarotEyebrow">78 KART</p>
-        <h1>Tarot Kartları</h1>
-        <p className="tarotLead">
-          78 tarot kartının sembollerini, enerjilerini ve spiritüel anlamlarını
-          keşfet. Destede {TAROT_DECK.length} kart yer alır.
-        </p>
-        <TarotCardGrid />
-        <p style={{ marginTop: 28 }}>
-          <Link href={TAROT_CARE_PATH}>Online Tarot Bakımı Yap</Link>
-        </p>
-      </div>
-      <FooterSection />
-    </main>
-  );
+  return <main className="homeV3Page symbolPage tarotLibraryPage" id="top"><HomeNavbar /><header className="symbolHero tarotLibraryHero"><Image className="symbolHeroImage" src="/images/home/shortcuts/tarot.webp" alt="" fill sizes="100vw" preload /><div className="symbolHeroContent"><p className="symbolKicker">GOLDKOZMOS · 78 KARTLIK SEMBOL ATLASI</p><h1>Kartların dilini oku.<br /><em>Kendi hikâyene yaklaş.</em></h1><p>Bir kart, tek bir cevap değil. Sembolü, düz ve ters anlamı; aşk, iş ve içsel yolculuktaki farklı yüzleriyle keşfet.</p><div className="symbolHeroLinks"><Link href="#tarot-destesi">Desteyi keşfet ↓</Link><Link href="/tarot-bakimi">Ücretsiz açılım yap ↗</Link></div></div><span className="symbolHeroSeal" aria-hidden="true">✧<small>78 KART</small></span></header><div className="symbolContainer"><section className="symbolSection" id="tarot-destesi"><p className="symbolKicker">BÜYÜK & KÜÇÜK ARKANA</p><h2>Sana seslenen kartı bul.</h2><TarotCardGrid /></section><section className="symbolSection symbolGuide"><p className="symbolKicker">DESTEYİ TANIMAK</p><h2>Bir destenin beş ayrı dili.</h2><div className="tarotSuitGuide">{[
+["✦", "Büyük Arkana", "22 kart", "Deli’den Dünya’ya yaşamın eşikleri, kimlik değişimleri ve büyük kararlar. Açılımda beliren tema, tek bir olaydan daha geniş bir döneme bakmanı sağlayabilir."],
+["♧", "Kupalar", "14 kart · Su", "Duygular, yakınlık ve ilişkide alışveriş. Bir kartın hangi duyguyu gösterdiğini, o duyguyla ne yapıldığından ayırarak oku."],
+["✧", "Değnekler", "14 kart · Ateş", "İstek, hareket ve üretim. Heyecanı eyleme dönüştürmek, motivasyon ile sürdürülebilir çaba arasındaki dengeyi görmek için bir dil."],
+["†", "Kılıçlar", "14 kart · Hava", "Düşünce, karar ve çatışma. Söylenen sözleri, zihindeki senaryoları ve bunların davranışa nasıl yansıdığını birlikte düşün."],
+["◇", "Tılsımlar", "14 kart · Toprak", "Emek, kaynak ve günlük düzen. Bir fikrin somut karşılığına, zamana ve güveni hangi alışkanlıklarla kurduğuna bak."],
+].map(([icon,title,count,copy]) => <article key={title}><span aria-hidden="true">{icon}</span><small>{count}</small><h3>{title}</h3><p>{copy}</p></article>)}</div></section><section className="symbolSection symbolGuide"><h2>Bir kartı nasıl okumalısın?</h2><div className="symbolGuideGrid"><article><span>01 · BAĞLAM</span><h3>Soruyu belirle.</h3><p>“Ne olacak?” yerine “Bu konuda neyi gözden kaçırıyorum?” gibi açık bir soruyla başla. Açılımdaki konum, kartın hangi yönünün ele alınacağını değiştirir.</p></article><article><span>02 · İKİ YÜZ</span><h3>Düz ve ters.</h3><p>Düz kart tema ile doğrudan teması, ters kart aynı temada gecikme, içe dönme veya aşırılığı düşündürebilir. Ters kart otomatik olarak olumsuz değildir.</p></article><article><span>03 · BÜTÜN</span><h3>Kartları bağla.</h3><p>Tek kartı kesin hüküm gibi okumak yerine komşu kartlarla ortak temayı bul. Yorumun ardından günlük hayatta deneyebileceğin küçük bir adım seç.</p></article></div><p className="symbolEditorialNote">Deste yapısı ve yorum düzeni için incelenen kaynak: <a href="https://labyrinthos.co/blogs/tarot-card-meanings-list" target="_blank" rel="noopener noreferrer">Labyrinthos tarot rehberi</a>. Metinler ve görsel deste Goldkozmos’a aittir; yorumlar geleceğin veya bir kişinin düşüncelerinin kesin bilgisi değildir.</p><div className="energyDiscoveryActions"><Link href="/tarot-bakimi">Kartlarını seç →</Link><Link href="/calismalar/tarot">Kişiye özel tarot çalışması</Link></div></section><EnergyDiscoveryLinks /></div><FooterSection /></main>;
 }

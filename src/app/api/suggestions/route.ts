@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { after, NextResponse } from "next/server";
+import { sendAdminPush } from "@/lib/admin/push-server";
 
 import { getAdminAccess } from "@/lib/admin/auth.server";
 import {
@@ -31,5 +32,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: result.error }, { status: result.status });
   }
 
+  after(() => sendAdminPush({ title: "Yeni mesaj / öneri", body: "Bir üye yeni bir öneri gönderdi.", url: "/admin/oneriler" }).then(() => undefined));
   return NextResponse.json({ ok: true, suggestion: result.suggestion });
 }

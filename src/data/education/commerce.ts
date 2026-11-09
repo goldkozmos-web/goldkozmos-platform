@@ -47,5 +47,5 @@ export function getEducationSalesLabel(
     return "Satışta";
   }
 
-  return "Satışlar Yakında Açılıyor";
+  return "Hazırlanıyor · Ocak–Şubat";
 }

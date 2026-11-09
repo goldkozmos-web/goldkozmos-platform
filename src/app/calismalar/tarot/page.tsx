@@ -7,7 +7,7 @@ import "../../../styles/home.css";
 const pageUrl =
   "https://goldkozmos.com/calismalar/tarot";
 
-const APPLICATION_URL = "/randevu";
+
 
 const WHATSAPP_URL =
   "https://wa.me/905054722153?text=Merhaba%2C%20Tarot%20Fark%C4%B1ndal%C4%B1k%20Okumas%C4%B1%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.";
@@ -504,9 +504,9 @@ export default function TarotAnalysisPage() {
             <div className="kendilikShowcaseActions">
               <a
                 className="kendilikShowcaseShopier"
-                href={APPLICATION_URL}
+                href={WHATSAPP_URL}
               >
-                Tarot Analizi İçin Başvur
+                Randevu al
                 <span>↗</span>
               </a>
 

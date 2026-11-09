@@ -443,7 +443,7 @@ export default function EnergySchoolPage() {
 
               <a
                 className="kendilikShowcaseWhatsapp"
-                href="/#rezonans"
+                href="/calismalar#rezonans"
               >
                 <span>
                   <small>ÇALIŞMALARI İNCELE</small>

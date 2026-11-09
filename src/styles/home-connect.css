@@ -1,0 +1,60 @@
+.gkConnectPremium{position:relative;isolation:isolate;background:radial-gradient(ellipse at 85% 10%,#74522a33,transparent 50%),linear-gradient(145deg,#231a13,#14110e);padding:72px 24px;color:#f8f1e6;border-block:1px solid #cda55b33}
+.gkConnectInner{max-width:1080px;margin:auto}
+.gkConnectHeading{max-width:630px;margin:0 auto 36px;text-align:center}
+.gkConnectEyebrow{font-size:11px;letter-spacing:.19em;color:#d7b370;font-weight:600;margin:0 0 16px}
+.gkConnectHeading h2{font-size:clamp(29px,4vw,42px);font-weight:500;line-height:1.12;margin:0 0 18px;text-wrap:balance}
+.gkConnectHeading h2 span{color:#d7b370}
+.gkConnectHeading>p:last-child{font-size:16px;line-height:1.7;color:#cfc0ad;margin:0}
+.gkConnectMainGrid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gkConnectCard{display:flex;flex-direction:column;padding:28px;border-radius:26px;border:1px solid #d9bd8155;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s,border-color .2s;min-width:0}
+.gkConnectInstagram{background:linear-gradient(130deg,#fffdf8,#ede3d1);color:#302217;box-shadow:0 16px 40px #0002}
+.gkConnectTelegram{background:radial-gradient(ellipse at 90% 40%,#75604433,transparent 65%),linear-gradient(140deg,#31291e,#201c16);color:#fff7eb}
+.gkConnectCardTop{display:flex;align-items:center;gap:12px;font-family:Arial,sans-serif;font-size:10px;letter-spacing:.14em;font-weight:600;margin-bottom:24px}
+.gkConnectExternal{margin-left:auto;font-size:21px;font-weight:400;line-height:1}
+.gkConnectAppIcon{width:36px;height:36px;display:grid;place-items:center;flex-shrink:0}
+.gkConnectAppIcon svg,.gkConnectOtherIcon svg{width:100%;height:100%}
+.gkConnectProfile{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.gkConnectProfile>img{width:72px;height:72px;object-fit:cover;border-radius:50%;padding:3px;border:1px solid #bb954c;background:#fff9}
+.gkConnectCard h3{font-size:28px;font-weight:500;line-height:1.2;margin:0;letter-spacing:-.03em}
+.gkConnectProfile p{font-size:12px;margin:8px 0 0;color:#80623f}
+.gkConnectDescription{font-size:15px;line-height:1.7;margin:0 0 24px;color:inherit;opacity:.8}
+.gkConnectEditorial{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px}
+.gkConnectEditorial img{width:100%;height:128px;object-fit:cover;border-radius:10px}
+.gkConnectCardCta{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 0 0;border-top:1px solid #a98b4b55;font-size:15px;font-weight:600;margin-top:auto}
+.gkConnectTelegram .gkConnectCardCta{color:#dfc38d}
+.gkConnectChannelArtwork{position:relative;width:80px;height:80px;display:grid;place-items:center;margin:0 0 20px;border:1px solid #d4b36e66;border-radius:50%;background:radial-gradient(circle,#d8b76822,transparent 70%)}
+.gkConnectChannelArtwork span{font-size:38px;color:#e1c384}
+.gkConnectChannelArtwork i{position:absolute;inset:7px;border:1px solid #d4b36e44;border-radius:50%}
+.gkConnectChannelArtwork i:last-child{inset:-8px;border-style:dashed;opacity:.4}
+.gkConnectTelegram h3{margin-bottom:18px}
+.gkConnectTelegram h3 em{font-style:normal;color:#dfc38d}
+.gkConnectTags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px}
+.gkConnectTags span{font-size:11px;border:1px solid #c8b17e44;padding:7px 10px;border-radius:30px;color:#d9c8ab}
+.gkConnectOther{margin-top:36px;padding-top:28px;border-top:1px solid #dbc08633}
+.gkConnectOtherGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.gkConnectOtherLink{display:flex;align-items:center;gap:12px;padding:16px;border-radius:16px;border:1px solid #ddc09033;background:#ffffff05;color:#f1e6d3;text-decoration:none;min-width:0;transition:background .2s}
+.gkConnectOtherIcon{width:32px;height:32px;flex-shrink:0}
+.gkConnectOtherLink strong{display:block;font-size:16px;font-weight:500}
+.gkConnectOtherLink small{display:block;font-family:Arial,sans-serif;font-size:10px;color:#bfac8f;margin-top:5px;overflow-wrap:anywhere}
+.gkConnectCard:focus-visible,.gkConnectOtherLink:focus-visible{outline:2px solid #f3d696;outline-offset:5px}
+@media(hover:hover){.gkConnectCard:hover{transform:translateY(-3px);border-color:#e3c58f}.gkConnectOtherLink:hover{background:#d4b77915}}
+@media(max-width:700px){.gkConnectPremium{padding:48px 20px}.gkConnectHeading{text-align:left;margin-bottom:26px}.gkConnectHeading>p:last-child{font-size:14px}.gkConnectMainGrid{grid-template-columns:1fr;gap:18px}.gkConnectCard{padding:23px;border-radius:22px}.gkConnectCard h3{font-size:26px}.gkConnectEditorial img{height:108px}.gkConnectOtherLink{padding:14px 11px;gap:9px}.gkConnectOtherIcon{width:26px;height:26px}.gkConnectOtherLink .gkConnectExternal{font-size:16px}.gkConnectOtherLink strong{font-size:15px}.gkConnectOther>.gkConnectEyebrow{font-size:10px}.gkConnectOtherGrid{gap:10px}}
+@media(prefers-reduced-motion:reduce){.gkConnectCard,.gkConnectOtherLink{transition:none}}
+
+/* A quieter, more compact channel invitation. */
+.gkConnectTelegram{background:radial-gradient(ellipse at 100% 0,#b3925c14,transparent 65%),linear-gradient(145deg,#30291f,#262119);border-color:#bba57a44}
+.gkConnectTelegram .gkConnectCardTop{margin-bottom:26px;color:#d5c7b1;font-size:9px;letter-spacing:.12em;font-weight:500}
+.gkConnectTelegram .gkConnectAppIcon{width:30px;height:30px;opacity:.9}
+.gkConnectTelegram .gkConnectExternal{font-size:18px;color:#c5b391}
+.gkConnectTelegram .gkConnectChannelArtwork{position:absolute;right:26px;top:88px;width:42px;height:42px;margin:0;border-color:#bba57a30;opacity:.45;pointer-events:none}
+.gkConnectTelegram .gkConnectChannelArtwork span{font-size:21px}
+.gkConnectTelegram .gkConnectChannelArtwork i{inset:5px;border-color:#bba57a25}
+.gkConnectTelegram .gkConnectChannelArtwork i:last-child{display:none}
+.gkConnectTelegram h3{max-width:280px;padding-right:28px;font-size:25px;line-height:1.3;font-weight:400;margin:0 0 16px;letter-spacing:-.02em}
+.gkConnectTelegram h3 em{color:#d7be8b;display:block}
+.gkConnectTelegram .gkConnectDescription{max-width:310px;font-size:14px;line-height:1.8;font-weight:400;color:#d0c5b4;opacity:1;margin-bottom:20px}
+.gkConnectTelegram .gkConnectTags{gap:0;margin-bottom:25px}
+.gkConnectTelegram .gkConnectTags span{padding:0;border:0;border-radius:0;color:#b6a58a;font-size:11px}
+.gkConnectTelegram .gkConnectTags span+span:before{content:'·';display:inline-block;margin:0 10px;color:#c9ab70}
+.gkConnectTelegram .gkConnectCardCta{padding-top:17px;border-color:#bba57a33;font-size:14px;font-weight:500;color:#e0ca9e}
+@media(max-width:700px){.gkConnectTelegram{padding:23px}.gkConnectTelegram h3{font-size:24px}.gkConnectTelegram .gkConnectCardTop{margin-bottom:24px}}

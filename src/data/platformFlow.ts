@@ -4,6 +4,7 @@ export const PLATFORM_IDS = [
   "goldfrekans",
   "goldmind",
   "goldblog",
+  "goldrituel",
 ] as const;
 
 export type PlatformId = (typeof PLATFORM_IDS)[number];
@@ -29,6 +30,7 @@ export type PlatformProgress = {
   lastPlayedAt?: string | null;
   status: PlatformProgressStatus;
   audioUrl?: string;
+  artworkUrl?: string;
   youtubeId?: string;
   spotifyEmbedUrl?: string;
   description?: string;
@@ -45,6 +47,15 @@ export type PlatformDefinition = {
 };
 
 export const PLATFORM_CATALOG: PlatformDefinition[] = [
+  {
+    id: "goldrituel",
+    name: "GoldRitüel",
+    tagline: "Niyet ve farkındalık ritüelleri",
+    href: "/goldrituel",
+    contentType: "reading",
+    tone: "gold",
+    mark: "✧",
+  },
   {
     id: "goldbook",
     name: "GoldBook",

@@ -1,0 +1,158 @@
+.energyWorksPage .energyWorksHeader h1 {
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+}
+
+.energyWorksPage .energyWorksHeader > p {
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.energyWorksPage .energyWorksHeader > .energyWorksEyebrow {
+  margin: 0 0 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+}
+
+.energyCatalogBack {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #98732f;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.energyCatalogGrid {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 28px;
+  padding-bottom: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: #b69251 #eee4d3;
+}
+
+.energyCatalogGrid .energyWorkCard {
+  flex: 0 0 300px;
+  width: 300px;
+  max-width: 300px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  background: #fffdf9;
+  box-shadow: 0 6px 18px rgba(63, 42, 20, 0.04);
+  scroll-snap-align: start;
+}
+
+.energyCatalogGrid .energyWorkCardMedia {
+  display: block;
+  position: relative;
+  flex: 0 0 auto;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.energyCatalogGrid .energyWorkCardImage {
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+.energyCatalogGrid .energyWorkCardBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 18px;
+}
+
+.energyCatalogGrid .energyWorkCardBody h2 {
+  margin: 0;
+  min-height: 2.6em;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #33271f;
+}
+
+.energyCatalogGrid .energyWorkCardBody > p:not(.energyWorkCardPrice) {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #675549;
+  margin: 10px 0 18px;
+}
+
+.energyCatalogGrid .energyWorkCardPrice {
+  margin: auto 0 12px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #33271f;
+}
+
+.energyCatalogGrid .energyWorkCardCta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding-top: 10px;
+  margin-top: 0;
+  border-top: 1px solid #eee4d5;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.energyCatalogEndSpace {
+  flex: 0 0 140px;
+  scroll-snap-align: end;
+}
+
+.energyCatalogScroller {
+  position: relative;
+}
+
+.energyCatalogPullArrow {
+  position: absolute;
+  right: 20px;
+  top: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid #d4ba88;
+  border-radius: 50%;
+  background: #fbf7ef;
+  color: #98732f;
+  font-size: 32px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.energyCatalogGrid:focus-visible {
+  outline: 2px solid #98732f;
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .energyWorksPage .energyWorksSection {
+    padding-top: 28px;
+  }
+
+  .energyWorksPage .energyWorksHeader h1 {
+    font-size: 24px;
+  }
+
+  .energyCatalogGrid .energyWorkCard {
+    flex-basis: min(68vw, 240px);
+    width: min(68vw, 240px);
+    max-width: 240px;
+    border-radius: 20px;
+  }
+}
+.energyDeeperInvitation{margin-top:30px;padding:28px;border:1px solid #ba94564d;border-radius:22px;background:linear-gradient(135deg,#35271c,#251c14);color:#f1e4cb}.energyDeeperInvitation .energyDeeperEyebrow{font:9px/1.5 Arial,sans-serif;letter-spacing:1.5px;color:#c7a66e;margin:0 0 12px}.energyDeeperInvitation h2{font:400 28px/1.2 Georgia,serif;color:#f1e4cb;margin:0 0 14px;letter-spacing:-.4px}.energyDeeperInvitation>p:not(.energyDeeperEyebrow){font:14px/1.8 Arial,sans-serif;color:#cbbcaa;margin:0;max-width:670px}.energyDeeperOptions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}.energyDeeperOptions a{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:48px;padding:12px 16px;border:1px solid #c7a66e55;border-radius:11px;text-decoration:none;color:#ecd2a1;font:12px/1.5 Arial,sans-serif;background:#ffffff04;box-sizing:border-box}.energyDeeperAll{display:inline-block;color:#c7b391;font:11px/1.5 Arial,sans-serif;margin-top:20px;text-underline-offset:5px}.energyDeeperInvitation a:focus-visible{outline:2px solid #ecd2a1;outline-offset:3px}@media(max-width:600px){.energyDeeperInvitation{padding:24px;margin-top:24px}.energyDeeperInvitation h2{font-size:25px}.energyDeeperOptions{grid-template-columns:1fr;gap:10px}}

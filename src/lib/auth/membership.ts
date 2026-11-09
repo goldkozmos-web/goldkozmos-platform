@@ -1,4 +1,4 @@
-import type { User } from "@supabase/supabase-js";
+import type { SupabaseClient, User } from "@supabase/supabase-js";
 
 export const MEMBER_INTERESTS = [
   { id: "tarot", label: "Tarot" },
@@ -124,4 +124,19 @@ export function memberProfileMetadata(profile: MemberProfile) {
     gk_member_complete: true,
     privacy_accepted_at: new Date().toISOString(),
   };
+}
+
+export async function persistMemberProfile(client: Pick<SupabaseClient, "rpc" | "auth">, profile: MemberProfile) {
+  const saved = await client.rpc("save_own_membership_profile", {
+    p_first_name: profile.firstName,
+    p_last_name: profile.lastName,
+    p_city: profile.city,
+    p_age: profile.age,
+    p_interests: profile.interests.join(","),
+    p_phone: profile.phone,
+  });
+  if (saved.error) return { ok: false, error: "Üyelik bilgilerin kaydedilemedi. Bilgilerin bu ekranda duruyor; yeniden deneyebilirsin." };
+  const confirmed = await client.auth.updateUser({ data: memberProfileMetadata(profile) });
+  if (confirmed.error) return { ok: false, error: "Bilgilerin kaydedildi, ancak üyelik onayı tamamlanamadı. Yeniden dene." };
+  return { ok: true };
 }

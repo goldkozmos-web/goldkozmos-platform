@@ -1,9 +1,12 @@
+import ProfilimIcon from "./ProfilimIcon";
 export default function ProfilimCompactTile({
+  icon,
   eyebrow,
   title,
   onOpen,
   className,
 }: {
+  icon?: string;
   eyebrow: string;
   title: string;
   onOpen: () => void;
@@ -13,6 +16,7 @@ export default function ProfilimCompactTile({
 
   return (
     <button type="button" className={classNames} onClick={onOpen}>
+      <ProfilimIcon name={icon || eyebrow} />
       <span className="profilimTileEyebrow">{eyebrow}</span>
       <strong className="profilimTileTitle">{title}</strong>
       <span className="profilimTileChevron" aria-hidden="true">

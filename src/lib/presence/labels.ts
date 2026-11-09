@@ -99,7 +99,7 @@ export function isLiveAt(lastSeenAt: string | null | undefined, now = Date.now()
 export function shouldSkipPresencePath(path: string | null | undefined) {
   const value = path?.trim() || "/";
   return (
-    value.startsWith("/admin") ||
+    value.startsWith("/panel") || value.startsWith("/admin") ||
     value.startsWith("/auth") ||
     value.startsWith("/api/")
   );

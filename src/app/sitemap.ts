@@ -1,8 +1,14 @@
+import { resonances } from "./calismalar/resonance-options";
+import { resonanceHref } from "./calismalar/resonance-seo";
 import type { MetadataRoute } from "next";
+import { zodiacReadings } from "../data/zodiacReadings";
 
 import { publishedDreams } from "../data/ruya-tabirleri/catalog";
 import { publishedRituals } from "../data/goldrituel/catalog";
 import { TAROT_DECK } from "../data/tarot/deck";
+import { getWorkDetails } from "../data/workDetails";
+import { goldBlogArticles } from "../data/goldblogArticles";
+import { chakraGuides } from "../data/chakras";
 
 const baseUrl = "https://goldkozmos.com";
 
@@ -22,11 +28,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const tarotCards = TAROT_DECK.map((card) => ({
     url: `${baseUrl}/tarot-kartlari/${card.slug}`,
+    ...(["degnek-prensi", "tilsim-prensi", "degnek-yedilisi"].includes(card.slug) ? { lastModified: "2026-10-28" } : {}),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
   return [
+    ...resonances.map(item=>({url:`${baseUrl}${resonanceHref(item.id)}`,lastModified:"2026-11-08",changeFrequency:"monthly" as const,priority:0.9})),
+    { url: `${baseUrl}/kisisel-gelisim`, lastModified: "2026-10-17", changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/testler/golge-yan`, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${baseUrl}/burclar`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${baseUrl}/randevu`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${baseUrl}/kozmik-enerji`, lastModified: "2026-11-05", changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/ruhsal-arinma`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/enerji-temizligi`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${baseUrl}/cakralar`, changeFrequency: "monthly", priority: 0.9 },
+    ...chakraGuides.map((chakra) => ({ url: `${baseUrl}/cakralar/${chakra.slug}`, changeFrequency: "monthly" as const, priority: 0.8 })),
+    ...goldBlogArticles.map((article) => ({
+      url: `${baseUrl}/goldblog/${article.slug}`,
+      ...(article.publishedAt ? { lastModified: article.updatedAt ?? article.publishedAt } : {}),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    ...getWorkDetails().map((work) => ({
+      url: `${baseUrl}${work.href}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     {
       url: `${baseUrl}/`,
       changeFrequency: "weekly",
@@ -51,29 +79,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
 
-    {
-      url: `${baseUrl}/calismalar/kendilik`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
 
-    {
-      url: `${baseUrl}/calismalar/iliski`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
 
-    {
-      url: `${baseUrl}/calismalar/para`,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-
-    {
-      url: `${baseUrl}/calismalar/birebir-seanslar`,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
 
     {
       url: `${baseUrl}/calismalar/enerji-calismalari`,
@@ -179,6 +186,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     {
       url: `${baseUrl}/hakkimda`,
+      lastModified: "2026-10-17",
       changeFrequency: "monthly",
       priority: 0.7,
     },
@@ -189,11 +197,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     },
 
-    {
-      url: `${baseUrl}/randevu`,
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
 
     {
       url: `${baseUrl}/iletisim`,
@@ -236,8 +239,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.2,
     },
+    ...zodiacReadings.map(sign => ({ url: `${baseUrl}/burclar/${sign.slug}`, changeFrequency: "monthly" as const, priority: 0.7 })),
     ...dreams,
     ...rituals,
     ...tarotCards,
   ];
 }
+

@@ -45,7 +45,6 @@ import ProfilimTileRails from "./ProfilimTileRails";
 import {
   AppointmentsPanel,
   ContinuePanel,
-  FavoritesPanel,
   JournalPanel,
   JourneyPanel,
   LetterPanel,
@@ -58,7 +57,6 @@ import {
   InboxPanel,
   SuggestPanel,
 } from "./ProfilimPanels";
-import DailyMessageCard from "../daily/DailyMessageCard";
 import EmotionJournalPanel from "../daily/EmotionJournalPanel";
 import DuyguRehberiPanel from "./DuyguRehberiPanel";
 import RuyaGunluguPanel from "./RuyaGunluguPanel";
@@ -71,8 +69,10 @@ import {
 } from "./ProfilimLivePanels";
 import ActivityTimelinePanel from "../daily/ActivityTimelinePanel";
 import RemindersPanel from "../daily/RemindersPanel";
-import ProfilimWaterCard from "./ProfilimWaterCard";
+import ProfilimIntentionCard from "./ProfilimIntentionCard";
 import WaterPanel from "./WaterPanel";
+import ProfilimWaterCard from './ProfilimWaterCard';
+import { PROFILE_ACTIVITY_EVENT, mapProfileActivity } from "../../lib/profilim/activity";
 
 const TRACKS: { id: "goldmind" | "goldbook" | "rezonans"; label: string }[] = [
   { id: "goldmind", label: "GoldMind" },
@@ -117,8 +117,10 @@ export default function ProfilimDashboard({
   data: ProfilimDashboardData;
 }) {
   const [user, setUser] = useState(data.user);
-  const [checking, setChecking] = useState(false);
+  const [checking, setChecking] = useState(!data.user);
+  const [authError, setAuthError] = useState("");
   const [open, setOpen] = useState<ProfilimDrawerId | null>(null);
+  const [recentActivity,setRecentActivity] = useState(data.recentActivity);
   const [continueItems, setContinueItems] = useState(data.continueItems);
   const [tracks, setTracks] = useState<ProfilimPlatformTrack[]>(
     TRACKS.map((track) => ({ ...track, progress: 0 })),
@@ -151,17 +153,20 @@ export default function ProfilimDashboard({
 
     const client = supabase;
     let cancelled = false;
+    const sessionTimer = setTimeout(() => { if (!cancelled) { setChecking(false); setAuthError("Oturum kontrolü uzadı. Bağlantını kontrol edip yeniden deneyebilirsin."); } }, 12000);
 
     async function resolveUser(
       sessionUser: Parameters<typeof profilimUserFromAuth>[0],
       event?: string,
     ) {
+      clearTimeout(sessionTimer);
       const next = profilimUserFromAuth(sessionUser);
       if (!next) {
         if (shouldClearProfilimUser(event) && !cancelled) {
           setUser(null);
           setChecking(false);
         }
+        if (!cancelled) setChecking(false);
         return;
       }
 
@@ -170,23 +175,25 @@ export default function ProfilimDashboard({
           window.location.replace("/auth/kayit");
           return;
         }
+        setAuthError("");
         setUser({
           ...next,
           isAdmin: isSiteAdminEmail(next.email),
         });
         setChecking(false);
-        void client.rpc("ensure_own_membership");
-        void recordMemberJoin(sessionUser, undefined, client);
+        void client.rpc("ensure_own_membership").then(() => undefined, () => undefined);
+        void recordMemberJoin(sessionUser, undefined, client).catch(() => undefined);
       }
     }
 
-    void Promise.race([
-      client.auth.getSession(),
-      new Promise<{ data: { session: null } }>((resolve) => {
-        setTimeout(() => resolve({ data: { session: null } }), 3000);
-      }),
-    ]).then(({ data: { session } }) => {
+    void client.auth.getSession().then(({ data: { session }, error }) => {
+      if (error && !cancelled) setAuthError("Oturum kontrol edilemedi. Bağlantını kontrol edip yeniden dene.");
       void resolveUser(session?.user ?? null, "GET_SESSION");
+    }).catch(() => {
+      if (!cancelled) {
+        setChecking(false);
+        setAuthError("Oturum kontrol edilemedi. Sayfayı yeniden yükleyebilirsin.");
+      }
     });
 
     const {
@@ -195,15 +202,9 @@ export default function ProfilimDashboard({
       void resolveUser(session?.user ?? null, event);
     });
 
-    const timeout = window.setTimeout(() => {
-      if (!cancelled) {
-        setChecking(false);
-      }
-    }, 4000);
-
     return () => {
       cancelled = true;
-      window.clearTimeout(timeout);
+      clearTimeout(sessionTimer);
       subscription.unsubscribe();
     };
   }, []);
@@ -241,6 +242,7 @@ export default function ProfilimDashboard({
     const params = new URLSearchParams(window.location.search);
     const next = params.get("open");
     if (
+      next === "inbox" || next === "suggest" || next === "water" || next === "todos" || next === "badges" ||
       next === "duyguRehberi" ||
       next === "journal" ||
       next === "dreamJournal" ||
@@ -259,16 +261,28 @@ export default function ProfilimDashboard({
     setLetters(readLetters(user.id));
   }, [user?.id]);
 
+  useEffect(() => {
+    if (!user?.id) return;
+    const client = createSupabaseBrowserClient();
+    if (!client) return;
+    let active = true;
+    async function reload() { const result = await client!.from("user_activity").select("id,kind,title,created_at").eq("user_id",user!.id).order("created_at",{ascending:false}).limit(500); if(active && result.data)setRecentActivity(result.data.map(mapProfileActivity)); }
+    void reload(); const timer=setInterval(()=>{if(document.visibilityState==="visible")void reload();},20000);
+    window.addEventListener(PROFILE_ACTIVITY_EVENT,reload);window.addEventListener("focus",reload);
+    return()=>{active=false;clearInterval(timer);window.removeEventListener(PROFILE_ACTIVITY_EVENT,reload);window.removeEventListener("focus",reload);};
+  },[user]);
+
   const view = useMemo(
     () =>
       assembleDashboard({
         ...data,
         user,
+        recentActivity,
         continueItems,
         journalEntries: journal,
         letters,
       }),
-    [data, user, continueItems, journal, letters],
+    [data, user, recentActivity, continueItems, journal, letters],
   );
 
   const close = useCallback(() => setOpen(null), []);
@@ -334,15 +348,13 @@ export default function ProfilimDashboard({
         {showMemberTiles ? (
           <>
             {user ? (
-              <>
+              <div className="profilimIdentityBand">
                 <ProfilimHero user={user} level={view.level} />
-              </>
+                <ProfilimBadgeRow onOpen={() => setOpen("badges")} />
+              </div>
             ) : null}
 
             <div className="profilimFeaturedStack">
-              {user ? (
-                <ProfilimBadgeRow onOpen={() => setOpen("badges")} />
-              ) : null}
               <ProfilimFeaturedCard
                 eyebrow="BUGÜN"
                 title="Bugün Neye İhtiyacın Var?"
@@ -362,7 +374,7 @@ export default function ProfilimDashboard({
                 <span className="profilimMiniTracks">
                   {tracks.map((track) => (
                     <span key={track.id}>
-                      {track.label} %{Math.round(track.progress * 100)}
+                      <span>{track.label}<b>%{Math.round(track.progress * 100)}</b></span><i><i style={{ width: `${Math.round(track.progress * 100)}%` }} /></i>
                     </span>
                   ))}
                 </span>
@@ -382,33 +394,39 @@ export default function ProfilimDashboard({
                       />
                     </span>
                   </>
-                ) : null}
+                ) : "Son dinlediğin içerikten devam et."}
               </ProfilimFeaturedCard>
 
               <ProfilimFeaturedCard
                 eyebrow="GÖREV"
                 title="Yapılacaklarım"
                 onOpen={() => setOpen("todos")}
-              />
+              >Küçük adımlarını planla.</ProfilimFeaturedCard>
 
               <ProfilimFeaturedCard
                 eyebrow="İSTATİSTİK"
                 title="Kişisel İstatistikler"
                 onOpen={() => setOpen("stats")}
-              />
+              >Yolculuğuna bir bakış.</ProfilimFeaturedCard>
 
-              <ProfilimWaterCard
-                userId={user?.id ?? ""}
-                onOpen={() => setOpen("water")}
-              />
+              <ProfilimIntentionCard userId={user?.id ?? ""} />
+              <ProfilimWaterCard userId={user?.id ?? ''} onOpen={() => setOpen('water')} />
             </div>
 
-            <DailyMessageCard />
 
             <ProfilimTileRails onOpenTile={(id) => setOpen(id)} />
+            <div className="circleProfileLinks"><a href="/paylasim-cemberi">Paylaşım Çemberi<small>Deneyimler, sorular ve küçük destekler ↗</small></a><a href="/paylasim-cemberi/kaydettiklerim">Kaydettiklerim<small>Toplulukta sakladığın paylaşımlar ↗</small></a></div>
+            <button type="button" className="profilimFeedbackCard" onClick={() => setOpen("suggest")}>
+              <span className="profilimFeedbackMark" aria-hidden="true">✧</span>
+              <span className="profilimFeedbackCopy"><span className="profilimFeedbackEyebrow">BİRLİKTE GELİŞTİRELİM</span><strong>Gold’a önerin var mı?</strong><span>Bir fikrinle bu alana iz bırak.</span></span>
+              <span className="profilimFeedbackAction">Önerini paylaş <span aria-hidden="true">↗</span></span>
+            </button>
           </>
         ) : (
-          <ProfilimGate />
+          checking ? <div className="profilimAuthLoading" role="status"><span />Kişisel alanın hazırlanıyor…</div> : <>
+            {authError ? <p className="profilimGoogleError" role="alert">{authError}</p> : null}
+            <ProfilimGate />
+          </>
         )}
       </div>
 
