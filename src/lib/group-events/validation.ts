@@ -1,10 +1,11 @@
-import { findGroupEvent } from "../../data/groupEvents.ts";
+import { groupEventSelection } from "../../data/groupEvents.ts";
 
 export function parseGroupRegistration(raw: unknown, now = Date.now()) {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) throw new Error("Form bilgilerini kontrol et.");
   const data = raw as Record<string, unknown>;
-  const event = findGroupEvent(data.eventId);
-  if (!event || new Date(event.startsAt).getTime() <= now) throw new Error("Bu etkinlik için kayıt kapalı.");
+  const selection = groupEventSelection(data.eventIds ?? [data.eventId]);
+  const event = selection.events[0];
+  if (selection.events.some(item => Date.parse(item.startsAt) <= now)) throw new Error("Bu etkinlik için kayıt kapalı.");
   const fullName = typeof data.fullName === "string" ? data.fullName.trim().replace(/\s+/g, " ") : "";
   const email = typeof data.email === "string" ? data.email.trim().toLowerCase() : "";
   const phone = typeof data.phone === "string" ? data.phone.replace(/[\s().-]/g, "") : "";
@@ -13,7 +14,7 @@ export function parseGroupRegistration(raw: unknown, now = Date.now()) {
   if (!/^\+?[0-9]{10,15}$/.test(phone)) throw new Error("Telefon numaranı ülke koduyla birlikte kontrol et.");
   if (data.privacyAcknowledged !== true || data.termsAccepted !== true) throw new Error("Aydınlatma metnini ve katılım koşullarını inceleyip gerekli alanları işaretle.");
   if (data.website) throw new Error("Form gönderilemedi.");
-  return { event, fullName, email, phone };
+  return { event, selection, fullName, email, phone };
 }
 
 export function isGoogleMeetUrl(value: unknown): value is string {

@@ -1,20 +1,27 @@
 import { createHash, createHmac } from "node:crypto";
 import { createSupabaseServiceClient } from "../supabase/service";
-import { findGroupEvent, groupEvents } from "../../data/groupEvents";
+import { groupEventOffers, groupEventSelection } from "../../data/groupEvents";
 import { verifyEventOrder, getShopierOrder } from "./payment";
 
 export function registrationCookie(id: string) { return `gk_group_${id}`; }
 export function tokenHash(value: string) { return createHash("sha256").update(value).digest("hex"); }
 export function eventProductId(eventId: string) {
-  const event = findGroupEvent(eventId);
-  const id = event ? process.env[event.productEnv]?.trim() : "";
+  return selectionProductId([eventId]);
+}
+export function selectionProductId(eventIds: string[]) {
+  let productEnv: string;
+  try { productEnv = groupEventSelection(eventIds).productEnv; } catch { return null; }
+  const id = process.env[productEnv]?.trim();
   return id && /^[0-9]{1,30}$/.test(id) ? id : null;
 }
 export function registrationEnabled(eventId: string) {
-  const product = eventProductId(eventId);
+  return selectionRegistrationEnabled([eventId]);
+}
+export function selectionRegistrationEnabled(eventIds: string[]) {
+  const product = selectionProductId(eventIds);
   // Product IDs must be unique to a single event to prevent a payment matching two dates.
   return process.env.GROUP_EVENTS_ENABLED === "true" && !!product &&
-    groupEvents.filter(event => eventProductId(event.id) === product).length === 1 &&
+    groupEventOffers.filter(offer => selectionProductId(offer.events.map(event => event.id)) === product).length === 1 &&
     !!process.env.SHOPIER_PAT && !!process.env.SHOPIER_WEBHOOK_TOKEN &&
     (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!createSupabaseServiceClient();
 }
@@ -58,15 +65,16 @@ export async function limitRegistrations(request: Request) {
 export async function reconcileOrder(orderId: string, expectedRegistrationId?: string) {
   const order = await getShopierOrder(orderId);
   const productId = order.lineItems?.[0]?.productId;
-  const event = groupEvents.find(item => eventProductId(item.id) === productId);
-  if (!event) return { matched: false, reason: "Etkinlik ürünü bulunamadı." };
+  const offers = groupEventOffers.filter(offer => selectionProductId(offer.events.map(event => event.id)) === productId && productId);
+  if (offers.length !== 1) return { matched: false, reason: "Etkinlik ürünü bulunamadı veya birden fazla pakete bağlı." };
+  const offer = offers[0];
   const client = groupService();
   const email = order.shippingInfo?.email?.trim().toLowerCase();
   if (!email) return { matched: false, reason: "Sipariş e-postası doğrulanamadı." };
-  const { data: registration, error } = await client.from("group_event_registrations").select("id,email,created_at,payment_status,provider_order_id").eq("event_id", event.id).eq("email", email).maybeSingle();
+  const { data: registration, error } = await client.from("group_event_registrations").select("id,email,created_at,payment_status,provider_order_id").eq("event_ids", `{${offer.events.map(event => event.id).join(",")}}`).eq("email", email).maybeSingle();
   if (error) throw new Error("Kayıt bilgileri doğrulanamadı.");
   if (!registration || (expectedRegistrationId && registration.id !== expectedRegistrationId)) return { matched: false, reason: "Sipariş ile eşleşen başvuru yok." };
-  if (!verifyEventOrder(order, event, productId!, registration.email, registration.created_at)) return { matched: false, reason: "Tutar, etkinlik, e-posta, tarih veya ödeme durumu eşleşmiyor." };
+  if (!verifyEventOrder(order, offer.events, productId!, registration.email, registration.created_at)) return { matched: false, reason: "Tutar, etkinlik, e-posta, tarih veya ödeme durumu eşleşmiyor." };
   const { data, error: confirmedError } = await client.rpc("group_event_confirm_payment", { p_id: registration.id, p_order_id: order.id, p_paid_at: new Date(order.dateCreated).toISOString() });
   if (confirmedError) throw new Error("Ödeme sonucu kaydedilemedi.");
   return { matched: data === true, registrationId: registration.id, reason: data === true ? "Ödeme doğrulandı." : "Kayıt daha önce farklı bir işlemle tamamlanmış." };

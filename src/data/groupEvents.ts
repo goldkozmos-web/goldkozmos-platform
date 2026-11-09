@@ -1,5 +1,5 @@
 export const GROUP_EVENT_PRICE_KURUS = 60_000;
-export const GROUP_EVENT_CONSENT_VERSION = "2026-11-09-v1";
+export const GROUP_EVENT_CONSENT_VERSION = "2026-11-09-v2-packages";
 
 export type GroupEvent = {
   id: string;
@@ -53,4 +53,25 @@ export function findGroupEvent(id: unknown) {
 
 export function formatGroupEventDate(startsAt: string) {
   return new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", day: "numeric", month: "long", weekday: "long" }).format(new Date(startsAt));
+}
+
+// Fixed package prices supplied by the site owner; never accept a browser total.
+export function groupEventPrice(count: number) {
+  const totals = [0, 60_000, 85_000, 155_000, 200_000];
+  if (!Number.isInteger(count) || count < 0 || count > 4) throw new Error("Geçersiz etkinlik sayısı.");
+  return { subtotalKurus: count * GROUP_EVENT_PRICE_KURUS, totalKurus: totals[count], discountKurus: count * GROUP_EVENT_PRICE_KURUS - totals[count] };
+}
+
+export function groupEventSelection(raw: unknown) {
+  if (!Array.isArray(raw) || raw.length < 1 || raw.length > groupEvents.length || new Set(raw).size !== raw.length || raw.some(id => !findGroupEvent(id))) throw new Error("Katılmak istediğin çalışmaları kontrol et.");
+  const events = groupEvents.filter(event => raw.includes(event.id));
+  const key = events.map(event => groupEvents.indexOf(event) + 1).join("");
+  return { events, key, productEnv: events.length === 1 ? events[0].productEnv : `SHOPIER_EVENT_PACKAGE_${key}_PRODUCT_ID`, ...groupEventPrice(events.length) };
+}
+
+export const groupEventOffers = Array.from({ length: (1 << groupEvents.length) - 1 }, (_, index) =>
+  groupEventSelection(groupEvents.filter((_, bit) => (index + 1) & (1 << bit)).map(event => event.id)));
+
+export function formatGroupPrice(kurus: number) {
+  return `${new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 0 }).format(kurus / 100)} TL`;
 }

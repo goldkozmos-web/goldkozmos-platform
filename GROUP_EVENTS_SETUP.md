@@ -1,5 +1,19 @@
 # GoldKozmos grup çalışmaları — geliştirme ve açılış notları
 
+## Güncel paket seçimi — 9 Kasım 2026
+
+Formda etkinlikler tek tek veya “Tüm paketleri seç” ile seçilir. Kullanıcının son fiyatları önceki sabit indirim isteğinin yerine geçer: 1 etkinlik 600 TL, 2 etkinlik 850 TL, 3 etkinlik 1.550 TL, 4 etkinlik 2.000 TL. Her seçimin toplamı sunucuda yeniden hesaplanır; tarayıcıdan fiyat veya indirim kabul edilmez. Aynı sayıda farklı etkinlik seçimi aynı toplamı kullanır. Formdaki indirim satırı normal toplam ile paket toplamının farkıdır.
+
+`20261109210000_group_event_registration.sql` sonrasında yeni `20261109230000_group_event_packages.sql` geçişini önce test veritabanında uygula. Önceki tekli kayıtlar korunur. Her paket tek kayıt ve tek ödemedir; `event_ids` tüm seçilen etkinlikleri içerir. Yönetici filtreleri ve katılımcı sayıları her seçilen etkinliği kapsar. Ödeme onay e-postası yalnızca seçilen çalışmaların özel Meet bağlantılarını içerir. Çakışan etkinlik/e-posta başvuruları engellenir.
+
+Mevcut dört 600 TL Shopier ürününe ek olarak, açılacak her kombinasyon için kendi toplam tutarında ayrı bir dijital paket ürünü gerekir. Başka ürün veya farklı tutarlı bir paket aynı ödeme olarak kabul edilmez. Paketlerin ürün kimlikleri şu sunucu ayarlarıyla eşleştirilir (1=Karma, 2=Mekân, 3=Dişil–Eril, 4=İlişkisel):
+
+- 850 TL: `SHOPIER_EVENT_PACKAGE_12_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_13_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_14_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_23_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_24_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_34_PRODUCT_ID`.
+- 1.550 TL: `SHOPIER_EVENT_PACKAGE_123_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_124_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_134_PRODUCT_ID`, `SHOPIER_EVENT_PACKAGE_234_PRODUCT_ID`.
+- 2.000 TL: `SHOPIER_EVENT_PACKAGE_1234_PRODUCT_ID`.
+
+Ürün kimliği tüm tekli ve paket ürünleri arasında benzersiz olmalı. Yalnızca ürün bağlantısı ve gerekli sunucu erişimleri tamamlanan seçimler için ödeme açılır. Her paket Shopier'de 1 adet alınır; ek sepet ürünü, kargo veya ikinci bir indirim uygulanmaz. Başvuru kaydedildikten sonra doğrulanan ürün bağlantısına otomatik geçilir. Önizlemede seçim ve fiyat hesabı çalışır; gerçek Shopier tahsilatı, veritabanı geçişi ve gerçek e-posta gönderimi henüz yapılmamıştır. Aşağıdaki ilk kurulum notlarındaki yalnızca tekli etkinlik/600 TL bilgileri bu bölümle genişletilmiştir.
+
 ## Kapsam
 
 Güncel uygulama kaynakları korunarak `codex/group-event-registration-20261109` dalında geliştirildi. Mevcut sayfalardan yalnızca `src/app/calismalar/ResonancePage.tsx` değişti: mevcut içeriğin önüne Yaklaşan Etkinlikler eklendi. Ana sayfa, genel menüler ve diğer mevcut sayfalar değiştirilmedi. Yeni yönetim ekranı `/admin/grup-calismalari`; mevcut yönetim oturum kontrolünü kullanır. Menüye yeni bağlantı eklenmedi.

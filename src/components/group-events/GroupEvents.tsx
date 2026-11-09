@@ -2,23 +2,28 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
-import { groupEvents, formatGroupEventDate } from "../../data/groupEvents";
+import { groupEvents, formatGroupEventDate, groupEventSelection, groupEventPrice, formatGroupPrice } from "../../data/groupEvents";
+import GroupEventSelection from "./GroupEventSelection";
 import s from "./GroupEvents.module.css";
 
-type Application = { registrationId: string; checkoutUrl: string; eventId: string };
+type Application = { registrationId: string; checkoutUrl: string; eventIds: string[]; amountKurus: number };
 type Status = { paymentStatus: "pending" | "paid" | "refunded"; confirmationSent: boolean };
 
-export default function GroupEvents({ enabledIds, carousel = false }: { enabledIds: string[]; carousel?: boolean }) {
-  const [selectedId, setSelectedId] = useState(groupEvents[0].id);
+export default function GroupEvents({ enabledSelections, carousel = false }: { enabledSelections: string[]; carousel?: boolean }) {
+  const [selectedIds, setSelectedIds] = useState<string[]>([groupEvents[0].id]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [application, setApplication] = useState<Application | null>(null);
   const [status, setStatus] = useState<Status | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null);
-  const event = groupEvents.find(item => item.id === selectedId)!;
-  const available = enabledIds.includes(event.id) && Date.parse(event.startsAt) > now;
+  const selectedEvents = groupEvents.filter(item => selectedIds.includes(item.id));
+  const selection = selectedEvents.length ? groupEventSelection(selectedIds) : null;
+  const price = groupEventPrice(selectedEvents.length);
+  const selectionTitle = selectedEvents.map(item => item.title).join(" + ");
+  const available = !!selection && enabledSelections.includes(selection.key) && selectedEvents.every(item => Date.parse(item.startsAt) > now);
 
   useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 30_000); return () => clearInterval(timer); }, []);
 
@@ -39,8 +44,8 @@ export default function GroupEvents({ enabledIds, carousel = false }: { enabledI
   }, [application]);
 
   function open(id: string, target: HTMLElement) {
-    opener.current = target; setSelectedId(id); setError("");
-    if (application?.eventId !== id) { setApplication(null); setStatus(null); }
+    opener.current = target; setSelectedIds([id]); setError(""); setTermsAccepted(false);
+    if (application?.eventIds.length !== 1 || application.eventIds[0] !== id) { setApplication(null); setStatus(null); }
     dialog.current?.showModal();
   }
   function close() { if (!busy) dialog.current?.close(); }
@@ -50,12 +55,13 @@ export default function GroupEvents({ enabledIds, carousel = false }: { enabledI
     try {
       const response = await fetch("/api/group-events/registrations", {
         method: "POST", headers: { "Content-Type": "application/json" }, credentials: "same-origin", signal: AbortSignal.timeout(15000),
-        body: JSON.stringify({ eventId: selectedId, fullName: data.get("fullName"), email: data.get("email"), phone: data.get("phone"), privacyAcknowledged: data.get("privacy") === "on", termsAccepted: data.get("terms") === "on", website: data.get("website") }),
+        body: JSON.stringify({ eventIds: selectedIds, fullName: data.get("fullName"), email: data.get("email"), phone: data.get("phone"), privacyAcknowledged: data.get("privacy") === "on", termsAccepted: data.get("terms") === "on", website: data.get("website") }),
       });
       const pack = await response.json();
       if (!response.ok) throw new Error(pack.error ?? "Başvuru kaydedilemedi.");
       if (!/^https:\/\/www\.shopier\.com\/[0-9]+$/.test(pack.checkoutUrl)) throw new Error("Ödeme bağlantısı doğrulanamadı.");
-      setApplication({ registrationId: pack.registrationId, checkoutUrl: pack.checkoutUrl, eventId: selectedId });
+      if (pack.amountKurus !== price.totalKurus) throw new Error("Paket tutarı değişti. Lütfen seçimini kontrol et.");
+      setApplication({ registrationId: pack.registrationId, checkoutUrl: pack.checkoutUrl, eventIds: [...selectedIds], amountKurus: pack.amountKurus });
       setStatus({ paymentStatus: "pending", confirmationSent: false });
       window.location.assign(pack.checkoutUrl);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Başvuru kaydedilemedi."); }
@@ -79,23 +85,28 @@ export default function GroupEvents({ enabledIds, carousel = false }: { enabledI
     <p className={s.note}>Çalışmalar kişisel gelişim ve spiritüel farkındalık amaçlıdır; tıbbi tedavi veya psikoterapi yerine geçmez. Sonuç garantisi verilmez.</p>
     <dialog ref={dialog} className={s.dialog} aria-labelledby="group-register-title" onCancel={e => { if (busy) e.preventDefault(); }} onClose={() => opener.current?.focus()}>
       <header className={s.dialogHeader}><h2 id="group-register-title">Çalışmaya kayıt ol</h2><button type="button" className={s.close} aria-label="Kayıt formunu kapat" disabled={busy} onClick={close}>×</button></header>
-      {application ? <div className={s.status} aria-live="polite"><p className={s.eyebrow}>{event.title}</p>
+      {application ? <div className={s.status} aria-live="polite"><p className={s.eyebrow}>{selectionTitle}</p>
         <h3>{status?.paymentStatus === "paid" ? "Ödemen doğrulandı." : status?.paymentStatus === "refunded" ? "Ödeme iade durumunda." : "Başvurun alındı. Ödeme bekleniyor."}</h3>
-        <p>{status?.paymentStatus === "paid" ? status.confirmationSent ? "Kayıt onayın ve Google Meet bağlantın e-posta adresine gönderildi. Gelen kutunu ve spam klasörünü kontrol et." : "Kesin kaydın oluştu. Kayıt onayın ve Google Meet bağlantın kayıt e-postana iletilecek." : status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : "Kesin kayıt için Shopier üzerinden 600 TL ödemeni tamamla. Shopier’de kayıt formundaki e-posta adresini kullan ve yalnızca bu etkinliği, 1 adet olarak satın al."}</p>
-        {status?.paymentStatus === "pending" ? <div className={s.actions}><a className={s.button} href={application.checkoutUrl} target="_blank" rel="noopener noreferrer">Shopier’de 600 TL öde ↗</a><button type="button" className={`${s.button} ${s.secondary}`} onClick={close}>Daha sonra devam et</button></div> : null}
+        <p>{status?.paymentStatus === "paid" ? status.confirmationSent ? "Kayıt onayın ve Google Meet bağlantıların e-posta adresine gönderildi. Gelen kutunu ve spam klasörünü kontrol et." : "Kesin kaydın oluştu. Kayıt onayın ve Google Meet bağlantıların kayıt e-postana iletilecek." : status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : `Kesin kayıt için Shopier üzerinden ${formatGroupPrice(application.amountKurus)} ödemeni tamamla. Shopier’de kayıt formundaki e-posta adresini kullan ve yalnızca seçtiğin paketi, 1 adet olarak satın al.`}</p>
+        {status?.paymentStatus === "pending" ? <div className={s.actions}><a className={s.button} href={application.checkoutUrl} target="_blank" rel="noopener noreferrer">Shopier’de {formatGroupPrice(application.amountKurus)} öde ↗</a><button type="button" className={`${s.button} ${s.secondary}`} onClick={close}>Daha sonra devam et</button></div> : null}
         {error ? <p className={s.error} role="alert">{error}</p> : null}
       </div> : <form className={s.form} onSubmit={submit}>
-        <p className={s.notice}>{event.title}<br />{formatGroupEventDate(event.startsAt)} 2026 · 20.30 · Google Meet · 600 TL</p>
-        <label>Katılacağın etkinlik<select name="eventId" value={selectedId} onChange={e => { setSelectedId(e.target.value); setError(""); }}>{groupEvents.map(item => <option value={item.id} key={item.id}>{item.title} · {formatGroupEventDate(item.startsAt)}</option>)}</select></label>
+        <GroupEventSelection selectedIds={selectedIds} now={now} disabled={busy} onChange={ids => { setSelectedIds(ids); setError(""); setTermsAccepted(false); }} />
+        <div className={s.priceSummary} aria-live="polite" aria-atomic="true">
+          <p><span>{selectedEvents.length} etkinlik · Normal toplam</span><span>{formatGroupPrice(price.subtotalKurus)}</span></p>
+          {price.discountKurus > 0 ? <p><span>Paket indirimi</span><span>−{formatGroupPrice(price.discountKurus)}</span></p> : null}
+          <p className={s.priceTotal}><strong>Ödenecek toplam</strong><strong>{formatGroupPrice(price.totalKurus)}</strong></p>
+          <small>2 etkinlik 850 TL · 3 etkinlik 1.550 TL · 4 etkinlik 2.000 TL</small>
+        </div>
         <label>Ad ve soyad<input name="fullName" autoComplete="name" required minLength={3} maxLength={120} /></label>
         <label>E-posta adresi<input name="email" type="email" autoComplete="email" required maxLength={254} /><span className={s.note}>Shopier ödemesinde de aynı e-postayı kullan. Kayıt onayın bu adrese iletilecek.</span></label>
         <label>Telefon numarası<input name="phone" type="tel" autoComplete="tel" inputMode="tel" required minLength={10} maxLength={24} placeholder="+90 5xx xxx xx xx" /></label>
         <div className={s.honeypot} aria-hidden="true"><label>Web sitesi<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
         <label className={s.check}><input name="privacy" type="checkbox" required /><span><a href="/kvkk-aydinlatma-metni" target="_blank" rel="noopener noreferrer">KVKK aydınlatma metnini</a> okudum. İletişim bilgilerimin başvuru, ödeme takibi ve katılım bilgilendirmeleri için kullanılacağı konusunda bilgilendirildim.</span></label>
-        <label className={s.check}><input name="terms" type="checkbox" required /><span>Seçtiğim çalışmanın tarihini, 600 TL ücretini, <a href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener noreferrer">satış koşullarını</a> ve <a href="/iptal-ve-iade-politikasi" target="_blank" rel="noopener noreferrer">iptal/iade politikasını</a> okudum ve kabul ediyorum. Kaydımın ödeme doğrulandıktan sonra kesinleşeceğini biliyorum.</span></label>
-        {!available ? <p className={s.notice}>Online kayıt henüz açılmadı. Lütfen daha sonra tekrar kontrol et.</p> : null}
+        <label className={s.check}><input name="terms" type="checkbox" required checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} /><span>Seçtiğim çalışmaların tarihlerini, toplam {formatGroupPrice(price.totalKurus)} ücretini, <a href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener noreferrer">satış koşullarını</a> ve <a href="/iptal-ve-iade-politikasi" target="_blank" rel="noopener noreferrer">iptal/iade politikasını</a> okudum ve kabul ediyorum. Kaydımın ödeme doğrulandıktan sonra kesinleşeceğini biliyorum.</span></label>
+        {selection && !available ? <p className={s.notice}>Seçtiğin paket için online kayıt henüz açılmadı. Lütfen daha sonra tekrar kontrol et.</p> : null}
         {error ? <p className={s.error} role="alert">{error}</p> : null}
-        <button className={s.button} type="submit" disabled={busy || !available}>{busy ? "Başvurun kaydediliyor…" : "Başvuruyu kaydet ve ödemeye geç · 600 TL"}</button>
+        <button className={s.button} type="submit" disabled={busy || !available}>{busy ? "Başvurun kaydediliyor…" : `Başvuruyu kaydet ve ödemeye geç · ${formatGroupPrice(price.totalKurus)}`}</button>
         <p className={s.note}>Bu form kart bilgisi istemez. Formun gönderilmesi veya ödeme sayfasından geri dönmek tek başına kesin kayıt oluşturmaz.</p>
       </form>}
     </dialog>

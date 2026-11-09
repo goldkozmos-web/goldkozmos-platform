@@ -17,15 +17,15 @@ export async function GET(request: Request) {
   if (eventId && !findGroupEvent(eventId) || !Number.isSafeInteger(offset) || offset < 0) return NextResponse.json({ error: "Geçersiz filtre." }, { status: 400 });
   try {
     const client = groupService();
-    let query = client.from("group_event_registrations").select("id,event_id,event_title,full_name,email,phone,payment_status,provider_order_id,created_at,paid_at,confirmation_sent_at", { count: "exact" }).order("created_at", { ascending: false }).range(offset, offset + 49);
-    if (eventId) query = query.eq("event_id", eventId);
+    let query = client.from("group_event_registrations").select("id,event_id,event_ids,event_title,amount_kurus,full_name,email,phone,payment_status,provider_order_id,created_at,paid_at,confirmation_sent_at", { count: "exact" }).order("created_at", { ascending: false }).range(offset, offset + 49);
+    if (eventId) query = query.contains("event_ids", [eventId]);
     const [result, meetings, counts] = await Promise.all([
       query,
       client.from("group_event_private").select("event_id,meet_url"),
       Promise.all(groupEvents.map(async event => {
         const [total, paid] = await Promise.all([
-          client.from("group_event_registrations").select("id", { count: "exact", head: true }).eq("event_id", event.id),
-          client.from("group_event_registrations").select("id", { count: "exact", head: true }).eq("event_id", event.id).eq("payment_status", "paid"),
+          client.from("group_event_registrations").select("id", { count: "exact", head: true }).contains("event_ids", [event.id]),
+          client.from("group_event_registrations").select("id", { count: "exact", head: true }).contains("event_ids", [event.id]).eq("payment_status", "paid"),
         ]);
         if (total.error || paid.error) throw new Error("Sayılar okunamadı.");
         return { eventId: event.id, title: event.title, total: total.count ?? 0, paid: paid.count ?? 0 };

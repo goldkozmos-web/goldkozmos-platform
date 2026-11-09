@@ -3,7 +3,7 @@ import test from "node:test";
 import { createHmac } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { PGlite } from "@electric-sql/pglite";
-import { groupEvents, formatGroupEventDate } from "../src/data/groupEvents.ts";
+import { groupEvents, formatGroupEventDate, groupEventOffers, groupEventSelection, groupEventPrice } from "../src/data/groupEvents.ts";
 import { parseGroupRegistration, isGoogleMeetUrl } from "../src/lib/group-events/validation.ts";
 import { moneyToKurus, verifyEventOrder, verifyShopierSignature, type ShopierOrder } from "../src/lib/group-events/payment.ts";
 
@@ -42,6 +42,55 @@ test("a receipt must match paid status, exact product, amount, currency, email a
 test("meeting URLs cannot point to arbitrary third-party hosts or carry query injection", () => {
   assert(isGoogleMeetUrl("https://meet.google.com/abc-defg-hij"));
   for (const value of ["https://meet.google.com.evil.example/abc-defg-hij", "javascript:alert(1)", "http://meet.google.com/abc-defg-hij", "https://meet.google.com/abc-defg-hij?next=evil"]) assert(!isGoogleMeetUrl(value));
+});
+
+test("all fifteen selections use owner-specified totals and ignore browser prices", () => {
+  assert.equal(groupEventOffers.length, 15);
+  assert.equal(new Set(groupEventOffers.map(offer => offer.productEnv)).size, 15);
+  assert.deepEqual([1,2,3,4].map(count => groupEventPrice(count).totalKurus), [60000,85000,155000,200000]);
+  for (const offer of groupEventOffers) {
+    const ids = offer.events.map(event => event.id);
+    const parsed = parseGroupRegistration({ ...valid, eventIds: [...ids].reverse(), amountKurus: 1, discount: 999999 }, now);
+    assert.equal(parsed.selection.totalKurus, offer.totalKurus);
+    assert.equal(parsed.selection.key, offer.key);
+    const price = (offer.totalKurus / 100).toFixed(2);
+    const paid = { ...order(), totals: { total: price }, lineItems: [{ productId: "999", quantity: 1, price, total: price }] };
+    assert(verifyEventOrder(paid, offer.events, "999", "test@example.com", registeredAt));
+    assert(!verifyEventOrder({ ...paid, totals: { total: "0.01" } }, offer.events, "999", "test@example.com", registeredAt));
+    assert(!verifyEventOrder({ ...paid, lineItems: [{ ...paid.lineItems[0], productId: "wrong-package" }] }, offer.events, "999", "test@example.com", registeredAt));
+  }
+  for (const ids of [[], [event.id,event.id], [event.id,"unknown"], [null], "all"]) assert.throws(() => groupEventSelection(ids));
+  assert.throws(() => parseGroupRegistration({ ...valid, eventIds: [groupEvents[0].id,groupEvents[3].id] }, Date.parse(groupEvents[0].startsAt)));
+});
+
+test("package migration preserves old registrations, rejects overlap and prices, confirms all selected events once", async () => {
+  const db = new PGlite();
+  try {
+    await db.exec("create role anon; create role authenticated; create role service_role bypassrls;");
+    await db.exec(await readFile(new URL("../supabase/migrations/20261109210000_group_event_registration.sql", import.meta.url), "utf8"));
+    const insert = (ids: string[], amount: number, email: string) => db.query<{id:string}>(`insert into public.group_event_registrations(event_id,event_ids,event_title,full_name,email,phone,amount_kurus,access_token_hash,consent_version,privacy_acknowledged_at,terms_accepted_at) values ($1,$2,'Test package','Test Katılımcı',$3,'+905550000000',$4,$5,'test',now(),now()) returning id`, [ids[0],ids,email,amount,"a".repeat(64)]);
+    await db.query(`insert into public.group_event_registrations(event_id,event_title,full_name,email,phone,access_token_hash,consent_version,privacy_acknowledged_at,terms_accepted_at) values ($1,'Legacy','Test Katılımcı','legacy@example.com','+905550000000',$2,'v1',now(),now())`, [event.id,"b".repeat(64)]);
+    await db.exec(await readFile(new URL("../supabase/migrations/20261109230000_group_event_packages.sql", import.meta.url), "utf8"));
+    const legacy = await db.query<{event_ids:string[];amount_kurus:number}>("select event_ids,amount_kurus from public.group_event_registrations where email='legacy@example.com'");
+    assert.deepEqual(legacy.rows[0], {event_ids:[event.id],amount_kurus:60000});
+    await db.exec("set role service_role;");
+    for (const offer of groupEventOffers) {
+      const ids = offer.events.map(item => item.id), email = `package-${offer.key}@example.com`;
+      const row = await insert(ids,offer.totalKurus,email);
+      const id = row.rows[0].id;
+      const confirmed = await db.query<{ok:boolean}>("select public.group_event_confirm_payment($1,$2,now()) as ok", [id,`500${offer.key}`]);
+      assert(confirmed.rows[0].ok);
+      assert((await db.query<{ok:boolean}>("select public.group_event_confirm_payment($1,$2,now()) as ok", [id,`500${offer.key}`])).rows[0].ok);
+      await assert.rejects(() => insert([ids[ids.length-1]],60000,email), /already registered|unique/);
+      await assert.rejects(() => insert(ids,1,`bad-${email}`), /Invalid package total/);
+    }
+    await assert.rejects(() => insert([event.id,event.id],85000,"duplicate@example.com"), /Invalid event selection/);
+    await assert.rejects(() => insert([event.id,"unknown"],85000,"invalid@example.com"), /Invalid event selection/);
+    const counts = await db.query<{total:number}>("select count(*)::integer as total from public.group_event_registrations where event_ids @> array[$1] and payment_status='paid'", [event.id]);
+    assert.equal(counts.rows[0].total,8);
+    await db.exec("reset role; set role anon;");
+    await assert.rejects(() => db.query("select event_ids from public.group_event_registrations"), /permission denied/);
+  } finally { await db.close(); }
 });
 
 test("real SQL migration protects personal data, duplicate payment and concurrent callback state", async () => {

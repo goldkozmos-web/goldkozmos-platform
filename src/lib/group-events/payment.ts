@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { GroupEvent } from "../../data/groupEvents.ts";
-import { GROUP_EVENT_PRICE_KURUS } from "../../data/groupEvents.ts";
+import { groupEventSelection } from "../../data/groupEvents.ts";
 
 export type ShopierOrder = {
   id: string; paymentStatus: string; currency: string; dateCreated: string;
@@ -24,16 +24,19 @@ export function verifyShopierSignature(body: string, signature: string | null, t
   return received.length === expected.length && timingSafeEqual(received, expected);
 }
 
-export function verifyEventOrder(order: ShopierOrder, event: GroupEvent, productId: string, email: string, registeredAt: string) {
+export function verifyEventOrder(order: ShopierOrder, event: GroupEvent | readonly GroupEvent[], productId: string, email: string, registeredAt: string) {
+  const events = "startsAt" in event ? [event] : event;
+  let amount: number;
+  try { amount = groupEventSelection(events.map(item => item.id)).totalKurus; } catch { return false; }
   if (!order || !/^[0-9]+$/.test(order.id) || order.paymentStatus !== "paid" || order.currency !== "TRY") return false;
   if (!Array.isArray(order.lineItems) || order.lineItems.length !== 1) return false;
   const item = order.lineItems[0];
-  if (item.productId !== productId || item.quantity !== 1 || moneyToKurus(item.price) !== GROUP_EVENT_PRICE_KURUS || moneyToKurus(item.total) !== GROUP_EVENT_PRICE_KURUS) return false;
-  if (moneyToKurus(order.totals?.total) !== GROUP_EVENT_PRICE_KURUS) return false;
+  if (item.productId !== productId || item.quantity !== 1 || moneyToKurus(item.price) !== amount || moneyToKurus(item.total) !== amount) return false;
+  if (moneyToKurus(order.totals?.total) !== amount) return false;
   if (order.refunds?.some(refund => refund.status === "pending" || refund.status === "succeeded")) return false;
   if (order.shippingInfo?.email?.trim().toLowerCase() !== email.trim().toLowerCase()) return false;
   const paidAt = Date.parse(order.dateCreated), createdAt = Date.parse(registeredAt);
-  return Number.isFinite(paidAt) && Number.isFinite(createdAt) && paidAt >= createdAt - 1000 && paidAt < Date.parse(event.startsAt);
+  return Number.isFinite(paidAt) && Number.isFinite(createdAt) && paidAt >= createdAt - 1000 && events.every(item => paidAt < Date.parse(item.startsAt));
 }
 
 export async function getShopierOrder(orderId: string) {
