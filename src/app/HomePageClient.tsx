@@ -4,7 +4,7 @@ import CompactInstagramFollow from "../components/home/CompactInstagramFollow";
 import { APPOINTMENT_WHATSAPP_URL } from "../lib/appointments";
 
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import FooterSection from "../components/FooterSection";
@@ -2243,7 +2243,7 @@ const homepageArchiveStyles = `
 
 `;
 
-export default function HomePageClient({ featuredArticles }: { featuredArticles?: FeaturedBlogArticle[] }) {
+export default function HomePageClient({ featuredArticles, upcomingEvents }: { featuredArticles?: FeaturedBlogArticle[]; upcomingEvents?: ReactNode }) {
   const [heroVideoOpen, setHeroVideoOpen] =
     useState(false);
   const [faqOpen, setFaqOpen] = useState(false);
@@ -2404,6 +2404,7 @@ return (
       <DailyActionCard />
       <HomeSpotlightCarousel featuredArticles={featuredArticles} />
       <DailyMessageExperience />
+      {upcomingEvents}
       <HomeResonanceCarousel />
 
       {/* GOLDBOOK */}
