@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import { TAROT_DECK } from "../../data/tarot/deck";
 import { TAROT_TOPICS, type TarotCard, type TarotTopicId } from "../../data/tarot/types";
-import { spreadSynthesis, topicById } from "../../lib/tarot/reading";
+import { spreadSynthesis, topicById } from "../../lib/tarot/compose";
 import { tarotImagePath } from "../../lib/tarot/urls";
 
 type Step = "topic" | "ready" | "result";
