@@ -57,20 +57,24 @@ export default function GroupEvents({ enabledIds, carousel = false }: { enabledI
       if (!/^https:\/\/www\.shopier\.com\/[0-9]+$/.test(pack.checkoutUrl)) throw new Error("Ödeme bağlantısı doğrulanamadı.");
       setApplication({ registrationId: pack.registrationId, checkoutUrl: pack.checkoutUrl, eventId: selectedId });
       setStatus({ paymentStatus: "pending", confirmationSent: false });
+      window.location.assign(pack.checkoutUrl);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Başvuru kaydedilemedi."); }
     finally { setBusy(false); }
   }
 
   return <section className={s.section} id="yaklasan-etkinlikler" aria-labelledby="group-events-title">
-    <header className={s.heading}><div><p className={s.eyebrow}>GOLDKOZMOS · CANLI GRUP ÇALIŞMALARI</p><h2 id="group-events-title">Yaklaşan Etkinlikler</h2><p className={s.intro}>Kasım ayında birlikte kendine alan aç. Sana yakın gelen çalışmayı seç, detayları incele ve katılımını planla.</p></div><span className={s.summary}>Kasım 2026 · Google Meet<br />20.30 Türkiye saati · 600 TL</span></header>
+    <header className={s.heading}><div><p className={s.eyebrow}>GOLDKOZMOS · CANLI GRUP ÇALIŞMALARI</p><h2 id="group-events-title">Yaklaşan Etkinlikler</h2><p className={s.intro}>Kasım ayında birlikte kendine alan aç. Sana yakın gelen çalışmayı seç ve katılımını planla.</p></div>{!carousel ? <span className={s.summary}>Kasım 2026 · Google Meet<br />20.30 Türkiye saati · 600 TL</span> : null}</header>
     {carousel ? <p className={s.scrollHint}>Etkinlikleri kaydırarak keşfet →</p> : null}
     <div className={s.grid} role={carousel ? "region" : undefined} aria-label={carousel ? "Kaydırılabilir yaklaşan etkinlikler" : undefined} tabIndex={carousel ? 0 : undefined}>{groupEvents.map(item => <article className={s.card} key={item.id} id={`etkinlik-${item.id}`}>
-      <div className={s.cardHeader}><time dateTime={item.startsAt}>{carousel ? formatGroupEventDate(item.startsAt).toLocaleUpperCase("tr-TR") : formatGroupEventDate(item.startsAt)}</time><span>600 TL</span></div>
+      <div className={s.cardHeader}><time dateTime={item.startsAt}>{carousel ? formatGroupEventDate(item.startsAt).toLocaleUpperCase("tr-TR") : formatGroupEventDate(item.startsAt)}</time>{!carousel ? <span>600 TL</span> : null}</div>
       {item.cover ? <Image src={item.cover.src} alt={item.cover.alt} width={1254} height={1254} sizes={carousel ? "(max-width:400px) 250px, 290px" : "(max-width:650px) 100vw, (max-width:1200px) 50vw, 550px"} style={{ width: "100%", height: "auto", aspectRatio: "1 / 1", borderRadius: 12 }} /> : null}
       <h3>{item.title}</h3><p>{item.purpose}</p>
-      <div className={s.facts}><span>20.30 · Türkiye saati</span><span>Google Meet</span><span>Tek günlük canlı grup çalışması</span></div>
-      <details className={s.details}><summary>{item.title} — çalışma detayları</summary><h4>Bu çalışmada neler var?</h4><ul>{item.scope.map(text => <li key={text}>{text}</li>)}</ul><h4>Kimler için uygun?</h4><p>{item.suitableFor}</p><h4>Katılım nasıl gerçekleşir?</h4><p>{formatGroupEventDate(item.startsAt)} 2026, saat 20.30’da Google Meet üzerinden canlı olarak buluşuyoruz. Katılım ücreti 600 TL’dir; sabit bir katılımcı sınırı yoktur. Ödemen doğrulandıktan sonra kayıt onayın ve katılım bağlantın kayıt e-postana gönderilir.</p></details>
-      <button type="button" className={s.button} onClick={e => open(item.id, e.currentTarget)} disabled={Date.parse(item.startsAt) <= now}>Çalışmaya Kayıt Ol <span aria-hidden="true">↗</span></button>
+      {!carousel ? <><div className={s.facts}><span>20.30 · Türkiye saati</span><span>Google Meet</span><span>Tek günlük canlı grup çalışması</span></div>
+      <details className={s.details}><summary>{item.title} — çalışma detayları</summary><h4>Bu çalışmada neler var?</h4><ul>{item.scope.map(text => <li key={text}>{text}</li>)}</ul><h4>Kimler için uygun?</h4><p>{item.suitableFor}</p><h4>Katılım nasıl gerçekleşir?</h4><p>{formatGroupEventDate(item.startsAt)} 2026, saat 20.30’da Google Meet üzerinden canlı olarak buluşuyoruz. Katılım ücreti 600 TL’dir; sabit bir katılımcı sınırı yoktur. Ödemen doğrulandıktan sonra kayıt onayın ve katılım bağlantın kayıt e-postana gönderilir.</p></details></> : null}
+      <div className={s.registrationAction}>
+        {carousel ? <div className={s.bookingFacts}><p>20.30 Türkiye saati · <strong>600 TL</strong></p><span>Google Meet · Tek günlük canlı grup çalışması</span></div> : null}
+        <button type="button" className={s.button} onClick={e => open(item.id, e.currentTarget)} disabled={Date.parse(item.startsAt) <= now}>{carousel ? "Kayıt Ol" : "Çalışmaya Kayıt Ol"} <span aria-hidden="true">↗</span></button>
+      </div>
     </article>)}</div>
     <p className={s.note}>Çalışmalar kişisel gelişim ve spiritüel farkındalık amaçlıdır; tıbbi tedavi veya psikoterapi yerine geçmez. Sonuç garantisi verilmez.</p>
     <dialog ref={dialog} className={s.dialog} aria-labelledby="group-register-title" onCancel={e => { if (busy) e.preventDefault(); }} onClose={() => opener.current?.focus()}>
