@@ -8,7 +8,7 @@ import s from "./GroupEvents.module.css";
 type Application = { registrationId: string; checkoutUrl: string; eventId: string };
 type Status = { paymentStatus: "pending" | "paid" | "refunded"; confirmationSent: boolean };
 
-export default function GroupEvents({ enabledIds }: { enabledIds: string[] }) {
+export default function GroupEvents({ enabledIds, carousel = false }: { enabledIds: string[]; carousel?: boolean }) {
   const [selectedId, setSelectedId] = useState(groupEvents[0].id);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -63,9 +63,10 @@ export default function GroupEvents({ enabledIds }: { enabledIds: string[] }) {
 
   return <section className={s.section} id="yaklasan-etkinlikler" aria-labelledby="group-events-title">
     <header className={s.heading}><div><p className={s.eyebrow}>GOLDKOZMOS · CANLI GRUP ÇALIŞMALARI</p><h2 id="group-events-title">Yaklaşan Etkinlikler</h2><p className={s.intro}>Kasım ayında birlikte kendine alan aç. Sana yakın gelen çalışmayı seç, detayları incele ve katılımını planla.</p></div><span className={s.summary}>Kasım 2026 · Google Meet<br />20.30 Türkiye saati · 600 TL</span></header>
-    <div className={s.grid}>{groupEvents.map(item => <article className={s.card} key={item.id} id={`etkinlik-${item.id}`}>
-      <div className={s.cardHeader}><time dateTime={item.startsAt}>{formatGroupEventDate(item.startsAt)}</time><span>600 TL</span></div>
-      {item.cover ? <Image src={item.cover.src} alt={item.cover.alt} width={1254} height={1254} sizes="(max-width:650px) 100vw, (max-width:1200px) 50vw, 550px" style={{ width: "100%", height: "auto", aspectRatio: "1 / 1", borderRadius: 12 }} /> : null}
+    {carousel ? <p className={s.scrollHint}>Etkinlikleri kaydırarak keşfet →</p> : null}
+    <div className={s.grid} role={carousel ? "region" : undefined} aria-label={carousel ? "Kaydırılabilir yaklaşan etkinlikler" : undefined} tabIndex={carousel ? 0 : undefined}>{groupEvents.map(item => <article className={s.card} key={item.id} id={`etkinlik-${item.id}`}>
+      <div className={s.cardHeader}><time dateTime={item.startsAt}>{carousel ? formatGroupEventDate(item.startsAt).toLocaleUpperCase("tr-TR") : formatGroupEventDate(item.startsAt)}</time><span>600 TL</span></div>
+      {item.cover ? <Image src={item.cover.src} alt={item.cover.alt} width={1254} height={1254} sizes={carousel ? "(max-width:400px) 250px, 290px" : "(max-width:650px) 100vw, (max-width:1200px) 50vw, 550px"} style={{ width: "100%", height: "auto", aspectRatio: "1 / 1", borderRadius: 12 }} /> : null}
       <h3>{item.title}</h3><p>{item.purpose}</p>
       <div className={s.facts}><span>20.30 · Türkiye saati</span><span>Google Meet</span><span>Tek günlük canlı grup çalışması</span></div>
       <details className={s.details}><summary>{item.title} — çalışma detayları</summary><h4>Bu çalışmada neler var?</h4><ul>{item.scope.map(text => <li key={text}>{text}</li>)}</ul><h4>Kimler için uygun?</h4><p>{item.suitableFor}</p><h4>Katılım nasıl gerçekleşir?</h4><p>{formatGroupEventDate(item.startsAt)} 2026, saat 20.30’da Google Meet üzerinden canlı olarak buluşuyoruz. Katılım ücreti 600 TL’dir; sabit bir katılımcı sınırı yoktur. Ödemen doğrulandıktan sonra kayıt onayın ve katılım bağlantın kayıt e-postana gönderilir.</p></details>
