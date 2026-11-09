@@ -1,5 +1,13 @@
 # GoldKozmos grup çalışmaları — geliştirme ve açılış notları
 
+## Bağlantı durumu — 10 Kasım 2026
+
+Vercel `goldkozmos-platform` projesine erişim doğrulandı. Ortam değerleri açılmadan adları ve ortam hedefleri kontrol edildi: mevcut Supabase genel ayarları yalnızca Production ortamında; Shopier, Supabase sunucu anahtarı ve onay e-postası ayarları henüz bulunmuyor. Preview ortamına `GROUP_EVENTS_ENABLED=false` eklendi. Production ayarları değiştirilmedi ve dağıtım yapılmadı. Yerel geliştirme dalı GitHub'da henüz bulunmadığından dala özel ortam ayarı oluşturulamadı; eklenen kapalı kayıt ayarı Preview genelindedir.
+
+Bağlantı ayarlarını değerlerini göstermeden denetlemek için çalışma kopyasında `node scripts/group-events-setup.ts check` kullanılır. Eksik veya yinelenen ürün kimlikleri çıktıda EKSİK olur ve çıkış kodu 1 döner. Bu, uzaktaki veritabanı veya gerçek ödeme testi değildir. `node scripts/group-events-setup.ts catalog` komutu tüm 15 kombinasyonun ürün başlığı, fiyatı ve bağlanacak ayar adını JSON olarak üretir; Shopier'de ürün oluşturmaz.
+
+Devam etmek için Shopier satıcı hesabı, 15 ürünün kimlikleri, sipariş okuma erişimi ve webhook bağlantısı gerekir. Anahtarlar sohbete yazılmamalı; ilgili Preview ortamının güvenli ayarlarına eklenmelidir. Ayrı test Supabase ortamı ve sunucu anahtarı olmadan uzaktaki geçişler uygulanmaz. Gerçek ödeme henüz alınmadı.
+
 ## Güncel paket seçimi — 9 Kasım 2026
 
 Formda etkinlikler tek tek veya “Tüm paketleri seç” ile seçilir. Kullanıcının son fiyatları önceki sabit indirim isteğinin yerine geçer: 1 etkinlik 600 TL, 2 etkinlik 850 TL, 3 etkinlik 1.550 TL, 4 etkinlik 2.000 TL. Her seçimin toplamı sunucuda yeniden hesaplanır; tarayıcıdan fiyat veya indirim kabul edilmez. Aynı sayıda farklı etkinlik seçimi aynı toplamı kullanır. Formdaki indirim satırı normal toplam ile paket toplamının farkıdır.

@@ -6,10 +6,26 @@ import { PGlite } from "@electric-sql/pglite";
 import { groupEvents, formatGroupEventDate, groupEventOffers, groupEventSelection, groupEventPrice } from "../src/data/groupEvents.ts";
 import { parseGroupRegistration, isGoogleMeetUrl } from "../src/lib/group-events/validation.ts";
 import { moneyToKurus, verifyEventOrder, verifyShopierSignature, type ShopierOrder } from "../src/lib/group-events/payment.ts";
+import { groupSetupReport } from "../src/lib/group-events/setup.ts";
 
 const event = groupEvents[0], registeredAt = "2026-11-09T18:00:00Z", now = Date.parse(registeredAt);
 const valid = { eventId: event.id, fullName: "Örnek Katılımcı", email: " TEST@example.com ", phone: "+90 (555) 000-00-00", privacyAcknowledged: true, termsAccepted: true };
 const order = (): ShopierOrder => ({ id: "12345", paymentStatus: "paid", currency: "TRY", dateCreated: "2026-11-09T18:05:00Z", shippingInfo: { email: "test@example.com" }, totals: { total: "600.00" }, lineItems: [{ productId: "999", quantity: 1, price: "600.00", total: "600.00" }] });
+
+test("setup check reports missing or duplicated products without exposing credentials", () => {
+  const empty = groupSetupReport({});
+  assert(!empty.enabled && !empty.allConfigured);
+  assert(empty.products.every(product => !product.ready));
+  const env: Record<string,string> = { NEXT_PUBLIC_SUPABASE_URL:"https://test.supabase.co", NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:"public-test", SUPABASE_SERVICE_ROLE_KEY:"private-test-key", SHOPIER_PAT:"private-test-pat", SHOPIER_WEBHOOK_TOKEN:"private-test-token", GROUP_EVENT_RATE_SECRET:"a".repeat(32), RESEND_API_KEY:"private-test-email", GROUP_EVENT_EMAIL_FROM:"test@example.com" };
+  groupEventOffers.forEach((offer, index) => { env[offer.productEnv] = String(index + 100); });
+  const ready = groupSetupReport(env);
+  assert(ready.allConfigured && !ready.enabled);
+  assert(!JSON.stringify(ready).includes("private-test"));
+  env[groupEventOffers[1].productEnv] = env[groupEventOffers[0].productEnv];
+  const duplicate = groupSetupReport(env);
+  assert(!duplicate.allConfigured);
+  assert(!duplicate.products[0].ready && !duplicate.products[1].ready);
+});
 
 test("four supplied event dates preserve Turkey time and weekdays", () => {
   assert.equal(groupEvents.length, 4);

@@ -1,0 +1,28 @@
+import { groupEventOffers } from "../../data/groupEvents.ts";
+
+type Environment = Record<string, string | undefined>;
+export function groupSetupReport(env: Environment) {
+  const present = (names: string[]) => names.some(name => !!env[name]?.trim());
+  const checks = [
+    { name: "Veritabanı adresi", ready: present(["NEXT_PUBLIC_SUPABASE_URL"]) },
+    { name: "Veritabanı genel anahtarı", ready: present(["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", "NEXT_PUBLIC_SUPABASE_ANON_KEY"]) },
+    { name: "Veritabanı sunucu anahtarı", ready: present(["SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_KEY"]) },
+    { name: "Shopier sipariş erişimi", ready: present(["SHOPIER_PAT"]) },
+    { name: "Shopier bildirim doğrulaması", ready: present(["SHOPIER_WEBHOOK_TOKEN"]) },
+    { name: "Başvuru koruma anahtarı", ready: (env.GROUP_EVENT_RATE_SECRET?.trim().length ?? 0) >= 32 },
+    { name: "Onay e-postası hizmeti", ready: present(["RESEND_API_KEY"]) && present(["GROUP_EVENT_EMAIL_FROM"]) },
+  ];
+  const configuredIds = groupEventOffers.map(offer => env[offer.productEnv]?.trim()).filter(Boolean);
+  const products = groupEventOffers.map(offer => {
+    const id = env[offer.productEnv]?.trim();
+    return {
+      key: offer.productEnv,
+      title: offer.events.map(event => event.title).join(" + "),
+      eventIds: offer.events.map(event => event.id),
+      amountKurus: offer.totalKurus,
+      ready: !!id && /^[0-9]{1,30}$/.test(id) && configuredIds.filter(other => other === id).length === 1,
+    };
+  });
+  // This is configuration readiness only, never proof of schema, account or payment verification.
+  return { enabled: env.GROUP_EVENTS_ENABLED === "true", checks, products, allConfigured: checks.every(check => check.ready) && products.every(product => product.ready) };
+}
