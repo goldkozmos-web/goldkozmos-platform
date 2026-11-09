@@ -14,7 +14,6 @@ import DailyMessageExperience from "../components/daily/DailyMessageExperience";
 import HomeResonanceCarousel from "../components/home/HomeResonanceCarousel";
 import HomeSpotlightCarousel, { type FeaturedBlogArticle } from "../components/home/HomeSpotlightCarousel";
 import "../styles/home-hero-actions.css";
-import "../styles/home-connect.css";
 import "../styles/energy-discovery.css";
 import "../styles/topic-hub.css";
 import "../styles/home-hero-refined.css";
@@ -173,37 +172,6 @@ const socials: {
 ];
 
 
-const followChannels: {
-  name: string;
-  handle: string;
-  href: string;
-  platform: SocialPlatform;
-}[] = [
-  {
-    name: "TikTok",
-    handle: "@goldkozmos",
-    href: "https://www.tiktok.com/@goldkozmos?_r=1&_t=ZS-98y87m276cX",
-    platform: "tiktok",
-  },
-  {
-    name: "X",
-    handle: "@GoldKozmos",
-    href: "https://x.com/GoldKozmos",
-    platform: "x",
-  },
-  {
-    name: "Threads",
-    handle: "@goldkozmos",
-    href: "https://www.threads.com/@goldkozmos",
-    platform: "threads",
-  },
-  {
-    name: "YouTube",
-    handle: "@goldkozmos",
-    href: "https://youtube.com/@goldkozmos?si=Rna82s44awxWfnXt",
-    platform: "youtube",
-  },
-];
 
 
 
@@ -2530,20 +2498,6 @@ return (
         </div>
       </section>
 
-
-      <section className="gkConnectPremium" id="baglanti" aria-labelledby="connect-title">
-        <div className="gkConnectInner">
-          <header className="gkConnectHeading">
-            <p className="gkConnectEyebrow">GOLDKOZMOS · BAĞLANTIDA KAL</p>
-            <h2 id="connect-title">Gününe küçük bir <span>kozmos kat.</span></h2>
-            <p>İlham veren paylaşımlar, yeni çalışmalar ve duyurular. Sana yakın olan kanalı seç.</p>
-          </header>
-
-          <div className="gkConnectOther"><p className="gkConnectEyebrow">DİĞER KANALLARDA KEŞFET</p><div className="gkConnectOtherGrid">
-            {followChannels.map((channel) => <a key={channel.name} href={channel.href} target="_blank" rel="noopener noreferrer" className="gkConnectOtherLink"><span className="gkConnectOtherIcon" aria-hidden="true"><SocialIcon platform={channel.platform} filled /></span><span><strong>{channel.name}</strong><small>{channel.handle}</small></span><span className="gkConnectExternal" aria-hidden="true">↗</span></a>)}
-          </div></div>
-        </div>
-      </section>
 
       {/* SSS */}
 
