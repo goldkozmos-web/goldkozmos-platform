@@ -22,7 +22,7 @@ test("setup check reports missing or duplicated products without exposing creden
   const manual = groupSetupReport({
     NEXT_PUBLIC_SUPABASE_URL: env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
-    SUPABASE_SERVICE_ROLE_KEY: env.SUPABASE_SERVICE_ROLE_KEY,
+    GROUP_EVENT_SUPABASE_SECRET_KEY: env.SUPABASE_SERVICE_ROLE_KEY,
     GROUP_EVENT_RATE_SECRET: env.GROUP_EVENT_RATE_SECRET,
   });
   assert(manual.manualCheckout && manual.allConfigured && !manual.bankReady && !manual.cardReady);

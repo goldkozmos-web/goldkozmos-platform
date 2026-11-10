@@ -4,9 +4,8 @@ import { memberRowFromAuthUser } from "../admin/member-keys";
 import type { SiteMemberRow } from "../admin/members";
 import { getSupabasePublicEnv, getSupabaseServiceKey } from "./env";
 
-export function createSupabaseServiceClient() {
+export function createSupabaseServiceClient(serviceKey = getSupabaseServiceKey()) {
   const env = getSupabasePublicEnv();
-  const serviceKey = getSupabaseServiceKey();
   if (!env || !serviceKey) return null;
 
   return createClient(env.url, serviceKey, {

@@ -4,6 +4,10 @@ import { groupEventOffers, groupEventSelection } from "../../data/groupEvents";
 import { verifyEventOrder, getShopierOrder } from "./payment";
 import { bankPaymentDetails } from "./bank";
 
+function groupServiceClient() {
+  return createSupabaseServiceClient(process.env.GROUP_EVENT_SUPABASE_SECRET_KEY?.trim() || undefined);
+}
+
 export function registrationCookie(id: string) { return `gk_group_${id}`; }
 export function tokenHash(value: string) { return createHash("sha256").update(value).digest("hex"); }
 export function eventProductId(eventId: string) {
@@ -24,17 +28,17 @@ export function selectionRegistrationEnabled(eventIds: string[]) {
   return process.env.GROUP_EVENTS_ENABLED === "true" && !!product &&
     groupEventOffers.filter(offer => selectionProductId(offer.events.map(event => event.id)) === product).length === 1 &&
     !!process.env.SHOPIER_PAT && !!process.env.SHOPIER_WEBHOOK_TOKEN &&
-    (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!createSupabaseServiceClient();
+    (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!groupServiceClient();
 }
 export function bankRegistrationEnabled() {
   return groupWhatsAppRegistrationEnabled() && !!bankPaymentDetails();
 }
 export function groupWhatsAppRegistrationEnabled() {
   return process.env.GROUP_EVENTS_ENABLED === "true" &&
-    (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!createSupabaseServiceClient();
+    (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!groupServiceClient();
 }
 export function groupService() {
-  const client = createSupabaseServiceClient();
+  const client = groupServiceClient();
   if (!client) throw new Error("Kayıt sistemi henüz kullanıma açılmadı.");
   return client;
 }

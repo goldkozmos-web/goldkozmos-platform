@@ -8,7 +8,7 @@ export function groupSetupReport(env: Environment) {
   const checks = [
     { name: "Veritabanı adresi", ready: present(["NEXT_PUBLIC_SUPABASE_URL"]) },
     { name: "Veritabanı genel anahtarı", ready: present(["NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", "NEXT_PUBLIC_SUPABASE_ANON_KEY"]) },
-    { name: "Veritabanı sunucu anahtarı", ready: present(["SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_KEY"]) },
+    { name: "Veritabanı sunucu anahtarı", ready: present(["GROUP_EVENT_SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_ROLE_KEY", "SUPABASE_SECRET_KEY", "SUPABASE_SERVICE_KEY"]) },
     { name: "Shopier sipariş erişimi", ready: present(["SHOPIER_PAT"]) },
     { name: "Shopier bildirim doğrulaması", ready: present(["SHOPIER_WEBHOOK_TOKEN"]) },
     { name: "Başvuru koruma anahtarı", ready: (env.GROUP_EVENT_RATE_SECRET?.trim().length ?? 0) >= 32 },
