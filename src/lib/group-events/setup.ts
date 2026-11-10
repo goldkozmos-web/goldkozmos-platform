@@ -3,6 +3,7 @@ import { bankPaymentDetails } from "./bank.ts";
 
 type Environment = Record<string, string | undefined>;
 export function groupSetupReport(env: Environment) {
+  const manualCheckout = env.GROUP_EVENT_CHECKOUT_MODE !== "online";
   const present = (names: string[]) => names.some(name => !!env[name]?.trim());
   const checks = [
     { name: "Veritabanı adresi", ready: present(["NEXT_PUBLIC_SUPABASE_URL"]) },
@@ -28,5 +29,11 @@ export function groupSetupReport(env: Environment) {
   const cardReady = checks[3].ready && checks[4].ready && products.every(product => product.ready);
   const coreReady = checks.slice(0,3).every(check => check.ready) && checks[5].ready;
   checks.push({ name: "IBAN ve hesap sahibi", ready: bankReady });
-  return { enabled: env.GROUP_EVENTS_ENABLED === "true", checks, products, bankReady, cardReady, allConfigured: coreReady && (bankReady || cardReady) };
+  return {
+    enabled: env.GROUP_EVENTS_ENABLED === "true",
+    manualCheckout,
+    checks: manualCheckout ? [...checks.slice(0, 3), checks[5]] : checks,
+    products, bankReady, cardReady,
+    allConfigured: coreReady && (manualCheckout || bankReady || cardReady),
+  };
 }

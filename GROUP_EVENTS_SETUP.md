@@ -1,6 +1,14 @@
 # GoldKozmos grup çalışmaları — geliştirme ve açılış notları
 
-## Güncel akış: IBAN + yönetici onayı + WhatsApp — 10 Kasım 2026
+## Güncel akış: sitede başvuru, WhatsApp’ta manuel takip
+
+Varsayılan akışta katılımcı etkinlikleri seçer ve mevcut kayıt formunu doldurur. Başvuru veritabanına yazıldıktan sonra seçilen çalışmalar, hesaplanan paket toplamı ve başvuru koduyla hazır WhatsApp mesajı gösterilir. Katılımcı **WhatsApp’tan İlet** butonuyla mesajı açıp gönderir. Kişisel takip sayfası bekleyen WhatsApp başvurularında aynı mesajı yeniden açabilir.
+
+`20261110030000_group_whatsapp_requests.sql` geçişini davet geçişinden sonra uygula. Panelde WhatsApp başvurusu etiketi ve kodu görünür. Etkinlik bazındaki başvuru ve kesin kayıt sayıları ayrı tutulur. Ödeme WhatsApp’ta görüşülür. Yönetici panelde mevcut ödeme ve kayıt onayını kullanırsa kesin kayıt sayısı güncellenir.
+
+Test ortamında Supabase sunucu erişimi ve `GROUP_EVENT_RATE_SECRET` tanımlandıktan sonra `GROUP_EVENTS_ENABLED=true` ile başvuruyu aç. Varsayılan WhatsApp akışı IBAN ve Shopier ayarı gerektirmez. `GROUP_EVENT_CHECKOUT_MODE=online` önceki online ödeme seçeneklerini geri açar ve ilgili sağlayıcı ayarlarını gerektirir.
+
+## Önceki online ödeme akışı: IBAN + yönetici onayı + WhatsApp
 
 Kullanıcı IBAN'ı ana ödeme seçeneği, Shopier'i kart alternatifi olarak seçti. Paket fiyatları değişmedi: 600 / 850 / 1.550 / 2.000 TL. Kullanıcının sağladığı IBAN mod-97 kontrolünden geçti; alıcı Özge Batıgün. Bu iki bilgi yalnızca yerel `.env.local` ve Vercel Preview ayarlarına eklendi; kaynak kodda veya bu belgede hesap numarası tutulmaz. Banka adı verilmediği için uydurulmadı ve zorunlu değildir. IBAN bilgileri gerçek başvuru kaydedildikten sonra gösterilir. Açıklama, kayıt eşleştirme kodu ve seçilen çalışmaların adlarını içerir.
 

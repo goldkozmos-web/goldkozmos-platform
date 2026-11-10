@@ -18,7 +18,7 @@ export async function GET(request: Request) {
   if (eventId && !findGroupEvent(eventId) || !Number.isSafeInteger(offset) || offset < 0) return NextResponse.json({ error: "Geçersiz filtre." }, { status: 400 });
   try {
     const client = groupService();
-    let query = client.from("group_event_registrations").select("id,event_id,event_ids,event_title,amount_kurus,full_name,email,phone,payment_method,payment_status,bank_payment_code,approved_at,whatsapp_opt_in_at,provider_order_id,created_at,paid_at,confirmation_sent_at", { count: "exact" }).order("created_at", { ascending: false }).range(offset, offset + 49);
+    let query = client.from("group_event_registrations").select("id,event_id,event_ids,event_title,amount_kurus,full_name,email,phone,payment_method,payment_status,checkout_channel,bank_payment_code,approved_at,whatsapp_opt_in_at,provider_order_id,created_at,paid_at,confirmation_sent_at", { count: "exact" }).order("created_at", { ascending: false }).range(offset, offset + 49);
     if (eventId) query = query.contains("event_ids", [eventId]);
     const [result, meetings, invites, counts] = await Promise.all([
       query,

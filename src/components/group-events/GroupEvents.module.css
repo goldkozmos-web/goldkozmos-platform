@@ -38,6 +38,9 @@
 .tracking{box-sizing:border-box;width:min(660px,calc(100% - 32px));margin:32px auto 120px;padding:clamp(18px,5vw,34px);border:1px solid #ddcbaa;border-radius:18px;background:#faf6ed;color:#493322;font:14px/1.8 Arial,sans-serif}
 .tracking h1,.tracking h2{font:400 clamp(24px,5vw,34px)/1.2 Georgia,serif;margin:0 0 14px}
 .trackingLink{margin:18px 0}
+.whatsappRequest{display:grid;gap:12px}
+.whatsappRequest p{margin:0}
+.whatsappDraft{white-space:pre-wrap;overflow-wrap:anywhere}
 .invites{list-style:none;padding:0;display:grid;gap:10px}
 .invites li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px;border:1px solid #ddcbaa;border-radius:10px}
 .tracking a:focus-visible,.tracking button:focus-visible{outline:2px solid #9b7135;outline-offset:3px}

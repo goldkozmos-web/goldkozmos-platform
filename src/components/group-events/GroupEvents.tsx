@@ -7,13 +7,14 @@ import GroupEventSelection from "./GroupEventSelection";
 import BankTransferInstructions, { type BankInstructions } from "./BankTransferInstructions";
 import GroupInviteButtons from "./GroupInviteButtons";
 import GroupTrackingLink from "./GroupTrackingLink";
+import GroupWhatsAppRequest from "./GroupWhatsAppRequest";
 import { GROUP_REGISTRATION_PENDING, GROUP_TRACKING_PAGE, GROUP_TRACKING_STORAGE, type GroupTrackingStatus } from "../../lib/group-events/tracking";
 import s from "./GroupEvents.module.css";
 
-type Application = { registrationId: string; trackingPath: string; checkoutUrl: string | null; bank: BankInstructions | null; paymentMethod: "bank_transfer" | "shopier"; eventIds: string[]; amountKurus: number };
-type Status = Pick<GroupTrackingStatus, "paymentStatus" | "approved" | "invites">;
+type Application = { registrationId: string; trackingPath: string; checkoutUrl: string | null; bank: BankInstructions | null; eventIds: string[]; amountKurus: number; eventTitle: string };
+type Status = Pick<GroupTrackingStatus, "paymentStatus" | "approved" | "invites" | "whatsappRequest">;
 
-export default function GroupEvents({ enabledSelections, bankEnabled, carousel = false }: { enabledSelections: string[]; bankEnabled: boolean; carousel?: boolean }) {
+export default function GroupEvents({ enabledSelections, bankEnabled, manualCheckout, whatsappEnabled, carousel = false }: { enabledSelections: string[]; bankEnabled: boolean; manualCheckout: boolean; whatsappEnabled: boolean; carousel?: boolean }) {
   const [selectedIds, setSelectedIds] = useState<string[]>([groupEvents[0].id]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -23,15 +24,24 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
   const [status, setStatus] = useState<Status | null>(null);
   const [now, setNow] = useState(() => Date.now());
   const dialog = useRef<HTMLDialogElement>(null);
+  const resultHeading = useRef<HTMLHeadingElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const selectedEvents = groupEvents.filter(item => selectedIds.includes(item.id));
   const selection = selectedEvents.length ? groupEventSelection(selectedIds) : null;
   const price = groupEventPrice(selectedEvents.length);
-  const selectionTitle = selectedEvents.map(item => item.title).join(" + ");
   const approved = status?.paymentStatus === "paid" && status.approved;
-  const available = !!selection && (paymentMethod === "bank_transfer" ? bankEnabled : enabledSelections.includes(selection.key)) && selectedEvents.every(item => Date.parse(item.startsAt) > now);
+  const available = !!selection &&
+    (manualCheckout ? whatsappEnabled : paymentMethod === "bank_transfer" ? bankEnabled : enabledSelections.includes(selection.key)) &&
+    selectedEvents.every(item => Date.parse(item.startsAt) > now);
 
   useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 30_000); return () => clearInterval(timer); }, []);
+
+  useEffect(() => {
+    if (application && dialog.current?.open) {
+      dialog.current.scrollTop = 0;
+      resultHeading.current?.focus({ preventScroll: true });
+    }
+  }, [application]);
 
   useEffect(() => {
     if (!application) return;
@@ -70,16 +80,17 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
     try {
       const response = await fetch("/api/group-events/registrations", {
         method: "POST", headers: { "Content-Type": "application/json" }, credentials: "same-origin", signal: AbortSignal.timeout(15000),
-        body: JSON.stringify({ eventIds: selectedIds, paymentMethod, fullName: data.get("fullName"), email: data.get("email"), phone: data.get("phone"), whatsappOptIn: data.get("whatsappOptIn") === "on", privacyAcknowledged: data.get("privacy") === "on", termsAccepted: data.get("terms") === "on", website: data.get("website") }),
+        body: JSON.stringify({ eventIds: selectedIds, checkoutChannel: manualCheckout ? "whatsapp" : "online", paymentMethod, fullName: data.get("fullName"), email: data.get("email"), phone: data.get("phone"), whatsappOptIn: data.get("whatsappOptIn") === "on", privacyAcknowledged: data.get("privacy") === "on", termsAccepted: data.get("terms") === "on", website: data.get("website") }),
       });
       const pack = await response.json();
       if (!response.ok) throw new Error(pack.error ?? "Başvuru kaydedilemedi.");
       if (pack.paymentMethod !== paymentMethod) throw new Error("Ödeme yöntemi doğrulanamadı.");
       if (paymentMethod === "shopier" && !/^https:\/\/www\.shopier\.com\/[0-9]+$/.test(pack.checkoutUrl)) throw new Error("Ödeme bağlantısı doğrulanamadı.");
-      if (paymentMethod === "bank_transfer" && (!pack.bank?.iban || !pack.bank?.description)) throw new Error("Banka bilgileri doğrulanamadı.");
+      if (manualCheckout && !pack.whatsappRequest?.code) throw new Error("Başvuru kodu alınamadı.");
+      if (!manualCheckout && paymentMethod === "bank_transfer" && (!pack.bank?.iban || !pack.bank?.description)) throw new Error("Banka bilgileri doğrulanamadı.");
       if (pack.amountKurus !== price.totalKurus) throw new Error("Paket tutarı değişti. Lütfen seçimini kontrol et.");
-      setApplication({ registrationId: pack.registrationId, trackingPath: pack.trackingPath, paymentMethod, bank: pack.bank, checkoutUrl: pack.checkoutUrl, eventIds: [...selectedIds], amountKurus: pack.amountKurus });
-      setStatus({ paymentStatus: "pending", approved: false, invites: [] });
+      setApplication({ registrationId: pack.registrationId, trackingPath: pack.trackingPath, bank: pack.bank, checkoutUrl: pack.checkoutUrl, eventIds: [...selectedIds], amountKurus: pack.amountKurus, eventTitle: pack.eventTitle });
+      setStatus({ paymentStatus: "pending", approved: false, invites: [], whatsappRequest: pack.whatsappRequest });
       try { localStorage.setItem(GROUP_TRACKING_STORAGE, pack.registrationId); }
       catch { return; } // Keep the tracking link and manual payment button visible if recovery storage is unavailable.
       if (paymentMethod === "shopier") window.location.assign(pack.checkoutUrl);
@@ -104,9 +115,11 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
     <p className={s.note}>Çalışmalar kişisel gelişim ve spiritüel farkındalık amaçlıdır; tıbbi tedavi veya psikoterapi yerine geçmez. Sonuç garantisi verilmez.</p>
     <dialog ref={dialog} className={s.dialog} aria-labelledby="group-register-title" onCancel={e => { if (busy) e.preventDefault(); }} onClose={() => opener.current?.focus()}>
       <header className={s.dialogHeader}><h2 id="group-register-title">Çalışmaya kayıt ol</h2><button type="button" className={s.close} aria-label="Kayıt formunu kapat" disabled={busy} onClick={close}>×</button></header>
-      {application ? <div className={s.status} aria-live="polite"><p className={s.eyebrow}>{selectionTitle}</p>
-        <h3>{status?.paymentStatus === "refunded" ? "Ödeme iade durumunda." : approved ? "Katılımınız Onaylandı!" : status?.paymentStatus === "paid" ? "Ödeme alındı. Yönetici onayı bekleniyor." : "Başvurun alındı. Ödeme bekleniyor."}</h3>
-        {approved ? (!error && <GroupInviteButtons invites={status.invites} />) : <p>{status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : GROUP_REGISTRATION_PENDING}</p>}
+      {application ? <div className={s.status} aria-live="polite"><p className={s.eyebrow}>{application.eventTitle}</p>
+        <h3 ref={resultHeading} tabIndex={-1}>{status?.paymentStatus === "refunded" ? "Ödeme iade durumunda." : approved ? "Katılımınız Onaylandı!" : status?.paymentStatus === "paid" ? "Ödeme alındı. Yönetici onayı bekleniyor." : "Başvurun alındı."}</h3>
+        {approved ? (!error && <GroupInviteButtons invites={status.invites} />) : status?.whatsappRequest
+          ? <GroupWhatsAppRequest title={application.eventTitle} request={status.whatsappRequest} />
+          : <p>{status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : GROUP_REGISTRATION_PENDING}</p>}
         {status?.paymentStatus === "pending" && application.bank ? <BankTransferInstructions bank={application.bank} amountKurus={application.amountKurus} /> : null}
         {status?.paymentStatus === "pending" && application.checkoutUrl ? <div className={s.actions}><a className={s.button} href={application.checkoutUrl} target="_blank" rel="noopener noreferrer">Shopier’de {formatGroupPrice(application.amountKurus)} öde ↗</a><button type="button" className={`${s.button} ${s.secondary}`} onClick={close}>Daha sonra devam et</button></div> : null}
         <GroupTrackingLink path={application.trackingPath} />
@@ -119,21 +132,21 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
           <p className={s.priceTotal}><strong>Ödenecek toplam</strong><strong>{formatGroupPrice(price.totalKurus)}</strong></p>
           <small>2 etkinlik 850 TL · 3 etkinlik 1.550 TL · 4 etkinlik 2.000 TL</small>
         </div>
-        <fieldset className={s.paymentMethods} disabled={busy}><legend>Ödeme yöntemi</legend>
+        {!manualCheckout ? <fieldset className={s.paymentMethods} disabled={busy}><legend>Ödeme yöntemi</legend>
           <label><input type="radio" name="paymentMethod" value="bank_transfer" checked={paymentMethod === "bank_transfer"} onChange={() => { setPaymentMethod("bank_transfer"); setTermsAccepted(false); }} /><span><strong>IBAN ile ödeme</strong><small>Havale / EFT / FAST · Yönetici onaylı kayıt</small></span></label>
           <label><input type="radio" name="paymentMethod" value="shopier" checked={paymentMethod === "shopier"} onChange={() => { setPaymentMethod("shopier"); setTermsAccepted(false); }} /><span><strong>Kartla ödeme · Shopier</strong><small>Kredi veya banka kartıyla ödeme alternatifi</small></span></label>
-        </fieldset>
+        </fieldset> : null}
         <label>Ad ve soyad<input name="fullName" autoComplete="name" required minLength={3} maxLength={120} /></label>
-        <label>E-posta adresi<input name="email" type="email" autoComplete="email" required maxLength={254} /><span className={s.note}>Kartla ödemede Shopier üzerinde de aynı e-postayı kullan.</span></label>
+        <label>E-posta adresi<input name="email" type="email" autoComplete="email" required maxLength={254} />{!manualCheckout ? <span className={s.note}>Kartla ödemede Shopier üzerinde de aynı e-postayı kullan.</span> : null}</label>
         <label>WhatsApp / telefon numarası<input name="phone" type="tel" autoComplete="tel" inputMode="tel" required minLength={10} maxLength={24} placeholder="+90 5xx xxx xx xx" /></label>
         <label className={s.check}><input name="whatsappOptIn" type="checkbox" /><span>GoldKozmos tarafından kayıt onayımın bu numaraya WhatsApp üzerinden bildirilmesini istiyorum.</span></label>
         <div className={s.honeypot} aria-hidden="true"><label>Web sitesi<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
         <label className={s.check}><input name="privacy" type="checkbox" required /><span><a href="/kvkk-aydinlatma-metni" target="_blank" rel="noopener noreferrer">KVKK aydınlatma metnini</a> okudum. İletişim bilgilerimin başvuru, ödeme takibi ve katılım bilgilendirmeleri için kullanılacağı konusunda bilgilendirildim.</span></label>
         <label className={s.check}><input name="terms" type="checkbox" required checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} /><span>Seçtiğim çalışmaların tarihlerini, toplam {formatGroupPrice(price.totalKurus)} ücretini, <a href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener noreferrer">satış koşullarını</a> ve <a href="/iptal-ve-iade-politikasi" target="_blank" rel="noopener noreferrer">iptal/iade politikasını</a> okudum ve kabul ediyorum. Kaydımın ödeme kontrolü ve yönetici onayından sonra kesinleşeceğini biliyorum.</span></label>
-        {selection && !available ? <p className={s.notice}>Seçtiğin paket için online kayıt henüz açılmadı. Lütfen daha sonra tekrar kontrol et.</p> : null}
+        {selection && !available ? <p className={s.notice}>Seçtiğin paket için kayıt henüz açılmadı. Lütfen daha sonra tekrar kontrol et.</p> : null}
         {error ? <p className={s.error} role="alert">{error}</p> : null}
-        <button className={s.button} type="submit" disabled={busy || !available}>{busy ? "Başvurun kaydediliyor…" : `${paymentMethod === "bank_transfer" ? "Başvur ve IBAN bilgilerini gör" : "Başvur ve kartla ödemeye geç"} · ${formatGroupPrice(price.totalKurus)}`}</button>
-        <p className={s.note}>Bu form kart bilgisi istemez. Formun gönderilmesi veya ödeme sayfasından geri dönmek tek başına kesin kayıt oluşturmaz.</p>
+        <button className={s.button} type="submit" disabled={busy || !available}>{busy ? "Başvurun kaydediliyor…" : manualCheckout ? "Başvuruyu Kaydet" : `${paymentMethod === "bank_transfer" ? "Başvur ve IBAN bilgilerini gör" : "Başvur ve kartla ödemeye geç"} · ${formatGroupPrice(price.totalKurus)}`}</button>
+        <p className={s.note}>{manualCheckout ? "Başvurunu kaydettikten sonra seçtiğin çalışmalar için hazır mesajı WhatsApp’tan gönderebilirsin." : "Bu form kart bilgisi istemez. Formun gönderilmesi veya ödeme sayfasından geri dönmek tek başına kesin kayıt oluşturmaz."}</p>
       </form>}
     </dialog>
   </section>;

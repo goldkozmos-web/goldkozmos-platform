@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { GROUP_REGISTRATION_PENDING, GROUP_TRACKING_STORAGE, REGISTRATION_ID, REGISTRATION_TOKEN, type GroupTrackingStatus } from "../../lib/group-events/tracking";
 import GroupInviteButtons from "./GroupInviteButtons";
 import GroupTrackingLink from "./GroupTrackingLink";
+import GroupWhatsAppRequest from "./GroupWhatsAppRequest";
 import s from "./GroupEvents.module.css";
 
 export default function GroupRegistrationTracking() {
@@ -80,7 +81,9 @@ export default function GroupRegistrationTracking() {
             <p>Aşağıdaki butona dokunarak grubumuza katılım isteği gönderin.</p>
           </> : null}
           <GroupInviteButtons invites={status.invites} />
-        </> : <p className={s.notice}>{status.paymentStatus === "refunded" ? "Ödemeniz iade edildi. Katılım durumunuz için bizimle iletişime geçebilirsiniz." : GROUP_REGISTRATION_PENDING}</p>}
+        </> : status.whatsappRequest
+          ? <GroupWhatsAppRequest title={status.eventTitle} request={status.whatsappRequest} />
+          : <p className={s.notice}>{status.paymentStatus === "refunded" ? "Ödemeniz iade edildi. Katılım durumunuz için bizimle iletişime geçebilirsiniz." : GROUP_REGISTRATION_PENDING}</p>}
       </> : <p className={s.notice}>{message}</p>}
     </div>
     {status ? <GroupTrackingLink path={status.trackingPath} currentPage /> : null}

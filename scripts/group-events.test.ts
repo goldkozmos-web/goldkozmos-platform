@@ -19,6 +19,14 @@ test("setup check reports missing or duplicated products without exposing creden
   assert(!empty.enabled && !empty.allConfigured);
   assert(empty.products.every(product => !product.ready));
   const env: Record<string,string> = { NEXT_PUBLIC_SUPABASE_URL:"https://test.supabase.co", NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:"public-test", SUPABASE_SERVICE_ROLE_KEY:"private-test-key", SHOPIER_PAT:"private-test-pat", SHOPIER_WEBHOOK_TOKEN:"private-test-token", GROUP_EVENT_RATE_SECRET:"a".repeat(32), RESEND_API_KEY:"private-test-email", GROUP_EVENT_EMAIL_FROM:"test@example.com" };
+  const manual = groupSetupReport({
+    NEXT_PUBLIC_SUPABASE_URL: env.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    SUPABASE_SERVICE_ROLE_KEY: env.SUPABASE_SERVICE_ROLE_KEY,
+    GROUP_EVENT_RATE_SECRET: env.GROUP_EVENT_RATE_SECRET,
+  });
+  assert(manual.manualCheckout && manual.allConfigured && !manual.bankReady && !manual.cardReady);
+  env.GROUP_EVENT_CHECKOUT_MODE = "online";
   groupEventOffers.forEach((offer, index) => { env[offer.productEnv] = String(index + 100); });
   const ready = groupSetupReport(env);
   assert(ready.allConfigured && !ready.enabled);
@@ -197,7 +205,7 @@ test("tracking exposes only purchased invites after approval and removes access 
   const db = new PGlite();
   try {
     await db.exec("create role anon; create role authenticated; create role service_role bypassrls;");
-    for (const file of ["20261109210000_group_event_registration.sql", "20261109230000_group_event_packages.sql", "20261110010000_group_bank_approval_whatsapp.sql", "20261110020000_group_whatsapp_invites.sql"]) {
+    for (const file of ["20261109210000_group_event_registration.sql", "20261109230000_group_event_packages.sql", "20261110010000_group_bank_approval_whatsapp.sql", "20261110020000_group_whatsapp_invites.sql", "20261110030000_group_whatsapp_requests.sql"]) {
       await db.exec(await readFile(new URL(`../supabase/migrations/${file}`, import.meta.url), "utf8"));
     }
     const invites = groupEvents.map((event, index) => ({ eventId: event.id, url: `https://chat.whatsapp.com/${String(index).repeat(22)}?s=cl&p=a&iam=2` }));
@@ -215,11 +223,26 @@ test("tracking exposes only purchased invites after approval and removes access 
       (event_id,event_ids,event_title,amount_kurus,full_name,email,phone,access_token_hash,consent_version,privacy_acknowledged_at,terms_accepted_at)
       values ($1,$2,'Test paketi',85000,'Test Katılımcı','tracking@example.test','+905550000000',$3,'v3',now(),now()) returning id
     `, [purchased[0].eventId, purchased.map(invite => invite.eventId), tokenHash]);
-    const status = async (key = tokenHash) => (await db.query<{ status: { approved: boolean; invites: typeof invites } | null }>(
-      "select public.group_event_tracking_status($1,$2) as status", [registration.id, key]
+    const status = async (key = tokenHash, id = registration.id) => (await db.query<{ status: { approved: boolean; paymentStatus: string; invites: typeof invites; whatsappRequest: { code: string; amountKurus: number } | null } | null }>(
+      "select public.group_event_tracking_status($1,$2) as status", [id, key]
     )).rows[0].status;
     assert.deepEqual((await status())?.invites, []);
+    assert.equal((await status())?.whatsappRequest, null);
     assert.equal(await status("b".repeat(64)), null);
+    const manualKey = "c".repeat(64);
+    const { rows: [manualRegistration] } = await db.query<{ id: string }>(`
+      insert into public.group_event_registrations
+      (event_id,event_ids,event_title,amount_kurus,full_name,email,phone,access_token_hash,consent_version,privacy_acknowledged_at,terms_accepted_at,payment_method,checkout_channel,bank_payment_code)
+      values ($1,$2,'Test WhatsApp paketi',85000,'Test Katılımcı','whatsapp@example.test','+905550000000',$3,'v3',now(),now(),'bank_transfer','whatsapp','GK-TEST') returning id
+    `, [purchased[0].eventId, purchased.map(invite => invite.eventId), manualKey]);
+    assert.equal(await status(tokenHash, manualRegistration.id), null);
+    const manualStatus = await status(manualKey, manualRegistration.id);
+    assert.equal(manualStatus?.paymentStatus, "pending");
+    assert.deepEqual(manualStatus?.invites, []);
+    assert.deepEqual(manualStatus?.whatsappRequest, { code: "GK-TEST", amountKurus: 85000 });
+    await db.query("select public.group_event_approve_registration($1,'00000000-0000-4000-8000-000000000001',85000,$2)", [manualRegistration.id, "d".repeat(64)]);
+    assert.deepEqual((await status(manualKey, manualRegistration.id))?.invites, purchased);
+    assert.equal((await status(manualKey, manualRegistration.id))?.whatsappRequest, null);
     await assert.rejects(
       () => db.query("select public.group_event_approve_registration($1,'00000000-0000-4000-8000-000000000001')", [registration.id]),
       /Verified payment required/

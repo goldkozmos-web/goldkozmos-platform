@@ -27,7 +27,10 @@ export function selectionRegistrationEnabled(eventIds: string[]) {
     (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!createSupabaseServiceClient();
 }
 export function bankRegistrationEnabled() {
-  return process.env.GROUP_EVENTS_ENABLED === "true" && !!bankPaymentDetails() &&
+  return groupWhatsAppRegistrationEnabled() && !!bankPaymentDetails();
+}
+export function groupWhatsAppRegistrationEnabled() {
+  return process.env.GROUP_EVENTS_ENABLED === "true" &&
     (process.env.GROUP_EVENT_RATE_SECRET?.length ?? 0) >= 32 && !!createSupabaseServiceClient();
 }
 export function groupService() {

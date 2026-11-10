@@ -10,9 +10,12 @@ if (command === "catalog") {
   console.log(JSON.stringify(report.products.map(({ key, title, eventIds, amountKurus }) => ({ key, title, eventIds, currency: "TRY", price: (amountKurus / 100).toFixed(2), quantity: 1, delivery: "Google Meet" })), null, 2));
 } else if (command === "check") {
   console.log(`Grup kayıtları: ${report.enabled ? "AÇIK" : "KAPALI"}`);
+  console.log(`Başvuru akışı: ${report.manualCheckout ? "WhatsApp" : "Online ödeme"}`);
   for (const check of report.checks) console.log(`${check.ready ? "HAZIR" : "EKSİK"} · ${check.name}`);
-  for (const product of report.products) console.log(`${product.ready ? "HAZIR" : "EKSİK"} · ${product.key} · ${formatGroupPrice(product.amountKurus)}`);
-  console.log("Bu kontrol yalnızca ayarların varlığını doğrular. Veritabanı geçişi, Shopier ürün fiyatı, webhook ve gerçek ödeme ayrıca test edilmelidir.");
+  if (!report.manualCheckout) {
+    for (const product of report.products) console.log(`${product.ready ? "HAZIR" : "EKSİK"} · ${product.key} · ${formatGroupPrice(product.amountKurus)}`);
+  }
+  console.log("Bu kontrol yalnızca ayarların varlığını doğrular. Veritabanı ve seçilen başvuru akışı ayrıca test edilmelidir.");
   process.exitCode = report.allConfigured ? 0 : 1;
 } else {
   console.error("Kullanım: node scripts/group-events-setup.ts [check|catalog]");

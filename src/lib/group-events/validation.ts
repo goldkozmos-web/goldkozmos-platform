@@ -17,9 +17,11 @@ export function parseGroupRegistration(raw: unknown, now = Date.now()) {
   if (data.website) throw new Error("Form gönderilemedi.");
   const paymentMethod = data.paymentMethod ?? "shopier";
   if (paymentMethod !== "bank_transfer" && paymentMethod !== "shopier") throw new Error("Ödeme yöntemini kontrol et.");
+  const checkoutChannel = data.checkoutChannel ?? "online";
+  if (checkoutChannel !== "online" && checkoutChannel !== "whatsapp") throw new Error("Başvuru yöntemini kontrol et.");
   if (data.whatsappOptIn !== undefined && typeof data.whatsappOptIn !== "boolean") throw new Error("WhatsApp tercihini kontrol et.");
   if (data.whatsappOptIn === true && !whatsappPhone(phone)) throw new Error("WhatsApp numaranı ülke koduyla birlikte kontrol et.");
-  return { event, selection, fullName, email, phone, paymentMethod, whatsappOptIn: data.whatsappOptIn === true };
+  return { event, selection, fullName, email, phone, paymentMethod, checkoutChannel, whatsappOptIn: data.whatsappOptIn === true };
 }
 
 export function isGoogleMeetUrl(value: unknown): value is string {
