@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { findGroupEvent } from "../../data/groupEvents";
 import { GROUP_REGISTRATION_PENDING, GROUP_TRACKING_STORAGE, REGISTRATION_ID, REGISTRATION_TOKEN, type GroupTrackingStatus } from "../../lib/group-events/tracking";
+import GroupInviteButtons from "./GroupInviteButtons";
 import GroupTrackingLink from "./GroupTrackingLink";
 import s from "./GroupEvents.module.css";
 
@@ -78,17 +78,8 @@ export default function GroupRegistrationTracking() {
           {status.invites.length ? <>
             <p>Çalışma tarihini, saatini, katılım bilgilerini ve duyuruları WhatsApp grubumuzdan takip edebilirsiniz.</p>
             <p>Aşağıdaki butona dokunarak grubumuza katılım isteği gönderin.</p>
-            <ul className={s.invites}>
-              {status.invites.map(invite => {
-                const title = findGroupEvent(invite.eventId)?.title ?? invite.eventId;
-                return <li key={invite.eventId}>
-                  <strong>{title}</strong>
-                  <a className={s.button} href={invite.url} target="_blank" rel="noopener noreferrer" aria-label={`WhatsApp Grubuna Katıl · ${title}`}>WhatsApp Grubuna Katıl</a>
-                </li>;
-              })}
-            </ul>
-            <p className={s.note}>Grup katılımınız yönetici onayının ardından tamamlanacaktır.</p>
-          </> : <p className={s.notice}>WhatsApp grup bağlantısı hazır olduğunda burada görünecek.</p>}
+          </> : null}
+          <GroupInviteButtons invites={status.invites} />
         </> : <p className={s.notice}>{status.paymentStatus === "refunded" ? "Ödemeniz iade edildi. Katılım durumunuz için bizimle iletişime geçebilirsiniz." : GROUP_REGISTRATION_PENDING}</p>}
       </> : <p className={s.notice}>{message}</p>}
     </div>

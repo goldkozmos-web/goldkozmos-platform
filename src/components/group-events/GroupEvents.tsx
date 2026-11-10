@@ -5,12 +5,13 @@ import Image from "next/image";
 import { groupEvents, formatGroupEventDate, groupEventSelection, groupEventPrice, formatGroupPrice } from "../../data/groupEvents";
 import GroupEventSelection from "./GroupEventSelection";
 import BankTransferInstructions, { type BankInstructions } from "./BankTransferInstructions";
+import GroupInviteButtons from "./GroupInviteButtons";
 import GroupTrackingLink from "./GroupTrackingLink";
-import { GROUP_REGISTRATION_PENDING, GROUP_TRACKING_PAGE, GROUP_TRACKING_STORAGE } from "../../lib/group-events/tracking";
+import { GROUP_REGISTRATION_PENDING, GROUP_TRACKING_PAGE, GROUP_TRACKING_STORAGE, type GroupTrackingStatus } from "../../lib/group-events/tracking";
 import s from "./GroupEvents.module.css";
 
 type Application = { registrationId: string; trackingPath: string; checkoutUrl: string | null; bank: BankInstructions | null; paymentMethod: "bank_transfer" | "shopier"; eventIds: string[]; amountKurus: number };
-type Status = { paymentStatus: "pending" | "paid" | "refunded"; approved: boolean; confirmationSent: boolean };
+type Status = Pick<GroupTrackingStatus, "paymentStatus" | "approved" | "invites">;
 
 export default function GroupEvents({ enabledSelections, bankEnabled, carousel = false }: { enabledSelections: string[]; bankEnabled: boolean; carousel?: boolean }) {
   const [selectedIds, setSelectedIds] = useState<string[]>([groupEvents[0].id]);
@@ -27,24 +28,34 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
   const selection = selectedEvents.length ? groupEventSelection(selectedIds) : null;
   const price = groupEventPrice(selectedEvents.length);
   const selectionTitle = selectedEvents.map(item => item.title).join(" + ");
+  const approved = status?.paymentStatus === "paid" && status.approved;
   const available = !!selection && (paymentMethod === "bank_transfer" ? bankEnabled : enabledSelections.includes(selection.key)) && selectedEvents.every(item => Date.parse(item.startsAt) > now);
 
   useEffect(() => { const timer = setInterval(() => setNow(Date.now()), 30_000); return () => clearInterval(timer); }, []);
 
   useEffect(() => {
     if (!application) return;
-    let active = true;
+    let active = true, checking = false;
     const check = async () => {
+      if (checking) return;
+      checking = true;
       try {
         const response = await fetch(`/api/group-events/registrations/${application.registrationId}`, { cache: "no-store", credentials: "same-origin", signal: AbortSignal.timeout(8000) });
         const pack = await response.json();
         if (!response.ok) throw new Error(pack.error ?? "Kayıt durumu kontrol edilemedi.");
         if (active) { setStatus(pack); setError(""); }
       } catch { if (active) setError("Kayıt durumu şu an kontrol edilemiyor. Ödeme yaptıysan yeniden ödeme yapmadan bizimle iletişime geç."); }
+      finally { checking = false; }
     };
+    const checkIfVisible = () => { if (document.visibilityState === "visible") void check(); };
     void check();
-    const interval = setInterval(() => { if (document.visibilityState === "visible") void check(); }, 10000);
-    return () => { active = false; clearInterval(interval); };
+    const interval = setInterval(checkIfVisible, 10000);
+    document.addEventListener("visibilitychange", checkIfVisible);
+    return () => {
+      active = false;
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", checkIfVisible);
+    };
   }, [application]);
 
   function open(id: string, target: HTMLElement) {
@@ -68,7 +79,7 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
       if (paymentMethod === "bank_transfer" && (!pack.bank?.iban || !pack.bank?.description)) throw new Error("Banka bilgileri doğrulanamadı.");
       if (pack.amountKurus !== price.totalKurus) throw new Error("Paket tutarı değişti. Lütfen seçimini kontrol et.");
       setApplication({ registrationId: pack.registrationId, trackingPath: pack.trackingPath, paymentMethod, bank: pack.bank, checkoutUrl: pack.checkoutUrl, eventIds: [...selectedIds], amountKurus: pack.amountKurus });
-      setStatus({ paymentStatus: "pending", approved: false, confirmationSent: false });
+      setStatus({ paymentStatus: "pending", approved: false, invites: [] });
       try { localStorage.setItem(GROUP_TRACKING_STORAGE, pack.registrationId); }
       catch { return; } // Keep the tracking link and manual payment button visible if recovery storage is unavailable.
       if (paymentMethod === "shopier") window.location.assign(pack.checkoutUrl);
@@ -94,11 +105,11 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
     <dialog ref={dialog} className={s.dialog} aria-labelledby="group-register-title" onCancel={e => { if (busy) e.preventDefault(); }} onClose={() => opener.current?.focus()}>
       <header className={s.dialogHeader}><h2 id="group-register-title">Çalışmaya kayıt ol</h2><button type="button" className={s.close} aria-label="Kayıt formunu kapat" disabled={busy} onClick={close}>×</button></header>
       {application ? <div className={s.status} aria-live="polite"><p className={s.eyebrow}>{selectionTitle}</p>
-        <h3>{status?.paymentStatus === "refunded" ? "Ödeme iade durumunda." : status?.approved ? "Kaydın onaylandı." : status?.paymentStatus === "paid" ? "Ödeme alındı. Yönetici onayı bekleniyor." : "Başvurun alındı. Ödeme bekleniyor."}</h3>
-        <p>{status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : status?.approved ? "WhatsApp grubuna kişisel kayıt takip sayfanızdan katılım isteği gönderebilirsiniz." : GROUP_REGISTRATION_PENDING}</p>
-        <GroupTrackingLink path={application.trackingPath} />
+        <h3>{status?.paymentStatus === "refunded" ? "Ödeme iade durumunda." : approved ? "Katılımınız Onaylandı!" : status?.paymentStatus === "paid" ? "Ödeme alındı. Yönetici onayı bekleniyor." : "Başvurun alındı. Ödeme bekleniyor."}</h3>
+        {approved ? (!error && <GroupInviteButtons invites={status.invites} />) : <p>{status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : GROUP_REGISTRATION_PENDING}</p>}
         {status?.paymentStatus === "pending" && application.bank ? <BankTransferInstructions bank={application.bank} amountKurus={application.amountKurus} /> : null}
         {status?.paymentStatus === "pending" && application.checkoutUrl ? <div className={s.actions}><a className={s.button} href={application.checkoutUrl} target="_blank" rel="noopener noreferrer">Shopier’de {formatGroupPrice(application.amountKurus)} öde ↗</a><button type="button" className={`${s.button} ${s.secondary}`} onClick={close}>Daha sonra devam et</button></div> : null}
+        <GroupTrackingLink path={application.trackingPath} />
         {error ? <p className={s.error} role="alert">{error}</p> : null}
       </div> : <form className={s.form} onSubmit={submit}>
         <GroupEventSelection selectedIds={selectedIds} now={now} disabled={busy} onChange={ids => { setSelectedIds(ids); setError(""); setTermsAccepted(false); }} />
