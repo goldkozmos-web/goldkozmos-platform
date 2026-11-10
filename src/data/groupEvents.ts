@@ -55,6 +55,14 @@ export function formatGroupEventDate(startsAt: string) {
   return new Intl.DateTimeFormat("tr-TR", { timeZone: "Europe/Istanbul", day: "numeric", month: "long", weekday: "long" }).format(new Date(startsAt));
 }
 
+const groupTimeFormatter = new Intl.DateTimeFormat("tr-TR", {
+  timeZone: "Europe/Istanbul", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+});
+
+export function formatGroupEventTime(startsAt: string) {
+  return groupTimeFormatter.format(new Date(startsAt)).replace(":", ".");
+}
+
 // Fixed package prices supplied by the site owner; never accept a browser total.
 export function groupEventPrice(count: number) {
   const totals = [0, 60_000, 85_000, 155_000, 200_000];
