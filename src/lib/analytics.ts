@@ -3,7 +3,7 @@ export const ANALYTICS_CONSENT_EVENT = "gk-analytics-consent-change";
 export type AnalyticsConsent = "granted" | "denied" | null;
 
 export function analyticsAllowedPath(path: string) {
-  return !/^\/(panel|admin|api|auth|profilim|ayarlar|giris|mesajlar|mesaj|randevu-al)(\/|$)/.test(path);
+  return !/^\/(panel|admin|api|auth|profilim|ayarlar|giris|mesajlar|mesaj|randevu-al|calismalar\/kayit-takip)(\/|$)/.test(path);
 }
 
 export function conversionForLink(href: string, origin: string, label: string) {

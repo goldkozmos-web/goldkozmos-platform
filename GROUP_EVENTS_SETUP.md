@@ -8,28 +8,17 @@ Yeni `20261110010000_group_bank_approval_whatsapp.sql` geçişi ilk iki grup ge�
 
 Yönetici panelinde IBAN ödemesi için banka hareketindeki işlem numarası ve hesaba geçen tutar girilir, bankadan kontrol edildiği işaretlenir. Sunucu, tutarı kayıt toplamıyla birebir karşılaştırır. İşlem numarası yalnızca özetiyle saklanır ve aynı banka işlemi ikinci kayda kullanılamaz. Onay, ödeme durumunu ve yönetici kaydını tek veritabanı işleminde günceller. Başvurudan veya dekonttan otomatik onay verilmez. Shopier ödeme doğrulaması da tek başına WhatsApp göndermez; ayrıca yönetici kayıt onayı gerekir. Kesin kayıt sayıları ödeme + yönetici onayı tamamlanmış kişileri sayar.
 
-Formda yalnızca kayıt/katılım WhatsApp bildirimleri için ayrı, varsayılan işaretsiz tercih vardır. Tercih yoksa WhatsApp mesajı gönderilmez. Onay işleminde mesaj kuyruğu bir kez oluşturulur ve ardından gönderim denenir. Gönderici ayarları eksikse onay korunur, mesaj bekler. Yönetici paneli bekleyen/kabul edilen/reddedilen/belirsiz gönderimleri ayırır. HTTP kabul yanıtı teslimat olarak gösterilmez. Zaman aşımı veya sunucu kapanmasında sonucu belirsiz kalan gönderimler otomatik tekrarlanmaz; Meta kayıtlarından kontrol gerekir.
+## WhatsApp grup davetleri ve kişisel kayıt takibi
 
-Kullanıcının bildirdiği 0505 472 21 53 işletme telefonudur; Meta **Phone Number ID** değildir. Telefon, API kimliği yerine kaydedilmedi. Gerekli gizli/özel ayarlar:
+Önceki üç grup geçişinin ardından `20261110020000_group_whatsapp_invites.sql` geçişini izole test veritabanında uygula. Davet tablosunu yalnızca sunucu okuyabilir. Mevcut kayıtlar, ödeme durumu ve Google Meet alanı korunur.
 
-```dotenv
-GROUP_EVENT_BANK_IBAN=
-GROUP_EVENT_BANK_ACCOUNT_NAME=
-GROUP_EVENT_BANK_NAME=
-WHATSAPP_ACCESS_TOKEN=
-WHATSAPP_PHONE_NUMBER_ID=
-WHATSAPP_GRAPH_VERSION=
-WHATSAPP_APPROVAL_TEMPLATE=
-WHATSAPP_APPROVAL_TEMPLATE_READY=false
-```
+Yetkili yönetici, `/admin/grup-calismalari` içindeki **WhatsApp grup bağlantıları** alanından her etkinliğin davetini ekleyebilir, değiştirebilir veya kaldırabilir. Başlangıçtaki dört davet geliştirme deposu dışında, çalışma alanındaki özel kurulum dosyasında eşleştirildi. İlk kurulumda bu dosyayı bir kez çalıştır veya davetleri panelden gir. Davetleri kaynak koduna, genel ortama veya paylaşılan çıktılara koyma.
 
-`WHATSAPP_GRAPH_VERSION`, Meta uygulamasının desteklediği açık sürüm olmalı (vN.N). Erişim anahtarı yalnızca sunucu tarafında, WhatsApp mesaj gönderme yetkisiyle kullanılmalı. `WHATSAPP_APPROVAL_TEMPLATE`, Türkçe (`tr`) onaylı, değişkensiz bir kayıt onayı şablonu olmalı. Meta onayı kontrol edilmeden READY=true yapılmamalı. Önerilen şablon adı: `goldkozmos_kayit_onayi`; metin:
+Katılımcı kayıt sırasında verilen kişisel takip bağlantısını kopyalayabilir. Kart ödemesine yönlendirildikten sonra Çalışmalar sayfasındaki **Mevcut kaydını takip et** bağlantısı aynı tarayıcıda son kaydı bulur. Kişisel bağlantı tarayıcı çerezi gerektirmez ve gizli anahtarı URL parçasında tutar. Bağlantıyı kimseyle paylaşmamak gerekir. Davetler yalnızca ödemesi ve yönetici onayı tamamlanmış paketteki etkinlikler için açılır. Takip sayfası açıkken durum düzenli olarak yenilenir.
 
-> Ödemeniz ve kaydınız onaylandı. Katılım bağlantınız bu WhatsApp numarası üzerinden iletilecektir. GoldKozmos
+WhatsApp Business ayarları gerekmez. İzin veren katılımcılar için yönetici mevcut hazır mesajı WhatsApp'ta kendisi gönderebilir. Davetin iletilmesi mümkün olduğu için her WhatsApp grubunda katılım isteklerini yönetici onayına bağla. Siteden bir daveti kaldırmak, daha önce kopyalanan WhatsApp bağlantısını geçersiz kılmaz. Gerekirse grubun davetini WhatsApp'ta sıfırlayıp yeni bağlantıyı panelde kaydet.
 
-Bu ilk onay mesajında Meet bağlantısı bulunmaz. Katılım bağlantıları daha sonra aynı numaraya işletme tarafından iletilebilir; mevcut e-posta ile Meet gönderimi de yalnızca ödeme ve yönetici onayı sonrasında kullanılabilir. Bu geliştirmede gerçek WhatsApp mesajı, e-posta, banka ödemesi, Meta şablon oluşturma veya üretim dağıtımı yapılmadı.
-
-Resmi Meta örneği: https://github.com/fbsamples/whatsapp-api-examples/blob/main/send-messages-flight-app-python/message_helper.py . İşletme tarafından başlatılan mesajlar için onaylı şablon kullanılır; hizmet bildirimi tercihi formda ayrıca alınır.
+IBAN için gereken mevcut sunucu ayarları `GROUP_EVENT_BANK_IBAN` ve `GROUP_EVENT_BANK_ACCOUNT_NAME` değerleridir. `GROUP_EVENT_BANK_NAME` isteğe bağlıdır. Üretimde veri tabanı geçişleri, davetlerin girilmesi ve güvenli sunucu ayarları tamamlandıktan sonra kayıt açılır.
 
 ## Bağlantı durumu — 10 Kasım 2026
 

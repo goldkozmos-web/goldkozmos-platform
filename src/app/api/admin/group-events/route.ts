@@ -2,9 +2,8 @@ import { NextResponse } from "next/server";
 import { resolveAdminRequest } from "../../../../lib/admin/auth.server";
 import { findGroupEvent, groupEvents } from "../../../../data/groupEvents";
 import { eventProductId, groupService, readLimitedBody, reconcileOrder, requireSameOrigin, tokenHash } from "../../../../lib/group-events/server";
-import { isGoogleMeetUrl } from "../../../../lib/group-events/validation";
+import { isGoogleMeetUrl, isWhatsAppInviteUrl } from "../../../../lib/group-events/validation";
 import { sendGroupConfirmation } from "../../../../lib/group-events/confirmation";
-import { sendApprovalWhatsApp, whatsappConfigured } from "../../../../lib/group-events/whatsapp";
 import { moneyToKurus } from "../../../../lib/group-events/payment";
 
 export const runtime = "nodejs";
@@ -21,9 +20,10 @@ export async function GET(request: Request) {
     const client = groupService();
     let query = client.from("group_event_registrations").select("id,event_id,event_ids,event_title,amount_kurus,full_name,email,phone,payment_method,payment_status,bank_payment_code,approved_at,whatsapp_opt_in_at,provider_order_id,created_at,paid_at,confirmation_sent_at", { count: "exact" }).order("created_at", { ascending: false }).range(offset, offset + 49);
     if (eventId) query = query.contains("event_ids", [eventId]);
-    const [result, meetings, counts] = await Promise.all([
+    const [result, meetings, invites, counts] = await Promise.all([
       query,
       client.from("group_event_private").select("event_id,meet_url"),
+      client.from("group_event_whatsapp_invites").select("event_id,invite_url"),
       Promise.all(groupEvents.map(async event => {
         const [total, paid] = await Promise.all([
           client.from("group_event_registrations").select("id", { count: "exact", head: true }).contains("event_ids", [event.id]),
@@ -33,11 +33,11 @@ export async function GET(request: Request) {
         return { eventId: event.id, title: event.title, total: total.count ?? 0, paid: paid.count ?? 0 };
       })),
     ]);
-    if (result.error || meetings.error) throw new Error("Kayıtlar okunamadı.");
+    if (result.error || meetings.error || invites.error) throw new Error("Kayıtlar okunamadı.");
     const notificationResult = result.data?.length ? await client.from("group_event_whatsapp_notifications").select("registration_id,status").in("registration_id", result.data.map(row => row.id)) : { data: [], error: null };
     if (notificationResult.error) throw new Error("WhatsApp durumları okunamadı.");
     const rows = result.data?.map(row => ({ ...row, whatsapp_status: notificationResult.data?.find(notification => notification.registration_id === row.id)?.status ?? null }));
-    return NextResponse.json({ rows, total: result.count, offset, counts, meetings: meetings.data, whatsappConfigured: whatsappConfigured(), configuredProducts: groupEvents.filter(event => eventProductId(event.id)).map(event => event.id), emailConfigured: !!process.env.RESEND_API_KEY && !!process.env.GROUP_EVENT_EMAIL_FROM }, { headers: noStore });
+    return NextResponse.json({ rows, total: result.count, offset, counts, meetings: meetings.data, invites: invites.data, configuredProducts: groupEvents.filter(event => eventProductId(event.id)).map(event => event.id), emailConfigured: !!process.env.RESEND_API_KEY && !!process.env.GROUP_EVENT_EMAIL_FROM }, { headers: noStore });
   } catch { return NextResponse.json({ error: "Grup kayıtları yüklenemedi. Sunucu ayarlarını ve yeni veri tabanı geçişini kontrol et." }, { status: 503, headers: noStore }); }
 }
 
@@ -49,6 +49,19 @@ export async function POST(request: Request) {
   try { body = JSON.parse(await readLimitedBody(request, 4000)); if (!body || typeof body !== "object") throw new Error(); }
   catch { return NextResponse.json({ error: "Geçersiz istek." }, { status: 400 }); }
   try {
+    if (body.action === "save-whatsapp-invite") {
+      const event = findGroupEvent(body.eventId);
+      const inviteUrl = typeof body.inviteUrl === "string" ? body.inviteUrl.trim() : body.inviteUrl;
+      if (!event || (inviteUrl !== null && !isWhatsAppInviteUrl(inviteUrl))) {
+        return NextResponse.json({ error: "Etkinliği ve chat.whatsapp.com grup davet bağlantısını kontrol et." }, { status: 400, headers: noStore });
+      }
+      const invites = groupService().from("group_event_whatsapp_invites");
+      const { error } = inviteUrl === null
+        ? await invites.delete().eq("event_id", event.id)
+        : await invites.upsert({ event_id: event.id, invite_url: inviteUrl });
+      if (error) throw new Error("WhatsApp grup bağlantısı güncellenemedi.");
+      return NextResponse.json({ message: inviteUrl === null ? "WhatsApp grup bağlantısı kaldırıldı." : "WhatsApp grup bağlantısı kaydedildi." }, { headers: noStore });
+    }
     if (body.action === "save-meeting") {
       if (!findGroupEvent(body.eventId) || !isGoogleMeetUrl(body.meetUrl)) return NextResponse.json({ error: "Etkinlik ve Google Meet bağlantısını kontrol et." }, { status: 400 });
       const { error } = await groupService().from("group_event_private").upsert({ event_id: body.eventId, meet_url: body.meetUrl, updated_at: new Date().toISOString() });
@@ -72,13 +85,7 @@ export async function POST(request: Request) {
       }
       const { error: approvalError } = await groupService().rpc("group_event_approve_registration", { p_id: body.registrationId, p_actor: access.actor.id, p_amount: amount, p_transaction_hash: transactionHash });
       if (approvalError) throw new Error("Onay kaydedilemedi. Tutarı, işlem numarasını ve önceki onayları kontrol et.");
-      let messageStatus = "unknown";
-      try { messageStatus = (await sendApprovalWhatsApp(body.registrationId)).status; } catch { /* Payment remains approved; notification can be checked separately. */ }
-      return NextResponse.json({ message: messageStatus === "accepted" ? "Kayıt onaylandı. WhatsApp mesajı gönderim için Meta tarafından kabul edildi." : messageStatus === "no-consent" ? "Kayıt onaylandı. Katılımcı WhatsApp izni vermediği için mesaj gönderilmedi." : "Kayıt onaylandı. WhatsApp mesaj durumunu kontrol et; bağlantı eksikse mesaj kuyrukta bekler." }, { headers: noStore });
-    }
-    if (body.action === "send-whatsapp") {
-      const result = await sendApprovalWhatsApp(body.registrationId);
-      return NextResponse.json({ message: result.status === "accepted" ? "Mesaj Meta tarafından kabul edildi; teslimat garantisi değildir." : `Mesaj durumu: ${result.status}. Otomatik tekrar gönderim yapılmaz.` }, { headers: noStore });
+      return NextResponse.json({ message: "Kayıt onaylandı. Tanımlı WhatsApp grup bağlantıları kayıt takip sayfasında açıldı." }, { headers: noStore });
     }
     if (body.action === "verify-payment") {
       if (typeof body.orderId !== "string" || !/^[0-9]{1,30}$/.test(body.orderId)) return NextResponse.json({ error: "Shopier sipariş numarasını kontrol et." }, { status: 400 });

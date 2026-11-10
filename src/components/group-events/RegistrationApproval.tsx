@@ -14,6 +14,6 @@ export default function RegistrationApproval({ row, busy, act }: { row: Approval
     <button type="button" className={s.button} disabled={busy || !checked || !reference || !amount || row.payment_status === "refunded"} onClick={() => void act({ action: "approve-registration", registrationId: row.id, transactionReference: reference, receivedAmount: amount.replace(",", "."), confirmedInBank: checked })}>Ödemeyi ve kaydı onayla</button>
   </div>;
   return <div className={s.bankApproval}>{row.provider_order_id ?? <><input aria-label={`${row.full_name} için Shopier sipariş numarası`} inputMode="numeric" value={order} onChange={e => setOrder(e.target.value)} /><button type="button" className={s.button} disabled={busy || !order} onClick={() => void act({ action: "verify-payment", registrationId: row.id, orderId: order })}>Shopier’den doğrula</button></>}
-    <button type="button" className={s.button} disabled={busy || row.payment_status !== "paid"} onClick={() => void act({ action: "approve-registration", registrationId: row.id })}>Kaydı onayla ve WhatsApp bildir</button>
+    <button type="button" className={s.button} disabled={busy || row.payment_status !== "paid"} onClick={() => void act({ action: "approve-registration", registrationId: row.id })}>Kaydı onayla</button>
   </div>;
 }

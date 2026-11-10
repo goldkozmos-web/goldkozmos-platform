@@ -25,3 +25,9 @@ export function parseGroupRegistration(raw: unknown, now = Date.now()) {
 export function isGoogleMeetUrl(value: unknown): value is string {
   return typeof value === "string" && /^https:\/\/meet\.google\.com\/[a-z]{3}-[a-z]{4}-[a-z]{3}$/.test(value);
 }
+
+export function isWhatsAppInviteUrl(value: unknown): value is string {
+  return typeof value === "string" && value.length <= 512 &&
+    /^https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]{22}(?:\?[A-Za-z0-9_=&%-]+)?$/.test(value) &&
+    value === value.trim();
+}

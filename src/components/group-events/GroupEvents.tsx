@@ -5,9 +5,11 @@ import Image from "next/image";
 import { groupEvents, formatGroupEventDate, groupEventSelection, groupEventPrice, formatGroupPrice } from "../../data/groupEvents";
 import GroupEventSelection from "./GroupEventSelection";
 import BankTransferInstructions, { type BankInstructions } from "./BankTransferInstructions";
+import GroupTrackingLink from "./GroupTrackingLink";
+import { GROUP_REGISTRATION_PENDING, GROUP_TRACKING_PAGE, GROUP_TRACKING_STORAGE } from "../../lib/group-events/tracking";
 import s from "./GroupEvents.module.css";
 
-type Application = { registrationId: string; checkoutUrl: string | null; bank: BankInstructions | null; paymentMethod: "bank_transfer" | "shopier"; eventIds: string[]; amountKurus: number };
+type Application = { registrationId: string; trackingPath: string; checkoutUrl: string | null; bank: BankInstructions | null; paymentMethod: "bank_transfer" | "shopier"; eventIds: string[]; amountKurus: number };
 type Status = { paymentStatus: "pending" | "paid" | "refunded"; approved: boolean; confirmationSent: boolean };
 
 export default function GroupEvents({ enabledSelections, bankEnabled, carousel = false }: { enabledSelections: string[]; bankEnabled: boolean; carousel?: boolean }) {
@@ -65,8 +67,10 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
       if (paymentMethod === "shopier" && !/^https:\/\/www\.shopier\.com\/[0-9]+$/.test(pack.checkoutUrl)) throw new Error("Ödeme bağlantısı doğrulanamadı.");
       if (paymentMethod === "bank_transfer" && (!pack.bank?.iban || !pack.bank?.description)) throw new Error("Banka bilgileri doğrulanamadı.");
       if (pack.amountKurus !== price.totalKurus) throw new Error("Paket tutarı değişti. Lütfen seçimini kontrol et.");
-      setApplication({ registrationId: pack.registrationId, paymentMethod, bank: pack.bank, checkoutUrl: pack.checkoutUrl, eventIds: [...selectedIds], amountKurus: pack.amountKurus });
+      setApplication({ registrationId: pack.registrationId, trackingPath: pack.trackingPath, paymentMethod, bank: pack.bank, checkoutUrl: pack.checkoutUrl, eventIds: [...selectedIds], amountKurus: pack.amountKurus });
       setStatus({ paymentStatus: "pending", approved: false, confirmationSent: false });
+      try { localStorage.setItem(GROUP_TRACKING_STORAGE, pack.registrationId); }
+      catch { return; } // Keep the tracking link and manual payment button visible if recovery storage is unavailable.
       if (paymentMethod === "shopier") window.location.assign(pack.checkoutUrl);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Başvuru kaydedilemedi."); }
     finally { setBusy(false); }
@@ -74,13 +78,13 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
 
   return <section className={s.section} id="yaklasan-etkinlikler" aria-labelledby="group-events-title">
     <header className={s.heading}><div><p className={s.eyebrow}>GOLDKOZMOS · CANLI GRUP ÇALIŞMALARI</p><h2 id="group-events-title">Yaklaşan Etkinlikler</h2><p className={s.intro}>Kasım ayında birlikte kendine alan aç. Sana yakın gelen çalışmayı seç ve katılımını planla.</p></div>{!carousel ? <span className={s.summary}>Kasım 2026 · Google Meet<br />20.30 Türkiye saati · 600 TL</span> : null}</header>
-    {carousel ? <p className={s.scrollHint}>Etkinlikleri kaydırarak keşfet →</p> : null}
+    {carousel ? <p className={s.scrollHint}>Etkinlikleri kaydırarak keşfet →</p> : <p className={s.note}><a href={GROUP_TRACKING_PAGE}>Mevcut kaydını takip et</a></p>}
     <div className={s.grid} role={carousel ? "region" : undefined} aria-label={carousel ? "Kaydırılabilir yaklaşan etkinlikler" : undefined} tabIndex={carousel ? 0 : undefined}>{groupEvents.map(item => <article className={s.card} key={item.id} id={`etkinlik-${item.id}`}>
       <div className={s.cardHeader}><time dateTime={item.startsAt}>{carousel ? formatGroupEventDate(item.startsAt).toLocaleUpperCase("tr-TR") : formatGroupEventDate(item.startsAt)}</time>{!carousel ? <span>600 TL</span> : null}</div>
       {item.cover ? <Image src={item.cover.src} alt={item.cover.alt} width={1254} height={1254} sizes={carousel ? "(max-width:400px) 250px, 290px" : "(max-width:650px) 100vw, (max-width:1200px) 50vw, 550px"} style={{ width: "100%", height: "auto", aspectRatio: "1 / 1", borderRadius: 12 }} /> : null}
       <h3>{item.title}</h3><p>{item.purpose}</p>
       {!carousel ? <><div className={s.facts}><span>20.30 · Türkiye saati</span><span>Google Meet</span><span>Tek günlük canlı grup çalışması</span></div>
-      <details className={s.details}><summary>{item.title} — çalışma detayları</summary><h4>Bu çalışmada neler var?</h4><ul>{item.scope.map(text => <li key={text}>{text}</li>)}</ul><h4>Kimler için uygun?</h4><p>{item.suitableFor}</p><h4>Katılım nasıl gerçekleşir?</h4><p>{formatGroupEventDate(item.startsAt)} 2026, saat 20.30’da Google Meet üzerinden canlı olarak buluşuyoruz. Katılım ücreti 600 TL’dir; sabit bir katılımcı sınırı yoktur. Ödeme kontrolü ve yönetici onayından sonra kesin kaydın oluşur. WhatsApp bildirimini seçtiysen onay mesajın kayıtlı numarana iletilir.</p></details></> : null}
+      <details className={s.details}><summary>{item.title} — çalışma detayları</summary><h4>Bu çalışmada neler var?</h4><ul>{item.scope.map(text => <li key={text}>{text}</li>)}</ul><h4>Kimler için uygun?</h4><p>{item.suitableFor}</p><h4>Katılım nasıl gerçekleşir?</h4><p>{formatGroupEventDate(item.startsAt)} 2026, saat 20.30’da Google Meet üzerinden canlı olarak buluşuyoruz. Katılım ücreti 600 TL’dir; sabit bir katılımcı sınırı yoktur. Ödeme kontrolü ve yönetici onayından sonra kesin kaydın oluşur. Onaydan sonra WhatsApp grup davetine kişisel kayıt takip bağlantından ulaşabilirsin.</p></details></> : null}
       <div className={s.registrationAction}>
         {carousel ? <div className={s.bookingFacts}><p>20.30 Türkiye saati · <strong>600 TL</strong></p><span>Google Meet · Tek günlük canlı grup çalışması</span></div> : null}
         <button type="button" className={s.button} onClick={e => open(item.id, e.currentTarget)} disabled={Date.parse(item.startsAt) <= now}>{carousel ? "Kayıt Ol" : "Çalışmaya Kayıt Ol"} <span aria-hidden="true">↗</span></button>
@@ -91,7 +95,8 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
       <header className={s.dialogHeader}><h2 id="group-register-title">Çalışmaya kayıt ol</h2><button type="button" className={s.close} aria-label="Kayıt formunu kapat" disabled={busy} onClick={close}>×</button></header>
       {application ? <div className={s.status} aria-live="polite"><p className={s.eyebrow}>{selectionTitle}</p>
         <h3>{status?.paymentStatus === "refunded" ? "Ödeme iade durumunda." : status?.approved ? "Kaydın onaylandı." : status?.paymentStatus === "paid" ? "Ödeme alındı. Yönetici onayı bekleniyor." : "Başvurun alındı. Ödeme bekleniyor."}</h3>
-        <p>{status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : status?.approved ? "Ödemen ve kaydın onaylandı. WhatsApp bilgilendirmesini seçtiysen katılım bağlantın kayıtlı WhatsApp numaran üzerinden iletilecek." : "Ödemen kontrol edilip Özge Batıgün tarafından onaylandıktan sonra kesin kaydın oluşur. WhatsApp bilgilendirmesini seçtiysen onay mesajın kayıtlı numarana gönderilir."}</p>
+        <p>{status?.paymentStatus === "refunded" ? "Katılım durumun için bizimle iletişime geç." : status?.approved ? "WhatsApp grubuna kişisel kayıt takip sayfanızdan katılım isteği gönderebilirsiniz." : GROUP_REGISTRATION_PENDING}</p>
+        <GroupTrackingLink path={application.trackingPath} />
         {status?.paymentStatus === "pending" && application.bank ? <BankTransferInstructions bank={application.bank} amountKurus={application.amountKurus} /> : null}
         {status?.paymentStatus === "pending" && application.checkoutUrl ? <div className={s.actions}><a className={s.button} href={application.checkoutUrl} target="_blank" rel="noopener noreferrer">Shopier’de {formatGroupPrice(application.amountKurus)} öde ↗</a><button type="button" className={`${s.button} ${s.secondary}`} onClick={close}>Daha sonra devam et</button></div> : null}
         {error ? <p className={s.error} role="alert">{error}</p> : null}
@@ -110,7 +115,7 @@ export default function GroupEvents({ enabledSelections, bankEnabled, carousel =
         <label>Ad ve soyad<input name="fullName" autoComplete="name" required minLength={3} maxLength={120} /></label>
         <label>E-posta adresi<input name="email" type="email" autoComplete="email" required maxLength={254} /><span className={s.note}>Kartla ödemede Shopier üzerinde de aynı e-postayı kullan.</span></label>
         <label>WhatsApp / telefon numarası<input name="phone" type="tel" autoComplete="tel" inputMode="tel" required minLength={10} maxLength={24} placeholder="+90 5xx xxx xx xx" /></label>
-        <label className={s.check}><input name="whatsappOptIn" type="checkbox" /><span>GoldKozmos tarafından kayıt onayı ve katılım bilgilerimin bu numaraya WhatsApp üzerinden gönderilmesini istiyorum.</span></label>
+        <label className={s.check}><input name="whatsappOptIn" type="checkbox" /><span>GoldKozmos tarafından kayıt onayımın bu numaraya WhatsApp üzerinden bildirilmesini istiyorum.</span></label>
         <div className={s.honeypot} aria-hidden="true"><label>Web sitesi<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
         <label className={s.check}><input name="privacy" type="checkbox" required /><span><a href="/kvkk-aydinlatma-metni" target="_blank" rel="noopener noreferrer">KVKK aydınlatma metnini</a> okudum. İletişim bilgilerimin başvuru, ödeme takibi ve katılım bilgilendirmeleri için kullanılacağı konusunda bilgilendirildim.</span></label>
         <label className={s.check}><input name="terms" type="checkbox" required checked={termsAccepted} onChange={e => setTermsAccepted(e.target.checked)} /><span>Seçtiğim çalışmaların tarihlerini, toplam {formatGroupPrice(price.totalKurus)} ücretini, <a href="/mesafeli-satis-sozlesmesi" target="_blank" rel="noopener noreferrer">satış koşullarını</a> ve <a href="/iptal-ve-iade-politikasi" target="_blank" rel="noopener noreferrer">iptal/iade politikasını</a> okudum ve kabul ediyorum. Kaydımın ödeme kontrolü ve yönetici onayından sonra kesinleşeceğini biliyorum.</span></label>

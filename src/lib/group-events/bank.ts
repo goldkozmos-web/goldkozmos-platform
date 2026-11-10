@@ -22,4 +22,4 @@ export function whatsappPhone(value: string) {
   return /^[1-9]\d{9,14}$/.test(phone) ? phone : null;
 }
 
-export const APPROVAL_WHATSAPP_TEXT = "Ödemeniz ve kaydınız onaylandı. Katılım bağlantınız bu WhatsApp numarası üzerinden iletilecektir. GoldKozmos";
+export const APPROVAL_WHATSAPP_TEXT = "Ödemeniz ve kaydınız onaylandı. WhatsApp grup bağlantınıza GoldKozmos kişisel kayıt takip sayfanızdan ulaşabilirsiniz.";

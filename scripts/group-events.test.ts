@@ -4,7 +4,7 @@ import { createHmac } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { PGlite } from "@electric-sql/pglite";
 import { groupEvents, formatGroupEventDate, groupEventOffers, groupEventSelection, groupEventPrice } from "../src/data/groupEvents.ts";
-import { parseGroupRegistration, isGoogleMeetUrl } from "../src/lib/group-events/validation.ts";
+import { parseGroupRegistration, isGoogleMeetUrl, isWhatsAppInviteUrl } from "../src/lib/group-events/validation.ts";
 import { moneyToKurus, verifyEventOrder, verifyShopierSignature, type ShopierOrder } from "../src/lib/group-events/payment.ts";
 import { groupSetupReport } from "../src/lib/group-events/setup.ts";
 import { normalizeTurkishIban, bankPaymentDetails, whatsappPhone, APPROVAL_WHATSAPP_TEXT } from "../src/lib/group-events/bank.ts";
@@ -19,7 +19,6 @@ test("setup check reports missing or duplicated products without exposing creden
   assert(!empty.enabled && !empty.allConfigured);
   assert(empty.products.every(product => !product.ready));
   const env: Record<string,string> = { NEXT_PUBLIC_SUPABASE_URL:"https://test.supabase.co", NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:"public-test", SUPABASE_SERVICE_ROLE_KEY:"private-test-key", SHOPIER_PAT:"private-test-pat", SHOPIER_WEBHOOK_TOKEN:"private-test-token", GROUP_EVENT_RATE_SECRET:"a".repeat(32), RESEND_API_KEY:"private-test-email", GROUP_EVENT_EMAIL_FROM:"test@example.com" };
-  Object.assign(env, { WHATSAPP_ACCESS_TOKEN:"private-test-wa", WHATSAPP_PHONE_NUMBER_ID:"12345", WHATSAPP_GRAPH_VERSION:"v24.0", WHATSAPP_APPROVAL_TEMPLATE:"test_approval", WHATSAPP_APPROVAL_TEMPLATE_READY:"true" });
   groupEventOffers.forEach((offer, index) => { env[offer.productEnv] = String(index + 100); });
   const ready = groupSetupReport(env);
   assert(ready.allConfigured && !ready.enabled);
@@ -43,7 +42,7 @@ test("bank details require a real checksum; WhatsApp payload uses approved templ
   assert.equal(payload.template.language.code,"tr");
   assert.equal(payload.type,"template");
   assert(!JSON.stringify(payload).includes("meet.google.com"));
-  assert(APPROVAL_WHATSAPP_TEXT.includes("iletilecektir"));
+  assert(APPROVAL_WHATSAPP_TEXT.includes("kişisel kayıt takip"));
   const parsed=parseGroupRegistration({...valid,paymentMethod:"bank_transfer",whatsappOptIn:true},now);
   assert(parsed.whatsappOptIn && parsed.paymentMethod==="bank_transfer");
   assert.throws(()=>parseGroupRegistration({...valid,paymentMethod:"fake"},now));
@@ -194,6 +193,62 @@ test("bank approval requires exact money and admin, queues one consented WhatsAp
   } finally { await db.close(); }
 });
 
+test("tracking exposes only purchased invites after approval and removes access after refund", async () => {
+  const db = new PGlite();
+  try {
+    await db.exec("create role anon; create role authenticated; create role service_role bypassrls;");
+    for (const file of ["20261109210000_group_event_registration.sql", "20261109230000_group_event_packages.sql", "20261110010000_group_bank_approval_whatsapp.sql", "20261110020000_group_whatsapp_invites.sql"]) {
+      await db.exec(await readFile(new URL(`../supabase/migrations/${file}`, import.meta.url), "utf8"));
+    }
+    const invites = groupEvents.map((event, index) => ({ eventId: event.id, url: `https://chat.whatsapp.com/${String(index).repeat(22)}?s=cl&p=a&iam=2` }));
+    assert(invites.every(invite => isWhatsAppInviteUrl(invite.url)));
+    assert(!isWhatsAppInviteUrl("https://chat.whatsapp.com.evil.test/" + "a".repeat(22)));
+    assert(!isWhatsAppInviteUrl("https://chat.whatsapp.com/" + "a".repeat(22) + "\n"));
+    await db.exec("set role service_role;");
+    for (const invite of invites) {
+      await db.query("insert into public.group_event_whatsapp_invites (event_id, invite_url) values ($1,$2)", [invite.eventId, invite.url]);
+    }
+    const purchased = [invites[0], invites[2]];
+    const tokenHash = "a".repeat(64);
+    const { rows: [registration] } = await db.query<{ id: string }>(`
+      insert into public.group_event_registrations
+      (event_id,event_ids,event_title,amount_kurus,full_name,email,phone,access_token_hash,consent_version,privacy_acknowledged_at,terms_accepted_at)
+      values ($1,$2,'Test paketi',85000,'Test Katılımcı','tracking@example.test','+905550000000',$3,'v3',now(),now()) returning id
+    `, [purchased[0].eventId, purchased.map(invite => invite.eventId), tokenHash]);
+    const status = async (key = tokenHash) => (await db.query<{ status: { approved: boolean; invites: typeof invites } | null }>(
+      "select public.group_event_tracking_status($1,$2) as status", [registration.id, key]
+    )).rows[0].status;
+    assert.deepEqual((await status())?.invites, []);
+    assert.equal(await status("b".repeat(64)), null);
+    await assert.rejects(
+      () => db.query("select public.group_event_approve_registration($1,'00000000-0000-4000-8000-000000000001')", [registration.id]),
+      /Verified payment required/
+    );
+    assert.deepEqual((await status())?.invites, []);
+    await db.query("select public.group_event_confirm_payment($1,'1234',now())", [registration.id]);
+    assert.deepEqual((await status())?.invites, []);
+    await db.query("select public.group_event_approve_registration($1,'00000000-0000-4000-8000-000000000001')", [registration.id]);
+    const approved = await status();
+    assert(approved?.approved);
+    assert.deepEqual(approved.invites, purchased);
+    assert(!JSON.stringify(approved).includes("tracking@example.test"));
+    assert.equal(await status("b".repeat(64)), null);
+    const newUrl = `https://chat.whatsapp.com/${"x".repeat(22)}`;
+    await db.query("update public.group_event_whatsapp_invites set invite_url=$1 where event_id=$2", [newUrl, purchased[0].eventId]);
+    assert.equal((await status())?.invites[0].url, newUrl);
+    await db.query("delete from public.group_event_whatsapp_invites where event_id=$1", [purchased[0].eventId]);
+    assert.deepEqual((await status())?.invites, [purchased[1]]);
+    await db.query("update public.group_event_registrations set payment_status='refunded' where id=$1", [registration.id]);
+    assert.equal((await status())?.approved, false);
+    assert.deepEqual((await status())?.invites, []);
+    for (const role of ["anon", "authenticated"]) {
+      await db.exec(`reset role; set role ${role};`);
+      await assert.rejects(() => status(), /permission denied/);
+      await assert.rejects(() => db.query("select * from public.group_event_whatsapp_invites"), /permission denied/);
+    }
+  } finally { await db.close(); }
+});
+
 test("running app denies unsafe origin and unavailable payments, protects admin and private status", { skip: !base }, async () => {
   let response = await fetch(`${base}/api/group-events/registrations`, { method: "POST", headers: { "Content-Type": "application/json", Origin: "https://evil.example" }, body: JSON.stringify(valid) });
   assert.equal(response.status, 403);
@@ -202,6 +257,8 @@ test("running app denies unsafe origin and unavailable payments, protects admin 
   response = await fetch(`${base}/api/group-events/registrations/00000000-0000-4000-8000-000000000000?paid=true`);
   assert.equal(response.status, 401);
   response = await fetch(`${base}/api/admin/group-events`); assert.equal(response.status, 401);
+  response = await fetch(`${base}/api/admin/group-events`, { method: "POST", headers: { "Content-Type": "application/json", Origin: base! }, body: JSON.stringify({ action: "save-whatsapp-invite", eventId: event.id, inviteUrl: null }) });
+  assert.equal(response.status, 401);
   response = await fetch(`${base}/api/group-events/shopier/webhook`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "success", amount: 600 }) });
   assert.equal(response.status, 503);
 });

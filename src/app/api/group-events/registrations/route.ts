@@ -4,6 +4,7 @@ import { GROUP_EVENT_CONSENT_VERSION } from "../../../../data/groupEvents";
 import { parseGroupRegistration } from "../../../../lib/group-events/validation";
 import { selectionProductId, groupService, limitRegistrations, readLimitedBody, registrationCookie, selectionRegistrationEnabled, bankRegistrationEnabled, requireSameOrigin, tokenHash } from "../../../../lib/group-events/server";
 import { bankPaymentDetails } from "../../../../lib/group-events/bank";
+import { groupTrackingPath } from "../../../../lib/group-events/tracking";
 
 export const runtime = "nodejs";
 export async function POST(request: Request) {
@@ -27,6 +28,7 @@ export async function POST(request: Request) {
     if (error?.code === "23505") return NextResponse.json({ error: "Seçtiğin çalışmalardan biri için bu e-postayla başvuru zaten var. Önceki başvurunu tamamla veya bizimle iletişime geç." }, { status: 409 });
     if (error || !data) throw new Error("Kayıt saklanamadı.");
     const response = NextResponse.json({ registrationId: data.id, paymentStatus: "pending", paymentMethod: parsed.paymentMethod, amountKurus: parsed.selection.totalKurus,
+      trackingPath: groupTrackingPath(data.id, token),
       checkoutUrl: parsed.paymentMethod === "shopier" ? `https://www.shopier.com/${selectionProductId(eventIds)}` : null,
       bank: bankCode ? { ...bankPaymentDetails()!, description: `${bankCode} | ${title}` } : null,
     }, { status: 201, headers: { "Cache-Control": "no-store" } });
