@@ -1,5 +1,6 @@
 "use client";
 
+import { isTrustedDuration } from "../../lib/mediaTime";
 import { usePlayback } from "./PlaybackProvider";
 
 type SeekScrubberProps = {
@@ -8,7 +9,7 @@ type SeekScrubberProps = {
 
 export default function SeekScrubber({ className }: SeekScrubberProps) {
   const { currentTime, duration, seek } = usePlayback();
-  const max = duration > 0 ? duration : 0;
+  const max = isTrustedDuration(duration) ? duration : 0;
   const value = max > 0 ? Math.min(Math.max(0, currentTime), max) : 0;
 
   return (
